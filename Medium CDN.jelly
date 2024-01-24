@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: orange, #Icon: documentOutline
+
+text(text: "217a4c537766d7926612432f49804051c6f1097e357d703fef09a0a15d353d21b") >> text
+var auth = Text
+url(url: "https://api.medium.com/v1/images") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestType: Form, requestVar: ShortcutInput) >> downloadURL
+valuesFrom(dictionary: Contents of URL) >> valuesFrom
+setClipboard(variable: Dictionary Value) >> setClipboard
+output(result: "${Dictionary Value}", noResultBehavior: Copy to Clipboard, response: "${Dictionary Value}")

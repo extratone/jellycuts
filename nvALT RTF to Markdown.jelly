@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+// Credit: @atnbueno, @jackwellborn
+sendNotification(body: "Select input folder") >> sendNotification
+selectFile(type: Folders) >> Input folder
+getFolderContents(folder: Input folder) >> getFolderContents
+filterFiles() >> RTF files
+repeatEach(RTF files) {
+	fileDetail(input: Repeat Item, property: Name) >> fileDetail
+	htmlFromRichText(text: Repeat Item) >> htmlFromRichText
+	replaceText(input: "${HTML from Rich Text}", find: "<(b|i|em|strong|span)[^>]*>\s*</(\1)>") >> replaceText
+	replaceText(input: "${Updated Text}", find: "(\s+)</(b|i|em|strong|span)>", replace: "</$2>$1") >> replaceText 1
+	replaceText(input: "${Updated Text}", find: "<(b|i|em|strong|span)>(\s+)", replace: "$2<$1>") >> replaceText 2
+	replaceText(input: "${Updated Text}", find: "<(b|i|em|strong|span)[^>]*>\s*</(\1)>") >> replaceText 3
+	replaceText(input: "${Updated Text}", find: "(<p[^>]+>)<br></p>", replace: "$1</p>") >> replaceText 4
+	richTextFromHTML() >> richTextFromHTML
+	markdownFromRich(text: Rich Text from HTML) >> markdownFromRich
+	replaceText(input: "${Markdown from Rich Text}", find: "!\[\]\(<(.*?)>\)", replace: "![]($1)") >> replaceText 5
+	replaceText(input: "${Updated Text}", find: "\[\[\[(.*?)\]\(.*?\)\]\]", replace: "[[$1]]") >> replaceText 6
+	setName(input: Updated Text, name: "${Name}.md") >> setName
+} >> RepeatResult
+sendNotification(body: "Select output folder", attachment: Resultado de la repetición) >> sendNotification 1
+selectFile(type: Folders) >> Output folder
+saveFile(input: Resultado de la repetición, ask: false, overwrite: true) >> saveFile

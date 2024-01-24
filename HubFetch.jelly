@@ -1,0 +1,128 @@
+import Shortcuts
+#Color: green, #Icon: networkStorage
+
+/*
+This Update:
+- first release
+
+TODO:
+add what to do when errors occur
+documentation
+maybe merge into it’s own shortcut manager?
+
+*/
+/*
+ID: RoutineHub ID
+GET: [
+	AUTHOR: The name of the user that created the shortcut
+	NAME: The name of the shortcut
+	DESCRIPTION: The “Brief Description” of the shortcut
+	DESCRIPTION_LONG: The project description (returns HTML)
+	DOWNLOAD_RH: The routinehub link for downloading
+	DOWNLOAD_ICLOUD: The icloud link for downloading
+	NUM_DOWNLOADS: the number of downloads the shortcut has
+	NUM_HEARTS: The nomber of times people favorited the shortcut
+	IOS: the ios version the Author set
+	CURRENT_VERSION: current version of the shortcut
+	CURRENT_VERSION_DATE: the latest version of the shortcut’s release date
+	CURRENT_VERSION_NOTES: Gets the Notes data
+]
+	
+*/
+if(ShortcutInput != nil) {
+	dictionary({"ID":"${ShortcutInput.as(Dictionary).key(ID)}","GET":"${ShortcutInput.as(Dictionary).key(GET)}"})
+	text(text: "${Dictionary.key(GET)}") >> text
+	downloadURL(url: "https://routinehub.com/shortcut/${Dictionary.key(ID)}") >> downloadURL
+	htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+	splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<div class="latest-release">") >> splitText
+	getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList
+	if(Text == "AUTHOR") {
+		splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<a href="/user/") >> splitText 1
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 1
+		splitText(text: Item from List, separator: Custom, customSeparator: "">") >> splitText 2
+		getItemFromList(list: Split Text) >> getItemFromList 2
+var return = Item from List
+	}
+	if(Text == "NAME") {
+		matchText(text: "${HTML from Rich Text}", regex: "<h3 class="title is-3">(.*?)</h3>") >> matchText
+		replaceText(input: "${Matches}", find: "<h3 class="title is-3">") >> replaceText
+		replaceText(input: "${Updated Text}", find: "</h3>") >> replaceText 1
+var return = Updated Text
+	} >> IFResult
+	if(Text == "DESCRIPTION") {
+		matchText(text: "${HTML from Rich Text}", regex: "<h4 class="subtitle is-4">(.*?)</h4>") >> matchText 1
+		replaceText(input: "${Matches}", find: "<h4 class="subtitle is-4">") >> replaceText 2
+		replaceText(input: "${Updated Text}", find: "</h4>") >> replaceText 3
+var return = Updated Text
+	} >> IFResult 1
+	if(Text == "DESCRIPTION_LONG") {
+		splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<div class="content">") >> splitText 3
+		getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 3
+		splitText(text: Item from List, separator: Custom, customSeparator: "</div>") >> splitText 4
+		getItemFromList(list: Split Text) >> getItemFromList 4
+var return = Item from List
+	} >> IFResult 2
+	if(Text == "DOWNLOAD_RH") {
+		url(url: "routinehub.com/download/${Dictionary.key(ID)}") >> url
+var return = URL
+	} >> IFResult 3
+	if(Text == "DOWNLOAD_ICLOUD") {
+		url(url: "routinehub.com/download/${Dictionary.key(ID)}") >> url 1
+		expandURL(url: "${URL}") >> expandURL
+var return = Expanded URL
+	} >> IFResult 4
+	if(Text == "NUM_DOWNLOADS") {
+		splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<span id="count">") >> splitText 5
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 5
+		splitText(text: Item from List, separator: Custom, customSeparator: "</span>") >> splitText 6
+		getItemFromList(list: Split Text) >> getItemFromList 6
+var return = Item from List
+	} >> IFResult 5
+	if(Text == "NUM_HEARTS") {
+		splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<span class="heart-count">") >> splitText 7
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 7
+		splitText(text: Item from List, separator: Custom, customSeparator: "</span>") >> splitText 8
+		getItemFromList(list: Split Text) >> getItemFromList 8
+var return = Item from List
+	} >> IFResult 6
+	if(Text == "IOS") {
+		splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "</strong><p>") >> splitText 9
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 9
+		splitText(text: Item from List, separator: New Lines) >> splitText 10
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 10
+		richTextFromHTML() >> richTextFromHTML
+		getTextFrom(input: Rich Text from HTML) >> getTextFrom
+var return = Text
+	}
+	if(Text == "CURRENT_VERSION") {
+		matchText(text: "${Item from List}", regex: "<strong>(\d+\.\d+\.\d+)") >> matchText 2
+		matchText(text: "${Matches}", regex: "(\d+\.\d+\.\d+)") >> matchText 3
+var return = Matches
+	} >> IFResult 7
+	if(Text == "CURRENT_VERSION_DATE") {
+		matchText(text: "${Item from List}", regex: "- ([A-Za-z]+\. \d+, \d+, \d+:\d+\s[aApPmM]+)") >> matchText 4
+		getDateFrom(input: Matches) >> getDateFrom
+var return = Dates
+	} >> IFResult 8
+	if(Text == "CURRENT_VERSION_NOTES") {
+		matchText(text: "${Item from List}", regex: "<\/p>\s*<p>([^<]+)<\/p>") >> matchText 5
+		getItemFromList(list: Matches, type: First Item, index: "") >> getItemFromList 11
+		richTextFromHTML() >> richTextFromHTML 1
+		getTextFrom(input: Rich Text from HTML) >> getTextFrom 1
+var return = Text
+	} >> IFResult 9
+	setName(input: return, name: "${Dictionary.key(GET)}") >> setName
+	output(result: "${Renamed Item}") >> output
+} else {
+	getShortcuts() >> getShortcuts
+	filterFiles() >> filterFiles
+	if(Files != nil) {
+		dictionary({"ID":"17695","Version":"0.1.1","Name":"HubFetch"})
+		runShortcut(name: "QuickDate", input: Dictionary) >> runShortcut
+	} else {
+		openURL(url: "https://routinehub.co/shortcut/17669/") >> openURL
+		sendNotification(body: "Please download QuickDate to stay updated") >> sendNotification
+		exit()
+	} >> IFResult 10
+	alert(alert: "No Documentation here yet! Coming (hopefully) soon! You can find a list of what the inputs of the dictionary are in the shortcut.")
+}

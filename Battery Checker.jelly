@@ -4,23 +4,92 @@ import Shortcuts
 /*
 【Usage】
 ①In the Settings app, select "Privacy and security">"Analytics & Improvements" > "Analysis Data" > "Analytics-20xx～".
-
 ②Select this recipe from the "Share" button.
-
 ⚠️If the result “Null”, it means that the data does not exist in the analyzed data.
+
+[初期設定]
+日本語で表示したい場合は下の「辞書」アクションの”English”キーの値を「偽」にしてください。
+【使い方】
+①設定アプリの「プライバシーとセキュリティ」→「解析と改善」→「解析データ」→「Analytics-20xx～」をタップ
+②「共有」からこのレシピを選択
+⚠️結果が「Null」の場合、そのデータが解析データに存在しないことを意味します。
 */
-dictionary({"Name":"Battery Checker","Version":"3.3","RH ID":"7696","Author":"thetheorier"})
+dictionary({"Name":"Battery Checker","Version":"3.5","RH ID":"7696","Author":"thetheorier","English":"true"})
+valueFor(key: "English", dictionary: 辞書) >> valueFor
+if(辞書の値 ==) {
+var BC564A91-DC0A-4767-9D7D-A7B7A7FE5112 = """{
+	"go_to_setting1":	"This recipe can be run from the 'Analytics Data' page in the Setting app.",
+	"go_to_setting2":	"Go to the 'Analytics Data' page, open the file that starts with 'Analytics-20xx' and click the Share button to run this recipe.",
+	"go_to_setting3":	"If you cannot find such a file, or if 'Share iPhone Analytics' is disabled, you will need to enable it and wait at least one day.",
+	"menu_go_setting":	"Go to Setting app",
+	"menu_dismiss":		"Stop Shortcuts",
+	"no_analysis_data":	"It appears that the target analysis data does not include the number of 'Cycle Count' and other information.",
+	"select_model":		"Select Model",
+	"select_device":	"Select Device",	
+	"fsize_iphone":	"50",
+	"fsize_other":	"25",
+	"msize_iphone":	"30",
+	"msize_other":	"25",
+	"th1_iphone":	"60",
+	"th1_other":	"50",
+	"th2_iphone":	"20",
+	"th2_other":	"25",
+	"device":	"Device",
+	"system":	"System",
+	"day":	"Day",
+	"cyclecount":	"Cycle Count",
+	"avgtemp":	"Average Temperature(℃)",
+	"nominal":	"Nominal Charge Capacity(mAh)",
+	"raw":	"Raw Max Capacity(mAh)",
+	"soc":	"SOC",
+	"fcc":	"MinFCC(mAh)",
+	"qmax":	"MinQMax(mAh)",
+	"deflator":	"Deflator",
+	"design":	"Design Capacity(mAh)",
+	"max":	"Max Capacity"
+}"""
+text("${BC564A91-DC0A-4767-9D7D-A7B7A7FE5112}")
+} else {
+var 0B0A203A-CB8A-4517-AC5F-E062C9CFACBC = """{
+	"go_to_setting1":	"このレシピは設定アプリ「解析データ」にあるファイルを使って実行します。",
+	"go_to_setting2":	"設定アプリの「解析データ」のページへ進み、'Analytics-20xx-xx'から始まるファイルを開いたら共有ボタンをタップしてこのレシピを実行します。",
+	"go_to_setting3":	"もしそのようなファイルが見つからない場合、もしくは「iPhone解析を共有」がオフになっている場合、それをオンにして最低一日待つ必要があります。",
+	"menu_go_setting":	"設定アプリへ",
+	"menu_dismiss":		"ショートカットを終了",
+	"no_analysis_data":	"対象の解析データにはサイクル数を含め各種データが記録されていないようです。",
+	"select_model":		"機種を選択",
+	"select_device":	"デバイスを選択",
+	"fsize_iphone":	"55",
+	"fsize_other":	"25",
+	"msize_iphone":	"30",
+	"msize_other":	"25",
+	"th1_iphone":	"60",
+	"th1_other":	"50",
+	"th2_iphone":	"20",
+	"th2_other":	"25",
+	"device":	"機種",
+	"system":	"OS",
+	"day":	"日付",
+	"cyclecount":	"サイクル数",
+	"avgtemp":	"平均温度(℃)",
+	"nominal":	"名目容量(mAh)",
+	"raw":	"実測容量(mAh)",
+	"soc":	"充電状態",
+	"fcc":	"満充電容量(mAh)",
+	"qmax":	"低レート放電容量(mAh)",
+	"deflator":	"デフレーター",
+	"design":	"設計容量(mAh)",
+	"max":	"最大容量"
+}"""
+text("${0B0A203A-CB8A-4517-AC5F-E062C9CFACBC}")
+} >> IFResult
+getDictionaryFrom(input: “if文”の結果) >> getDictionaryFrom
+var com = 辞書
 if(ShortcutInput == nil) {
-	menu(
-This recipe can be run from the "Analytics Data" page in the Setting app.
-
-Go to the "Analytics Data" page, open the file that starts with "Analytics-20xx" and click the Share button to run this recipe.
-
-If you cannot find such a file, or if "Share iPhone Analytics" is disabled, you will need to enable it and wait at least one day.
-, [Go to Setting app, Dismiss]) {
-	case("Go to Setting app"):
-		openURL(url: "prefs:root=Privacy&path=PROBLEM_REPORTING") >> openURL
-	case("Dismiss"):
+	menu(, [) {
+	case("⚙️com (menu_go_setting)"):
+		openURL(url: "prefs:root=Privacy&path=PROBLEM_REPORTING/DIAGNOSTIC_USAGE_DATA") >> openURL
+	case("❎com (menu_dismiss)"):
 		exit()
 	} >> MenuResult
 } else {
@@ -28,17 +97,17 @@ If you cannot find such a file, or if "Share iPhone Analytics" is disabled, you 
 	matchText(text: "${名称変更された項目}", regex: "(?<=AlgoChemID\"\:).*?.{4}", caseSensitive: true) >> AlgoChemID
 	if(AlgoChemID == nil) {
 		alert(alert: "
-It appears that the target analysis data does not include the number of "Cycle Count" and other information.
+${com.key(no_analysis_data)}
 
 [selected]
-${ShortcutInput.get(Name)}
+${Variable.key(no_analysis_data)}
 ")
 	} else {
-var B9838654-D21D-4FAA-99CD-3F850DBEB65C = """<!DOCTYPE html>
+var 9307466B-932E-466F-BF5A-8D4EAC20410D = """<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Battery Checker</title>
+<title>Battery Checker ver￼</title>
 <style>
 	.noline th,.noline td{
 		border-right: none !important;
@@ -55,15 +124,15 @@ body{
 <body>
 	<table class="noline"; style="margin:msizepx 0px";>
 		<tr>
-			<th style="text-align:left";>【Device】</th>
+			<th style="text-align:left";>【￼】</th>
 			<td>deNull</td>
 		</tr>
 		<tr>
-			<th style="text-align:left";>【System】</th>
+			<th style="text-align:left";>【￼】</th>
 			<td>syNull</td>
 		</tr>
 		<tr>
-			<th style="text-align:left";>【Day】</th>
+			<th style="text-align:left";>【￼】</th>
 			<td>daNull</td>
 		</tr>
 	</table>
@@ -76,52 +145,52 @@ body{
 				<th width="th2%">health</th>
 		</tr>
 		<tr style="text-align:center">
-			<th>Cycle Count</th>
+			<th>￼</th>
 			<td>ccNull</td>
 			<td>-</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>Average Temperature(℃)</th>
+			<th>￼</th>
 			<td>atNull</td>
 			<td>-</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>Nominal Charge Capacity(mAh)</th>
+			<th>￼</th>
 			<td>ncNull</td>
 			<td>npNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>Raw Max Capacity(mAh)</th>
+			<th>￼</th>
 			<td>raNull</td>
 			<td>rpNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>SOC</th>
+			<th>￼</th>
 			<td>-</td>
 			<td>soNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>MinFCC(mAh)</th>
+			<th>￼</th>
 			<td>mfNull</td>
 			<td>mpNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>MinQMax(mAh)</th>
+			<th>￼</th>
 			<td>mqNull</td>
 			<td>qpNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>Deflator</th>
+			<th>￼</th>
 			<td>-</td>
 			<td>dfNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>Design Capacity(mAh)</th>
+			<th>￼</th>
 			<td>dcNull</td>
 			<td>-</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>Max Capacity</th>
+			<th>￼</th>
 			<td>-</td>
 			<td>maNull</td>
 		</tr>
@@ -129,7 +198,7 @@ body{
 </body>
 </html>
 """
-text("${B9838654-D21D-4FAA-99CD-3F850DBEB65C}")
+text("${9307466B-932E-466F-BF5A-8D4EAC20410D}")
 var html = テキスト
 		matchText(text: "${名称変更された項目}", regex: "(?<=timestamp\"\:\")\d{4}-\d{1,2}-\d{1,2}") >> matchText
 		replaceText(input: "${html}", find: "daNull", replace: "${一致.as(Date)}") >> replaceText
@@ -139,12 +208,12 @@ var html = アップデートされたテキスト
 var html = アップデートされたテキスト
 		if(DeviceDetails == "iPhone") {
 			replaceText(input: "${html}", find: "iPhone ", replace: "i") >> replaceText 2
-		} >> IFResult
+		} >> IFResult 1
 		if(DeviceDetails == "iPad") {
 			replaceText(input: "${html}", find: "iPhone", replace: "iPad") >> replaceText 3
-		} >> IFResult 1
+		} >> IFResult 2
 var html = “if文”の結果
-var 79724631-D196-4A92-A44B-FB110D7371B8 = """{
+var 0A7A69C5-5E5D-43BF-8578-F2318B9BA329 = """{
 	"Apple Watch":{
 		"Apple Watch 4 (40mm)"	:225,
 		"Apple Watch 4 (44mm)"	:291,
@@ -223,15 +292,15 @@ var 79724631-D196-4A92-A44B-FB110D7371B8 = """{
 		"iPad Pro 12.9'' 5"	:10566
 	}
 }"""
-text("${79724631-D196-4A92-A44B-FB110D7371B8}")
+text("${0A7A69C5-5E5D-43BF-8578-F2318B9BA329}")
 var dict = テキスト
 		filterFiles() >> filterFiles
-		choose(list: ファイル, prompt: "Select Model") >> choose
-		valuesFrom(dictionary: dict) >> valuesFrom
+		choose(list: ファイル, prompt: "${com.key(select_model)}") >> choose
+		valueFor(key: "${選択した項目}", dictionary: dict) >> valueFor 1
 		filterFiles() >> filterFiles 1
-		choose(list: ファイル, prompt: "Select Device") >> choose 1
+		choose(list: ファイル, prompt: "${com.key(select_device)}") >> choose 1
 var selected = 選択した項目
-		valuesFrom(dictionary: 辞書の値) >> valuesFrom 1
+		valueFor(key: "${選択した項目}", dictionary: 辞書の値) >> valueFor 2
 var design_capacity = 辞書の値
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_CycleCount\"\:).*?\d+") >> matchText 2
 		getItemFromList(list: 一致) >> getItemFromList
@@ -239,34 +308,34 @@ var CycleCount = リストからの項目
 		if(CycleCount != nil) {
 			replaceText(input: "${html}", find: "ccNull", replace: "${CycleCount}") >> replaceText 4
 var html = アップデートされたテキスト
-		} >> IFResult 2
+		} >> IFResult 3
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_AverageTemperature\"\:).*?\d+") >> matchText 3
 		getItemFromList(list: 一致) >> getItemFromList 1
 var AverageTemperature = リストからの項目
 		if(AverageTemperature != nil) {
 			replaceText(input: "${html}", find: "atNull", replace: "${AverageTemperature}") >> replaceText 5
 var html = アップデートされたテキスト
-		} >> IFResult 3
+		} >> IFResult 4
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_NominalChargeCapacity\"\:).*?\d+") >> matchText 4
 		getItemFromList(list: 一致) >> getItemFromList 2
 var NominalChargeCapacity = リストからの項目
 		if(NominalChargeCapacity != nil) {
 			replaceText(input: "${html}", find: "ncNull", replace: "${NominalChargeCapacity}") >> replaceText 6
-			calculate(input: "(${design_capacity.as(Number)}*100)/${Variable.as(Number)}") >> calculate
+			calculate(input: "(${NominalChargeCapacity}*100)/${Variable}") >> calculate
 			round(number: 計算結果, roundTo: Hundredths) >> round
 			replaceText(input: "${アップデートされたテキスト}", find: "npNull", replace: "${端数処理済みの数値}") >> replaceText 7
 var html = アップデートされたテキスト
-		} >> IFResult 4
+		} >> IFResult 5
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_AppleRawMaxCapacity\"\:).*?\d+") >> matchText 5
 		getItemFromList(list: 一致) >> getItemFromList 3
 var RawMaxCapacity = リストからの項目
 		if(RawMaxCapacity != nil) {
 			replaceText(input: "${html}", find: "raNull", replace: "${RawMaxCapacity}") >> replaceText 8
-			calculate(input: "(${design_capacity.as(Number)}*100)/${Variable.as(Number)}") >> calculate 1
+			calculate(input: "(${RawMaxCapacity}*100)/${Variable}") >> calculate 1
 			round(number: 計算結果, roundTo: Hundredths) >> round 1
 			replaceText(input: "${アップデートされたテキスト}", find: "rpNull", replace: "${端数処理済みの数値}") >> replaceText 9
 var html = アップデートされたテキスト
-		} >> IFResult 5
+		} >> IFResult 6
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_DailyMaxSoc\"\:).*?\d+") >> matchText 6
 		getItemFromList(list: 一致) >> getItemFromList 4
 var MaxSOC = リストからの項目
@@ -276,7 +345,7 @@ var MinSOC = リストからの項目
 		if(MinSOC != nil) {
 			replaceText(input: "${html}", find: "soNull", replace: "${MaxSOC}〜${Variable}") >> replaceText 10
 var html = アップデートされたテキスト
-		} >> IFResult 6
+		} >> IFResult 7
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_MinimumFCC\"\:).*?\d+") >> matchText 8
 		getItemFromList(list: 一致) >> getItemFromList 6
 var MinFCC = リストからの項目
@@ -286,7 +355,7 @@ var MinFCC = リストからの項目
 			round(number: 計算結果, roundTo: Hundredths) >> round 2
 			replaceText(input: "${アップデートされたテキスト}", find: "mpNull", replace: "${端数処理済みの数値}") >> replaceText 12
 var html = アップデートされたテキスト
-		} >> IFResult 7
+		} >> IFResult 8
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_MinimumQmax\"\:).*?\d+") >> matchText 9
 		getItemFromList(list: 一致) >> getItemFromList 7
 var MinQMax = リストからの項目
@@ -296,7 +365,7 @@ var MinQMax = リストからの項目
 			round(number: 計算結果, roundTo: Hundredths) >> round 3
 			replaceText(input: "${アップデートされたテキスト}", find: "qpNull", replace: "${端数処理済みの数値}") >> replaceText 14
 var html = アップデートされたテキスト
-		} >> IFResult 8
+		} >> IFResult 9
 		replaceText(input: "${html}", find: "dcNull", replace: "${design_capacity}") >> replaceText 15
 var html = アップデートされたテキスト
 // Battery Health
@@ -306,32 +375,33 @@ var html = アップデートされたテキスト
 				round(number: 計算結果, roundTo: Hundredths) >> round 4
 				replaceText(input: "${html}", find: "dfNull", replace: "${端数処理済みの数値}") >> replaceText 16
 var html = アップデートされたテキスト
-			} >> IFResult 9
-		} >> IFResult 10
+			} >> IFResult 10
+		} >> IFResult 11
 		matchText(text: "${名称変更された項目}", regex: "(?<=last_value_MaximumCapacityPercent\"\:).*?\d+") >> matchText 10
 		getItemFromList(list: 一致) >> getItemFromList 8
 var Percent = リストからの項目
 		if(Percent != nil) {
 			replaceText(input: "${html}", find: "maNull", replace: "${Percent}") >> replaceText 17
 var html = アップデートされたテキスト
-		} >> IFResult 11
+		} >> IFResult 12
 		replaceText(input: "${html}", find: "deNull", replace: "${selected}") >> replaceText 18
 var html = アップデートされたテキスト
 // Rich text size
 		if(selected .contains "iPhone") {
-			replaceText(input: "${html}", find: "fsize", replace: "55") >> replaceText 19
-			replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "30") >> replaceText 20
-			replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "60") >> replaceText 21
-			replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "20") >> replaceText 22
+			replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 19
+			replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 20
+			replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 21
+			replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 22
 		} else {
-			replaceText(input: "${html}", find: "fsize", replace: "25") >> replaceText 23
-			replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "25") >> replaceText 24
-			replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "50") >> replaceText 25
-			replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "25") >> replaceText 26
-		} >> IFResult 12
+			replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_other)}") >> replaceText 23
+			replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_other)}") >> replaceText 24
+			replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_other)}") >> replaceText 25
+			replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_other)}") >> replaceText 26
+		} >> IFResult 13
 var html = “if文”の結果
 		replaceText(input: "${html}", find: "..Null", replace: "Null", isRegex: true) >> replaceText 27
 		richTextFromHTML() >> richTextFromHTML
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
 		showWebPage(url: "${HTMLからのリッチテキスト}") >> showWebPage
-	} >> IFResult 13
-} >> IFResult 14
+	} >> IFResult 14
+} >> IFResult 15

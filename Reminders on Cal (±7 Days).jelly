@@ -1,0 +1,266 @@
+import Shortcuts
+#Color: grape, #Icon: checklist
+
+/*
+ℹ️ INTRODUCTION & FEATURES
+
+Welcome! This Shortcut creates a ✨two-way sync✨ between your Reminders and Cal Events up to seven days from now.
+
+When it runs:
+• Cal Events are created based on newly-added Reminders
+• Reminders are created based on newly-added Events
+• These items are *two-way* synced - changing the time/date of any synced item will update the item on BOTH apps
+    • With some exceptions - check the ‘time-sensitive events’ notes below
+• All-day events will sync as date-only Reminders (and vice versa)
+• You can block new Reminders from being synced by adding “#nosync” to its tags
+*/
+/*
+ℹ️ WHAT TO LOOK OUT FOR / HOW TAGS WORK
+
+Each synced Event will get an odd line of text in its Notes
+• This is the Reminder ID. It’s used to directly link the Event with its Reminder.
+• It’s important to not alter that particular line of text
+• Buton’t worry, it won’t disturb any existing notes, and you can add/edit notes around it
+
+Each synced Reminder will have the tag #oncal
+• This is to show you which Reminders are synced or not
+
+‘Time-sensitive’ Events only have a one-way sync
+• Reminders for these Events get a #Event tag
+• Edits to the Event will affect its Reminder, but the Reminder will snap back into place if edited
+• This is to avoid any mistakes you make within Reminders from affecting the Event’s details
+• By default, Events considered ‘time-sensitive’ are ones that are shared events, have a location, or have the keyword “appointment” or call”
+• You can edit these settings (or remove them entirely) in the workflow at the very bottom of this Shortcut
+*/
+/*
+🚨🚨🚨 SET UP: Which Calendar do you want to sync?
+
+• Make sure the Calendar is already set up in your Calendar app
+• Set the text box below to the EXACT spelling and capitalization of the Calendar
+*/
+text(text: "Reminders") >> Cal Text
+var CalName = Cal Text
+/*
+🚨🚨🚨 SET UP: Which Reminder List do you want to sync?
+
+• Make sure the list is already set up in your Reminders app
+• Set the text box below to the EXACT spellung and calitalization of the list’s title
+VVVVVV
+*/
+text(text: "Reminders") >> List Text
+var ListName = List Text
+list(items: (
+    Appointment,
+    appointment,
+    Meet,
+    meet,
+    Call,
+    call
+)) >> list
+var KeywordListforTime-SensitiveEvents = List
+adjustDate(operation: Get Start of Week, date: "${CurrentDate}") >> Start of Week
+adjustDate(duration: , date: "${CurrentDate}") >> 7 Days From Now
+filterCalendar() >> filterCalendar
+repeatEach(Calendar Events) {
+	if(Repeat Item .contains "◦◦") {
+/*
+If the Event has the cookie’s “◦◦”, it’ll have a Creation Date to find its Reminder.
+
+This is where “◦◦” comes in as a (hopefully unique) custom separator.
+
+If we use the Split Action to break up the cookie, we can isolate the Date value which will be found in Index 2.
+*/
+		splitText(text: Repeat Item, separator: Custom, customSeparator: " ◦◦ ") >> splitText
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList
+var EventReminderCreationDate = Item from List
+// Now let’s find all of the existing Reminders…
+		filterReminders() >> Existing Reminder
+		if(Existing Reminder != nil) {
+			if(Existing Reminder ==) {
+// If the Reminder/task is completed ahead of time, this sets the Event to free up your schedule.
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+				if(Repeat Item >) {
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+				}
+			} else {
+/*
+This is the key to the two-way sync.
+
+If we find a live #oncal Reminder and its Event, they get brought here.
+
+Basically, whichever item was *last modified* is the authority on the Start/Due Date for the synced pair.
+
+When time between is calculated, Events ‘win’ with a positive value, Reminders ‘win’ with a negative.
+
+All-day Events have date-only Reminders. They’re both very format-sensitive, but too common not to include.
+*/
+				getTimeBetween(first: "${Repeat Item.get(Last Modified Date)}", second: "${Existing Reminder.get(Last Modified Date)}", interval: Seconds) >> getTimeBetween
+				if(Time Between Dates false 0) {
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+					if(Repeat Item ==) {
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+					}
+				} else {
+//Unable to get shortcuts action is.workflow.actions.setters.reminders
+					if(Repeat Item ==) {
+//Unable to get shortcuts action is.workflow.actions.setters.reminders
+					}
+				}
+			}
+		} else {
+/*
+If a Reminder for a synced Event gets “lost”, this section makes a fresh synced Reminder.
+• We have to surgically replace the Creation Date
+*/
+			wait()
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+			text(text: "${Repeat Item.as().get(Notes)}") >> Original Notes
+			replaceText(input: "${Original Notes}", find: "◦◦ ${Event Reminder Creation Date} ◦◦", replace: "◦◦ ${New Reminder.get(Creation Date)} ◦◦") >> replaceText
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+		}
+	} else {
+/*
+Here’s where the Shortcut creates new Reminders and adds the ‘cookie’ to the Event.
+• Warning: again, avoid editing the cookie, especially the “◦◦”
+• The Wait action below causes lag but is ESSENTIAL — it ensures that each Reminder has a unique Creation Date
+*/
+		wait()
+		if(Repeat Item ==) {
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+var CD71CD7D-FDE6-462B-86FB-C224C9ABF07C = """￼
+
+
+———
+(Reminder ID • Keep for sync ◦◦ ￼ ◦◦ )"""
+text("${CD71CD7D-FDE6-462B-86FB-C224C9ABF07C}")
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+		} else {
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+var DA32DE9C-EDF6-46B0-94D4-76040F5A4981 = """￼
+
+
+———
+(Reminder ID • Keep for sync ◦◦ ￼ ◦◦ )"""
+text("${DA32DE9C-EDF6-46B0-94D4-76040F5A4981}")
+//Unable to get shortcuts action is.workflow.actions.setters.calendarevents
+		}
+	} >> IFResult
+} >> RepeatResult
+/*
+Find reminders that have a due date to be put on the calendar
+- excludes reminders that are already tagged #onCal or any other excluding tags
+vvvvv
+*/
+filterReminders() >> filterReminders
+repeatEach(Reminders) {
+	filterCalendar() >> filterCalendar 1
+	if(Calendar Events == nil) {
+		removeReminders(reminders: Repeat Item) >> removeReminders
+	}
+} >> RepeatResult 1
+filterReminders() >> New Unsynced Reminders
+repeatEach(New Unsynced Reminders) { >> RepeatResult 2
+/*
+• If the start time is 00:00, it’s most likely a Reminder with a date but no time.
+• If the Reminder starts at 00:00, the output will be an all-day Event.
+vvvvv
+*/
+	if(Repeat Item == "00:00") {
+//Unable to get shortcuts action is.workflow.actions.addnewevent
+//Unable to get shortcuts action is.workflow.actions.setters.reminders
+/*
+Otherwise, the output is a new Calendar Event at the Reminder’s Due Date.
+
+The default length is 15 minutes, but you can customize it. Also, you can still safely edit a synced Event’s duration.
+vvvvv
+*/
+	} else {
+		adjustDate(operation: Add, duration: , date: "${Repeat Item.get(Due Date)}") >> adjustDate
+//Unable to get shortcuts action is.workflow.actions.addnewevent
+//Unable to get shortcuts action is.workflow.actions.setters.reminders
+	} >> IFResult 1
+} >> RepeatResult 3
+/*
+💡 #Event: Preserving Time-Sensitive Events 💡
+
+• Problem: Meetings, calls, etc. are time-sensitive events. What if we get mixed up and move a Reminder to the wrong time? What if there’s a bug and a shared Calendar Event gets scrambled/deleted?
+
+To avoid errors, this Shortcut doesn’t edit any Events with these properties:
+• A location
+• One or more attendees
+• Event-related keywords (e.g. “appointment”, “call”)
+
+Instead, the script does a ONE-WAY sync. Edits to a Reminder won’t sync with the Event, and will mainly just snap back to the Event’s details.
+
+Instead of adding a line of code to the event’s Notes, Reminders that have a #Event tag will simply line up with an Event matching their name.
+
+While it’s been tested, this miiiight cause some mixups with recurring Events, as we can’t rely on a unique timestamp.
+
+Feel free to delete this section entirely, make adjustments, or customize the time-sensitive keyword list directly below
+vvvvvv
+*/
+filterCalendar() >> Events with Time-Sensitive Keywords
+filterCalendar() >> Events with Invitees
+filterCalendar() >> Events with Locations
+list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Events with Invitees";
+                        OutputUUID = "33D7C1C7-BF00-4B0A-B12E-D9EC43BDB5A6";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Events with Locations";
+                        OutputUUID = "E41A38E4-42F4-423B-9A25-16A64E66F515";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Events with Time-Sensitive Keywords";
+                        OutputUUID = "6F385A56-2981-4162-A046-DAC77B0689B0";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+repeatEach(List) {
+	filterReminders() >> filterReminders 1
+	if(Reminders != nil) {
+		if(Reminders !=) {
+//Unable to get shortcuts action is.workflow.actions.setters.reminders
+		} else {
+		}
+	} else {
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+	} >> IFResult 2
+}

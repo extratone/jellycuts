@@ -1,0 +1,63 @@
+import Shortcuts
+#Color: grayBlue, #Icon: syncArrows
+
+var 0C96D0CA-07A8-4AA5-9724-1F327650AB13 = """iOS version check 2.0 by @Ormetis_Build
+
+Thanks to mvan231 who accepted that I use and integrate the regex of his shortcut « Check For System Update » into mine!
+
+His Routinehub : https://www.routinehub.co/user/mvan231
+His Reddit : https://www.reddit.com/u/mvan231/s/Movqo0Df5p
+
+========================
+CHANGELOG :
+
+2.1
+Fixed the bug that sent two notifications instead of one (the second notification said that an earlier version was available)
+
+------------------------
+
+2.0
+Complete change of architecture: the shortcut now uses the RSS feed of new releases, which reduces execution time by 78%
+
+------------------------
+
+1.0
+Initial release"""
+text("${0C96D0CA-07A8-4AA5-9724-1F327650AB13}")
+var 95DB13BB-2F18-41C1-9996-E618AEAB84AE = """If you want to change the language of the shortcut to French, change "false" to "true" in the dictionary below. ⬇️
+
+Si vous souhaitez changer la langue du raccourci en Francais, changez "faux" sur "vrai" dans le dictionnaire ci-dessous. ⬇️"""
+text("${95DB13BB-2F18-41C1-9996-E618AEAB84AE}")
+dictionary({"French":"false"}) >> Language
+getIP() >> getIP
+if(Adresse IP actuelle == nil) {
+	exit()
+} >> IFResult
+keysFrom(dictionary: Language) >> keysFrom
+if(Valeur du dictionnaire ==) {
+	text(text: "Une nouvelle version est disponible :") >> text
+} else {
+	text(text: "A new version of iOS is available:")
+} >> IFResult 1
+var Info = Résultat de la condition
+deviceDetails(detail: System Version) >> deviceDetails
+matchText(text: "${Version du système}", regex: "^\d+(?=\.?)") >> Regex current major
+var Currentmajorversion = Regex current major
+deviceDetails(detail: System Build Number) >> deviceDetails 1
+var Currentversionnumber = Numéro de la version du système
+getRSSItems(url: "feed://developer.apple.com/news/releases/rss/releases.rss", count: 30) >> getRSSItems
+filterArticles() >> filterArticles
+repeatEach(Articles) {
+	matchText(text: "${Repeat Item.get(Title)}", regex: "(?<=\iOS ).*?(?=\()") >> New version
+	replaceText(input: "${Repeat Item.get(Title)}", find: ".*?(\d+)(\.\d+)?(\.\d+)?.*", replace: "$1", isRegex: true) >> Regex major RSS
+	if(Regex major RSS >= Current major version) {
+		matchText(text: "${Repeat Item.get(Title)}", regex: "(?<=\().*?(?=\))") >> Regex version number
+		if(Regex version number .contains ""${Current version number}"") {
+			exit()
+		} else {
+			sendNotification(body: "${Info}
+${Variable} --> ${New version}") >> sendNotification
+			exit()
+		}
+	} >> IFResult 2
+}
