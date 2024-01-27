@@ -1,0 +1,1571 @@
+import Shortcuts
+#Color: teal, #Icon: photoStackAlt
+
+/*
+Photo collage
+Tim Wilson, January 2024
+
+Creates a proper photo collage from 2 or more images. Adapted from my Python (and Pythonista) script at https://github.com/twilsonco/PyPhotoCollage
+*/
+/*
+<===== BEGIN CONFIGURATION =====>
+The following options control how nested collages work.
+*/
+// Set the maximum number of nested collages. This option overrides those that follow.
+number(value: 2) >> MaxRecursionDepthDefault
+/*
+Define min and max number of images used for nested collages. Only takes effect if the number of total images is ≥ 3 times the min size. If too low a min is used, there will be no nesting. If too low a max is used, it will limit the nesting depth (i.e. how many nested collages can be nested inside other nested collages).
+*The max value is multiplied by the max recursion level to allow for deeper nesting.
+*/
+number(value: 3) >> Min batch size in
+number(value: 7) >> Max batch size in
+// Define min and max aspect ratio bounds for sub-collages, which are chosen at random. 
+number(value: 0.5) >> minAR in
+number(value: 2) >> maxAR in
+// <===== END CONFIGURATION =====>
+var Maxrecursiondepth = MaxRecursionDepthDefault
+var Minbatchsize = Min batch size in
+var Maxbatchsize = Max batch size in
+math(input: minAR in, operation: *, operand: "100") >> MinAR x 100
+math(input: maxAR in, operation: *, operand: "100") >> MaxAR x 100
+deviceDetails(detail: Device Model) >> deviceDetails
+number(value: 0) >> False
+number(value: 1) >> True
+// Set debug printing to True (1) to log detailed shortcut activity to iCloud/Shortcuts/PhotoCollage/log.txt
+text(text: "/PhotoCollage/log.txt") >> LogfileName
+var DebugPrinting = False
+// Debug option to put colored outlines on each image to indicate which level of recursion was used to process it
+var DoColorByDepth = False
+var Outputimagedirectly = False
+var RecursionDepth = False
+var CheckFunctionArgs = True
+getType(input: ShortcutInput) >> getType
+// Functions used when calling shortcut recursively, taking a dictionary as input
+if(Type == "Dictionary") { >> IFResult
+	getDictionaryFrom(input: ShortcutInput) >> InputDict
+var InDict = InputDict
+	valueFor(key: "fname", dictionary: InDict) >> valueFor
+var FunctionName = Dictionary Value
+// Get user options
+	if(FunctionName == "Get options") { >> IFResult 1
+// Get options from the user. First define default options
+		deviceDetails(detail: Device Model) >> deviceDetails 1
+		if(Device Model == "Mac") {
+			number(value: 100000) >> number
+		} else {
+			number(value: 9000) >> number 1
+		} >> IFResult 2
+var MaxDim = If Result
+// Prepare menu prompt. Include in prompt for iOS users to use the “prepare images” tool if they have problems.
+		text(text: "Configure options") >> text
+		if(Device Model != "Mac") {
+			text(text: "${Text} (If it fails, try using "Preprocess images" first, and/or reboot your ${ActionOutput})") >> text 1
+		} else {
+			text(text: "${Text}") >> text 2
+		} >> IFResult 3
+var Prompt = If Result
+		number(value: 0) >> False
+		number(value: 1) >> True
+		nothing() >> nothing
+		dictionary({"1":{"Value":"Nested (1)","Description":"Create simple or composite (nested) collage?","Options":{"Nested (1)":"⧈","Nested (2)":"⧈","Simple by rows":"⏛","Simple by columns":"⎅"},"Name":"Collage type","Icon":"⊞"},"2":{"Value":"Input order","Description":"How should selected images be ordered in the collage?","Options":{"Input order":"➲","Shuffle":"⤨","Oldest first":"↧","Newest first":"↥"},"Name":"Image order","Icon":"⇅"},"3":{"Value":"30","Description":"Enter the gap between images, in pixels","Min":"0","Name":"Image spacing","Unit":" px","Icon":"╬","Allow decimal":"false"},"4":{"Value":"0","Description":"Specify image corner rounding as a percentage of shortest edge.","Name":"Round image corners","Min":"0","Max":"100","Unit":"%","Icon":"⎄","Allow decimal":"false"},"5":{"Value":"0","Description":"Specify collage corner rounding as a percentage of shortest edge.","Name":"Round collage corners","Min":"0","Max":"100","Unit":"%","Icon":"⎄","Mac only":"false","Allow decimal":"false"},"6":{"Value":"1.0","Description":"Set the target aspect ratio of the collage. Increase to make it wider, decrease to make it narrower.","Min":"0.001","Name":"Target aspect ratio","Icon":"⧉","Allow decimal":"true"},"7":{"Value":"5000","Description":"Set the maximum dimension (width or height) of the output collage in pixels.","Min":"100","Max":"${MaxDim}","Name":"Collage max width/height","Icon":"⁜","Unit":" px","Allow decimal":"false"},"8":{"Name":"Preprocess images","Icon":"⚙︎","Value":""},"9":{"Name":"Continue","Icon":"✔︎","Value":""}})
+var OptionDict = Dictionary
+		count(input: OptionDict) >> NumOptions
+		math(input: NumOptions, operation: *, operand: "3") >> NumRepeat
+		repeat(NumRepeat) { >> RepeatResult
+var OptionMenu = Nothing
+			repeat(NumOptions) {
+				valueFor(key: "${Repeat Index 2}", dictionary: OptionDict) >> valueFor 1
+				valueFor(key: "Mac only", dictionary: Dictionary Value) >> MacOnly
+var Show = True
+				if(MacOnly != nil) {
+					if(MacOnly ==) {
+						if(Device Model != "Mac") {
+var Show = False
+						}
+					}
+				} >> IFResult 4
+				if(Show ==) {
+					count(type: Characters, input: Dictionary Value) >> count
+					if(Count > 0) {
+						text(text: "${Dictionary Value.as(Dictionary).key(Unit)} ${ActionOutput.as(Dictionary).key(Unit)} ${Dictionary Value.as(Dictionary).key(Value)}: ${ActionOutput.as(Dictionary).key(Value)}${Dictionary Value.as(Dictionary).key(Name)}") >> text 3
+					} else {
+						text(text: "${Repeat Index 2} ${Variable} ${Dictionary Value.as(Dictionary).key(Icon)}") >> text 4
+					} >> IFResult 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				}
+			}
+			choose(list: OptionMenu, prompt: "${Prompt}") >> choose
+// Splitting by em-space “ “
+			splitText(text: Chosen Item, separator: Custom, customSeparator: " ") >> splitText
+			getItemFromList(list: Split Text) >> OptionNumber
+			valueFor(key: "${OptionNumber}", dictionary: OptionDict) >> ChosenOption
+			valueFor(key: "Name", dictionary: ChosenOption) >> Name
+var DoReturn = False
+			if(Name .contains "Preprocess") { >> IFResult 6
+var DoReturn = True
+			}
+			if(Name .contains "Continue") { >> IFResult 7
+var DoReturn = True
+			}
+			if(DoReturn == "Continue") { >> IFResult 8
+				setValue(key: "Value", value: "${True}", dictionary: ChosenOption) >> setValue
+				setValue(key: "${OptionNumber}", value: "${Dictionary}", dictionary: OptionDict) >> setValue 1
+var OptionDict = Dictionary
+var OutDict = Nothing
+				repeat(NumOptions) {
+					valueFor(key: "${Repeat Index 2}", dictionary: OptionDict) >> valueFor 2
+					setValue(key: "${Dictionary Value.as(Dictionary).key(Name)}", value: "${Dictionary Value.as(Dictionary).key(Value)}", dictionary: OutDict) >> setValue 2
+var OutDict = Dictionary
+				}
+				output(result: "${OutDict}") >> output
+			} >> IFResult 9
+			valueFor(key: "Options", dictionary: ChosenOption) >> Options
+			valueFor(key: "Value", dictionary: ChosenOption) >> Value
+			valueFor(key: "Min", dictionary: ChosenOption) >> Min
+			valueFor(key: "Max", dictionary: ChosenOption) >> Max
+			if(Options != nil) { >> IFResult 10
+var OptionList = Nothing
+				repeatEach(Options) { >> RepeatResult 1
+					valueFor(key: "${Repeat Item 2}", dictionary: Options) >> Icon
+					text(text: "${Icon} ${ActionOutput}") >> text 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} >> RepeatResult 2
+				text(text: "↺ Go back") >> text 6
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				text(text: "${ChosenOption.as(Dictionary).key(Description)} (current value: ${ActionOutput.as(Dictionary).key(Description)})") >> text 7
+				choose(list: OptionList, prompt: "${Text}") >> choose 1
+// Splitting by em-space “ “
+				splitText(text: Chosen Item, separator: Custom, customSeparator: " ") >> splitText 1
+				getItemFromList(list: Split Text, type: Last Item)
+			} else { >>  2
+				valueFor(key: "Allow decimal", dictionary: ChosenOption) >> valueFor 3
+var Allowdecimal = Dictionary Value
+				if(Min != nil) { >> IFResult 11
+					if(Max != nil) {
+						text(text: "${Value} (min/max: ${ActionOutput}/${ChosenOption.as(Dictionary).key(Description)}, current: ${ActionOutput.as(Dictionary).key(Description)})") >> text 8
+					} else {
+						text(text: "${Min} (min: ${ActionOutput}, current: ${Value})") >> text 9
+					} >> IFResult 12
+					askForInput(prompt: "${If Result}", type: Number, allowDecimal: true, allowNegative: false) >> askForInput
+					if(Max != nil) {
+						list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Provided Input";
+                        OutputUUID = "16435DCC-6DE1-47B0-8347-1D257F1E5A7B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Max;
+                        OutputUUID = "3BACC3A8-2F4E-4516-8374-F3388BC152AA";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+						statistic(input: List, operation: Minimum) >> statistic
+						list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Minimum;
+                        OutputUUID = "C0EF9B36-7FA7-426C-84DF-7CDDFE52430E";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Min;
+                        OutputUUID = "5DFDA109-1D10-4447-8620-3E6E0ABCD89E";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+						statistic(input: List, operation: Maximum)
+					} else {
+						list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Provided Input";
+                        OutputUUID = "16435DCC-6DE1-47B0-8347-1D257F1E5A7B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Min;
+                        OutputUUID = "5DFDA109-1D10-4447-8620-3E6E0ABCD89E";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 2
+						statistic(input: List, operation: Maximum)
+					}
+				} >> IFResult 13
+				if(Allow decimal ==) {
+					number(value: If Result)
+				} else {
+					round(number: If Result)
+				} >> IFResult 14
+			} >> IFResult 15
+			if(If Result .contains "Go back") {
+				setValue(key: "Value", value: "${If Result}", dictionary: ChosenOption) >> setValue 3
+				setValue(key: "${OptionNumber}", value: "${Dictionary}", dictionary: OptionDict) >> setValue 4
+var OptionDict = Dictionary
+			}
+		} >> RepeatResult 3
+	} >> IFResult 16
+// Initialize 2d array
+	if(FunctionName == "Initialize 2d array") { >> IFResult 17
+/*
+Initialize a 2d array to the specified value.
+Arguments (name, type, required/optional, notes):
+ fname: string, required, must be “Initialize 2d array”
+ nrows: integer, required, must be > 0
+ ncols: integer, required, must be > 0
+ initval: optional, defaults to 0
+*/
+		valueFor(key: "nrows", dictionary: InDict) >> nRows
+		valueFor(key: "ncols", dictionary: InDict) >> nCols
+		if(InDict != nil) {
+			valueFor(key: "initval", dictionary: InDict) >> valueFor 4
+		} else {
+			number(value: 0) >> number 2
+		} >> IFResult 18
+var InitVal = If Result
+		if(CheckFunctionArgs ==) { >> IFResult 19
+			if(nRows == nil) {
+				showResult(text: "Initialize 2d array error: nRows not provided")
+				exit()
+			}
+			if(nRows false 1) {
+				showResult(text: "Initialize 2d array error: nRows must be greater than 0")
+				exit()
+			} >> IFResult 20
+			if(nCols == nil) {
+				showResult(text: "Initialize 2d array error: nCols not provided")
+				exit()
+			}
+			if(nCols false 1) {
+				showResult(text: "Initialize 2d array error: nCols must be greater than 0")
+				exit()
+			}
+		} >> IFResult 21
+		nothing() >> nothing 1
+var OutArray = Nothing
+		repeat(nRows) {
+var Col = Nothing
+			repeat(nCols) {
+				setValue(key: "${Repeat Index 2}", value: "${InitVal}", dictionary: Col) >> setValue 5
+var Col = Dictionary
+			} >> RepeatResult 4
+			setValue(key: "${Repeat Index}", value: "${Col}", dictionary: OutArray) >> setValue 6
+var OutArray = Dictionary
+		} >> RepeatResult 5
+		output(result: "${OutArray}") >> output 1
+	} >> IFResult 22
+// Set 2d array element
+	if(FunctionName == "Set 2d array element") { >> IFResult 23
+/*
+Set the value of the element at (i, j) in the provided 2d array to the specified value.
+Arguments (name, type, required/optional, notes):
+ fname: string, required, must be “Set 2d array element”
+ array: 2d array (dictionary) made with “Initialize 2d array”, required
+ i: integer, required, must be 0 > irow ≥ nrows
+ j: integer, required, must be 0 > icol ≥ ncols
+ val: any, required
+*/
+		valueFor(key: "array", dictionary: InDict) >> Array
+		valueFor(key: "i", dictionary: InDict) >> i
+		valueFor(key: "j", dictionary: InDict) >> j
+		valueFor(key: "val", dictionary: InDict) >> Val
+		if(CheckFunctionArgs ==) { >> IFResult 24
+			if(Array != nil) {
+				count(input: Array) >> nRows
+				valueFor(key: "1", dictionary: Array) >> FirstRow
+				count(input: FirstRow) >> nCols
+			} else {
+				showResult(text: "Set 2d array element error: no array provided")
+				exit()
+			} >> IFResult 25
+			if(i false 1) {
+				showResult(text: "Initialize 2d array error: i must be greater than 0")
+				exit()
+			} >> IFResult 26
+			if(i > nRows) {
+				showResult(text: "Initialize 2d array error: i is greater than nRows (${nRows})")
+				exit()
+			} >> IFResult 27
+			if(j false 1) {
+				showResult(text: "Initialize 2d array error: j must be greater than 0")
+				exit()
+			} >> IFResult 28
+			if(j > nCols) {
+				showResult(text: "Initialize 2d array error: j is greater than nCols (${nCols})")
+				exit()
+			} >> IFResult 29
+			if(Val == nil) {
+				showResult(text: "Initialize 2d array error: val not provided")
+				exit()
+			}
+		} >> IFResult 30
+		valueFor(key: "${i}", dictionary: Array) >> valueFor 5
+		setValue(key: "${j}", value: "${Val}", dictionary: Dictionary Value) >> setValue 7
+		setValue(key: "${i}", value: "${Dictionary}", dictionary: Array) >> setValue 8
+		output(result: "${Dictionary}") >> output 2
+	} >> IFResult 31
+// Get index of list item
+	if(FunctionName == "Get index of list item") { >> IFResult 32
+/*
+Return the 1-based index of the element in a list matching the specified value, or -1 if not found.
+Arguments (name: type, required/optional, notes):
+ fname: string, required, must be “Get index of list item”
+ list: list, required
+ val: any, required
+*/
+		valueFor(key: "list", dictionary: InDict) >> List
+		valueFor(key: "val", dictionary: InDict) >> Val 
+		if(CheckFunctionArgs ==) { >> IFResult 33
+			if(List == nil) {
+				showResult(text: "Get index of list item
+ error: list not provided")
+				exit()
+			} >> IFResult 34
+			if(Val  == nil) {
+				showResult(text: "Get index of list item
+ error: val not provided")
+				exit()
+			}
+		} >> IFResult 35
+		repeatEach(List) {
+			if(Repeat Item == ""${Val }"") {
+				output(result: "${Repeat Index}") >> output 3
+			} >> IFResult 36
+		} >> RepeatResult 6
+		output(result: "-1") >> output 4
+	} >> IFResult 37
+// Get shuffled order
+	if(FunctionName == "Get shuffled order") { >> IFResult 38
+/*
+Return a list of integers in shuffled order
+Arguments (name, type, required/optional, notes):
+ fname: string, required, must be “Get shuffled order”
+ n: integer number defining the list size, required
+*/
+		valueFor(key: "n", dictionary: InDict) >> n
+		if(CheckFunctionArgs ==) { >> IFResult 39
+			if(n false 1) {
+				showResult(text: "Get shuffled order error: n must be greater than 0")
+				exit()
+			} >> IFResult 40
+		} >> IFResult 41
+		repeat(n) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 7
+		nothing() >> nothing 2
+		repeat(n) {
+			getItemFromList(list: AvailableNumbers, type: Random Item) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+var AvailableNumbers1 = Variable
+var AvailableNumbers = Nothing
+			repeatEach(AvailableNumbers1) {
+				if(Repeat Item 2 != Item from List) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				}
+			}
+		} >> RepeatResult 8
+		output(result: "${OutList.as(Text)}") >> output 5
+	} >> IFResult 42
+// Create batches
+	if(FunctionName == "Create batches") { >> IFResult 43
+/*
+Take list of items and create batches with specified min/max sizes. Leftover items that don’t fit into a batch are added as individual batches. Returns a List of lists (batches).
+Arguments (name, type, required/optional, notes):
+ fname: string, required, must be “Create batches”
+ n: integer number of items to be put into batches, required
+ sizemin: minimum batch size, required
+ sizemax: maximum batch size, required
+*/
+		valueFor(key: "n", dictionary: InDict) >> n
+		valueFor(key: "sizemin", dictionary: InDict) >> sizemin
+		valueFor(key: "sizemax", dictionary: InDict) >> sizemax
+		if(CheckFunctionArgs ==) { >> IFResult 44
+			if(n == nil) {
+				showResult(text: "Create batches error: n not provided")
+				exit()
+			} >> IFResult 45
+			if(sizemin == nil 1) {
+				showResult(text: "Initialize 2d array error: no sizemin provided")
+				exit()
+			} >> IFResult 46
+			if(sizemin == nil Count) {
+				showResult(text: "Create batches error: no sizemax provided")
+				exit()
+			} >> IFResult 47
+			if(sizemax <= sizemin) {
+				showResult(text: "Create batches error: sizemin is not less than sizemax")
+				exit()
+			}
+		} >> IFResult 48
+		nothing() >> nothing 3
+		calculate(input: "(0.7*${sizemax}+0.3*${ActionOutput})") >> SizeMid 
+		number(value: 0) >> number 3
+var CurCount = Number
+var CurBatchNum = Number
+		repeat(n) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		}
+		repeat(n) {
+			math(input: CurBatchNum, operand: "1") >> math
+var CurBatchNum = Calculation Result
+			math(input: n, operation: -, operand: CurCount) >> NumRemaining
+			if(NumRemaining == 0) { >> IFResult 49
+// Batches are created, but it’s a problem that all the single-item batches are at the end of the list of batches. So shuffle the order of batches and then go in and restore the order of the batch items, such the first batch has items 1, 2, 3, etc. and the second has 4, 5, 6, etc.
+				count(input: Batches) >> count 1
+				dictionary({"fname":"Get shuffled order","n":"${Count}"})
+				runShortcut(name: "Photo collage", input: Dictionary) >> Shuffled batch order
+var OutBatches = Nothing
+var OutCount = Number
+				repeatEach(Shuffled batch order) {
+					valueFor(key: "${Repeat Item 2}", dictionary: Batches) >> valueFor 6
+					count(input: Dictionary Value) >> count 2
+var OutList = Nothing
+					repeat(Count) {
+						math(input: Repeat Index 3, operand: OutCount) >> math 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					} >> RepeatResult 9
+					setValue(key: "${Repeat Index 2}", value: "${OutList}", dictionary: OutBatches) >> setValue 9
+var OutBatches = Dictionary
+					math(input: OutCount, operand: Count) >> math 2
+var OutCount = Calculation Result
+				}
+				output(result: "${OutBatches}") >> output 6
+			} >> IFResult 50
+			if(NumRemaining false SizeMid ) {
+				math(input: CurCount, operand: "1") >> math 3
+var CurCount = Calculation Result
+				getItemFromList(list: list, type: Item At Index, index: CurCount) >> getItemFromList 1
+				list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Item from List";
+                        OutputUUID = "6070AC24-3ED7-4C56-8587-9BEB84905F70";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 3
+				setValue(key: "${CurBatchNum}", value: "${List}", dictionary: Batches) >> setValue 10
+var Batches = Dictionary
+			} else {
+var CurBatch = Nothing
+				calculate(input: "min(${NumRemaining},${ActionOutput})") >> calculate
+				randomNumber(min: sizemin, max: Calculation Result) >> BatchSize
+				repeat(BatchSize) {
+					math(input: Repeat Index 2, operand: CurCount) >> math 4
+					getItemFromList(list: list, type: Item At Index, index: Calculation Result) >> getItemFromList 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} >> RepeatResult 10
+				setValue(key: "${CurBatchNum}", value: "${CurBatch}", dictionary: Batches) >> setValue 11
+var Batches = Dictionary
+				math(input: CurCount, operand: BatchSize) >> math 5
+var CurCount = Calculation Result
+			} >> IFResult 51
+		}
+	} >> IFResult 52
+// Linear partition problem
+	if(FunctionName == "Linear partition") { >> IFResult 53
+/*
+Implements the python function in the below comment.
+Arguments (name: type, required/optional, notes):
+ fname: string, required, must be “Linear partition”
+ seq: list of image aspect ratios, required
+ nrows: integer number of rows in the collage, required
+*/
+/*
+def linear_partition_table(seq, k):
+    n = len(seq)
+    table = [[0] * k for x in range(n)]
+    solution = [[0] * (k-1) for x in range(n-1)]
+    for i in range(n):
+        table[i][0] = seq[i] + (table[i-1][0] if i else 0)
+    for j in range(k):
+        table[0][j] = seq[0]
+    for i in range(1, n):
+        for j in range(1, k):
+            table[i][j], solution[i-1][j-1] = min(
+                ((max(table[x][j-1], table[i][0]-table[x][0]), x) for x in range(i)),
+                key=itemgetter(0))
+    return (table, solution)
+*/
+		valueFor(key: "seq", dictionary: InDict) >> Seq 
+		valueFor(key: "nrows", dictionary: InDict) >> k
+		if(CheckFunctionArgs ==) { >> IFResult 54
+			if(Seq  == nil) {
+				showResult(text: "Linear partition table error: seq not provided")
+				exit()
+			} >> IFResult 55
+			if(k == nil) {
+				showResult(text: "Linear partition table error: nrows not provided")
+				exit()
+			}
+		} >> IFResult 56
+// n = len(seq)
+		count(input: Seq ) >> n
+// table = [[0] * k for x in range(n)]
+		dictionary({"fname":"Initialize 2d array","nrows":"${n}","ncols":"${k.as(Number)}"})
+		runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut
+var Table = Shortcut Result
+// solution = [[0] * (k-1) for x in range(n-1)]
+		math(input: n, operation: -, operand: "1") >> n - 1
+		math(input: k, operation: -, operand: "1") >> k - 1
+		dictionary({"fname":"Initialize 2d array","nrows":"${n - 1}","ncols":"${k - 1}"})
+		runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 1
+var Solution = Shortcut Result
+/*
+    for i in range(n):
+        table[i][0] = seq[i] + (table[i-1][0] if i else 0)
+*/
+		repeat(n) { >> RepeatResult 11
+			if(Repeat Index == 1) {
+				number(value: 0)
+			} else {
+				math(input: Repeat Index, operation: -, operand: "1") >> math 6
+				valueFor(key: "${Calculation Result}", dictionary: Table) >> valueFor 7
+				valueFor(key: "1", dictionary: Dictionary Value) >> valueFor 8
+			} >> IFResult 57
+			getItemFromList(list: Seq , type: Item At Index, index: Repeat Index) >> getItemFromList 3
+			math(input: If Result, operand: Item from List) >> math 7
+			dictionary({"fname":"Set 2d array element","i":"${Repeat Index}","j":"1","val":"${Calculation Result}"})
+			setValue(key: "array", value: "${Table}", dictionary: Dictionary) >> setValue 12
+			runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 2
+var Table = Shortcut Result
+		} >> RepeatResult 12
+/*
+    for j in range(k):
+        table[0][j] = seq[0]
+*/
+		repeat(k) { >> RepeatResult 13
+			getItemFromList(list: Seq ) >> getItemFromList 4
+			dictionary({"fname":"Set 2d array element","i":"1","j":"${Repeat Index}","val":"${Item from List}"})
+			setValue(key: "array", value: "${Table}", dictionary: Dictionary) >> setValue 13
+			runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 3
+var Table = Shortcut Result
+		} >> RepeatResult 14
+/*
+    for i in range(1, n):
+        for j in range(1, k):
+            table[i][j], solution[i-1][j-1] = min(
+                ((max(table[x][j-1], table[i][0]-table[x][0]), x) for x in range(i)),
+                key=itemgetter(0))
+*/
+		repeat(n - 1) { >> RepeatResult 15
+			math(input: Repeat Index, operation: +, operand: "1") >> i
+			repeat(k - 1) {
+				math(input: Repeat Index 2, operand: "1") >> j
+// ((max(table[x][j-1], table[i][0]-table[x][0]), x) for x in range(i))
+				nothing() >> nothing 4
+var TupleList1 = Nothing
+				repeat(Repeat Index) { >> RepeatResult 16
+					valueFor(key: "${Repeat Index 3}", dictionary: Table) >> Table[x]
+					valueFor(key: "${Repeat Index 2}", dictionary: Table[x]) >> Table[x][j-1]
+					valueFor(key: "${i}", dictionary: Table) >> Table[i]
+					valueFor(key: "1", dictionary: Table[i]) >> Table[i][0]
+					valueFor(key: "1", dictionary: Table[x]) >> Table[x][0]
+					math(input: Table[i][0], operation: -, operand: Table[x][0]) >> Table[i][0]-Table[x][0]
+					list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Table[x][j-1]";
+                        OutputUUID = "D459EBE1-8152-4662-9861-4255949F600A";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Table[i][0]-Table[x][0]";
+                        OutputUUID = "0D46D631-377D-4CEC-A76D-A161C9499E1B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 4
+					statistic(input: List, operation: Maximum) >> statistic 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					text(text: "i = ${List}, j = ${ActionOutput}, a = ${i}, b = ${ActionOutput}") >> text 10
+				} >> RepeatResult 17
+				statistic(input: TupleList1, operation: Minimum) >> statistic 2
+				dictionary({"fname":"Get index of list item","val":"${Minimum}"})
+				setValue(key: "list", value: "${TupleList1}", dictionary: Dictionary) >> setValue 14
+				runShortcut(name: "Photo collage", input: Dictionary) >> MinIndex
+				getItemFromList(list: TupleList1, type: Item At Index, index: MinIndex) >> getItemFromList 5
+				dictionary({"fname":"Set 2d array element","i":"${i}","j":"${j}","val":"${Item from List}"})
+				setValue(key: "array", value: "${Table}", dictionary: Dictionary) >> setValue 15
+				runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 4
+var Table = Shortcut Result
+				dictionary({"fname":"Set 2d array element","i":"${Repeat Index}","j":"${Repeat Index 2}","val":"${MinIndex}"})
+				setValue(key: "array", value: "${Solution}", dictionary: Dictionary) >> setValue 16
+				runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 5
+var Solution = Shortcut Result
+var AFFECF7C-703D-4561-9558-6D071B68F1BF = """i = ￼, j = ￼, table[i][j] = ￼, solution[i-1][j-1] =  ￼,
+
+tuplelist1 = ￼"""
+text("${AFFECF7C-703D-4561-9558-6D071B68F1BF}")
+			}
+		}
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Table;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Solution;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 5
+		output(result: "${List}")
+	} >> IFResult 58
+// Photo collage recursive call for nested collage
+	if(FunctionName == "Photo collage") { >> IFResult 59
+/*
+Create a photo collage from the images in the provided dictionary. Return the collage as an image.
+Arguments (name, type, required/optional, notes):
+ fname: string, required, must be “Photo collage”
+ options: options dict as returned from the “Get options” function, required
+ images: list of base64 encoded images, required
+*/
+var Outputimagedirectly = True
+		valueFor(key: "options", dictionary: InDict) >> options
+		valueFor(key: "images", dictionary: InDict) >> images
+		if(CheckFunctionArgs ==) { >> IFResult 60
+			if(options == nil) {
+				showResult(text: "Photo collage recursive call error: options not provided")
+				exit()
+			} >> IFResult 61
+			if(images == nil) {
+				showResult(text: "Photo collage recursive call error: images not provided")
+				exit()
+			} >> IFResult 62
+			count(input: images) >> count 3
+			if(Count false 3) {
+				showResult(text: "Photo collage recursive call error: less than 3 images provided")
+				exit()
+			}
+		} >> IFResult 63
+		getDictionaryFrom(input: options) >> getDictionaryFrom
+var Options = Dictionary
+		valueFor(key: "Recursion depth", dictionary: Options) >> valueFor 9
+		if(Dictionary Value != nil) {
+var RecursionDepth = Dictionary Value
+		}
+		valueFor(key: "Max recursion depth", dictionary: Options) >> valueFor 10
+		if(Dictionary Value != nil) {
+var Maxrecursiondepth = Dictionary Value
+		} else {
+			if(DebugPrinting ==) {
+var 71BC5C6A-E2CA-4855-A402-B2AE036EF3EC = """
+￼ Starting photo collage on ￼ with dictionary input..."""
+text("${71BC5C6A-E2CA-4855-A402-B2AE036EF3EC}")
+				prependFile(path: "${LogfileName}") >> prependFile
+			}
+		} >> IFResult 64
+		encode(input: images) >> encode
+var ImgList = Base64 Encoded
+		count(input: ImgList) >> count 4
+var NumImages = Count
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${RecursionDepth}, ${Variable} image(s)") >> text 11
+			prependFile(path: "${LogfileName}") >> prependFile 1
+		}
+	} >> IFResult 65
+} else { >>  66
+// Fresh run of shortcut, so prepare images and get user options
+// Check for updates only on fresh run
+	nothing() >> nothing 5
+/*
+【Auto-Update Routine】
+Checks For Latest Shortcut Version
+↳ https://routinehub.co/shortcut/16590/
+*/
+	dictionary({"Version":"1.0.1","RoutineHub ID":"17870","Author":"twilsonco","Version Check":"true"}) >> Info
+	valueFor(key: "Version Check", dictionary: Info) >> True
+	if(True == "Yes") { >> IFResult 66
+		getIP(source: External, type: IPv4) >> getIP
+		if(Current IP Address != nil) { >> IFResult 67
+			downloadURL(url: "https://routinehub.co/api/v1/shortcuts/${Info.key(RoutineHub ID)}/versions/latest") >> Result 
+			if(Result  .contains "success") { >> IFResult 68
+				splitText(text: Result , separator: Custom, customSeparator: ".") >> splitText 2
+				repeatEach(Split Text) { >> RepeatResult 18
+					calculate(input: "((1/1000)^${Latest Version})*${Variable}+${Repeat Index}") >> calculate 1
+var LatestVersion = Calculation Result
+				} >> RepeatResult 19
+				splitText(text: Info, separator: Custom, customSeparator: ".") >> splitText 3
+				repeatEach(Split Text) { >> RepeatResult 20
+					calculate(input: "((1/1000)^${Current Version})*${Variable}+${Repeat Index}") >> calculate 2
+var CurrentVersion = Calculation Result
+				} >> RepeatResult 21
+				if(Latest Version > Current Version) { >> IFResult 69
+					menu(, [) {
+					case("Update → Result  (Version)"): >> MenuResult
+						expandURL(url: "${Result .as(Dictionary).key(URL)}") >> expandURL
+						replaceText(input: "${Expanded URL}", find: "https://www.icloud.com/", replace: "shortcuts://", caseSensitive: false) >> replaceText
+						openURL(url: Updated Text) >> openURL
+						exit()
+					case("Skip (Info (Version))"):
+					} >> MenuResult 1
+				}
+			}
+		}
+	} >> IFResult 70
+/*
+【Auto-Update Routine Ends Here】
+Support → https://www.reddit.com/r/shortcuts/comments/18j4f9p/
+
+【⚙️】
+Convert Semantic Number to Decimals
+↳ https://routinehub.co/shortcut/16589/
+*/
+	nothing() >> nothing 6
+// Get input images
+	if(DebugPrinting ==) { >> IFResult 71
+var A9842CB7-17B4-4C38-BE33-369B0E0D46D7 = """
+￼ Starting photo collage on ￼ with user input..."""
+text("${A9842CB7-17B4-4C38-BE33-369B0E0D46D7}")
+		prependFile(path: "${LogfileName}") >> prependFile 2
+	}
+var ImgList = ShortcutInput
+	if(ImgList == nil) { >> IFResult 72
+		if(Device Model == "Mac") {
+			menu(, [🏞️ Choose from photo library, 📂 Choose image files]) {
+			case("🏞️ Choose from photo library"):
+				selectPhoto(multiple: true) >> selectPhoto
+			case("📂 Choose image files"):
+				selectFile(multiple: true) >> selectFile
+			} >> MenuResult 2
+		} else {
+			selectPhoto(multiple: true) >> selectPhoto 1
+		} >> IFResult 73
+var ImgList = If Result
+	} >> IFResult 74
+var InputImgList = Variable
+	count(input: ImgList) >> NumImagesIn
+var NumImages = NumImagesIn
+	if(NumImagesIn false 3) { >> IFResult 75
+		alert(alert: "Please select 3 or more images", cancel: false)
+		exit()
+	} >> IFResult 76
+// Cap number of images that can be used
+	if(Device Model == "Mac") { >> IFResult 77
+		number(value: 200) >> number 4
+	} else { >>  5
+		number(value: 200) >> number 5
+	} >> MaxNumImages
+	if(NumImagesIn > MaxNumImages) { >> IFResult 78
+		alert(alert: "Maximum ${NumImagesIn} images supported on ${ActionOutput}; you selected ${MaxNumImages} images", cancel: false)
+		exit()
+	} >> IFResult 79
+// Get user options
+	dictionary({"fname":"Get options"})
+	runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 6
+	getDictionaryFrom(input: Shortcut Result) >> getDictionaryFrom 1
+var Options = Dictionary
+	valueFor(key: "Preprocess images", dictionary: Options) >> Preprocess images
+	if(Preprocess images ==) { >> IFResult 80
+// Preprocess images to smaller size/format and quit shortcut so that it can be run fresh with a lower memory footprint.
+		text(text: "Preprocessed ${NumImages} images - ${Variable}") >> new album name
+var 9594E4C4-8F9A-4DDB-A85B-8D53A7B8181E = """Please enter the maximum longest edge length for preprocessing photos, in pixels. 
+• The smaller the value, the more photos you'll be able to use for a collage. 
+• Processed photos will be saved to a new photo album named "￼""""
+text("${9594E4C4-8F9A-4DDB-A85B-8D53A7B8181E}")
+		askForInput(prompt: "${user prompt}", type: Number, allowDecimal: false, allowNegative: false) >> askForInput 1
+		repeatEach(ImgList) {
+			convertImage(image: Repeat Item, quality: 0.6267153532608696) >> convertImage
+			resizeImage(image: Converted Image) >> resizeImage
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 22
+		if(processed images != nil) {
+			createAlbum(photos: processed images, name: "${new album name}") >> createAlbum
+			count(input: processed images) >> count 5
+			text(text: "Preprocessed images and saved to album "${new album name}". Now run this shortcut again pointing to the images in that album.") >> closing dialog
+			showResult(text: "${closing dialog}")
+		} >> IFResult 81
+		exit()
+	}
+} >> IFResult 82
+date() >> date
+if(DebugPrinting ==) { >> IFResult 83
+	text(text: "${Options} Depth ${Variable}, user options: ${CurrentDate}") >> text 12
+	prependFile(path: "${LogfileName}") >> prependFile 3
+}
+var Ordering = Variable
+var CollageType = Variable
+var TargetAR = Variable
+var CollageSize = Variable
+var CollageSpacing = Variable
+var ImageCornerRoundingPercent = Variable
+var CollageCornerRoundingPercent = Variable
+nothing() >> nothing 7
+// Set DoRotate based on collage type and recursion depth
+if(CollageType .contains "Simple") { >> IFResult 84
+	if(CollageType .contains "columns") {
+var DoRotate = True
+	} else {
+var DoRotate = False
+	}
+} else { >>  85
+	if(CollageType .contains "1") {
+		number(value: 1)
+	} else {
+		number(value: 2)
+	} >> IFResult 85
+var Maxrecursiondepth = If Result
+	if(RecursionDepth == 0) {
+		randomNumber(min: 0, max: 1) >> randomNumber
+	} else {
+		number(value: 0)
+	} >> IFResult 86
+var DoRotate = If Result
+} >> IFResult 87
+// Update max batch size based on number of input images
+math(input: Max batch size, operation: *, operand: Max recursion depth) >> math 8
+var Maxbatchsize = Calculation Result
+text(text: "round(min(max(${Max batch size}+2, ${Variable}/3), ${Min batch size}))") >> text 13
+calculate(input: "${Text}") >> calculate 3
+var Maxbatchsize = Calculation Result
+// Image conversion/resizing/masking and ordering (below) only needs to be applied for initial call, not on recursive calls. However, rotation is also done for recursive calls.
+if(RecursionDepth == 0) { >> IFResult 88
+	calculate(input: "${CollageCornerRoundingPercent}+${Variable}+${CollageSpacing}") >> calculate 4
+	if(DebugPrinting ==) { >> IFResult 89
+		text(text: "${NumImages} Depth ${Variable}, converting/resizing/masking ${CurrentDate} images to PNG or JPEG depending on if corner rounding or image spacing are used (PNG if the following is greater than 0, or JPEG otherwise: ${Calculation Result})") >> text 14
+		prependFile(path: "${LogfileName}") >> prependFile 4
+	}
+var ImgList1 = Nothing
+	repeatEach(ImgList) { >> RepeatResult 23
+		imageDetail(detail: File Extension, image: Repeat Item) >> imageDetail
+var TmpImg = Variable
+		if(DebugPrinting ==) {
+			text(text: "${RecursionDepth} Depth ${Variable}, converting (possibly) image ${CurrentDate} of ${Repeat Item.as(Image).get(Width)} if extension is not already png or jpeg. Current extention: ${Variable.as(Image).get(Width)}. Width/height = ${Repeat Item.as(Image).get(Height)}/${Variable.as(Image).get(Height)}") >> text 15
+			prependFile(path: "${LogfileName}") >> prependFile 5
+		} >> IFResult 90
+		if(Calculation Result > 0) { >> IFResult 91
+			if(File Extension .contains "png") {
+				convertImage(image: Repeat Item, format: PNG, metadata: false) >> convertImage 1
+var TmpImg = Converted Image
+			}
+		} else { >>  2
+			if(File Extension != "jpeg") {
+				convertImage(image: TmpImg, metadata: false) >> convertImage 2
+var TmpImg = Converted Image
+			}
+		} >> IFResult 92
+// Now resize if longest edge is greater than collage size (bug is preventing evaluating the expression “max(Width,Height)”)
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFImageContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                PropertyName = Width;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = TmpImg;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFImageContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                PropertyName = Height;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = TmpImg;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 6
+		statistic(input: List, operation: Maximum) >> statistic 3
+		if(Maximum > CollageSize) { >> IFResult 93
+			if(DebugPrinting ==) {
+				text(text: "${CurrentDate} Depth ${TmpImg.get(Width)}, Resizing image ${Variable.get(Width)} of ${TmpImg.get(Height)} because longest edge is greater than collage size (${Variable.get(Height)}), Width/height = ${NumImages}/${Variable}") >> text 16
+				prependFile(path: "${LogfileName}") >> prependFile 6
+			}
+			resizeImage(image: TmpImg) >> resizeImage 1
+var TmpImg = Resized Image
+		} >> IFResult 94
+// Now mask. The user-specified corner rounding applies based on the percentage of longest image edge
+		if(ImageCornerRoundingPercent > 0) { >> IFResult 95
+			list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFImageContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                PropertyName = Width;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = TmpImg;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFImageContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                PropertyName = Height;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = TmpImg;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 7
+			statistic(input: List, operation: Minimum) >> statistic 4
+			calculate(input: "round(${Maximum}/2*${ActionOutput}/100)") >> AdjCornerRadius
+			if(AdjCornerRadius > 0) {
+				if(DebugPrinting ==) {
+					text(text: "${CurrentDate} Depth ${AdjCornerRadius}, rounding corners of image ${ActionOutput} of ${ImageCornerRoundingPercent.as(Text)} with radius ${Variable.as(Text)} (${RecursionDepth}% of shortest edge)") >> text 17
+					prependFile(path: "${LogfileName}") >> prependFile 7
+				}
+				maskImage() >> maskImage
+var TmpImg = Masked Image
+			}
+		} >> IFResult 96
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		nothing()
+	} >> RepeatResult 24
+var TmpImg = Nothing
+var ImgList = Variable
+var ImgList1 = Nothing
+// Apply user-selected ordering, one of “Input order”, “Shuffle”, “Oldest first”, “Newest first”
+	if(Ordering == "Input order") { >> IFResult 97
+		nothing() >> nothing 8
+	} else { >>  9
+		if(Ordering == "Shuffle") {
+			if(DebugPrinting ==) {
+				text(text: "${NumImages} Depth ${Variable}, shuffling order of ${CurrentDate} images") >> text 18
+				prependFile(path: "${LogfileName}") >> prependFile 8
+			}
+			dictionary({"fname":"Get shuffled order","n":"${NumImages}"})
+			runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 7
+var ImgList1 = Variable
+var ImgList = Nothing
+			repeatEach(Shortcut Result) {
+				getItemFromList(list: ImgList1, type: Item At Index, index: Repeat Item) >> getItemFromList 6
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> RepeatResult 25
+var ImgList1 = Nothing
+		} else {
+			if(Ordering == "Oldest first") {
+				filterImages() >> filterImages
+			} else {
+				filterImages()
+			} >> IFResult 98
+var ImgList = If Result
+		}
+	}
+} >> IFResult 99
+// For nested collages, perform batching and recursive call. Only do this if not beyond the max recursion limit and there are enough images in the current call to allow for it. Doing it here so that resulting sub-collages are treated for resizing as normal.
+if(CollageType .contains "Nested") { >> IFResult 100
+// Conditionally create batches and prepare options dictionary for recursive call. Corner rounding will be set to zero, image spaceing is doubled (since nested collages will be smaller), aspect ratio will be randomly chosen between the specified min and max values (see top of shortcut), collage width and height are reduced
+// Also don’t recurse if the collage aspect ratio is too wide or too tall such that a vertical or horizontal strip should be used instead
+var DoRecurse = True
+	imageDetail(detail: Width, image: ImgList) >> imageDetail 1
+	statistic(input: Width, operation: Maximum) >> statistic 5
+	statistic(input: Width, operation: Sum) >> statistic 6
+	imageDetail(detail: Height, image: ImgList) >> imageDetail 2
+	statistic(input: Height, operation: Maximum) >> statistic 7
+	statistic(input: Height, operation: Sum) >> statistic 8
+	math(input: Sum, operation: /, operand: Maximum) >> math 9
+	if(TargetAR >= Calculation Result) {
+var DoRecurse = False
+	}
+	math(input: Maximum, operation: /, operand: Sum) >> math 10
+	if(TargetAR <= Calculation Result) {
+var DoRecurse = False
+	}
+	math(input: NumImages, operation: /, operand: Min batch size) >> math 11
+	if(DebugPrinting ==) {
+		text(text: "${CurrentDate} Depth ${NumImages}, can make at most ${Variable} batches from ${RecursionDepth} images (need more than 3 batches to recurse)") >> text 19
+		prependFile(path: "${LogfileName}") >> prependFile 9
+	} >> IFResult 101
+	if(Calculation Result <= 3) { >> IFResult 102
+var DoRecurse = False
+	} >> IFResult 103
+	if(RecursionDepth >= MaxRecursionDepthDefault) {
+var DoRecurse = False
+	} >> IFResult 104
+	if(DoRecurse == 3) { >> IFResult 105
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${Max batch size}, creating batches from ${Variable} between ${Min batch size} and ${Variable}") >> text 20
+			prependFile(path: "${LogfileName}") >> prependFile 10
+		} >> IFResult 106
+		dictionary({"fname":"Create batches","sizemin":"${Min batch size}","sizemax":"${Max batch size}","n":"${NumImages}"})
+		runShortcut(name: "Photo collage", input: Dictionary) >> ImgBatchDict
+		count(input: ImgBatchDict) >> NumBatches
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${NumImages}, making ${Variable} batches from ${ImgBatchDict}. Batches: ${ActionOutput}") >> text 21
+			prependFile(path: "${LogfileName}") >> prependFile 11
+		}
+		valueFor(key: "Image spacing", dictionary: Options) >> valueFor 11
+		calculate(input: "round(${Dictionary Value}*1.0)") >> Sub image spacing
+		valueFor(key: "Recursion depth", dictionary: Options) >> Current recursion depth 
+		if(Current recursion depth  != nil) {
+			math(input: Current recursion depth , operand: "1")
+		} else {
+			number(value: 1)
+		} >> New recursion depth
+		calculate(input: "round(${CollageSize}*0.5)") >> Sub max width/height
+		setValue(key: "Max recursion depth", value: "${Max recursion depth}", dictionary: Options) >> setValue 17
+		setValue(key: "Round image corners", value: "0", dictionary: Dictionary) >> setValue 18
+		setValue(key: "Round collage corners", value: "0", dictionary: Dictionary) >> setValue 19
+		setValue(key: "Image spacing", value: "${Sub image spacing}", dictionary: Dictionary) >> setValue 20
+		setValue(key: "Recursion depth", value: "${New recursion depth}", dictionary: Dictionary) >> setValue 21
+		setValue(key: "Collage max width/height", value: "${Sub max width/height}", dictionary: Dictionary) >> setValue 22
+var ImgList1 = Nothing
+		repeat(NumBatches) {
+			randomNumber(min: MinAR x 100, max: MaxAR x 100) >> randomNumber 1
+			math(input: Random Number, operation: /, operand: "100") >> Sub-collage AR
+			setValue(key: "Target aspect ratio", value: "${Sub-collage AR}", dictionary: Dictionary) >> setValue 23
+			valueFor(key: "${Repeat Index}", dictionary: ImgBatchDict) >> CurBatch
+			count(input: CurBatch) >> CurBatchSize
+			if(DebugPrinting ==) {
+				text(text: "${CurrentDate} Depth ${CurBatchSize}, preparing batch ${ActionOutput}, size ${Repeat Index}") >> text 22
+				prependFile(path: "${LogfileName}") >> prependFile 12
+			} >> IFResult 107
+// List of color patches in base64 in the following order: 1 cyan, 2 orange, 3 red, 4 green, 5 purple, 6 magenta, 7 yellow
+			list(items: (
+    "iVBORw0KGgoAAAANSUhEUgAAAdoAAAHZCAYAAAAhcPoBAAABgGlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kctLQkEUhz+tKMooyEVBCwlrpdEDpDZBRlQgIWaQ1Uavr8DH5V4lpG3QNiiI2vRa1F9Q26B1EBRFEK1dF7UpuZ2rghJ5hjPzzW/OOcycAWswpaT15hFIZ3JaYM7rWAmtOlqLWLDTI94XVnR12u/30dC+niRa7MFt1moc9691RGO6ApY24SlF1XLC88K+zZxq8r6wXUmGo8KXwi5NLij8aOqRChdNTlT4x2QtGJgBa7ewI1HHkTpWklpaWF6OM53KK9X7mC+xxTLLS7IOiPejE2AOLw4WmGUGD6NMyuzBzRjDsqNB/kg5f5Gs5CoyqxTQ2CBBkhwuUfNSPSZrXPSYjBQFs/9/+6rHx8cq1W1eaHkzjI9BaN2D0q5hfJ8aRukMml7hJlPLz57AxKfouzXNeQxd23B1W9MiB3C9A70valgLl6UmcWs8Du8X0BmCnntoX6v0rHrO+TMEt+Sr7uDwCIYkvmv9FzdVZ9AILOOMAAAACXBIWXMAAC4jAAAuIwF4pT92AAAHfUlEQVR4nO3YsW0DMRBFwZWhrq4S1eB6XJLaIt2BT8mTccIMwGyDnz2At1l7DwCQ+PrvAQDwyYQWAEJCCwAhoQWAkNACQEhoASAktAAQur9w8zMzz3oIAFzQMTPff5+svU/e4y1TAeBq1n6cddTXMQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgdH/h5pi18yEAcEHH2cFt1lZRAIj4OgaAkNACQEhoASAktAAQEloACAktAISEFgBCvz1CQopzrRP2AAAAAElFTkSuQmCC",
+    "iVBORw0KGgoAAAANSUhEUgAAAdoAAAHZCAYAAAAhcPoBAAABgGlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kctLQkEUhz+tKMooyEVBCwlrpdEDpDZBRlQgIWaQ1Uavr8DH5V4lpG3QNiiI2vRa1F9Q26B1EBRFEK1dF7UpuZ2rghJ5hjPzzW/OOcycAWswpaT15hFIZ3JaYM7rWAmtOlqLWLDTI94XVnR12u/30dC+niRa7MFt1moc9691RGO6ApY24SlF1XLC88K+zZxq8r6wXUmGo8KXwi5NLij8aOqRChdNTlT4x2QtGJgBa7ewI1HHkTpWklpaWF6OM53KK9X7mC+xxTLLS7IOiPejE2AOLw4WmGUGD6NMyuzBzRjDsqNB/kg5f5Gs5CoyqxTQ2CBBkhwuUfNSPSZrXPSYjBQFs/9/+6rHx8cq1W1eaHkzjI9BaN2D0q5hfJ8aRukMml7hJlPLz57AxKfouzXNeQxd23B1W9MiB3C9A70valgLl6UmcWs8Du8X0BmCnntoX6v0rHrO+TMEt+Sr7uDwCIYkvmv9FzdVZ9AILOOMAAAACXBIWXMAAC4jAAAuIwF4pT92AAAHiklEQVR4nO3YwU3DUBBF0TFOGZFCb9Tl3li4jchsKOFfoqBzCnia3ZVmu465BgBIfLz6AAD4z4QWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILAKFbsPmcmTPYBYDafWb2lYNFaM/taz6DXQBIXcd8z8xj5abXMQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsA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CwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkIL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EBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQ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SGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAI7asH3Mxxjrl6A8CvjtUD7mQ7x1QGAIh4HQNASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASD0AV9mEKKSVeK3AAAAAElFTkSuQmCC",
+    "iVBORw0KGgoAAAANSUhEUgAAAdoAAAHZCAYAAAAhcPoBAAABgGlDQ1BzUkdCIElFQzYxOTY2LTIuMQAAKJF1kctLQkEUhz+tKMooyEVBCwlrpdEDpDZBRlQgIWaQ1Uavr8DH5V4lpG3QNiiI2vRa1F9Q26B1EBRFEK1dF7UpuZ2rghJ5hjPzzW/OOcycAWswpaT15hFIZ3JaYM7rWAmtOlqLWLDTI94XVnR12u/30dC+niRa7MFt1moc9691RGO6ApY24SlF1XLC88K+zZxq8r6wXUmGo8KXwi5NLij8aOqRChdNTlT4x2QtGJgBa7ewI1HHkTpWklpaWF6OM53KK9X7mC+xxTLLS7IOiPejE2AOLw4WmGUGD6NMyuzBzRjDsqNB/kg5f5Gs5CoyqxTQ2CBBkhwuUfNSPSZrXPSYjBQFs/9/+6rHx8cq1W1eaHkzjI9BaN2D0q5hfJ8aRukMml7hJlPLz57AxKfouzXNeQxd23B1W9MiB3C9A70valgLl6UmcWs8Du8X0BmCnntoX6v0rHrO+TMEt+Sr7uDwCIYkvmv9FzdVZ9AILOOMAAAACXBIWXMAAC4jAAAuIwF4pT92AAAHi0lEQVR4nO3YQW3DUBRE0eeqDMKi63BIIReE12YRDC4HR1dfic5BMLsrzXbOcQ4AkPhaPQAAPpnQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAELfqwfwsufM7KtHAJn7zNxWj+A6oX1/+zY/v6tHAI1zjr+ZeazewXWuYwAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQGg75zhXj+Alz5nZV48AMveZua0ewXVCCwAh1zEAhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEBJaAAgJLQCEhBYAQkILACGhBYCQ0AJASGgBICS0ABASWgAICS0AhIQWAEJCCwAhoQWAkNACQEhoASAktAAQEloACAktAISEFgBCQgsAIaEFgJDQAkBIaAEgJLQAEPoHsFUUQ9USgIUAAAAASUVORK5CYII="
+)) >> b64Colors
+			if(CurBatchSize == 1) {
+				getItemFromList(list: CurBatch) >> getItemFromList 7
+				getItemFromList(list: ImgList, type: Item At Index, index: Item from List) >> getItemFromList 8
+var TmpImg = Item from List
+			} else {
+var BatchImgList = Nothing
+				repeatEach(CurBatch) { >> RepeatResult 26
+					getItemFromList(list: ImgList, type: Item At Index, index: Repeat Item 2) >> getItemFromList 9
+					resizeImage(image: Item from List) >> resizeImage 2
+var TmpImg = Resized Image
+// Overlay colored border on images of next betch
+					if(DoColorByDepth ==) { >> IFResult 108
+						if(DebugPrinting ==) {
+							text(text: "${CurrentDate} Depth ${Repeat Index 2}, overlaying color on batch ${Variable} image ${RecursionDepth} ") >> text 23
+							prependFile(path: "${LogfileName}") >> prependFile 13
+						}
+						math(input: RecursionDepth, operand: "2") >> DepthColorInd1
+						getItemFromList(list: b64Colors, type: Item At Index, index: DepthColorInd1) >> b64DepthColor1
+						encode(input: b64DepthColor1) >> DepthColor1
+						overlayImage(image1: DepthColor1, image2: TmpImg, editor: false, height: TmpImg, width: TmpImg, opacity: "100", rotation: "0") >> overlayImage
+var TmpImg = Overlaid Image
+					}
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					nothing()
+				}
+				dictionary({"fname":"Photo collage"})
+				setValue(key: "options", value: "${Dictionary}", dictionary: Dictionary) >> setValue 24
+				if(DebugPrinting ==) { >> IFResult 109
+					text(text: "${Repeat Index} Depth ${Variable}, batch ${CurrentDate}, encoding to base64") >> text 24
+					prependFile(path: "${LogfileName}") >> prependFile 14
+				}
+				encode(input: BatchImgList) >> encode 1
+var BatchImgList = Nothing
+				setValue(key: "images", value: "${Base64 Encoded}", dictionary: Dictionary) >> setValue 25
+				runShortcut(name: "Photo collage (multipart) 1", input: Dictionary) >> runShortcut 8
+var TmpImg = Shortcut Result
+				if(DebugPrinting ==) { >> IFResult 110
+					text(text: "${Repeat Index} Depth ${Variable}, batch ${CurrentDate} complete") >> text 25
+					prependFile(path: "${LogfileName}") >> prependFile 15
+				}
+			} >> IFResult 111
+// Color image based on recursion depth
+			if(DoColorByDepth ==) { >> IFResult 112
+				if(DebugPrinting ==) {
+					text(text: "${CurrentDate} Depth ${Repeat Index}, overlaying color on batch ${Variable} output image") >> text 26
+					prependFile(path: "${LogfileName}") >> prependFile 16
+				}
+				math(input: RecursionDepth, operand: "1") >> DepthColorInd
+				getItemFromList(list: b64Colors, type: Item At Index, index: DepthColorInd) >> b64DepthColor
+				encode(input: b64DepthColor) >> DepthColor
+				overlayImage(image1: DepthColor, image2: TmpImg, editor: false, height: TmpImg, width: TmpImg, opacity: "100", rotation: "0") >> overlayImage 1
+var TmpImg = Overlaid Image
+			}
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			nothing()
+		}
+var ImgList = Variable
+var ImgList1 = Nothing
+		count(input: ImgList) >> count 6
+var NumImages = Count
+	}
+} >> IFResult 113
+if(DoRotate == "Columns") { >> IFResult 114
+	if(DebugPrinting ==) {
+		text(text: "${CurrentDate} Depth ${RecursionDepth}, rotating images") >> text 27
+		prependFile(path: "${LogfileName}") >> prependFile 17
+	}
+var ImgList1 = Nothing
+	repeatEach(ImgList) {
+		rotateImage(image: Repeat Item) >> rotateImage
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		nothing()
+	}
+var ImgList = Variable
+var ImgList1 = Nothing
+	math(input: "1", operation: /, operand: TargetAR) >> math 12
+var TargetAR = Calculation Result
+}
+// Compute number of rows in collage
+imageDetail(detail: Height, image: ImgList) >> imageDetail 3
+statistic(input: Height, operation: Maximum) >> MaxHeight
+imageDetail(detail: Width, image: ImgList) >> imageDetail 4
+statistic(input: Width, operation: Maximum) >> Maximum
+statistic(input: Width) >> statistic 9
+statistic(input: Height) >> statistic 10
+math(input: Average, operation: /, operand: Average) >> AverageAR
+statistic(input: Width, operation: Sum) >> TotalWidth
+calculate(input: "max((${TargetAR}+${Variable})/2* sqrt(${Average} * ${ActionOutput}),50)") >> TargetWidth
+// Resize images to common width or height depending on number of rows, and apply per-image corner rounding if used
+calculate(input: "min(${TargetWidth},max(1, round(${ActionOutput}/${Sum})))") >> NumRows
+math(input: NumImages, operation: /, operand: NumRows) >> NumCols
+if(Device Model == "Mac") { >> IFResult 115
+	number(value: Maximum)
+} else { >>  116
+	number(value: 1200) >> MaxWidthHeight
+} >> MaxHeight 
+if(Device Model == "Mac") { >> IFResult 116
+	number(value: Maximum)
+} else { >>  117
+	number(value: 1200) >> MaxWidthHeight
+} >> MaxWidth
+if(NumRows == NumImages) { >> IFResult 117
+	text(text: "max(10,min(${CollageSpacing},round(${Variable}/${NumImages}*${Variable}-${CollageSize}*(${Variable}-1)/${AverageAR})))") >> text 28
+	calculate(input: "${Text}") >> calculate 5
+var CommonWidth = Calculation Result
+} else { >>  6
+	if(NumRows == 1) {
+		text(text: "max(10,min(${MaxHeight },round(${ActionOutput}/${NumImages}/${Variable}-${NumImages}*(${Variable}-1)/${NumImages})))") >> text 29
+		calculate(input: "${Text}") >> calculate 6
+	} else {
+		text(text: "max(10,min(${AverageAR},round(min(${ActionOutput}/${NumCols}-${ActionOutput}*(${CollageSize}-1)/${Variable}, ${NumRows}/${ActionOutput}/${CollageSize}-${Variable}*(${NumCols}-1)/${ActionOutput}))))") >> text 30
+		calculate(input: "${Text}") >> calculate 7
+	} >> IFResult 118
+var CommonHeight = If Result
+} >> IFResult 119
+if(DebugPrinting ==) { >> IFResult 120
+	text(text: "${TargetAR} Depth ${Variable}, aspect ratio ${NumCols}, ${ActionOutput} row(s) and ${CurrentDate}-ish col(s), common height = ${CommonWidth}, common width = ${Variable}. Resizing...") >> text 31
+	prependFile(path: "${LogfileName}") >> prependFile 18
+}
+var ImgList1 = Nothing
+repeatEach(ImgList) { >> RepeatResult 27
+	if(DebugPrinting == 1) {
+		text(text: "${CurrentDate} Depth ${Repeat Item.as(Image).get(Width)}, resizing image ${Variable.as(Image).get(Width)} of ${Repeat Index}. Width/height = ${Variable}/${Repeat Item.as(Image).get(Height)}") >> text 32
+		prependFile(path: "${LogfileName}") >> prependFile 19
+	}
+	if(NumRows false NumImages) {
+// Multiple images per row, so resize to common height
+		resizeImage(image: Repeat Item, height: CommonHeight, width: )
+	} else {
+// Single column collage, so resize to common width
+		resizeImage(image: Repeat Item, width: CommonWidth)
+	} >> IFResult 121
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	nothing()
+} >> RepeatResult 28
+var ImgList = Variable
+var ImgList1 = Nothing
+var TmpImg = Nothing
+if(NumRows == 1) { >> IFResult 122
+	if(DebugPrinting ==) {
+		text(text: "${CurrentDate} Depth ${RecursionDepth}, combining horizontally") >> text 33
+		prependFile(path: "${LogfileName}") >> prependFile 20
+	}
+	combineImage(images: ImgList, spacing: CollageSpacing) >> combineImage
+var OutImg = Combined Image
+	nothing()
+} else { >>  1
+	if(NumRows == NumImages) { >> IFResult 123
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${RecursionDepth}, combining vertically") >> text 34
+			prependFile(path: "${LogfileName}") >> prependFile 21
+		}
+		combineImage(images: ImgList, mode: Vertically, spacing: CollageSpacing) >> combineImage 1
+var OutImg = Combined Image
+		nothing()
+	} else {
+		repeat(NumImages) { >> RepeatResult 29
+			getItemFromList(list: Width, type: Item At Index, index: Repeat Index) >> W
+			getItemFromList(list: Height, type: Item At Index, index: Repeat Index) >> H
+			calculate(input: "round(${H}/${ActionOutput}*100)") >> calculate 8
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 30
+		if(DebugPrinting ==) { >> IFResult 124
+			text(text: "${CurrentDate} Depth ${RecursionDepth}, running linear partition routine to create ${Variable} row(s)") >> text 35
+			prependFile(path: "${LogfileName}") >> prependFile 22
+		}
+		dictionary({"fname":"Linear partition","nrows":"${NumRows}"})
+		setValue(key: "seq", value: "${AspectRatios}", dictionary: Dictionary) >> setValue 26
+		runShortcut(name: "Photo collage", input: Dictionary) >> runShortcut 9
+		getItemFromList(list: Shortcut Result, type: Last Item) >> Solution
+		math(input: NumRows, operation: -, operand: "1") >> k-1
+var k = k-1
+var n = Variable
+		nothing() >> nothing 9
+		repeat(k-1) { >> RepeatResult 31
+var Row = Nothing
+			math(input: n, operation: -, operand: "1") >> math 13
+			valueFor(key: "${Calculation Result}", dictionary: Solution) >> Solution[n-1]
+			valueFor(key: "${k}", dictionary: Solution[n-1]) >> Solution[n-1][k]
+			math(input: n, operation: -, operand: Solution[n-1][k]) >> math 14
+			repeat(Calculation Result) { >> RepeatResult 32
+				math(input: Repeat Index 2, operand: Solution[n-1][k]) >> math 15
+				getItemFromList(list: ImgList, type: Item At Index, index: Calculation Result) >> getItemFromList 10
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				nothing()
+			} >> RepeatResult 33
+			if(DoRotate ==) { >> IFResult 125
+				if(DebugPrinting ==) {
+					text(text: "${CurrentDate} Depth ${RecursionDepth}, reversing order of row ${Variable}") >> text 36
+					prependFile(path: "${LogfileName}") >> prependFile 23
+				} >> IFResult 126
+var ImgList1 = Nothing
+				count(input: Row) >> count 7
+				repeatEach(Row) {
+					calculate(input: "${Count}-${ActionOutput}+1") >> calculate 9
+					getItemFromList(list: Row, type: Item At Index, index: Calculation Result) >> getItemFromList 11
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} >> RepeatResult 34
+var Row = Variable
+var ImgList1 = Nothing
+			}
+			if(DebugPrinting ==) {
+				text(text: "${CurrentDate} Depth ${Repeat Index}, combining row ${Variable}") >> text 37
+				prependFile(path: "${LogfileName}") >> prependFile 24
+			} >> IFResult 127
+			combineImage(images: Row, spacing: CollageSpacing) >> combineImage 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			math(input: k, operation: -, operand: "1") >> math 16
+var k = Calculation Result
+var n = Solution[n-1][k]
+			nothing()
+		} >> RepeatResult 35
+var Row = Nothing
+		math(input: n, operand: "1") >> math 17
+		repeat(n) { >> RepeatResult 36
+			getItemFromList(list: ImgList, type: Item At Index, index: Repeat Index) >> getItemFromList 12
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			nothing()
+		} >> RepeatResult 37
+		if(DoRotate ==) {
+			if(DebugPrinting ==) {
+				text(text: "${CurrentDate} Depth ${RecursionDepth}, reversing final row") >> text 38
+				prependFile(path: "${LogfileName}") >> prependFile 25
+			} >> IFResult 128
+var ImgList1 = Nothing
+			count(input: Row) >> count 8
+			repeatEach(Row) {
+				calculate(input: "${Count}-${ActionOutput}+1") >> calculate 10
+				getItemFromList(list: Row, type: Item At Index, index: Calculation Result) >> getItemFromList 13
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			}
+var Row = Variable
+var ImgList1 = Nothing
+		}
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${RecursionDepth}, combining final row") >> text 39
+			prependFile(path: "${LogfileName}") >> prependFile 26
+		}
+		combineImage(images: Row, spacing: CollageSpacing) >> combineImage 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+var Row = Nothing
+		imageDetail(detail: Width, image: ImgRows) >> imageDetail 5
+		statistic(input: Width, operation: Minimum) >> statistic 11
+var ImgList = Nothing
+		repeatEach(ImgRows) {
+			if(DebugPrinting == 1) {
+				text(text: "${Minimum} Depth ${ActionOutput}, resizing row ${RecursionDepth} of ${Variable} to common width of ${CurrentDate}") >> text 40
+				prependFile(path: "${LogfileName}") >> prependFile 27
+			}
+			resizeImage(image: Repeat Item, width: Minimum) >> resizeImage 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			nothing()
+		} >> RepeatResult 38
+// Reverse order of rows to bring them back into order
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${RecursionDepth}, reversing order of rows...") >> text 41
+			prependFile(path: "${LogfileName}") >> prependFile 28
+		}
+var ImgRows = Nothing
+		repeatEach(ImgList) {
+			calculate(input: "${NumRows}-${ActionOutput}+1") >> calculate 11
+			getItemFromList(list: ImgList, type: Item At Index, index: Calculation Result) >> getItemFromList 14
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			nothing()
+		} >> RepeatResult 39
+		if(DebugPrinting ==) {
+			text(text: "${CurrentDate} Depth ${RecursionDepth}, combining rows vertically") >> text 42
+			prependFile(path: "${LogfileName}") >> prependFile 29
+		}
+var ImgList = Nothing
+		combineImage(images: ImgRows, mode: Vertically, spacing: CollageSpacing) >> combineImage 4
+var OutImg = Combined Image
+		nothing()
+	}
+	nothing()
+} >> IFResult 129
+if(CollageCornerRoundingPercent > 0) { >> IFResult 130
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Width;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = OutImg;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Height;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = OutImg;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 8
+	statistic(input: List, operation: Minimum) >> statistic 12
+	calculate(input: "round(${CollageCornerRoundingPercent}/2*${Variable}/100)") >> AdjCornerRadius
+	if(DebugPrinting ==) {
+		text(text: "${CollageCornerRoundingPercent.as(Text)} Rounding collage corners by ${Variable.as(Text)}  pixels (${CurrentDate}% of shortest edge). Width/height = ${OutImg.get(Height)}/${Variable.get(Height)}") >> text 43
+		prependFile(path: "${LogfileName}") >> prependFile 30
+	}
+	maskImage() >> maskImage 1
+var OutImg = Masked Image
+	nothing()
+} >> IFResult 131
+if(DoRotate == "Columns") { >> IFResult 132
+	if(DebugPrinting ==) {
+		text(text: "${CurrentDate} Depth ${RecursionDepth}, rotating back") >> text 44
+		prependFile(path: "${LogfileName}") >> prependFile 31
+	}
+	rotateImage(image: OutImg, degrees: 270) >> rotateImage 1
+var OutImg = Rotated Image/Video
+	nothing()
+} >> IFResult 133
+getTimeBetween(first: "${CurrentDate}", second: "${Date}", interval: Total Time) >> getTimeBetween
+// For recursive calls and calls using an input dictionary, return output image here
+if(DebugPrinting ==) { >> IFResult 134
+	text(text: "${RecursionDepth} Depth ${Variable}, finished in ${CurrentDate}") >> text 45
+	prependFile(path: "${LogfileName}") >> prependFile 32
+}
+if(Output image directly ==) { >> IFResult 135
+	output(result: "${OutImg}")
+}
+// “Show result” has a pretty low pixel height limit for displaying images on iOS, but can fall back on quick look
+if(Device Model == "Mac") { >> IFResult 136
+	showResult(text: "${OutImg}")
+} else { >>  137
+	number(value: 7000) >> MaxShowResultImageHeight
+	if(OutImg > MaxShowResultImageHeight) {
+		openApp(id: "com.apple.shortcuts")
+		quicklook(input: OutImg)
+	} else {
+		showResult(text: "${OutImg}")
+	}
+}
+text(text: "Finished in ${Time Between Dates} (images: ${ActionOutput}, rows: ${NumRows})") >> text 46
+menu(, [✅ Save and quit, 🔁 Save and restart with new options, 🗑️ Discard and restart with new options, 🔥 Quit without saving]) {
+case("✅ Save and quit"): >> MenuResult 3
+	saveToCameraRoll(image: OutImg) >> saveToCameraRoll
+case("🔁 Save and restart with new options"): >> MenuResult 4
+	saveToCameraRoll(image: OutImg) >> saveToCameraRoll 1
+	runShortcut(name: "Photo collage", input: InputImgList)
+case("🗑️ Discard and restart with new options"): >> MenuResult 5
+	runShortcut(name: "Photo collage", input: InputImgList)
+case("🔥 Quit without saving"):
+} >> MenuResult 6

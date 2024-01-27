@@ -1,48 +1,573 @@
 import Shortcuts
 #Color: lightBlue, #Icon: downloadArrow
 
-replaceText(input: "${ShortcutInput.as(URL)} ${Clipboard} MGserver", find: "(?ms)^\s?(?:(http\S+instagram\.com\/(?:.*?)?((?:p|tv|reels?)/([^\/\?\=\s]+)))(?:.*$)|(https\:\//(?:m\.|www\.)*(yout)ube.+?(?:vi?|embed)[\=\?/]([^\?\&\"\= ]+))(?:.*)?$|(https\:\//(yout)u\.be/(.{11})).*$|(http\S+(imgur\.com/)(\S+)).+$|(http\S+(?:yout)ube\.com/(shorts)/(.{11})).+$|(http\S+(snapchat\.com/)(?:add|s)\/([\w\-\.]+)).*|(http\S+(t)witterrrr\.com\S+/(\d{15,})).*|(https?\:\/\S+((?:(?:pin|pinterest|flic|flickr|likee|linkedin|tiktok|rumble|douyin|reddit)\.(?:it|com|com\/r\/|kr|video)\/|t\.co/))\S+)\s.*$|.+(https://(?:www\.){0,1}ted\.com\S+).*(MGserver$)|(\S+(f)(?:b\.(?:watch|gg)|acebook)\S+).*$|(https(:)//twitterrrr\.com/(?:(?!\d{15,})\S)*).*|(http\S+(snapchat\.com/)./([^/]+)/([\S]+)).*|(http\S+instagram\.com\/((?:(?:s|stories))/(([^\/\?]+)))[/\?](?:story_media_id\=)?(\d{10,})\S+)\s(?:.*$)|(https:\S+(instagram\.com/(?:stories\/){0,1}([^/\?\s]+))).+$|((?:(?!(?:music|soundcl|spotify))\S)+)?.+(MGserver$))", replace: "{"host":"$2$5$8$11$14$17$20$23$25$27$29true1$35true0$43","name":"$3$12$6$9$15$18$21$32$37$41","url":"$1$4$7$10$13$16$19$22$24$26$28$30$34$36$39$42","sid":"$33$38"}", isRegex: $3, caseSensitive: $4) >> urep
-decodeURL(url: "${urep.as(Dictionary).key(url)}") >> InputURL [Encode]
-downloadURL(url: "https://www.moody0100.com/file/242/") >> ucc
-dictionary({"Made by":"Twitter: @r07qxo","Twitter":"@r07qxo","Name":"R⤓Download","Version":"8.8","lang":{"1":{"0":"0","oss":{"oss":"8.8"},"cur":"${ucc}","uop":{"opu":{"oqp":"${ucc.as(Dictionary).key(osc)}"}}}},"Credits":{"@r07qxo":"For creat this cool shortcut","@Sayem314":"To allow me to use the API of Media Grabber"},"urls":{"0":"1","t":{"GET":"https://d.ddlvid.com/download?link=${InputURL [Encode]}"},"likee.com/":{"post.txt":"https://www.expertstool.com/instagram-reels-video-downloader/"},"pin.it/":{"post.txt":"https://www.expertstrick.com/download.php"},"likee.video/":{"post.txt":"https://www.expertstool.com/instagram-reels-video-downloader/"},"pinterest.com/":{"post.txt":"https://www.expertstrick.com/download.php"},"linkedin.com/":{"post.txt":"https://www.expertstool.com/instagram-reels-video-downloader/"},"sharechat.com/":{"post.txt":"https://www.expertstool.com/instagram-reels-video-downloader/"},"f":["${ucc.as(Dictionary).key(f.1)}","${ucc.as(Dictionary).key(f.2)}"],"tiktok.com/":["${ucc.as(Dictionary).key(TikTok3.1)}","${ucc.as(Dictionary).key(TikTok3.2)}"],"douyin.com/":["${ucc.as(Dictionary).key(TikTok3.1)}","${ucc.as(Dictionary).key(TikTok3.2)}"],"NoTube":{"0":"0","download":"https://s50.notube.net/download.php?token=","recover_weight":"https://s50.notube.net/recover_weight.php","recover_file":"https://s50.notube.net/recover_file.php","downloadName":"https://s50.notube.net/download.php"},"yout":["{"post.json":"https://9convert.com/api/ajaxSearch/index"}","{"post_y.json":"https://9convert.com/api/ajaxConvert/convert"}"],"MGserver":"{"get.txt":"https://yt.loaderapp.info/info/${InputURL [Encode]}"}","Shortcut":"https://www.moody0100.com/shortcut/207/","vimeo.com/":"{"get.txt":"https://vimeo-downloader.com/?url=${InputURL [Encode]}"}","flic.kr/":"{"post.txt":"https://www.expertstool.com/instagram-reels-video-downloader/"}","snapchat.com/":"{"get.json":"https://search.snapchat.com/lookupStory?id=${urep.as(Dictionary).key(name)}"}","reddit.com/":"{"get.txt":"https://redditsave.com/info?url=${InputURL [Encode]}"}","YouTube":"https://letvid.online/v/${urep.as(Dictionary).key(name)}","imgur.com/":"{"get.json":"https://api.imgur.com/3/${urep.as(Dictionary).key(name)}"}",":":"{"Get":"https://d.ddlvid.com/download?link=${InputURL [Encode]}"}","stories/highlights":["{"post.txt":"https://r1-h.r07qxo.workers.dev/"}"],"stories/${urep.as(Dictionary).key(name)}":["{"post.txt":"https://r1d-s.r07qxo1.workers.dev/"}"],"reel/${urep.as(Dictionary).key(name)}":["${ucc.as(Dictionary).key(i.2)}${ActionOutput.as(Dictionary).key(i.2)}"],"p/${urep.as(Dictionary).key(name)}":["${ucc.as(Dictionary).key(i.2)}${ActionOutput.as(Dictionary).key(i.2)}"],"tv/${urep.as(Dictionary).key(name)}":["${ucc.as(Dictionary).key(i.2)}${ActionOutput.as(Dictionary).key(i.2)}"],"reels/${urep.as(Dictionary).key(name)}":["${ucc.as(Dictionary).key(i.2)}${ActionOutput.as(Dictionary).key(i.2)}"],"flickr.com/":"{"post.src":"https://www.expertstool.com/instagram-reels-video-downloader/"}","rumble.com/":"{"get.src":"${urep.as(Dictionary).key(url)}"}","private_media":"data:text/html;charset=utf-8, <!DOCTYPE html><html><head> <title>R⤓Download</title> <meta charset="utf-8"> <meta name="viewport" content="width=device-width"> <style> body { font-family: system-ui; line-height: 1.8em; } a:link, a:visited { color: #000; background-color: #eee; font-size: 1.5em; padding: 0.4em 0.6em; text-decoration: none; display: inline-block; border-radius: 16px; } @media (prefers-color-scheme: dark) {   body { background: #000; color: #fff; }   a:link, a:visited { color: #fff; background-color: #333; } } </style></head><body><ul> <li>لتنزيل المنشورات او القصص من حسابات خاصة او القصص المفضلة (هايلايت) يجب عليك التسجيل الدخول في سفاري بحساب انستقرام وبعدها تابع الشروحات أسفل * 👇🏻</li> </ul> <h2>لفتح أي رابط اضغط مطولاً على الزر وبعدها اضغط <strong>فتح</strong></h2> <ul> <li><p>للتنزيل:<br /> <a href="${urep.as(Dictionary).key(url)}">فتح</a></p> </li> <li><p>لمعرفة كيفية التنزيل:</p> </li> <li><p><a href="https://docs.google.com/uc?id=1A6QYlj9Z7yjL5x00gPCXGmsvRRjX0QsZ">المنشورات</a></p> </li> <li><p><a href="https://docs.google.com/uc?id=1KzJ6jR3mrgDyyzZJoYWjYjAJ5ZDICWZN">القصص</a></p> </li> </ul>  <hr /> <ul> <li>To download posts or stories from private accounts or favorite stories (Highlight), you must log in to Safari with an Instagram account and then follow the explanations below. * 👇🏻</li> </ul> <h2>To open any link, press and hold the button, then tap <strong>Open</strong></h2> <ul> <li><p>To download:<br /> <a href="${ActionOutput.as(Dictionary).key(url)}">Open</a></p> </li> <li><p>To see how to download:</p> </li> <li><p><a href="https://docs.google.com/uc?id=1A6QYlj9Z7yjL5x00gPCXGmsvRRjX0QsZ">Posts</a></p> </li> <li><p><a href="https://docs.google.com/uc?id=1KzJ6jR3mrgDyyzZJoYWjYjAJ5ZDICWZN">Stories</a></p> </li> </ul> </body></html>","shorts/":"{"Get":"https://clipmega.com/watch?v=${urep.as(Dictionary).key(name)}"}",".":"{"Get":"https://d.ddlvid.com/download?link=${InputURL [Encode]}"}","Update URL":"https://www.moody0100.com/file/242/","shorts":["{"post.json":"https://9convert.com/api/ajaxSearch/index"}","{"post_y.json":"https://9convert.com/api/ajaxConvert/convert"}"],"twitter.com/":"{"POST_SRC":"https://dtwitter.heismauri.com/"}","$test$":"$test$","instagram.commmm/s":"{"Get_SRC":"https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=highlight:${urep.as(Dictionary).key(sid)}"}","instagram.com/s":["{"post.txt":"https://r1-h.r07qxo.workers.dev/"}"],"instagram.com/${urep.as(Dictionary).key(name)}":["{"post.txt":"https://r1-p.r07qxo.workers.dev/"}"],"s/${urep.as(Dictionary).key(name)}":["{"post.txt":"https://r1-h.r07qxo.workers.dev/"}"],"m-r_url":"https://m-r.pw/up/mOWa.pdf","t.co/":["{"get.txt":"${urep.as(Dictionary).key(url)}"}","{"get.txt":"https://yt.loaderapp.info/info/<i<ID>i>"}"]},"r":["((?<=href=")[^"]*\d{15,}(?=/video/1" /><link rel="search" type="application/opensearchdescription\+xm)|(?<=highlight"\:\{"id":)(\d){12,}|(?<=(id="|(token|hidden)" name="(|_))token" value=")(\w+)|(?<=","q":")(auto|\d+p)(?=","f":"mp\d"\})|(?<=form.setAttribute\("hx-post", "/)[^"]*|(?<=value=")\w*(?="><button type="button((https://alldownload.fun).)*))","(?s)^(?:.*?img src=\\("https:\\/\\/scontent-).*?(?:\\\w\s|[<>])(.{3,6}\d-\d\.xx)|^\{"show_view_shop.*$|\{"(?:status":"ok"|id":\d*,"ad|broadcast":|user"|reels":\{"h|is_cta_sticker_available).*?(?:(?:pk":"?${urep.as(Dictionary).key(sid)}"?,"|id":"${ActionOutput.as(Dictionary).key(sid)}\_\d*",")(?:.{1,80}photo_of.*?|.*?media_type":(?:1.*?image|2.*?video))_version.*?"url"(:"[^,]*).*$|hd_\w*info":\{"url"(:"[^,]+).*$)|.*photo_of.*"reels_media":\[\{|\{\"(.*))","(?s)["']http[^"]*(mp4|jpg|gif)[^"]*('|<|(?="(,"(type":"mp4"..,"t|snapM\w*":)|.{0,250}(ad Link|ect link|MP4|"name":"(JPG|WEBP)"|btn-(block|dow)|Down|> ?DOWN|"urlHD" ))))|(?<=("(d|)link":|ton....ef=|file":)")htt[^"]*|tocol...htt.*?"url":"((?!(jpg|png|jpeg))[^"])*"|^:".*|http[^"]*(/d\w*.php\?|/tos/|kcdn|tok/dl/)[^"]*|versions((?!addi).)*?insta[^"]*"","^\S*(flickr|tiktok/dl/|vimeo|videoplay|pinimg|dms.lic|ditsave|video\.f|like.v|giphy.c|xyz\\/\?file\=|vod)\S*|(^|\n)htt.*i.imgur\S*|.*sc-c.*(jpg|mp4)\S*|(?<=(^|\n|#34;))htt\S*((i.rmbl|video/)\S*(?=(&#34;\]\}">| ))|\S*(tiktokv|[oi]kcdn|ttdown)\S*(?=\n.*(p\d*-tik|\.php)))|(?<=,"url":")[^"]*(?=".*m-r\.p)|(?<=url":")[^"]*instag[^"]*(g_...&|\.mp)[^"]*|(?<=^:")[^"]*|^ .*m-r.pw/up.*|(?<=(^|banner\.jpg\n)).*xx.fbcdn.*?(?=(<?\n.*xx\.f| https))|.*normal-c-useas.*?(?=&#34)|^"htt.*twimg.*|(?<=(^|\n)").*?instagram.*?(?=\n| )","(?:^ \S*up/mOWa.pdf (.*(?:tikk\.site|projectlounge\.pw).*) (.*(?:tiktok|douyin\.com).*)|^ (\S+m-r.pw/up\S+) \S+ \S+(?!tiktok|douyin\.com)\S+)|^\&|\\|\'|\"|[\{\}\[\]]| |amp;|[<>]"]}) >> dict
-if(dict .contains ""'${dict.key(lang.1.oss.oss)}'"") {
-	sendNotification(body: "${ucc.as(Dictionary).key(Changes)}", title: "${ucc.as(Dictionary).key(Version)} --> ${ActionOutput.as(Dictionary).key(Version)}") >> sendNotification
-	xCallbackURL(url: "${dict.key(lang.1.uop.opu.oqp)}") >> xCallbackURL
-} >> IFResult
-keysFrom(dictionary: dict) >> urls
-repeatEach(urls) {
-	matchText(text: "${Renamed Item}", regex: "${dict.key(r.1)}") >> matchText
-	if(Repeat Item .beginsWith "{"post_y.") {
-		choose(list: Matches, prompt: "${cpage.as(Dictionary).key(title)}") >> choose
-		matchText(text: "${Renamed Item}", regex: "\{"size[^\}]+?${Chosen Item}[^\}]+?mp\d"\}") >> matchText 1
-	} >> IFResult 1
-	replaceText(input: "${Repeat Item.as(Dictionary).get(Values)}", find: "(?:(.*ssstik\.io/)|<i<ID>i>)", replace: "$1${Matches}", isRegex: true) >> rurls
-	if(Repeat Item .contains "{"post") {
-		downloadURL(url: "${rurls}", method: POST, headers: , requestType: Form) >> Post Page [POST]
-	} else {
-		downloadURL(url: "${rurls}", method: GET, headers: ) >> downloadURL
-	} >> cpage
-	repeatEach(cpage) {
-		setName(input: Repeat Item 2, name: "${Repeat Item.as(Dictionary).get(Keys)}") >> setName
-	} >> RepeatResult
-	replaceText(input: "${Repeat Results}", find: "${dict.key(r.2)}", replace: "$5$1true$2$4$6", isRegex: $3) >> rep1
-	matchText(text: "${rep1}", regex: "${dict.key(r.3)}") >> reg1
-} >> pages
-text(text: "${urep.as(Dictionary).key(url)} ${ActionOutput.as(Dictionary).key(url)} ${ucc.as(Dictionary).key(mex)} ${ActionOutput.as(Dictionary).key(mex)}") >> curls
-matchText(text: "${curls}", regex: "${dict.key(r.4)}") >> reg2
-replaceText(input: "${reg2}", find: "(?:^&|\\u00\d{2}|&amp\;(?!amp;))", replace: "&", isRegex: true) >> furls_1
-replaceText(input: "${furls_1}", find: "${dict.key(r.5)}", replace: "$1$2true", isRegex: $3) >> last_rep
-repeatEach(last_rep) {
-	url(url: "${Repeat Item}") >> url 1
-} >> furls
-downloadURL(url: "${furls}", headers: ) >> media
-matchText(text: "${media.get(File Extension)}", regex: "mp4|jpg|png|m4a|jpeg|jpge", caseSensitive: false) >> media_file
-if(media_file != nil "mp3") {
-	saveToCameraRoll(image: media) >> saveToCameraRoll
+text(text: "1") >> text
+dictionary({"Version":"9.4","script":{"a":";let out={};dL=[];dd={}
+let index=dict['index']
+let contact='Twitter: @r07qxo / Telegram: @r_Shortcuts'
+let lang=JSON.parse(dict['langpack'][dict['lang']-1])
+let cver=dict['version']
+let serverurl='https://www.moody0100.com/file/242/'
+let fn = '@r07qxo - R⤓Download'
+let p=dict['source']
+let script=dict['script']
+out={version:cver,wait:0,cookieh:'C',urlb:'url',cookie:1,reqbody:'tt',outhkey:'url',doc_id:'10015901848480474', 'kx-request': 'rr', 'x-request': 'rt', 'kx-cftoken': 'kk', 'x-cftoken': 'f', fn: 'R⤓Download.txt'}
+let ext=dict.ext.replace(/\n/gm,'\\n');
+out.variables={"shortcode":1,"fetch_comment_count":null,"fetch_related_profile_media_count":null,"parent_comment_count":null,"child_comment_count":null,"fetch_like_count":null,"fetch_tagged_user_count":null,"fetch_preview_comment_count":null,"has_threaded_comments":false,"hoisted_comment_id":null,"hoisted_reply_id":null}
+let ask={[lang['openaccount']+'Twitter/X']:{web:'https://twitter.com/r07qxo'},[lang['openaccount']+'Telegram']:{web:'https://t.me/r_Shortcuts'},[lang['exit']]:{exit:out}}
+out['x-lsd']='W9CWO77z3UPJRzrk0HBUhQ'
+if(ext.match(/(?:mp4|jpg|3gp|png|jpeg|jpge|mpeg|gif)/i)){
+out.ext=ext.split('\\n')
+out={...out,save:1,stopㅁ:1}
+}else if(script.includes('finish":true')){
+out={version:cver+'tt',prompt:`${lang['errordownload']}\n\n${lang['url']}\n${JSON.parse(script).input}\n\n${cver}`,ask:ask}
+}else if(index=='2'&&!p.startsWith('{"')){
+out={...out,urls:'https://m-r.pw/242',referer:serverurl.replace(/f.*$/g, ""), origin:serverurl.replace(/\/f.*$/g, ""),down:1}
+} else if(dict.script.includes('errors":1')){out.errors=1}else{
+let inp=dict['input'].match(/(https?:[^\s\"\ㅁ$]+)/i)?.[1]
+let input=dict['input'].match(/(https?:[^\s\"\ㅁ$]+)/i)?.[1]
+if(!input){
+if(script.input){input=script?.input}else{input=(dict.input.length>30?dict.input.replace(/\ㅁ /g,'').substr(0,30)+'...':dict.input.replace(/\ㅁ /g,''))}
+}
+let error='\n\n'+lang.errordownload+'\n\n'+lang.url+'\n'+inp+'\n\n'+cver+'\n'+contact
+if(index=='1'){
+if(!input.match(/instagram\.com\/(?:p|reels?|tv|igtv)\//i)&&input.match(/(?:^[\s\S]+?)?(http.+(instagram|snapchat|x|twitter)\.com\/)/i)){out={...out,input:dict.input.match(/(?:^[\s\S]+?)?(http[^\s\"\ㅁ$]+)/i)?.[1],urls:(input.match(/(?:\w+)?(?:x|twitter)\.com\/.+status\/(\d{13,})/i)?.[1]?'https://yt.r07qxo.workers.dev':'https://r1d-s.r07qxo1.workers.dev'),text:lang,post:1}}else{
+out={...out,urls:serverurl,referer:serverurl.replace(/f.*$/g,""),origin:serverurl.replace(/\/f.*$/g, "")}
+}
+}else{
+script=JSON.parse(script)
+if(script.down){index=index-1;out.down=1}
+if(index=='2'){shortcut=JSON.parse(p);out.shortcut=shortcut;p=JSON.parse(p)
+if(!p.urls&&cver!=(p.Version||p.version)){
+out={...out,update:true,ask:{[lang['update'].replace(/ㅁ/, (p.version??p.Version))]:{web:(out.down?'https://blog.m-r.pw/2023/07/r-download.html?m=1?utm=M':p.URL)}},prompt:`${lang.noteupdate}\n\n${cver} → ${(p.Version||p.version)}\n\n${p['en']}`}
+}
+}else{
+if(script.update){out.update=true}
+out['shortcut']=script['shortcut'];shortcut=out['shortcut']}
+if(!out.update){
+if(input.match(/(https?:)/i)){
+input = input.replace(/https[^"]+tubemaxapp.com\/.+video\/(.{11})/g, "https://youtu.be/$1")
+out['x-ig-app']='238260118697367'
+out.input=input
+if (input.includes('instagram.com') && script?.urls?.includes('ajaxSearch')) {
+if(p.startsWith('{"')&&p.endsWith('}')&&p.match(/Download (Photo|Video)/i)){p=JSON.parse(p).data
+let sid = input.match(/instagram\.com\/stories\/([\_\w\.\-]+)\/(\d{13,})/i)
+m1 = sid?.[1]
+m2 = sid?.[2]
+mm = p.match(/((photo\_dl[^"]+|download_video\'\))"|<a) href="[^"]+(?:\?file=|&)[^"]+/g)
+one = ''
+mm.forEach(d => {
+d = d.replace(/&amp\;/g, "&")
+v = d.match(/ig\/.+?\?file\=(.+$)/i)?.[1]
+if (v) {
+v = v.replace(/\-/gi, "+").replace(/\_/gi, "/")
+code = v
+length = code.length % 4
+if (length == 2) {
+    code += '=='
+} else if (length == 3) {
+    code += '='
+}
+d = atob(code)
+}
+dd = d.replace(/^.+"/g, "").replace(/&name.*/g, "").replace(/^https:\/\/[^\/]+/, 'https://scontent.xx.fbcdn.net')
+if (mm.length > 1 && d.includes(m2)) {
+one = dd
+}
+dL.push(dd)
+})
+if (one) {
+out = {...out, ask:{[lang.story]:{urls:one},[lang.stories + ' (' + mm.length + ')']:{urls:dL}}, finish:true,fn:'@' + (m1 ?? 'r07qxo') +'  - R⤓Download', prompt:'\n\n'+input.match(/stories\/([^\/]+)/i)?.[1] + '\n\n'}
 } else {
-	quicklook(input: media)
-} >> IFResult 2
-var ABA1B51B-E0B9-4762-B3BA-38CBD01BC520 = """⛔️ الرجاء استخدام الاختصار في اشياء ترضي الله عز وجل غير كذا انا ابري نفسي امام الله ⛔️
+out={...out,urls:dL,fn:'@' + (m1 ?? 'r07qxo') +'  - R⤓Download',finish:true}
+}
+}else{
+if(!input.match(/(instagram|threads)\.(?:com|net)\/(?:p|reels?|tv|\@.+\/post)\/([^\/\?]+)/i)) {
+out={...out,prompt:(p.match(/instagram-private/i)?lang.private+'\n\n\n'+lang.url+'\n'+input+'\n\n'+cver+'\n'+contact:error),ask:ask}
+} else {
+out.urls = input
+}
+}
+} else if(m = input.match(/(instagram|threads)\.(?:com|net)\/(?:p|reels?|tv|\@.+\/post)\/([^\/\?]+)/i)?.[2]){
+out.variables.shortcode=m
+if(index=='2'&&m.length>15){out={...out, prompt:lang.private+'\n\n\n'+lang.url+'\n'+input+'\n\n'+cver+'\n'+contact,ask:ask}}else{
+if(script.urls?.match(/(m-r.pw|moody)/)){
+input=input.replace(/\?.*/g, '')
+if(input.match(/\/(?:reels?|tv|igtv)\//i)){out.urls=p.reel.replace(/input/g, input);out.post=1}else{
+out.urls=(input.includes('instagram.com/')?p.insta.replace(/input/g, input):p.threads)
+}
+if(out.urls.endsWith('media?url=')){
+out.urls=out.urls+encodeURIComponent(input)}else if(out.urls.includes('twitterpicker')){
+out.urls=out.urls+m}else if(out.urls.match(/(?:ajax|graphql)/i)){
+out.post=1
+}
+out.origin='https://www.instagram.com';
+out.referer=input
+}else if(script.urls?.includes('/graphql')) {p=JSON.parse(p);if(p=p.data?.shortcode_media??p.graphql?.shortcode_media??p.data?.xdt_shortcode_media){let nodes=['GraphSidecar','XDTGraphSidecar'].includes(p['__typename'])?p['edge_sidecar_to_children']['edges'].map(a=>a.node):[p];
+out={...out,urls:nodes.map(d=>{return (d['is_video']==true?d['video_url']:d['display_url'])}),fn:`@${p.owner.username} - R⤓Download`,finish:true}
+}else{
+out={...out, prompt:lang.private+'\n\n'+lang.url+'\n'+input+'\n\n'+cver+'\n'+contact,ask:ask}
+}
+}else if(script.urls?.includes('media?url=')){
+if(p.startsWith('{"')&&p.endsWith('}')&&JSON.parse(p).image_urls){
+out={...out,urls:p.match(/http[^"]+/g).map(d => {
+return (JSON.parse('{"u":"' + d + '"}').u)
+}),fn:fn,finish:true}
+}else{out={...out,prompt:error,ask:ask}}
+}else if(script.urls?.match(/com\/(?:p|reels?|tv|igtv)\//i)) {
+	let shortcode, doc_id
+	out = {...out, referer:input, 'kx-request': 'X-Requested-With', 'x-request': 'XMLHttpRequest', 'kx-cftoken': 'X-CSRFToken', 'x-cftoken': p.match(/"csrf_token":"([^"]+)/)?.[1], 'x-ig-app': p.match(/"X-IG-App-ID":"([^"]+)/)?.[1]}
+
+	if (!p.match(/"appScopedIdentity":"\d+/)) {
+
+		lsd = p.match(/"token":"([^"]+)/)?.[1]
+	} else {
+		lsd = p.match(/"LSD":\{"token":"([^"]+)/)?.[1]
+	}
+		out['x-lsd'] = lsd
+		shortcode = p.match(/"shortcode":"([^"]+)/)?.[1]
+
+		if ((js = p.match(/<link rel="preload" href="[^"]+/g))?.length > 4) {
+			for (i=2; i<4 && !doc_id; i++) {
+				out.urls = js[i].match(/[^"]+$/)[0]
+			}
+		}
+			if (shortcut.doc != '0') { out.urls = 'https://www.instagram.com/api/graphql';out.doc_id =  shortcut.doc; out.post=1 }
+
+} else if (script.urls?.includes('https://static.')) {
+
+	out = {...out, referer:input, 'X-ASBD-ID':'129477', 'kx-request': 'X-Requested-With', 'x-request': 'XMLHttpRequest', 'kx-cftoken': 'X-CSRFToken', 'x-cftoken': script['x-cftoken'], 'x-ig-app': script['x-ig-app']}
+
+				out.doc_id = p.match(/__d\("PolarisPostActionLoadPostQueryQuery.+id:"(\d+)/m)?.[1]
+out.urls = 'https://www.instagram.com/api/graphql'
+out.post = 1
+
+} else if (script.urls?.includes('twitterpicker')){
+if(p.startsWith('{"')&&p.endsWith('}')&&p.match(/\.(jpg|mp4)/i)){p=JSON.parse(p)
+pp=p.media
+pp.images.forEach(d=>{dL.push(d?.variants?.[0]?.url)});pp.videos.forEach(d=>{dL.push(d?.variants?.[0]?.url)})
+out={...out,urls:dL,fn:'@'+p.meta?.username+' - R⤓Download',finish:true}
+}else{
+if(input.includes('instagram.com')){
+out.urls = input } else {
+out={...out,prompt:error,ask:ask}}}
+}
+}
+//index insta 4
+}else if(input.match(/youtu(?:\.be|be\.com)/)){
+m=input.match(/(?:youtu\.be\/|youtube\.com\/(?:shorts\/|watch\?.*(?:vi?|embed)[\=\?\/]))(.{11})/i)?.[1]
+if(p?.yt?.includes('convert.me/analyze') || shortcut?.yt?.includes('convert.me/analyze')){out.referer='https://en.y2mate.is/'}
+if(index=='2'){
+out={...out,urls:p?.yt,query:input,vt:'mp4',post:1}
+} else if(index=='3'){
+dd[`JPG - ${lang['thumb']}`]={urls:`https://i.ytimg.com/vi/${m}/maxresdefault.jpg`};dd[`JPG - ${lang['sthumb']}`]={urls:`https://i.ytimg.com/vi/${m}/hqdefault.jpg`}
+if(p.startsWith('{"')&&p.endsWith('}')&&p.includes('"links":')){
+p=JSON.parse(p);links=p['links']['mp4'];links=Object.values(links);links.forEach((d, i)=>{s=d.size.replace('٫','.');s=s.match(/\d/i)?s:'unknown';;i=i+1;if((d.q).includes('p')){dL.push(dd[`MP4 - ${d.q} (${s.replace(' ','')})`]={k:d.k,urls:'https://9convert.com/api/ajaxConvert/convert',post:1});return dL}});out['prompt']=`\n${p.title}\n\n${p.a}`;out['ask']=dd;
+out={...out,urls:'https://www.y2mate.com/mates/convertV2/index',fn:fn,vid:m,post:1}
+}else if(p.startsWith('{"')&&p.endsWith('}')&&p.includes('quality":"')){
+out.urlb='uu'
+p=JSON.parse(p);p?.formats?.video?.forEach((d,i)=>{num=d.fileSize;sf=Math.round(parseInt(num)/1000000);if(sf>1000){size=(num/(1024*1024*1024)).toFixed(2).toString()+'GB'}else if(!sf=='0'){size=(num/(1024*1024)).toFixed(2).toString()+'MB'}else{size=(num/1024).toFixed(2).toString()+'KB'};if(d.needConvert){dL.push(dd[`MP4 - ${d.quality} (${size})`]={hash:d.url,urls:p?.url,post:1})}else{dL.push(dd[`MP4 - ${d.quality} (${size})`]={urls:d.url.match(/http.+?y2mate\.is/i)?.[0]})}})
+let duration = p.formats.lengthSeconds
+out={...out,urls:p?.url,ask:dd,prompt:p.formats.title+'\n'+Math.floor(duration/3600).toString().padStart(2,'0')+':'+Math.floor((duration%3600)/60).toString().padStart(2,'0')+':'+(duration%60).toString().padStart(2,'0')+'\n',vid:m,post:1,fn:fn}
+}else{out={...out,prompt:error,ask:ask};out.errors=1}
+}else if(index=='4'){
+if(p.startsWith('{"')&&p.endsWith('}')){
+p=JSON.parse(p);out.task=p?.taskId;
+if(shortcut?.yt?.match(/ajaxSearch\/index/i)){out.finish=true;out.fn=fn}else{out.post=1}
+out={...out,urls:(p.taskId?script?.urls+'/task':p.dlink)}
+}else{out={...out,prompt:error,ask:ask}}
+}else if(script?.urls?.endsWith('task')){
+if(p.startsWith('{"')&&p.endsWith('}')){
+pp=p
+p=JSON.parse(p)
+if(p?.download){
+out={...out,urls:p.download,fn:fn,finish:true}
+}else if(pp?.includes('download_progress')){
+out={...out,urls:script?.urls,post:1,task:script.task,wait:5}
+}else{out={...out,prompt:error,ask:ask}}
+}else{out={...out,prompt:error,ask:ask}}
+}
+// index yout
+} else if(m=input.match(/http.+?imgur.\w*\/\w+\/(.+$)/i)){
+if(index=='2'){
+out={...out,urls:'https://api.imgur.io/3/gallery/'+m[1],outh:'Client-ID 5dc6065411ee2ab',outhkey:'Authorization'}
+}else if(index=='3'){
+if(p.startsWith('{"')){
+pp=JSON.parse(p)
+out={...out,urls:pp.data.images.map(d=>{return d.link}),finish:true,fn:(JSON.parse(p.match(/account_url":"([^"]+)/i)?.[1].replace(/(^.*$)/g, '{"user":"@$1 - R⤓Download"}'))['user'])}
+}else{out={...out,prompt:error,ask:ask}}
+}
+// imgur index
+} else if(input.match(/(?:facebook\.com|fb\.watch|fbwat.ch)/i)){
+if(index=='2'){
+out={...out,urls:'https://x2mate.com/api/ajaxSearch',post:1}
+}else if(index=='3'){
+if(p.startsWith('{"') && p.includes('sd":"')){
+p=JSON.parse(p.replace(/https:[^\?]+\.(?:net|com)\\?\//g, 'https://scontent.xx.fbcdn.net/'))
+ask=(p.links?.hd ?{HD:{urls:p.links.hd},SD:{urls:p.links.sd}}:{SD:{urls:p.links.sd}});
+out={...out,ask:ask,prompt:'\n'+lang.select+'\n',fn:fn,finish:true}
+}else{out={...out,prompt:error,ask:ask}}
+}
+// f index
+} else if(input.match(/(instagram|snapchat|\/(?:x|twitter))\.com\//i)){if(index=='2'){if(p.version){p.outhkey='tt';out=p
+}else{out={...out,prompt:error,ask:ask}}
+}
+}else if(input.match(/(?:tiktok|douyin).com\//i)){
+if(index=='2'){
+out={...out,urls:p.tik[Math.floor(Math.random() * p.tik.length)],post:1}
+}else if(index=='3'){
+if(p.startsWith('{"')&&p.endsWith('}')&&JSON.parse(p).data){p=JSON.parse(p).data
+p = p.replace(/&amp\;/g,"&")
+out.urls = p.match(/(https[^"]+)".+?Download (MP4)/)?.[1] ?? p.match(/https[^"]+".+?Download (?:Image|Photo)/g).map(d => {
+return d.replace(/".+/g, "")
+})
+out={...out,fn:fn,finish:true}
+}else{out={...out,prompt:error,ask:ask}}
+}
+}else if(input.match(/((?:ted|vimeo|dailymotion|flickr|rumble)\.com|flic\.kr)\//i)){
+if(index=='2'){
+let myArray=['https://videodownloaderguru.com/wp-json/aio-dl/video-data/','https://fbdown.online/wp-json/aio-dl/video-data/','https://videodownloaderguru.com/wp-json/aio-dl/video-data/','https://fbdown.online/wp-json/aio-dl/video-data/'];
+let url=myArray[Math.floor(Math.random() * myArray.length)];
+out={...out,urls:url,post:1}
+}else if(index=='3'){
+if(p.startsWith('{"')&&p.endsWith('}')&&JSON.parse(p).medias){p=JSON.parse(p);
+if(p.medias.length>1){p.medias.forEach(d=>{if(d.extension.match(/(mp4|jpg|3gp|png|jpeg|jpge|mpeg|gif)/i)){dL.push(dd[d.extension.toUpperCase()+' - '+d.quality+' ('+d.formattedSize+')']={urls:d.url,finish:true})}})
+out={...out,prompt:p.title,ask:dd,fn:fn}
+}else{out={...out,urls:p.medias[0]?.url,fn:fn,finish:true}}
+}else{out={...out,prompt:error,ask:ask}}
+}
+}else if(input.match(/(linkedin|tumblr|9gag)\.com/i)){
+if(index=='3'){
+if(p.includes('formats":')){p=JSON.parse(p);p=p.raw.formats;p.forEach(d=>{if(d.protocol.match(/https?/i)&&d.ext=='mp4'){dL.push(dd[d.format]={finish:true,urls:d.url})}});out={...out,prompt:p.title,ask:dd,fn:fn}
+}else{out={...out,prompt:error,ask:ask}}
+}else if(index=='2'){
+out.urls='https://nor.celsiusnarhwal.dev/api/extract?url='+input
+}
+// index linked
+}else if(m=input.match(/twitch\.tv\/(?:.+?\/?clip\/)?(.*)/i)?.[1]){
+if(index=='2'){
+out.urls=p.twitch+m
+} else if(index=='3'){
+if(p.startsWith('{"')&&p.endsWith('}')&&JSON.parse(p).data[0]?.thumbnail_url){p=JSON.parse(p);r=p.data[0]?.thumbnail_url.replace(/-preview.*/gi,"")
+ask={'1080p':{urls:r+'.mp4'},'720p':{urls:r+'-720.mp4'},'360p':{urls:r+'-360.mp4'}}
+out={...out,prompt:'\n\n'+p.data[0].title+'\n\n',ask:ask,fn:fn,finish:true}
+}else{out={...out,prompt:error,ask:ask}}
+}
+// index twitch
+}else if(input.match(/likee\.(video|com)/i)){
+if(index=='2'){
+out={...out,urls:'https://likeedownloader.com/process',referer:'https://likeedownloader.com/facebook-video-downloader',post:1,id:input}
+}else if(index=='3'){
+if(p.match(/htt.+?sscdn.+Download/)){p=JSON.parse(p).template.match(/href="([^"]+)/g).join('-').replace(/^.+?\-href=\"/g,"")
+out={...out,urls:p,fn,finish:true}
+}else{out={...out,prompt:error,ask:ask}}
+}
+// index likee
+}else if(input.match(/(?:pinterest\.com|pin\.it)\//i)){
+if(index=='2'){
+out={...out,urls:input}
+}else if(index=='3'){
+if(p.match(/\.com\/(originals|video)/i)){
+m=p.match(/imageSpec_orig":\{"height":\d+,"url":"[^"]+|videoList[^\}]+\/720p\/[^"]+\.mp4|http[^"]+\.gif/g)
+if(!m){m=p.match(/\{"__typename":"ImageDetails","url":"[^"]+/i)}
+m.forEach(d=>{
+dL.push(JSON.parse(d.replace(/^.*("url":"[^"]+\.com\/(original|videos)[^"]+).*$/gi, '{$1"}')).url)
+})
+uni = dL.filter(function(item, index) {
+  return dL.indexOf(item) === index;
+});
+
+out={...out,urls:uni,fn,finish:true}
+}else{out={...out,prompt:error,ask:ask}}
+}
+// pin
+}else if(index=='10'){out={...out,prompt:lang.notsupport+'\n\n'+lang.url+'\n'+input+'\n\n'+cver,ask:ask}}
+// host
+}else{
+if(index=='10'){
+out={...out, prompt:'\n'+lang.share+'\n\n\n'+input+'\n\n'+cver+'\n'+contact,ask:{[lang.exit]:{test:lang.exit}}}
+}
+}
+// input error
+} else {
+out.urls = serverurl
+}
+// update
+}
+//index1
+}
+// ext
+document.body.textContent=encodeURIComponent(JSON.stringify(out))
+}catch(e){document.write(e);}
+</script>
+</html>"},"langpack":["{"private":"🚫 The account you want to download from seems private.","share":"⭕️ Please copy the post link or use the share sheet to download","thumb":"Thumbnail HD","sthumb":"Thumbnail SD","sdown":"🚫 Server is down right now please try again later","url":"URL:","exit":"◁ Exit","update":"✔️ Update to ㅁ","medianot":"🚫 Media not found","errordownload":"🔴 Something went wrong while downloading, please restart the shortcut again, if this happens again please inform me on Twitter\/X (@r07qxo) or on Telegram (@r_Shortcuts)","ok":"Ok ✔️","noteupdate":"🔺 A new version of R⤓Download is available to download, here are some information about it:","lang":"en","nsfwnot":"⛔️ Sorry, downloading sensitive content is blocked","openaccount":"Contact me on ","select":"Choose quality:","notsupport":"‎🔴 Sorry, downloading from this site or application is not supported yet. If you have any questions, please contact me on my accounts:\nTwitter: @r07qxo / Telegram: @r_Shortcuts","story":"Download current story","stories":"Download all stories"}","{"private":"🚫 يبدو أن الحساب الذي ترغب في التنزيل منه (خاص)","share":"⭕️ يرجى نسخ رابط المنشور أو استخدام زر المشاركة للتنزيل","thumb":"الصورة المصغرة HD","sthumb":"الصورة المصغرة SD","sdown":"🚫 الخادم غير متصل حاليًا، يرجى المحاولة مرة أخرى في وقت لاحق","url":"الرابط:","exit":"▷ خروج","update":"✔️ تحديث إلى ㅁ","medianot":"🚫 لم يتم العثور على الوسائط","errordownload":"🔴 حدث خطأ أثناء التنزيل، يرجى إعادة تشغيل الاختصار مرة أخرى، إذا حدثت هذه المشكلة مرة أخرى، يرجى إبلاغي على تويتر\/X (@r07qxo) او تيليقرام (@r_Shortcuts)","ok":"حسنا ✔️","noteupdate":"🔺 هناك نسخة جديدة من R⤓Download متاحة للتنزيل، هنا بعض المعلومات حولها:","lang":"ar","nsfwnot":"⛔️ عذرًا، تم حظر تنزيل المحتوى الحساس","openaccount":"تواصل معي على ","select":"اختر الجودة:","notsupport":"‎🔴 عذراً التنزيل من هذا الموقع او التطبيق غير غير مدعومة حتى الآن، اذا اردت استفسار ارجوا التواصل معي على حساباتي:","story":"تحميل الستوري الحالي","stories":"تحميل كل الستوريات"}"],"index":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]})
+repeatEach(Dictionary) { >> RepeatResult
+	repeatEach(If Result) {
+		url(url: Repeat Item 2) >> url
+		if(If Result != nil ""post"") {
+			downloadURL(url: "${URL}", method: POST, headers: , requestType: Form) >> downloadURL
+		} else {
+			downloadURL(url: "${URL}", method: GET, headers: ) >> downloadURL 1
+		} >> toLoad
+		setName(input: toLoad, name: "${js.as(Dictionary).key(fn)}") >> setName
+	} >> RepeatResult 1
+	list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = version;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            Aggrandizements =                                             (
+                                                                                                {
+                                                    DictionaryKey = Version;
+                                                    Type = WFDictionaryValueVariableAggrandizement;
+                                                }
+                                            );
+                                            OutputName = Dictionary;
+                                            OutputUUID = "BA3BF362-6591-4CB6-B704-AA5AB5DD7769";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = source;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = "Repeat Results";
+                                            OutputUUID = "BCB6F3AB-3DD6-4D84-8315-5E50E5A5C53C";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = script;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = js;
+                                            OutputUUID = "7F33F62E-D28A-4A6F-9F5D-7CFE22AF50AB";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = input;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{2, 1}" =                                         {
+                                            Type = ExtensionInput;
+                                        };
+                                        "{5, 1}" =                                         {
+                                            Type = Clipboard;
+                                        };
+                                    };
+                                    string = "\U3141 \Ufffc\U3141 \Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = lang;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = Text;
+                                            OutputUUID = "282069AC-0728-4F8C-B142-7CD1F1039D8C";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = ext;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            Aggrandizements =                                             (
+                                                                                                {
+                                                    PropertyName = "File Extension";
+                                                    PropertyUserInfo = WFFileExtensionProperty;
+                                                    Type = WFPropertyVariableAggrandizement;
+                                                }
+                                            );
+                                            OutputName = "Repeat Results";
+                                            OutputUUID = "BCB6F3AB-3DD6-4D84-8315-5E50E5A5C53C";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 2;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = langpack;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 (
+                                                                        {
+                                        WFItemType = 0;
+                                        WFValue =                                         {
+                                            Value =                                             {
+                                                attachmentsByRange =                                                 {
+                                                    "{0, 1}" =                                                     {
+                                                        Aggrandizements =                                                         (
+                                                                                                                        {
+                                                                DictionaryKey = "langpack.1";
+                                                                Type = WFDictionaryValueVariableAggrandizement;
+                                                            }
+                                                        );
+                                                        OutputName = Dictionary;
+                                                        OutputUUID = "BA3BF362-6591-4CB6-B704-AA5AB5DD7769";
+                                                        Type = ActionOutput;
+                                                    };
+                                                };
+                                                string = "\Ufffc";
+                                            };
+                                            WFSerializationType = WFTextTokenString;
+                                        };
+                                    },
+                                                                        {
+                                        WFItemType = 0;
+                                        WFValue =                                         {
+                                            Value =                                             {
+                                                attachmentsByRange =                                                 {
+                                                    "{0, 1}" =                                                     {
+                                                        Aggrandizements =                                                         (
+                                                                                                                        {
+                                                                DictionaryKey = "langpack.2";
+                                                                Type = WFDictionaryValueVariableAggrandizement;
+                                                            }
+                                                        );
+                                                        OutputName = Dictionary;
+                                                        OutputUUID = "BA3BF362-6591-4CB6-B704-AA5AB5DD7769";
+                                                        Type = ActionOutput;
+                                                    };
+                                                };
+                                                string = "\Ufffc";
+                                            };
+                                            WFSerializationType = WFTextTokenString;
+                                        };
+                                    }
+                                );
+                                WFSerializationType = WFArrayParameterState;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = index;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            Type = Variable;
+                                            VariableName = "Repeat Item";
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    }
+)) >> list
+	decodeURL(url: "<html><!-- R⤓Download by @r07qxo --><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1, width=device-width"></head><body/><script>try{
+let dict=${Dictionary.key(script.a)}${ActionOutput.key(script.a)}") >> decodeURL
+	url(url: "data:text/html,${URL Encoded Text}") >> JavaScript
+	decodeURL(url: "${JavaScript.as(RichText)}") >> js
+	wait(seconds: js)
+	if(js != nil "q") {
+		choose(list: js, prompt: "${js.as(Dictionary).key(prompt)}") >> choose
+	} >> IFResult
+	if(If Result != nil "openurl") {
+		openURL(url: If Result) >> openURL
+	} >> IFResult 1
+	if(js != nil ""$${Renamed Item.get(File Extension)}$"") {
+		saveToCameraRoll(image: Repeat Results) >> saveToCameraRoll
+		exit()
+	} >> IFResult 2
+} >> RepeatResult 2
+var A075F220-B214-4C2A-9ED2-09D96FA97043 = """⛔️ الرجاء استخدام الاختصار في اشياء ترضي الله عز وجل غير كذا انا ابري نفسي امام الله ⛔️
 
 ⛔️ I hope to use the shortcut for what pleases God Almighty other than this and justify myself before God ⛔️"""
-text("${ABA1B51B-E0B9-4762-B3BA-38CBD01BC520}")
+text("${A075F220-B214-4C2A-9ED2-09D96FA97043}")
