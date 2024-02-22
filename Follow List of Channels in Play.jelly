@@ -1,0 +1,39 @@
+import Shortcuts
+#Color: red, #Icon: list
+
+/*
+// Description
+
+The shortcut helps you follow a channel in the Play app by allowing you to send a YouTube channel’s URL, or list of URLs, to it.
+
+But its best use is to copy all your YouTube subscriptions over at once. Just selext the whole list of your channel subs in YouTube (https://www.youtube.com/feed/channels), copy the text, and then run this shortcut. It will extract the channel URLs and follow them one-by-one in Play.
+*/
+/*
+// About  
+
+This shortcut was created by [Jarrod Blundy](http://heyjarrod.me) and is part of the [HeyDingus Shortcuts Library](https://heydingus.net/shortcuts) where you can find more shortcuts, tips, and in-depth explainers.  
+
+Version 1.0 - Released 2023-11-29 
+Learn more and get the latest version of this shortcut: https://heydingus.net/shortcuts/follow-list-of-channels-in-play
+*/
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+expandURL(url: "${URLs}") >> expandURL
+// Filter down to just channel URLs.
+repeatEach(Expanded URL) {
+	if(Repeat Item .contains "youtube.com/channel/") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+		if(Repeat Item .contains "youtube.com/@") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+			nothing() >> nothing
+		}
+	} >> IFResult
+} >> RepeatResult
+// Follow each channel in Play and show a confirmation message.
+repeatEach(channel-urls) {
+//Unable to get shortcuts action br.com.marcosatanaka.play.AddChannelIntent
+} >> RepeatResult 1
+count(input: Repeat Results) >> count
+text(text: "You followed ${Count} channels in Play.") >> text
+showResult(text: "${Text}")
