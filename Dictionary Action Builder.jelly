@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 JSON ←→ dictionary action conversion tool
-2023-10-18 	v2.2.9
+2024-03-12 	v2.3
 https://routinehub.co/user/gluebyte
 https://mastodon.social/@gluebyte
 */
@@ -12,7 +12,7 @@ if(Random Number == 1) {
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=5CC37B10") >> downloadURL
-		if(Contents of URL .contains "2023-10-18") {
+		if(Contents of URL .contains "2024-03-12") {
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"):
 				openURL(url: "https://routinehub.co/shortcut/4626/") >> openURL
@@ -30,9 +30,9 @@ if(Random Number == 1) {
 	} >> IFResult 1
 } >> IFResult 2
 list(items: (
-    "\Ud83d\Udccb  Read JSON from Clipboard",
-    "\Ud83d\Udcdd  Open JSON or Text File",
-    "\U2328\Ufe0f  Enter JSON Text",
+    "\Ud83d\Udccb  Build Actions from Clipboard",
+    "\Ud83d\Udcdd  Build Actions from File",
+    "\U2328\Ufe0f  Build Actions from Text Input",
     "\Ud83e\Udd62  Extract JSON from Shortcut",
     "\Ud83d\Udd87  Merge Dictionary Actions"
 )) >> list
@@ -41,33 +41,36 @@ choose(list: List, prompt: "
 ") >> choose
 replaceText(input: "${Chosen Item}", find: "^[🥢🖇].+", reRegex: true, caseSensitive: $4) >> replaceText 1
 if(Updated Text == nil) {
+	replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> OS
 	runShortcut(name: "Shortcut Source Helper") >> runShortcut
 	if(Shortcut Result == nil) {
 		exit()
 	} >> IFResult 3
-	if(Chosen Item .beginsWith "🥢  Extract") {
+	if(Chosen Item .beginsWith "🥢") {
 		getFileOfType(input: Shortcut Result, type: "public.json") >> getFileOfType
 		replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> file of type
-		menu(Indentation Style:, [Standard (Tabs), Compact (2 Spaces)]) {
+		menu(
+Indentation Style:
+, [Standard (Tabs), Compact (2 Spaces)]) {
 		case("Standard (Tabs)"):
 			text(text: "'\t'") >> text
 		case("Compact (2 Spaces)"):
-			text(text: ".replace(/(  +|^)\{\n +/g,'$1{  ').replace(/( *)(\{.*)\n\1\}/g,'$1$2 }')") >> compact
+			text(text: ".replace(/(  +|^)\{\n +/g,'$1{ ').replace(/( *)(\{.*)\n\1\}/g,'$1$2 }')") >> compact
 			text(text: "'  '") >> text 1
 		} >> MenuResult 1
-var 0D103187-DE74-4283-AAF4-F236F229FFC2 = """const out = [];
-for (const a of actions) {
+var FB530B7B-D839-4C88-8F02-9B9F49EEB3CF = """const out = [];
+for (let a of actions) {
 	if (a.WFWorkflowActionIdentifier === 'is.workflow.actions.dictionary' && (items = a.WFWorkflowActionParameters.WFItems)) {
 		out.push(getdict(items.Value));
 	} else if (a.WFWorkflowActionIdentifier === 'is.workflow.actions.list' && (items = a.WFWorkflowActionParameters.WFItems) && JSON.stringify(a).includes('WFDictionaryFieldValueItems')) {
 		out.push(items.map(getvalue));
 	}
 }
-document.body.textContent = out.length ? encodeURIComponent(out.map(d=>stringify(d)￼).join('\n\n')) : '.';
+document.body.textContent = out.length ? encodeURIComponent(out.map(d=>stringify(d)￼).join('\n\n').replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000]/g, c => '\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0'))) : '.';
 
 function getdict(dict) {
 	const out = new Map();
-	for (const d of dict.WFDictionaryFieldValueItems) {
+	for (let d of dict.WFDictionaryFieldValueItems) {
 		out.set(d.WFKey.Value.string, getvalue(d))
 	}
 	return out;
@@ -80,7 +83,7 @@ function getvalue(d) {
 		case 0: return getstr(v);
 		case 1: return getdict(v.Value);
 		case 2: return v.map(getvalue);
-		case 3: return v.attachmentsByRange ? `NUMBER(${getstr(v)})` : Number(v.string.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, d => d.charCodeAt(0) & 0xf).replace(/[,٫]/g, '.'));
+		case 3: return ((a=>{for(let b in a)return true})(v.attachmentsByRange)) ? `NUMBER(${getstr(v)})` : Number(v.string.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, d => d.charCodeAt(0) & 0xf).replace(/[,٫]/g, '.'));
 		case 4: return v.Value ? `BOOLEAN(❰${varname(v.Value)}❱)` : v;
 	}
 }
@@ -100,64 +103,88 @@ function varname(v) {
 function stringify(o) {
 	let px = ￼;
 	if (typeof o === 'object') {
-		if (Array.isArray(o)) return o.length ? '[\n'+ px + o.map(a=>stringify(a)).join(',\n').replace(/\n/g,'\n'+px) + '\n]' : '[]';
-		return (oo=Array.from(o.entries())).length ? '{\n' + px + oo.map(a=>stringify(a[0])+': '+stringify(a[1])).join(',\n').replace(/\n/g,'\n'+px) + '\n' + '}' : '{}';
+		if (Array.isArray(o)) return o.length ? '[\n'+ px + o.map(a=>stringify(a)).join(',\n').replaceAll('\n','\n'+px) + '\n]' : '[]';
+		return (oo=Array.from(o.entries())).length ? '{\n' + px + oo.map(a=>stringify(a[0])+': '+stringify(a[1])).join(',\n').replaceAll('\n','\n'+px) + '\n' + '}' : '{}';
 	}
 	return JSON.stringify({a:o}).slice(5,-1);
 }"""
-text("${0D103187-DE74-4283-AAF4-F236F229FFC2}")
+text("${FB530B7B-D839-4C88-8F02-9B9F49EEB3CF}")
 		url(url: "data:text/html;charset=utf-8,<body/><script>const actions = ${file of type}.WFWorkflowActions;${ActionOutput}</script>") >> url
-		decodeURL(url: "${URL.as(RichText)}") >> decodeURL
+		encodeURL(url: "${URL.as(RichText)}") >> encodeURL
 		if(URL Encoded Text == ".") {
 			alert(alert: "
+
 ❌  No Dictionary Actions Found
+
 ", cancel: false)
 			exit()
 		} >> IFResult 4
 		setName(input: URL Encoded Text, name: "${Shortcut Result.get(Name)}.txt") >> setName
 		if(DeviceDetails ==) {
-			openIn(input: Renamed Item, ask: false)
+			openIn(input: Renamed Item, ask: false) >> openIn
 			wait()
 		} else {
 			if(Renamed Item false) {
+				if(OS .between 171...173) {
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+				}
 				quicklook(input: Renamed Item)
 			} >> IFResult 5
-			menu(, [💻  Share, 📝  Save, 📋  Copy to Clipboard]) {
-			case("💻  Share"):
-				share(file: Renamed Item)
-			case("📝  Save"):
-				saveFile(input: Renamed Item) >> saveFile
-			case("📋  Copy to Clipboard"):
+			list(items: (
+    "\Ud83d\Udcbb  Share",
+    "\Ud83d\Udcdd  Save",
+    "\Ud83d\Udccb  Copy to Clipboard"
+)) >> list 1
+			choose(list: List, prompt: "
+${Renamed Item.get(Name)}.${ActionOutput.get(Name)} (${Renamed Item.as(File).get(File Size)})
+") >> choose 1
+			if(Chosen Item == "📋  Copy to Clipboard") {
 				setClipboard(variable: Renamed Item) >> setClipboard
 				getClipboard() >> getClipboard
-			} >> MenuResult 2
-		} >> IFResult 6
+			} else {
+				if(OS .between 171...173) {
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+					openApp(id: "com.apple.shortcuts") >> openApp
+				} >> IFResult 6
+				if(Chosen Item == "💻  Share") {
+					share(file: Renamed Item)
+				} else {
+					saveFile(input: Renamed Item) >> saveFile
+				}
+			} >> IFResult 7
+		} >> IFResult 8
 		exit()
 	} else {
 		replaceText(input: "${Shortcut Result}", find: "</array>\s*</dict>\s*<key>WFSerializationType</key>\s*<string>WFDictionaryFieldValue</string>\s*</dict>\s*(?:</dict>\s*</dict>\s*<dict>\s*<key>WFWorkflowActionIdentifier</key>\s*<string>is.workflow.actions.dictionary</string>\s*[\s\S]{120,300}|<key>WFSerializationType</key>\s*<string>WFDictionaryFieldValue</string>\s*</dict>\s*</dict>\s*</array>\s*</dict>\s*</dict>\s*<dict>\s*<key>WFWorkflowActionIdentifier</key>\s*<string>is.workflow.actions.list</string>[\s\S]{270,450})<key>WFDictionaryFieldValueItems</key>\s*<array>\s*", isRegex: true) >> replaceText 2
 		if(Updated Text ==) {
 			alert(alert: "
+
 ❌  No Dictionary Actions to Merge
+
 ", cancel: false)
 			exit()
 		}
-	} >> IFResult 7
+	} >> IFResult 9
 } else {
-	if(Chosen Item .beginsWith "📋  Read") {
+	if(Chosen Item .beginsWith "📋") {
 		getClipboard() >> getClipboard 1
-	} >> IFResult 8
-	if(Chosen Item .beginsWith "📝  Open") {
+	} >> IFResult 10
+	if(Chosen Item .beginsWith "📝") {
+		if(OS .between 171...173) {
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+			openApp(id: "com.apple.shortcuts") >> openApp 1
+		}
 		selectFile() >> selectFile
 		setName(input: File, name: "${File.get(Name)}.txt") >> setName 1
-	} >> IFResult 9
-	if(Chosen Item .beginsWith "⌨️  Enter") {
+	} >> IFResult 11
+	if(Chosen Item .beginsWith "⌨️") {
 		text(text: "${Ask}") >> text 2
-	} >> IFResult 10
+	} >> IFResult 12
 	replaceText(input: "${If Result}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 3
 	setValue(key: "data", value: "${Updated Text}") >> setValue
-var A71F70C0-ACBC-42ED-A18E-DCB06B931C01 = """let mode = 0;
+var 098F91DD-2B82-4543-B979-C38DC0BACCF2 = """let mode = 0;
 let stack = [];
-let output = '{"WFWorkflowActions":[';
+let output = '{"WFWorkflowIcon":{"WFWorkflowIconStartColor":4292093695},"WFWorkflowActions":[';
 let action = '';
 let actioncount = 0;
 while (buffer !== '') {
@@ -167,7 +194,7 @@ while (buffer !== '') {
 		switch (ch1) {
 			case '{':
 				mode = 1;
-				action = '{"WFWorkflowActionIdentifier":"is.workflow.actions.dictionary","WFWorkflowActionParameters":{"WFItems":{"Value":{"WFDictionaryFieldValueItems":[';
+				action = '{"WFWorkflowActionIdentifier":"is.workflow.actions.dictionary","WFWorkflowActionParameters":{"WFItems":{"WFSerializationType":"WFDictionaryFieldValue","Value":{"WFDictionaryFieldValueItems":[';
 				break;
 			case '[':
 				mode = 2;
@@ -181,14 +208,14 @@ while (buffer !== '') {
 	buffer = buffer.slice(1);
 	buffer = buffer.slice(buffer.search(/\S|$/));
 	if (ch1 === ']' || ch1 === '}') {
-		if ((mode == 1 && ch1 === '}') || (mode == 2 && ch1 === ']')) {
+		if (mode == 1 && ch1 === '}' || mode == 2 && ch1 === ']') {
 			if (stack.length == 0) {
-				output += action + ((mode == 1) ? ']},"WFSerializationType":"WFDictionaryFieldValue"}}},' : ']}},');
+				output += action + (mode==1 ? ']}}}},' : ']}},');
 				mode = 0;
 				action = '';
 				actioncount++;
 			} else {
-				action += (mode == 1) ? ']},"WFSerializationType":"WFDictionaryFieldValue"},"WFSerializationType":"WFDictionaryFieldValue"}},' : '],"WFSerializationType":"WFArrayParameterState"}},';
+				action += mode==1 ? ']}}}},' : ']}},';
 				mode = stack.pop();
 			}
 		} else {
@@ -196,66 +223,64 @@ while (buffer !== '') {
 		}
 	} else {
 		let ch2 = buffer[0];
-		let key = '';
+		let key = '{';
 		if (!']},'.includes(ch2)) {
 			let match;
 			if (mode == 1) {
 				match = buffer.match(/^"([^"\\]*(?:\\.[^"\\]*)*)"\s*:\s*/);
 				buffer = buffer.slice(match[0].length);
-				key = '"WFKey":{"Value":{"attachmentsByRange":{},"string":"' + match[1] + '"},"WFSerializationType":"WFTextTokenString"},';
+				key = '{"WFKey":{"WFSerializationType":"WFTextTokenString","Value":{"string":"' + match[1] + '"}},';
 				ch2 = buffer[0];
 			}
 			switch (ch2) {
 				case '[':
 				case '{':
 					stack.push(mode);
-					if (ch2 === '{') {
-						mode = 1;
-						action += '{"WFItemType":1,' + key + '"WFValue":{"Value":{"Value":{"WFDictionaryFieldValueItems":[';
-					} else {
-						mode = 2;
-						action += '{"WFItemType":2,' + key + '"WFValue":{"Value":[';
-					}
+					mode = ch2==='{' ? 1 : 2;
+						action += key + (mode==1 ?
+							'"WFItemType":1,"WFValue":{"WFSerializationType":"WFDictionaryFieldValue","Value":{"WFSerializationType":"WFDictionaryFieldValue","Value":{"WFDictionaryFieldValueItems":[' :
+							'"WFItemType":2,"WFValue":{"WFSerializationType":"WFArrayParameterState","Value":[');
 					break;
 				case '"':
 					match = buffer.match(/^"([^"\\]*(?:\\.[^"\\]*)*)"\s*/);
 					buffer = buffer.slice(match[0].length);
 					value = match[1];
-					action += (mode == 1) ? '{"WFItemType":0,' + key + '"WFValue":{"Value":{"attachmentsByRange":{},"string":"' + value + '"},"WFSerializationType":"WFTextTokenString"}},' : '"' + value + '",';
+					action += (mode == 1) ? key + '"WFItemType":0,"WFValue":{"WFSerializationType":"WFTextTokenString","Value":{"string":"' + value + '"}}},' : '"' + value + '",';
 					break;
 				default:
 					match = buffer.match(/^(.+?)\s*[,\]\}]/);
 					buffer = buffer.slice(match[0].length-1);
 					value = match[1];
 					if (value === 'true') {
-						action += '{"WFItemType":4,' + key + '"WFValue":{"Value":true,"WFSerializationType":"WFNumberSubstitutableState"}},';
+						action += key + '"WFItemType":4,"WFValue":{"WFSerializationType":"WFNumberSubstitutableState","Value":true}},';
 					} else if (value === 'false') {
-						action += '{"WFItemType":4,' + key + '"WFValue":{"Value":false,"WFSerializationType":"WFNumberSubstitutableState"}},';
+						action += key + '"WFItemType":4,"WFValue":{"WFSerializationType":"WFNumberSubstitutableState","Value":false}},';
 					} else if (value === 'null') {
-						action += (mode == 1) ? '{"WFItemType":2,' + key + '"WFValue":{"Value":[],"WFSerializationType":"WFArrayParameterState"}},' : '';
+						action += (mode == 1) ? key + '"WFItemType":2,"WFValue":{"WFSerializationType":"WFArrayParameterState","Value":[]}},' : '';
 					} else {
 						let numStr = value.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, d => d.charCodeAt(0) & 0xf);
 						match = numStr.match(/(-?\d+)[.,٫](\d+)/);
 						value = match ? parseInt(match[1] + match[2]) + 'E-' + match[2].length : numStr;
-						action += '{"WFItemType":3,' + key + '"WFValue":{"Value":{"attachmentsByRange":{},"string":"' + value + '"},"WFSerializationType":"WFTextTokenString"}},';
+						action += key + '"WFItemType":3,"WFValue":{"WFSerializationType":"WFTextTokenString","Value":{"string":"' + value + '"}}},';
 					}
 			}
 		}
 	}
 }
-output += '],"WFWorkflowIcon":{"WFWorkflowIconStartColor":4292093695}}'
-document.body.textContent = actioncount ? encodeURIComponent(output.replace(/\n/g, '\\n')) : '';"""
-text("${A71F70C0-ACBC-42ED-A18E-DCB06B931C01}")
-	url(url: "data:text/html;charset=utf-8,<body/><script>let buffer=${Text}.data;${ActionOutput}</script>") >> url 1
-	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 1
+document.body.textContent = actioncount ? encodeURIComponent(output.replace(/\n/g, '\\n')) + ']}' : '';"""
+text("${098F91DD-2B82-4543-B979-C38DC0BACCF2}")
+	url(url: "data:text/html;charset=utf-8,<body/><script>let buffer=${Dictionary}.data;${ActionOutput}</script>") >> url 1
+	encodeURL(url: "${URL.as(RichText)}") >> encodeURL 1
 	if(URL Encoded Text == "") {
 		alert(alert: "
 ❌  Invalid Dictionary { } or Array [ ] Text
 ", cancel: false)
 		exit()
-	} >> IFResult 11
+	} >> IFResult 13
 	getFileOfType(input: URL Encoded Text, type: "com.apple.plist") >> getFileOfType 1
-} >> IFResult 12
-askForInput(prompt: "New Shortcut Name:", default: "${File.get(Name)}${ActionOutput.get(Name)}") >> askForInput
+} >> IFResult 14
+askForInput(prompt: "
+New Shortcut Name:
+", default: "${Shortcut Result.get(Name)}${ActionOutput.get(Name)}") >> askForInput
 setName(input: If Result, name: "${Provided Input}.plist") >> setName 2
 runShortcut(name: "Shortcut Source Helper", input: Renamed Item) >> runShortcut 1

@@ -1,8 +1,6 @@
 import Shortcuts
 #Color: Red, #Icon: messageBubbles
 
-number(value: 0) >> number
-var count = Number
 /*
 Send one of cinema's great screenplays, line-by-line, to a recipient of your choice via SMS or iMessage.
 
@@ -23,7 +21,7 @@ EVERYWHERE: bit.ly/dbrolodex
 askForInput(prompt: "Set iCloud email address and/or full, 10-digit telephone number as target. 	", type: Text, default: 5738234380) >> askForInput
 // Yes, I have intentionally left my personal cell phone number here. Yes, you should absolutely feel free to test it on me. In fact, that’d absolutely make my day.
 alert(alert: "Send the ENTIRE Spy Kids 3 screenplay in 1559 messages to ${Provided Input}?", title: "Are you sure?")
-var 083C1F3B-99B3-4A28-9C2C-2DC40CCB62EB = """Once upon a time,
+var A21389A9-EB66-43D0-820B-B48B8700E819 = """Once upon a time,
 there was a young Thumb Thumb
 named Juni.
 Juni was shy and had no self-confidence,
@@ -1582,16 +1580,12 @@ How's that for even?
 You're on your own,
 Hey, wait!
 l warned you!"""
-text("${083C1F3B-99B3-4A28-9C2C-2DC40CCB62EB}")
+text("${A21389A9-EB66-43D0-820B-B48B8700E819}")
 getTextFrom(input: Text) >> getTextFrom
 splitText(text: Text) >> splitText
 repeatEach(Split Text) {
 //Unable to get shortcuts action is.workflow.actions.sendmessage
-	math(input: count, operand: "1") >> math
 } >> RepeatResult
-//Unable to get shortcuts action is.workflow.actions.getvariable
-text(text: "${count} messages sent to ${Variable}.") >> text
-//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
 text(text: "AAAAHGZ0eXBNNEEgAAAAAE00QSBpc29tbXA0MgAAAAFtZGF0AAAAAAAAlw8hAANAaBwhDFPNvojD
 QYCEIVebc8TZkKI7jDFyrsPE0CDwEQzGaIargBDwdxknneVktZyEh2jjVv3iEHSkMJfIWZxCxiSG
 94iRz+EJX+OEOkc1Ij43K3EyG3zpM9kgLCy5L9qrVxOvVJIaRYCp4BApOoZSgkLlifbBPARMgEw1
@@ -2290,7 +2284,7 @@ AAAAAABtZGlyAAAAAAAAAAAAAAAAAAAAAADmaWxzdAAAALwtLS0tAAAAHG1lYW4AAAAAY29tLmFw
 cGxlLmlUdW5lcwAAABRuYW1lAAAAAGlUdW5TTVBCAAAAhGRhdGEAAAABAAAAACAwMDAwMDAwMCAw
 MDAwMDg0MCAwMDAwMDIxMCAwMDAwMDAwMDAwMDBFOUIwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAw
 MDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwAAAAIqlBUlQA
-AAAaZGF0YQAAAAEAAAAARGF2aWQgQmx1ZQAAAA55cnJjAAAAAAfl") >> text 1
-encode(input: Text) >> encode
+AAAaZGF0YQAAAAEAAAAARGF2aWQgQmx1ZQAAAA55cnJjAAAAAAfl") >> text
+decode(input: Text) >> decode
 sendNotification(body: "Operation Complete", title: "Spy Kids 3 Spam", sound: false) >> sendNotification
 playSound()
