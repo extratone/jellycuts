@@ -1,0 +1,16 @@
+import Shortcuts
+#Color: grape, #Icon: camera
+
+// Take photo - on iOS 17.3.1, frustratingly you can’t use the volume button to take the photo with this action
+takePhoto(preview: true) >> takePhoto
+// Device set to take JPEG photos, so we will explicitly set our filename to be a date/timestamp for a jpg file.
+text(text: "${CurrentDate}.jpg") >> Stamped Filename
+// Save the file to a separate Photos app album called "Conference"
+saveToCameraRoll(image: Photo, album: Conference) >> saveToCameraRoll
+setName(input: Saved Photo Media, name: "${Stamped Filename}") >> setName
+saveFile(input: Renamed Item, ask: false) >> saveFile
+// Add entry to AirTable
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+url(url: "https://api.airtable.com/v0/appYfCcGSmGO1BzLS/Image ") >> URL for AirTable Insert API
+downloadURL(url: "${URL for AirTable Insert API}", method: POST, headers: , requestJSON: ) >> downloadURL
+vibrate()

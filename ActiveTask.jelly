@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: grayGreen, #Icon: checklist
+
+// Turn an Obsidian document that contains a specific property into a deep-linked task in the Things app.
+// Split the input so we can extract different variables.
+splitText(text: ShortcutInput, separator: Custom, customSeparator: "%%%") >> splitText
+getItemFromList(list: Split Text) >> getItemFromList
+var DocumentTitle = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 1
+var DocumentURL = Item from List
+// The two variables above should always be in that order.
+// Enter the name of the Obsidian property/Things tag you want to parse and assign.
+text(text: "") >> text
+var TagName = Text
+// Check the value of the property that was sent from Obsidian. If 'Yes', it means the property has been checked in Obsidian.
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 2
+getDictionaryFrom(input: Item from List) >> getDictionaryFrom
+var PropertyDictionary = Dictionary
+valuesFrom(dictionary: Property Dictionary) >> valuesFrom
+text(text: "${Dictionary Value}") >> text 1
+// I am indeed working on this task.
+if(Text == "Yes") {
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIAddTodoWithQuickEntry
+} else {
+	alert(alert: "❌ Property Not Set ❌", cancel: false)
+} >> IFResult

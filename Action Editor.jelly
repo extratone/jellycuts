@@ -1,0 +1,119 @@
+import Shortcuts
+#Color: green, #Icon: textBox
+
+/*
+Shortcut action editor
+2024-03-30 	v1.1
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) {
+	getIP() >> getIP
+	if(Current IP Address != nil) {
+		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=8B45C2A9") >> downloadURL
+		if(Contents of URL .contains "2024-03-30") { >> IFResult
+			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+			case("🌏  Go to RoutineHub"): >> MenuResult
+				openURL(url: "https://routinehub.co/shortcut/18280/") >> openURL
+				exit()
+			case("👾  Download Update"): >> MenuResult 1
+				downloadURL(url: "https://routinehub.co/api/v1/shortcuts/18280/versions/latest") >> downloadURL 1
+				matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+				expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+				replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+				openURL(url: Updated Text) >> openURL 1
+				exit()
+			case("⮐  Not Now"):
+			} >> MenuResult 2
+		} >> IFResult 1
+	} >> IFResult 2
+} >> IFResult 3
+if(ShortcutInput != nil) { >> IFResult 4
+	repeatEach(ShortcutInput) {
+		setName(input: Repeat Item, name: "a.json") >> setName
+		getFileOfType(input: Renamed Item, type: "com.apple.plist") >> getFileOfType
+		setName(input: File of Type, name: "a.plist") >> setName 1
+/*
+Please install the Actions app
+
+https://apps.apple.com/app/id1586435171
+*/
+//Unable to get shortcuts action com.sindresorhus.Actions.SetUniformTypeIdentifier
+	} >> RepeatResult
+	setClipboard(variable: Repeat Results) >> setClipboard
+	getClipboard() >> getClipboard
+	count(input: Clipboard) >> count
+	if(Count == 1) {
+		alert(alert: "
+
+📋  Updated action copied to clipboard  📋
+
+", tincel: false)
+	} else {
+		alert(alert: "
+
+📋 ${Count} actions copied to clipboard 📋
+
+", tincel: false)
+	} >> IFResult 5
+} else {
+	if(Clipboard != nil) { >> IFResult 6
+/*
+Please install the Actions app
+
+https://apps.apple.com/app/id1586435171
+*/
+//Unable to get shortcuts action com.sindresorhus.Actions.GetUniformTypeIdentifierIntent
+	} >> IFResult 7
+	if(Uniform Type Identifier .contains "com.apple.shortcuts.action") {
+		repeatEach(Clipboard) { >> RepeatResult 1
+			setName(input: Repeat Item, name: "a.plist") >> setName 2
+			getFileOfType(input: Renamed Item, type: "public.json") >> getFileOfType 1
+			replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 1
+		} >> RepeatResult 2
+		setValue(key: "json", value: "${Repeat Results.as(Dictionary)}") >> setValue
+		nothing() >> nothing
+		if(DeviceDetails ==) {
+			text(text: "0") >> text
+		} >> IFResult 8
+var 29FBDC4D-56D0-48CB-AA74-B007D5541F0F = """<html><meta charset="utf-8"><meta name="viewport" content="width=device-width, maximum-scale=1">
+<style>
+body { background: #eee; color: #222; }
+a { display: inline-block; background-color: #5c6; font-family: system-ui; font-weight: bold; text-align: center; cursor: pointer; padding: 0.8em 1em; border-radius: 16px; }
+@media (prefers-color-scheme: dark) { body { background: #222; color: #ddd; } a { background-color: #2b4; } }
+</style>
+<title>Action Editor</title>
+<body>
+<div id="input" contenteditable autofocus spellcheck="false" autocorrect="off" autocapitalize="none" style="width: 100%; min-height: 300px; font-family: monospace; font-size: 15px; word-break: break-all; white-space: pre-wrap; caret-color: red; outline: none;"></div>
+<center><a onclick="finish()">Finish &amp; Copy</a></center>
+</body>
+<script>
+let j = ￼.json;
+document.getElementById("input").innerText = (Array.isArray(j) ? j : [j]).map(a=>JSON.stringify(a,null,2)).join('\n\n').replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\uFFFC]/g, c=>'\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0'));
+function finish() {
+  try{
+    js=JSON.parse('[' + document.getElementById('input').innerText.split('\n\n').join(',') + ']');
+    setTimeout(window.close,500￼);
+    location.href = 'shortcuts://run-shortcut?name=Action%20Editor&input=' + encodeURIComponent('{"actions":' + JSON.stringify(js) + '}');
+  } catch { alert('\n\n🛑 Invalid JSON format\n\n'); }
+}
+</script></html>"""
+text("${29FBDC4D-56D0-48CB-AA74-B007D5541F0F}")
+		if(DeviceDetails ==) { >> IFResult 9
+			setName(input: Text, name: "Action Editor.html") >> setName 3
+			openIn(input: Renamed Item) >> openIn
+			wait()
+		} else { >>  1
+			encodeURL(url: "${Text}") >> encodeURL
+			url(url: "data:text/html,${URL Encoded Text}") >> url
+			openURL(url: URL) >> openURL 2
+		} >> IFResult 10
+	} else { >>  11
+		alert(alert: "
+
+🛑 No shortcut actions in clipboard
+
+", title: "", cancel: false)
+	} >> IFResult 11
+} >> IFResult 12
