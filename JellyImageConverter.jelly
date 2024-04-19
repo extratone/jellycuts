@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: teal, #Icon: cameraViewFinder
+selectPhoto(types: [Images], multiple: false) >> img
+convertImage(image: img, format: Ask, metadata: true, quality: 0.433) >> result
+saveFile(input: result, ask: false, path: "convertedimg/", overwrite: true) >> file
+fileDetail(input: file, property: File Extension) >> filedetail
+showResult(text: "Successful Converted To ${filedetail}")
