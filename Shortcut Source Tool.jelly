@@ -2,8 +2,8 @@ import Shortcuts
 #Color: Red, #Icon: microscope
 
 /*
-View, save, convert, edit shortcut source in xml or json format. Restore shortcuts from source. Create web review.
-2024-03-15 	v4.0
+Copy and paste multiple actions, view/​edit/​save/​import or web-review shortcuts
+2024-04-25 	v4.1.1
 https://routinehub.co/user/gluebyte
 https://mastodon.social/@gluebyte
 */
@@ -12,7 +12,7 @@ if(Random Number == 1) { >> IFResult
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=33C37587") >> downloadURL
-		if(Contents of URL .contains "2024-03-15") {
+		if(Contents of URL .contains "2024-04-25") { >> IFResult 1
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"):
 				openURL(url: "https://routinehub.co/shortcut/5256/")
@@ -27,123 +27,107 @@ if(Random Number == 1) { >> IFResult
 			case("⮐  Not Now"):
 			} >> MenuResult
 		}
-	} >> IFResult 1
-} >> IFResult 2
-replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> OS
-menu(
-Get Source from:
+	} >> IFResult 2
+} >> IFResult 3
+if(ShortcutInput != nil) {
+var file = ShortcutInput
+} else {
+	menu(
+Get Shortcut Source from:
 , [📋  Clipboard (iCloud link / plist / json), 📝  File, 💫  Shortcut]) {
-case("📋  Clipboard (iCloud link / plist / json)"): >> MenuResult 1
-	getClipboard() >> getClipboard
-	if(Clipboard .beginsWith "https://www.icloud.com/shortcuts/") {
-		replaceText(input: "${Clipboard}", find: "icloud.com/shortcuts/", replace: "icloud.com/shortcuts/api/records/") >> replaceText 1
+	case("📋  Clipboard (iCloud link / plist / json)"): >> MenuResult 1
+var file = Clipboard
+	case("📝  File"): >> MenuResult 2
+		selectFile() >> selectFile
+	case("💫  Shortcut"): >> MenuResult 3
+		runShortcut(name: "Shortcut Source Helper") >> runShortcut
+		if(Shortcut Result == nil) {
+			exit()
+		} >> IFResult 4
+	} >> MenuResult 4
+} >> IFResult 5
+if(file != nil) {
+	if(file .beginsWith "https://www.icloud.com/shortcuts/") {
+		replaceText(input: "${file}", find: "icloud.com/shortcuts/", replace: "icloud.com/shortcuts/api/records/") >> replaceText 1
 		downloadURL(url: "${Updated Text}") >> downloadURL 2
 		downloadURL(url: "${Contents of URL.as(Dictionary).key(fields.shortcut.value.downloadURL)}") >> downloadURL 3
 		setName(input: Contents of URL, name: "${Contents of URL.as(Dictionary).key(fields.name.value)}.plist") >> setName
-	} >> IFResult 3
-case("📝  File"): >> MenuResult 2
-	selectFile() >> selectFile
-case("💫  Shortcut"): >> MenuResult 3
-	runShortcut(name: "Shortcut Source Helper") >> runShortcut
-	if(Shortcut Result == nil) {
-		exit()
-	} >> IFResult 4
-} >> MenuResult 4
-if(Menu Result .beginsWith "{") { >> IFResult 5
-	setName(input: Menu Result, name: "${Menu Result.get(Name)}.json") >> setName 1
+	} >> IFResult 6
+} >> IFResult 7
+if(If Result .beginsWith "{") { >> IFResult 8
+	setName(input: If Result, name: "${If Result.get(Name)}.json") >> setName 1
 } else { >>  2
-	setName(input: Menu Result, name: "a.plist") >> setName 2
+	setName(input: If Result, name: "a.plist") >> setName 2
 	getFileOfType(input: Renamed Item, type: "com.apple.plist") >> getFileOfType
-	setName(input: File of Type, name: "${Menu Result.get(Name)}.plist") >> setName 3
-} >> IFResult 6
+	setName(input: File of Type, name: "${If Result.as(File).get(Name)}.plist") >> setName 3
+} >> IFResult 9
 var file = If Result
 setValue(key: "a", value: "${file.get(Name)}") >> setValue
 replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 2
 url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(((a=${Updated Text}.a).length>a.normalize().length)?a.split('').join('\u2009'):a)</script>") >> url
-encodeURL(url: "${URL.as(RichText)}") >> encodeURL
+decodeURL(url: "${URL.as(RichText)}") >> decodeURL
 list(items: (
     "\Ud83e\Uddd0  Quick Look Source",
     "\Ud83d\Udcdd  Save Source",
     "\Ud83d\Udcbb  Share Source",
     "\U270f\Ufe0f  Edit/Restore Source",
-    "\U2753  Replace \U2018++\U2019 with new lines in Import Questions",
-    "\U2702\Ufe0f  Copy Actions inside \U2018Repeat 1\U2019 to Clipboard",
+    "\U2753  Replace \U2018++\U2019 with New Lines in Import Questions",
+    "\U2702\Ufe0f  Copy Actions between Empty Comments",
     "\Ud83d\Udd0d  Create Web Review (trim large text)",
     "\Ud83d\Udd0d  Create Web Review (expand all)",
     "\Ud83d\Udd0d  Create Web Review"
 )) >> list
 choose(list: List, prompt: "
-${URL Encoded Text}.${ActionOutput} (${file.get(File Size)})
+${file.get(File Extension)}.${Variable.get(File Extension)} (${file.get(File Size)})
 ") >> command
-if(command .beginsWith "✂️") { >> IFResult 7
-//Unable to get shortcuts action is.workflow.actions.setvariable
-//Unable to get shortcuts action is.workflow.actions.setvariable
-	count(input: file) >> count
-	math(input: Count, operation: -, operand: "1") >> math
-	repeatEach(file) {
-		getDictionaryFrom(input: Repeat Item) >> action
-		nothing() >> nothing
-		if(finished == nil) {
-			if(found == nil) {
-				keysFrom(dictionary: action) >> keysFrom
-				if(Dictionary Value == "is.workflow.actions.repeat.count") {
-					if(action == nil) {
-var found = action
-					}
-				}
-				nothing()
-			} else {
-				keysFrom(dictionary: action) >> keysFrom 1
-				if(Dictionary Value == "is.workflow.actions.repeat.count") {
-					if(found == ""${action.key(WFWorkflowActionParameters.GroupingIdentifier)}"") {
-var finished = Variable
-						nothing() >> nothing 1
-					}
-				} >> IFResult 8
-				if(If Result != nil) {
+if(command .beginsWith "✂️") { >> IFResult 10
+	replaceText(input: "${file}", find: "(?s)^.*?(?<=\n\t\t<dict>\n\t\t\t<key>WFWorkflowActionIdentifier</key>\n\t\t\t<string>is.workflow.actions.comment</string>\n\t\t\t<key>WFWorkflowActionParameters</key>\n\t\t\t<dict(?:/|>\n\t\t\t\t<key>WFCommentActionText</key>\n\t\t\t\t<string></string>\n\t\t\t</dict)>\n\t\t</dict>)(.*?)(?=\n\t\t<dict>\n\t\t\t<key>WFWorkflowActionIdentifier</key>\n\t\t\t<string>is.workflow.actions.comment</string>\n\t\t\t<key>WFWorkflowActionParameters</key>\n\t\t\t<dict(?:/|>\n\t\t\t\t<key>WFCommentActionText</key>\n\t\t\t\t<string></string>\n\t\t\t</dict)>\n\t\t</dict>|\n\t</array>).*$", replace: "$1", isRegex: true) >> replaceText 3
+	if(Updated Text .beginsWith "
+") {
+	} else {
+		count(input: file) >> count
+		alert(alert: "
+
+⛔️ No actions found between
+	two empty comments ⛔️
+
+Copy all ${Count} actions?
+
+", tincel: $2)
+		replaceText(input: "${file}", find: "(?s)^.*?(?<=<key>WFWorkflowActions</key>\n\t<array>)(.*?)(?=\n\t</array>).*$", replace: "$1", isRegex: true) >> replaceText 4
+	} >> IFResult 11
+	replaceText(input: "${If Result}", find: "</dict>
+		<dict>", replace: "</dict><dict>") >> replaceText 5
+	replaceText(input: "${Updated Text}", find: "\", replace: "\\") >> replaceText 6
+	replaceText(input: "${Updated Text}", find: """, replace: "\"") >> replaceText 7
+	replaceText(input: "${Updated Text}", find: "	", replace: "\t") >> replaceText 8
+	replaceText(input: "${Updated Text}", find: "
+", replace: "\n") >> replaceText 9
+	replaceText(input: "{"actions":["${Updated Text}"]}", find: "</dict><dict>", replace: "</dict>","<dict>") >> replaceText 10
+	valuesFrom(dictionary: Updated Text) >> valuesFrom
 /*
 Please install the Actions app
 
 https://apps.apple.com/app/id1586435171
 */
+	repeatEach(Dictionary Value) {
 //Unable to get shortcuts action com.sindresorhus.Actions.SetUniformTypeIdentifier
-				}
-			}
-		} >> IFResult 9
 	} >> RepeatResult
-	if(Repeat Results != nil) {
-		setClipboard(variable: Repeat Results) >> setClipboard
-		count(input: Repeat Results) >> count 1
-		if(Count == 1) {
-			alert(alert: "
-
-📋  Action copied to clipboard  📋
-
-​", tincel: $2)
-		} else {
-			alert(alert: "
+	setClipboard(variable: Repeat Results) >> setClipboard
+	count(input: Dictionary Value) >> count 1
+	alert(alert: "
 
 📋  ${Count} actions copied to clipboard  📋
 
-​", tincel: $2)
-		} >> IFResult 10
-	} else {
-		alert(alert: "
-
-⛔️  Actions inside ‘Repeat 1’ not found  ⛔️
-
-Please place actions you want to copy inside a ‘Repeat 1 Time’ command without touching the “1”.
-
-", tincel: $2)
-	} >> IFResult 11
+​", tincel: false)
 	exit()
 } >> IFResult 12
 if(command .beginsWith "🔍") { >> IFResult 13
-	replaceText(input: "${file.get(Name)}", find: "&", replace: "&amp;") >> replaceText 3
+	replaceText(input: "${file.get(Name)}", find: "&", replace: "&amp;") >> replaceText 11
 	replaceText(input: "${Updated Text}", find: "<", replace: "&lt;") >> shortcutname
 	dictionary({})
 	setValue(key: "name", value: "${shortcutname}", dictionary: Dictionary) >> setValue 1
-	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 4
+	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 12
 	getFileOfType(input: file, type: "public.json") >> getFileOfType 1
 var src = File of Type
 	if(src .contains "{"__type__":"data","__value__":"YnBsaXN0") { >> IFResult 14
@@ -151,18 +135,18 @@ var src = File of Type
 		repeatEach(Matches) {
 			getMatchGroup(matches: Repeat Item) >> getMatchGroup
 			getMatchGroup(matches: Repeat Item, index: "2") >> b64
-			encode(input: b64) >> encode 1
+			encode(input: b64) >> encode
 			setName(input: Base64 Encoded, name: "a.plist") >> setName 4
 			nothing()
 			if(Text == "UserActivityData") {
-				keysFrom(dictionary: Renamed Item) >> keysFrom 2
+				valuesFrom(dictionary: Renamed Item) >> valuesFrom 1
 			} >> IFResult 15
 			if(Text == "IntentData") {
-				keysFrom(dictionary: Renamed Item) >> keysFrom 3
+				valuesFrom(dictionary: Renamed Item) >> valuesFrom 2
 			} >> IFResult 16
-			dictionary({"k":"${Renamed Item}${ActionOutput}"})
-			replaceText(input: "${Dictionary}", find: "^\{"k":|\}$", isRegex: true) >> replaceText 5
-			replaceText(input: "${src}", find: "{"__type__":"data","__value__":"${b64}"}", replace: "${Updated Text}") >> replaceText 6
+			dictionary({"k":"${If Result}${ActionOutput}"})
+			replaceText(input: "${Dictionary}", find: "^\{"k":|\}$", isRegex: true) >> replaceText 13
+			replaceText(input: "${src}", find: "{"__type__":"data","__value__":"${b64}"}", replace: "${Updated Text}") >> replaceText 14
 var src = Updated Text
 			nothing()
 		} >> RepeatResult 1
@@ -171,7 +155,7 @@ var src = Updated Text
 	getShortcuts() >> getShortcuts
 	setValue(key: "n", value: "${My Shortcuts}") >> setValue 2
 	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> sNames
-var 31BAB78A-589C-45AC-8432-36CADDE5D289 = """const idDict = {
+var 5E99D16A-D5AA-4D0F-86DE-BEEC8CD56CBA = """const idDict = {
 "is.workflow.actions.conditional":[{
 	"name":"If $\ufffc0 $\ufffc1",
 	"group":"gGray",
@@ -3672,10 +3656,10 @@ function escapeStr(s) {
 		.replace(/[\x09\x20]+$/gm, c=>c.replace(/\x09/g,'<b>\\u{tab}</b>')
 		.replace(/\x20/g,'<b>\\u{space}</b>'));
 }"""
-text("${31BAB78A-589C-45AC-8432-36CADDE5D289}")
-	url(url: "data:text/html;charset=utf-8,<body/><script>const mobile='${src}'.includes('trim'),expand='${ActionOutput}'.includes('expand'),shortcutname=${Updated Text}.name,d=${ActionOutput},fileSize='${Text}',sNames=${ActionOutput}.n;${command}</script>") >> url 1
-	encodeURL(url: "${URL.as(RichText)}") >> encodeURL 1
-var C866A035-C4EC-41EF-ACD4-877EBB476B8B = """<!DOCTYPE html><html><head><meta charset="utf-8">
+text("${5E99D16A-D5AA-4D0F-86DE-BEEC8CD56CBA}")
+	url(url: "data:text/html;charset=utf-8,<body/><script>const mobile='${src}'.includes('trim'),expand='${ActionOutput}'.includes('expand'),shortcutname=${command}.name,d=${ActionOutput},fileSize='${sNames}',sNames=${ActionOutput}.n;${file.get(File Size)}</script>") >> url 1
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 1
+var D61B139F-81C3-4911-8874-D5791AB898A4 = """<!DOCTYPE html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <meta name="format-detection" content="telephone=no,date=no">
 <title>￼</title>
@@ -3850,7 +3834,7 @@ function magictap(id) {
 	setTimeout(function(){ e.scrollIntoView({block:'nearest',behavior:'smooth'}); }, 10);
 }
 </script></body></html>"""
-text("${C866A035-C4EC-41EF-ACD4-877EBB476B8B}")
+text("${D61B139F-81C3-4911-8874-D5791AB898A4}")
 	setName(input: Text, name: "${file.get(Name)}.html") >> setName 5
 	menu(, [💻  Share, 📝  Save to Files, 🧭  Open in Browser]) {
 	case("💻  Share"): >> MenuResult 5
@@ -3875,14 +3859,14 @@ sleep 1;rm -f /tmp/shortcut${Random Number}.html") >> runShellScript
 } >> IFResult 19
 if(command .beginsWith "❓") { >> IFResult 20
 	getFileOfType(input: file, type: "public.json") >> getFileOfType 2
-	replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 7
-var D6671805-0088-4A1F-AF5C-E4C418AFC24D = """count = 0;
+	replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 15
+var 3321F908-7568-4CCB-86CA-0F47322E676F = """count = 0;
 d.WFWorkflowImportQuestions.forEach(q => { q.Text = q.Text.replace(/\+\+/g, s => { count++; return '\n' }) });
 if (count) { d.count = count }
 document.body.textContent = encodeURIComponent(JSON.stringify(d,null,2));"""
-text("${D6671805-0088-4A1F-AF5C-E4C418AFC24D}")
-	url(url: "data:text/html;charset=utf-8,<body/><script>const d=${Updated Text};${ActionOutput}</script>") >> url 3
-	encodeURL(url: "${URL.as(RichText)}") >> encodeURL 2
+text("${3321F908-7568-4CCB-86CA-0F47322E676F}")
+	url(url: "data:text/html;charset=utf-8,<body/><script>const d=${Text};${ActionOutput}</script>") >> url 3
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 2
 	if(URL Encoded Text == nil) {
 		alert(alert: "‘++’ not found in Import Questions", cancel: false)
 	} else {
@@ -3914,7 +3898,7 @@ if(If Result .beginsWith "{") { >> IFResult 26
 	setValue(key: "x", value: "${if result}") >> setValue 3
 	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(${Dictionary}.x.replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\uFFFC]/g, c => '&\u0023x'+c.charCodeAt(0).toString(16).toUpperCase()+';'))</script>") >> url 5
 } >> IFResult 27
-encodeURL(url: "${If Result.as(RichText)}") >> encodeURL 3
+decodeURL(url: "${If Result.as(RichText)}") >> decodeURL 3
 setName(input: URL Encoded Text, name: "${file.get(Name)}.txt") >> setName 8
 var file = Renamed Item
 if(command .beginsWith "✏️") { >> IFResult 28

@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: navy, #Icon: shrinkArrow
+
+// Combine selected tasks in Things into a single parent task with previously-selected items as subtasks in a checklist.
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIGetSelectedItems
+if(Selected Items != nil) {
+	repeatEach(Selected Items) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+} else {
+	alert(alert: "Select some tasks in Things first.", title: "❌ No Tasks Selected ❌", cancel: false)
+	exit()
+}
+askForInput(prompt: "What’s the title of the new parent task?") >> askForInput
+var ParentTask = Provided Input
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIAddTodo2
+// Delete the original tasks, then show the new task so people can add their own due dates or move it to a project.
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIDeleteItems
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIShowItems2

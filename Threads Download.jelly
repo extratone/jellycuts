@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Downloads images and videos at highest quality from Threads.
-2024-03-13 	v1.0.4
+2024-04-28 	v1.0.5
 https://routinehub.co/user/gluebyte
 https://threads.net/@gluebyte
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2024-03-13";
+                                    string = "2024-04-28";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1503,12 +1503,12 @@ var savePref = Count
 			setName(input: Repeat Item, name: "${Repeat Item.get(File Extension)}.${Variable.get(File Extension)}") >> setName
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
 			if(Repeat Item == "mp4") {
-var 933108C4-7450-4321-9CDC-02428B5A9C37 = """ffmpeg -v error -i ￼.mp4 -metadata "creation_time=￼" -c copy -y t.mp4
+var E2C99A9E-694A-4BDF-B311-A528337C2272 = """ffmpeg -v error -i ￼.mp4 -metadata "creation_time=￼" -c copy -y t.mp4
 mv -f t.mp4 ￼.mp4
 touch ￼￼.￼"""
-text("${933108C4-7450-4321-9CDC-02428B5A9C37}")
+text("${E2C99A9E-694A-4BDF-B311-A528337C2272}")
 			} else {
-				text(text: "touch ${Repeat Item.get(File Extension)}${Variable.get(File Extension)}.${touchdate}")
+				text(text: "touch ${touchdate}${ActionOutput}.${Repeat Index}")
 			} >> IFResult 8
 		} >> RepeatResult
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
@@ -1521,7 +1521,7 @@ text("${933108C4-7450-4321-9CDC-02428B5A9C37}")
 				math(input: Calculation Result, operand: Repeat Index) >> math 2
 				replaceText(input: "${Calculation Result}", find: "^.", replace: "-", isRegex: true)
 			} >> IFResult 9
-			setName(input: File, name: "${If Result} ${ActionOutput}${Output.key(date)}") >> setName 1
+			setName(input: File, name: "${Output.key(user)} ${Variable.key(user)}${Output.key(date)}") >> setName 1
 		} >> RepeatResult 1
 var media = Repeat Results
 		if(count > 1) {
@@ -1552,14 +1552,14 @@ var switched = Variable
 						}
 					} >> RepeatResult 2
 					randomNumber(min: 0, max: 9999) >> random
-var 96C16C25-01FF-49C4-8357-2C50B113EB47 = """cd ~group
+var FEC31697-5904-476E-A5CE-9C4363FC64B7 = """cd ~group
 hideKeyboard
 touch thbegin￼
 rm -f thdone *.jpg
 ￼
 rm -f *.mp4
 touch thdone"""
-text("${96C16C25-01FF-49C4-8357-2C50B113EB47}")
+text("${FEC31697-5904-476E-A5CE-9C4363FC64B7}")
 					repeat(5) {
 						if(output .beginsWith "thbegin") {
 						} else {
@@ -1720,7 +1720,7 @@ var login = Variable
 	} >> IFResult 30
 } else {
 	if(Output != nil) {
-		text(text: "❰ ${mainDict.key(msg.userprompt)}${Variable.key(msg.userprompt)} ❱") >> text 5
+		text(text: "❰ ${Output.key(user)}${Variable.key(user)} ❱") >> text 5
 	} else {
 		valueFor(key: "msg.nouserprompt", dictionary: mainDict)
 	} >> IFResult 31
@@ -1740,7 +1740,7 @@ var login = Variable
 					if(menu == 0) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 						getDictionaryFrom(input: Output) >> getDictionaryFrom 3
-						choose(list: Dictionary, prompt: "${Dictionary.key(folderpath)}${ActionOutput.key(folderpath)}${Dictionary.key(albumname)}") >> choose 5
+						choose(list: Dictionary, prompt: "${mainDict.key(msg.settingprompt)}${Variable.key(msg.settingprompt)}${Dictionary.key(albumname)}") >> choose 5
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 var menu = Variable
 						} else {

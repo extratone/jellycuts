@@ -1,0 +1,94 @@
+import Shortcuts
+#Color: Red, #Icon: filmstrip
+
+/*
+Merge multiple video or audio files into one
+2024-04-21 	v1.1.1
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) { >> IFResult
+	getIP() >> getIP
+	if(Current IP Address != nil) {
+		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=63FA3AC9") >> downloadURL
+		if(Contents of URL .contains "2024-04-21") {
+			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+			case("🌏  Go to RoutineHub"):
+				openURL(url: "https://routinehub.co/shortcut/10722/") >> openURL
+				exit()
+			case("👾  Download Update"):
+				downloadURL(url: "https://routinehub.co/api/v1/shortcuts/10722/versions/latest") >> downloadURL 1
+				matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+				expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+				replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+				openURL(url: Updated Text) >> openURL 1
+				exit()
+			case("⮐  Not Now"):
+			} >> MenuResult
+		}
+	} >> IFResult 1
+} >> IFResult 2
+menu(
+
+Select media files from:
+
+, [📂 Files, 🖼 Photos]) {
+case("📂 Files"):
+	text(text: " (Joined)") >> from Files
+var 347316F4-D958-4D94-9DB9-22CB4DFB6ABE = """:
+  1. Tap ⋯⃝ → Select
+  2. Choose files
+  3. Tap Open (not Done)
+"""
+text("${347316F4-D958-4D94-9DB9-22CB4DFB6ABE}")
+case("🖼 Photos"):
+var 9E95A3CD-1077-404F-AD71-481E55091EC4 = """.
+"""
+text("${9E95A3CD-1077-404F-AD71-481E55091EC4}")
+} >> MenuResult 1
+repeat(10) {
+	if(media == nil) {
+		if(from Files != nil) {
+			selectFile(multiple: true) >> selectFile
+			filterFiles() >> filterFiles
+		} else {
+			selectPhoto(types: Videos, multiple: true) >> selectPhoto
+		} >> IFResult 3
+		count(input: If Result) >> count
+		if(Count > 1) {
+var media = If Result
+		} else {
+			alert(alert: "
+🛑 Please select 2 or more media files${Menu Result}", tancel: false)
+		}
+	} >> IFResult 4
+} >> RepeatResult
+getItemFromList(list: media) >> getItemFromList
+formatDate(date: "${Item from List.as(File).get(Last Modified Date)}", dStyle: Custom, custom: "yyyyMMddHHmm.ss") >> formatDate
+repeatEach(media) {
+	setName(input: Repeat Item, name: "${Repeat Index}") >> setName
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	text(text: "echo file ${Repeat Index}.${Variable} >> joinmedia.txt") >> text
+} >> RepeatResult 1
+var B0F72AB3-45B0-4EF8-8D70-A62806F8BAA3 = """hideKeyboard
+clear
+rm -f joinmedia.txt
+￼
+ffmpeg -v error -stats -f concat -i joinmedia.txt -c copy -y o.￼
+touch -t ￼ o.￼
+open "shortcuts:""""
+text("${B0F72AB3-45B0-4EF8-8D70-A62806F8BAA3}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+waitToReturn()
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+setName(input: File, name: "${from Files}${ActionOutput}") >> setName 1
+if(from Files != nil) {
+	saveFile(input: Renamed Item) >> saveFile
+	openApp(id: "com.apple.DocumentsApp")
+} else {
+	saveToCameraRoll(image: Renamed Item) >> saveToCameraRoll
+	openApp(id: "com.apple.mobileslideshow")
+} >> IFResult 5
+text(text: "rm -f *.${Renamed Item.get(File Extension)} joinmedia.txt") >> text 1
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent

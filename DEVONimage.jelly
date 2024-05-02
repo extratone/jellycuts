@@ -1,0 +1,31 @@
+import Shortcuts
+#Color: grape, #Icon: picture
+
+count(type: Items) >> count
+if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	getImagesFrom() >> getImagesFrom
+} else {
+	selectPhoto(multiple: true) >> selectPhoto
+	getImagesFrom()
+} >> IFResult
+repeatEach($0) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	quicklook()
+	askForInput(prompt: "Image Title") >> Title
+	askForInput(prompt: "Comment?") >> Comment
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	encode() >> encode
+	url(url: "x-devonthink://x-callback-url/createImage?source=${Title}&title=${ActionOutput}&comment=${Ask for Input}") >> url
+	xCallbackURL(custom: false, customXSuccess: false) >> xCallbackURL
+	waitToReturn()
+	valuesFrom() >> valuesFrom
+var 6EF8A504-1FC1-45D6-915B-587A78B4CD0C = """[￼](￼)
+
+~--￼ (￼)--~"""
+text("${6EF8A504-1FC1-45D6-915B-587A78B4CD0C}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(combine: New Lines)
+setClipboard()
