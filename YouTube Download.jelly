@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 YouTube Download
-2024-03-09 	v1.4
+2024-05-15 	v2.0
 https://routinehub.co/user/gluebyte
 https://threads.net/@gluebyte
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2024-03-09";
+                                    string = "2024-05-15";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -194,7 +194,7 @@ list(items: (
                                                             };
                                                             WFValue =                                                             {
                                                                 Value =                                                                 {
-                                                                    string = "Save MP4 AVC videos to";
+                                                                    string = "Save MP4 AVC to";
                                                                 };
                                                                 WFSerializationType = WFTextTokenString;
                                                             };
@@ -255,7 +255,7 @@ list(items: (
                                                             };
                                                             WFValue =                                                             {
                                                                 Value =                                                                 {
-                                                                    string = "Download thumbnails";
+                                                                    string = Thumbnails;
                                                                 };
                                                                 WFSerializationType = WFTextTokenString;
                                                             };
@@ -315,7 +315,7 @@ list(items: (
                                                             };
                                                             WFValue =                                                             {
                                                                 Value =                                                                 {
-                                                                    string = "Download subtitles";
+                                                                    string = Subtitles;
                                                                 };
                                                                 WFSerializationType = WFTextTokenString;
                                                             };
@@ -967,7 +967,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83c\Udfa5  Video";
+                                    string = "\Ud83c\Udfa5  Download Video";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -982,7 +982,22 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udd0a  Audio";
+                                    string = "\Ud83d\Udd0a  Download Audio";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = pip;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "\Ud83c\Udf6d  Open Picture in Picture";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -998,6 +1013,21 @@ list(items: (
                             WFValue =                             {
                                 Value =                                 {
                                     string = "On My ";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = "cat:";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "cat:";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1141,28 +1171,13 @@ list(items: (
                             WFItemType = 0;
                             WFKey =                             {
                                 Value =                                 {
-                                    string = login;
-                                };
-                                WFSerializationType = WFTextTokenString;
-                            };
-                            WFValue =                             {
-                                Value =                                 {
-                                    string = "\Ud83d\Udc64  Sign in / Switch accounts";
-                                };
-                                WFSerializationType = WFTextTokenString;
-                            };
-                        },
-                                                {
-                            WFItemType = 0;
-                            WFKey =                             {
-                                Value =                                 {
                                     string = getlink;
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udccb  Download media from copied link";
+                                    string = "\Ud83d\Udccb  Use link in clipboard";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1423,21 +1438,6 @@ list(items: (
                                                 WFItemType = 0;
                                                 WFKey =                                                 {
                                                     Value =                                                     {
-                                                        string = typeprompt;
-                                                    };
-                                                    WFSerializationType = WFTextTokenString;
-                                                };
-                                                WFValue =                                                 {
-                                                    Value =                                                     {
-                                                        string = "\nSelect type to download:\n";
-                                                    };
-                                                    WFSerializationType = WFTextTokenString;
-                                                };
-                                            },
-                                                                                        {
-                                                WFItemType = 0;
-                                                WFKey =                                                 {
-                                                    Value =                                                     {
                                                         string = codecprompt;
                                                     };
                                                     WFSerializationType = WFTextTokenString;
@@ -1565,6 +1565,21 @@ list(items: (
                                                 WFValue =                                                 {
                                                     Value =                                                     {
                                                         string = "Downloading Media";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = shellerror;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = "\n\n\Ud83d\Uded1 An Error Occurred. Please force-quit a-Shell mini and try again.\n\n";
                                                     };
                                                     WFSerializationType = WFTextTokenString;
                                                 };
@@ -1754,62 +1769,55 @@ var mainDict = Dictionary
 if(ShortcutInput != nil) { >> IFResult
 	valueFor(key: "CacheExtra.5pYKlGnYYBzGvAlIU8RjEQ", dictionary: mainDict) >> valueFor
 	replaceText(input: "${Dictionary Value}", find: "^t.", isRegex: true) >> replaceText
-	if(Dictionary Value .beginsWith "t6") {
+	if(Dictionary Value .beginsWith "t6") { >> IFResult 1
 		if(Updated Text >= 30) {
 			nothing() >> nothing
-		} >> IFResult 1
-	} else {
+		} >> IFResult 2
+	} else { >>  3
 		if(Dictionary Value .beginsWith "t8") {
 			if(Updated Text >= 122) {
 				nothing() >> nothing 1
 			}
 		}
-	} >> IFResult 2
+	} >> IFResult 3
 	if(If Result == nil) {
 		text(text: "codec.includes('AV1') ? ' 📁' : ") >> codec.includes('AV1') ? ' 📁' : 
 		valueFor(key: "msg.av1prompt", dictionary: mainDict) >> av1prompt
 	}
 	replaceText(input: "${ShortcutInput}", find: ".+youtube.com/(?:user/|@)([^/?]+).*", replace: "@$1", isRegex: true) >> replaceText 1
-	if(Updated Text != ""${ShortcutInput}"") {
+	if(Updated Text != ""${ShortcutInput}"") { >> IFResult 4
 		alert(alert: "${mainDict.key(msg.postprompt)}")
-		if(DeviceDetails ==) {
-			replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> replaceText 2
-			if(Updated Text .between 171...173) {
-				openApp(id: "com.apple.mobileslideshow") >> openApp
-			} >> IFResult 3
-		} >> IFResult 4
+		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> replaceText 2
+		if(Updated Text .between 171...173) {
+			openApp(id: "com.apple.mobileslideshow") >> openApp
+		} >> IFResult 5
 		showWebPage(url: "https://www.youtube.com/${Updated Text}/community") >> showWebPage
 		getClipboard() >> new clipboard
-	} >> IFResult 5
+	} >> IFResult 6
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 } else {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
-} >> IFResult 6
+} >> IFResult 7
 getDictionaryFrom(input: If Result) >> getDictionaryFrom 1
 var Output = Dictionary
-if(Output != nil) {
+if(Output != nil) { >> IFResult 8
 	openApp(id: "dk.simonbs.Scriptable") >> openApp 1
 	if(ShortcutInput == nil) {
 		openApp(id: "com.apple.shortcuts") >> openApp 2
-	} >> IFResult 7
+	} >> IFResult 9
 	runShortcut(name: "YouTube Download", input: ShortcutInput) >> runShortcut
 	exit()
-} >> IFResult 8
-if(Output != nil) {
-	wait(seconds: Output)
-	runShortcut(name: "YouTube Download", input: ShortcutInput) >> runShortcut 1
-	exit()
-} >> IFResult 9
-if(Output != nil) {
+} >> IFResult 10
+if(Output != nil) { >> IFResult 11
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 	exit()
 }
-if(Output != nil) {
+if(Output != nil) { >> IFResult 12
 	alert(alert: "${mainDict.key(msg.oldversion)}", cancel: false)
 	openURL(url: mainDict) >> openURL
 	exit()
-} >> IFResult 10
-if(Output != nil) {
+} >> IFResult 13
+if(Output != nil) { >> IFResult 14
 	menu(, [) {
 	case("mainDict (gotoweb)"):
 		openURL(url: mainDict)
@@ -1823,14 +1831,14 @@ if(Output != nil) {
 		exit()
 	case("mainDict (notnow)"):
 	} >> MenuResult
-} >> IFResult 11
-if(Output != nil) {
+} >> IFResult 15
+if(Output != nil) { >> IFResult 16
 	alert(alert: "${Output.key(error)}", title: "${mainDict.key(msg.error)}", cancel: false)
 	exit()
-} >> IFResult 12
+} >> IFResult 17
 getDictionaryFrom(input: Output) >> getDictionaryFrom 2
 var pref = Dictionary
-if(ShortcutInput != nil) { >> IFResult 13
+if(ShortcutInput != nil) { >> IFResult 18
 	text(text: "0") >> text
 	if(DeviceDetails != nil) {
 		text(text: "1") >> text 1
@@ -1848,18 +1856,93 @@ var albummedia = Repeat Results
 			repeatEach(Output) {
 				getDictionaryFrom(input: Repeat Item) >> ytitem
 				if(type == nil) {
-var 3A360531-9F18-48E7-A400-E28BA565A9E8 = """￼
-@￼
+					if(ytitem != nil) {
+						getTextFrom(input: mainDict) >> get video
+					}
+					if(ytitem != nil) {
+						getTextFrom(input: mainDict) >> get audio
+					}
+					if(ytitem != nil) {
+						getTextFrom(input: mainDict) >> open pip
+					} >> IFResult 19
+var F8B4EC07-A73A-4DFD-A624-580347CE4DF8 = """
+
 ￼
-￼"""
-text("${3A360531-9F18-48E7-A400-E28BA565A9E8}")
-					menu(, [) {
-					case("mainDict (video)"):
+
+@￼
+
+￼
+
+"""
+text("${F8B4EC07-A73A-4DFD-A624-580347CE4DF8}")
+					list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "get video";
+                        OutputUUID = "841FC8E5-8CF4-42FE-BF28-EA317B2AC3BA";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "get audio";
+                        OutputUUID = "8958B784-F8A2-492F-BE24-694AE0C33C63";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "open pip";
+                        OutputUUID = "ED8C09C8-A33E-467E-8D12-610EE807DBD0";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+					if(List == ""${open pip}"") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+					} else {
+						choose(list: List, prompt: "${Text}") >> choose
+					} >> IFResult 20
+					if(If Result == ""${open pip}"") {
+//Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
+						waitToReturn()
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+						exit()
+					} >> IFResult 21
+					if(Chosen Item == ""${get video}"") {
 						text(text: "video") >> text 2
-					case("mainDict (audio)"):
+					}
+					if(Chosen Item == ""${get audio}"") {
 						text(text: "audio")
 					} >> type
-				}
+				} >> IFResult 22
 				valueFor(key: "${type}", dictionary: ytitem) >> valueFor 2
 				getDictionaryFrom(input: Dictionary Value) >> media dict
 				filterFiles() >> filterFiles
@@ -1883,15 +1966,15 @@ text("${3A360531-9F18-48E7-A400-E28BA565A9E8}")
     },
     "m4a \U2192 mp3"
 ))
-				} >> IFResult 14
-				choose(list: If Result, prompt: "${av1prompt}${ActionOutput}") >> chosen codec
+				} >> IFResult 23
+				choose(list: If Result, prompt: "${mainDict.key(msg.codecprompt)}${Variable.key(msg.codecprompt)}") >> chosen codec
 				if(chosen codec == "m4a → mp3") {
 					text(text: "m4a")
-				} >> IFResult 15
+				} >> IFResult 24
 				valueFor(key: "${If Result}", dictionary: media dict) >> valueFor 3
 				getDictionaryFrom(input: Dictionary Value) >> media
-				valueFor(key: "donuts", dictionary: media) >> valueFor 4
-				if(Dictionary Value > 20) {
+				getNumbersFrom(text: media) >> donuts
+				if(donuts > 20) {
 					cellularDetails() >> cellularDetails
 					if(Network Details == nil) {
 						alert(alert: "${mainDict.key(msg.sizewarning)}")
@@ -1899,9 +1982,9 @@ text("${3A360531-9F18-48E7-A400-E28BA565A9E8}")
 				}
 				if(type == "video") {
 					if(chosen codec .contains "AVC") {
-						valueFor(key: "save_avc_to", dictionary: pref) >> valueFor 5
+						valueFor(key: "save_avc_to", dictionary: pref) >> valueFor 4
 						if(Dictionary Value == 0) {
-							choose(list: mainDict, prompt: "${mainDict.key(menu.save_avc_to.prompt)}") >> choose
+							choose(list: mainDict, prompt: "${mainDict.key(menu.save_avc_to.prompt)}") >> choose 1
 							replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 4
 							count(type: Characters, input: Updated Text) >> count
 							math(input: Count, operation: -, operand: "3") >> math
@@ -1909,13 +1992,13 @@ text("${3A360531-9F18-48E7-A400-E28BA565A9E8}")
 								setValue(key: "save_avc_to", value: "${Count}", dictionary: pref) >> setValue
 var pref = Dictionary
 var savePref = Count
-							} >> IFResult 16
-						} >> IFResult 17
+							} >> IFResult 25
+						} >> IFResult 26
 var saveavcto = If Result
-					} >> IFResult 18
+					} >> IFResult 27
 					math(input: "0", operand: pref) >> math 1
 					if(Calculation Result == 0) {
-						choose(list: mainDict, prompt: "${mainDict.key(menu.download_thumbnail.prompt)}") >> choose 1
+						choose(list: mainDict, prompt: "${mainDict.key(menu.download_thumbnail.prompt)}") >> choose 2
 						replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 5
 						count(type: Characters, input: Updated Text) >> count 1
 						math(input: Count, operation: -, operand: "2") >> math 2
@@ -1926,10 +2009,10 @@ var savePref = Count
 						}
 					} >> get thumbnail
 					if(ytitem != nil) {
-						valueFor(key: "process_captions", dictionary: pref) >> valueFor 6
+						valueFor(key: "process_captions", dictionary: pref) >> valueFor 5
 						if(Dictionary Value != 1) {
 							if(Dictionary Value == 0) {
-								choose(list: mainDict, prompt: "${mainDict.key(menu.process_captions.prompt)}") >> choose 2
+								choose(list: mainDict, prompt: "${mainDict.key(menu.process_captions.prompt)}") >> choose 3
 								replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 6
 								count(type: Characters, input: Updated Text) >> count 2
 								math(input: Count, operation: -, operand: "2") >> math 3
@@ -1938,7 +2021,7 @@ var savePref = Count
 var pref = Dictionary
 var savePref = Count
 								}
-							} >> IFResult 19
+							} >> IFResult 28
 							if(If Result .between 2...3) {
 								getDictionaryFrom(input: ytitem) >> caption
 								filterFiles() >> filterFiles 1
@@ -1949,10 +2032,10 @@ var getcaption = If Result
 							}
 						}
 					}
-				} >> IFResult 20
+				} >> IFResult 29
 				math(input: "0", operand: pref) >> math 4
 				if(Calculation Result == 0) {
-					choose(list: mainDict, prompt: "${mainDict.key(menu.media_date.prompt)}") >> choose 3
+					choose(list: mainDict, prompt: "${mainDict.key(menu.media_date.prompt)}") >> choose 4
 					replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 7
 					count(type: Characters, input: Updated Text) >> count 3
 					math(input: Count, operation: -, operand: "2") >> math 5
@@ -1966,17 +2049,13 @@ var savePref = Count
 				if(media date == 1) {
 					valueFor(key: "date", dictionary: ytitem)
 				} >> date
-var 55E91C17-EEA1-4690-AFB4-1BCAAFD8A331 = """hideKeyboard
-rm -f ytbegin* ytdone* 0.*"""
-text("${55E91C17-EEA1-4690-AFB4-1BCAAFD8A331}")
-//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 				if(get thumbnail == 2) {
 					downloadURL(url: "${ytitem.key(thumb)}") >> downloadURL 2
 					if(Contents of URL > 200) {
 					} else {
 						replaceText(input: "${ytitem.key(thumb)}", find: "maxresdefault", replace: "hqdefault") >> replaceText 8
 						downloadURL(url: "${Updated Text}") >> downloadURL 3
-					} >> IFResult 21
+					} >> IFResult 30
 					if(media date == 1) {
 						setName(input: If Result, name: "${Repeat Index}.jpg") >> setName 1
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
@@ -1984,7 +2063,7 @@ text("${55E91C17-EEA1-4690-AFB4-1BCAAFD8A331}")
 						setName(input: If Result, name: "${ytitem.key(title)}") >> setName 2
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 					}
-				} >> IFResult 22
+				} >> IFResult 31
 				getTextFrom(input: media) >> ext
 				if(chosen codec == "m4a → mp3") {
 					text(text: "mp3")
@@ -1998,13 +2077,13 @@ text("${55E91C17-EEA1-4690-AFB4-1BCAAFD8A331}")
 						}
 					} else {
 						dictionary({"key":"m4a","codec":"copy"})
-					} >> IFResult 23
+					} >> IFResult 32
 					valueFor(key: "audio.${If Result.key(key)}", dictionary: ytitem) >> audio
 					nothing() >> nothing 3
 					if(get caption == 2) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 					} >> caption
-var 535511B0-F2D6-4CA0-8B0E-CABB4225E9C2 = """echo "🌀 ￼ (￼🍩)"
+var 381BF685-82E6-43E9-9816-3F5FAC1D1D3E = """echo "🌀 ￼ (￼🍩)"
 ￼
 echo 🌀 ￼
 ffmpeg -v error -stats -i 0.video -i 0.audio￼ -c:v copy -c:a ￼ -y ￼.￼
@@ -2012,23 +2091,22 @@ touch￼ ￼.￼ ￼.jpg
 rm -f 0.*
 if [ ! -s ￼.￼ ]
 then touch ytdonefail;echo;exit;fi"""
-text("${535511B0-F2D6-4CA0-8B0E-CABB4225E9C2}")
+text("${381BF685-82E6-43E9-9816-3F5FAC1D1D3E}")
 				} else {
 					nothing()
 					if(new ext == ""${ext}"") {
 						text(text: " -c copy")
-					} >> IFResult 24
-var 34B65D9A-C878-4209-812B-5521699349E5 = """echo 🌀 ￼
+					} >> IFResult 33
+var 16080BFF-8F55-4374-9C06-0FA44C6EE3D1 = """echo 🌀 ￼
 ffmpeg -v error -stats -i 0.audio￼ -y ￼.￼
 touch￼ ￼.￼ ￼.jpg
 rm -f 0.*
 if [ ! -s ￼.￼ ]
 then touch ytdonefail;echo;exit;fi"""
-text("${34B65D9A-C878-4209-812B-5521699349E5}")
-				} >> IFResult 25
-				randomNumber(min: 0, max: 9999) >> random
-var D01368AB-A6A0-4144-8FB8-605CA5C4FC60 = """let c=`hideKeyboard
-touch ytbegin￼
+text("${16080BFF-8F55-4374-9C06-0FA44C6EE3D1}")
+				} >> IFResult 34
+				randomNumber(min: 0, max: 99999) >> random
+var D2BD4041-4AAA-4ED0-B4C8-A2BB7EAAD363 = """let c=`hideKeyboard
 ￼
 rm -f ytdone*
 Y3="echo 🛑☠️🛑";Y4="touch ytdonefail";Y5="echo -n 🍩️"
@@ -2036,31 +2114,43 @@ echo "🌀 ￼ (￼🍩)"
 ￼
 ￼
 touch ytdone;echo`
-jsc.writeFile("0.dash",c);"""
-text("${D01368AB-A6A0-4144-8FB8-605CA5C4FC60}")
+jsc.writeFile("￼.dash",c);"""
+text("${D2BD4041-4AAA-4ED0-B4C8-A2BB7EAAD363}")
 				replaceText(input: "${Text}", find: "
 ", replace: ";") >> replaceText 9
+var loop = Variable
 				repeat(5) {
-					if(output .beginsWith "ytbegin") {
-					} else {
+					if(loop .beginsWith "cat:") {
 						if(Repeat Index 2 .between 2...4) {
 						} else {
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-						} >> IFResult 26
+						} >> IFResult 35
 						wait(seconds: 0.5)
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+var loop = output
 					}
 				}
+				if(loop .beginsWith "jsc:") {
+					alert(alert: "${mainDict.key(msg.shellerror)}", cancel: false)
+					exit()
+				} >> IFResult 36
+				math(input: donuts, operation: -, operand: "5") >> donuts-5
 //Unable to get shortcuts action is.workflow.actions.setvariable
-				repeat(20) {
+				repeat(12) {
 					if(loop .beginsWith "ytdone") {
 					} else {
-						repeat(20) {
+						repeat(12) {
 							if(loop .beginsWith "ytdone") {
 							} else {
-								repeat(20) {
+								repeat(12) {
 									if(loop .beginsWith "ytdone") {
 									} else {
+										if(donuts > 50) {
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+											if(output .between 5...donuts-5) {
+												wait(seconds: 10)
+											}
+										}
 										wait()
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 										if(output .beginsWith "ytdone") {
@@ -2093,7 +2183,7 @@ var loop = output
 						if(save avc to != 2) {
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 						}
-					} >> IFResult 27
+					} >> IFResult 37
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 					if(get caption == 3) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
@@ -2103,10 +2193,10 @@ var loop = output
 						} else {
 							repeatEach(Output) {
 								getItemFromList(list: caption lang, type: Item At Index, index: Repeat Index 2) >> getItemFromList
-								valueFor(key: "${Item from List}.lang", dictionary: caption) >> valueFor 7
-								setName(input: Repeat Item 2, name: "${ytitem.key(title)} ${ActionOutput.key(title)}.srt")
+								valueFor(key: "${Item from List}.lang", dictionary: caption) >> valueFor 6
+								setName(input: Repeat Item 2, name: "${Dictionary Value} ${ActionOutput}.srt")
 							} >> RepeatResult 2
-						} >> IFResult 28
+						} >> IFResult 38
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 					}
 				}
@@ -2115,9 +2205,9 @@ var loop = output
 		}
 		if(error != nil) {
 			alert(alert: "${error}", title: "${mainDict.key(msg.fail)}", cancel: false)
-		} >> IFResult 29
+		} >> IFResult 39
 		if(media != nil) {
-			valueFor(key: "folderlocation", dictionary: pref) >> valueFor 8
+			valueFor(key: "folderlocation", dictionary: pref) >> valueFor 7
 			if(OS == 1) {
 				if(Dictionary Value == nil) {
 					menu(, [) {
@@ -2131,8 +2221,8 @@ var loop = output
 					setValue(key: "folderlocation", value: "${Menu Result.as(Number)}", dictionary: pref) >> setValue 4
 var pref = Dictionary
 //Unable to get shortcuts action is.workflow.actions.getvariable
-				} >> IFResult 30
-			} >> IFResult 31
+				} >> IFResult 40
+			} >> IFResult 41
 			if(If Result == 1) {
 				file(file: $0) >> file
 			} else {
@@ -2141,18 +2231,18 @@ var pref = Dictionary
 				} else {
 					file(file: $0) >> file 2
 				}
-			} >> IFResult 32
+			} >> IFResult 42
 			if(pref == nil) {
-				valueFor(key: "msg.folderprompt${OS}", dictionary: mainDict) >> valueFor 9
+				valueFor(key: "msg.folderprompt${OS}", dictionary: mainDict) >> valueFor 8
 				askForInput(prompt: "${Dictionary Value}") >> askForInput
 				replaceText(input: "${Provided Input}/", find: "/+$", replace: "/", isRegex: true) >> replaceText 10
 				setValue(key: "savefolder", value: "${Updated Text}", dictionary: pref) >> setValue 5
 var pref = Dictionary
 var savePref = Variable
-			} >> IFResult 33
+			} >> IFResult 43
 			createFolder(path: "${pref.key(savefolder)}") >> createFolder
 			saveFile(input: media, ask: false, path: "${pref.key(savefolder)}") >> saveFile
-		} >> IFResult 34
+		} >> IFResult 44
 		if(album media != nil) {
 			valueFor(key: "album", dictionary: pref) >> album
 			if(album == nil) {
@@ -2172,42 +2262,42 @@ var savePref = Variable
 					} else {
 						saveToCameraRoll(image: album media, album: album)
 					}
-				} >> IFResult 35
-			} >> IFResult 36
+				} >> IFResult 45
+			} >> IFResult 46
 		}
-	} >> IFResult 37
-	valueFor(key: "viewer_app", dictionary: pref) >> valueFor 10
+	} >> IFResult 47
+	valueFor(key: "viewer_app", dictionary: pref) >> valueFor 9
 	if(Dictionary Value != nil) {
 		openApp()
 	} else {
 		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> replaceText 11
 		if(Updated Text > 163) {
-			choose(list: mainDict, prompt: "${mainDict.key(menu.viewer_app.prompt)}") >> choose 4
-			valueFor(key: "bundle id.${Chosen Item}", dictionary: mainDict) >> valueFor 11
+			choose(list: mainDict, prompt: "${mainDict.key(menu.viewer_app.prompt)}") >> choose 5
+			valueFor(key: "bundle id.${Chosen Item}", dictionary: mainDict) >> valueFor 10
 			if(Dictionary Value == nil) {
 				openApp()
 			} else {
 				openApp()
-			} >> IFResult 38
+			} >> IFResult 48
 			setValue(key: "viewer_app", value: "${If Result.get(Bundle Identifier)}", dictionary: pref) >> setValue 7
 		} else {
-			choose(list: mainDict, prompt: "${mainDict.key(menu.viewer_app.prompt)}") >> choose 5
-			valueFor(key: "bundle id.${Chosen Item}", dictionary: mainDict) >> valueFor 12
+			choose(list: mainDict, prompt: "${mainDict.key(menu.viewer_app.prompt)}") >> choose 6
+			valueFor(key: "bundle id.${Chosen Item}", dictionary: mainDict) >> valueFor 11
 			openApp()
 			setValue(key: "viewer_app", value: "${Dictionary Value}", dictionary: pref) >> setValue 8
-		} >> IFResult 39
+		} >> IFResult 49
 var pref = If Result
 var savePref = Variable
-	} >> IFResult 40
-	valueFor(key: "open_files_photos", dictionary: pref) >> valueFor 13
+	} >> IFResult 50
+	valueFor(key: "open_files_photos", dictionary: pref) >> valueFor 12
 	if(Dictionary Value == nil) {
-		choose(list: mainDict, prompt: "${mainDict.key(menu.open_files_photos.prompt)}") >> choose 6
+		choose(list: mainDict, prompt: "${mainDict.key(menu.open_files_photos.prompt)}") >> choose 7
 		replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 12
 		count(type: Characters, input: Updated Text) >> count 5
 		setValue(key: "open_files_photos", value: "${Count}", dictionary: pref) >> setValue 9
 var pref = Dictionary
 var savePref = Count
-	} >> IFResult 41
+	} >> IFResult 51
 	if(If Result == 0) {
 		if(media != nil) {
 			getFile(path: "${pref.key(savefolder)}") >> getFile
@@ -2217,10 +2307,10 @@ var savePref = Count
 				openApp(id: "com.apple.mobileslideshow")
 			}
 		}
-	} >> IFResult 42
+	} >> IFResult 52
 	if(savePref != nil) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
-	} >> IFResult 43
+	} >> IFResult 53
 } else {
 var menu = Variable
 	repeat(10) {
@@ -2236,11 +2326,11 @@ var menu = Variable
 					if(menu == 0) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 						getDictionaryFrom(input: Output) >> getDictionaryFrom 3
-						choose(list: Dictionary, prompt: "${mainDict.key(msg.settingprompt)}${Variable.key(msg.settingprompt)}${Dictionary.key(folderpath)}${ActionOutput.key(folderpath)}") >> choose 7
+						choose(list: Dictionary, prompt: "${Dictionary.key(albumname)}${ActionOutput.key(albumname)}${mainDict.key(msg.settingprompt)}${Variable.key(msg.settingprompt)}") >> choose 8
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 var menu = Variable
 						} else {
-							valueFor(key: "${Chosen Item}", dictionary: mainDict) >> valueFor 14
+							valueFor(key: "${Chosen Item}", dictionary: mainDict) >> valueFor 13
 							number(value: 1)
 							if(Dictionary Value != nil) {
 								menu(, [) {
@@ -2248,23 +2338,23 @@ var menu = Variable
 								case("mainDict (no)"):
 									number(value: 0)
 								}
-							} >> IFResult 44
+							} >> IFResult 54
 							if(If Result == 1) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 								getDictionaryFrom(input: Output) >> getDictionaryFrom 4
 var pref = Dictionary
 							}
-						} >> IFResult 45
-					} >> IFResult 46
+						} >> IFResult 55
+					} >> IFResult 56
 				} >> RepeatResult 4
 			case("mainDict (getlink)"):
 				getClipboard() >> getClipboard
 				if(Clipboard .contains "youtu") {
-					runShortcut(name: "YouTube Download", input: Clipboard) >> runShortcut 2
+					runShortcut(name: "YouTube Download", input: Clipboard) >> runShortcut 1
 				} else {
 					alert(alert: "${Clipboard}", title: "${mainDict.key(msg.noclipboard)}", cancel: false)
-				} >> IFResult 47
+				} >> IFResult 57
 			} >> MenuResult 2
 		}
 	} >> RepeatResult 5
-} >> IFResult 48
+} >> IFResult 58
