@@ -1,9 +1,9 @@
 import Shortcuts
-#Color: grayBlue,#Icon: speaker
+#Color: grayBlue, #Icon: speaker
 
 createFolder(path: "Swing Updater/SFU/")
 deviceDetails(detail: Current Volume) >> deviceDetails
-var Current Volume = Current Volume
+var CurrentVolume = Current Volume
 dictionary({"Name":"iOS Soundboard","Version":"3.2","RH ID":"3224"})
 var Shortcut_details = Dictionary
 saveFile(input: Dictionary, ask: false, path: "Swing Updater/SFU/${Dictionary.key(Name)}", overwrite: true) >> saveFile
@@ -26,11 +26,11 @@ case("Alert Tones"):
     "\U23ce Back"
 )) >> list
 	choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)}  - Alert Times") >> choose
-	if( == "⏎ Back") {
+	if(Chosen Item == "⏎ Back") {
 		runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut
-		output(result: "${Shortcut Result}")
+		exit(var: Shortcut Result)
 	} else {
-		if( == "Classic >") {
+		if(Chosen Item == "Classic >") {
 			list(items: (
     "\U23ce Back",
     Alert,
@@ -61,26 +61,26 @@ case("Alert Tones"):
     Tweet,
     Typewriters,
     Update
-)) >> list
-			choose(list: List, prompt: "${Shortcut_details.key(name)} - Classic Alert Tones") >> choose
-			if( == "⏎ Back") {
-				runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut
-				output(result: "${Shortcut Result}")
-			} >> If Result
-			if( == "Swish") {
+)) >> list 1
+			choose(list: List, prompt: "${Shortcut_details.key(name)} - Classic Alert Tones") >> choose 1
+			if(Chosen Item == "⏎ Back") {
+				runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut 1
+				exit(var: Shortcut Result)
+			} >> IFResult
+			if(If Result == "Swish") {
 				replaceText(input: "${If Result}", find: "Swish", replace: "swish") >> replaceText
-			} >> If Result
-			replaceText(input: "${If Result}", find: " ", replace: "_") >> replaceText
+			} >> IFResult 1
+			replaceText(input: "${If Result}", find: " ", replace: "_") >> replaceText 1
 			dictionary({"Tri-tone":"sms-received1","Chime":"sms-received2","Glass":"sms-received3","Horn":"sms-received4","Bell":"sms-received5","Electronic":"sms-received6","Ding":"new-mail","Swoosh":"mail-sent","Tweet":"tweet_sent","Alert":"alarm","swish":"Swish"})
-			if( .contains ""${Replace Text}"") {
-				keysFrom(dictionary: Dictionary) >> keysFrom
+			if(Dictionary .contains ""${Replace Text}"") {
+				valuesFrom(dictionary: Dictionary) >> valuesFrom
 			} else {
-				var void = Updated Text
-			} >> If Result
-		} >> If Result
-	} >> If Result
+var void = Updated Text
+			} >> IFResult 2
+		} >> IFResult 3
+	} >> IFResult 4
 	dictionary({"${Chosen Item}":"file:///System/Library/PrivateFrameworks/ToneLibrary.framework/AlertTones/Modern/${Chosen Item}.m4r","${Replace Text}":"file:///System/Library/Audio/UISounds/New/${Replace Text}.caf","${If Result}":"file:///System/Library/Audio/UISounds/${If Result}.caf"})
-	keysFrom(dictionary: Dictionary) >> keysFrom
+	valuesFrom(dictionary: Dictionary) >> valuesFrom 1
 case("Ringtones"):
 	list(items: (
     "Classic >",
@@ -113,13 +113,13 @@ case("Ringtones"):
     Uplift,
     Waves,
     "\U23ce Back"
-)) >> list
-	choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)} - Ringtones") >> choose
-	if( == "⏎ Back") {
-		runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut
-		output(result: "${Shortcut Result}")
+)) >> list 2
+	choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)} - Ringtones") >> choose 2
+	if(Chosen Item == "⏎ Back") {
+		runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut 2
+		exit(var: Shortcut Result)
 	} else {
-		if( == "Classic >") {
+		if(Chosen Item == "Classic >") {
 			list(items: (
     "\U23ce Back",
     Alarm,
@@ -147,14 +147,14 @@ case("Ringtones"):
     "Time Passing",
     Trill,
     Xylophone
-)) >> list
-			choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)} - Classic Ringtones") >> choose
-		} >> If Result
-	} >> If Result
-	if( == "⏎ Back") {
-		runShortcut(name: Shortcut_details, input: If Result, show: false) >> runShortcut
-		output(result: "${Shortcut Result}")
-	} >> If Result
+)) >> list 3
+			choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)} - Classic Ringtones") >> choose 3
+		} >> IFResult 5
+	} >> IFResult 6
+	if(If Result == "⏎ Back") {
+		runShortcut(name: Shortcut_details, input: If Result, show: false) >> runShortcut 3
+		exit(var: Shortcut Result)
+	} >> IFResult 7
 	url(url: "file:///Library/Ringtones/${If Result}.m4r") >> url
 case("Bedtime"):
 	list(items: (
@@ -168,16 +168,16 @@ case("Bedtime"):
     Springtide,
     "Bright-Eyed",
     "\U23ce Back"
-)) >> list
-	choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)} - Bedtime (Alarms)") >> choose
-	if( == "⏎ Back") {
-		runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut
-		output(result: "${Shortcut Result}")
-	} >> If Result
+)) >> list 4
+	choose(list: List, prompt: "${Shortcut_details.as(Dictionary).key(Name)} - Bedtime (Alarms)") >> choose 4
+	if(Chosen Item == "⏎ Back") {
+		runShortcut(name: Shortcut_details, input: Chosen Item, show: false) >> runShortcut 4
+		exit(var: Shortcut Result)
+	} >> IFResult 8
 	replaceText(input: "${If Result}", find: " ", replace: "_", isRegex: false) >> Bedtime
-	url(url: "file:///System/Library/PrivateFrameworks/ToneLibrary.framework/AlarmWakeUpRingtones/${Bedtime}.m4r") >> url
+	url(url: "file:///System/Library/PrivateFrameworks/ToneLibrary.framework/AlarmWakeUpRingtones/${Bedtime}.m4r") >> url 1
 case("System Sounds"):
-var 95B99565-6778-47C8-8756-FA2474C052AD = """{
+var 8F9C0874-8C76-4042-BB21-2AC937D4B661 = """{
 "Phone 0":"file:///System/Library/Audio/UISounds/nano/dtmf-0.caf",
 "Phone 1":"file:///System/Library/Audio/UISounds/nano/dtmf-1.caf",
 "Phone 2":"file:///System/Library/Audio/UISounds/nano/dtmf-2.caf",
@@ -324,34 +324,34 @@ var 95B99565-6778-47C8-8756-FA2474C052AD = """{
 "Bedtime":"file:///System/Library/Audio/UISounds/go_to_sleep_alert.caf",
 "Nightstand":"file:///System/Library/Audio/UISounds/nano/Alarm_Nightstand_Haptic.caf"
 }"""
-text("${95B99565-6778-47C8-8756-FA2474C052AD}")
+text("${8F9C0874-8C76-4042-BB21-2AC937D4B661}")
 	menu(, [Play Every Sound, Choose from List, ⏎ Back]) {
 	case("Play Every Sound"):
 		repeatEach(System Sounds Dictionary) {
 			playSound(file: Repeat Item)
-		} >> Repeat Result
-		runShortcut(name: Shortcut_details, input: Repeat Results, show: false) >> runShortcut
-		output(result: "${Shortcut Result}")
+		} >> RepeatResult
+		runShortcut(name: Shortcut_details, input: Repeat Results, show: false) >> runShortcut 5
+		exit(var: Shortcut Result)
 	case("Choose from List"):
 		filterFiles() >> filterFiles
-		choose(list: Files) >> choose
-		keysFrom(dictionary: System Sounds Dictionary) >> keysFrom
+		choose(list: Files) >> choose 5
+		valuesFrom(dictionary: System Sounds Dictionary) >> valuesFrom 2
 	case("⏎ Back"):
-		runShortcut(name: Shortcut_details, input: System Sounds Dictionary, show: false) >> runShortcut
-		output(result: "${Shortcut Result}")
-	} >> Menu Result
-} >> Menu Result
+		runShortcut(name: Shortcut_details, input: System Sounds Dictionary, show: false) >> runShortcut 6
+		exit(var: Shortcut Result)
+	} >> MenuResult
+} >> MenuResult 1
 encodeAudio(media: Menu Result, speed: Ask) >> encodeAudio
 setVolume()
 playSound(file: Encoded Media)
 setVolume(level: Current Volume)
 menu(, [Select New Audio, Copy Audio File Path, Exit]) {
 case("Select New Audio"):
-	runShortcut(name: Shortcut_details) >> runShortcut
+	runShortcut(name: Shortcut_details) >> runShortcut 7
 case("Copy Audio File Path"):
 	setClipboard(variable: Menu Result, local: true)
 	sendNotification(body: "The audio file path has been copied to your clipboard.", title: "${Shortcut_details.key(name)}", sound: false, attachment: Encoded Media)
 case("Exit"):
-	output(result: "${Menu Result}")
-} >> Menu Result
-runShortcut(name: Shortcut_details, input: Encoded Media, show: false) >> runShortcut
+	exit(var: Menu Result)
+} >> MenuResult 2
+runShortcut(name: Shortcut_details, input: Encoded Media, show: false) >> runShortcut 8
