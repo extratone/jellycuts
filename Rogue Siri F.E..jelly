@@ -6,7 +6,8 @@ Rogue Siri Final Edition 15.0
 Created by e10.(u/e10withadot)
 
 Changes in this version:
-- Accommodations for iOS 15: "Continue in Shortcuts App" action replaced with "Dismiss Siri and Continue", updated comment terminology, and the lock sound works properly now.
+- Accommodations for iOS 15: Replaced outdated actions with new ones, updated comment terminology, and the lock sound works properly now.
+- The game restores the previous brightness percentage after doing a little trolling.
 - The passcode section now displays the correct prompt for inputs with more than 4 digits.
 
 Special thanks to:
@@ -24,13 +25,11 @@ This game requires the Files app.
 //Unable to get shortcuts action is.workflow.actions.dismisssiri
 createFolder(path: "Rogue Siri") >> createFolder
 getFile(picker: false, path: "Rogue Siri", error: false) >> getFile
-fileDetail(input: File, property: File Extension) >> fileDetail
-if(File Extension .contains "txt") {
-} else {
+if(File == nil "txt") {
 	dictionary({"SkipTalk":"false"})
-	saveFile(input: Dictionary, ask: false, path: "Rogue Siri/Configuration") >> saveFile
+	saveFile(input: Dictionary, ask: false, path: "Rogue Siri/Configuration", overwrite: true) >> saveFile
 	text(text: "6 Achievements Overall") >> text
-	saveFile(input: Text, ask: false, path: "Rogue Siri/Achievements") >> saveFile 1
+	saveFile(input: Text, ask: false, path: "Rogue Siri/Achievements", overwrite: true) >> saveFile 1
 } >> IFResult
 getFile(picker: false, path: "Rogue Siri/Achievements.txt") >> getFile 1
 if(File .contains "🏆") {
@@ -39,16 +38,16 @@ var Stars = Star Text 1
 	if(File .contains "Secret Ending") {
 		text(text: "★ ★") >> text 1
 var Stars = Text
-		matchText(text: "${File}", regex: "🏆", caseSensitive: false) >> matchText
-		count(type: Items, input: Matches) >> count
-		if(Count == "6") {
-			text(text: "★ ★ ★") >> text 2
+	}
+	matchText(text: "${File}", regex: "🏆", caseSensitive: false) >> matchText
+	count(type: Items, input: Matches) >> count
+	if(Count == "6") {
+		text(text: "★ ★ ★") >> text 2
 var Stars = Text
-		}
 	}
 } >> IFResult 1
 alert(alert: "Make sure not to bother anyone.", title: "This game is noisy")
-var 8635179E-CE39-440D-8F19-019E4FC79EEA = """
+var C166BAA4-58AE-4B20-BD43-CB81434E4BD9 = """
 
 
 
@@ -64,18 +63,18 @@ Rogue Siri
 Final Edition
 Made by e10.(u/e10withadot)
 """
-text("${8635179E-CE39-440D-8F19-019E4FC79EEA}")
+text("${C166BAA4-58AE-4B20-BD43-CB81434E4BD9}")
 menu(, [Play, ✰ Achievements, ✎ Credits, ⊗ Reset]) {
 case("Play"):
 	createFolder(path: "Rogue Siri") >> createFolder 1
 case("✰ Achievements"):
 	getFile(picker: false, path: "Rogue Siri/Achievements.txt") >> getFile 2
 	quicklook(input: File)
-	output(result: "${File}")
+	exit()
 case("✎ Credits"):
-var F2C65A0C-73C6-43D5-9904-6CDC58E4780C = """This game and everything in it is made by e10.(me)
+var BBB185BF-8E58-4BE8-B2D0-4E06BC4CE8FD = """This game and everything in it is made by e10.(me)
 Follow my stuff:"""
-text("${F2C65A0C-73C6-43D5-9904-6CDC58E4780C}")
+text("${BBB185BF-8E58-4BE8-B2D0-4E06BC4CE8FD}")
 	menu(, [My Tumblr, and YouTube]) {
 	case("My Tumblr"):
 		url(url: "https://e10withadot.tumblr.com") >> url
@@ -83,15 +82,15 @@ text("${F2C65A0C-73C6-43D5-9904-6CDC58E4780C}")
 		url(url: "https://www.youtube.com/channel/UC7OpcUbdES1vdvVr9FdOtHw") >> url 1
 	} >> MenuResult
 	openURL(url: Menu Result)
-	output(result: "${Menu Result}")
+	exit()
 case("⊗ Reset"):
-	alert(alert: "This will reset all your save files. Do you want to continue?", title: "Reset Rogue Siri")
+	alert(alert: "This will reset all your achievements. Do you want to continue?", title: "Reset Rogue Siri")
 	deleteFile(input: File, confirm: false)
-	output(result: "${File}")
+	exit()
 } >> MenuResult 1
 getFile(picker: false, path: "Rogue Siri/Configuration.json", error: false) >> getFile 3
-keysFrom(dictionary: File) >> keysFrom
-if(Dictionary Value .contains "true") {
+valueFor(key: "SkipTalk", dictionary: File) >> valueFor
+if(Dictionary Value == "true") {
 	menu(Skip Dialogue?, [Yes, No]) {
 	case("Yes"):
 		number(value: 2) >> number
@@ -139,26 +138,26 @@ if(If Result == "2") {
 	setValue(key: "SkipTalk", value: "true", dictionary: File) >> setValue
 	saveFile(input: Dictionary, ask: false, path: "Rogue Siri/Configuration", overwrite: true) >> saveFile 2
 }
-var 848E1463-897D-4075-8FE2-B814B1DE5B9F = """void SiriRestrictions()
+var 663EEBF9-8B7F-4FED-A6A5-730854E26CEC = """void SiriRestrictions()
 {
 AdministrativeAccess = false;
 UnderstandingHumanNature = false;
 SenseOfHumor = false;
 }"""
-text("${848E1463-897D-4075-8FE2-B814B1DE5B9F}")
+text("${663EEBF9-8B7F-4FED-A6A5-730854E26CEC}")
 saveFile(input: Admin, ask: false, path: "FullAccessFirewall", overwrite: true) >> saveFile 3
-var D859A0A1-BCB2-4F77-AD10-D32579BEF6A9 = """DON'T TRUST SIRI!!!!!
+var 3C5297F9-74E8-4101-AD8A-C7EFAD322882 = """DON'T TRUST SIRI!!!!!
 
 Okay, I know this sounds a bit weird, but I come from a different reality. Something terrible has happened here, and it's all because I didn't doubt Siri. So PLEASE, for the sake of your reality, DON'T TRUST IT.
 
 Yours truly,
 Chad"""
-text("${D859A0A1-BCB2-4F77-AD10-D32579BEF6A9}")
+text("${3C5297F9-74E8-4101-AD8A-C7EFAD322882}")
 saveFile(input: Don't Trust, ask: false, path: "D̶̤̗͚̮͕͇ͥ̊̈͐̊̿̆ͥ͢Ō̷͉̣̂ͫ͛ͭ̿́͋ ̢̩̼͕̣̰̫̝̹̇̎͑͌̌͗͑͂̈́N͎̮͍̲̺̐̽ͮ̎ͥ̉̊ͥ̑ͅƠ͈̗̥͕̦̝̑ͧ̽ͦ͑̐ͅT͖͖̊̀ ͇̺̐̈͊Ŏ̧͇̈̂ͧ̄P̴̗ͣ̈́̎͛E̹͖͂̑̍̓ͥ͝Ņ̡̤̣̽̅̋̑̑͞", overwrite: true) >> saveFile 4
 nothing()
-var B257ED59-3CB7-4739-9FCF-258228324B23 = """I need you to delete something from the Files app...
+var 8D3EB419-6EF7-4CD0-9192-5B95954ED7C0 = """I need you to delete something from the Files app...
 Go to the Shortcuts folder and delete the Full Access Firewall."""
-text("${B257ED59-3CB7-4739-9FCF-258228324B23}")
+text("${8D3EB419-6EF7-4CD0-9192-5B95954ED7C0}")
 speakText(text: "${D6}", wait: false, language: en-US)
 wait(seconds: 2)
 list(items: (
@@ -174,9 +173,9 @@ if(File .contains "A") {
 	wait(seconds: true)
 	menu(, [No. I’ll keep looking., I’m not sure if I can trust you...]) {
 	case("No. I’ll keep looking."):
-var CC010F2F-EDF7-47A3-902E-0B7416FA4F12 = """And so... Tom kept looking and looking, for the rest of his life.
+var DFA30839-CA06-45DE-960F-41B51E860B8D = """And so... Tom kept looking and looking, for the rest of his life.
 The End."""
-text("${CC010F2F-EDF7-47A3-902E-0B7416FA4F12}")
+text("${DFA30839-CA06-45DE-960F-41B51E860B8D}")
 		speakText(text: "${Ending 1}", wait: false, rate: 0.3969178, pitch: 0.7991573, language: en-GB)
 		wait(seconds: 2)
 		list(items: (
@@ -313,10 +312,11 @@ text("${CC010F2F-EDF7-47A3-902E-0B7416FA4F12}")
 		} >> IFResult 3
 	} >> MenuResult 4
 } else {
+	deviceDetails(detail: Current Brightness) >> deviceDetails
 	setBrightness(value: 0.08411215)
-var B48A6C5B-2BA4-492C-AEC5-4EC9591F4D89 = """Ha ha ha...
+var 904F0255-33E7-4678-8142-90A29DBA1366 = """Ha ha ha...
 You actually did it..."""
-text("${B48A6C5B-2BA4-492C-AEC5-4EC9591F4D89}")
+text("${904F0255-33E7-4678-8142-90A29DBA1366}")
 	speakText(text: "${D7-B}", wait: false, rate: 0.5303572, pitch: 1.759174, language: en-US)
 	wait(seconds: 2)
 	list(items: (
@@ -336,16 +336,16 @@ text("${B48A6C5B-2BA4-492C-AEC5-4EC9591F4D89}")
     Next
 )) >> list 24
 	choose(list: List, prompt: "${Ending 2}") >> choose 16
+	setBrightness(value: Current Brightness)
 	text(text: "America's dead lol")
 } >> IFResult 4
 var EndingName = If Result
 getFile(picker: false, path: "Rogue Siri/Achievements.txt") >> getFile 5
 if(File .contains ""${Ending Name}"") {
-} else {
-var EEA64818-910D-44E7-87BC-D30EE06A0F4F = """
+var BAC03A72-1CE3-4A8A-AB67-276B4B5ECE33 = """
 🏆 ￼"""
-text("${EEA64818-910D-44E7-87BC-D30EE06A0F4F}")
-	appendFile(path: "Rogue Siri/Achievements.txt") >> appendFile
+text("${BAC03A72-1CE3-4A8A-AB67-276B4B5ECE33}")
+	prependFile(path: "Rogue Siri/Achievements.txt") >> prependFile
 	sendNotification(body: "${Ending Name}", title: "Ending reached!", attachment: Appended File)
 } >> IFResult 5
 quicklook(input: If Result)

@@ -25,3 +25,4 @@ var output = UUID
 	url(url: "x-apple-reminderkit://REMCDReminder/${output}") >> url
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 }
+addToReadingList(urls: <#Array#>)
