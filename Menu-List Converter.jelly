@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Choose from Menu ←→ List action conversion tool
-2024-05-06 	v1.0
+2024-06-21 	v1.0.1
 https://routinehub.co/user/gluebyte
 https://mastodon.social/@gluebyte
 */
@@ -12,7 +12,7 @@ if(Random Number == 1) { >> IFResult
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=D1967642") >> downloadURL
-		if(Contents of URL .contains "2024-05-06") { >> IFResult 1
+		if(Contents of URL .contains "2024-06-21") { >> IFResult 1
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"): >> MenuResult
 				openURL(url: "https://routinehub.co/shortcut/18617/") >> openURL
@@ -43,7 +43,7 @@ if(Uniform Type Identifier .contains "com.apple.shortcuts.action") {
 
 🛑 No shortcut actions in clipboard
 
-", title: "", cancel: false)
+", tancel: false)
 	exit()
 } >> IFResult 7
 url(url: "data:text/html,<body/><script>document.body.textContent=([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16).toUpperCase())</script>") >> url
@@ -55,7 +55,7 @@ getType(input: action1) >> dictionary
 getTextFrom(input: action1) >> id
 nothing()
 if(id == "is.workflow.actions.list") {
-	valuesFrom(dictionary: action1) >> valuesFrom
+	valueFor(key: "WFWorkflowActionParameters.WFItems", dictionary: action1) >> valueFor
 	if(Dictionary Value == nil) {
 		list() >> list
 	} >> IFResult 8
@@ -277,7 +277,7 @@ if(id == "is.workflow.actions.list") {
 if(id == "is.workflow.actions.choosefrommenu") {
 	url(url: URL) >> url 1
 	getTextFrom(input: URL) >> ouuid
-	valuesFrom(dictionary: action1) >> valuesFrom 1
+	valueFor(key: "WFWorkflowActionParameters.WFMenuItems", dictionary: action1) >> valueFor 1
 	if(Dictionary Value == nil) {
 		list() >> list 2
 	} >> IFResult 11
@@ -1252,6 +1252,21 @@ if(id == "is.workflow.actions.choosefrommenu") {
                                                                                             };
                                                                                             WFSerializationType = WFTextTokenString;
                                                                                         };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = OutputName;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = List;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
                                                                                     }
                                                                                 );
                                                                             };
@@ -1542,6 +1557,21 @@ if(id == "is.workflow.actions.choosefrommenu") {
                                                                                         WFValue =                                                                                         {
                                                                                             Value =                                                                                             {
                                                                                                 string = ActionOutput;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = OutputName;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = List;
                                                                                             };
                                                                                             WFSerializationType = WFTextTokenString;
                                                                                         };

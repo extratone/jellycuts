@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: red, #Icon: shortcuts
+
+executeCommand(command: "ls", openWindow: 1, keepGoing: true")

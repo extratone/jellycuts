@@ -1,0 +1,148 @@
+import Shortcuts
+#Color: Red, #Icon: wrench
+
+/*
+Creates vCard menu using SF Symbols and Emojis
+2024-06-07 	v1.0.2
+https://routinehub.co/user/gluebyte
+https://threads.net/@gluebyte
+*/
+/*
+symbol ❱  SF Symbol name or emoji for menu item
+title ❱  Title of menu item
+subtitle ❱  Subtitle (optional)
+color ❱  6-digit hex RGB color (optional)
+
+background ❱  6-digit hex RGB background color
+scale ❱  SF Symbol scale in %
+style ❱  SF Symbol weight; one of ultralight, thin, light, regular, medium, semibold, bold, heavy, black
+*/
+dictionary({"items":[{dictionary({"symbol":"checkmark.seal.fill","color":"0044dd","title":"Custom Color SF Symbols","subtitle":"using 6-digit RGB hex values"})},{dictionary({"symbol":"car","color":"cc5500","title":"Custom Color Background"})},{dictionary({"symbol":"thermometer.sun.fill","title":"Multicolor SF Symbols"})},{dictionary({"symbol":"wifi","title":"Variable Scale and Weight","subtitle":"ultralight, regular, semibold, heavy, etc."})},{dictionary({"symbol":"🤓","title":"Emojis"})},{dictionary({"symbol":"🎉","title":"Optional Subtitles","subtitle":"like this"})}],"background":"aabbaa","scale":"100","style":"light"})
+/*
+◢◣  EDIT DICTIONARY ABOVE  ◢◣
+				or
+◥◤      ENTER JSON BELOW      ◥◤
+JSON will be used if text begins with {
+*/
+var 0AECA9F6-91E4-4D5E-8461-AA68FF151E2B = """X
+{"items":[{"symbol":"checkmark.seal.fill","color":"0044dd","title":"Custom Color SF Symbols","subtitle":"using 6-digit RGB hex values"},
+  {"symbol":"car","color":"cc5500","title":"Custom Color Background"},
+  {"symbol":"thermometer.sun.fill","title":"Multicolor SF Symbols"},
+  {"symbol":"wifi","title":"Variable Scale and Weight","subtitle":"ultralight, regular, semibold, heavy, etc."},
+  {"symbol":"🤓","title":"Emojis"},
+  {"symbol":"🎉","title":"Optional Subtitles","subtitle":"like this"}],
+"background":"aabbaa","scale":100,"style":"light"}"""
+text("${0AECA9F6-91E4-4D5E-8461-AA68FF151E2B}")
+/*
+❰❰ JSON FORMAT ❱❱
+{"items":[{"symbol":"tray.fill", "color":"32ca7d",
+			"title":"Hello", "subtitle":"there"},
+			{...}, ...],
+ "background":"ffffff",
+ "scale":100,"style":"semibold"}
+*/
+if(Text .beginsWith "{") {
+	getDictionaryFrom(input: Text) >> getDictionaryFrom
+var input = Dictionary
+} else {
+var input = Dictionary
+} >> IFResult
+getIP() >> getIP
+if(Current IP Address != nil) {
+	downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=8F16BE86") >> downloadURL
+	if(Contents of URL .contains "2024-06-07") {
+		menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+		case("🌏  Go to RoutineHub"):
+			openURL(url: "https://routinehub.co/shortcut/8841/") >> openURL
+			exit()
+		case("👾  Download Update"):
+			downloadURL(url: "https://routinehub.co/api/v1/shortcuts/8841/versions/latest") >> downloadURL 1
+			matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+			expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+			replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+			openURL(url: Updated Text) >> openURL 1
+			exit()
+		case("⮐  Not Now"):
+		} >> MenuResult
+	}
+} >> IFResult 1
+number(value: 123) >> 123
+list(items: (
+    000000,
+    ffffff,
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFDictionaryContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                DictionaryKey = background;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = input;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+repeatEach(List) {
+	url(url: "data:text/html,<script>document.write('Qk0eAAAAAAAAABoAAAAMAAAAAQABAAEA'+btoa(String.fromCharCode(...'00${Repeat Item}0018'.match(/../g).reverse().map(h=>parseInt(h,16)))))</script>") >> url
+	encode(input: URL) >> encode
+	setName(input: Base64 Encoded, name: "0.bmp") >> setName
+	convertImage(image: Renamed Item, format: PNG, metadata: false) >> convertImage
+	resizeImage(image: Converted Image, height: 123, width: 123) >> resizeImage
+} >> RepeatResult
+getItemFromList(list: Repeat Results) >> black
+getItemFromList(list: Repeat Results, type: Item At Index, index: "2") >> white
+getItemFromList(list: Repeat Results, type: Last Item) >> background
+repeatEach(input) {
+	valuesFrom(dictionary: Repeat Item) >> symbol
+	emojiName(input: "${symbol}") >> emojiName
+	if(Name of Emoji != nil) {
+		text(text: "<body style="background-color:#${symbol};font-size:24px;display:grid;place-content:center;">${ActionOutput}</body>") >> text
+		encode(input: Text) >> encode 1
+		url(url: "data:text/html;charset=utf-8;base64,${Base64 Encoded}") >> url 1
+		cropImage(image: URL, height: 123, width: 123) >> cropImage
+	} else {
+		valuesFrom(dictionary: Repeat Item) >> color
+//Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
+		encode(input: Output) >> encode 2
+		if(color != nil) {
+			url(url: "data:text/html,<script>document.write('Qk0eAAAAAAAAABoAAAAMAAAAAQABAAEA'+btoa(String.fromCharCode(...'00${color}0018'.match(/../g).reverse().map(h=>parseInt(h,16)))))</script>") >> url 2
+			encode(input: URL) >> encode 3
+			setName(input: Base64 Encoded, name: "0.bmp") >> setName 1
+			convertImage(image: Renamed Item, format: PNG, metadata: false) >> convertImage 1
+			resizeImage(image: Converted Image, height: 123, width: 123) >> foreground
+			overlayImage(image1: Base64 Encoded, image2: white, editor: false) >> overlayImage
+			maskImage(mode: Custom Image, mask: Overlaid Image) >> maskImage
+			overlayImage(image1: Masked Image, image2: white, editor: false) >> overlayImage 1
+			maskImage(mode: Custom Image, mask: Overlaid Image) >> maskImage 1
+		} >> IFResult 2
+		overlayImage(image1: If Result, image2: background, editor: false) >> overlayImage 2
+	} >> IFResult 3
+	encode(input: If Result) >> encode 4
+var CD7C170D-1FAD-4F9E-96B3-E62188569EA1 = """BEGIN:VCARDVERSION:3.0
+N:￼
+ORG:￼
+PHOTO;BASE64:￼END:VCARD
+"""
+text("${CD7C170D-1FAD-4F9E-96B3-E62188569EA1}")
+} >> RepeatResult 1
+text(text: "${Repeat Results}") >> text 1
+setName(input: Text, name: "m.vcf") >> setName 2
+getContactsFrom(input: Renamed Item) >> getContactsFrom
+choose(list: Contacts, prompt: "
+Tap any item to copy vCard text to clipboard (${Renamed Item.get(File Size)})
+", multiple: false) >> choose
+setClipboard(variable: Text) >> setClipboard

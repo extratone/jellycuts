@@ -1,0 +1,70 @@
+import Shortcuts, aShell
+#Color: tangerine, #Icon: puzzlePiece
+
+/*
+A guided experience for creating comprehensive a-Shell style configurations
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+Mastodon: https://mastodon.social/@DavidBlue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+speakText(text: "Choose a font.", wait: false)
+var 7B68E681-A392-48F6-A125-EF0F1782FCA0 = """config -n
+open shortcuts://"""
+text("${7B68E681-A392-48F6-A125-EF0F1782FCA0}")
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
+waitToReturn()
+askForInput(prompt: "Set font size.", type: Number, allowNegative: false) >> askForInput
+var tsize = Provided Input
+speakText(text: "Set a background color.", wait: false)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PickColourIntent
+waitToReturn()
+getClipboard() >> getClipboard
+var bg = Clipboard
+speakText(text: "Now set a foreground color.", wait: false)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PickColourIntent
+waitToReturn()
+getClipboard() >> getClipboard 1
+var fg = Clipboard
+speakText(text: "And finally, a color for the cursor and highlights.", wait: false)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PickColourIntent
+waitToReturn()
+getClipboard() >> getClipboard 2
+var cc = Clipboard
+menu(Choose a cursor style., [Beam ⌶, Block ▍, Underline ⎁]) {
+case("Beam ⌶"):
+	text(text: "beam") >> text
+var cursor = Text
+case("Block ▍"):
+	text(text: "block") >> text 1
+var cursor = Text
+case("Underline ⎁"):
+	text(text: "underline") >> text 2
+var cursor = Text
+} >> MenuResult
+list(items: (
+    normal,
+    contextual,
+    none
+)) >> list
+choose(list: List, prompt: "Choose a ligature configuration.") >> choose
+var ligatures = Chosen Item
+text(text: "config -s ${ligatures} -b #${Variable} -f #${cursor} -c #${Variable} -k ${bg} -l ${Variable} -p -g") >> text 3
+var command = Text
+setClipboard(variable: command) >> setClipboard
+var C195CB28-83CF-44C1-9171-25F1E6B07856 = """pbpaste > a-shelltheme.txt
+￼
+config --show
+view a-shelltheme.txt"""
+text("${C195CB28-83CF-44C1-9171-25F1E6B07856}")
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
