@@ -1,0 +1,227 @@
+import Shortcuts
+#Color: orange, #Icon: iPhone
+
+dictionary({"NameSC":" All Device Details","AuthorURL":"https://routinehub.co/user/JennyvonHamburg","SCURL":"https://routinehub.co/shortcut/15640","SCVersion":"18.0ß2💠6.25","Actions:Size[kB]":"139:38","Culture":"de-🇩🇪"})
+deviceDetails(detail: Device Is Watch) >> deviceDetails
+var F3970A53-2362-4664-94F7-44805398CDA9 = """GERÄTEDETAIL: ￼ 
+OS: ￼
+DEVICE TYPE: ￼
+SYSTEM VERSION: ￼
+SYSTEM BUILD NUMBER: ￼
+DEVICE MODEL: ￼
+Gerät ist Apple Watch: ￼
+DEVICE HOSTNAME: ￼
+SCREEN WIDTH: ￼
+SCREEN HEIGHT: ￼
+CURRENT VOLUME: ￼
+CURRENT BRIGHTNESS: ￼
+CURRENT APPEARANCE: ￼
+NAME: ￼"""
+text("${F3970A53-2362-4664-94F7-44805398CDA9}")
+var TITEL = Text
+count(type: Lines, input: TITEL) >> count
+// v18
+if(DeviceDetails .beginsWith "18") { >> IFResult
+	if(DeviceDetails == "22A5282m") { >> IFResult 1
+var FA28A276-21BE-4326-B6C2-285C17D6BEAD = """➛ Zusatzinfo:
+22A5282m-  18 Beta;        6,11 GB (13.06.)"""
+text("${FA28A276-21BE-4326-B6C2-285C17D6BEAD}")
+var ℹ️ = Text
+	} else {
+		if(DeviceDetails == "22A5297f") { >> IFResult 2
+var 8DFE9E92-3474-407B-96C9-58012D736257 = """➛ Zusatzinfo:
+22A5282m-  18 Beta;        6,11 GB (13.06.)
+22A5297f-    18 Beta 2;     1,11 GB (24.06.)
+22A5297f-    18 Beta 2;     6,05 GB (25.06.)"""
+text("${8DFE9E92-3474-407B-96C9-58012D736257}")
+var ℹ️ = Text
+		}
+	} >> IFResult 3
+var ßVER = Wenn-Ergebnis
+} >> IFResult 4
+/*
+v17
+
+iPadOS 18 beta 2 (22A5297f)
+🚩24. June 2024
+*/
+if(DeviceDetails .beginsWith "17") { >> IFResult 5
+	if(DeviceDetails .beginsWith "17.0") { >> IFResult 6
+var B2E5AFA9-2028-4F59-940A-EB34720A6E26 = """➛ Zusatzinfo:
+21A351 -       17.0.2;                113 MB (26.09.)
+21A340 -      17.0.1;              177,6 MB (21.09.)
+21A329 -      17.0;                  5,63 GB (12.9.)
+21A5326a - 17.0 Beta 6;    297,3 MB (30.08.)
+21A5319a -  17.0 Beta 5;   296,7 MB (23.8.)
+21A5312c -  17.0 Beta 4;  479,6 MB (16.8.)
+21A5303d - 17.0 Beta 3;  735,3 MB (10.8.)
+21A5291j -   17.0 Beta 2;   5,59 MB (01.8.)
+21A5291h - 17.0 Beta 4;  968,5 MB (26.7.)
+21A5277j -  17.0 Beta;        2,89 GB (15.07.)"""
+text("${B2E5AFA9-2028-4F59-940A-EB34720A6E26}")
+var ℹ️ = Text
+	} >> IFResult 7
+	if(DeviceDetails .beginsWith "17.1") { >> IFResult 8
+var 54091E4B-BF1D-45A1-BCA3-470983F93089 = """➛ Zusatzinfo:
+21B91 -         17.1.1;            268,8 MB; (8.11.)
+21B74 -         17.1;                 5,66 GB; (25.10.) 
+21B5066a - 17.1 Beta 3; 399,9 MB (11.10.)
+21B5056e - 17.1 Beta 2; 504,8 MB (04.10.)
+21B5045h - 17.1 Beta;       5,62 GB (28.09.)"""
+text("${54091E4B-BF1D-45A1-BCA3-470983F93089}")
+var ℹ️ = Text
+	} >> IFResult 9
+	if(DeviceDetails .beginsWith "17.2") { >> IFResult 10
+var D1E83CCB-C36B-41AD-9265-E7EB197014D7 = """➛ Zusatzinfo:
+21C62 -         17.2;                 5,63 GB (05.12.)
+21C5054b - 17.2 Beta 4; 454,8 MB (28.11.)
+21C5046c - 17.2 Beta 3; 435,7 MB (15.11.)
+21C5040g - 17.2 Beta 2; 748,8 MB (12.11.)
+21C5029g - 17.2 Beta;       5,63 GB (27.10.)"""
+text("${D1E83CCB-C36B-41AD-9265-E7EB197014D7}")
+var ℹ️ = Text
+		if(DeviceDetails == "21C5029g") { >> IFResult 11
+			text(text: "17.2ß") >> text
+		} else { >>  1
+			if(DeviceDetails == "21C5040g") { >> IFResult 12
+				text(text: "17.2ß2") >> text 1
+			} else {
+				if(DeviceDetails == "21C5046c") { >> IFResult 13
+					text(text: "17.2ß3") >> text 2
+				} else {
+					if(DeviceDetails == "21C5054b") { >> IFResult 14
+						text(text: "17.2ß4") >> text 3
+					} else {
+						text(text: "17.2") >> text 4
+					}
+				}
+			}
+		} >> IFResult 15
+var ßVER = Wenn-Ergebnis
+	} >> IFResult 16
+	if(DeviceDetails .beginsWith "17.3") { >> IFResult 17
+var 1094A6A9-8EFB-4918-B22C-F02B5052767C = """➛ Zusatzinfo:
+
+21D5026f - 17.3 Beta;         5,63 GB (14.12.)
+21D5036c - 17.3 Beta 2;     zurückgezogen
+21D5044a - 17.3 Beta 3;     433,6 MB (10.01.)
+21D50        - 17.3;                   5,64 GB (22.01.)"""
+text("${1094A6A9-8EFB-4918-B22C-F02B5052767C}")
+var ℹ️ = Text
+		if(DeviceDetails == "21D50026f") { >> IFResult 18
+			text(text: "17.3ß") >> text 5
+		} else { >>  6
+			if(DeviceDetails == "21D5036c") {
+				text(text: "17.3ß2") >> text 6
+			} else {
+				if(DeviceDetails == "21D5044a") {
+					text(text: "17.3ß3") >> text 7
+				} else {
+					text(text: "17.3") >> text 8
+				}
+			}
+		} >> IFResult 19
+var ßVER = Wenn-Ergebnis
+	} >> IFResult 20
+	if(DeviceDetails .beginsWith "17.4") { >> IFResult 21
+var E30ED62F-3A21-437A-9E3C-ABD030886D8F = """➛ Zusatzinfo:
+
+21E5184i -    17.4 Beta;         5,63 GB (26.01.)
+21E5195e -   17.4 Beta 2;   681,6 MB (07.02.)
+21E5200d -  17.4 Beta 3;   441,2 MB (13.02.)
+21E5209b -  17.4 Beta 4;   441,2 MB (20.02.)
+21E217 -        17.4 Release Candidate;(27.02.)
+21E219 -        17.4;                   5,67 GB (05.03.)
+21E236 -       17.4.1;                346 MB  (21.03.)"""
+text("${E30ED62F-3A21-437A-9E3C-ABD030886D8F}")
+var ℹ️ = Text
+		if(DeviceDetails == "21E5184i") { >> IFResult 22
+			text(text: "17.4ß") >> text 9
+		} else { >>  10
+			if(DeviceDetails == "21E5195e") { >> IFResult 23
+				text(text: "17.4ß2") >> text 10
+			} else {
+				if(DeviceDetails == "21E5200d") { >> IFResult 24
+					text(text: "17.4ß3") >> text 11
+				} else {
+					if(DeviceDetails == "21E5209b") { >> IFResult 25
+						text(text: "17.4ß4") >> text 12
+					} else {
+						if(DeviceDetails == "21E217") { >> IFResult 26
+							text(text: "17.4 Release Candidate") >> text 13
+						} else {
+							if(DeviceDetails == "21E219") { >> IFResult 27
+								text(text: "17.4") >> text 14
+							} else {
+								if(DeviceDetails == "21E236") { >> IFResult 28
+									text(text: "17.4.1") >> text 15
+								}
+							}
+						}
+					}
+				}
+			}
+		} >> IFResult 29
+	} >> IFResult 30
+	if(DeviceDetails .beginsWith "17.5") { >> IFResult 31
+		text(text: "17.5") >> text 16
+var A69975DA-B6A1-46C6-883B-76BCA543563F = """➛ Zusatzinfo:
+
+21F5048f -  17.5 beta;          5,7 GB (02.04.)
+21F5058e-  17.5 Beta 2;  407,2 MB (16.04.)
+21F5063f-   17.5 Beta 3; 394,9 MB (23.04.)
+21F5073b-  17.5 Beta 4; 389,3 MB (30.04.)
+21F79-          17.5 RC;          5,73 GB (07.05.)
+21F79-          17.5;                -------- (13.05.)
+21F90-          17.5.1;            227,1 MB (20.05.)"""
+text("${A69975DA-B6A1-46C6-883B-76BCA543563F}")
+var ℹ️ = Text
+		if(DeviceDetails == "21F5048f") { >> IFResult 32
+			text(text: "17.5ß") >> text 17
+		} else {
+			if(DeviceDetails == "21F5058e") { >> IFResult 33
+				text(text: "17.5ß2") >> text 18
+			} else {
+				if(DeviceDetails == "21F5063f") { >> IFResult 34
+					text(text: "17.5ß3") >> text 19
+				} else {
+					if(DeviceDetails == "21F5073b") { >> IFResult 35
+						text(text: "17.5ß4") >> text 20
+					} else {
+						if(DeviceDetails == "21F79") { >> IFResult 36
+							text(text: "17.5 RC") >> text 21
+							text(text: "17.5") >> text 22
+							if(DeviceDetails == "21F90") { >> IFResult 37
+								text(text: "17.5.1") >> text 23
+							}
+						}
+					}
+				}
+			}
+		}
+	} >> IFResult 38
+var ßVER = Wenn-Ergebnis
+}
+//  AIl OS Versions Check
+if(ℹ️ != nil) { >> IFResult 39
+var C3885620-BC52-422A-8021-65E9FA6E2AA7 = """￼
+￼  Details | ￼
+
+￼
+ 
+￼
+
+➛ Auf ￼-Update prüfen mit <Fertig>"""
+text("${C3885620-BC52-422A-8021-65E9FA6E2AA7}")
+} else { >>  40
+var AC2B08E5-3067-401E-A416-FCC232E3A607 = """￼  Details | ￼
+
+￼
+
+➛ Auf ￼-Update prüfen mit <Fertig>"""
+text("${AC2B08E5-3067-401E-A416-FCC232E3A607}")
+} >> IFResult 40
+showResult(text: "${Wenn-Ergebnis}")
+openURL(url: "prefs:root=General&path=SOFTWARE_UPDATE_LINK") >> openURL
+wait(seconds: 5)
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
