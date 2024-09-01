@@ -1,0 +1,37 @@
+import Shortcuts
+#Color: red, #Icon: videoIcon
+
+// Change the text below to whichever language you would like the response to be in.
+text(text: "English") >> text
+var language_name = Text
+text(text: "https://youtube-transcript-fetcher.vercel.app/api/yttranscript?video_url=${ShortcutInput}") >> text 1
+downloadURL(url: "${Text}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valueFor(key: "video_title", dictionary: Dictionary) >> valueFor
+var video_title = Dictionary Value
+valueFor(key: "video_transcript", dictionary: Dictionary) >> valueFor 1
+var video_transcript = Dictionary Value
+valueFor(key: "video_author", dictionary: Dictionary) >> valueFor 2
+var video_author = Dictionary Value
+text(text: "GPT-3.5") >> text 2
+var model = Text
+var 94DEA94A-9E83-4A6A-B36E-3D2D25469F9B = """Summarize this transcript into main points and subbullets. Suffix each main point with a single suitable emoji, while prefix each subbullet with a single suitable emoji.
+
+Follow every direction here when crafting your response:
+- First, analyze the text and identify no more than 10 main points.
+- Then, strictly adhere to this Markdown format when responding:
+1. **$main_point_1 $emoji**
+   - $emoji $subbullet_1
+- Finally, make sure your response is in ￼.
+
+Here is the transcript (enclosed in triple quotes):
+"""[￼] ￼""""""
+text("${94DEA94A-9E83-4A6A-B36E-3D2D25469F9B}")
+//Unable to get shortcuts action com.openai.chat.AskIntent
+//Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
+richTextFromMarkdown(markdown: Output) >> richTextFromMarkdown
+var 1765481D-5FB2-466E-8CD3-883CF762A521 = """￼ ￼ [￼]
+￼"""
+text("${1765481D-5FB2-466E-8CD3-883CF762A521}")
+setClipboard(variable: Text) >> setClipboard
+showWebPage(url: "${Rich Text from Markdown}") >> showWebPage

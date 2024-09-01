@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Downloads images and videos at highest quality from Threads.
-2024-04-28 	v1.0.5
+2024-08-27 	v1.0.6
 https://routinehub.co/user/gluebyte
 https://threads.net/@gluebyte
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2024-04-28";
+                                    string = "2024-08-27";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1480,7 +1480,7 @@ if(ShortcutInput != nil) { >> IFResult 6
 	} >> OS
 	getNumbersFrom(text: Output) >> count
 	if(count > 0) {
-		valueFor(key: "media_date", dictionary: pref) >> valueFor
+		valuesFrom(dictionary: pref) >> valuesFrom
 		if(Dictionary Value == 0) {
 			choose(list: mainDict, prompt: "${mainDict.key(menu.media_date.prompt)}") >> choose
 			replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 1
@@ -1494,7 +1494,7 @@ var savePref = Count
 		} >> IFResult 7
 		if(If Result == 1) {
 			text(text: "-t ${Output.key(tdate)} ") >> touchdate
-			valueFor(key: "date", dictionary: Output)
+			valuesFrom(dictionary: Output)
 		} else {
 			formatDate(date: "${CurrentDate}", dStyle: Custom, custom: "yyyy-MM-dd'T'HHmmss") >> formatDate
 		} >> timecode
@@ -1503,12 +1503,12 @@ var savePref = Count
 			setName(input: Repeat Item, name: "${Repeat Item.get(File Extension)}.${Variable.get(File Extension)}") >> setName
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
 			if(Repeat Item == "mp4") {
-var E2C99A9E-694A-4BDF-B311-A528337C2272 = """ffmpeg -v error -i ￼.mp4 -metadata "creation_time=￼" -c copy -y t.mp4
+var C55EE9F9-5F0D-419C-9909-2DEA95C44E69 = """ffmpeg -v error -i ￼.mp4 -metadata "creation_time=￼" -c copy -y t.mp4
 mv -f t.mp4 ￼.mp4
 touch ￼￼.￼"""
-text("${E2C99A9E-694A-4BDF-B311-A528337C2272}")
+text("${C55EE9F9-5F0D-419C-9909-2DEA95C44E69}")
 			} else {
-				text(text: "touch ${touchdate}${ActionOutput}.${Repeat Index}")
+				text(text: "touch ${Repeat Item.get(File Extension)}${Variable.get(File Extension)}.${Repeat Index}")
 			} >> IFResult 8
 		} >> RepeatResult
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
@@ -1521,16 +1521,16 @@ text("${E2C99A9E-694A-4BDF-B311-A528337C2272}")
 				math(input: Calculation Result, operand: Repeat Index) >> math 2
 				replaceText(input: "${Calculation Result}", find: "^.", replace: "-", isRegex: true)
 			} >> IFResult 9
-			setName(input: File, name: "${Output.key(user)} ${Variable.key(user)}${Output.key(date)}") >> setName 1
+			setName(input: File, name: "${Output.key(date)} ${Variable.key(date)}${If Result}") >> setName 1
 		} >> RepeatResult 1
 var media = Repeat Results
 		if(count > 1) {
 			replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> OS
-			valueFor(key: "show_list", dictionary: pref) >> valueFor 1
+			valuesFrom(dictionary: pref) >> valuesFrom 1
 			if(Dictionary Value == 0) {
 				number(value: 2) >> number
 				if(Output != nil) {
-					valueFor(key: "use_grid", dictionary: pref) >> valueFor 2
+					valuesFrom(dictionary: pref) >> valuesFrom 2
 					if(Dictionary Value == 0) {
 						choose(list: mainDict, prompt: "${mainDict.key(menu.use_grid.prompt)}") >> choose 1
 						replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 2
@@ -1552,14 +1552,14 @@ var switched = Variable
 						}
 					} >> RepeatResult 2
 					randomNumber(min: 0, max: 9999) >> random
-var FEC31697-5904-476E-A5CE-9C4363FC64B7 = """cd ~group
+var F70EEA6A-F124-41A0-8C21-B18ABEE4C77D = """cd ~group
 hideKeyboard
 touch thbegin￼
 rm -f thdone *.jpg
 ￼
 rm -f *.mp4
 touch thdone"""
-text("${FEC31697-5904-476E-A5CE-9C4363FC64B7}")
+text("${F70EEA6A-F124-41A0-8C21-B18ABEE4C77D}")
 					repeat(5) {
 						if(output .beginsWith "thbegin") {
 						} else {
@@ -1605,7 +1605,7 @@ var media = If Result
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 		} >> IFResult 15
 		if(media != nil) {
-			valueFor(key: "share", dictionary: pref) >> valueFor 3
+			valuesFrom(dictionary: pref) >> valuesFrom 3
 			if(Dictionary Value == 0) {
 				if(OS .between 171...173) {
 					math(input: "1", operation: -, operand: switched) >> math 4
@@ -1620,9 +1620,9 @@ var switched = Calculation Result
 				}
 				share(file: media) >> share
 			} >> IFResult 16
-			valueFor(key: "save_to_files", dictionary: pref) >> valueFor 4
+			valuesFrom(dictionary: pref) >> valuesFrom 4
 			if(Dictionary Value == 0) {
-				valueFor(key: "folderlocation", dictionary: pref) >> valueFor 5
+				valuesFrom(dictionary: pref) >> valuesFrom 5
 				if(OS == 1) {
 					if(Dictionary Value == nil) {
 						menu(, [) {
@@ -1648,7 +1648,7 @@ var pref = Dictionary
 					}
 				} >> IFResult 19
 				if(pref == nil) {
-					valueFor(key: "msg.folderprompt${OS}", dictionary: mainDict) >> valueFor 6
+					valuesFrom(dictionary: mainDict) >> valuesFrom 6
 					askForInput(prompt: "${Dictionary Value}") >> askForInput
 					text(text: "${Provided Input}") >> text 3
 					setValue(key: "savefolder", value: "${Text}", dictionary: pref) >> setValue 3
@@ -1660,9 +1660,9 @@ var savePref = Variable
 				} >> IFResult 20
 				saveFile(input: media, ask: false, path: "${pref.key(savefolder)}") >> saveFile
 			} >> IFResult 21
-			valueFor(key: "save_to_photos", dictionary: pref) >> valueFor 7
+			valuesFrom(dictionary: pref) >> valuesFrom 7
 			if(Dictionary Value == 0) {
-				valueFor(key: "album", dictionary: pref) >> album
+				valuesFrom(dictionary: pref) >> album
 				if(album == nil) {
 					alert(alert: "${mainDict.key(msg.album)}", cancel: false)
 					saveToCameraRoll(image: media, album: Ask) >> saveToCameraRoll
@@ -1688,7 +1688,7 @@ var savePref = Variable
 			openApp(id: "com.burbn.barcelona")
 		}
 		if(Output != nil) {
-			valueFor(key: "copy_caption", dictionary: pref) >> valueFor 8
+			valuesFrom(dictionary: pref) >> valuesFrom 8
 			if(Dictionary Value == 0) {
 				choose(list: mainDict, prompt: "${mainDict.key(menu.copy_caption.prompt)}") >> choose 4
 				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 3
@@ -1722,7 +1722,7 @@ var login = Variable
 	if(Output != nil) {
 		text(text: "❰ ${Output.key(user)}${Variable.key(user)} ❱") >> text 5
 	} else {
-		valueFor(key: "msg.nouserprompt", dictionary: mainDict)
+		valuesFrom(dictionary: mainDict)
 	} >> IFResult 31
 var menu = Variable
 	repeat(10) {
@@ -1740,11 +1740,11 @@ var login = Variable
 					if(menu == 0) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 						getDictionaryFrom(input: Output) >> getDictionaryFrom 3
-						choose(list: Dictionary, prompt: "${mainDict.key(msg.settingprompt)}${Variable.key(msg.settingprompt)}${Dictionary.key(albumname)}") >> choose 5
+						choose(list: Dictionary, prompt: "${Dictionary.key(folderpath)}${ActionOutput.key(folderpath)}${Dictionary.key(albumname)}") >> choose 5
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 var menu = Variable
 						} else {
-							valueFor(key: "${Chosen Item}", dictionary: mainDict) >> valueFor 9
+							valuesFrom(dictionary: mainDict) >> valuesFrom 9
 							if(Dictionary Value != nil) {
 								menu(, [) {
 								case("mainDict (yes)"):

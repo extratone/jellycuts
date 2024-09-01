@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 YouTube Download
-2024-07-29 	v2.1.2
+2024-09-01 	v2.2
 https://routinehub.co/user/gluebyte
 https://threads.net/@gluebyte
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2024-07-29";
+                                    string = "2024-09-01";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1902,7 +1902,7 @@ list(items: (
 getDictionaryFrom(input: List) >> getDictionaryFrom
 var mainDict = Dictionary
 if(ShortcutInput != nil) { >> IFResult
-	keysFrom(dictionary: mainDict) >> keysFrom
+	valueFor(key: "CacheExtra.5pYKlGnYYBzGvAlIU8RjEQ", dictionary: mainDict) >> valueFor
 	replaceText(input: "${Dictionary Value}", find: "^t.", isRegex: true) >> replaceText
 	if(Dictionary Value .beginsWith "t6") { >> IFResult 1
 		if(Updated Text >= 30) {
@@ -1917,7 +1917,7 @@ if(ShortcutInput != nil) { >> IFResult
 	} >> IFResult 3
 	if(If Result == nil) { >> IFResult 4
 		text(text: "codec.includes('AV1') ? ' 📁' : ") >> codec.includes('AV1') ? ' 📁' : 
-		keysFrom(dictionary: mainDict) >> av1prompt
+		valueFor(key: "msg.av1prompt", dictionary: mainDict) >> av1prompt
 	}
 	replaceText(input: "${ShortcutInput}", find: ".+youtube.com/(?:user/|@)([^/?]+).*", replace: "@$1", isRegex: true) >> replaceText 1
 	if(Updated Text != ""${ShortcutInput}"") { >> IFResult 5
@@ -1944,15 +1944,11 @@ if(Output != nil) { >> IFResult 9
 	exit()
 } >> IFResult 11
 if(Output != nil) { >> IFResult 12
-//Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
-	exit()
-}
-if(Output != nil) { >> IFResult 13
 	alert(alert: "${mainDict.key(msg.oldversion)}", cancel: false)
 	openURL(url: mainDict) >> openURL
 	exit()
-} >> IFResult 14
-if(Output != nil) { >> IFResult 15
+} >> IFResult 13
+if(Output != nil) { >> IFResult 14
 	menu(, [) {
 	case("mainDict (gotoweb)"):
 		openURL(url: mainDict)
@@ -1966,7 +1962,11 @@ if(Output != nil) { >> IFResult 15
 		exit()
 	case("mainDict (notnow)"):
 	} >> MenuResult
-} >> IFResult 16
+} >> IFResult 15
+if(Output != nil) { >> IFResult 16
+//Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
+	exit()
+}
 if(Output != nil) { >> IFResult 17
 	alert(alert: "${Output.key(error)}", title: "${mainDict.key(msg.error)}", cancel: false)
 	exit()
@@ -1984,17 +1984,17 @@ var albummedia = Repeat Results
 	} >> IFResult 21
 	if(Output != nil) { >> IFResult 22
 		getDictionaryFrom(input: Output) >> live
-var C79AED0C-2EAD-480B-9829-6D08E8096E39 = """
+var 4B514692-3128-4032-8D1F-B5264AF44837 = """
 
 ￼
 
 @￼"""
-text("${C79AED0C-2EAD-480B-9829-6D08E8096E39}")
+text("${4B514692-3128-4032-8D1F-B5264AF44837}")
 		if(live != nil) {
-			keysFrom(dictionary: mainDict) >> record
-			text(text: "${mainDict.key(msg.recordprompt)}${Variable.key(msg.recordprompt)}")
+			valueFor(key: "record", dictionary: mainDict) >> record
+			text(text: "${Text}${ActionOutput}")
 		} else {
-			text(text: "${mainDict.key(msg.postliveprompt)}${Variable.key(msg.postliveprompt)}")
+			text(text: "${Text}${ActionOutput}")
 		} >> IFResult 23
 		list(items: (
         {
@@ -2038,14 +2038,14 @@ text("${C79AED0C-2EAD-480B-9829-6D08E8096E39}")
 		choose(list: List, prompt: "${If Result}") >> choose
 		if(Chosen Item == ""${record}"") {
 			choose(list: live, prompt: "${mainDict.key(msg.qualityprompt)}") >> choose 1
-			keysFrom(dictionary: live) >> keysFrom 1
+			valueFor(key: "${Chosen Item}", dictionary: live) >> valueFor 1
 			menu(, [) {
 			case("mainDict (pip)"):
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 				wait(seconds: 3)
 			case("mainDict (skip)"):
 			} >> MenuResult 1
-var 0AB5AE98-BCCB-4FF9-BE7B-931B989C6763 = """clear
+var 06378209-5252-4894-A792-B6593C6AA0DF = """clear
 rm -f yt_*
 echo
 ￼
@@ -2055,7 +2055,7 @@ touch yt_done
 echo
 ￼
 echo"""
-text("${0AB5AE98-BCCB-4FF9-BE7B-931B989C6763}")
+text("${06378209-5252-4894-A792-B6593C6AA0DF}")
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 			alert(alert: "${mainDict.key(msg.recinstr)}", cancel: false)
 			repeat(20) { >> RepeatResult 1
@@ -2096,7 +2096,7 @@ var pip = live
 				if(ytitem != nil) {
 					getTextFrom(input: mainDict) >> open pip
 				} >> IFResult 25
-var 1FB6C9D6-3198-4228-910F-48F71BEB274A = """
+var 11E7B77C-F43C-4B9D-AB5C-A3B7188037B3 = """
 
 ￼
 
@@ -2105,7 +2105,7 @@ var 1FB6C9D6-3198-4228-910F-48F71BEB274A = """
 ￼
 
 """
-text("${1FB6C9D6-3198-4228-910F-48F71BEB274A}")
+text("${11E7B77C-F43C-4B9D-AB5C-A3B7188037B3}")
 				list(items: (
         {
         WFItemType = 0;
@@ -2173,7 +2173,7 @@ var pip = ytitem
 				} >> type
 			} >> IFResult 28
 			if(type != nil) { >> IFResult 29
-				keysFrom(dictionary: ytitem) >> keysFrom 2
+				valueFor(key: "${type}", dictionary: ytitem) >> valueFor 2
 				getDictionaryFrom(input: Dictionary Value) >> media dict
 				filterFiles() >> filterFiles
 				if(type == "audio") {
@@ -2201,7 +2201,7 @@ var pip = ytitem
 				if(chosen codec == "m4a → mp3") {
 					text(text: "m4a")
 				} >> IFResult 31
-				keysFrom(dictionary: media dict) >> keysFrom 3
+				valueFor(key: "${If Result}", dictionary: media dict) >> valueFor 3
 				getDictionaryFrom(input: Dictionary Value) >> media
 				getNumbersFrom(text: media) >> donuts
 				if(donuts > 20) {
@@ -2212,7 +2212,7 @@ var pip = ytitem
 				}
 				if(type == "video") {
 					if(chosen codec .contains "AVC") {
-						keysFrom(dictionary: pref) >> keysFrom 4
+						valueFor(key: "save_avc_to", dictionary: pref) >> valueFor 4
 						if(Dictionary Value == 0) {
 							choose(list: mainDict, prompt: "${mainDict.key(menu.save_avc_to.prompt)}") >> choose 3
 							replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 4
@@ -2239,7 +2239,7 @@ var savePref = Count
 						}
 					} >> get thumbnail
 					if(ytitem != nil) {
-						keysFrom(dictionary: pref) >> keysFrom 5
+						valueFor(key: "process_captions", dictionary: pref) >> valueFor 5
 						if(Dictionary Value != 1) {
 							if(Dictionary Value == 0) {
 								choose(list: mainDict, prompt: "${mainDict.key(menu.process_captions.prompt)}") >> choose 5
@@ -2277,7 +2277,7 @@ var savePref = Count
 				} >> media date
 				nothing() >> nothing 3
 				if(media date == 1) {
-					keysFrom(dictionary: ytitem)
+					valueFor(key: "date", dictionary: ytitem)
 				} >> date
 				if(get thumbnail == 2) {
 					downloadURL(url: "${ytitem.key(thumb)}") >> downloadURL 2
@@ -2308,12 +2308,12 @@ var savePref = Count
 					} else {
 						dictionary({"key":"m4a","codec":"copy"})
 					} >> IFResult 39
-					keysFrom(dictionary: ytitem) >> audio
+					valueFor(key: "audio.${If Result.key(key)}", dictionary: ytitem) >> audio
 					nothing() >> nothing 4
 					if(get caption == 2) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 					} >> caption
-var 6564FE52-0FC5-4470-87DC-AE676595CC31 = """echo "🌀 ￼ (￼🍩)"
+var E8A99DC4-B2AD-4768-8157-EBDE31180D7A = """echo "🌀 ￼ (￼🍩)"
 ￼
 echo 🌀 ￼
 ffmpeg -v error -stats -i yt_0.video -i yt_0.audio￼ -c:v copy -c:a ￼ -y yt_￼.￼
@@ -2321,22 +2321,22 @@ touch￼ yt_￼.￼ yt_￼.jpg
 rm -f yt_0.*
 if [ ! -s yt_￼.￼ ]
 then touch yt_donefail;echo;exit;fi"""
-text("${6564FE52-0FC5-4470-87DC-AE676595CC31}")
+text("${E8A99DC4-B2AD-4768-8157-EBDE31180D7A}")
 				} else {
 					nothing()
 					if(new ext == ""${ext}"") {
 						text(text: " -c copy")
 					} >> IFResult 40
-var 8BE1E2CA-7498-4F39-98A9-BF72E070AC1D = """echo 🌀 ￼
+var E76A9913-38CB-44CA-8553-F25C2066E397 = """echo 🌀 ￼
 ffmpeg -v error -stats -i yt_0.audio￼ -y yt_￼.￼
 touch￼ yt_￼.￼ yt_￼.jpg
 rm -f yt_0.*
 if [ ! -s yt_￼.￼ ]
 then touch yt_donefail;echo;exit;fi"""
-text("${8BE1E2CA-7498-4F39-98A9-BF72E070AC1D}")
+text("${E76A9913-38CB-44CA-8553-F25C2066E397}")
 				} >> IFResult 41
 				randomNumber(min: 0, max: 99999) >> random
-var 4EB748E9-F3B0-4B56-82BF-50377A2D6742 = """let c=`hideKeyboard
+var E33DA8FC-09DE-4111-A1C9-BAB816EF8BBD = """let c=`hideKeyboard
 ￼
 rm -f yt_done*
 Y3="echo 🛑☠️🛑";Y4="touch yt_donefail";Y5="echo -n 🍩️"
@@ -2345,7 +2345,7 @@ echo "🌀 ￼ (￼🍩)"
 ￼
 touch yt_done;echo`
 jsc.writeFile("yt_￼.dash",c);"""
-text("${4EB748E9-F3B0-4B56-82BF-50377A2D6742}")
+text("${E33DA8FC-09DE-4111-A1C9-BAB816EF8BBD}")
 				replaceText(input: "${Text}", find: "
 ", replace: ";") >> replaceText 9
 var loop = Variable
@@ -2423,7 +2423,7 @@ var loop = output
 						} else {
 							repeatEach(Output) {
 								getItemFromList(list: caption lang, type: Item At Index, index: Repeat Index 2) >> getItemFromList
-								keysFrom(dictionary: caption) >> keysFrom 6
+								valueFor(key: "${Item from List}.lang", dictionary: caption) >> valueFor 6
 								setName(input: Repeat Item 2, name: "${ytitem.key(title)} ${ActionOutput.key(title)}.srt")
 							} >> RepeatResult 6
 						} >> IFResult 45
@@ -2448,7 +2448,7 @@ var loop = output
 		text(text: "1") >> text 3
 	} >> OS
 	if(media != nil) { >> IFResult 48
-		keysFrom(dictionary: pref) >> keysFrom 7
+		valueFor(key: "folderlocation", dictionary: pref) >> valueFor 7
 		if(OS == 1) {
 			if(Dictionary Value == nil) {
 				menu(, [) {
@@ -2474,7 +2474,7 @@ var pref = Dictionary
 			}
 		} >> IFResult 51
 		if(pref == nil) {
-			keysFrom(dictionary: mainDict) >> keysFrom 8
+			valueFor(key: "msg.folderprompt${OS}", dictionary: mainDict) >> valueFor 8
 			askForInput(prompt: "${Dictionary Value}") >> askForInput
 			replaceText(input: "${Provided Input}/", find: "/+$", replace: "/", isRegex: true) >> replaceText 10
 			setValue(key: "savefolder", value: "${Updated Text}", dictionary: pref) >> setValue 5
@@ -2485,7 +2485,7 @@ var savePref = Variable
 		saveFile(input: media, ask: false, path: "${pref.key(savefolder)}") >> saveFile
 	} >> IFResult 53
 	if(album media != nil) { >> IFResult 54
-		keysFrom(dictionary: pref) >> album
+		valueFor(key: "album", dictionary: pref) >> album
 		if(album == nil) {
 			alert(alert: "${mainDict.key(msg.album)}", cancel: false)
 			saveToCameraRoll(image: album media, album: Ask) >> saveToCameraRoll
@@ -2506,14 +2506,14 @@ var savePref = Variable
 			} >> IFResult 55
 		} >> IFResult 56
 	}
-	keysFrom(dictionary: pref) >> keysFrom 9
+	valueFor(key: "viewer_app", dictionary: pref) >> valueFor 9
 	if(Dictionary Value != nil) {
 		openApp()
 	} else { >>  10
 		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> replaceText 11
 		if(Updated Text > 163) {
 			choose(list: mainDict, prompt: "${mainDict.key(menu.viewer_app.prompt)}") >> choose 7
-			keysFrom(dictionary: mainDict) >> keysFrom 10
+			valueFor(key: "bundle id.${Chosen Item}", dictionary: mainDict) >> valueFor 10
 			if(Dictionary Value == nil) {
 				openApp()
 			} else {
@@ -2522,14 +2522,14 @@ var savePref = Variable
 			setValue(key: "viewer_app", value: "${If Result.get(Bundle Identifier)}", dictionary: pref) >> setValue 7
 		} else {
 			choose(list: mainDict, prompt: "${mainDict.key(menu.viewer_app.prompt)}") >> choose 8
-			keysFrom(dictionary: mainDict) >> keysFrom 11
+			valueFor(key: "bundle id.${Chosen Item}", dictionary: mainDict) >> valueFor 11
 			openApp()
 			setValue(key: "viewer_app", value: "${Dictionary Value}", dictionary: pref) >> setValue 8
 		} >> IFResult 58
 var pref = If Result
 var savePref = Variable
 	} >> IFResult 59
-	keysFrom(dictionary: pref) >> keysFrom 12
+	valueFor(key: "open_files_photos", dictionary: pref) >> valueFor 12
 	if(Dictionary Value == nil) { >> IFResult 60
 		choose(list: mainDict, prompt: "${mainDict.key(menu.open_files_photos.prompt)}") >> choose 9
 		replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 12
@@ -2566,11 +2566,11 @@ var menu = Variable
 					if(menu == 0) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 						getDictionaryFrom(input: Output) >> getDictionaryFrom 3
-						choose(list: Dictionary, prompt: "${Dictionary.key(viewer_app)}${ActionOutput.key(viewer_app)}${Dictionary.key(albumname)}${ActionOutput.key(albumname)}") >> choose 10
+						choose(list: Dictionary, prompt: "${Dictionary.key(viewer_app)}${ActionOutput.key(viewer_app)}${Dictionary.key(folderpath)}${ActionOutput.key(folderpath)}") >> choose 10
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 var menu = Variable
 						} else {
-							keysFrom(dictionary: mainDict) >> keysFrom 13
+							valueFor(key: "${Chosen Item}", dictionary: mainDict) >> valueFor 13
 							number(value: 1)
 							if(Dictionary Value != nil) {
 								menu(, [) {
