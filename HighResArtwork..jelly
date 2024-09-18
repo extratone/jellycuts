@@ -139,22 +139,26 @@ if(siURLs != nil) {
 					getItemFromList(list: Split Text) >> getItemFromList 4
 				} else {
 					if(Input Url == "Podcasts") {
-						splitText(text: siURLs, separator: Custom, customSeparator: "/") >> splitText 5
-						getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 5
-						matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 2
+						matchText(text: "${siURLs}", regex: ".\/") >> matchText 2
+						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 5
+						splitText(text: siURLs, separator: Custom, customSeparator: "${Item from List}") >> splitText 5
+						getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 6
+						matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 3
 						getItemFromList(list: Matches)
 					} else {
-						matchText(text: "${siURLs}", regex: "\d{6,20}") >> matchText 3
-						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 6
+						matchText(text: "${siURLs}", regex: "\d{6,20}") >> matchText 4
+						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 7
 					} >> IFResult 4
 					searchItunes(query: "${If Result}", by: Product ID) >> searchItunes
 					if(iTunes Products == nil) {
 						searchItunes(query: "${If Result}", by: Product ID) >> searchItunes 1
 						if(iTunes Products == nil) {
-							splitText(text: siURLs, separator: Custom, customSeparator: "/") >> splitText 6
-							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 7
-							matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 4
-							getItemFromList(list: Matches) >> getItemFromList 8
+							matchText(text: "${siURLs}", regex: ".\/") >> matchText 5
+							getItemFromList(list: Matches, type: Last Item) >> getItemFromList 8
+							splitText(text: siURLs, separator: Custom, customSeparator: "${Item from List}") >> splitText 6
+							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 9
+							matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 6
+							getItemFromList(list: Matches) >> getItemFromList 10
 							searchItunes(query: "${Item from List}", by: Product ID) >> searchItunes 2
 							if(iTunes Products == nil) {
 								searchItunes(query: "${Item from List}", by: Product ID)
@@ -162,7 +166,7 @@ if(siURLs != nil) {
 						}
 					} >> Product Shortcut Input
 					splitText(text: Product Shortcut Input, separator: Custom, customSeparator: " (http") >> splitText 7
-					getItemFromList(list: Split Text) >> getItemFromList 9
+					getItemFromList(list: Split Text) >> getItemFromList 11
 				} >> IFResult 5
 				if(If Result != nil) {
 					dictionary({"image":"${Set Imqge}","name":"Shortcut Input (${Input Url})","sub":"${If Result}"})
@@ -182,9 +186,9 @@ if(siURLs != nil) {
 					downloadURL(url: "${siURLs}") >> downloadURL
 					htmlFromRichText(text: Contents of URL) >> htmlFromRichText 1
 					splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<meta property="og:title" content="") >> splitText 8
-					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 10
+					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 12
 					splitText(text: Item from List, separator: Custom, customSeparator: """) >> splitText 9
-					getItemFromList(list: Split Text) >> getItemFromList 11
+					getItemFromList(list: Split Text) >> getItemFromList 13
 					dictionary({"image":"${Images.key(Album.si)}","name":"Shortcut Input (Album)","sub":"${Item from List}","url":"${siURLs}"})
 				} else {
 					dictionary({"image":"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","name":"Shortcut Input","sub":"Found URL but couldn't match it","url":"${siURLs}"})
@@ -214,16 +218,16 @@ if(Dictionary Value == nil) {
 if(If Result != nil) {
 	getTextFrom(input: If Result) >> getTextFrom
 } else {
-	getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput 1
-	if(URLs != nil) {
-		if(URLs .contains ".apple.com") {
-			matchText(text: "${URLs}", regex: "(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(album)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(music-video)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(artist)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(playlist)|(?<=itunes\.apple\.com\/[a-zA-Z]{2}\/)(movie)|(?<=itunes\.apple\.com\/[a-zA-Z]{2}\/)(tv\-season)|(app)(?=s\.apple\.com)|(tv\.apple\.com)|(?<=books\.apple\.com\/[a-zA-Z]{2}\/)(book)|(?<=books\.apple\.com\/[a-zA-Z]{2}\/)(audiobook)|(podcast)(?=s\.apple\.com)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(station)") >> matchText 5
+	getURLSFromInput(text: "${Clipboard}") >> ClUrls
+	if(ClUrls != nil) {
+		if(ClUrls .contains ".apple.com") {
+			matchText(text: "${ClUrls}", regex: "(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(album)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(music-video)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(artist)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(playlist)|(?<=itunes\.apple\.com\/[a-zA-Z]{2}\/)(movie)|(?<=itunes\.apple\.com\/[a-zA-Z]{2}\/)(tv\-season)|(app)(?=s\.apple\.com)|(tv\.apple\.com)|(?<=books\.apple\.com\/[a-zA-Z]{2}\/)(book)|(?<=books\.apple\.com\/[a-zA-Z]{2}\/)(audiobook)|(podcast)(?=s\.apple\.com)|(?<=music\.apple\.com\/[a-zA-Z]{2}\/)(station)") >> matchText 7
 			if(Matches != nil) {
 				keysFrom(dictionary: Selection) >> keysFrom 4
 				keysFrom(dictionary: Images) >> keysFrom 5
-				matchText(text: "${Dictionary Value}", regex: "(Playlist)|(AppleTV)|(Radio\ Stations)") >> matchText 6
+				matchText(text: "${Dictionary Value}", regex: "(Playlist)|(AppleTV)|(Radio\ Stations)") >> matchText 8
 				if(Matches != nil) {
-					getURLSFromInput(text: "${URLs}") >> getURLSFromInput 2
+					getURLSFromInput(text: "${ClUrls}") >> getURLSFromInput 1
 					if(Dictionary Value == "AppleTV") {
 						if(Country is Switched ==) {
 							replaceText(input: "${URLs}", find: "(tv\.apple\.com)(\/[a-zA-Z]{1,3}\/)", replace: "$1/${Preset.key(AppleTV.Country)}/", isRegex: true) >> replaceText 1
@@ -237,25 +241,29 @@ if(If Result != nil) {
 					} >> IFResult 16
 					downloadURL(url: "${If Result}") >> CoU Clipboard
 					splitText(text: CoU Clipboard, separator: Custom, customSeparator: " on Apple") >> splitText 10
-					getItemFromList(list: Split Text) >> getItemFromList 12
+					getItemFromList(list: Split Text) >> getItemFromList 14
 				} else {
 					if(Dictionary Value == "Podcasts") {
-						splitText(text: URLs, separator: Custom, customSeparator: "/") >> splitText 11
-						getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 13
-						matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 7
+						matchText(text: "${ClUrls}", regex: ".\/") >> matchText 9
+						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 15
+						splitText(text: ClUrls, separator: Custom, customSeparator: "${Item from List}") >> splitText 11
+						getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 16
+						matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 10
 						getItemFromList(list: Matches)
 					} else {
-						matchText(text: "${URLs}", regex: "\d{6,20}") >> matchText 8
-						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 14
+						matchText(text: "${ClUrls}", regex: "\d{6,20}") >> matchText 11
+						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 17
 					} >> IFResult 17
 					searchItunes(query: "${If Result}", category: All, by: Product ID) >> searchItunes 3
 					if(iTunes Products == nil) {
 						searchItunes(query: "${If Result}", category: All, by: Product ID) >> searchItunes 4
 						if(iTunes Products == nil) {
-							splitText(text: URLs, separator: Custom, customSeparator: "/") >> splitText 12
-							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 15
-							matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 9
-							getItemFromList(list: Matches) >> getItemFromList 16
+							matchText(text: "${ClUrls}", regex: ".\/") >> matchText 12
+							getItemFromList(list: Matches, type: Last Item) >> getItemFromList 18
+							splitText(text: ClUrls, separator: Custom, customSeparator: "${Item from List}") >> splitText 12
+							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 19
+							matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 13
+							getItemFromList(list: Matches) >> getItemFromList 20
 							searchItunes(query: "${Item from List}", by: Product ID) >> searchItunes 5
 							if(iTunes Products == nil) {
 								searchItunes(query: "${Item from List}", by: Product ID)
@@ -263,32 +271,32 @@ if(If Result != nil) {
 						}
 					} >> Product Clipboard
 					splitText(text: Product Clipboard, separator: Custom, customSeparator: " (http") >> splitText 13
-					getItemFromList(list: Split Text) >> getItemFromList 17
+					getItemFromList(list: Split Text) >> getItemFromList 21
 				} >> IFResult 18
 				if(If Result != nil) {
 					dictionary({"image":"${Dictionary Value}","name":"Clipboard (${Dictionary Value})","sub":"${If Result}"})
 				} else {
-					dictionary({"image":"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","name":"Clipboard","sub":"Found URL but couldn't match it","url":"${URLs}"})
+					dictionary({"image":"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","name":"Clipboard","sub":"Found URL but couldn't match it","url":"${ClUrls}"})
 				} >> IFResult 19
 			} else {
-				dictionary({"image":"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","name":"Clipboard","sub":"Found URL but couldn't match it","url":"${URLs}"})
+				dictionary({"image":"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","name":"Clipboard","sub":"Found URL but couldn't match it","url":"${ClUrls}"})
 			} >> IFResult 20
 		} else {
-			downloadURL(url: "https://api.song.link/v1-alpha.1/links?url=${URLs}") >> Songlink Clipboard
+			downloadURL(url: "https://api.song.link/v1-alpha.1/links?url=${ClUrls}") >> Songlink Clipboard
 			if(Songlink Clipboard .contains ""appleMusic":{") {
 				keysFrom(dictionary: Songlink Clipboard) >> Clipboard Dictionary
-				dictionary({"image":"${Images.key(Album.clip)}","name":"Clipboard (Album)","sub":"${Clipboard Dictionary.as(Dictionary).key(artistName)} by ${ActionOutput.as(Dictionary).key(artistName)}","url":"${URLs}","dictionary":"${Songlink Clipboard}"})
+				dictionary({"image":"${Images.key(Album.clip)}","name":"Clipboard (Album)","sub":"${Clipboard Dictionary.as(Dictionary).key(artistName)} by ${ActionOutput.as(Dictionary).key(artistName)}","url":"${ClUrls}","dictionary":"${Songlink Clipboard}"})
 			} else {
-				if(URLs .contains "https://soundcloud") {
-					downloadURL(url: "${URLs}") >> downloadURL 1
+				if(ClUrls .contains "https://soundcloud") {
+					downloadURL(url: "${ClUrls}") >> downloadURL 1
 					htmlFromRichText(text: Contents of URL) >> htmlFromRichText 2
 					splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<meta property="og:title" content="") >> splitText 14
-					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 18
+					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 22
 					splitText(text: Item from List, separator: Custom, customSeparator: """) >> splitText 15
-					getItemFromList(list: Split Text) >> getItemFromList 19
-					dictionary({"image":"${Images.key(Album.clip)}","name":"Clipboard (Album)","sub":"${Item from List}","url":"${URLs}"}) >> SoundCloud Clip Dict
+					getItemFromList(list: Split Text) >> getItemFromList 23
+					dictionary({"image":"${Images.key(Album.clip)}","name":"Clipboard (Album)","sub":"${Item from List}","url":"${ClUrls}"}) >> SoundCloud Clip Dict
 				} else {
-					dictionary({"image":"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","name":"Clipboard","sub":"Found URL but couldn't match it","url":"${URLs}"})
+					dictionary({"image":"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","name":"Clipboard","sub":"Found URL but couldn't match it","url":"${ClUrls}"})
 				}
 			} >> IFResult 21
 		} >> If Result Clip
@@ -308,12 +316,12 @@ if(If Result != nil) {
 		getTextFrom(input: Dictionary Value)
 	} else {
 		if(SkipMenu is true ==) {
-			matchText(text: "${Preset.key(Skips.Start)}", regex: "Album|Artist|Music\ Video|Movies|TV\ Shows|AppStore|Podcasts|Books|AudioBooks|AppleTV|Playlists|Radio\ Stations", caseSensitive: true) >> matchText 10
+			matchText(text: "${Preset.key(Skips.Start)}", regex: "Album|Artist|Music\ Video|Movies|TV\ Shows|AppStore|Podcasts|Books|AudioBooks|AppleTV|Playlists|Radio\ Stations", caseSensitive: true) >> matchText 14
 		} else {
 			nothing()
 		} >> IFResult 23
 		if(If Result != nil) {
-			matchText(text: "${Preset.key(Skips.Start)}", regex: "(Album)|(Artist)") >> matchText 11
+			matchText(text: "${Preset.key(Skips.Start)}", regex: "(Album)|(Artist)") >> matchText 15
 			if(Matches != nil) {
 				wait()
 			} >> IFResult 24
@@ -322,12 +330,12 @@ if(If Result != nil) {
 			repeatEach(Problem) {
 				keysFrom(dictionary: Problem) >> Dictionary Value
 				if(Dictionary Value != nil 5) {
-var B32367B8-FA84-4842-8C3A-35EE6CFC840B = """BEGIN:VCARD
+var 5FF8E8CF-5E71-4588-9D4C-968C3A00A66A = """BEGIN:VCARD
 N;CHARSET=utf-8:￼;;;;
 ORG;CHARSET=utf-8:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${B32367B8-FA84-4842-8C3A-35EE6CFC840B}")
+text("${5FF8E8CF-5E71-4588-9D4C-968C3A00A66A}")
 				} else {
 					nothing()
 				} >> IFResult 25
@@ -335,18 +343,18 @@ text("${B32367B8-FA84-4842-8C3A-35EE6CFC840B}")
 			repeatEach(Images) {
 				keysFrom(dictionary: Images) >> keysFrom 8
 				if(Subtitles are turned on ==) {
-var 8BAF0312-697F-4BFD-92E2-9A1B98FDC74B = """BEGIN:VCARD
+var C8D06E10-5B52-42FC-8D4A-92212C4BE27E = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 ORG;CHARSET:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${8BAF0312-697F-4BFD-92E2-9A1B98FDC74B}")
+text("${C8D06E10-5B52-42FC-8D4A-92212C4BE27E}")
 				} else {
-var 3EC78933-34AD-4F91-844D-A2DC687E100A = """BEGIN:VCARD
+var 8321E4CC-483D-4E5C-AD1D-0E0CA9523DF8 = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${3EC78933-34AD-4F91-844D-A2DC687E100A}")
+text("${8321E4CC-483D-4E5C-AD1D-0E0CA9523DF8}")
 				} >> IFResult 26
 			} >> RepeatResult 1
 			combineText(text: "(
@@ -391,13 +399,13 @@ ${Dictionary Value.as(Dictionary).key(url)}")
 		} >> IFResult 28
 	} >> IFResult 29
 } >> Menu Result
-matchText(text: "${Menu Result.get(Name)}", regex: "(Shortcut\ Input)|(Clipboard)") >> matchText 12
+matchText(text: "${Menu Result.get(Name)}", regex: "(Shortcut\ Input)|(Clipboard)") >> matchText 16
 if(Matches != nil) {
-	matchText(text: "${Menu Result.get(Name)}", regex: "(Playlists)|(Radio\ Stations)") >> matchText 13
-	matchText(text: "${Menu Result.get(Name)}", regex: "(Album)|(Music Video)|(Movies)|(TV Shows)|(AppStore)|(Podcasts)|(Books)|(AudioBooks)") >> matchText 14
+	matchText(text: "${Menu Result.get(Name)}", regex: "(Playlists)|(Radio\ Stations)") >> matchText 17
+	matchText(text: "${Menu Result.get(Name)}", regex: "(Album)|(Music Video)|(Movies)|(TV Shows)|(AppStore)|(Podcasts)|(Books)|(AudioBooks)") >> matchText 18
 	if(Menu Result == "Shortcut Input (Album)") {
 		if(Shortcut Input Dictionary != nil) {
-			matchText(text: "${Songlink Input.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 15
+			matchText(text: "${Songlink Input.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 19
 		} else {
 			if(Dictionary != nil) {
 				splitText(text: HTML from Rich Text, separator: Custom, customSeparator: ""><meta property="og:image" content="")
@@ -408,7 +416,7 @@ if(Matches != nil) {
 	} else {
 		if(Menu Result == "Clipboard (Album)") {
 			if(Clipboard Dictionary != nil) {
-				matchText(text: "${Songlink Clipboard.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 16
+				matchText(text: "${Songlink Clipboard.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 20
 			} else {
 				if(SoundCloud Clip Dict != nil) {
 					splitText(text: HTML from Rich Text, separator: Custom, customSeparator: ""><meta property="og:image" content="") >> splitText 16
@@ -425,7 +433,7 @@ if(Matches != nil) {
 	}
 	if(Menu Result .contains "Artist") {
 		if(Matches .contains "Clipboard") {
-			downloadURL(url: "${URLs}") >> downloadURL 2
+			downloadURL(url: "${ClUrls}") >> downloadURL 2
 		} else {
 			downloadURL(url: "${siURLs}") >> downloadURL 3
 		} >> IFResult 33
@@ -454,9 +462,9 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 			openURL(url: URL)
 			exit()
 		} >> IFResult 34
-		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 20
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 24
 		splitText(text: Item from List, separator: Custom, customSeparator: "png">") >> splitText 18
-		getItemFromList(list: Split Text) >> getItemFromList 21
+		getItemFromList(list: Split Text) >> getItemFromList 25
 	}
 	if(Matches != nil "Playlists") {
 		if(Matches .contains "Clipboard") {
@@ -465,9 +473,9 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 			htmlFromRichText(text: CoU Shortcut Input) >> htmlFromRichText 5
 		} >> IFResult 35
 		splitText(text: If Result, separator: Custom, customSeparator: "src="") >> splitText 19
-		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 22
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 26
 		splitText(text: Item from List, separator: Custom, customSeparator: """) >> splitText 20
-		getItemFromList(list: Split Text) >> getItemFromList 23
+		getItemFromList(list: Split Text) >> getItemFromList 27
 	} >> IFResult 36
 	if(Menu Result .contains "AppleTV") {
 		if(Matches .contains "Clipboard") {
@@ -479,11 +487,11 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 	if(Matches != nil) {
 		if(If Result != nil) {
 			if(If Result .contains "sndcdn") {
-				getItemFromList(list: If Result, type: Item At Index, index: "2") >> getItemFromList 24
+				getItemFromList(list: If Result, type: Item At Index, index: "2") >> getItemFromList 28
 				splitText(text: Item from List, separator: Custom, customSeparator: """) >> splitText 21
-				getItemFromList(list: Split Text) >> getItemFromList 25
+				getItemFromList(list: Split Text) >> getItemFromList 29
 			} else {
-				getItemFromList(list: If Result, type: Last Item) >> getItemFromList 26
+				getItemFromList(list: If Result, type: Last Item) >> getItemFromList 30
 				searchItunes(query: "${Item from List}", by: Product ID) >> searchItunes 6
 				if(iTunes Products == nil) {
 					searchItunes(query: "${Item from List}", by: Product ID) >> searchItunes 7
@@ -500,9 +508,9 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 	} >> IFResult 42
 	repeatEach(If Result) {
 		if(Matches .contains "Clipboard") {
-			dictionary({"${Repeat Index}Removethis${Variable}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${URLs}"})
+			dictionary({"${Clip.key(sub)}Removethis${ActionOutput.key(sub)}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${ClUrls}"})
 		} else {
-			dictionary({"${Si.key(sub)}Removethis${ActionOutput.key(sub)}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${siURLs}"})
+			dictionary({"${Repeat Index}Removethis${Variable}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${siURLs}"})
 		} >> IFResult 43
 	} >> RepeatResult 2
 } else {
@@ -529,13 +537,13 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 							nothing()
 						} else {
 							splitText(text: Dictionary Value, separator: Custom, customSeparator: " by ") >> splitText 22
-							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 27
+							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 31
 							dictionary({"image":"${Dictionary Value.as(Dictionary).key(image)}","name":"${Item from List}","extra":"Shortcut Input (Album)"})
 						} >> IFResult 45
 					} else {
 						if(Dictionary Valu == "Shortcut Input (Music Video)") {
 							splitText(text: Dictionary Value, separator: Custom, customSeparator: " by ") >> splitText 23
-							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 28
+							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 32
 							dictionary({"image":"${Dictionary Value.as(Dictionary).key(image)}","name":"${Item from List}","extra":"Shortcut Input (Music Video)"})
 						} else {
 							nothing()
@@ -554,13 +562,13 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 							nothing()
 						} else {
 							splitText(text: Dictionary Value, separator: Custom, customSeparator: " by ") >> splitText 24
-							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 29
+							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 33
 							dictionary({"image":"${Dictionary Value.as(Dictionary).key(image)}","name":"${Item from List}","extra":"Clipboard (Album)"})
 						} >> IFResult 47
 					} else {
 						if(Dictionary Valu == "Clipboard (Music Video)") {
 							splitText(text: Dictionary Value, separator: Custom, customSeparator: " by ") >> splitText 25
-							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 30
+							getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 34
 							dictionary({"image":"${Dictionary Value.as(Dictionary).key(image)}","name":"${Item from List}","extra":"Clipboard (Music Video)"})
 						} else {
 							nothing()
@@ -572,13 +580,13 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 			} >> IFResult 50
 		} >> IFResult 51
 	} >> RepeatResult 3
-	getItemFromList(list: Repeat Results) >> getItemFromList 31
-	getItemFromList(list: Repeat Results, type: Last Item) >> getItemFromList 32
+	getItemFromList(list: Repeat Results) >> getItemFromList 35
+	getItemFromList(list: Repeat Results, type: Last Item) >> getItemFromList 36
 	dictionary({"Shortcut Input":"${Item from List}","Clipboard":"${Item from List}","Current Song":"${If Result}","Shazam":{"image":"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","name":"Shazam it!"},"Search Song":{"image":"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","name":"on the iTunes Store"},"Search Album":{"image":"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","name":"on the iTunes Store"},"Search Artist":{"image":"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","name":"on the iTunes Store"}}) >> Input Dictionary
 	if(Menu Result == "Album") {
 		keysFrom(dictionary: Preset) >> keysFrom 11
 		if(Dictionary Value ==) {
-			matchText(text: "${Preset.key(Skips.Album)}", regex: "Shortcut\ Input|Clipboard|Current\ Song|Shazam|Search\ Song|Search\ Album") >> matchText 17
+			matchText(text: "${Preset.key(Skips.Album)}", regex: "Shortcut\ Input|Clipboard|Current\ Song|Shazam|Search\ Song|Search\ Album") >> matchText 21
 		} >> IFResult 52
 		if(Matches == nil) {
 			text(text: "${Shortcut Input Clipboard} Current Song Shazam Search Song Search Album") >> text 4
@@ -587,7 +595,7 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 		if(Menu Result == "Artist") {
 			keysFrom(dictionary: Preset) >> keysFrom 12
 			if(Dictionary Value ==) {
-				matchText(text: "${Preset.key(Skips.Artist)}", regex: "Shortcut\ Input|Clipboard|Current\ Song|Shazam|Search\ Artist") >> matchText 18
+				matchText(text: "${Preset.key(Skips.Artist)}", regex: "Shortcut\ Input|Clipboard|Current\ Song|Shazam|Search\ Artist") >> matchText 22
 			} >> IFResult 54
 			if(Matches == nil) {
 				text(text: "${Shortcut Input Clipboard} Current Song Shazam Search Artist") >> text 5
@@ -601,27 +609,27 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 			keysFrom(dictionary: Input Dictionary) >> keysFrom 13
 			if(Dictionary Value != nil 5) {
 				if(Subtitles are turned on ==) {
-var 3EE993B8-6507-4CF0-81D8-FCA1D205D273 = """BEGIN:VCARD
+var 1248212A-5496-4EFF-831E-21C751798C74 = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 ORG;CHARSET:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${3EE993B8-6507-4CF0-81D8-FCA1D205D273}")
+text("${1248212A-5496-4EFF-831E-21C751798C74}")
 				} else {
-					matchText(text: "${Repeat Item}", regex: "Shazam|Search") >> matchText 19
+					matchText(text: "${Repeat Item}", regex: "Shazam|Search") >> matchText 23
 					if(Matches != nil) {
-var EDCA8BE3-967C-4FE7-99EF-9E3C06DBF23D = """BEGIN:VCARD
+var E0644CFA-D6D1-4E08-949C-BF5C4B317CC0 = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${EDCA8BE3-967C-4FE7-99EF-9E3C06DBF23D}")
+text("${E0644CFA-D6D1-4E08-949C-BF5C4B317CC0}")
 					} else {
-var DF4F324C-F137-44D1-A207-035E1382D9AA = """BEGIN:VCARD
+var 7146EA0A-AE3A-44E1-A823-37484BD17478 = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 ORG;CHARSET:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${DF4F324C-F137-44D1-A207-035E1382D9AA}")
+text("${7146EA0A-AE3A-44E1-A823-37484BD17478}")
 					}
 				} >> IFResult 57
 			} else {
@@ -631,57 +639,57 @@ text("${DF4F324C-F137-44D1-A207-035E1382D9AA}")
 			nothing()
 		} >> IFResult 59
 	} >> RepeatResult 4
-	matchText(text: "${Menu Result.get(Name)}", regex: "Album|Artist") >> matchText 20
+	matchText(text: "${Menu Result.get(Name)}", regex: "Album|Artist") >> matchText 24
 	if(Matches == nil "") {
 		if(Repeat Results != nil) {
 			dictionary({"Search App":"AppStore","Search Podcast":"Podcasts","Search Music Video":"Music Video","Search Movie":"Movies","Search TV Show":"TV Shows","Search Book":"Books","Search AudioBook":"AudioBooks","Search on Apple Music":"Playlists","Search on AppleTV":"AppleTV"})
 			if(Menu Result == "AppStore") {
-var 6786B880-54E5-4521-B804-0AF73D1A3CEB = """BEGIN:VCARD
+var 7E6965B0-0850-46CF-B29B-3634154C1DDA = """BEGIN:VCARD
 N;CHARSET:Search App;;;;
 ORG;CHARSET:on the AppStore;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${6786B880-54E5-4521-B804-0AF73D1A3CEB}")
+text("${7E6965B0-0850-46CF-B29B-3634154C1DDA}")
 			} else {
 				if(Menu Result == "Podcasts") {
-var 8FD26198-E42C-428E-BCA3-DB3763576D99 = """BEGIN:VCARD
+var 794AEC2E-A8BE-492D-B247-382FBB4EB904 = """BEGIN:VCARD
 N;CHARSET:Search Podcast;;;;
 ORG;CHARSET:on Podcasts;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${8FD26198-E42C-428E-BCA3-DB3763576D99}")
+text("${794AEC2E-A8BE-492D-B247-382FBB4EB904}")
 				} else {
 					if(Menu Result == "AppleTV") {
-var 661CEEEC-2362-4CEB-907E-0B9688156B26 = """BEGIN:VCARD
+var 521E0407-5817-4F28-8B6E-BE361BB8C488 = """BEGIN:VCARD
 N;CHARSET:Search on AppleTV;;;;
 ORG;CHARSET:Open the AppleTV app;
 PHOTO;ENCODING=b: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
 END:VCARD"""
-text("${661CEEEC-2362-4CEB-907E-0B9688156B26}")
+text("${521E0407-5817-4F28-8B6E-BE361BB8C488}")
 					} else {
 						if(Menu Result == "Playlists") {
-var 166789E2-6FFD-415B-9B12-725459973B11 = """BEGIN:VCARD
+var 69057CF7-4B59-4D49-AB8B-894E0FD3753C = """BEGIN:VCARD
 N;CHARSET:Search on Apple Music;;;;
 ORG;CHARSET:Open the Apple Music app;
 PHOTO;ENCODING=b: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
 END:VCARD"""
-text("${166789E2-6FFD-415B-9B12-725459973B11}")
+text("${69057CF7-4B59-4D49-AB8B-894E0FD3753C}")
 						} else {
 							if(Menu Result == "Radio Stations") {
-var 5D597F89-2F29-4DE0-8219-83B7612A8F82 = """BEGIN:VCARD
+var 5D925528-C1D6-4F7B-83CC-000EC29FE84B = """BEGIN:VCARD
 N;CHARSET:Search on Apple Music;;;;
 ORG;CHARSET:Open the Apple Music app;
 PHOTO;ENCODING=b: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
 END:VCARD"""
-text("${5D597F89-2F29-4DE0-8219-83B7612A8F82}")
+text("${5D925528-C1D6-4F7B-83CC-000EC29FE84B}")
 							} else {
 								replaceText(input: "${Menu Result.get(Name)}end", find: "(?=[a-zA-Z\ ])(send)", isRegex: true) >> replaceText 3
-var 0E9D5AA9-7FAF-4190-A8DD-15543F329FCB = """BEGIN:VCARD
+var DBC09128-FFF8-44AF-BE9E-8C19B6500E4C = """BEGIN:VCARD
 N;CHARSET:Search ￼;;;;
 ORG;CHARSET:on the iTunes Store;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${0E9D5AA9-7FAF-4190-A8DD-15543F329FCB}")
+text("${DBC09128-FFF8-44AF-BE9E-8C19B6500E4C}")
 							} >> IFResult 60
 						} >> IFResult 61
 					} >> IFResult 62
@@ -726,8 +734,8 @@ text("${0E9D5AA9-7FAF-4190-A8DD-15543F329FCB}")
 			if(Si Or Clip != nil) {
 				keysFrom(dictionary: Input Dictionary) >> keysFrom 14
 				keysFrom(dictionary: Dictionary Value) >> Extraa
-				matchText(text: "${Dictionary Value.as(Dictionary).key(extra)}", regex: "(Music Video)|(Movies)|(TV Shows)|(AppStore)|(Podcasts)|(Books)|(AudioBooks)") >> matchText 21
-				matchText(text: "${Extraa}", regex: "(Playlists)|(Radio\ Stations)") >> matchText 22
+				matchText(text: "${Dictionary Value.as(Dictionary).key(extra)}", regex: "(Music Video)|(Movies)|(TV Shows)|(AppStore)|(Podcasts)|(Books)|(AudioBooks)") >> matchText 25
+				matchText(text: "${Extraa}", regex: "(Playlists)|(Radio\ Stations)") >> matchText 26
 				if(Matches != nil "(Playlist") {
 					if(Si Or Clip .contains "Clipboard") {
 						htmlFromRichText(text: CoU Clipboard)
@@ -735,9 +743,9 @@ text("${0E9D5AA9-7FAF-4190-A8DD-15543F329FCB}")
 						htmlFromRichText(text: CoU Shortcut Input) >> htmlFromRichText 7
 					} >> IFResult 66
 					splitText(text: If Result, separator: Custom, customSeparator: "src="") >> splitText 26
-					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 33
+					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 37
 					splitText(text: Item from List, separator: Custom, customSeparator: """) >> splitText 27
-					getItemFromList(list: Split Text) >> getItemFromList 34
+					getItemFromList(list: Split Text) >> getItemFromList 38
 				} >> IFResult 67
 				if(Extraa .contains "(AppleTV)") {
 					if(Si Or Clip .contains "Clipboard") {
@@ -755,9 +763,9 @@ text("${0E9D5AA9-7FAF-4190-A8DD-15543F329FCB}")
 				} >> IFResult 70
 				repeatEach(If Result) {
 					if(Si Or Clip .contains "Clipboard") {
-						dictionary({"${Repeat Index}Removethis${Variable}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${URLs}"})
+						dictionary({"${Menu Result 2.0.as(Contact).get(Company)}Removethis${ActionOutput.as(Contact).get(Company)}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${ClUrls}"})
 					} else {
-						dictionary({"${Repeat Index}Removethis${Variable}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${siURLs}"})
+						dictionary({"${Menu Result 2.0.as(Contact).get(Company)}Removethis${ActionOutput.as(Contact).get(Company)}":"${Repeat Item}","linkRemovethis${Repeat Index}":"${siURLs}"})
 					} >> IFResult 71
 				} >> RepeatResult 5
 			} else {
@@ -885,15 +893,15 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 			setName(input: Combined Text, name: "Input Menu.vcf") >> setName 2
 			choose(list: Renamed Item, prompt: "Choose Input for ${Menu Result.get(Name)} ")
 		} >> Menu Result 5.0
-		matchText(text: "${Menu Result 5.0.as(Contact).get(Name)}", regex: "(Shortcut\ Input)|(Clipboard)") >> matchText 23
+		matchText(text: "${Menu Result 5.0.as(Contact).get(Name)}", regex: "(Shortcut\ Input)|(Clipboard)") >> matchText 27
 		if(Matches != nil) {
 			keysFrom(dictionary: Input Dictionary) >> keysFrom 16
 			keysFrom(dictionary: Dictionary Value) >> Extraaa
 			if(Extraaa == "Shortcut Input (Album)") {
 				if(Shortcut Input Dictionary != nil) {
-					matchText(text: "${Songlink Input.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)") >> matchText 24
-					matchText(text: "${Songlink Input.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 25
-					getItemFromList(list: Matches, type: Last Item) >> getItemFromList 35
+					matchText(text: "${Songlink Input.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)") >> matchText 28
+					matchText(text: "${Songlink Input.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 29
+					getItemFromList(list: Matches, type: Last Item) >> getItemFromList 39
 					dictionary({"country":"${Matches}","id":"${Item from List}"})
 				} else {
 					if(Dictionary != nil) {
@@ -905,9 +913,9 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 			} else {
 				if(Extraaa == "Clipboard (Album)") {
 					if(Clipboard Dictionary != nil) {
-						matchText(text: "${Songlink Clipboard.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)") >> matchText 26
-						matchText(text: "${Songlink Clipboard.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 27
-						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 36
+						matchText(text: "${Songlink Clipboard.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)") >> matchText 30
+						matchText(text: "${Songlink Clipboard.as(Dictionary).key(linksByPlatform.appleMusic.url)}", regex: "\d{6,20}") >> matchText 31
+						getItemFromList(list: Matches, type: Last Item) >> getItemFromList 40
 						dictionary({"country":"${Matches}","id":"${Item from List}"})
 					} else {
 						if(SoundCloud Clip Dict != nil) {
@@ -923,26 +931,30 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 			if(Menu Result .contains "Artist") {
 				if(Extraaa .contains "Artist") {
 					if(Matches .contains "Clipboard") {
-						getURLSFromInput(text: "${URLs}") >> getURLSFromInput 3
+						getURLSFromInput(text: "${ClUrls}") >> getURLSFromInput 2
 					} else {
-						getURLSFromInput(text: "${siURLs}") >> getURLSFromInput 4
+						getURLSFromInput(text: "${siURLs}") >> getURLSFromInput 3
 					} >> IFResult 87
 				} else {
 					if(If Result != nil) {
 						downloadURL(url: "https://itunes.apple.com/lookup?id=${If Result.key(country)}&country=${ActionOutput.key(country)}") >> downloadURL 4
 					} else {
 						if(Matches .contains "Clipboard") {
-							splitText(text: URLs, separator: Custom, customSeparator: "/") >> splitText 28
+							matchText(text: "${ClUrls}", regex: ".\/") >> matchText 32
+							getItemFromList(list: Matches, type: Last Item) >> getItemFromList 41
+							splitText(text: ClUrls, separator: Custom, customSeparator: "${Item from List}") >> splitText 28
 						} else {
-							splitText(text: siURLs, separator: Custom, customSeparator: "/") >> splitText 29
+							matchText(text: "${siURLs}", regex: ".\/") >> matchText 33
+							getItemFromList(list: Matches, type: Last Item) >> getItemFromList 42
+							splitText(text: siURLs, separator: Custom, customSeparator: "${Item from List}") >> splitText 29
 						} >> IFResult 88
-						getItemFromList(list: If Result, type: Last Item) >> getItemFromList 37
-						matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 28
-						getItemFromList(list: Matches, type: First Item) >> getItemFromList 38
+						getItemFromList(list: If Result, type: Last Item) >> getItemFromList 43
+						matchText(text: "${Item from List}", regex: "\d{6,20}") >> matchText 34
+						getItemFromList(list: Matches, type: First Item) >> getItemFromList 44
 						if(Matches .contains "Clipboard") {
-							matchText(text: "${URLs}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)|(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/music\-video\/)") >> matchText 29
+							matchText(text: "${ClUrls}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)|(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/music\-video\/)") >> matchText 35
 						} else {
-							matchText(text: "${siURLs}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)|(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/music\-video\/)") >> matchText 30
+							matchText(text: "${siURLs}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)|(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/music\-video\/)") >> matchText 36
 						} >> IFResult 89
 						downloadURL(url: "https://itunes.apple.com/lookup?id=${If Result}&country=${ActionOutput}") >> downloadURL 5
 					} >> IFResult 90
@@ -965,9 +977,9 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 			} else {
 				if(If Result != nil) {
 					if(If Result .contains "sndcdn") {
-						getItemFromList(list: If Result, type: Item At Index, index: "2") >> getItemFromList 39
+						getItemFromList(list: If Result, type: Item At Index, index: "2") >> getItemFromList 45
 						splitText(text: Item from List, separator: Custom, customSeparator: """) >> splitText 30
-						getItemFromList(list: Split Text) >> getItemFromList 40
+						getItemFromList(list: Split Text) >> getItemFromList 46
 					} else {
 						searchItunes(query: "${If Result}", by: Product ID) >> searchItunes 13
 					} >> IFResult 94
@@ -979,7 +991,7 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 					}
 				} >> IFResult 95
 				if(Matches .contains "Clipboard") {
-					dictionary({"${Menu Result 5.0.as(Contact).get(Company)}":"${If Result}","linkRemovethis1":"${URLs}"})
+					dictionary({"${Menu Result 5.0.as(Contact).get(Company)}":"${If Result}","linkRemovethis1":"${ClUrls}"})
 				} else {
 					dictionary({"${Menu Result 5.0.as(Contact).get(Company)}":"${If Result}","linkRemovethis1":"${siURLs}"})
 				}
@@ -987,18 +999,18 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 		} >> IFResult 97
 		if(Menu Result 5.0 == "Current Song") {
 			searchItunes(query: "Joyner Lucas", by: Artist, results: Artists, count: true) >> searchItunes 14
-			matchText(text: "${iTunes Products.get(Store URL)}", regex: "(?<=music\.apple\.com\/).*(?=\/artist\/)") >> matchText 31
-			changeCase(text: "${Current Song.get(Artist)} by ${ActionOutput.get(Artist)} (${Current Song.get(Album)})", case: uppercase) >> changeCase
-			encodeURL(url: "${Current Song.get(Album)} by ${ActionOutput.get(Album)} (${Current Song.get(Artist)})") >> encodeURL
+			matchText(text: "${iTunes Products.get(Store URL)}", regex: "(?<=music\.apple\.com\/).*(?=\/artist\/)") >> matchText 37
+			changeCase(text: "${Current Song.get(Title)} by ${ActionOutput.get(Title)} (${Current Song.get(Album)})", case: uppercase) >> changeCase
+			decodeURL(url: "${Current Song.get(Artist)} by ${ActionOutput.get(Artist)} (${Current Song.get(Album)})") >> decodeURL
 			downloadURL(url: "https://itunes.apple.com/search?term=${Matches}&limit=25&country=${ActionOutput}") >> downloadURL 6
 			repeatEach(Contents of URL) {
 				if(Current Song ==) {
 					matchText(text: "${Repeat Item}", regex: "(?=.*\"trackExplicitness\"\:\"explicit\").*")
 				} else {
-					matchText(text: "${Repeat Item}", regex: "(?=.*\"trackExplicitness\"\:\"cleaned\").*|(?=.*\"trackExplicitness\"\:\"notExplicit\").*") >> matchText 32
+					matchText(text: "${Repeat Item}", regex: "(?=.*\"trackExplicitness\"\:\"cleaned\").*|(?=.*\"trackExplicitness\"\:\"notExplicit\").*") >> matchText 38
 				} >> IFResult 98
 				getDictionaryFrom(input: If Result) >> getDictionaryFrom 1
-				changeCase(text: "${Dictionary.key(collectionCensoredName)} by ${ActionOutput.key(collectionCensoredName)} (${Dictionary.key(artistName)})") >> changeCase 1
+				changeCase(text: "${Dictionary.key(trackCensoredName)} by ${ActionOutput.key(trackCensoredName)} (${Dictionary.key(artistName)})") >> changeCase 1
 				if(Updated Text == ""${Updated Text}"") {
 					if(Menu Result == "Artist") {
 						if(Dictionary .contains ""artistLinkUrl":"") {
@@ -1045,7 +1057,7 @@ Would you like to open the App now?", title: "Radio Stations can only be found i
 		if(Menu Result 5.0 == "Shazam") {
 			keysFrom(dictionary: Preset) >> Show Is True
 			if(Subtitles are turned on ==) {
-var B128B9D0-B098-4722-A682-0A607D62F633 = """BEGIN:VCARD
+var 365CC8E5-A055-4CA8-85CD-72DE5152788B = """BEGIN:VCARD
 N;CHARSET:Retry;;;;
 ORG;CHARSET:Shazam Again;
 PHOTO;ENCODING=b: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
@@ -1055,9 +1067,9 @@ N;CHARSET:Go Back;;;;
 ORG;CHARSET:Use Other Input;
 PHOTO;ENCODING=b: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
 END:VCARD"""
-text("${B128B9D0-B098-4722-A682-0A607D62F633}")
+text("${365CC8E5-A055-4CA8-85CD-72DE5152788B}")
 			} else {
-var 91B811C6-A5D2-484E-AD8A-FF27469D2906 = """BEGIN:VCARD
+var 95F85C70-36BC-4DDB-8B55-4D50EC020280 = """BEGIN:VCARD
 N;CHARSET:Retry;;;;
 PHOTO;ENCODING=b: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
 END:VCARD
@@ -1065,7 +1077,7 @@ BEGIN:VCARD
 N;CHARSET:Go Back;;;;
 PHOTO;ENCODING=b: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
 END:VCARD"""
-text("${91B811C6-A5D2-484E-AD8A-FF27469D2906}")
+text("${95F85C70-36BC-4DDB-8B55-4D50EC020280}")
 			} >> IFResult 107
 			repeat(25) {
 				if(If Result == nil) {
@@ -1081,38 +1093,38 @@ text("${91B811C6-A5D2-484E-AD8A-FF27469D2906}")
 						keysFrom(dictionary: Preset) >> keysFrom 20
 						if(Dictionary Value ==) {
 							if(Menu Result == "Artist") {
-var B4B5519A-1B59-4893-9093-E9A9A1FDEE00 = """BEGIN:VCARD
+var 10B33222-7E14-478A-97CD-E018178DD440 = """BEGIN:VCARD
 N;CHARSET:Use Song;;;;
 ORG;CHARSET:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${B4B5519A-1B59-4893-9093-E9A9A1FDEE00}")
+text("${10B33222-7E14-478A-97CD-E018178DD440}")
 							} else {
-var B29E2A02-B78C-4D20-ABEE-8EAE97B1C1A7 = """BEGIN:VCARD
+var 75480F85-69C5-4078-A9B4-92B1D1FC3195 = """BEGIN:VCARD
 N;CHARSET:Use Song;;;;
 ORG;CHARSET:￼ by ￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${B29E2A02-B78C-4D20-ABEE-8EAE97B1C1A7}")
+text("${75480F85-69C5-4078-A9B4-92B1D1FC3195}")
 							} >> IFResult 108
 							setName(input: If Result, name: "Hey.vcf")
 						} else {
 							if(Menu Result == "Artist") {
-var F7B59A30-0C6E-4DF7-8C6B-9BEC2CF7A4BC = """BEGIN:VCARD
+var 3E73DB55-F3B8-4037-AA11-160B15A2ABDD = """BEGIN:VCARD
 N;CHARSET:Use Song;;;;
 ORG;CHARSET:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD
 ￼"""
-text("${F7B59A30-0C6E-4DF7-8C6B-9BEC2CF7A4BC}")
+text("${3E73DB55-F3B8-4037-AA11-160B15A2ABDD}")
 							} else {
-var 351FF857-C5ED-4E06-9DEF-E6BFFF36B55D = """BEGIN:VCARD
+var 9547E8BA-FBDB-40E7-A44B-A5FA255437D2 = """BEGIN:VCARD
 N;CHARSET:Use Song;;;;
 ORG;CHARSET:￼ by ￼;
 PHOTO;ENCODING=b:￼
 END:VCARD
 ￼"""
-text("${351FF857-C5ED-4E06-9DEF-E6BFFF36B55D}")
+text("${9547E8BA-FBDB-40E7-A44B-A5FA255437D2}")
 							} >> IFResult 109
 							setName(input: If Result, name: "Shazam.vcf") >> setName 4
 							choose(list: Renamed Item) >> choose 9
@@ -1129,8 +1141,8 @@ text("${351FF857-C5ED-4E06-9DEF-E6BFFF36B55D}")
 							text(text: "${Shazam Media.get(Apple Music ID)}")
 						} >> amId
 						if(Menu Result == "Artist") {
-							matchText(text: "${Shazam Media.get(Apple Music URL)}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)") >> matchText 33
-							downloadURL(url: "https://itunes.apple.com/lookup?id=${Matches}&country=${ActionOutput}") >> downloadURL 7
+							matchText(text: "${Shazam Media.get(Apple Music URL)}", regex: "(?<=music\.apple\.com\/)([a-zA-Z]{1,3})(?=\/album\/)") >> matchText 39
+							downloadURL(url: "https://itunes.apple.com/lookup?id=${amId}&country=${ActionOutput}") >> downloadURL 7
 							if(Contents of URL .contains ""artistLinkUrl":"") {
 								keysFrom(dictionary: Contents of URL) >> keysFrom 21
 							} else {
@@ -1197,9 +1209,9 @@ Open shazam.com? (Artist name will be copied to your clipboard)", title: "Some e
 						openURL(url: URL)
 						exit()
 					} >> IFResult 121
-					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 41
+					getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 47
 					splitText(text: Item from List, separator: Custom, customSeparator: "png">") >> splitText 32
-					getItemFromList(list: Split Text) >> getItemFromList 42
+					getItemFromList(list: Split Text) >> getItemFromList 48
 				} >> IFResult 122
 			} >> RepeatResult 8
 			dictionary({"${Updated Text}":"${Item from List}","linkRemovethis1":"${Dictionary Value}"})
@@ -1210,9 +1222,9 @@ if(If Result == "CurrentSongImage") {
 	text(text: "${Current Song.get(Artist)} by ${ActionOutput.get(Artist)}") >> NameA
 	musicDetail(detail: Album Artwork, music: Current Song) >> musicDetail
 	if(SetName is true ==) {
-		setName(input: Album Artwork, name: "${Album Artwork.get(Width)} (${ActionOutput.get(Width)}x${Album Artwork.get(Height)})") >> setName 5
+		setName(input: Album Artwork, name: "${Album Artwork.get(Height)} (${ActionOutput.get(Height)}x${NameA})") >> setName 5
 	} else {
-		setName(input: Album Artwork, name: "${Album Artwork.get(Height)}x${ActionOutput.get(Height)}")
+		setName(input: Album Artwork, name: "${Album Artwork.get(Width)}x${ActionOutput.get(Width)}")
 	} >> IFResult 126
 } else {
 	combineText(text: If Result, combine: Custom, separator: ",") >> combineText 4
@@ -1223,23 +1235,23 @@ if(If Result == "CurrentSongImage") {
 				getTextFrom(input: Repeat Item) >> getTextFrom 2
 				keysFrom(dictionary: Updated Text) >> keysFrom 25
 				splitText(text: Dictionary Value, separator: Custom, customSeparator: "id="related-shelf") >> splitText 33
-				getItemFromList(list: Split Text) >> getItemFromList 43
+				getItemFromList(list: Split Text) >> getItemFromList 49
 				splitText(text: Item from List, separator: Custom, customSeparator: "id="crew-shelf"") >> splitText 34
-				getItemFromList(list: Split Text) >> getItemFromList 44
+				getItemFromList(list: Split Text) >> getItemFromList 50
 				splitText(text: Item from List, separator: Custom, customSeparator: "link rel="preconnect" href=") >> splitText 35
-				getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 45
+				getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 51
 				splitText(text: Item from List, separator: Custom, customSeparator: "https://is") >> splitText 36
 				if(Only first image ==) {
 					getItemFromList(list: Split Text, type: Item At Index, index: "2")
 				} else {
-					getItemFromList(list: Split Text, type: Items in Range, startIndex: "2") >> getItemFromList 46
+					getItemFromList(list: Split Text, type: Items in Range, startIndex: "2") >> getItemFromList 52
 				} >> IFResult 127
 				repeatEach(If Result) {
-					matchText(text: "${Repeat Item 2}", regex: "\.jpg|\.png") >> matchText 34
+					matchText(text: "${Repeat Item 2}", regex: "\.jpg|\.png") >> matchText 40
 					if(Matches != nil) {
 						splitText(text: Repeat Item 2, separator: Custom, customSeparator: "${Matches}") >> splitText 37
-						getItemFromList(list: Split Text) >> getItemFromList 47
-						matchText(text: "${Item from List}", regex: ".*\/") >> matchText 35
+						getItemFromList(list: Split Text) >> getItemFromList 53
+						matchText(text: "${Item from List}", regex: ".*\/") >> matchText 41
 						setValue(key: "${Matches}", value: "${Repeat Index 2}", dictionary: Dictionary) >> setValue
 					} else {
 						nothing()
@@ -1260,13 +1272,13 @@ if(If Result == "CurrentSongImage") {
 	if(If Result .contains "apps.apple.com") {
 		keysFrom(dictionary: Preset) >> keysFrom 26
 		if(Dictionary Value ==) {
-			getURLSFromInput(text: "${Updated Text.as(Dictionary).key(linkRemovethis1)}") >> getURLSFromInput 5
+			getURLSFromInput(text: "${Updated Text.as(Dictionary).key(linkRemovethis1)}") >> getURLSFromInput 4
 			htmlFromRichText(text: URLs) >> htmlFromRichText 10
 			splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<div class="section__description">") >> splitText 38
-			getItemFromList(list: Split Text) >> getItemFromList 48
-			matchText(text: "${Item from List}", regex: "(?<=https\:\/\/is)[^\ ]+(?=\ 1x)") >> matchText 36
+			getItemFromList(list: Split Text) >> getItemFromList 54
+			matchText(text: "${Item from List}", regex: "(?<=https\:\/\/is)[^\ ]+(?=\ 1x)") >> matchText 42
 			repeatEach(Matches) {
-				matchText(text: "${Repeat Item}", regex: ".*\/") >> matchText 37
+				matchText(text: "${Repeat Item}", regex: ".*\/") >> matchText 43
 				setValue(key: "${Matches}", value: "${Repeat Item}", dictionary: Dictionary) >> setValue 1
 			} >> RepeatResult 11
 			repeatEach(Updated Text) {
@@ -1297,22 +1309,22 @@ if(If Result == "CurrentSongImage") {
 				if(Dictionary Value > 3000) {
 					replaceText(input: "${Dictionary Value}", find: "(\d+)x(\d+)(\.)([A-z]{1,8})", replace: "3000x3000${If Result}")
 				} else {
-					replaceText(input: "${Dictionary Value}", find: "(\d+)x(\d+)(\.)([A-z]{1,8})", replace: "${If Result}x${ActionOutput}${Artwork.key(Resolution)}")
+					replaceText(input: "${Dictionary Value}", find: "(\d+)x(\d+)(\.)([A-z]{1,8})", replace: "${Artwork.key(Resolution)}x${ActionOutput.key(Resolution)}${Artwork.key(Resolution)}")
 				} >> IFResult 133
 				downloadURL(url: "${If Result}") >> downloadURL 9
 				if(Contents of URL .contains "not found") {
 					nothing()
 				} else {
 					if(SetName is true ==) {
-						setName(input: Contents of URL, name: "${Name} (${ActionOutput}x${Contents of URL.as(Image).get(Height)})")
+						setName(input: Contents of URL, name: "${Contents of URL.as(Image).get(Height)} (${ActionOutput.as(Image).get(Height)}x${Name})")
 					} else {
 						setName(input: Contents of URL, name: "${Contents of URL.as(Image).get(Width)}x${ActionOutput.as(Image).get(Width)}")
 					}
 				}
 			} else {
-				splitText(text: Dictionary Value, separator: Custom, customSeparator: "/") >> splitText 39
-				getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 49
-				matchText(text: "${Menu Result.get(Name)}", regex: "(Playlists)|(Radio\ Stations)") >> matchText 38
+				matchText(text: "${Dictionary Value}enddd", regex: "\d+x\d+[A-z]{0,3}\.[A-z]{1,4}(?=enddd)") >> matchText 44
+				getItemFromList(list: Matches, type: Last Item) >> getItemFromList 55
+				matchText(text: "${Menu Result.get(Name)}", regex: "(Playlists)|(Radio\ Stations)") >> matchText 45
 				if(ReplaceCC is true ==) {
 					keysFrom(dictionary: If Result) >> keysFrom 29
 					if(Dictionary Value .contains "tv.apple.com") {
@@ -1330,7 +1342,7 @@ if(If Result == "CurrentSongImage") {
 						text(text: "cc${Updated Text}")
 					}
 				} >> IFResult 136
-				replaceText(input: "${Dictionary Value}", find: "${Item from List}", replace: "${Artwork.key(Resolution)}x${ActionOutput.key(Resolution)}${If Result}") >> replaceText 10
+				replaceText(input: "${Dictionary Value}", find: "${Item from List}", replace: "${Artwork.key(Resolution)}x${ActionOutput.key(Resolution)}${Artwork.key(Resolution)}") >> replaceText 10
 				if(Text .contains ""StartStartStart${Updated Text}EndEndEnd"") {
 					nothing()
 				} else {
@@ -1341,10 +1353,10 @@ if(If Result == "CurrentSongImage") {
 						if(SetName is true ==) {
 							setName(input: Contents of URL, name: "${Name} (${ActionOutput}x${Contents of URL.as(Image).get(Width)})") >> setName 6
 						} else {
-							setName(input: Contents of URL, name: "${Contents of URL.as(Image).get(Height)}x${ActionOutput.as(Image).get(Height)}") >> setName 7
+							setName(input: Contents of URL, name: "${Contents of URL.as(Image).get(Width)}x${ActionOutput.as(Image).get(Width)}") >> setName 7
 						} >> IFResult 137
 					} else {
-						nothing()
+						nothing() >> nothing
 					} >> IFResult 138
 				} >> IFResult 139
 			} >> IFResult 140
@@ -1370,18 +1382,18 @@ repeatEach(Dictionary) {
 			keysFrom(dictionary: Dictionary Value) >> keysFrom 31
 		} >> IFResult 144
 		if(Subtitles are turned on ==) {
-var 9F62C036-DEEB-420D-984A-2040AA0AFD04 = """BEGIN:VCARD
+var 6FEAC238-7382-4957-9E27-D16D2AF17D23 = """BEGIN:VCARD
 N;CHARSET=utf-8:￼;;;;
 ORG;CHARSET=utf-8:￼;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${9F62C036-DEEB-420D-984A-2040AA0AFD04}")
+text("${6FEAC238-7382-4957-9E27-D16D2AF17D23}")
 		} else {
-var B1A22D64-77CD-4C44-BD5F-B4158868F007 = """BEGIN:VCARD
+var 5536D7E2-BCCA-4588-B686-55E390A0461D = """BEGIN:VCARD
 N;CHARSET=utf-8:￼;;;;
 PHOTO;ENCODING=b:￼
 END:VCARD"""
-text("${B1A22D64-77CD-4C44-BD5F-B4158868F007}")
+text("${5536D7E2-BCCA-4588-B686-55E390A0461D}")
 		}
 	} else {
 		nothing()
@@ -1403,17 +1415,17 @@ repeat(15) {
 	if(If Result != nil) {
 		keysFrom(dictionary: Preset) >> keysFrom 32
 		if(Dictionary Value .contains "Share+") {
-			matchText(text: "${Dictionary Value}", regex: "(?<=Share\+\.).*", caseSensitive: false) >> matchText 39
+			matchText(text: "${Dictionary Value}", regex: "(?<=Share\+\.).*", caseSensitive: false) >> matchText 46
 			text(text: "Share+")
 		} else {
 			text(text: "${Dictionary Value}")
 		} >> IFResult 147
-var 55AD6CF3-E20F-49D3-B2CB-A272BF3B35F2 = """BEGIN:VCARD
+var DE4863C8-29F5-49D8-A5F7-CE4080827AD8 = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 ORG;CHARSET:Lets get outta here;
 PHOTO;ENCODING=b:
 END:VCARD"""
-text("${55AD6CF3-E20F-49D3-B2CB-A272BF3B35F2}")
+text("${DE4863C8-29F5-49D8-A5F7-CE4080827AD8}")
 		setName(input: Text, name: "HopeTwoPointO.vcf")
 	} else {
 		choose(list: Renamed Item, prompt: "What would you like to do with the artwork?") >> Wrong2
@@ -1425,7 +1437,7 @@ text("${55AD6CF3-E20F-49D3-B2CB-A272BF3B35F2}")
 		if(Album is not Recents ==) {
 			saveToCameraRoll(image: Image(s), album: Ask) >> saveToCameraRoll
 		} else {
-			saveToCameraRoll(image: Image(s)) >> saveToCameraRoll 1
+			saveToCameraRoll(image: Image(s))
 		} >> IFResult 149
 	}
 	if(Right2 == "Save to Files") {
@@ -1440,19 +1452,19 @@ text("${55AD6CF3-E20F-49D3-B2CB-A272BF3B35F2}")
 		}
 	} >> IFResult 150
 	if(Right2 == "Share") {
-		share(file: Image(s)) >> share
+		share(file: Image(s))
 	}
 	if(Right2 == "Share+") {
 		if(Matches != nil) {
-var B21C212F-E306-415F-B1FE-AD3C05E872CF = """BEGIN:VCARD
+var 42BF4E85-EB5B-4A9B-AEB9-7A5F8B08A382 = """BEGIN:VCARD
 N;CHARSET:￼;;;;
 ORG;CHARSET:Lets get outta here;
 PHOTO;ENCODING=b:
 END:VCARD"""
-text("${B21C212F-E306-415F-B1FE-AD3C05E872CF}")
+text("${42BF4E85-EB5B-4A9B-AEB9-7A5F8B08A382}")
 			setName(input: Text, name: "HopeThreePointO.vcf")
 		} else {
-var ADD08796-BA1A-4D30-AEB7-0AB048C50F14 = """BEGIN:VCARD
+var 975CB9E5-BD4F-4299-AD9F-28E8CDDD8464 = """BEGIN:VCARD
 N;CHARSET=utf-8:Twitter;;;;
 ORG;CHARSET=utf-8:Tweet Artwork;
 PHOTO;ENCODING=b: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
@@ -1492,7 +1504,7 @@ N;CHARSET=utf-8:Exit;;;;
 ORG;CHARSET=utf-8:Exit Shortcut;
 PHOTO;ENCODING=b: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
 END:VCARD"""
-text("${ADD08796-BA1A-4D30-AEB7-0AB048C50F14}")
+text("${975CB9E5-BD4F-4299-AD9F-28E8CDDD8464}")
 			setName(input: Text, name: "ShareSheet+.vcf") >> setName 9
 			wait(seconds: for it)
 			choose(list: Renamed Item, prompt: "Share+") >> Wrong3
