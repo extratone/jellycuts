@@ -1,0 +1,119 @@
+import Shortcuts
+#Color: lightBlue, #Icon: locationPin
+
+// Made by @S
+menu(, [Location near me, Any location on Earth]) {
+case("Location near me"):
+	askForInput(prompt: "Furthest possible point in km ", type: Number, default: 100) >> askForInput
+	math(operation: *, operand: "0.7071000000000001") >> math
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	getLocation() >> getLocation
+	locationDetail(detail: Longitude) >> locationDetail
+	replaceText(find: ".", replace: ",", caseSensitive: false) >> replaceText
+	round(mode: Always Round Up) >> round
+	nothing()
+	getLocation() >> getLocation 1
+	locationDetail(detail: Latitude) >> locationDetail 1
+	replaceText(find: ".", replace: ",", isRegex: false, caseSensitive: false) >> replaceText 1
+	round(mode: Always Round Up) >> round 1
+	nothing()
+	number(value: Pyöristetty numero) >> number
+	math(operation: *, operand: "3.141592653589793") >> math 1
+	math(operation: /, operand: "180")
+	math(operation: …, scientific: cos(x)) >> math 2
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	math(operation: *, operand: "111") >> math 3
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	number(value: true) >> number 1
+	math(operation: /, operand: 1 degree of longidude in km) >> math 4
+	math(operation: *, operand: Real distance ns/we) >> math 5
+	round(mode: Always Round Up) >> round 2
+	replaceText(find: "[,]", replace: "", isRegex: true, caseSensitive: false) >> replaceText 2
+	math(operation: *, operand: "-1") >> Use This  Now
+	number(value: Use This  Now 1) >> number 2
+	randomNumber(min: Use This  Now 1, max: Korvaa teksti) >> randomNumber
+	number(value: Satunnaisluku) >> number 3
+	replaceText(find: "−", replace: "-", isRegex: true, caseSensitive: false) >> replaceText 3
+	replaceText(find: "(?<=\d)(?!\d)", replace: "E-7", isRegex: true, caseSensitive: false) >> replaceText 4
+	getNumbersFrom() >> getNumbersFrom
+	math(operand: Pyöristetty numero) >> math 6
+	replaceText(find: ",", replace: ".", caseSensitive: false) >> LONGIDUDE
+	text(text: "${LONGIDUDE}") >> text
+	nothing()
+	number(value: Pyöristetty numero)
+	nothing()
+	number(value: true) >> number 4
+	math(operation: /, operand: "111") >> math 7
+	math(operation: *, operand: Real distance ns/we) >> math 8
+	round(mode: Always Round Up) >> round 3
+	replaceText(find: "[,]", replace: "", isRegex: true, caseSensitive: false) >> replaceText 5
+	math(operation: *, operand: "-1") >> Minumum Rotennow
+	randomNumber(min: Minumum Rotennow, max: Korvaa teksti) >> randomNumber 1
+	replaceText(find: "−", replace: "-", isRegex: true, caseSensitive: false) >> replaceText 6
+	replaceText(find: "(?<=\d)(?!\d)", replace: "E-7", isRegex: true, caseSensitive: false) >> replaceText 7
+	getNumbersFrom() >> getNumbersFrom 1
+	math(operand: Pyöristetty numero)
+	replaceText(find: ",", replace: ".", isRegex: false, caseSensitive: false) >> LATIDUDE
+	text(text: "${LATIDUDE}")
+	text(text: "${LATIDUDE}, ${ActionOutput}")
+//Unable to get shortcuts action is.workflow.actions.searchmaps
+case("Any location on Earth"):
+	randomNumber(min: -89, max: 89) >> randomNumber 2
+	randomNumber(min: -179, max: 179) >> randomNumber 3
+	randomNumber(min: false, max: 9999999) >> randomNumber 4
+	count(type: Characters) >> count
+	if($0 Equals "6") {
+		text(text: "0") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+		if($0 $1 "5") {
+			text(text: "00") >> text 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+			if($0 $1 "4") {
+				text(text: "000") >> text 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} else {
+				if($0 $1 "3") {
+					text(text: "0000")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} else {
+				}
+			}
+		}
+	} >> IFResult
+	text(text: "${Satunnaisluku}") >> text 4
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	combineText(combine: Custom, separator: "") >> First Decimals
+	text(text: "${First Decimals}")
+	nothing()
+	randomNumber(min: false, max: 9999999) >> randomNumber 5
+	count(type: Characters) >> count 1
+	if($0 Equals "6") {
+		text(text: "0") >> text 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+		if($0 $1 "5") {
+			text(text: "00")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+			if($0 $1 "4") {
+				text(text: "000")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} else {
+				if($0 $1 "3") {
+					text(text: "0000")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} else {
+				}
+			}
+		}
+	}
+	text(text: "${Satunnaisluku}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	combineText(combine: Custom, separator: "") >> Second Decimals
+	text(text: "${Second Decimals}") >> text 6
+	text(text: "${First Decimals}.${ActionOutput}, ${Satunnaisluku}.${ActionOutput}") >> text 7
+	replaceText(find: "−", replace: "-", isRegex: true, caseSensitive: false) >> replaceText 8
+//Unable to get shortcuts action is.workflow.actions.searchmaps
+} >> MenuResult

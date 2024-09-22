@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Outputs or imports shortcut source.
-2023-10- 17 	v1.3.1
+2024-09–20 	v1.4
 https://routinehub.co/user/gluebyte
 https://mastodon.social/@gluebyte
 */
@@ -12,7 +12,7 @@ if(Random Number == 1) {
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=07D4DD09") >> downloadURL
-		if(Contents of URL .contains "2023-10-17") {
+		if(Contents of URL .contains "2024-09-20") { >> IFResult
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"):
 				openURL(url: "https://routinehub.co/shortcut/10060/")
@@ -26,40 +26,54 @@ if(Random Number == 1) {
 				exit()
 			case("⮐  Not Now"):
 			} >> MenuResult
-		} >> IFResult
+		} >> IFResult 1
 	}
-} >> IFResult 1
+} >> IFResult 2
 if(ShortcutInput == nil) {
 // Choose shortcut and return plist
 	getShortcuts() >> getShortcuts
 	repeat(5) {
 		if(Files == nil) {
+			askForInput(prompt: "
+Find shortcuts with name containing:
+(Name is case-sensitive)
+") >> askForInput
 			filterFiles() >> filterFiles
 			nothing() >> nothing
 			if(Files == nil) {
-				alert(alert: "No shortcuts found. Please try again.", cancel: false)
-			} >> IFResult 2
-		} >> IFResult 3
+				alert(alert: "
+
+🚫 No shortcuts found. Please try again.
+
+", tancel: false)
+			} >> IFResult 3
+		} >> IFResult 4
 	} >> RepeatResult
 	count(input: Files) >> count
 	if(Count == 1) {
 //Unable to get shortcuts action is.workflow.actions.getvariable
 	} else {
 		choose(list: Files) >> choose
-	} >> IFResult 4
-	setName(input: If Result, name: "a.plist") >> setName
-	getFileOfType(input: Renamed Item, type: "com.apple.plist") >> getFileOfType
-	setName(input: File of Type, name: "${If Result.get(Name)}.plist") >> setName 1
+	} >> IFResult 5
+	getFileOfType(input: If Result, type: "com.apple.property-list") >> getFileOfType
+	setName(input: File of Type, name: "${If Result.get(Name)}.plist") >> setName
 } else {
 // Import plist input as shortcut
 	if(DeviceDetails ==) {
+		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> replaceText 1
+		if(Updated Text .between 144...150) {
+		} else {
+			nothing() >> nothing 1
+		}
+	} >> IFResult 6
+	if(If Result == nil) {
 		runShellScript(input: ShortcutInput, script: "cd /tmp
 cat > a.wflow
 shortcuts sign -i a.wflow -o a.shortcut
 cat a.shortcut") >> runShellScript
 	} else {
 		if(DeviceDetails == nil) {
-			setName(input: ShortcutInput, name: "${ShortcutInput.get(Name)}.shortcut") >> setName 2
+			setName(input: ShortcutInput, name: "${ShortcutInput.get(Name)}.shortcut") >> setName 1
 			getFileLink(file: Renamed Item) >> getFileLink
 			openURL(url: Link to File)
 			exit()
@@ -81,9 +95,11 @@ ${Contents of URL}
 ", cancel: false)
 					}
 					exit()
-				} >> IFResult 5
+				} >> IFResult 7
 			case("🌐  Show Me How to SSH"):
-				alert(alert: "After reading the instructions, edit this shortcut and add login info to the ‘Run Script over SSH’ action near the bottom.")
+				alert(alert: "
+After reading the instructions, edit this shortcut and add login info to the ‘Run Script over SSH’ action near the bottom.
+")
 				openURL(url: "https://routinehub.co/shortcut/10060/")
 				exit()
 			case("🖥  SSH to Mac 1"):
@@ -109,13 +125,13 @@ gzip -9c a.shortcut") >> runSSH 1
 			} >> MenuResult 1
 			extractArchive(input: Menu Result) >> extractArchive
 		}
-	} >> IFResult 6
+	} >> IFResult 8
 	dictionary({"a":"${ShortcutInput.get(Name)}"})
-	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 1
+	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 2
 	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(Array.from(${Updated Text}.a).map(c=>c===(n=c.normalize('NFD'))?c:(s=n.split('')).join(s[0].codePointAt(0)<0x1100?' ':'\u200D')).join(''))</script>") >> url
-	decodeURL(url: "${URL.as(RichText)}") >> decodeURL
-	setName(input: If Result, name: "${URL Encoded Text}.shortcut") >> setName 3
+	encodeURL(url: "${URL.as(RichText)}") >> encodeURL
+	setName(input: If Result, name: "${URL Encoded Text}.shortcut") >> setName 2
 	openIn(input: Renamed Item, app: "com.apple.shortcuts", ask: false)
 	wait(seconds: true)
 	nothing()
-} >> IFResult 7
+} >> IFResult 9
