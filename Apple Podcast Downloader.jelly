@@ -1,0 +1,41 @@
+import Shortcuts
+#Color: purple, #Icon: downloadArrow
+
+/*
+Written by https://reddit.com/u/keveridge
+Updated by https://chrunos.com/contact-us/
+*/
+downloadURL(url: "https://raw.githubusercontent.com/CodyChrunos/Shortcuts/refs/heads/main/podcasts-mp3.json") >> downloadURL
+var update = Contents of URL
+text(text: "1.1") >> text
+if(Text != ""${update.as(Dictionary).key(version)}"") {
+	sendNotification(body: "an update is available. Open your browser to get the new version.", attachment: Text) >> sendNotification
+	openURL(url: update) >> openURL
+} else {
+	matchText(text: "${ShortcutInput}", regex: "^https:\/\/podcasts.apple.com/") >> matchText
+	count(type: Items, input: ShortcutInput) >> count
+	if(Count false 1) {
+		alert(alert: "To use this shortcut, share a podcast episode from the Apple Podcasts app.", title: "Instructions", cancel: false)
+	} else {
+		url(url: ShortcutInput) >> url
+		downloadURL(url: "${URL}") >> downloadURL 1
+		htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+		matchText(text: "${HTML from Rich Text}", regex: "streamUrl":"(.*?)"") >> matchText 1
+		getMatchGroup(matches: Matches) >> Podcast URL
+		getItemFromList(list: Podcast URL) >> podcast_url
+		matchText(text: "${HTML from Rich Text}", regex: "<title>(.*?)</title>") >> matchText 2
+		getMatchGroup(matches: Matches) >> title
+		downloadURL(url: "${podcast_url}") >> downloadURL 2
+		setName(input: Contents of URL, name: "${title}.mp3", dontIncludeExtension: false) >> setName
+		saveFile(input: Renamed Item) >> saveFile
+	} >> IFResult
+}
+menu(What's Next?, [Get More Useful Shortcuts, Support Me, Exit]) {
+case("Get More Useful Shortcuts"):
+	url(url: "https://chrunos.com/top-siri-shortcuts/") >> url 1
+	openURL(url: URL) >> openURL 1
+case("Support Me"):
+	url(url: "https://chrunos.com/donate/") >> url 2
+	openURL(url: URL) >> openURL 2
+case("Exit"):
+}

@@ -1,0 +1,90 @@
+import Shortcuts
+#Color: red, #Icon: timeLapse
+
+/*
+melon 🍉 Shortcut
+
+    melon is an orthogonally persistent language designed for creating blazing fast automations for Apple devices. It uses Siri Shortcuts as a backend, but allows for more complex and performant automations to be created compared to Shortcuts application itself.
+
+https://github.com/melon-lang/melon-lang
+
+*/
+text(text: "1.0.0") >> MELON_VERSION
+number(value: 2147483647) >> MELON_MAX_PERSISTANCE
+text(text: "syscall") >> MELON_VM_STATUS_SYSCALL
+text(text: "halted") >> MELON_VM_STATUS_HALTED
+/*
+Download melon source code from Github. 
+
+Currently, it downloads the source code every time you run the shortcut. There is no cache mechanism. It will be added later.
+*/
+url(url: "https://github.com/melon-lang/melon-lang/releases/latest/download/build.html") >> MELON_SOURCE_CODE_URL
+downloadURL(url: "${MELON_SOURCE_CODE_URL}", method: GET) >> MELON_SOURCE_CODE
+var MELON_SOURCE_CODE = MELON_SOURCE_CODE
+decode(input: MELON_SOURCE_CODE) >> MELON_SOURCE_CODE
+var MELON_SOURCE_CODE = MELON_SOURCE_CODE
+var code = ShortcutInput
+decode(input: code) >> b64code
+url(url: "data:text/html;begin=${b64code};base64,${ActionOutput}") >> url
+var url = url
+repeat(MELON_MAX_PERSISTANCE) {
+	urlContents(url: "${url}") >> response
+var response = response
+	getTextFrom(input: response) >> response
+var response = response
+var image = Variable
+	decode(input: response) >> response
+var response = response
+	getDictionaryFrom(input: response) >> response
+var response = response
+	keysFrom(dictionary: response) >> error
+	getTextFrom(input: error) >> error
+	if(error != nil) { >> IFResult
+		alert(alert: "${error}", title: "melon execution failed.", cancel: false)
+		exit()
+	} >> IFResult 1
+	keysFrom(dictionary: response) >> status
+	getTextFrom(input: status) >> status
+	keysFrom(dictionary: response) >> state
+	getTextFrom(input: state) >> state
+	if(status == ""${MELON_VM_STATUS_HALTED}"") { >> IFResult 2
+		exit()
+	} >> IFResult 3
+	if(status == ""${MELON_VM_STATUS_SYSCALL}"") { >> IFResult 4
+		keysFrom(dictionary: response) >> syscall
+		getDictionaryFrom(input: syscall) >> syscall
+		keysFrom(dictionary: syscall) >> syscall_name
+		getTextFrom(input: syscall_name) >> syscall_name
+		keysFrom(dictionary: syscall) >> syscall_args
+		text(text: "") >> syscall_out
+var syscall_out = syscall_out
+		if(syscall_name == "is.workflow.actions.showresult") { >> IFResult 5
+			getItemFromList(list: syscall_args, type: Item At Index, index: "true") >> syscall_arg_0
+var syscall_arg_0 = syscall_arg_0
+			keysFrom(dictionary: syscall_arg_0) >> syscall_arg_0
+var syscall_arg_0 = syscall_arg_0
+			showResult(text: "${syscall_arg_0}")
+		} >> IFResult 6
+		if(syscall_name == "is.workflow.actions.prompt") { >> IFResult 7
+			getItemFromList(list: syscall_args, type: Item At Index, index: "true") >> syscall_arg_0
+var syscall_arg_0 = syscall_arg_0
+			keysFrom(dictionary: syscall_arg_0) >> syscall_arg_0
+var syscall_arg_0 = syscall_arg_0
+			askForInput(prompt: "${syscall_arg_0}") >> syscall_out
+var syscall_out = syscall_out
+		} >> IFResult 8
+		if(syscall_name == "is.workflow.actions.stop") {
+			getItemFromList(list: syscall_args, type: Item At Index, index: "true") >> syscall_arg_0
+var syscall_arg_0 = syscall_arg_0
+			keysFrom(dictionary: syscall_arg_0) >> syscall_arg_0
+var syscall_arg_0 = syscall_arg_0
+			output(result: "${syscall_arg_0}")
+		}
+	} >> IFResult 9
+	decode(input: syscall_out) >> syscall_out
+var syscall_out = syscall_out
+	url(url: "data:text/html;resume=${syscall_out};value=${Variable};base64,${image}") >> url
+var url = url
+} >> RepeatResult
+text() >> text
+saveFile(input: Text, ask: false)
