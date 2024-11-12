@@ -19,7 +19,7 @@ You can change the specification or functionality by changing the boolean value 
 
 以下の辞書アクションの真偽値を変更することで仕様や機能を変更できます(説明は後ろ).
 */
-dictionary({"Name":"Battery Checker","Version":"4.1","RH ID":"7696","Author":"thetheorier","English":"true","RichText":"true","ManualSelect":"false","UpdateCheck":"true","Additional Details":"false"})
+dictionary({"Name":"Battery Checker","Version":"4.2.2","RH ID":"7696","Author":"thetheorier","English":"true","RichText":"true","ManualSelect":"false","UpdateCheck":"false","Additional Details":"false"})
 /*
 [English]
 English	:Truth → English(default)
@@ -61,7 +61,7 @@ If true, a separate page with a brief description and discussion of the key valu
 var ManualSelect = 辞書
 valuesFrom(dictionary: 辞書) >> valuesFrom
 if(辞書の値 ==) {
-var C60B78D2-23EB-47AC-980C-490DE1ACBD29 = """{
+var AC06B15B-498A-4E87-A01B-84A61B9912D9 = """{
 	"go_to_setting1":	"This recipe can be run from the 'Analytics Data' page in the Setting app.",
 	"go_to_setting2":	"Go to the 'Analytics Data' page, open the file that starts with 'Analytics-20xx' and click the Share button to run this recipe.",
 	"go_to_setting3":	"If you cannot find such a file, or if 'Share iPhone Analytics' is disabled, you will need to enable it and wait at least one day.",
@@ -75,7 +75,7 @@ var C60B78D2-23EB-47AC-980C-490DE1ACBD29 = """{
 	"update_recipe":	"Update to ver_ver",
 	"update_skip":	"Skip to continue",
 	"fsize_iphone":	"55",
-	"fsize_other":	"23",
+	"fsize_other":	"25",
 	"msize_iphone":	"30",
 	"msize_other":	"25",
 	"th1_iphone":	"64",
@@ -137,9 +137,9 @@ var C60B78D2-23EB-47AC-980C-490DE1ACBD29 = """{
 "notadopt3":"However, when we looked into it, as you can see in the image, the results varied from one month to more than a year, depending on the record (the image shows the outliers removed).",
 "notadopt4":"It may be better not to overconfidently trust the analysis data."
 }"""
-text("${C60B78D2-23EB-47AC-980C-490DE1ACBD29}")
+text("${AC06B15B-498A-4E87-A01B-84A61B9912D9}")
 } else {
-var 1EA7A23B-4DE6-44E3-B61C-1385A7025FA4 = """{
+var 7EBE3DB7-565A-421A-BFBC-7AC085FB6DDB = """{
 	"go_to_setting1":	"このレシピは設定アプリ「解析データ」にあるファイルを使って実行します。",
 	"go_to_setting2":	"設定アプリの「解析データ」のページへ進み、'Analytics-20xx-xx'から始まるファイルを開いたら共有ボタンをタップしてこのレシピを実行します。",
 	"go_to_setting3":	"もしそのようなファイルが見つからない場合、もしくは「iPhone解析を共有」がオフになっている場合、それをオンにして最低一日待つ必要があります。",
@@ -153,7 +153,7 @@ var 1EA7A23B-4DE6-44E3-B61C-1385A7025FA4 = """{
 	"update_recipe":	"ver_verにアップデートする",
 	"update_skip":	"スキップして続ける",
 	"fsize_iphone":	"55",
-	"fsize_other":	"23",
+	"fsize_other":	"25",
 	"msize_iphone":	"30",
 	"msize_other":	"25",
 	"th1_iphone":	"60",
@@ -220,7 +220,7 @@ var 1EA7A23B-4DE6-44E3-B61C-1385A7025FA4 = """{
 
 
 }"""
-text("${1EA7A23B-4DE6-44E3-B61C-1385A7025FA4}")
+text("${7EBE3DB7-565A-421A-BFBC-7AC085FB6DDB}")
 } >> IFResult
 getDictionaryFrom(input: “if文”の結果) >> getDictionaryFrom
 var com = 辞書
@@ -235,7 +235,7 @@ if(辞書の値 ==) {
 	if(New Version != ""${辞書.key(Version)}"") {
 		valuesFrom(dictionary: URLの内容) >> Rlease
 		valuesFrom(dictionary: URLの内容) >> Notes
-var A881ED5D-D6D0-4229-8F98-B77ADBDB8178 = """⚠️New version
+var 7A2787E5-BD4B-4AC3-A0B6-978683B1EBE8 = """⚠️New version
 Current	:￼
 new		:￼
 Release	:￼
@@ -243,11 +243,11 @@ Release	:￼
 [Notes]
 ￼
 """
-text("${A881ED5D-D6D0-4229-8F98-B77ADBDB8178}")
+text("${7A2787E5-BD4B-4AC3-A0B6-978683B1EBE8}")
 		replaceText(input: "${com.key(update_recipe)}", find: "_ver", replace: "${New Version}") >> replaceText
 		menu(, [) {
 		case("⏹️com (stop_check)"):
-			openShortcut(name: $0)
+//Unable to get shortcuts action com.apple.shortcuts.OpenWorkflowAction
 		case("🆙アップデートされたテキスト"):
 			expandURL(url: "${URLの内容.as(Dictionary).key(URL)}") >> expandURL
 			replaceText(input: "${展開されたURL}", find: "https://www.icloud.com/", replace: "shortcuts://", caseSensitive: false) >> replaceText 1
@@ -269,21 +269,38 @@ if(ShortcutInput == nil) {
 	setName(input: ShortcutInput, name: "a.txt") >> setName
 var base = 名称変更された項目
 	splitText(text: base) >> splitText
-	matchText(text: "${テキストを分割}", regex: ".*MaximumQmax":\S\d.*", caseSensitive: true) >> matchText
-	getItemFromList(list: 一致, type: First Item, startIndex: “if文”の結果, endIndex: 数) >> getItemFromList
-	getDictionaryFrom(input: リストからの項目) >> getDictionaryFrom 1
+	filterFiles() >> filterFiles
+	getItemFromList(list: ファイル, type: Items in Range, startIndex: "2", endIndex: "100") >> getItemFromList
+	matchText(text: "${リストからの項目}", regex: ".*NominalChargeCapacity":\S\d.*", caseSensitive: true) >> matchText
+	getItemFromList(list: 一致, type: Last Item, startIndex: “if文”の結果, endIndex: 数) >> getItemFromList 1
+	if(リストからの項目 != nil) {
+		getTextFrom(input: リストからの項目)
+	} else {
+		count(input: テキストを分割) >> count
+		calculate(input: "min(1000, ${数})") >> calculate
+		getItemFromList(list: ファイル, type: Items in Range, startIndex: "101", endIndex: 計算結果) >> getItemFromList 2
+		matchText(text: "${リストからの項目}", regex: ".*NominalChargeCapacity":\S\d.*", caseSensitive: true) >> matchText 1
+		getItemFromList(list: 一致, type: Last Item, startIndex: “if文”の結果, endIndex: 数) >> getItemFromList 3
+	} >> IFResult 2
+	getDictionaryFrom(input: “if文”の結果) >> getDictionaryFrom 1
 	valuesFrom(dictionary: 辞書) >> valuesFrom 2
 	getDictionaryFrom(input: 辞書の値) >> getDictionaryFrom 2
 var log-data = 辞書
-	getItemFromList(list: テキストを分割, type: First Item, index: "2", startIndex: "2", endIndex: "100") >> getItemFromList 1
+var CycleCount = Variable
+var AverageTemperature = Variable
+var Nominal = Variable
+var Raw = Variable
+var FCC = Variable
+var Qmax = Variable
+	getItemFromList(list: テキストを分割, type: First Item, index: "2", startIndex: "2", endIndex: "100") >> getItemFromList 4
 	getDictionaryFrom(input: リストからの項目) >> getDictionaryFrom 3
 var log-timestamp = 辞書
 	if(log-data == nil) {
 		alert(alert: "
-${com.key(no_analysis_data)}
+${ShortcutInput.get(Name)}
 
 [selected]
-${Variable.key(no_analysis_data)}
+${com.key(no_analysis_data)}
 ")
 	} else {
 		valuesFrom(dictionary: log-timestamp) >> valuesFrom 3
@@ -292,18 +309,18 @@ var syNull = Variable
 		if(DeviceDetails == "iPhone") {
 			replaceText(input: "${syNull}", find: "iPhone ", replace: "i") >> replaceText 2
 var syNull = アップデートされたテキスト
-		} >> IFResult 2
+		} >> IFResult 3
 		if(DeviceDetails == "iPad") {
 			replaceText(input: "${syNull}", find: "iPhone", replace: "iPad") >> replaceText 3
 var syNull = アップデートされたテキスト
-		} >> IFResult 3
+		} >> IFResult 4
 		if(syNull .contains "Watch") {
 			dictionary({"ManualSelect":"true"})
 var ManualSelect = 辞書
-		} >> IFResult 4
+		} >> IFResult 5
 		url(url: "file://private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist") >> url 1
 		valuesFrom(dictionary: URL) >> valuesFrom 4
-var 367994E6-A7D5-42FE-8C4A-EF84AC74E6BE = """{
+var 4C7E6AEF-F651-442D-A963-30A75C1F1558 = """{
 	"iPhone10,1":{
 		"name": "iPhone 8",
 		"capacity": 1821
@@ -431,6 +448,22 @@ var 367994E6-A7D5-42FE-8C4A-EF84AC74E6BE = """{
 	"iPhone16,2":{
 		"name": "iPhone 15 Pro Max",
 		"capacity": 4422
+	},
+	"iPhone17,1":{
+		"name": "iPhone 16 Pro",
+		"capacity": 3582
+	},
+	"iPhone17,2":{
+		"name": "iPhone 16 Pro Max",
+		"capacity": 4685
+	},
+	"iPhone17,3":{
+		"name": "iPhone 16",
+		"capacity": 3561
+	},
+	"iPhone17,4":{
+		"name": "iPhone 16 Plus",
+		"capacity": 4674
 	},
 	"iPad6,11":{
 		"name": "iPad 5",
@@ -668,25 +701,45 @@ var 367994E6-A7D5-42FE-8C4A-EF84AC74E6BE = """{
 		"capacity": 8160
 	},
 	"iPad16,5":{
-		"name": "iPad Pro 13'' 1st",
+		"name": "iPad Pro 13'' 1st (2024)",
 		"capacity": 10290
 	},
 	"iPad16,6":{
-		"name": "iPad Pro 13'' 1st",
+		"name": "iPad Pro 13'' 1st (2024)",
 		"capacity": 10290
+	},
+
+	"iPad16,2":{
+		"name": "iPad mini 7 (2024)",
+		"capacity": 5078
+	},
+	"iPad14,8":{
+		"name": "iPad Air 11'' 1st (2024)",
+		"capacity": 7606
+	},
+	"iPad14,9":{
+		"name": "iPad Air 11'' 1st (2024)",
+		"capacity": 7606
+	},
+	"iPad14,10":{
+		"name": "iPad Air 13'' 1st",
+		"capacity": 9705
+	},
+	"iPad14,11":{
+		"name": "iPad Air 13'' 1st",
+		"capacity": 9705
 	}
 
-
 }"""
-text("${367994E6-A7D5-42FE-8C4A-EF84AC74E6BE}")
+text("${4C7E6AEF-F651-442D-A963-30A75C1F1558}")
 		getDictionaryFrom(input: テキスト) >> getDictionaryFrom 4
 		valuesFrom(dictionary: 辞書) >> valuesFrom 5
 		if(辞書の値 == nil "Watch") {
 			dictionary({"ManualSelect":"true"})
 var ManualSelect = 辞書
-		} >> IFResult 5
+		} >> IFResult 6
 		if(ManualSelect == "Watch") {
-var 4FF6CB7A-6F98-4BE5-A6C9-9651E296F947 = """{
+var 37A48079-A1F2-4CC6-9FC8-582096D50CD6 = """{
 	"Apple Watch":{
 		"Apple Watch 4 (40mm)"	:225,
 		"Apple Watch 4 (44mm)"	:291,
@@ -734,7 +787,11 @@ var 4FF6CB7A-6F98-4BE5-A6C9-9651E296F947 = """{
 		"iPhone 15"			:3349,
 		"iPhone 15 Plus"		:4383,
 		"iPhone 15 Pro"		:3274,
-		"iPhone 15 Pro Max"	:4422
+		"iPhone 15 Pro Max"	:4422,
+		"iPhone 16"			:3561,
+		"iPhone 16 Plus"		:4674,
+		"iPhone 16 Pro"		:3582,
+		"iPhone 16 Pro Max"	:4685
 	},
 	"iPad":{
 		"iPad 5"	:8827,
@@ -747,11 +804,14 @@ var 4FF6CB7A-6F98-4BE5-A6C9-9651E296F947 = """{
 	"iPad Air":{
 		"iPad Air 3"	:8134,
 		"iPad Air 4"	:7606,
-		"iPad Air 5"	:7606
+		"iPad Air 5"	:7606,
+		"iPad Air 11'' 1st (2024)"	:7606,
+		"iPad Air 13'' 1st (2024)"	:9705
 	},
 	"iPad mini":{
 		"iPad mini 5"	:5124,
-		"iPad mini 6"	:5078
+		"iPad mini 6"	:5078,
+		"iPad mini 7 (2024)"	:5078
 	},
 	"iPad Pro":{
 		"iPad Pro 12.9'' 1st"	:10307,
@@ -766,24 +826,24 @@ var 4FF6CB7A-6F98-4BE5-A6C9-9651E296F947 = """{
 		"iPad Pro 12.9'' 5th"	:10566,
 		"iPad Pro 11'' 4th"	:7538,
 		"iPad Pro 12.9'' 6th"	:10758,
-		"iPad Pro 11'' 5th(tentative)":	10000,
-		"iPad Pro 12.9'' 7th(tentative)":10000
+		"iPad Pro 11'' 5th":	8340,
+		"iPad Pro 12.9'' 7th(tentative)":10340
 	}
 }"""
-text("${4FF6CB7A-6F98-4BE5-A6C9-9651E296F947}")
+text("${37A48079-A1F2-4CC6-9FC8-582096D50CD6}")
 			getDictionaryFrom(input: テキスト) >> getDictionaryFrom 5
 var dict = 辞書
-			filterFiles() >> filterFiles
-var E3661A01-1BF7-467C-BF37-1A95CBB993F2 = """
+			filterFiles() >> filterFiles 1
+var D07FDFD1-CCA4-4903-9BC2-773C9D11ACA3 = """
 ￼
 
 
 ￼
 """
-text("${E3661A01-1BF7-467C-BF37-1A95CBB993F2}")
+text("${D07FDFD1-CCA4-4903-9BC2-773C9D11ACA3}")
 			choose(list: ファイル, prompt: "${テキスト}") >> choose
 			valuesFrom(dictionary: dict) >> valuesFrom 6
-			filterFiles() >> filterFiles 1
+			filterFiles() >> filterFiles 2
 			choose(list: ファイル, prompt: "${com.key(select_device)}") >> choose 1
 var selected = 選択した項目
 			valuesFrom(dictionary: 辞書の値) >> valuesFrom 7
@@ -791,34 +851,34 @@ var design_capacity = 辞書の値
 		} else {
 var selected = 辞書の値
 var design_capacity = 辞書の値
-		} >> IFResult 6
+		} >> IFResult 7
 var MaximumFCC = Variable
 var MaximumQmax = Variable
 var CycleCount = Variable
 var AverageTemperature = Variable
 var NominalChargeCapacity = Variable
 		if(NominalChargeCapacity != nil) {
-			calculate(input: "(${NominalChargeCapacity}*100)/${Variable}") >> calculate
+			calculate(input: "(${MaximumFCC}*100)/${Variable}") >> calculate 1
 			round(number: 計算結果, roundTo: Hundredths) >> round
 var npNull = 端数処理済みの数値
-		} >> IFResult 7
+		} >> IFResult 8
 var RawMaxCapacity = Variable
 		if(RawMaxCapacity != nil) {
-			calculate(input: "(${RawMaxCapacity}*100)/${Variable}") >> calculate 1
+			calculate(input: "(${RawMaxCapacity}*100)/${Variable}") >> calculate 2
 			round(number: 計算結果, roundTo: Hundredths) >> round 1
 var rpNull = 端数処理済みの数値
-		} >> IFResult 8
+		} >> IFResult 9
 		if(NominalChargeCapacity != nil) {
 			if(RawMaxCapacity != nil) {
-				calculate(input: "${NominalChargeCapacity}*100/${Variable}") >> calculate 2
+				calculate(input: "${RawMaxCapacity}*100/${Variable}") >> calculate 3
 				round(number: 計算結果, roundTo: Hundredths) >> round 2
 var dfNull = 端数処理済みの数値
 			}
-		} >> IFResult 9
+		} >> IFResult 10
 var MaxCapacity = Variable
 		valuesFrom(dictionary: 辞書) >> valuesFrom 8
 		if(辞書の値 ==) {
-var F6272160-DCA2-4141-96DD-53335C8DB971 = """	<table class="noline"; style="margin:msizepx 0px";>
+var FCBAB1DB-061F-42EA-83DC-7331C7F0735B = """	<table class="noline"; style="margin:msizepx 0px";>
 		<tr>
 			<th style="text-align:left";>【￼】</th>
 			<td>deNull</td>
@@ -882,25 +942,25 @@ var F6272160-DCA2-4141-96DD-53335C8DB971 = """	<table class="noline"; style="mar
 			<td>maNull</td>
 		</tr>
 	</table>"""
-text("${F6272160-DCA2-4141-96DD-53335C8DB971}")
+text("${FCBAB1DB-061F-42EA-83DC-7331C7F0735B}")
 			valuesFrom(dictionary: 辞書) >> valuesFrom 9
 			if(辞書の値 ==) {
 				if(log-data != nil) {
 					valuesFrom(dictionary: log-data) >> valuesFrom 10
-					filterFiles() >> filterFiles 2
+					filterFiles() >> filterFiles 3
 					repeatEach(ファイル) {
 						valuesFrom(dictionary: log-data) >> valuesFrom 11
-						text(text: "<tr><td>${Repeat Item}</td><td>: ${Variable}</td></tr>") >> text
+						text(text: "<tr><td>${辞書の値}</td><td>: ${ActionOutput}</td></tr>") >> text
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 					}
-var 67134B33-8C7B-472C-AF2D-D10E2076C1A9 = """<table border="0"; width=100%;>
+var BBD21A5C-08C1-4439-8C3C-B90DD92A2FEF = """<table border="0"; width=100%;>
 ￼
 </table>"""
-text("${67134B33-8C7B-472C-AF2D-D10E2076C1A9}")
+text("${BBD21A5C-08C1-4439-8C3C-B90DD92A2FEF}")
 				} else {
 					text(text: "<p>No Data</p>") >> text 1
-				} >> IFResult 10
-var DC43B0CF-7C07-41A9-837A-B9BE8EB4C040 = """<div>
+				} >> IFResult 11
+var B4D3C1FF-F115-4571-9F6F-D39AE05850D8 = """<div>
   <h2>About</h2>
   <p>_about1</p>
   <p>_about2</p>
@@ -965,8 +1025,8 @@ var DC43B0CF-7C07-41A9-837A-B9BE8EB4C040 = """<div>
  ￼
 
 <p style="padding:2em 0em;">[X]<a href="https://twitter.com/the_theorier">@the_theorier</a></p>"""
-text("${DC43B0CF-7C07-41A9-837A-B9BE8EB4C040}")
-var D2C5E385-F41C-4208-998A-2BE25A12AF6D = """<!DOCTYPE html>
+text("${B4D3C1FF-F115-4571-9F6F-D39AE05850D8}")
+var DA101D0A-B4DA-4893-8605-B449F56177F1 = """<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -1165,10 +1225,10 @@ document.querySelector(".content").style.display = "none";
 </body>
 </html>
 """
-text("${D2C5E385-F41C-4208-998A-2BE25A12AF6D}")
+text("${DA101D0A-B4DA-4893-8605-B449F56177F1}")
 			} else {
 				if(log-data != nil) {
-var C63AE5B4-AC2F-4DD1-AB38-5D7FD8365427 = """<!DOCTYPE html>
+var 3253BA15-B23D-45C6-A326-C26740CA329D = """<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -1224,9 +1284,9 @@ width:100%;
 </body>
 </html>
 """
-text("${C63AE5B4-AC2F-4DD1-AB38-5D7FD8365427}")
+text("${3253BA15-B23D-45C6-A326-C26740CA329D}")
 				} else {
-var F936E6BD-2CC9-4067-BAA6-78EDD7D9568C = """<!DOCTYPE html>
+var EAFD51D6-3991-4E67-9CB6-CE95563D490B = """<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -1282,9 +1342,9 @@ width:100%;
 </body>
 </html>
 """
-text("${F936E6BD-2CC9-4067-BAA6-78EDD7D9568C}")
+text("${EAFD51D6-3991-4E67-9CB6-CE95563D490B}")
 				}
-			} >> IFResult 11
+			} >> IFResult 12
 			replaceText(input: "${“if文”の結果}", find: "daNull", replace: "${daNull}") >> replaceText 4
 			replaceText(input: "${アップデートされたテキスト}", find: "syNull", replace: "${syNull}") >> replaceText 5
 var html = アップデートされたテキスト
@@ -1293,29 +1353,29 @@ var html = アップデートされたテキスト
 			if(CycleCount != nil) {
 				replaceText(input: "${html}", find: "ccNull", replace: "${CycleCount}") >> replaceText 7
 var html = アップデートされたテキスト
-			} >> IFResult 12
+			} >> IFResult 13
 			if(AverageTemperature != nil) {
 				replaceText(input: "${html}", find: "atNull", replace: "${AverageTemperature}") >> replaceText 8
 var html = アップデートされたテキスト
-			} >> IFResult 13
+			} >> IFResult 14
 			if(NominalChargeCapacity != nil) {
 				replaceText(input: "${html}", find: "ncNull", replace: "${NominalChargeCapacity}") >> replaceText 9
 				replaceText(input: "${アップデートされたテキスト}", find: "npNull", replace: "${npNull}") >> replaceText 10
 var html = アップデートされたテキスト
-			} >> IFResult 14
+			} >> IFResult 15
 			if(RawMaxCapacity != nil) {
 				replaceText(input: "${html}", find: "raNull", replace: "${RawMaxCapacity}") >> replaceText 11
 				replaceText(input: "${アップデートされたテキスト}", find: "rpNull", replace: "${rpNull}") >> replaceText 12
 var html = アップデートされたテキスト
-			} >> IFResult 15
+			} >> IFResult 16
 			if(MaximumFCC != nil) {
 				replaceText(input: "${html}", find: "mfNull", replace: "${MaximumFCC}") >> replaceText 13
 var html = アップデートされたテキスト
-			} >> IFResult 16
+			} >> IFResult 17
 			if(MaximumQmax != nil) {
 				replaceText(input: "${html}", find: "mqNull", replace: "${MaximumQmax}") >> replaceText 14
 var html = アップデートされたテキスト
-			} >> IFResult 17
+			} >> IFResult 18
 			replaceText(input: "${html}", find: "dcNull", replace: "${design_capacity}") >> replaceText 15
 var html = アップデートされたテキスト
 			if(NominalChargeCapacity != nil) {
@@ -1323,18 +1383,18 @@ var html = アップデートされたテキスト
 					replaceText(input: "${html}", find: "dfNull", replace: "${dfNull}") >> replaceText 16
 var html = アップデートされたテキスト
 				}
-			} >> IFResult 18
+			} >> IFResult 19
 			if(MaxCapacity != nil) {
 				replaceText(input: "${html}", find: "maNull", replace: "${MaxCapacity}") >> replaceText 17
 var html = アップデートされたテキスト
-			} >> IFResult 19
+			} >> IFResult 20
 			if(selected .contains "Watch") {
 				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 18
 				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 19
 				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 20
 				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 21
 				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_iphone)}") >> replaceText 22
-			} >> IFResult 20
+			} >> IFResult 21
 var html = “if文”の結果
 			if(selected .contains "iPhone") {
 				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 23
@@ -1348,7 +1408,7 @@ var html = “if文”の結果
 				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_other)}") >> replaceText 30
 				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_other)}") >> replaceText 31
 				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_other)}") >> replaceText 32
-			} >> IFResult 21
+			} >> IFResult 22
 var html = “if文”の結果
 			if(selected .contains "Watch") {
 				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 33
@@ -1356,7 +1416,7 @@ var html = “if文”の結果
 				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 35
 				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 36
 				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_other)}") >> replaceText 37
-			} >> IFResult 22
+			} >> IFResult 23
 var html = “if文”の結果
 // back page
 			replaceText(input: "${html}", find: "_about1", replace: "${com.key(about1)}") >> replaceText 38
@@ -1418,7 +1478,7 @@ var html = アップデートされたテキスト
 			showWebPage(url: "${HTMLからのリッチテキスト}") >> showWebPage
 		} else {
 			if(辞書の値 ==) {
-var 52A36BAC-6BEE-418C-9B10-D8ED5D6722A7 = """Battery Checker ver￼
+var 277C80F3-4241-4837-860E-B4F29CE85369 = """Battery Checker ver￼
 
 ￼	:  ￼
 ￼	:  ￼
@@ -1439,9 +1499,9 @@ var 52A36BAC-6BEE-418C-9B10-D8ED5D6722A7 = """Battery Checker ver￼
 ￼					:  dfNull
 ￼			:  maNull%
 """
-text("${52A36BAC-6BEE-418C-9B10-D8ED5D6722A7}")
+text("${277C80F3-4241-4837-860E-B4F29CE85369}")
 			} else {
-var 55D8A4EA-33CB-45CE-8D70-B5A44BF40BF9 = """Battery Checker ver￼
+var 5C8B1DE1-4AA6-4DC0-8E72-69A0269F363B = """Battery Checker ver￼
 
 ￼	:  ￼
 ￼	:  ￼
@@ -1462,49 +1522,49 @@ var 55D8A4EA-33CB-45CE-8D70-B5A44BF40BF9 = """Battery Checker ver￼
 ￼		:  dfNull
 ￼			:  maNull%
 """
-text("${55D8A4EA-33CB-45CE-8D70-B5A44BF40BF9}")
-			} >> IFResult 23
+text("${5C8B1DE1-4AA6-4DC0-8E72-69A0269F363B}")
+			} >> IFResult 24
 var txt = “if文”の結果
 			if(CycleCount != nil) {
 				replaceText(input: "${“if文”の結果}", find: "ccNull", replace: "${CycleCount}") >> replaceText 85
 var txt = アップデートされたテキスト
-			} >> IFResult 24
+			} >> IFResult 25
 			if(AverageTemperature != nil) {
 				replaceText(input: "${txt}", find: "atNull", replace: "${AverageTemperature}") >> replaceText 86
 var txt = アップデートされたテキスト
-			} >> IFResult 25
+			} >> IFResult 26
 			if(NominalChargeCapacity != nil) {
 				replaceText(input: "${txt}", find: "ncNull", replace: "${NominalChargeCapacity}") >> replaceText 87
 				replaceText(input: "${アップデートされたテキスト}", find: "npNull", replace: "${npNull}") >> replaceText 88
 var txt = アップデートされたテキスト
-			} >> IFResult 26
+			} >> IFResult 27
 			if(RawMaxCapacity != nil) {
 				replaceText(input: "${txt}", find: "raNull", replace: "${RawMaxCapacity}") >> replaceText 89
 				replaceText(input: "${アップデートされたテキスト}", find: "rpNull", replace: "${rpNull}") >> replaceText 90
 var txt = アップデートされたテキスト
-			} >> IFResult 27
+			} >> IFResult 28
 			if(MaximumFCC != nil) {
 				replaceText(input: "${txt}", find: "mfNull", replace: "${MaximumFCC}") >> replaceText 91
 var txt = アップデートされたテキスト
-			} >> IFResult 28
+			} >> IFResult 29
 			if(MaximumQmax != nil) {
 				replaceText(input: "${txt}", find: "mqNull", replace: "${MaximumQmax}") >> replaceText 92
 var txt = アップデートされたテキスト
-			} >> IFResult 29
+			} >> IFResult 30
 			if(dfNull != nil) {
 				replaceText(input: "${txt}", find: "dfNull", replace: "${dfNull}") >> replaceText 93
 var txt = アップデートされたテキスト
-			} >> IFResult 30
+			} >> IFResult 31
 			if(design_capacity != nil) {
 				replaceText(input: "${txt}", find: "dcNull", replace: "${design_capacity}") >> replaceText 94
 var txt = アップデートされたテキスト
-			} >> IFResult 31
+			} >> IFResult 32
 			if(MaxCapacity != nil) {
 				replaceText(input: "${txt}", find: "maNull", replace: "${MaxCapacity}") >> replaceText 95
 var txt = アップデートされたテキスト
-			} >> IFResult 32
+			} >> IFResult 33
 			replaceText(input: "${txt}", find: "(..Null)|(..Null.)|(..NullmAh)", replace: "Null", isRegex: true)
 			showResult(text: "${txt}")
 		}
-	} >> IFResult 33
-} >> IFResult 34
+	} >> IFResult 34
+} >> IFResult 35
