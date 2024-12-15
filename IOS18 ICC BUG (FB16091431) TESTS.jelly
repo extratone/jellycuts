@@ -1,0 +1,37 @@
+import Shortcuts
+#Color: red, #Icon: shortcuts
+
+// A set of tests for FB16091431: Since iOS 18, screenshots with ICC profiles destroy alpha channel transparency when overlaying or masking with them. 
+file(file: $0) >> Folder from setup
+// The action below downloads the images used for the tests
+downloadURL(url: "https://www.atnbueno.com/experiments/IOS18_ICC_BUG.zip") >> downloadURL
+extractArchive(input: Contents of URL) >> extractArchive
+saveFile(input: Files, ask: false) >> saveFile
+// Gets the images with alpha channel (32/64 bits)
+getFolderContents(folder: Folder from setup) >> getFolderContents
+filterFiles() >> filterFiles
+var Frames = Files
+// Do the tests twice: first with the original images, then converting to BMP and back to PNG, which circumvents the bug, both for overlays and masks
+list(items: (
+    "iOS 18 bug",
+    "PNG-BMP-PNG fix"
+)) >> list
+repeatEach(List) {
+// Gets the images without alpha channel (24/48 bits)
+	filterFiles() >> filterFiles 1
+	if(Repeat Item == "PNG-BMP-PNG fix") {
+// This loses those pesky ICC profiles that seem to cause the problems
+		convertImage(image: Files, format: BMP) >> convertImage
+		convertImage(image: Converted Image, format: PNG, metadata: false) >> convertImage 1
+	} >> IFResult
+var Screenshots = If Result
+	repeatEach(Frames) {
+		repeatEach(Screenshots) {
+			overlayImage(image1: Repeat Item 3, image2: Repeat Item 2, editor: false, opacity: "100", rotation: "0") >> overlayImage
+			saveFile(input: Overlaid Image, ask: false, path: "${Repeat Item}/overlaid-on/${Variable} overlaid on ${Repeat Item 3}.png", overwrite: true) >> saveFile 1
+			maskImage(mode: Custom Image, mask: Repeat Item 2) >> maskImage
+			saveFile(input: Masked Image, ask: false, path: "${Repeat Item 3}/masking/${Variable} masking ${Repeat Item 2}.png", overwrite: true) >> saveFile 2
+		}
+	}
+} >> RepeatResult
+alert(alert: "You can now review the overlaid and masked images in the "${Folder from setup}" folder that show both the iOS bug and the PNG⭢BMP⭢PNG workaround", cancel: false)
