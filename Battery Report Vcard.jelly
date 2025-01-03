@@ -1,0 +1,234 @@
+import Shortcuts
+#Color: purple, #Icon: medicineBottle
+
+/*
+Hi,
+
+This shortcut only work on iPhone 6 to iPhone 16. 
+
+
+Help for use :
+
+To be used this shortcut requires 
+Analytics file.
+ - Go to setting\Privacy and Security\Analysis and improvements\
+- Enable Share analysis and wait 24 hours for your iPhone to create the first analytics file.  
+
+Use Analytics file
+ - Click on shortcut Battery Report Vcard
+ - Click on the last Analytics-year-mm-dd-time.ips file
+- Click on “Share”
+- Share with Battery Report Vcard
+
+*/
+dictionary({"Name":"Battery Report Vcard","Author":"Shamalow","Version":"2.2","RHID":"19090"})
+deviceDetails(detail: Device Model) >> deviceDetails
+if(Modèle de l’appareil != "iPhone") {
+	sendNotification(body: "Sorry this Shortcut work on iPhone only", sound: false) >> sendNotification
+	exit()
+} >> IFResult
+if(ShortcutInput == nil) {
+	openURL(url: "prefs:root=Privacy&path=PROBLEM_REPORTING/DIAGNOSTIC_USAGE_DATA") >> openURL
+	exit()
+} >> IFResult 1
+setName(input: ShortcutInput, name: "Analytics.txt") >> setName
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_AlgoChemID\"\:).*?.\d+") >> matchText
+if(Correspondances == nil) {
+	sendNotification(body: "No battery information in this file. Please choose another one.", title: "", sound: false, attachment: NominalChargeCapacity) >> sendNotification 1
+	exit()
+} >> IFResult 2
+matchText(text: "${Élément renommé}", regex: "(?<=\"timestamp\"\:\")\d{4}-\d{1,2}-\d{1,2} \d{2}:\d{2}") >> matchText 1
+var Date = Correspondances
+matchText(text: "${Élément renommé}", regex: "(?<=\"deviceCapacity\"\:).*?.\d+") >> matchText 2
+var DeviceCapacity = Correspondances
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_AverageTemperature\"\:).*?\d+") >> matchText 3
+getItemFromList(list: Correspondances) >> getItemFromList
+var Temperature = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_CycleCount\"\:).*?.\d+") >> matchText 4
+getItemFromList(list: Correspondances) >> getItemFromList 1
+var Cycl = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_DailyMaxSoc\"\:).*?.\d+") >> matchText 5
+getItemFromList(list: Correspondances) >> getItemFromList 2
+var MaxSoc = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_DailyMinSoc\"\:).*?.\d+") >> matchText 6
+getItemFromList(list: Correspondances) >> getItemFromList 3
+var MinSoc = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_KioskModeLastHighSocHours":)\s*(\d+)") >> matchText 7
+getItemFromList(list: Correspondances) >> getItemFromList 4
+var HighSocHours = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_MaximumCapacityPercent\"\:).*?.\d+") >> matchText 8
+getItemFromList(list: Correspondances) >> getItemFromList 5
+var CapacityPercent_iOS = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_MaximumTemperature\"\:).*?.\d+") >> matchText 9
+getItemFromList(list: Correspondances) >> getItemFromList 6
+math(input: Élément de la liste, operation: /, operand: "10") >> math
+replaceText(input: "${Résultat du calcul}", find: ",", replace: ".") >> replaceText
+var MaxTemp = Texte mis à jour
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_MinimumTemperature\"\:).*?.\d+") >> matchText 10
+getItemFromList(list: Correspondances) >> getItemFromList 7
+math(input: Élément de la liste, operation: /, operand: "10") >> math 1
+replaceText(input: "${Résultat du calcul}", find: ",", replace: ".") >> replaceText 1
+var MinTemp = Texte mis à jour
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_NominalChargeCapacity\"\:).*?.\d+") >> matchText 11
+getItemFromList(list: Correspondances) >> getItemFromList 8
+var NominalChargeCapacity = Élément de la liste
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_WeekMfd\"\:).*?.\d+") >> matchText 12
+getItemFromList(list: Correspondances) >> getItemFromList 9
+matchText(text: "0${Élément de la liste}", regex: "(\d)(?=\d{2}$)") >> matchText 13
+text(text: "202${Correspondances}") >> text
+if(Texte > 2026) {
+	math(input: Texte, operation: -, operand: "10") >> math 2
+} else {
+	number(value: Texte) >> number
+} >> IFResult 3
+if(Résultat de la condition == 202) {
+	text(text: "Date unknow") >> text 1
+} else {
+	date(date: "01-01-${Résultat de la condition}") >> date
+	matchText(text: "0${Élément de la liste}", regex: "\d{2}$") >> matchText 14
+	adjustDate(duration: , date: "${Date}") >> adjustDate
+	text(text: "${Date ajustée}") >> text 2
+} >> IFResult 4
+var BatteryManufacture = Résultat de la condition
+matchText(text: "${Élément renommé}", regex: "(?<=\"last_value_UpdateTime\"\:).*?.\d+") >> matchText 15
+getItemFromList(list: Correspondances) >> getItemFromList 10
+date(date: 01-01-1970 00:00) >> date 1
+adjustDate(duration: , date: "${Date}") >> adjustDate 1
+var UpdateTime = Date ajustée
+matchText(text: "${Élément renommé}", regex: ""ChargingState":1[^}]*?"last_value_BatteryTemperature":(\d+)") >> matchText 16
+matchText(text: "${Correspondances}", regex: "(?<=\"last_value_BatteryTemperature\"\:).*?.\d+") >> matchText 17
+statistic(input: Correspondances) >> statistic
+round(number: Moyenne, roundTo: Tenths) >> round
+replaceText(input: "${Nombre arrondi}", find: ",", replace: ".") >> replaceText 2
+var TempCharge = Texte mis à jour
+// Extract MobileGestalt data. 
+url(url: "file://private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist") >> url
+var ModelName = URL
+var iOSversion = URL
+var iOSbuild = URL
+dictionary({"iPhone 6":"1810","iPhone 6 Plus":"2915","iPhone 6s":"1715","iPhone 6s Plus":"2750","iPhone SE (2016)":"1624","iPhone 7":"1960","iPhone 7 Plus":"2900","iPhone 8":"1821","iPhone 8 Plus":"2691","iPhone X":"2716","iPhone XS":"2658","iPhone XS Max":"3174","iPhone XR":"2942","iPhone 11":"3110","iPhone 11 Pro":"3046","iPhone 11 Pro Max":"3969","iPhone SE (2020)":"1821","iPhone 12":"2815","iPhone 12 mini":"2227","iPhone 12 Pro":"2815","iPhone 12 Pro Max":"3687","iPhone 13":"3227","iPhone 13 mini":"2406","iPhone 13 Pro":"3095","iPhone 13 Pro Max":"4352","iPhone SE (2022)":"2018","iPhone 14":"3279","iPhone 14 Plus":"4325","iPhone 14 Pro":"3200","iPhone 14 Pro Max":"4323","iPhone 15":"3349","iPhone 15 Plus":"4383","iPhone 15 Pro":"3274","iPhone 15 Pro Max":"4422","iPhone 16":"3561","iPhone 16 Plus":"4674","iPhone 16 Pro":"3582","iPhone 16 Pro Max":"4685"})
+valueFor(key: "${ModelName}", dictionary: Dictionnaire) >> valueFor
+var DesignCapacity = Valeur du dictionnaire
+calculate(input: "(${DesignCapacity}/${Variable})*100") >> calculate
+round(number: Résultat du calcul, roundTo: Hundredths) >> round 1
+replaceText(input: "${Nombre arrondi}", find: ",", replace: ".") >> replaceText 3
+var BatteryHealthCalculation = Texte mis à jour
+filterNotes() >> filterNotes
+if(Note != nil) {
+	if(Note .contains ""${Date.as(Date)}"") {
+		text(text: "${BatteryHealthCalculation} ${Variable}Cycl ${NominalChargeCapacity}mAh ${Variable}%") >> text 3
+		appendNote(text: "${Texte}", note: Note) >> appendNote
+	} >> IFResult 5
+} else {
+var 0F033145-1E2A-48F4-80C6-75C087159A1D = """🔋 Battery Report Vcard
+📅 ￼
+📱 ￼
+🍏 Design Capacity ￼ mAh
+--------------------------------------
+￼ ￼Cycl ￼mAh ￼%"""
+text("${0F033145-1E2A-48F4-80C6-75C087159A1D}")
+	createNote(text: "${Texte}") >> createNote
+} >> IFResult 6
+var 6ECF782E-0B93-46C6-BBD5-8E5925641CF7 = """BEGIN:VCARD
+VERSION:3.0
+N:📅 Udapte Time
+TEL;TYPE=￼:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:📱 iPhone model
+TEL;TYPE=￼ :-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🗄️ iPhone Capacity
+TEL;TYPE=￼  GB:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🦠  iOS Version
+TEL;TYPE=￼ :-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🔋 Battery Manufacture
+TEL;TYPE=￼:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🌡️ Temperature Average
+TEL;TYPE=￼°C:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🔄 Cycles Count
+TEL;TYPE=￼ Cycles:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🗳️ Design Capacity
+TEL;TYPE= ￼ mAh:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:⚡️Current Capacity
+TEL;TYPE=￼ mAh:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:❤️‍🩹 Battery Health Capacity
+TEL;TYPE=￼ %:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:❤️‍🩹 Battery Health For iOS
+TEL;TYPE=￼ %:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🔋 Last State Of Charge
+TEL;TYPE=￼ % ~ ￼ %:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🚧 High State Charge
+TEL;TYPE=￼ Hour(s):-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🌡️ Temp. During Charge
+TEL;TYPE=￼°C:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🌡️ Temp. Min - Max
+TEL;TYPE=￼°C - ￼°C:-
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:🔖 Shortcut Version
+TEL;TYPE=Version ￼:-
+END:VCARD"""
+text("${6ECF782E-0B93-46C6-BBD5-8E5925641CF7}")
+setName(input: Texte, name: "Menu.vcf") >> setName 1
+contactDetail(detail: Phone Numbers, contact: Élément renommé) >> contactDetail
+choose(list: Numéros de téléphone, prompt: "Battery Report   ", multiple: false) >> choose
+showResult(text: "Name : ${Élément sélectionné.get(Label)}
+Var : ${ActionOutput.get(Label)}
+Result : ${Élément sélectionné}")
+exit()

