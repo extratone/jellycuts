@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: grayGreen, #Icon: bookshelf
+
+/*
+Takes the information available in the Get My Shortcuts action and performs various statistical calculations on the data, then displays it in an (attempted) plain-English manner.
+
+Uses Toolbox Pro to deduplicate the list of Folders.
+*/
+/*
+Use this to get interesting details about your own Shortcuts library like total actions overall, the number of Folders, or common building patterns.
+
+Includes considerations for weird statistical anomalies – for example, this helps account for any shortcuts with outlandishly large numbers of actions that skew a pure average higher or odd patterns like in my library where there's many with 3 actions (two comments and one action that'd otherwise be a "single step").
+*/
+getShortcuts() >> getShortcuts
+statistic(input: My Shortcuts, operation: Sum) >> statistic
+statistic(input: My Shortcuts, operation: Maximum) >> statistic 1
+getTextFrom(input: My Shortcuts) >> getTextFrom
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.RemoveDuplicatesIntent
+count(input: De-duplicated List) >> count
+count(input: My Shortcuts) >> count 1
+statistic(input: My Shortcuts, operation: Average) >> statistic 2
+round(number: Average, mode: Normal) >> round
+statistic(input: My Shortcuts, operation: Median) >> statistic 3
+statistic(input: My Shortcuts, operation: Mode) >> statistic 4
+showResult(text: "You have ${Rounded Number} shortcuts in ${ActionOutput} folders with ${Median} total actions – the largest shortcut has ${ActionOutput} actions, the pure average comes out to about ${Count} actions, and the typical shortcut can around ${ActionOutput} or more actions – but statistically, most shortcuts in your library have about ${Maximum} actions at present.")
+text(text: "You have ${Rounded Number} shortcuts in ${ActionOutput} folders with ${Median} total actions – the largest shortcut has ${ActionOutput} actions, the pure average comes out to about ${Count} actions, and the typical shortcut can around ${ActionOutput} or more actions – but statistically, most shortcuts in your library have about ${Maximum} actions at present.") >> text
+setClipboard(variable: Text) >> setClipboard
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent

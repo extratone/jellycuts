@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: navy, #Icon: circledFastForward
+
+// Continues tracking the most recent time entry from Timery from the last time it was stopped.
+// Use this when you think you’re done working and stop a timer, but then get some more done.
+//Unable to get shortcuts action com.joehribar.toggl.ContinueTimeEntryIntent

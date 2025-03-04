@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+getClipboard() >> getClipboard
+markdownFromRich(text: Clipboard) >> markdownFromRich
+getURLSFromInput(text: "${Markdown from Rich Text}") >> getURLSFromInput
+combineText(text: URLs) >> combineText
+setClipboard(variable: Combined Text) >> setClipboard

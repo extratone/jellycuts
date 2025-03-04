@@ -1,0 +1,53 @@
+import Shortcuts
+#Color: red, #Icon: videoIcon
+
+dictionary({"mandatory":"true"})
+valueFor(key: "mandatory", dictionary: Dictionary) >> mandatory
+deviceDetails(detail: System Version) >> deviceDetails
+deviceDetails(detail: Device Model) >> deviceDetails 1
+downloadURL(url: "https://updatekit.mikebeas.com/v1", method: POST, requestType: JSON, requestJSON: , requestVar: Dictionary) >> Response
+valueFor(key: "update", dictionary: Response) >> valueFor
+if(Dictionary Value ==) {
+	if(mandatory ==) {
+// If you want updates to be mandatory, you can simply not provide any option except to install the update. You could do this by simply showing an alert telling the user they need to update if an update is found, and then opening the update URL when they press OK.
+		alert(alert: "${Response.as(Dictionary).key(payload.notes)}", title: "Update to Version ${Response.as(Dictionary).key(payload.version)} Required")
+		openURL(url: Response) >> openURL
+		exit()
+	} else {
+	} >> IFResult
+	menu(, [Install, Skip]) {
+	case("Install"):
+		openURL(url: Response) >> openURL 1
+		exit()
+/*
+Always stop running the shortcut when the user installs an update or the Shortcuts app may prevent the update from installing.
+
+Here we also have another menu option. “Skip” will not install the update and will continue running the current version of the shortcut.
+*/
+	case("Skip"):
+	} >> MenuResult
+} >> IFResult 1
+downloadURL(url: "https://api.instavideosave.com/allinone", headers: ) >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valueFor(key: "video", dictionary: Dictionary) >> valueFor 1
+count(input: Dictionary Value) >> count
+if(Count == 1) {
+	valueFor(key: "video.1.video", dictionary: Dictionary) >> valueFor 2
+	setName(input: Dictionary Value, name: "${Dictionary Value}") >> setName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} else {
+	repeatEach(Dictionary Value) {
+		valueFor(key: "video", dictionary: Repeat Item) >> valueFor 3
+		valueFor(key: "thumbnail", dictionary: Repeat Item) >> valueFor 4
+		downloadURL(url: "${Dictionary Value}") >> downloadURL 1
+		setName(input: Contents of URL, name: "${Dictionary Value}") >> setName 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+	choose(list: videos, prompt: "Select video to download", multiple: true, all: true) >> choose
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> IFResult 2
+repeatEach(selected) {
+	getName() >> getName
+	downloadURL(url: "${Name}") >> downloadURL 2
+	saveToCameraRoll(image: Содержимое URL) >> saveToCameraRoll
+}

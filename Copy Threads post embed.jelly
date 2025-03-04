@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: grayBlue, #Icon: chatBubble
+
+// Scrapes a Threads post, gets the embed code using the URL and username, and copies it to the clipboard.
+runShortcut(name: "Scrape Thread dictionary", input: ShortcutInput) >> runShortcut
+getDictionaryFrom(input: Shortcut Result) >> getDictionaryFrom
+getTextFrom(input: Dictionary) >> getTextFrom
+setClipboard(variable: Text) >> setClipboard
+output(result: "${Text}", noResultBehavior: Respond, response: "${Text}")

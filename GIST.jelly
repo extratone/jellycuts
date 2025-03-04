@@ -1,0 +1,33 @@
+import Shortcuts
+import Data Jar
+import GizmoPack
+#Color: grayBlue, #Icon: textBubble
+
+text(text: "extratone") >> Username
+var ghuser = Username
+text() >> Token
+var ghtoken = Token
+fileDetail(input: ShortcutInput, property: Name) >> Filename
+fileDetail(input: ShortcutInput, property: File Extension) >> Extension
+askForInput(prompt: "Set filename.", default: "${Filename}.${ActionOutput}") >> askForInput
+var filename = Provided Input
+var raw = ShortcutInput
+text(text: "${ghuser}:${Variable}") >> text
+decode(input: Text) >> decode
+text(text: "Basic ${Base64 Encoded}") >> Auth
+var auth = Auth
+askForInput(prompt: "Description?") >> Description
+var desc = Description
+url(url: "https://api.github.com/gists") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestType: JSON, requestJSON: ) >> downloadURL
+getDictionaryFrom(input: URL) >> getDictionaryFrom
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+valueFor(key: "html_url", dictionary: Dictionary) >> valueFor
+var htmlurl = Dictionary Value
+var rawDict = Contents of URL
+//Unable to get shortcuts action ke.bou.GizmoPack.GenerateCSVIntent
+saveFile(input: CSV File, ask: false, path: "${filename}.csv") >> saveFile
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/m4a/RingerChanged.m4a") >> url 1
+downloadURL(url: "${URL}") >> downloadURL 1
+playSound(file: Contents of URL)

@@ -1,0 +1,56 @@
+import Shortcuts
+#Color: teal, #Icon: magicWand
+
+/*
+Shortcut by: mvan231
+Purpose: To generate text on the clipboard for pasting into a comment when helping a user on Reddit or when adding a shortcut to your library and wanting to maintain the info about its source
+
+To use: simply share the reddit post and tap on the shortcut "Reddit Comment Generator" in the share sheet.
+
+Choose between helper comment or saver comment
+
+Alternatively, you can setup back tap to run this shortcut. Using this method only works when using Apollo though
+*/
+if(ShortcutInput == nil) {
+	getScreenContext() >> getScreenContext
+	replaceText(input: "${What’s On Screen}", find: "\?.*", replace: "", isRegex: true) >> replaceText
+} >> Shortcut Input / What's On Screen
+expandURL(url: "${Shortcut Input / What's On Screen}") >> expandURL
+replaceText(input: "${Expanded URL}", find: "\?.*", isRegex: true) >> replaceText 1
+if(Updated Text .endsWith "/") {
+	nothing() >> nothing
+} else {
+	text(text: "/") >> text
+} >> Forward Slash If Result
+downloadURL(url: "${Forward Slash If Result}${ActionOutput}.json") >> downloadURL
+/*
+data.children.1.data.
+->
+title
+author
+url <- doesnt give post url if it is an image post
+permalink <- always gives path of post url
+*/
+// Add your username in the text action below 
+text(text: "u/mvan231") >> text 1
+var 72FA66BC-17DC-4E7E-ABE4-1C4BBE7005E6 = """Post: ￼
+By: ￼
+Link: https://www.reddit.com￼"""
+text("${72FA66BC-17DC-4E7E-ABE4-1C4BBE7005E6}")
+menu(, [Helper Comment, Saver Comment]) {
+case("Helper Comment"):
+var C3DE59A2-0B1E-41E9-AD66-9587498CE041 = """Shortcut created by:￼
+
+~~~~~For~~~~~
+￼"""
+text("${C3DE59A2-0B1E-41E9-AD66-9587498CE041}")
+case("Saver Comment"):
+var 6CD3A187-4A80-41A2-851A-049F7FAD70CF = """~~~~~~~~~~~~~
+￼"""
+text("${6CD3A187-4A80-41A2-851A-049F7FAD70CF}")
+} >> MenuResult
+setClipboard(variable: Menu Result) >> setClipboard
+var 09965560-7E46-45C0-84FB-AE7D94F82787 = """Text copied to clipboard:
+￼"""
+text("${09965560-7E46-45C0-84FB-AE7D94F82787}")
+showResult(text: "${Text}")

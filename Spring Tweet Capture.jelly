@@ -1,0 +1,55 @@
+import Shortcuts
+import DataJar5
+#Color: red, #Icon: binoculars
+
+/*
+Detailed/customizable Tweet data retrieval/archiving with Spring for Twitter's actions.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.jonny.spring.KJYGetTweetIntent
+var EA661970-E2F6-4911-AE8E-9B964178B676 = """￼
+- [￼, ￼](￼)"""
+text("${EA661970-E2F6-4911-AE8E-9B964178B676}")
+setClipboard(variable: Text) >> setClipboard
+splitText(text: ShortcutInput, separator: Custom, customSeparator: "status/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var id = Item from List
+var 0A3E7E01-FE5D-436B-A7B6-CDE91B976B28 = """￼
+
+￼
+￼
+￼
+￼
+￼
+￼
+￼
+￼
+￼
+￼
+￼
+￼
+￼"""
+text("${0A3E7E01-FE5D-436B-A7B6-CDE91B976B28}")
+prependFile(path: "tweets.txt") >> prependFile
+dictionary({"tweet":"${Tweet}","raw":"${Tweet.get(rawText)}","formatted":"${Tweet.get(kjy_formattedText)}","name":"${Tweet.get(authorName)}","@":"${Tweet.get(authorScreenName)}","created":"${Tweet.get(creationDate)}","source":"${Tweet.get(sourceLabel)}","lang":"${Tweet.get(languageCode)}","url":"${Tweet.get(tweetURL)}","reply":"${Tweet.get(replyTweetURL)}","quote":"${Tweet.get(quoteTweetURL)}","links":"${Tweet.get(webpageURLs)}","mentioned":"${Tweet.get(mentions)}","hashtags":"${Tweet.get(hashtags)}","media":"${Tweet.get(mediaURLs)}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+createNote(text: "${Tweet.get(kjy_formattedText)}") >> createNote
+//Unable to get shortcuts action com.apple.mobilenotes.AddTagsToNotesLinkAction
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+appendNote(text: "${Prettified JSON}", note: Tags to Notes) >> appendNote
+url(url: "https://raw.githubusercontent.com/extratone/iOSSystemSounds/main/m4a/ct-keytone2.m4a") >> url
+downloadURL(url: "${URL}") >> downloadURL
+playSound(file: Contents of URL)

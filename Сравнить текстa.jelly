@@ -1,0 +1,287 @@
+import Shortcuts
+#Color: grayGreen, #Icon: server
+
+var F3D2547E-04D2-4C27-90BA-41593A9E2204 = """function escape(s) {
+    var n = s;
+    n = n.replace(/&/g, "&amp;");
+    n = n.replace(/</g, "&lt;");
+    n = n.replace(/>/g, "&gt;");
+    n = n.replace(/"/g, "&quot;");
+
+    return n;
+}
+
+function diffString( o, n ) {
+  o = o.replace(/\s+$/, '');
+  n = n.replace(/\s+$/, '');
+
+  var out = diff(o == "" ? [] : o.split(/\s+/), n == "" ? [] : n.split(/\s+/) );
+  var str = "";
+
+  var oSpace = o.match(/\s+/g);
+  if (oSpace == null) {
+    oSpace = ["\n"];
+  } else {
+    oSpace.push("\n");
+  }
+  var nSpace = n.match(/\s+/g);
+  if (nSpace == null) {
+    nSpace = ["\n"];
+  } else {
+    nSpace.push("\n");
+  }
+
+  if (out.n.length == 0) {
+      for (var i = 0; i < out.o.length; i++) {
+        str += '<del>' + escape(out.o[i]) + oSpace[i] + "</del>";
+      }
+  } else {
+    if (out.n[0].text == null) {
+      for (n = 0; n < out.o.length && out.o[n].text == null; n++) {
+        str += '<del>' + escape(out.o[n]) + oSpace[n] + "</del>";
+      }
+    }
+
+    for ( var i = 0; i < out.n.length; i++ ) {
+      if (out.n[i].text == null) {
+        str += '<ins>' + escape(out.n[i]) + nSpace[i] + "</ins>";
+      } else {
+        var pre = "";
+
+        for (n = out.n[i].row + 1; n < out.o.length && out.o[n].text == null; n++ ) {
+          pre += '<del>' + escape(out.o[n]) + oSpace[n] + "</del>";
+        }
+        str += " " + out.n[i].text + nSpace[i] + pre;
+      }
+    }
+  }
+  
+  return str;
+}
+
+function randomColor() {
+    return "rgb(" + (Math.random() * 100) + "%, " + 
+                    (Math.random() * 100) + "%, " + 
+                    (Math.random() * 100) + "%)";
+}
+function diffString2( o, n ) {
+  o = o.replace(/\s+$/, '');
+  n = n.replace(/\s+$/, '');
+
+  var out = diff(o == "" ? [] : o.split(/\s+/), n == "" ? [] : n.split(/\s+/) );
+
+  var oSpace = o.match(/\s+/g);
+  if (oSpace == null) {
+    oSpace = ["\n"];
+  } else {
+    oSpace.push("\n");
+  }
+  var nSpace = n.match(/\s+/g);
+  if (nSpace == null) {
+    nSpace = ["\n"];
+  } else {
+    nSpace.push("\n");
+  }
+
+  var os = "";
+  var colors = new Array();
+  for (var i = 0; i < out.o.length; i++) {
+      colors[i] = randomColor();
+
+      if (out.o[i].text != null) {
+          os += '<span style="background-color: ' +colors[i]+ '">' + 
+                escape(out.o[i].text) + oSpace[i] + "</span>";
+      } else {
+          os += "<del>" + escape(out.o[i]) + oSpace[i] + "</del>";
+      }
+  }
+
+  var ns = "";
+  for (var i = 0; i < out.n.length; i++) {
+      if (out.n[i].text != null) {
+          ns += '<span style="background-color: ' +colors[out.n[i].row]+ '">' + 
+                escape(out.n[i].text) + nSpace[i] + "</span>";
+      } else {
+          ns += "<ins>" + escape(out.n[i]) + nSpace[i] + "</ins>";
+      }
+  }
+
+  return { o : os , n : ns };
+}
+
+function diff( o, n ) {
+  var ns = new Object();
+  var os = new Object();
+  
+  for ( var i = 0; i < n.length; i++ ) {
+    if ( ns[ n[i] ] == null )
+      ns[ n[i] ] = { rows: new Array(), o: null };
+    ns[ n[i] ].rows.push( i );
+  }
+  
+  for ( var i = 0; i < o.length; i++ ) {
+    if ( os[ o[i] ] == null )
+      os[ o[i] ] = { rows: new Array(), n: null };
+    os[ o[i] ].rows.push( i );
+  }
+  
+  for ( var i in ns ) {
+    if ( ns[i].rows.length == 1 && typeof(os[i]) != "undefined" && os[i].rows.length == 1 ) {
+      n[ ns[i].rows[0] ] = { text: n[ ns[i].rows[0] ], row: os[i].rows[0] };
+      o[ os[i].rows[0] ] = { text: o[ os[i].rows[0] ], row: ns[i].rows[0] };
+    }
+  }
+  
+  for ( var i = 0; i < n.length - 1; i++ ) {
+    if ( n[i].text != null && n[i+1].text == null && n[i].row + 1 < o.length && o[ n[i].row + 1 ].text == null && 
+         n[i+1] == o[ n[i].row + 1 ] ) {
+      n[i+1] = { text: n[i+1], row: n[i].row + 1 };
+      o[n[i].row+1] = { text: o[n[i].row+1], row: i + 1 };
+    }
+  }
+  
+  for ( var i = n.length - 1; i > 0; i-- ) {
+    if ( n[i].text != null && n[i-1].text == null && n[i].row > 0 && o[ n[i].row - 1 ].text == null && 
+         n[i-1] == o[ n[i].row - 1 ] ) {
+      n[i-1] = { text: n[i-1], row: n[i].row - 1 };
+      o[n[i].row-1] = { text: o[n[i].row-1], row: i - 1 };
+    }
+  }
+  
+  return { o: o, n: n };
+}
+"""
+text("${F3D2547E-04D2-4C27-90BA-41593A9E2204}")
+var jsdiff.js = Text
+dictionary({"iCloud Drive":"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","Shortcuts":"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"})
+var 1F9275C3-9948-4383-B4CC-28982C2AB600 = """BEGIN:VCARD
+VERSION:3.0
+N:iCloud Drive;
+ORG:Выбрать файл из iCloud;
+PHOTO;ENCODING=b:￼
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:Shortcuts;
+ORG:Выбрать из списка быстрых команд;                                                                   
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${1F9275C3-9948-4383-B4CC-28982C2AB600}")
+setName(input: Текст, name: "Меню.vcf", dontIncludeExtension: false) >> Меню
+getContactsFrom(input: Меню) >> Меню
+choose(list: Main Menu, prompt: "") >> choose
+var Выбранныйпунктменю = Выбранный объект
+if(Выбранный пункт меню == "iCloud Drive") {
+	selectFile() >> selectFile
+	setName(input: Файл, name: "Original.txt") >> setName
+	getTextFrom(input: Переименованный объект) >> getTextFrom
+	replaceText(input: "${Текст}", find: "`", replace: "\`") >> replaceText
+var Shortcut.Original = Обновленный текст
+	selectFile() >> selectFile 1
+	setName(input: Файл, name: "Modified.txt") >> setName 1
+	getTextFrom(input: Переименованный объект) >> getTextFrom 1
+	replaceText(input: "${Текст}", find: "`", replace: "\`") >> replaceText 1
+var Shortcut.Modified = Обновленный текст
+var E76F149A-FAAE-49CD-AA88-361CF034EC0E = """<!DOCTYPE html><head><meta http-equiv="content-type" content="text/html; charset=UTF-16">
+<script>
+￼
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+var oldText =(`￼`);
+var newText =(`￼`);
+
+var result = diffString(htmlEntities(oldText), htmlEntities(newText));
+
+result = result.replace(/&amp;lt;/g, '&lt;').replace(/&amp;gt;/g, '&gt;');
+
+var html = `<!DOCTYPE html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-16">
+<meta name="viewport">
+<style>
+	del {
+		background: #ffe6e6;
+		text-decoration: strikethrough;
+	}
+	ins {
+		background: #e6ffe6;
+	}
+	pre {
+		font-size: 12px;
+		line-height: 16px;
+	}
+</style>
+</head>
+<body><pre>${result}</pre></body>
+</html>
+`
+document.write(html);
+</script></head><body></body></html>"""
+text("${E76F149A-FAAE-49CD-AA88-361CF034EC0E}")
+	encode(input: Текст) >> encode
+	url(url: "data:text/html;base64,${Base64 Encoded}") >> url
+	openURL(url: URL‑адрес)
+} >> IFResult
+if(Выбранный пункт меню == "Shortcuts") {
+	getShortcuts() >> getShortcuts
+	choose(list: Мои быстрые команды) >> choose 1
+	encode(input: Выбранный объект) >> encode 1
+	encode(input: Кодированный Base64 файл) >> encode 2
+	setName(input: Кодированный Base64 файл, name: "Original.plist") >> setName 2
+	getTextFrom(input: Переименованный объект) >> getTextFrom 2
+	replaceText(input: "${Текст}", find: "`", replace: "\`") >> replaceText 2
+var Shortcut.Original = Обновленный текст
+	choose(list: Мои быстрые команды) >> choose 2
+	encode(input: Выбранный объект) >> encode 3
+	encode(input: Кодированный Base64 файл) >> encode 4
+	setName(input: Кодированный Base64 файл, name: "Modified.plist") >> setName 3
+	getTextFrom(input: Переименованный объект) >> getTextFrom 3
+	replaceText(input: "${Текст}", find: "`", replace: "\`") >> replaceText 3
+var Shortcut.Modified = Обновленный текст
+var 56EEFE26-CE2D-4078-91B5-E4052E21C0A7 = """<!DOCTYPE html><head><meta http-equiv="content-type" content="text/html; charset=UTF-16">
+<script>
+￼
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+var oldText =(`￼`);
+var newText =(`￼`);
+
+var result = diffString(htmlEntities(oldText), htmlEntities(newText));
+
+result = result.replace(/&amp;lt;/g, '&lt;').replace(/&amp;gt;/g, '&gt;');
+
+var html = `<!DOCTYPE html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-16">
+<meta name="viewport">
+<style>
+	del {
+		background: #ffe6e6;
+		text-decoration: strikethrough;
+	}
+	ins {
+		background: #e6ffe6;
+	}
+	pre {
+		font-size: 12px;
+		line-height: 16px;
+	}
+</style>
+</head>
+<body><pre>${result}</pre></body>
+</html>
+`
+document.write(html);
+</script></head><body></body></html>"""
+text("${56EEFE26-CE2D-4078-91B5-E4052E21C0A7}")
+	encode(input: Текст) >> encode 5
+	url(url: "data:text/html;base64,${Base64 Encoded}") >> url 1
+	openURL(url: URL‑адрес)
+} >> IFResult 1

@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: grayBlue, #Icon: closedBook
+
+/*
+A JavaScript one-liner to convert an XML string to JSON (or a dictionary, in Shortcuts terminology) — @atnbueno (2024-10-15)
+
+- Attributes in elements and empty elements are omitted 
+- For now only strings, numbers, and dictionaries are supported
+*/
+if(ShortcutInput == nil) {
+	askForInput(prompt: "XML to convert?", default: <note><to>You</to><from>@atnbueno</from><message>Hello!</message></note>) >> askForInput
+} >> Input
+dictionary({"XML":"${Input}"}) >> Input
+url(url: "data:text/html;charset=UTF-8,<body/><script>J=X=>Array.from(X.childNodes).reduce((A,N)=>{v=N.nodeType===3?N.nodeValue.trim():null;n=N.nodeName;return v?(isNaN(v)?v:Number(v)):(N.childNodes.length&&(A[n]=A[n]?[].concat(A[n],J(N)):J(N)),A);},{});document.body.textContent=JSON.stringify(J((new DOMParser()).parseFromString(${Input}.XML,"text/xml")));</script>") >> URL as Rich Text
+decodeURL(url: "${URL as Rich Text.as(RichText)}") >> JavaScript output
+if(ShortcutInput == nil) {
+	showResult(text: "${JavaScript output}")
+} >> IFResult
+//Unable to get shortcuts action is.workflow.actions.getvariable

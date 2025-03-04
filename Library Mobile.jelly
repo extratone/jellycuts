@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: grayBrown, #Icon: bookshelf
+
+// Library Mobile takes a URL from the share sheet and uses it to open Safari on a Mac on the same network and then run the shortcut Library to save a Markdown version of the linked content to Obsidian.
+runSSH(host: "Mac-Studio.local", user: "", auth: Password, password: "", input: ShortcutInput, script: "open -a Safari ${ShortcutInput}
+shortcuts run library") >> runSSH

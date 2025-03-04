@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: teal, #Icon: musicNote
+
+getTextFrom(input: ShortcutInput) >> getTextFrom
+decodeURL(url: "${Text}") >> decodeURL
+url(url: "https://api.song.link/v1-alpha.1/links?url=${URL Encoded Text}") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+setName(input: Contents of URL, name: "results.json") >> Results
+valuesFrom(dictionary: Set Name) >> valuesFrom
+var SonglinkURL = Dictionary Value
+setClipboard() >> setClipboard
+share(file: Songlink URL) >> share

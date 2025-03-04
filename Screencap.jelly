@@ -1,0 +1,17 @@
+import Shortcuts
+#Color: pink, #Icon: cameraViewFinder
+
+// Takes a screenshot, reformat the name to the style used on macOS, then saves it to /Shortcuts/Screenshots/ in iCloud Drive.
+/*
+Use this as a tool to sync screenshots from iOS to iCloud Drive, where you can also send assets from macOS using a tool like Hazel.
+
+Speak the name to Siri when you want to save your screenshot.
+*/
+wait(seconds: 3)
+formatDate(date: "${CurrentDate}", dStyle: ISO 8601) >> formatDate
+formatDate(date: "${CurrentDate}", dStyle: Custom, custom: "h.mm.ss a") >> formatDate 1
+deviceDetails(detail: Device Model) >> deviceDetails
+text(text: "Screen Shot ${Formatted Date} at ${ActionOutput} - ${Device Model}") >> text
+takeScreenshot() >> takeScreenshot
+setName(input: Screenshot, name: "${Screenshot.get(File Extension)}.${ActionOutput.get(File Extension)}") >> setName
+saveFile(input: Renamed Item, ask: false, path: "Screenshots/${Renamed Item.get(File Extension)}.${ActionOutput.get(File Extension)}")

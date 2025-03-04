@@ -1,0 +1,23 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+/*
+Shortcut created by:u/mvan231
+
+~~~~~For~~~~~
+Post:Apple Maps multi-stop directions
+By:cstew75
+Link:https://www.reddit.com/r/shortcuts/comments/xnpdg9/apple_maps_multistop_directions/
+*/
+// Enter destinations in order, in the list below. The existing list is examples of how you can enter the address(es).
+list(items: (
+    "123 Main St.,Northville,MI",
+    "123 Main Street,Brighton,MI",
+    "123 Main St,Cleveland,OH",
+    "240 Bostwick Ave NE Grand Rapids, MI  49503"
+)) >> list
+replaceText(input: "${List}", find: " ", replace: "+") >> replaceText
+replaceText(input: "${Updated Text}", find: "^", replace: "&daddr=", isRegex: true) >> replaceText 1
+combineText(text: "${Updated Text}", combine: Custom) >> combineText
+text(text: "maps://?dirflg=d&t=h${Combined Text}") >> text
+openURL(url: Text) >> openURL

@@ -1,0 +1,33 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+var Images = ShortcutInput
+count(type: Items, input: Images) >> count
+if(Count > false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} else {
+	selectPhoto(multiple: true)
+} >> IFResult
+createPDF(input: If Result) >> createPDF
+menu(Upload to Dropbox?, [Yes, No]) {
+case("Yes"):
+	repeatEach(PDF) {
+		saveFile(ask: false, path: "/Shortcuts")
+		getFileLink()
+	} >> RepeatResult
+	combineText(text: Repeat Results, combine: Custom, separator: ", ") >> combineText
+var Body = Combined Text
+case("No"):
+var Attachments = PDF
+}
+askForInput(prompt: "What is the receipt for?") >> askForInput
+var Item = Provided Input
+askForInput(prompt: "How much did the item cost?", type: Number) >> askForInput 1
+var Cost = Provided Input
+var B961A391-4F27-4110-99EC-BDFCC8CE9D7E = """￼: $￼
+
+￼"""
+text("${B961A391-4F27-4110-99EC-BDFCC8CE9D7E}")
+var Body = Text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.sendemail

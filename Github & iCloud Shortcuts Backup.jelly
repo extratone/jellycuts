@@ -1,0 +1,43 @@
+import Shortcuts
+#Color: grape, #Icon: folder
+
+/*
+This backs up to Github with the app Working Copy
+
+Requires setting up Callback url key in working copy app
+*/
+dictionary({"Shortcut Name":"Github & iCloud Shortcuts Backup","Current Version":"0.2","Release Notes URL":"inital release","updateType":"${ShortcutInput}","RoutineHub ID":"1486"}) >> Shortcut Info
+runShortcut(name: "UpdateKit", input: Shortcut Info, show: false) >> runShortcut
+/*
+**Note for UpdateKit:**
+
+I have a separate UpdateKit helper shortcut (not published) that I use to update UpdateKit-enabled Shortcuts manually rather than on every run.
+
+My trigger is sending "FORCED" as input to the shortcut which I use as the variable in the "updateType" dictionary field below. Here I have taken the "Run UpdateKit" step out of the IF statement below, so it will run every time. But for myself, I place it in the following IF statement, and send a forced update when I want to check for updates instead.
+*/
+if(Shortcut Result .contains ""updateType":"FORCED"") {
+	output(result: "${Shortcut Info}")
+} >> IFResult
+deviceDetails(detail: Device Name) >> deviceDetails
+// This is because each device that Working Copy is installed on has its own key. So for each device, you need to 
+if(Device Name .contains "iPad") {
+	text(text: "6L4DEE8EDU") >> text
+var WorkingCopyKey = Text
+} else {
+	text(text: "W8SEYUPDS4") >> text 1
+var WorkingCopyKey = Text
+} >> IFResult 1
+getShortcuts() >> getShortcuts
+createFolder(path: "Backups/${CurrentDate}") >> createFolder
+saveFile(input: My Shortcuts, ask: false, path: "Backups/${CurrentDate}", overwrite: true) >> saveFile
+createFolder(path: "Backups/git") >> createFolder 1
+repeatEach(My Shortcuts) {
+	setName(input: Repeat Item, name: "${Repeat Item}.plist") >> setName
+	getTextFrom(input: Renamed Item) >> getTextFrom
+	setName(input: Text, name: "${Repeat Item}.xml") >> setName 1
+	saveFile(input: Renamed Item, ask: false, path: "Backups/git", overwrite: true) >> saveFile 1
+} >> RepeatResult
+askForInput(prompt: "Add Commit message") >> askForInput
+encodeURL(url: "${Provided Input}") >> encodeURL
+text(text: "working-copy://x-callback-url/commit?key=${Working Copy Key}&repo=shortcuts&message=${Variable}&limit=9999&no_path=empty") >> text 2
+xCallbackURL(url: "${Text}")

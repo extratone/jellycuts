@@ -1,0 +1,38 @@
+import Shortcuts
+#Color: navy, #Icon: documentOutline
+
+/*
+Retrieve and concatenate GitHub Issue contents and comments into a single draft.
+
+Full documentation: https://davidblue.wtf/issuedraft
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+urlComponent(url: "${ShortcutInput}", component: Path) >> urlComponent
+splitText(text: Component of URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList
+var owner = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 1
+var repo = Item from List
+url(url: "https://api.github.com/repos${Component of URL}") >> url 1
+var root = URL
+downloadURL(url: "${URL}") >> downloadURL
+valuesFrom(dictionary: Contents of URL) >> valuesFrom
+var opBody = Dictionary Value
+url(url: "${root}/comments") >> url 2
+downloadURL(url: "${URL}") >> downloadURL 1
+repeatEach(Contents of URL) {
+	valuesFrom(dictionary: Repeat Item)
+}

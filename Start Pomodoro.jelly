@@ -1,0 +1,20 @@
+import Shortcuts
+#Color: red, #Icon: timer
+
+/*
+Below, ‘Ask for Input’ is set to ‘Number’ responses.
+
+When you tap the shortcut, it will show a ‘Number’ field.
+
+When you say “Start Pomodoro” to Siri, you can say things like “Twenty Six” when it asks for a number.
+*/
+askForInput(prompt: "OK, for how many minutes?", type: Number, allowDecimal: false, allowNegative: false) >> Break Length
+round(number: Break Length, mode: Always Round Up) >> round
+if(Rounded Number false 1) {
+	runShortcut(name: "Start Pomodoro", input: Rounded Number, show: true) >> runShortcut
+} >> IFResult
+adjustDate(operation: Add, duration: , date: "${CurrentDate}") >> Break End Time
+timer(duration: ) >> timer
+// Above, the ‘Start Timer’ action will create a new timer using the output of the ‘Adjust Time’ action.
+setDND(state: true)
+showResult(text: "Started a timer for ${Break Length} minutes. Your focus will stay on until the timer goes off.")

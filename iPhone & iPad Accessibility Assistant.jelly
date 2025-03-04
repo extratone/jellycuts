@@ -1,0 +1,2244 @@
+import Shortcuts
+#Color: navy, #Icon: person2
+
+/*
+Select the needs of the user, choose as many as needed. Creates a note, populated with Apple Support page links and resources, on suggested built-in accessibility features for iPhone and iPad.
+
+Resources are based on iOS 15.4.1 and iPadOS 15.4
+*/
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+menu(Choose a category of conditions. You can add more later, if necessary., [Vision, Hearing, Mobility, Cognitive]) {
+case("Vision"):
+	menu(Choose a condition:, [Wears reading glasses, Sensitivity to light, Cannot distinguish certain colors, Depth perception issues, Blurry vision / dizziness / visual distortion, Blind, Blind + braille, Deafblind, All of these, None of these]) {
+	case("Wears reading glasses"):
+		text(text: "Larger Text Display Preferences Live Text Magnifier Zoom Dark Mode Accessibility Per-App Settings Speak Screen Speak Selection Dictation Auto Correction Highlight Content Safari Reader Siri Announce Messages with Siri on AirPods Presenter Mode in Pages Announce Calls Keychain Facial Recognition in Photos Privacy") >> text
+	case("Sensitivity to light"):
+		text(text: "Dark Mode Night Shift Mode Invert Colors Reduce Motion Display Preferences  Accessibility Per-App Settings Privacy") >> text 1
+	case("Cannot distinguish certain colors"):
+		text(text: "Differentiate Without Color Invert Colors Color Filters Dark Mode Accessibility Per-App Settings Privacy") >> text 2
+	case("Depth perception issues"):
+		text(text: "Speak Screen Speak Selection Magnifier Highlight Content Zoom Dark Mode Dictation Display Preferences AirPods Accessibility Per-App Settings Privacy") >> text 3
+	case("Blurry vision / dizziness / visual distortion"):
+		text(text: "Larger Text Reduce Motion Display Preferences Live Text Speak Screen Speak Selection Zoom Audio Descriptions HoverText Highlight Content Magnifier Accessibility Per-App Settings Dictation Safari Reader Auto Correction Presenter Mode in Pages Siri Announce Messages with Siri on AirPods Keychain Find My Privacy Medical ID Mobility Metrics Accessibility Per-App Settings Spatial Audio") >> text 4
+	case("Blind"):
+		text(text: "VoiceOver Audio Descriptions Magnifier People Detection Live Text Haptic Feedback Siri Announce Messages with Siri on AirPods Announce Calls Keychain Find My Unlock iPhone with Apple Watch Privacy Medical ID Health Sharing Emergency SOS") >> text 5
+	case("Blind + braille"):
+		text(text: "VoiceOver VoiceOver + Braille Audio Descriptions Magnifier People Detection Live Text Haptic Feedback Siri Announce Messages with Siri on AirPods Announce Calls Keychain Find My Unlock iPhone with Apple Watch Privacy Medical ID Health Sharing Emergency SOS") >> text 6
+	case("Deafblind"):
+		text(text: "VoiceOver VoiceOver + Braille Magnifier Live Text People Detection Haptic Feedback Messages Keychain Find My Subtitles/CC/SDH Type to Siri Unlock iPhone with Apple Watch Privacy Digital Legacy Account Recovery Contact Medical ID Health Sharing Walking Steadiness Emergency SOS") >> text 7
+	case("All of these"):
+var 26F4501B-3A16-471C-B53C-6A3A5CAC2EE9 = """Larger Text
+Display Preferences
+Live Text
+Magnifier
+Zoom
+Dark Mode
+Accessibility Per-App Settings
+Speak Screen
+Speak Selection
+Dictation
+Auto Correction
+Highlight Content
+Safari Reader
+Siri
+Announce Messages with Siri on AirPods
+Presenter Mode in Pages
+Announce Calls
+Keychain
+Facial Recognition in Photos
+Privacy
+Night Shift Mode
+Invert Colors
+Reduce Motion
+Differentiate Without Color
+Color Filters
+AirPods
+Audio Descriptions
+HoverText
+Find My
+Medical ID
+Mobility Metrics
+Spatial Audio
+VoiceOver
+People Detection
+Haptic Feedback
+Unlock iPhone with Apple Watch
+Health Sharing
+Emergency SOS
+VoiceOver + Braille
+Messages
+Subtitles/CC/SDH
+Type to Siri
+Digital Legacy
+Account Recovery Contact
+Walking Steadiness"""
+text("${26F4501B-3A16-471C-B53C-6A3A5CAC2EE9}")
+	case("None of these"):
+		nothing()
+	} >> MenuResult
+case("Hearing"):
+	menu(Choose a condition:, [Issues hearing in loud places, mishears conversations, Issues hearing phone call dialog, Missing alarms/alerts, Missing TV dialog, trouble hearing specific frequencies, Ringing in ears, Hard of hearing, one ear only, Hard of hearing / deaf, Deaf + Sign Language, All of these, None of these]) {
+	case("Issues hearing in loud places, mishears conversations"):
+		text(text: "Headphone Accommodations AirPods Live Listen Conversation Boost Noise Cancellation in Headphones Noise Cancellation on iPhone Flash LED for Alerts Haptic Feedback Translate Messages SharePlay Music Lyrics Music Recognition Accessibility Per-App Settings Privacy") >> text 8
+	case("Issues hearing phone call dialog"):
+		text(text: "Stream audio to hearing devices AirPods Headphone Accommodations MFi Hearing Aids Live Listen Conversation Boost Mono Audio Noise Cancellation on iPhone RTT/TTY Messages Music Recognition Privacy") >> text 9
+	case("Missing alarms/alerts"):
+		text(text: "Sound Recognition Show Audio Transcriptions Flash LED for Alerts Haptic Feedback Live Listen Notifications Privacy") >> text 10
+	case("Missing TV dialog, trouble hearing specific frequencies"):
+		text(text: "Stream audio to hearing devices Subtitles/CC/SDH Headphone Accommodations AirPods Live Listen Conversation Boost Show Audio Transcriptions Noise Cancellation in Headphones SharePlay Music Lyrics Music Recognition Privacy") >> text 11
+	case("Ringing in ears"):
+		text(text: "Stream audio to hearing devices Headphone Accommodations AirPods Live Listen Conversation Boost Subtitles/CC/SDH Noise Cancellation in Headphones Transparency Flash LED for Alerts Haptic Feedback MFi Hearing Aids Music Lyrics Music Recognition Privacy") >> text 12
+	case("Hard of hearing, one ear only"):
+		text(text: "Stream audio to hearing devices Mono Audio Subtitles/CC/SDH Headphone Accommodations AirPods Live Listen Conversation Boost MFi Hearing Aids Flash LED for Alerts Haptic Feedback Privacy") >> text 13
+	case("Hard of hearing / deaf"):
+		text(text: "MFi Hearing Aids Stream audio to hearing devices Headphone Accommodations AirPods Live Listen Conversation Boost Subtitles/CC/SDH Noise Cancellation in Headphones Sound Recognition RTT/TTY Show Audio Transcriptions Music Lyrics Music Recognition Clips Flash LED for Alerts Haptic Feedback Translate Type to Siri Privacy") >> text 14
+	case("Deaf + Sign Language"):
+		text(text: "Sound Recognition FaceTime and Sign Language Prominence RTT/TTY Subtitles/CC/SDH Flash LED for Alerts Haptic Feedback Type to Siri Music Lyrics Music Recognition Privacy") >> text 15
+	case("All of these"):
+var BD8BAB2B-81B8-45DD-99A9-70E7D9D38E18 = """Headphone Accommodations
+AirPods
+Live Listen
+Conversation Boost
+Noise Cancellation in Headphones
+Noise Cancellation on iPhone
+Flash LED for Alerts
+Haptic Feedback
+Translate
+Messages
+SharePlay
+Music Lyrics
+Music Recognition
+Accessibility Per-App Settings
+Privacy
+Stream audio to hearing devices
+MFi Hearing Aids
+Mono Audio
+RTT/TTY
+Sound Recognition
+Show Audio Transcriptions
+Notifications
+Subtitles/CC/SDH
+Transparency
+Clips
+Type to Siri
+FaceTime and Sign Language Prominence"""
+text("${BD8BAB2B-81B8-45DD-99A9-70E7D9D38E18}")
+	case("None of these"):
+		nothing()
+	} >> MenuResult 1
+case("Mobility"):
+	menu(Choose a condition:, [Difficulty typing, Lack of fine motor skills, Reduced limb function / low range of motion / single touch point, Involuntary movements / tremors, Low mobility + speech issues, Manual wheelchair user, Motorized wheelchair users, Head movement only, All of these, None of these]) {
+	case("Difficulty typing"):
+		text(text: "Siri Dictation Touch Accommodations Voice Control Hardware Keyboard Support Siri Notifications QuickPath Live Text One Handed Typing Keyboard Predictive Text Text Replacement Auto Correction Mouse and Trackpad Support Face ID and Attention Keychain AirPods Unlock iPhone with Apple Watch Accessibility Per-App Settings Privacy") >> text 16
+	case("Lack of fine motor skills"):
+		text(text: "Touch Accommodations AssistiveTouch Siri Announce Messages with Siri on AirPods Back Tap Dictation Guided Access Face ID and Attention Hardware Keyboard Support Call Audio Routing Keychain Unlock iPhone with Apple Watch Accessibility Per-App Settings Privacy") >> text 17
+	case("Reduced limb function / low range of motion / single touch point"):
+		text(text: "AssistiveTouch Siri Announce Messages with Siri on AirPods QuickPath One Handed Typing Keyboard Dictation Voice Control Touch Accommodations Hardware Keyboard Support Text Replacement Predictive Text Reachability Switch Control Messages SharePlay Face ID and Attention Sticky Keys Call Audio Routing Announce Calls Keychain Unlock iPhone with Apple Watch Privacy Medical ID Health Sharing Accessibility Per-App Settings Spatial Audio") >> text 18
+	case("Involuntary movements / tremors"):
+		text(text: "Touch Accommodations AssistiveTouch Announce Messages with Siri on AirPods Dictation Speak Screen Face ID and Attention Slow Keys Siri Keychain Unlock iPhone with Apple Watch Medical ID Health Sharing Walking Steadiness Accessibility Per-App Settings Spatial Audio Emergency SOS Privacy") >> text 19
+	case("Low mobility + speech issues"):
+		text(text: "AssistiveTouch Announce Messages with Siri on AirPods Back Tap Type to Siri Speak Selection Speak Screen Touch Accommodations Switch Control Eye-Tracking Support for iPad Face ID and Attention Announce Calls Keychain Messages SharePlay Shortcuts - Pain Report Unlock iPhone with Apple Watch Privacy Digital Legacy Account Recovery Contact Medical ID Health Sharing Walking Steadiness Emergency SOS Accessibility Per-App Settings Spatial Audio") >> text 20
+	case("Manual wheelchair user"):
+		text(text: "AssistiveTouch Voice Control Siri Announce Messages with Siri on AirPods Back Tap Dictation Headphone routing Activity App for wheelchair users Face ID and Attention Unlock iPhone with Apple Watch Medical ID Accessibility Per-App Settings Emergency SOS Privacy") >> text 21
+	case("Motorized wheelchair users"):
+		text(text: "Voice Control Siri Announce Messages with Siri on AirPods Dictation Headphone routing Switch Control Eye-Tracking Support for iPad Face ID and Attention Call Audio Routing Announce Calls Messages SharePlay Keychain Unlock iPhone with Apple Watch Privacy Medical ID Health Sharing Accessibility Per-App Settings Spatial Audio Emergency SOS") >> text 22
+	case("Head movement only"):
+		text(text: "Switch Control Eye-Tracking Support for iPad Auto-Answer Calls Siri Announce Messages with Siri on AirPods Dictation Voice Control Face ID and Attention Call Audio Routing Announce Calls Keychain Messages SharePlay Unlock iPhone with Apple Watch Privacy Digital Legacy Account Recovery Contact Medical ID Health Sharing Accessibility Per-App Settings Spatial Audio Emergency SOS") >> text 23
+	case("All of these"):
+var 23FE31BD-F37F-4D16-A374-7BC0A5B8D448 = """Siri
+Dictation
+Touch Accommodations
+Voice Control
+Hardware Keyboard Support
+Siri Notifications
+QuickPath
+Live Text
+One Handed Typing Keyboard
+Predictive Text
+Text Replacement
+Auto Correction
+Mouse and Trackpad Support
+Face ID and Attention
+Keychain
+AirPods
+Unlock iPhone with Apple Watch
+Accessibility Per-App Settings
+Privacy
+AssistiveTouch
+Announce Messages with Siri on AirPods
+Back Tap
+Guided Access
+Call Audio Routing
+Reachability
+Switch Control
+Messages
+SharePlay
+Sticky Keys
+Announce Calls
+Medical ID
+Health Sharing
+Spatial Audio
+Speak Screen
+Slow Keys
+Walking Steadiness
+Emergency SOS
+Privacy 
+Type to Siri
+Speak Selection
+Eye-Tracking Support for iPad
+Shortcuts - Pain Report
+Digital Legacy
+Account Recovery Contact
+Headphone routing
+Activity App for wheelchair users
+Auto-Answer Calls"""
+text("${23FE31BD-F37F-4D16-A374-7BC0A5B8D448}")
+	case("None of these"):
+		nothing()
+	} >> MenuResult 2
+case("Cognitive"):
+	menu(Choose a condition:, [Tired when reading, Concentration issues, Forgetfulness / disorientation, Misplaces devices, Reading difficulties, Spelling issues, Words running together, Motion sickness, List writing, Difficulty following instructions, Mood changes, Safety issues, Language issues, Non-verbal / difficultly speaking, All of these, None of these]) {
+	case("Tired when reading"):
+		text(text: "Speak Screen Speak Selection Live Text Highlight Content Dark Mode Invert Colors Safari Reader Focus and Do Not Disturb Night Shift Mode Presenter Mode in Pages Display Preferences Announce Messages with Siri on AirPods Accessibility Per-App Settings Privacy") >> text 24
+	case("Concentration issues"):
+		text(text: "Background Sounds Timer Focus and Do Not Disturb Guided Access Highlight Content Speak Screen Speak Selection Larger Text Dark Mode Safari Reader Screen Time Auto Correction Presenter Mode in Pages Notifications Display Preferences Alarms Music Lyrics Music Recognition Accessibility Per-App Settings Spatial Audio Privacy") >> text 25
+	case("Forgetfulness / disorientation"):
+		text(text: "Speak Screen Speak Selection Highlight Content Reminders Live Text Find My Keychain Facial Recognition in Photos Shortcuts - Help Message Maps Siri Alarms Widgets Share Location Alarms Focus and Do Not Disturb Unlock iPhone with Apple Watch Music Lyrics Music Recognition Medical ID Walking Steadiness Health Sharing Privacy Digital Legacy Account Recovery Contact Accessibility Per-App Settings Spatial Audio Emergency SOS Privacy") >> text 26
+	case("Misplaces devices"):
+		text(text: "Find My Siri Account Recovery Contact Privacy") >> text 27
+	case("Reading difficulties"):
+		text(text: "Highlight Content Speak Screen Speak Selection Larger Text Live Text Typing Feedback Safari Reader Display Preferences Presenter Mode in Pages Announce Messages with Siri on AirPods Accessibility Per-App Settings Privacy") >> text 28
+	case("Spelling issues"):
+		text(text: "Dictation Auto Correction Typing Feedback Predictive Text Text Replacement Speak Screen Speak Selection QuickPath Siri Keychain Unlock iPhone with Apple Watch Accessibility Per-App Settings Privacy") >> text 29
+	case("Words running together"):
+		text(text: "Speak Screen Speak Selection Highlight Content Larger Text Zoom Color Filters Safari Reader Presenter Mode in Pages Accessibility Per-App Settings Privacy") >> text 30
+	case("Motion sickness"):
+		text(text: "Reduce Motion Speak Screen Speak Selection Dark Mode Invert Colors Dictation Siri Announce Messages with Siri on AirPods Spatial Audio Medical ID Health Sharing Walking Steadiness Accessibility Per-App Settings Privacy") >> text 31
+	case("List writing"):
+		text(text: "Siri Reminders Notes Dictation Privacy") >> text 32
+	case("Difficulty following instructions"):
+		text(text: "Focus and Do Not Disturb Screen Time Messages Notifications Highlight Content Speak Screen Speak Selection Reminders Notes Clips Guided Access Timer FaceTime Account Recovery Contact Shortcuts - Help Message Share Location Privacy") >> text 33
+	case("Mood changes"):
+		text(text: "Siri Shortcuts - Mood Journal and Check in Message SharePlay FaceTime Siri Music Photos Focus and Do Not Disturb Background Sounds Timer Screen Time Night Shift Mode Notes Share Location Privacy Medical ID Health Sharing Emergency SOS Digital Legacy Account Recovery Contact") >> text 34
+	case("Safety issues"):
+		text(text: "Shortcuts - Help Message Find My Siri Widgets Maps Share Location Messages Privacy Digital Legacy Account Recovery Contact Medical ID Walking Steadiness Health Sharing Emergency SOS") >> text 35
+	case("Language issues"):
+		text(text: "Highlight Content Live Text Speak Screen Speak Selection Larger Text Translate Dictation Safari Reader Language Keyboards Presenter Mode in Pages Music Lyrics Music Recognition Messages SharePlay Medical ID Health Sharing Accessibility Per-App Settings Privacy") >> text 36
+	case("Non-verbal / difficultly speaking"):
+		text(text: "Type to Siri Messages SharePlay Speak Screen Speak Selection Notes Typing Feedback Shortcuts - Pain Report Medical ID Walking Steadiness Health Sharing Privacy Emergency SOS Digital Legacy Account Recovery Contact") >> text 37
+	case("All of these"):
+var 2294B92A-AF64-4522-99F7-6198114A740B = """Speak Screen
+Speak Selection
+Live Text
+Highlight Content
+Dark Mode
+Invert Colors
+Safari Reader
+Focus and Do Not Disturb
+Night Shift Mode
+Presenter Mode in Pages
+Display Preferences
+Announce Messages with Siri on AirPods
+Accessibility Per-App Settings
+Privacy
+Background Sounds
+Timer
+Guided Access
+Larger Text
+Screen Time
+Auto Correction
+Notifications
+Alarms
+Music Lyrics
+Music Recognition
+Spatial Audio
+Privacy 
+Reminders
+Find My
+Keychain
+Facial Recognition in Photos
+Shortcuts - Help Message
+Maps
+Siri
+Widgets
+Share Location
+Unlock iPhone with Apple Watch
+Medical ID
+Walking Steadiness
+Health Sharing
+Digital Legacy
+Account Recovery Contact
+Emergency SOS
+Typing Feedback
+Dictation
+Predictive Text
+Text Replacement
+QuickPath
+Zoom
+Color Filters
+Reduce Motion
+Notes
+Messages
+Clips
+FaceTime
+Shortcuts - Mood Journal and Check in Message
+SharePlay
+Music
+Photos
+Translate
+Language Keyboards
+Type to Siri
+Shortcuts - Pain Report"""
+text("${2294B92A-AF64-4522-99F7-6198114A740B}")
+	case("None of these"):
+		nothing()
+	}
+} >> MenuResult 3
+menu(Would you like to specify more conditions?, [Add more, Finished  ✅]) {
+case("Add more"):
+	splitText(text: Menu Result) >> splitText
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	runShortcut(name: "Accessibility Matrix Test - ALT BUILD", input: Accessibility Features) >> runShortcut
+case("Finished  ✅"):
+	splitText(text: Menu Result) >> splitText 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "") >> text 38
+var De-dupedList = Text
+	repeatEach(Accessibility Features) {
+		if(De-duped List .contains ""${Repeat Item}"") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> IFResult
+	} >> RepeatResult
+var 151BD657-BDE5-4E06-B845-E97D3EFA945F = """Accessibility Features on iPhone & iPad
+
+- Created on ￼ -
+
+
+Based on your specified selections, below is a list of accessibility features that might be helpful, along with links to support documentation and video tutorials, to find out how to turn them on and get started.
+
+Accessibility Shortcut:
+After you set up accessibility features, you can quickly turn them on or off with Control Center or with the Accessibility Shortcut, triple clicking the Home, Top or Side button.
+
+About the Accessibility Shortcut for iPhone, iPad and iPod touch:
+https://support.apple.com/HT204390
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Video
+
+How to use the Accessibility Shortcut on your iPhone and iPad:
+https://youtu.be/WfK4-GEI1wk
+(Runtime 0:55)
+
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg 
+(Runtime 0:53)
+
+
+—————————————————————————————————
+
+"""
+text("${151BD657-BDE5-4E06-B845-E97D3EFA945F}")
+var Header = Text
+var 554B43FD-91BC-48D7-85BE-B232581082B5 = """
+
+—————————————————————————————————
+
+
+
+💻 Apple Support
+Apple Support Pages homepage
+https://support.apple.com/
+
+Apple Support App
+Need help? Apple Support app is your personalized guide to the best options from Apple. Find answers with articles tailored to your products and questions. Call, chat or email with an expert right away, or schedule a callback when it’s convenient. Get a repair at an Apple Store or a nearby Apple Authorised Service Provider. Apple Support is here to help. **Supports hard of hearing or non verbal assistance for individuals through chat functionality.
+https://itunes.apple.com/app/apple-support/id1130498044
+
+AppleCare
+Chat with experts online or have us call you right away. You can also schedule a time for us to call you when you’re ready. Answer a few questions and we’ll give you the best options.
+https://support.apple.com/contact
+
+List of AppleCare Support numbers (worldwide) - https://support.apple.com/HT201232
+How to contact Apple for accessibility support - https://support.apple.com/HT209585
+Accessibility Support Helpdesk:
+United States: 1-877-204-3930
+United Kingdom.: 0800 107 6285
+China mainland: 400-619-8141 (Mandarin only)
+Australia: (61) 1-300-365-083
+
+Apple Retail Support
+Join us for free workshops that cover everything from learning the basics of your new product to editing photos and more. Take the kids to free youth programs like Apple Camp. Or inspire the whole class with a Field Trip to the Apple Store. Forgot your Apple ID or have a question about an app or service? Want to make a Genius Bar reservation? We have several convenient Apple Support options for you to choose from.
+https://www.apple.com/retail/
+
+Apple Support Communities
+Find answers, ask questions, and connect with our community of Apple users from around the world.
+https://discussions.apple.com/welcome
+
+Social 
+YouTube https://www.youtube.com/applesupport/
+Accessibility playlist: https://youtube.com/playlist?list=PLIl2EzNYri0cLtSlZowttih25VnSvWITu 
+Twitter @AppleSupport
+
+📖 Manuals and Guides
+iPhone iOS 15 https://www.apple.com/ios/ios-15/
+iPhone User Guide https://support.apple.com/guide/iphone/welcome/ios
+iPadOS https://www.apple.com/ipados/ipados-15/
+iPad User Guide  https://support.apple.com/guide/ipad/welcome/ipados
+
+
+"""
+text("${554B43FD-91BC-48D7-85BE-B232581082B5}")
+var Footer = Text
+var F24991D5-9800-4666-927F-3E4E0731EC8B = """-----
+Accessibility Per-App Settings
+
+Want to increase text size in one app, bold the text in another, and invert colors in a third app? You can use per-app settings to customize one app, without adjusting the settings across your device.
+
+Customize accessibility settings for specific apps on iPhone:
+https://support.apple.com/guide/iphone/iph1f48544ab/ios
+
+Video
+
+How to customize accessibility settings app by app on iPhone, iPad, and iPod touch:
+https://youtu.be/7sHaXuFb6uk
+(Runtime 0:54)
+
+
+
+-----
+Account recovery contact
+
+An account recovery contact can help make sure that you always have access to your account, even if you forgot your Apple ID password or device passcode.  
+Set up an account recovery contact:
+https://support.apple.com/HT212513
+
+Help a friend or family member as their account recovery contact:
+https://support.apple.com/HT212515
+
+
+
+
+-----
+Activity App for wheelchair users
+
+If you own an Apple Watch, reach your fitness goals with the Activity app on Apple Watch, designed with wheelchair users in mind. Instead of a Stand goal, the Roll goal encourages you to move every hour. And sensors in Apple Watch even take into account different pushing techniques — giving you the most accurate credit for your daily activity.
+
+The Workout app on Apple Watch helps you work out your way. Accurately measure your workout session and set time, distance, or calorie goals based on the type of exercise you do. For wheelchair users, there are two unique workouts types: Outdoor Wheelchair Walk Pace and Outdoor Wheelchair Run Pace. Just choose the workout type that best matches your activity and Apple Watch turns on the appropriate sensors to track your workout.
+
+To enable health and fitness features designed for wheelchair activity, edit the wheelchair preference in the Health section of My Watch or in the Health app under Health Details.
+
+Use the Health app on your iPhone or iPod touch:
+https://support.apple.com/HT203037
+
+Work out types on Apple Watch:
+https://support.apple.com/HT207934
+
+
+
+-----
+AirPods
+
+When your AirPods are nearby and ready to use with your device, you can use them to listen to music, use Siri or handle phone calls. Great for use with VoiceOver in shared environments and Voice Control / Dictation users when in noisy spaces.
+
+Use headphone Accommodations to get the best audio experience from your headphones. Use Live Listen or Conversation Boost to enhance sound around you.
+
+Switch between noise cancellation and transparency modes while listening to audio from your Mac on AirPods Pro or AirPods Max.
+
+Connect your AirPods and AirPods Pro to your iPhone:
+https://support.apple.com/HT207010
+
+Change the settings of your AirPods and AirPods Pro:
+https://support.apple.com/HT207009 
+
+Video
+
+How to customize the settings on your AirPods or AirPods Pro:
+https://youtu.be/AYdyBdQvAJE
+
+
+
+-----
+Alarms
+
+Learn how to set and edit an alarm, ask Siri to set alarms for you and track your bedtime. Label alarms to help remind activities.
+
+How to set and manage alarms on your iPhone:
+https://support.apple.com/HT207512
+
+Set an alarm on iPad:
+https://support.apple.com/guide/ipad/ipadec8a36cc/
+
+
+
+-----
+Announce Calls
+
+You can have iPhone announce all incoming calls or only calls you receive while you’re using headphones. Names will be stated if the number is within your Contacts.
+
+Answer or decline incoming calls on iPhone:
+https://support.apple.com/guide/iphone/iph3c9947bf/
+
+Add and use contact information on iPhone:
+https://support.apple.com/guide/iphone/iph3e0ca2db/
+
+
+
+-----
+Announce Messages with Siri on AirPods
+
+When you're wearing your AirPods or compatible Beats headphones, Siri can announce your incoming messages. Then you can reply instantly, hands-free.
+
+Announce Messages with Siri on AirPods:
+https://support.apple.com/HT210406
+
+
+
+-----
+AssistiveTouch
+
+Adapt your touchscreen to ﬁt your physical needs. If certain gestures, like pinch or tap, don’t work for you, swap them with a gesture that does or create a touch that’s all your own. You can customize the layout of the AssistiveTouch menu too, or create an alternative to pressing the Home button — a simple onscreen tap. And you can connect a Bluetooth mouse or joystick to control an onscreen pointer for navigation.
+
+Use AssistiveTouch on your iPhone, iPad, or iPod touch:
+https://support.apple.com/HT202658
+
+Connect a Bluetooth mouse or trackpad to your iPad:
+https://support.apple.com/HT211009  
+
+Videos
+How to use AssistiveTouch on your iPhone:
+https://youtu.be/a0IO_tqsO5g
+(Runtime 2:10)
+
+How to customize AssistiveTouch:
+https://youtu.be/3id4BJ4eSQg
+(Runtime 1:00) 
+
+How to customize your pointer on iPad:
+https://youtu.be/6COqi47PYZw
+(Runtime 2:00)
+
+
+
+-----
+Audio Descriptions
+
+Watch movies with detailed audio descriptions of every scene. Movies with audio descriptions are displayed with the AD icon in the iTunes Store. 
+
+iPad and iPhone also let VoiceOver users access closed caption and subtitle tracks audibly or through their Braille displays.
+
+Turn on audio descriptions on your iPhone, iPad or iPod touch: 
+https://support.apple.com/en-au/HT205796
+
+Use audio descriptions to hear narration describing a video clip, show, or movie:
+https://support.apple.com/HT204657 
+
+Check if films and TV shows have accessibility features in the Apple TV app:
+https://support.apple.com/HT205742 
+
+
+
+-----
+Auto Correction
+
+Auto-Correction uses your keyboard dictionary to spellcheck words while you're typing, automatically correcting misspelt words for you. To use it, turn on and just type in a text field. 
+
+How to use Auto-Correction and predictive text on your iPhone, iPad or iPod touch:
+https://support.apple.com/HT207525
+
+
+
+-----
+Back Tap
+
+A double or triple tap on the back of your iPhone can be set to trigger all kinds of actions, like opening Control Center, taking a screenshot, or cueing a favorite app. A great way to replace standard Home Screen gestures when they become tricky.
+
+Use Back Tap on your iPhone:
+https://support.apple.com/HT211781
+
+Video
+How to use Back Tap on iPhone:
+https://youtu.be/IMbd0dTvr0I
+(Runtime 0:43)
+
+
+
+-----
+Background Sounds
+
+Background sounds like bright noise, dark noise, ocean, or rain play continuously while you use your iPhone or iPad to mask unwanted noise and help you focus. 
+
+Turn easily on and off in Control Center. Use Timer in Clock app to stop playing after allocated time.
+
+Play rain sounds and other ambient noise with Background Sounds:
+https://support.apple.com/HT212775
+
+Play background sounds on iPhone to mask environmental noise:
+https://support.apple.com/guide/iphone/iphb2cfa052c/ios
+
+Play background sounds on iPad to mask environmental noise:
+https://support.apple.com/guide/ipad/ipad5117c441/ipados 
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Video 
+
+How to Use Background Sounds on iPhone:
+https://youtu.be/h-88SvLSee8
+(Runtime 2:11)
+
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+
+
+-----
+Call Audio Routing 
+
+Route audio calls - You can automatically route the audio of phone or FaceTime calls to your headphones, speaker, or hearing devices. 
+
+In this setting you can also select to have the call Auto-Answered, and add the duration of the time to wait until the call is auto answered. 
+
+Recommend also turning on Announce Calls, to hear the name of the caller if they are in your Contacts. Go to Settings  > Phone > Announce Calls.
+
+Adjust touch settings on iPhone - Route audio calls:
+https://support.apple.com/guide/iphone/iph77bcdd132/
+
+Announce Calls -  Answer or decline incoming calls on iPhone:
+https://support.apple.com/guide/iphone/iph3c9947bf/
+
+
+
+-----
+Clips
+
+Video editing app for quick instructional content, journalling, information sharing and social engagement. Conveniently add titles and text to your videos by choosing a Live Title style. Then speak while recording and Siri syncs onscreen captions with your voice. 
+
+Apple Clips page: 
+https://www.apple.com/clips/
+
+Clips User Guide:
+https://support.apple.com/guide/clips/welcome/
+
+Video 
+
+Five things you can do with Clips on iPhone, iPad, and iPod touch:
+https://youtu.be/0GXtYSU8-R8
+(Runtime 1:36)
+
+
+
+-----
+Color Filters
+
+If you have color blindness or other vision challenges, you can use Color Filters to help you differentiate between colors. Color Filters can change the look of things, like pictures and movies, so you might want to use it only when needed.
+
+When you turn on Color Filters, you can choose from four preset filters:
+- Grayscale
+- Red/Green for Protanopia
+- Green/Red for Deuteranopia
+- Blue/Yellow for Tritanopia
+
+Or you can customize a Color Tint to change the hue of the entire display on your iPhone, iPad or iPod Touch. Use the sliders to adjust your display's hue and the intensity of the effect.
+
+Use display and text size preferences on your iPhone, iPad, and iPod touch: 
+https://support.apple.com/HT207025
+
+
+
+-----
+Conversation Boost
+
+Conversation Boost focuses your AirPods Pro on the person who's talking in front of you. This makes it easier to hear when you're talking face to face.
+
+You can turn on Conversation Boost by tapping the Hearing button in Control Centre.
+
+Customize headphone audio levels on your iPhone or iPad:
+https://support.apple.com/HT211218
+
+Video
+
+How to turn on Conversation Boost with AirPods Pro on iPhone and iPad:
+https://youtu.be/8MOKVQNX1mU
+(Runtime 1:02)
+
+
+
+-----
+Dark Mode
+
+Dark Mode transforms every element on your screen with a dark color scheme to help you focus on the things that matter most. Light text against darker backdrops in Mail, Safari Reader, Calendar, and more makes everything easier to read in low lighting conditions. And the Accessibility preferences for increased contrast and reduced transparency work with Dark Mode enabled.
+
+Add Dark Mode to Control Center for quick access to this feature. 
+
+Use Dark Mode on your iPhone, iPad, or iPod touch: 
+https://support.apple.com/HT210332
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Videos
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+How to schedule Dark Mode on your iPhone, iPad, or iPod touch:
+https://youtu.be/vxtVMcfvcAI 
+(Runtime 0:32)
+
+
+
+-----
+Dictation
+
+Dictation lets you speak words and punctuation where you would type — and it works in over 30 languages. Just go to any text field, tap the microphone button on the keyboard, and start dictating.
+
+Use Dictation on your iPhone, iPad, or iPod touch:
+https://support.apple.com/HT208343
+
+iPhone:
+https://support.apple.com/guide/iphone/iph2c0651d2
+
+iPad:
+https://support.apple.com/guide/ipad/ipad997d9642/ipados
+
+Video 
+How to use dictation in notes
+https://youtu.be/PT7TFVByKeI
+(Runtime 0:31)
+
+
+
+-----
+Differentiate Without Color
+
+This setting replaces user interface items that rely on color to convey information with alternatives. For example: Status icons with a green circle and a red circle would appear as a green circle 🟢  and red square 🟥 with Differentiate with Color enabled.
+
+Use display and text size preferences on your iPhone, iPad, and iPod touch: 
+https://support.apple.com/HT207025
+
+
+
+
+-----
+Digital Legacy
+
+A Legacy Contact is someone you choose to have access to the data in your Apple account after your death. How to request access to a deceased family member’s Apple account:
+https://support.apple.com/HT208510
+
+Request access to a deceased friend or family member’s account:
+https://digital-legacy.apple.com
+
+
+
+-----
+Display Preferences
+
+Change your display to work the way you do. Choose from a range of color filters to support your color blindness or turn on Invert Colors to instantly change the values and contrast in iOS and iPadOS. Select from common presets like button shapes in iOS, transparency levels in watchOS, and more. And when you’re all set, enable On/Off labels on your iPhone or Apple Watch so you know what’s on and what’s not.
+
+Bold Text
+Turn on Bold Text to give words weight on your screen.
+
+Button Shapes
+Adds shapes to buttons—for example, an underline beneath Back buttons.
+
+Reduce Transparency
+Improves contrast by reducing transparency and blurs on some backgrounds.
+
+Increase Contrast
+Improves color contrast between app foreground and background colors.
+
+On / Off Labels
+Adds On/Off labels on preference screens. This setting indicates switches turned on with “1” and switches turned off with “0”.
+
+Reduce White Point
+Reduces the intensity of bright colors.
+
+Limit Frame Rate
+If you have an iPad Pro (10.5-inch) or iPad Pro 12.9-inch (2nd generation), you can set the maximum frame rate of your display to 60 frames per second. Use display and text size preferences on your iPhone, iPad, and iPod touch: 
+https://support.apple.com/HT207025
+
+Adjust the display and text size on iPhone:
+https://support.apple.com/guide/iphone/iph3e2e1fb0/
+
+Adjust the display and text size on iPad:
+https://support.apple.com/guide/ipad/ipad9a246013/
+
+
+
+-----
+Emergency SOS
+
+When you make a call with SOS, your iPhone will automatically call the local emergency number. In some countries and regions, you may need to choose the service that you need. For example, in China mainland you can choose the police, fire or ambulance service.
+
+You can also add emergency contacts. After an emergency call has ended, your iPhone will alert your emergency contacts with a text message, unless you choose to cancel this option. Your iPhone will send your current location, and for a period of time after you’ve entered SOS mode, your emergency contacts will receive updates when your location changes. 
+
+You can enable SOS with AssistiveTouch or Switch Control through menu options. Use Emergency SOS on your iPhone:
+https://support.apple.com/HT208076
+
+iPhone and Apple Watch safety features:
+https://support.apple.com/safety-features
+
+
+
+-----
+Eye-Tracking Support for iPad
+
+iPadOS supports third-party eye-tracking devices, making it possible for people to control iPad using just their eyes. Compatible MFi devices track where a person is looking onscreen and the pointer will move to follow the person’s gaze, while extended eye contact performs an action, like a tap.
+
+Apple previews powerful software updates designed for people with disabilities:
+https://www.apple.com/newsroom/2021/05/apple-previews-powerful-software-updates-designed-for-people-with-disabilities/
+
+
+
+-----
+Face ID & Attention
+
+On an iPhone or iPad with Face ID, you can adjust Face ID and attention settings if you have physical or vision limitations.
+
+By default, setting up Face ID requires you to gently move your head in a circle to show all the angles of your face. If you can’t perform the full range of head motion, you can still set up Face ID without moving your head.
+
+Change Face ID and attention settings on iPhone:
+https://support.apple.com/guide/iphone/iph646624222/
+
+Change Face ID and attention settings on iPad:
+https://support.apple.com/guide/ipad/ipad058b4a31/ipados
+
+Video
+How to navigate your iPhone with Face ID:
+https://youtu.be/CmzmrVfNETk
+(Runtime 3:05)
+
+
+
+-----
+FaceTime and Sign Language Prominence
+
+If you use sign language, FaceTime is an ideal way to communicate. The high-quality video and fast frame rate help you catch every gesture or expression — and when you join a Group FaceTime call, it will detect your signing to automatically make you prominent.
+
+Make a Group FaceTime call on iPhone:
+https://support.apple.com/guide/iphone/iph405ab67de/
+
+Make a Group FaceTime call on iPad:
+https://support.apple.com/guide/ipad/ipadf9e6b8fb/
+
+Video
+
+How to use group FaceTime on iPhone:
+https://youtu.be/4s1vNywzw-Q
+(Runtime 2:24)
+
+
+
+-----
+Facial Recognition in Photos
+
+The Photos app scans your photos to help you quickly recognize the people, scenes, and objects within the photos. You can name the people in your photos, mark your favorites, and more. Depending on the number of photos that you have, you can watch a Memory movie of them. And when you have iCloud Photos turned on, the people you favorite or name stay up to date across your Apple devices.
+
+Use the People album in Photos on your iPhone, iPad, or iPod touch: 
+https://support.apple.com/HT207103 
+
+
+
+-----
+Find My
+
+Set up Find My on your iPhone, iPad, iPod touch, or Mac. You can use it to find your AirPods or Apple Watch, too. With Find My and Location Services turned on, you can locate a lost or missing device. Easily locate friends and family members. Share your location with others, and let them share back.
+
+Find My - One app to find it all:
+https://www.apple.com/icloud/find-my/ 
+
+Keep track of what's important:
+https://support.apple.com/find-my
+
+If your iPhone, iPad or iPod touch is lost or stolen:
+https://support.apple.com/HT201472 
+
+Video
+How to use Find My: 
+https://youtu.be/qj9ORN8IXXk
+(Runtime 3:16)
+
+How to get a notification if you leave an item or device behind:
+https://youtu.be/QueTiF5VL44
+(Runtime 2:31)
+
+
+
+-----
+Flash LED for Alerts
+
+Your device lets you know when something’s up, in a way you’ll notice. Choose from visual or vibrating alerts for incoming phone and FaceTime calls, new text messages, new and sent mail, and calendar events. 
+You can set an LED light flash for incoming calls or have your iPhone display a photo of the caller.
+
+Get LED flash alerts on your iPhone or iPad Pro:
+https://support.apple.com/HT210065
+
+iPhone:
+https://support.apple.com/guide/iphone/iph79ced06b1/ios
+
+iPad:
+https://support.apple.com/guide/ipad/ipad4259a6f0/ipados
+
+
+
+-----
+Focus and Do Not Disturb 
+
+With iOS 15 and iPadOS 15, Focus lets you stay in the moment when you need to concentrate or step away from your device. You can customize Focus settings and choose when you want to receive alerts and notifications while letting other people and apps know when you're busy.
+
+Turn on to silence notifications for an hour or until the end of the day. Or turn it on just for an event or while you’re at a location, and it automatically turns off when the event ends or you leave that location.
+
+Use Focus on your iPhone, iPad or iPod touch:
+https://support.apple.com/HT212608 
+
+Use Do Not Disturb on your iPhone, iPad and iPod touch:
+https://support.apple.com/HT204321
+
+Apps, settings and features that you can use from Control Centre:
+https://support.apple.com/HT210981
+
+Video
+How to use Focus on iPhone, iPad, and iPod touch:
+https://youtu.be/bIROaMUeOPE
+(Runtime 4:07)
+
+
+
+-----
+Guided Access
+
+Guided Access helps you stay focused on the task (or app) at hand. You can limit a device to stay on one app at a time by disabling the Home button. You can even restrict access to the keyboard or touch input on certain areas of the screen so wandering taps and gestures won’t distract. Whether you’re a parent, a teacher, or just trying to help yourself focus, you have all the options you need to customize your experience on Apple products.
+
+Use Guided Access with iPhone, iPad, and iPod touch:
+https://support.apple.com/HT202612
+
+
+
+-----
+Haptic Feedback
+
+Your device lets you know when something’s up, in a way you’ll notice. Choose vibrating alerts for incoming phone and FaceTime calls, new text messages, new and sent mail, and calendar events. Or if you’re on the go, turn on the Taptic Engine on your Apple Watch to give you a gentle tap every time a notification comes in. Vibrating alerts available on iPhone or Apple Watch.
+
+Change iPhone sounds and vibrations: 
+https://support.apple.com/guide/iphone/iph07c867f28/
+
+Select Ringtones and Vibrations on iPhone:
+https://support.apple.com/guide/iphone/iph37c04838/
+
+Change the audio and notification settings on your Apple Watch:
+https://support.apple.com/HT204793
+
+Tell time with haptic feedback on Apple Watch:
+https://support.apple.com/guide/watch/apd2c755c294/watchos
+
+Video
+
+How to set custom vibrations on your iPhone:
+https://youtu.be/ftfO4_WfX0k
+(Runtime 2:08)
+
+
+
+-----
+Hardware Keyboard Support
+
+If you have difficulty using the touchscreen, you can control your iPad using shortcuts on an Apple external keyboard. Use Mouse Keys to control your cursor with a numeric keypad.
+
+Adjust the onscreen and external keyboard settings on iPhone:
+https://support.apple.com/guide/iphone/ipha7c3927eb/
+
+Adjust the onscreen and external keyboard settings on iPad:
+https://support.apple.com/guide/ipad/ipad424a3e13/
+
+
+
+-----
+Headphone Accommodations
+
+Whether you’re listening to music, watching a movie, or talking to a loved one, Headphone Accommodations help you customize your audio experience to make the world sound crisp and clear. Amplify soft sounds and adjust certain sound frequencies based on your individual hearing needs.  If you already have your own audiogram, you can add it to your settings. If not, you’ll walk through a series of listening tests that allow you to set up as many as nine unique profiles based on your personal sound preferences.
+
+Headphone Accommodations work with AirPods (2nd generation), AirPods Pro, AirPods Max, Apple EarPods (with Lightning connector or 3.5 mm headphone plug) and Beats Powerbeats, Powerbeats Pro and Beats Solo Pro.
+
+Customize headphone audio levels on your iPhone or iPad: 
+https://support.apple.com/HT211218
+
+Audiogram apps that will connect with Health App
+Mimi Hearing Test:
+https://apps.apple.com/app/mimi-hearing-test/id932496645 
+
+SonicCloud Personalized Sound:
+https://apps.apple.com/app/soniccloud-personalized-sound/id1121660424
+
+
+
+-----
+Health Sharing
+
+Securely share your health data with family, friends and healthcare providers.
+
+In the Sharing tab of the Health app, you can share any data you have stored in the Health app with up to five individuals. You control what data you share, and you can change it or stop sharing at any time. If a friend or family member chooses to share their health data with you, you can also receive notifications when there are changes to their health data.
+
+Share and view health data in the Health app:
+https://support.apple.com/HT212629
+
+
+
+-----
+Highlight Content
+
+iPhone and iPad can highlight words, sentences, or both as they’re spoken. You can change the highlight color and style. 
+
+Hear iPhone speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/iphone/iph96b214f0/
+
+Hear iPad speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/ipad/ipad9a247097/
+
+Video
+How to have your iPhone or iPad highlight text as it reads your screen:
+https://youtu.be/6GB-VntNWbY
+(Runtime 0:59)
+
+
+
+-----
+Invert Colors
+
+If you benefit from viewing items against a dark background, you can use Invert Colors to change how content is displayed on your screen.
+
+Smart Invert reverses the colors on the display, except for images, media, and some apps that use dark color styles.
+
+Classic Invert reverses all colors on the display.
+
+Use display and text size preferences on your iPhone, iPad, and iPod touch: 
+https://support.apple.com/HT207025
+
+Video
+How to invert colors on your iPhone:
+https://youtu.be/XFPOmq3wd4w
+(Runtime 1:56)
+
+
+
+-----
+Keychain
+
+With iCloud Keychain, you can keep your passwords and other secure information updated across your devices.
+
+iCloud Keychain remembers things, so that you don't have to. It auto-fills your information — like your Safari user names and passwords, credit cards details and Wi-Fi passwords on any device that you approve. So you don’t have to remember the password or even type it in.
+
+Set up iCloud Keychain:
+https://support.apple.com/HT204085
+
+Use iCloud Keychain on your iPhone, iPad or iPod touch:
+https://support.apple.com/guide/icloud/mm08cb488724/
+
+Automatically fill in strong passwords on iPhone:
+https://support.apple.com/guide/iphone/iphf9219d8c9/
+
+Automatically fill in strong passwords on iPad:
+https://support.apple.com/guide/ipad/ipadd11f1468/
+
+
+
+-----
+Language Keyboards
+
+When you add keyboards for other supported languages, your keyboard can automatically switch between the two languages you use most often.
+
+Add or change keyboards on iPhone:
+https://support.apple.com/guide/iphone/iph73b71eb/ 
+
+Add or change keyboards on iPad:
+https://support.apple.com/guide/ipad/ipad1aa5a19a/ 
+
+
+
+-----
+Larger Text (Dynamic)
+
+Increase text legibility and visibility with simple font adjustments. Larger Text allows you to adjust the size using an accessibility slider. Or you can turn on Bold Text to give words weight on your screen. Whatever settings you choose are instantly applied to apps that support Larger Dynamic Type. 
+
+Add Text Size in Control Center for quick access to change font size.
+
+Change the font size on your iPhone, iPad, and iPod touch: 
+https://support.apple.com/HT202828
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Video
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+
+
+-----
+Live Listen
+
+Live Listen is an assistive listening feature that helps you have better conversations in loud places. Just turn on the feature and move your device toward the people you’re talking with. Live Listen uses the microphone to pick up what they’re saying more clearly. Live Listen can help you hear a conversation in a noisy area or even hear someone speaking across the room.
+
+Use Live Listen with AirPods, AirPods Pro, AirPods Max or Powerbeats Pro:
+https://support.apple.com/HT209082
+
+iPhone Hearing Aid - Live Listen: 
+https://support.apple.com/HT203990
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Video
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+
+
+-----
+Live Text
+
+Live Text recognises information within your photos and online images, so you can make a call, send an email or look up directions with a tap. You can also use Live Text in the Camera app or when using Camera in apps such as Notes or Reminders – point your camera at a photo or image with text, then tap the Live Text button.
+
+On iPhone XS, iPhone XR, and later, Camera  can copy and share text, open websites, compose emails, and make phone calls from text that appears within the camera frame.
+
+Copy and translate text from photos on your iPhone or iPad:
+https://support.apple.com/HT212630
+
+Use Live Text with the iPhone camera:
+https://support.apple.com/guide/iphone/iphcf0b71b0e/ios
+
+Video
+
+How to use Live Text in a photo on iPhone and iPad:
+https://youtu.be/hL5HJKQNPQQ
+(Runtime 0:35)
+
+
+
+-----
+Magnifier
+
+Magnifier works like a digital magnifying glass. It uses the camera on your iPhone or iPad to increase the size of any physical object you point it at, like a menu or sign, so you can see all the details clearly on your screen. Use the flashlight to light the object, adjust filters to help you differentiate colors, or use a freeze‑frame to get a static close‑up.
+
+When enabled, you can drag Magnifier from the App Library to your Home Screen to use with Split View on iPad — or add Magnifier as an Accessibility Shortcut option, or customize Control Center to add Magnifier for quick access.
+
+Use Magnifier with your iPhone or iPad: 
+https://support.apple.com/HT209517
+
+Open two items in Split View on iPad:
+https://support.apple.com/guide/ipad/ipad08c9970c/ipados
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Video
+Get started with Magnifier on your iPhone:
+https://youtu.be/DJFBqDlnPGQ
+(Runtime 2:21)
+
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+
+
+-----
+Maps
+
+Maps will help you find your way. Whether it’s home, work, the gym, or your kid’s school, the places you visit most often are displayed for quick, one‑tap navigation when you open Maps on your devices. Or ask Siri, “Give me directions home”
+
+Use Siri, Maps, and the Maps widget to get directions on iPhone:
+https://support.apple.com/guide/iphone/iph02f94fc1c/
+
+Use Siri, Maps, and the Maps widget to get directions on iPad:
+https://support.apple.com/guide/ipad/ipad927bce1c/
+
+
+
+-----
+Medical ID
+
+Medical ID helps first responders access your critical medical information from the Lock screen, without needing your passcode. They can see information like allergies and medical conditions as well as who to contact in case of an emergency. 
+
+Set up your Medical ID in the Health app on your iPhone:
+https://support.apple.com/HT207021
+
+Access Medical ID on a locked iPhone and make an emergency call:
+https://support.apple.com/HT209053
+
+
+
+-----
+Messages
+
+Stay connected to the conversations that matter the most to you. Send texts, photos, videos and more. Then personalise your messages with animated effects, pin your important conversations, send inline replies and add mentions.
+
+Use Messages on your iPhone, iPad or iPod touch:
+https://support.apple.com/HT201287
+
+Messages Support:
+https://support.apple.com/messages
+
+
+
+-----
+MFi Hearing Aids
+
+Apple has worked with top manufacturers to create hearing aids and sound processors designed speciﬁcally for iPhone and iPad. These advanced hearing devices provide outstanding sound quality, oﬀer many helpful features, and are as easy to set up and use as any other Bluetooth device. Instantly apply your audiologist’s environmental presets as you go outdoors or enter noisy locations, like restaurants, without having to rely on additional remotes.
+
+Use Made for iPhone hearing devices:
+https://support.apple.com/HT201466
+
+Find out which hearing devices are compatible with your iPhone:
+https://support.apple.com/HT210386
+
+Apps, settings and features that you can use from Control Center:
+https://support.apple.com/HT210981
+
+Video
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+
+
+-----
+Mono audio
+
+Stereo recordings usually have distinct left- and right-channel audio tracks. Mono Audio can help streamline the differences by playing both audio channels in both ears. You can adjust the balance for greater volume in either ear, so you won’t miss a single note of a concerto or word of an audiobook.
+
+You can also turn on noise cancellation even when you’re using only one of your AirPods.
+
+Adjust audio and visual settings on iPhone:
+https://support.apple.com/guide/iphone/iph3e2e2cdc/
+
+Adjust audio and visual settings on iPad:
+https://support.apple.com/guide/ipad/ipad9a246ed2/
+
+Adjust the settings for AirPods Max and AirPods Pro on iPhone:
+https://support.apple.com/guide/iphone/iph345efe861/
+
+Adjust the settings for AirPods Max and AirPods Pro on iPad:
+https://support.apple.com/guide/ipad/ipad81e22ef7/
+
+
+
+-----
+Mouse and Trackpad Support
+
+Use a Bluetooth mouse or trackpad to navigate your iPad, and customize the experience with speed adjustments and pointer personalization.
+
+Use a Bluetooth mouse or trackpad with your iPad:
+https://support.apple.com/HT211008
+
+
+
+-----
+Music
+
+Music can soothe, energize and help us calm down. Learn how to make a playlist in the Apple Music app. 
+
+How to make a playlist in the Apple Music app:
+https://support.apple.com/HT207542
+
+Video
+How to create a playlist: 
+https://youtu.be/cA6wWLG337Y
+(Runtime 1:11)
+
+
+
+-----
+Music Lyrics
+
+View lyrics in Apple Music. Discover the words to your favorite songs. Or follow along as you listen with perfectly timed lyrics — all with Apple Music.
+
+View lyrics in Apple Music:
+https://support.apple.com/HT204459
+
+
+
+-----
+Music Recognition
+
+You can quickly find out what song is playing in your headphones, apps, or around you. 
+
+Add Music Recognition to Control Center.Apps, settings and features that you can use from Control Centre:
+https://support.apple.com/HT210981
+
+Video
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+How to add Music Recognition to Control Center on iPhone, iPad, and iPod touch:
+https://youtu.be/wyVg1JcWRYU
+(Runtime 0:41)
+
+
+
+-----
+Night Shift
+
+Night Shift automatically adjusts the colors of your display to the warmer end of the spectrum — making the display easier on your eyes.
+
+Studies have shown that exposure to bright blue light in the evening can affect your circadian rhythms and make it harder to fall asleep. Night Shift uses the clock and geolocation of your device to determine when it’s sunset in your location. Then it automatically shifts the colours of your display to warmer colours. In the morning, it returns the display to its regular settings.
+
+Use Night Shift on your iPhone, iPad and iPod touch:
+https://support.apple.com/HT207570
+
+
+
+-----
+Noise Cancellation in Headphones
+
+AirPods Pro and AirPods Max have three noise-control modes: Active Noise Cancellation, Transparency mode, and Off. You can switch between them, depending on how much of your surroundings you want to hear.
+
+With Active Noise Cancellation, an outward-facing microphone or microphones detect external sounds, which your AirPods Pro or AirPods Max then counter with anti-noise, canceling the external sounds before you hear them. An inward-facing microphone listens inside your ear for unwanted internal sounds, which your AirPods Pro or AirPods Max also counter with anti-noise.
+
+You can also turn on noise cancellation even when you’re using only one of your AirPods.
+
+Couple this feature with Live Listen for better conversations. Access many of these settings easily in Control Center.
+
+AirPods Pro and AirPods Max Active Noise Cancellation and Transparency mode:
+https://support.apple.com/HT210643 
+
+Adjust the settings for AirPods Max and AirPods Pro on iPhone:
+https://support.apple.com/guide/iphone/iph345efe861/
+
+Adjust the settings for AirPods Max and AirPods Pro on iPad:
+https://support.apple.com/guide/ipad/ipad81e22ef7/
+
+Apps, settings and features that you can use from Control Centre:
+https://support.apple.com/HT210981
+
+Video
+How to Customize Control Center:
+https://youtu.be/_x7qjGJ9kZg
+(Runtime 0:53)
+
+
+
+-----
+Noise Cancellation on iPhone 
+
+Noise cancellation reduces ambient background noise on phone calls when you’re holding the receiver to your ear.
+
+Adjust audio and visual settings on iPhone:
+https://support.apple.com/guide/iphone/iph3e2e2cdc/
+
+
+
+-----
+Notes
+
+Use the Notes app to jot down quick thoughts or organise detailed information with checklists, images, web links, scanned documents, handwritten notes, and sketches.
+
+Add a checklist to mark off. To automatically sort checked items to the bottom in all your notes, go to Settings  > Notes > Sort Checked Items, then tap Automatically.
+
+Take notes on iPhone: 
+https://support.apple.com/guide/iphone/iph1ac0b3a2/
+
+Take notes on iPad: 
+https://support.apple.com/guide/ipad/ipad99e3f0bb/
+
+
+
+-----
+Notifications
+
+Notifications help you keep track of what’s new—they let you know if you missed a call, if the date of an event moved, and more. You can customize your notification settings so you see only what’s important to you. View and respond to notifications on the iPhone Lock Screen or in Notification Center.
+
+Notifications on iPhone:
+https://support.apple.com/guide/iphone/iph6534c01bc/
+
+Notifications on iPad:
+https://support.apple.com/guide/ipad/ipad66f11759/
+
+Videos
+How to use notifications on your iPhone, iPad or iPod touch:
+https://www.youtube.com/watch?v=0xMfRPmh6oM
+(Runtime 3:22)
+
+How to get notifications quietly:
+https://youtu.be/YwwFQiu1mD8
+(Runtime 0:42)
+
+
+
+-----
+One Handed Typing Keyboard
+
+Use one-handed typing on your device to make it easier to type with one hand.
+
+About the keyboards settings on your iPhone, iPad and iPod touch:
+https://support.apple.com/HT202178 
+
+
+
+-----
+People Detection
+
+On iPhone 12 Pro, iPhone 12 Pro Max, and the latest iPad Pro, with iOS/iPadOS 14.2 or later, you can use Magnifier to detect people and help you maintain a physical or social distance between others. When iPhone detects people nearby, you’re notified with sounds, speech, or haptic feedback. The feedback is more frequent when a person is closer to you.
+
+Detect people around you using Magnifier on iPhone:
+https://support.apple.com/guide/iphone/iph41bdfe6c7/
+
+Detect people around you using Magnifier on iPad:
+https://support.apple.com/en-au/guide/ipad/ipad76fc561f/
+
+Video
+How to detect people with iPhone 12 Pro, iPhone 12 Pro Max, and iPad Pro with LiDAR — Apple Support:
+https://youtu.be/LyzkIhNIhgE
+(Runtime 0:59)
+
+
+
+-----
+Photos
+
+In the Photos app, the For You tab contains all your Memories, Shared Album activity and the best moments from your library. Memories intelligently searches and curates your photos and videos to find trips, holidays, people, pets and more, then presents them in beautiful collections. Memories also finds your best photos and videos and stitches them together into a Memory Movie — complete with theme music, titles and cinematic transitions — that you can edit and share.
+
+Use the Photos app to organise your photos into albums. Create an album of “happy”, filling with people, places and memories that make you happy or calm.Organize photos in albums on iPhone:
+https://support.apple.com/guide/iphone/iphc0fc668ab/
+
+Organize photos in albums on iPad:
+https://support.apple.com/guide/ipad/ipad99c6ec9e/ 
+
+
+
+-----
+Predictive Text
+
+Let your device finish the sentence for you. If you find it cumbersome to type, Predictive Text can save you from going through the motions. Just start writing and it adjusts your suggestions based on who you’re talking to and what you’ve said before. Tap to choose the perfect next word.
+
+Use Typing Feedback in Spoken Content settings to turn on “Hold to Speak Predictions” to have the predicted text spoken out loud to ensure you have the word you want.
+
+How to use Auto-Correction and predictive text on your iPhone, iPad, or iPod touch:
+https://support.apple.com/HT207525
+
+Hear iPhone speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/iphone/iph96b214f0/
+
+Hear iPad speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/ipad/ipad9a247097/
+
+
+
+-----
+Presenter Mode in Pages
+
+In a word processing document in the Pages app, you can use presenter mode so that your text scrolls automatically like it’s on a teleprompter. The text appears in a large font against a dark background — without images or other media — so that it’s easy to read.
+
+Use presenter mode in Pages on iPhone:
+https://support.apple.com/guide/pages-iphone/tan9564fba6b/
+
+Use presenter mode in Pages on iPad:
+https://support.apple.com/guide/pages-ipad/tan9564fba6b/
+
+Video
+How to use Presenter Mode in Pages:
+https://youtu.be/BCHsgIdUXlw
+(Runtime 0:47)
+
+
+
+-----
+Privacy
+
+iPhone and iPad is designed to protect your data and your privacy. Built-in security features help prevent anyone but you from accessing the data on your device and in iCloud. Built-in privacy features minimize how much of your information is available to anyone but you, and you can adjust what information is shared and where you share it.
+
+Use the built-in security and privacy protections of iPhone:
+https://support.apple.com/guide/iphone/iph6e7d349d1/ios
+
+Use the built-in security and privacy protections of iPad:
+https://support.apple.com/guide/ipad/ipad9ae59af9/ipados
+
+Personal Safety User Guide:
+https://support.apple.com/guide/personal-safety/welcome/
+
+
+
+-----
+Quickpath
+
+Use QuickPath to type a word by sliding from one letter to the next without lifting your finger on the native keyboard (not available for all languages). To end a word, lift your finger. You can use either method as you type, and even switch in the middle of a sentence. (If you tap  after sliding to type a word, it deletes the whole word.)
+
+On iPad, you can pinch closed to shrink the keyboard, then tap individual keys to type, or use QuickPath.
+
+Type with the onscreen keyboard on iPhone:
+https://support.apple.com/guide/iphone/iph3c50f96e/
+
+Type with the onscreen keyboard on iPad:
+https://support.apple.com/guide/ipad/ipad997da459/
+
+Video
+How to use QuickPath to type faster on your iPad:
+https://youtu.be/toNpXLTKZZM
+(Runtime 0:31)
+
+
+
+-----
+Reachability
+
+When you use an iPhone that supports Reachability in Portrait orientation, you can bring items at the top of the screen down to the lower half of the screen.
+
+Adjust touch settings on iPhone:
+https://support.apple.com/guide/iphone/iph77bcdd132/
+
+
+
+-----
+Reduce Motion
+
+When you turn on Reduce Motion, you can decrease the movement of onscreen elements. Some screen actions, such as moving between apps or launching apps, become visually simpler for motion sensitivity or to lessen strain on the eyes.
+
+Reduce or stop the motion of screen elements on iPhone:
+https://support.apple.com/guide/iphone/iph0b691d3ed/
+
+Reduce or stop the motion of screen elements on iPad:
+https://support.apple.com/guide/ipad/ipadc509a80c/
+
+Video
+
+How to reduce screen motion on iPhone, iPad, and iPod touch:
+https://youtu.be/8Ddva5UUX2U
+(Runtime 0:47)
+
+
+
+-----
+Reminders
+
+In the Reminders app, you can easily create and organize reminders to keep track of all of life’s to-dos. Use it for shopping lists, projects at work, tasks around the house, and anything else you want to track. Create subtasks, set flags, add attachments, and choose when and where to receive reminders. You can also use smart lists to automatically organize your reminders.
+
+You can create location based reminders (alert to remind you to do something when arriving or leaving locations), time based reminders, and even assign reminders to others.
+
+Use Reminders on your iPhone, iPad, or iPod touch:
+https://support.apple.com/HT205890
+
+Set reminders on iPhone:
+https://support.apple.com/guide/iphone/iph88463e18/
+
+Set reminders on iPad: 
+https://support.apple.com/guide/ipad/ipad99e6cfa7/
+
+Videos
+How to share a reminders list:
+https://youtu.be/L89lycvklEE
+(Runtime 0:36)
+
+How to add a reminder from another app:
+https://youtu.be/rJ2tYIaWdNc
+(Runtime 0:38)
+
+
+
+-----
+RTT/TTY
+
+Use your iPhone, iPad, Mac, or Apple Watch to make and receive RTT calls. Standard texting involves composing an entire message and tapping Send, but RTT provides instant transmission of a message as it is being composed (as well as support for braille displays). Transcripts for RTT calls are saved in your call history.
+
+Make and receive RTT calls on your iPhone:
+https://support.apple.com/T208254
+
+Make and receive RTT calls on your iPad:
+https://support.apple.com/guide/ipad/ipad9ef850fd/
+
+
+
+-----
+Safari Reader
+
+Sometimes navigating the web can be sensory overload. In the Safari app, use Reader view to hide ads, navigation menus, or other distracting items. In Reader view, you can customize the font style, size and background.
+ 
+Hide ads and distractions in Safari on iPhone:
+https://support.apple.com/guide/iphone/iphdc30e3b86/
+
+Hide ads and distractions in Safari on iPad:
+https://support.apple.com/guide/ipad/ipad0669fc3c/
+
+Video
+How to use Reader view and Speak Screen in Safari:
+https://www.youtube.com/watch?v=E_j_yknaBKc
+(Runtime 0:35)
+
+
+
+-----
+Screen Time
+
+With Screen Time, it’s even easier for people to manage device usage for themselves and their families. Activity Reports give a detailed breakdown of where time is spent, and App Limits let you set a specific time to spend in any app. This helps you identify patterns in usage and track improvement over time. You can also use Screen Time to schedule a block of downtime in which the device can’t be used. Or choose specific apps, like Apple Books, that will always be available.
+
+Set up Screen Time for yourself on iPhone
+https://support.apple.com/guide/iphone/iphbfa595995/
+
+Set up Screen Time for yourself on iPad:
+https://support.apple.com/guide/ipad/ipadaf2aa9f2/
+
+Use parental controls on your child's iPhone, iPad, and iPod touch:
+https://support.apple.com/HT201304
+
+Videos
+How to use Downtime in Screen Time:
+https://www.youtube.com/watch?v=rMfUgqDkZRM
+(Runtime 2:09)
+
+Get to know Screen Time on your iPhone:
+https://www.youtube.com/watch?v=BacXAmS6DLQ
+(Runtime 2:05)
+
+
+
+-----
+Share Location
+
+Use the Messages app to send and receive texts, photos, videos, and audio messages. In a message, you can tap the contact name to share your location with them. 
+
+Send and receive text messages on iPhone: 
+https://support.apple.com/guide/iphone/iph82fb73ba3/
+ 
+Send and receive text messages on iPad:
+https://support.apple.com/guide/ipad/ipad99acb44a/
+
+Video
+How to share your location from messages:
+https://youtu.be/vl2cMa8wCU4
+(Runtime 2:08)
+
+
+
+-----
+SharePlay
+
+With SharePlay in the FaceTime app  (iOS 15.1 or later), you can stream TV shows, movies, and music in sync with friends and family while on a FaceTime call together. Enjoy a real-time connection with others on the call—with synced playback and shared controls, you see and hear the same moments at the same time. With smart volume, media audio is adjusted dynamically, so you can continue to chat while watching or listening.
+
+You can also share your screen in a FaceTime call—you can bring apps, webpages, and more into the conversation. You can show off a photo album, plan your next vacation together, or get feedback on something you’re working on, all while seeing and hearing the reactions of others on the call.
+
+Use SharePlay to watch and listen together in FaceTime on iPhone:
+https://support.apple.com/guide/iphone/iphb657eb791/15.0/ios/
+
+Use SharePlay to watch and listen together in FaceTime on iPad:
+https://support.apple.com/guide/ipad/ipad4f8bd889/ipados 
+
+Share your screen in a FaceTime call on iPhone:
+https://support.apple.com/guide/iphone/iph327b4b53c/15.0/ios/
+
+Share your screen in a FaceTime call on iPad:
+https://support.apple.com/guide/ipad/ipad813cfd60/15.0/ipados/ 
+
+Video
+
+How to use SharePlay on iPhone or iPad:
+https://youtu.be/sbJRknQN5cg
+(Runtime 2:20)
+
+
+
+-----
+Shortcuts - Help Message
+
+A shortcut provides a quick way to get things done with your apps, with just a tap or by asking Siri.
+
+Shortcuts can automate a wide variety of things — for example, getting directions to the next event on your Calendar, moving text from one app to another, generating expense reports and more. 
+
+You can run any shortcut that you have by asking Siri on your iPhone, iPad, iPod touch, Mac, Apple Watch or HomePod. Just say "Hey Siri," then the name of the shortcut.
+
+It can also be used in messaging contacts requesting assistance and giving location. 
+
+Shortcuts: 
+https://support.apple.com/guide/shortcuts/apdf22b0444c/
+
+Discover shortcuts in the Gallery:
+https://support.apple.com/guide/shortcuts/apdd018638ca/
+
+Run shortcuts with Siri, the Shortcuts app, or Siri Suggestions:
+https://support.apple.com/HT209055 
+
+Help Message shortcut:
+https://www.icloud.com/shortcuts/3e05c96959914f689b5af0ddcdfed528
+
+In Case of Emergency shortcut:
+https://www.icloud.com/shortcuts/47bc591c2c7e4a2186d3ea52349186ec
+
+Video
+How to use the In Case of Emergency shortcut on iPhone, iPad, and iPod touch:
+https://youtu.be/JaeVKgy5vKA (Runtime 2:08)
+
+
+
+-----
+Shortcuts - Mood Journal
+
+A shortcut provides a quick way to get things done with your apps, with just a tap or by asking Siri. 
+
+Shortcuts can automate a wide variety of things — for example, getting directions to the next event on your Calendar, moving text from one app to another, generating expense reports and more. 
+
+You can run any shortcut that you have by asking Siri on your iPhone, iPad, iPod touch, Mac, Apple Watch or HomePod. Just say "Hey Siri," then the name of the shortcut.
+
+It can also support journalling and capturing information across a period of time.
+
+Shortcuts: 
+https://support.apple.com/guide/shortcuts/apdf22b0444c/
+
+Discover shortcuts in the Gallery:
+https://support.apple.com/guide/shortcuts/apdd018638ca/
+
+Run shortcuts with Siri, the Shortcuts app, or Siri Suggestions:
+https://support.apple.com/HT209055
+
+Mood Journal shortcut: 
+https://www.icloud.com/shortcuts/ad52fe730a0c4ff88502b7206e3d66cf 
+
+Video
+How to choose a Wind Down Shortcut on iPhone, iPad, and iPod touch:
+https://youtu.be/22gGNIyy_HQ
+(Run time 0:51)
+
+
+
+-----
+Shortcuts - Pain Report
+
+A shortcut provides a quick way to get things done with your apps, with just a tap. 
+
+Shortcuts can automate a wide variety of things — for example, getting directions to the next event on your Calendar, moving text from one app to another, generating expense reports and more. 
+
+You can run any shortcut that you have by asking Siri on your iPhone, iPad, iPod touch, Mac, Apple Watch or HomePod. Just say "Hey Siri," then the name of the shortcut.
+
+It can also let others know the location and intensity of pain. The information can be spoken out loud and recorded in Notes to share.
+
+Shortcuts: 
+https://support.apple.com/guide/shortcuts/apdf22b0444c/
+
+Discover shortcuts in the Gallery:
+https://support.apple.com/guide/shortcuts/apdd018638ca/
+
+Run shortcuts with Siri, the Shortcuts app, or Siri Suggestions:
+https://support.apple.com/HT209055
+
+Pain Report shortcut: 
+https://www.icloud.com/shortcuts/dbcbbe65f82c4c7fb12c2aa7235f349c
+
+Video
+Discover Starter Shortcuts:
+https://youtu.be/aNULa0S5hIU
+(Runtime 0:49)
+
+
+
+-----
+Show audio transcriptions 
+
+When you play video content in a supported app, you can turn on subtitles and closed captions (if available). iPhone and iPad usually shows standard subtitles and captions, but you can also choose special accessible captions—such as subtitles for the deaf and hard of hearing (SDH)—if available.
+
+iPhone and iPad can also display transcriptions of announcements made through HomePod.
+
+Display subtitles and captions for videos and HomePod announcements on iPhone: https://support.apple.com/guide/iphone/iph3e2e23d1/
+
+Display subtitles and captions for videos and HomePod announcements on iPad:
+https://support.apple.com/guide/ipad/ipad9a246b38/
+
+
+
+-----
+Siri
+
+Siri can help you complete the tasks you do every day. Or just answer questions you’re curious about. You can ask it to find definitions, set reminders, turn accessibility features on or off, and so much more. And if you need to streamline a series of actions or tasks, you can create Siri Shortcuts. No matter the Apple product, your favorite assistant is always ready to assist.
+
+On Apple TV app, control what's playing with Siri. While you're watching a video, you can ask Siri about the show, change your settings, and more. For example:
+"Turn on Closed Captioning."
+"Fast-forward two minutes."
+"What did he say?” - This will take you back 15 seconds, and enable closed captions, to view again.
+
+Apple Siri page:
+https://www.apple.com/siri/
+
+What can I ask Siri?
+https://support.apple.com/siri 
+
+Use Siri on all your Apple devices:
+https://support.apple.com/HT204389
+
+Ask Siri on iPhone:
+https://support.apple.com/guide/iphone/iph83aad8922/
+
+Use accessibility features with Siri on iPhone:
+https://support.apple.com/guide/iphone/iphaff1d606/
+
+Ask Siri on iPad:
+https://support.apple.com/guide/ipad/ipad4bce70ef/
+
+Use accessibility features with Siri on iPad:
+https://support.apple.com/guide/ipad/siri-ipadd58b8673/
+
+Use Siri on your Apple TV:
+https://support.apple.com/HT205300
+
+Videos
+Get started with Siri on iPhone and iPad:
+https://www.youtube.com/watch?v=t043UiBFRmk
+(Runtime 1:32)
+
+
+
+-----
+Slow Keys
+
+Slow Keys lets you adjust the amount of time between when a key is pressed and when it is activated, so your device processes only the keystrokes you mean to make. Helpful for users with tremors, only the first key stroke within the acceptance period is recognized.
+
+Adjust the onscreen and external keyboard settings on iPhone
+- Change how the keys respond on an external keyboard:
+https://support.apple.com/guide/iphone/ipha7c3927eb/
+
+Adjust the onscreen and external keyboard settings on iPad
+- Change how the keys respond on an external keyboard:
+https://support.apple.com/guide/ipad/ipad424a3e13/
+
+
+
+-----
+Sound Recognition
+
+Sound Recognition listens for certain sounds and uses on‑device intelligence to notify you when a specific sound is detected. Whether you’re using your iPhone or iPad, you’ll receive a notification when a particular type of sound or alert, such as a fire alarm or doorbell, is detected.
+
+Recognize sounds using iPhone:
+https://support.apple.com/guide/iphone/iphf2dc33312/
+
+Recognize sounds using iPad:
+https://support.apple.com/guide/ipad/ipad6c28ec42/
+
+Video
+
+How to use Sound Recognition on your iPhone or iPad:
+https://youtu.be/Db9Xsw5Aa5w
+(Runtime 1:36)
+
+
+
+-----
+Spatial Audio
+
+When you watch a supported show or movie, or listen to supported music on iPhone, iPad, Mac with Apple silicon, or Apple TV 4K, AirPods (3rd generation), AirPods Pro, and AirPods Max use Spatial Audio and head tracking to create an immersive theater-like environment with sound that surrounds you.
+
+You can control Spatial Audio and head tracking for each supported app in Control Centre.Control Spatial Audio and head tracking:
+https://support.apple.com/guide/airpods/dev00eb7e0a3/
+
+
+
+-----
+Speak Screen
+
+If you have a hard time reading the text on your iPhone or iPad, use Speak Screen to read your email, messages, web pages, and books. Turn on Speak Screen and swipe down from the top of the screen with two fingers, or just tell Siri to Speak Screen and have all the content on the page read back to you. You can adjust the voice’s dialect and speaking rate, and have words, sentences, or words within sentences highlighted as they’re being read.
+
+Missed a word or sentence? Run it back with Speech Controller playback buttons, which feature a Speak Under Finger option to control the pace of the reading more precisely.
+
+Hear iPhone speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/iphone/iph96b214f0/
+
+Hear iPad speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/ipad/ipad9a247097/
+
+Video
+How to have your iPhone or iPad read text to you:
+https://youtu.be/ZjfqGIKEig8
+(Runtime 3:15)
+
+
+
+-----
+Speak Selection
+
+Choose a specific range of text and have your iPhone or iPad read the selection in over 40 languages and dialects.
+
+Hear iPhone speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/iphone/iph96b214f0/
+
+Hear iPad speak the screen, selected text, and typing feedback:
+https://support.apple.com/guide/ipad/ipad9a247097/
+
+
+
+-----
+Sticky Keys
+
+Sticky Keys enable you to press a set of modifier keys one at a time in sequence, instead of all at once. For example, you would enter the key combination Option-Command-F5 by pressing each key in sequence instead of pressing three keys at once.
+
+Adjust the onscreen and external keyboard settings on iPhone
+- Change how the keys respond on an external keyboard:
+https://support.apple.com/guide/iphone/ipha7c3927eb/
+
+Adjust the onscreen and external keyboard settings on iPad
+- Change how the keys respond on an external keyboard:
+https://support.apple.com/guide/ipad/ipad424a3e13/
+
+
+
+-----
+Stream audio to hearing devices
+
+Stream audio from iPhone or iPad and its apps to your hearing devices. You can even use Live Listen to stream sound from the microphone to your Made For iPhone (MFi) hearing devices or AirPods.
+
+Set up and listen to Bluetooth devices on iPhone:
+https://support.apple.com/guide/iphone/iph3c50f191/
+
+Stream audio from iPhone to your hearing devices:
+https://support.apple.com/guide/iphone/iph3d6f3f87c/
+
+Set up and listen to Bluetooth devices on iPad:
+https://support.apple.com/guide/ipad/ipad997da4cf/
+
+Stream audio from iPad to your hearing devices:
+https://support.apple.com/guide/ipad/ipad85f8f503/
+
+
+
+-----
+Subtitles/CC/SDH
+
+Closed captions are a text transcription of a video’s dialogue, as well as nonverbal communication. Supported in apps like the Apple TV app, closed captions are available in over 40 languages for movies, TV shows, videos, and podcasts — just look for the CC icon. You can even customize captions with different styles and fonts, including styles that are larger and outlined for better legibility.
+
+Display subtitles and captions for videos and HomePod announcements on iPhone: 
+https://support.apple.com/guide/iphone/iph3e2e23d1/
+
+Display subtitles and captions for videos and HomePod announcements on iPad:
+https://support.apple.com/guide/ipad/ipad9a246b38/
+
+Change the closed captions or language for movies and TV shows in the Apple TV app:
+https://support.apple.com/HT202641
+
+
+
+-----
+Switch Control
+
+Switch Control makes it easy and efficient to control your device with a variety of adaptive switch hardware — or even with a single tap. If you have extensive motor limitations, you can use item scanning to navigate sequentially through onscreen keyboards, menus, and the Dock. Create your own custom panels and keyboards, systemwide or app by app. 
+
+Platform Switching allows you to use a single device to navigate any other devices you have synced with your iCloud account. That way, you can control your Mac or Apple TV directly from your iPhone or iPad, without having to set up your switches on each new device.
+
+Head Tracking uses the camera on your device to track the movement of your head to control a pointer on your screen. Use facial movements to perform actions. You can use Head Tracking on devices with a front-facing TrueDepth camera within Switch Control.
+
+Sound Actions for Switch Control replaces physical buttons and switches with mouth sounds — such as a click, pop, or “ee” sound — for users who are non-speaking and have limited mobility.
+
+Use Switch Control to navigate your iPhone, iPad, or iPod touch:
+https://support.apple.com/HT201370 
+
+Setup Switch Control on iPhone:
+https://support.apple.com/guide/iphone/iph400b2f114/
+
+Use Switch Control on iPhone:
+https://support.apple.com/guide/iphone/iph8de250c54/
+
+Setup Switch Control on iPad:
+https://support.apple.com/guide/ipad/ipad90b36e17/
+
+Use Switch Control on iPad:
+https://support.apple.com/guide/ipad/ipadab57642f/
+
+
+
+-----
+Text Replacement
+
+Set up a text replacement you can use to enter a word or phrase by typing just a few characters. For example, type “omw” to enter “On my way!” Great for email  addresses or signing off emails. 
+
+To type your favourite Memoji combination faster, you can save it as a text replacement - Video link shows how in tip 5.
+
+Save keystrokes with text replacements on iPhone:
+ https://support.apple.com/guide/iphone/iph6d01d862/
+
+Save keystrokes with text replacements on iPad:
+https://support.apple.com/guide/ipad/ipad997d96b7/
+
+Set up auto-correction and add words to your spelling dictionary in Pages, Numbers, and Keynote:
+https://support.apple.com/en-us/HT207767
+
+Video
+5 fun ways to use emoji on iPhone, iPad, and iPod touch:
+https://youtu.be/Qt6J6Y2psuw
+(Runtime 1:06)
+
+
+
+-----
+Timer
+
+In the Clock app, you can use the timer to count down from a specified time. You can also use the stopwatch to measure the duration of an event.
+
+If you want to fall asleep while playing audio or video, you can set the timer to stop the playback. Tap When Timer Ends, then tap Stop Playing at the bottom.
+
+Use the timer or stopwatch on iPhone:
+https://support.apple.com/guide/iphone/iph96b1e460/ios
+
+
+
+-----
+Touch Accommodations
+
+If you have difficulties with hand tremors, dexterity, or fine motor control, you can adjust how the touchscreen responds to tap, swipe, and touch-and-hold gestures. You can have device recognize faster or slower touches and ignore multiple touches. You can also prevent the device from waking when you touch the screen, or turn off Shake to Undo if you unintentionally shake it.
+
+Use Touch Accommodations with your iPhone, iPad, iPod touch, or Apple Watch:
+https://support.apple.com/HT205269
+
+Adjust how iPhone responds to your touch:
+https://support.apple.com/guide/iphone/iph77bcdd132/15.0/ios/
+
+Adjust how iPad responds to your touch:
+https://support.apple.com/guide/ipad/ipadc70af050/ipados
+
+
+
+-----
+Translate
+
+In the Translate app, you can translate voice and text between any of the supported languages. You can even translate conversations and download specific languages to translate fully offline.
+
+In conversation mode, iPhone splits the screen to show the transcribed and translated text from both sides of the conversation, followed by the translated audio. If the same language is selected both sides, creates a large screen for quick dialogue for deaf interactions.
+
+Translate voice and text on iPhone: 
+https://support.apple.com/guide/iphone/iphd74cb450f/
+
+
+
+-----
+Type to Siri
+
+Your digital assistant will help you with the things you do every day — all through your keyboard. Type to Siri mode makes it easy to get the help you need right away. Use your onscreen keyboard to ask questions, set up reminders, issue commands, and more.
+
+Use accessibility features with Siri on iPhone:
+https://support.apple.com/guide/iphone/iphaff1d606/
+
+Use accessibility features with Siri on iPad:
+https://support.apple.com/guide/ipad/ipadd58b8673/
+
+Video
+How to use Siri without speaking: 
+https://youtu.be/GaqCoQmetxY
+(Runtime 0:43)
+
+
+
+-----
+Typing Feedback
+
+Typing Feedback speaks aloud each letter and/or word that you type. Helpful for sound/ letter reinforcement, and potential basic text to speech system for users that may be non verbal.
+
+Use Typing Feedback on your iPhone, iPad, or iPod touch:
+https://support.apple.com/HT207061
+
+Video
+How to have your iPhone and iPad speak each word as your type it:
+https://youtu.be/RtOHo-aYSRM
+(Runtime 0:44)
+
+
+
+-----
+Unlock iPhone with Apple Watch
+
+When you’re wearing your Apple Watch (Series 3 and later), you can use it to securely unlock iPhone (models with Face ID).
+
+Unlock your iPhone with Apple Watch:
+https://support.apple.com/guide/watch/apd2a4393dc1/watchos
+
+Video
+
+How to unlock your iPhone with your Apple Watch:
+https://youtu.be/vxK_oY13qYU
+(Runtime 2:07)
+
+
+
+-----
+Voice Control
+
+Navigate your device using just your voice. Commands like click, swipe, and tap help you easily interact with your favorite apps. You can precisely select, drag, and zoom by showing numbers alongside clickable items or by superimposing a grid on the screen. 
+
+Voice Control also offers a more efficient way to write and edit. It’s a seamless process to make corrections, format changes, and transition between text dictation and commands.
+
+Use Voice Control on your iPhone, iPad, or iPod touch: 
+https://support.apple.com/HT210417
+
+Videos
+
+How to use Voice Control on iPhone, iPad, and iPod touch:
+https://youtu.be/eg22JaZWAgs
+(Runtime 3:45)
+
+How to use dictation and edit text with Voice Control on your iPhone: 
+https://youtu.be/k-ykg3jZ9_k
+(Runtime 3:39
+
+How to show a continuous overlay for Voice Control:
+https://youtu.be/kYTmdWpf8uo
+(Runtime 0:57)
+
+How to take a selfie with Voice Control: 
+https://youtu.be/K20v63AyYF8
+(Runtime 0:34)
+
+How to send message effects with Voice Control: 
+https://youtu.be/F8EgTHrlK7s
+(Runtime 1:13)
+
+How to make a custom command for Voice Control (video):
+https://youtu.be/KCUpc-OXUJU
+(Runtime 1:05)
+
+
+
+-----
+VoiceOver
+
+VoiceOver is an industry‑leading screen reader that describes exactly what’s happening on your device. Auditory descriptions of onscreen elements help you easily navigate your screen through a Bluetooth keyboard or simple gestures on a touchscreen. And with unique rotor gestures that function like a dial, you can make content such as websites a breeze to browse. 
+
+With on‑device intelligence in iOS, VoiceOver can describe images in full sentences and read aloud text in an image. You can use the Camera and Photos apps with VoiceOver, even if you can’t see the screen. VoiceOver can provide image descriptions, and you can even add your own descriptions using Markup.
+
+
+Turn on and practice VoiceOver on iPhone:
+https://support.apple.com/guide/iphone/iph3e2e415f/
+
+Turn on and practice VoiceOver on iPad:
+https://support.apple.com/guide/ipad/ipad9a246898/
+
+About the VoiceOver rotor on iPhone, iPad, and iPod touch
+https://support.apple.com/HT204783  
+
+Use VoiceOver for images and videos on iPhone:
+https://support.apple.com/guide/iphone/iph37e6b3844/ios
+
+Videos
+
+How to navigate with VoiceOver: 
+https://youtu.be/qDm7GiKra28
+(Runtime 3:57)
+
+How to Use Screen Curtain on VoiceOver: 
+https://youtu.be/lCHdVdocouw
+(Runtime 0:26)
+
+How to drag a slider with VoiceOver: 
+https://youtu.be/OvmkFfEbewg
+(Runtime 1:04)
+
+How to create a folder with VoiceOver: 
+https://youtu.be/w2Ds-I2L6PI
+(Runtime 1:49)
+
+How to pick a new VoiceOver voice: 
+https://youtu.be/T6ols9d9urQ
+(Runtime 1:25)
+
+How to hear image descriptions in the Camera app on iPhone, iPad, and iPod touch:
+https://youtu.be/UnoeaUpHKxY
+(Runtime 1:08)
+
+
+
+-----
+VoiceOver + Braille
+
+VoiceOver gives descriptions in braille and makes working in braille easier and more efficient. You can use a refreshable braille display connected via Bluetooth to your Apple device or enter braille directly on the touchscreen using Braille Screen Input. And with over 70 refreshable braille displays compatible with iOS and iPadOS, you can find the right braille experience for you.
+
+Type braille directly on your iPhone, iPad, or iPod touch
+https://support.apple.com/HT210066 
+
+Use a braille display with VoiceOver on iPhone:
+https://support.apple.com/guide/iphone/iph73b8c43/ 
+
+Type braille directly on iPhone using VoiceOver:
+https://support.apple.com/guide/iphone/iph10366cc30/ 
+
+Use a braille display with VoiceOver on iPad:
+https://support.apple.com/guide/ipad/ipad9a246499/ 
+
+Type braille directly on iPad using VoiceOver:
+https://support.apple.com/guide/ipad/ipad6936b430/ 
+
+Common braille commands for VoiceOver on your iPhone, iPad, and iPod touch:
+https://support.apple.com/HT202132 
+
+Braille displays supported by iPhone, iPad, and iPod touch:
+https://support.apple.com/HT202514 
+
+About the VoiceOver rotor on iPhone, iPad, and iPod touch:
+https://support.apple.com/HT204783
+
+Download an electronic braille (.BRF) user guide for iPhone:
+https://support.apple.com/content/dam/edam/applecare/images/en_US/otherassets/accessibility/iphone_user_guide_ios_142.zip
+
+
+
+-----
+Walking Steadiness
+
+On an iPhone 8 or later with iOS 15, you can view your walking steadiness and classification to gain insight into your risk of falling.
+
+Measure your walking steadiness with your iPhone:
+https://support.apple.com/HT212503
+
+
+
+-----
+Widgets
+
+Widgets have been redesigned to give you more information at a glance—and now you can add them to your Home Screen. Choose from different sizes and arrange them however you like. You can also add a Smart Stack that displays widgets based on factors like your location, an activity, or the time. 
+
+To support quick access to Shortcuts, add them as a Widget to your home screen. For example, add a Help Message Shortcut that sends a message to trusted contacts stating you need assistance and your location. 
+
+Add widgets to the iPhone home screen:
+https://support.apple.com/en-au/guide/iphone/iphb8f1bf206/
+
+Add widgets to the iPad home screen:
+https://support.apple.com/en-au/guide/ipad/ipadb0de8630/
+
+Help Message shortcut:
+https://www.icloud.com/shortcuts/3e05c96959914f689b5af0ddcdfed528
+
+Video
+How to add Widgets to your home screen:
+https://youtu.be/x49NAAOQyRA
+(Runtime 2:37)
+
+
+
+-----
+Zoom
+
+Zoom is a screen magnifier that lets you enlarge the content you see on your device. Choose from full‑screen magnification or picture‑in‑picture view, which shows the magnified area in a separate window while the rest of your screen stays the same. Zoom also works with VoiceOver, so you can better see and hear what’s happening on your screen.
+
+Zoom in on the iPhone screen:
+https://support.apple.com/guide/iphone/iph3e2e367e/
+
+Zoom in on the iPad screen:
+https://support.apple.com/guide/ipad/ipad9a245e3e/
+
+Video
+
+How to zoom in on your iPhone or iPad screen with Window Zoom:
+https://youtu.be/t6tH5OZkcck
+(Runtime 2:21)
+
+"""
+text("${F24991D5-9800-4666-927F-3E4E0731EC8B}")
+	splitText(text: Accessibility Features List, separator: Custom, customSeparator: "-----") >> splitText 2
+	repeatEach(De-duped List) {
+		filterFiles() >> filterFiles
+		if(Feature Description != nil) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> IFResult 1
+		nothing()
+	} >> RepeatResult 1
+var E86E5426-4203-464F-8B7A-DBFFF6FF62BA = """￼
+￼
+￼"""
+text("${E86E5426-4203-464F-8B7A-DBFFF6FF62BA}")
+	createNote(text: "${Text}", show: false) >> createNote
+	showNote(note: Note) >> showNote
+} >> MenuResult 4
+output(result: "${Menu Result}")

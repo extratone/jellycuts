@@ -1,0 +1,34 @@
+import Shortcuts
+#Color: lightBlue, #Icon: shortcuts
+
+/*
+curl -X POST 'https://api.github.com/repos/{{user}}/{{repository}}/issues' -H 'Accept:application/vnd.github+json' -H 'Content-Type:application/json' -H 'Authorization:Bearer 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' -d '{
+  "title": "{{title}}",
+  "body": "{{body}}",
+  "labels": [
+    "test"
+  ]
+}'
+*/
+text(text: "extratone") >> text
+var user = Text
+text(text: "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") >> text 1
+var auth = Text
+askForInput(prompt: "Repository Name", default: extratone) >> askForInput
+var repo = Provided Input
+url(url: "https://api.github.com/repos/${repo}/${Variable}/issues?per_page=99") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+repeatEach(Contents of URL) {
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 1
+	repeatEach(Dictionary Value) {
+		valuesFrom(dictionary: Repeat Item 2) >> valuesFrom 2
+	} >> RepeatResult
+var tags = Repeat Results
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 3
+	getDateFrom(input: Dictionary Value) >> getDateFrom
+var created = Dates
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 4
+	getDateFrom(input: Dictionary Value) >> getDateFrom 1
+var davodtime = Dates
+} >> RepeatResult 1

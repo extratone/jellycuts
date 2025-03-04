@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: lightBlue, #Icon: tag
+
+/*
+Running this within another shortcut with a reminder as input will output a list containing the UUID and a URL to open the reminder in the reminders app.
+
+When run by itself, you will be prompted to choose a reminder and the UUID will be copied to your clipboard.
+*/
+if(ShortcutInput == nil) {
+	dictionary({"show":"true"})
+var show = Dictionary
+	filterReminders() >> filterReminders
+	choose(list: Reminders, prompt: "Select a reminder to get the UUID from.") >> choose
+} else {
+} >> IFResult
+setName(input: If Result, name: "reminder.txt") >> setName
+splitText(text: Renamed Item) >> splitText
+matchText(text: "${Split Text}", regex: "UID:(.*)\n") >> matchText
+getMatchGroup(matches: Matches) >> UUID
+if(show ==) {
+	setClipboard(variable: UUID)
+	alert(alert: "${UUID}", title: "UUID Copied to Clipboard", cancel: false)
+} else {
+var output = UUID
+	url(url: "x-apple-reminderkit://REMCDReminder/${output}") >> url
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+}
+addToReadingList(urls: <#Array#>)

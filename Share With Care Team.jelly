@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: teal, #Icon: sashBook
+
+/*
+This shortcut quickly shares what you are looking at with your care team via Messages. To access this shortcut, tap the share button from other apps and tap on the shortcut name in the Share Sheet.
+
+*/
+askForInput(prompt: "What do you want your message to say?", default: Something for us to chat about) >> askForInput
+//Unable to get shortcuts action is.workflow.actions.sendmessage

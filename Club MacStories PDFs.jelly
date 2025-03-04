@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+pageDetail(detail: Page Selection)
+htmlFromRichText()
+getURLSFromInput()
+repeatEach($0) {
+	getName()
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	createPDF()
+//Unable to get shortcuts action is.workflow.actions.evernote.new
+}

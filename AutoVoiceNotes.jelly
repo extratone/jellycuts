@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+var davodtime = CurrentDate
+takePhoto(camera: Front, preview: false, count: true) >> takePhoto
+recordAudio(quality: Normal, start: Immediately) >> recordAudio
+encodeAudio(media: Recorded Audio, title: "${davodtime}", artist: "David Blue", album: "Voice Notes", year: 2022, artwork: Photo) >> encodeAudio
+saveFile(input: Encoded Media, ask: false, overwrite: false) >> saveFile
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.TranscribeAudioIntent
+var transcribe = Transcribe Audio
+//Unable to get shortcuts action is.workflow.actions.tumblr.post
+openURL(url: Tumblr Post URL) >> openURL

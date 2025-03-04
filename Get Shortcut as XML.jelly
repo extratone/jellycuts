@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: teal, #Icon: folderGear
+
+// Get the XML representation of a shortcut from your library.
+getShortcuts() >> getShortcuts
+choose(list: My Shortcuts) >> choose
+getFileOfType(input: Chosen Item, type: "com.apple.plist") >> getFileOfType
+getTextFrom(input: File of Type) >> XML
+setName(input: XML, name: "${Chosen Item}.xml")

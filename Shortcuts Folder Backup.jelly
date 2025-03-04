@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: grayGreen, #Icon: server
+
+getShortcuts() >> getShortcuts
+makeArchive(input: My Shortcuts, type: tar) >> makeArchive
+saveFile(input: Archive, ask: false, path: "", overwrite: true) >> saveFile
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetAudioIntent
+playSound(file: Sound)

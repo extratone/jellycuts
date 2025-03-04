@@ -1,0 +1,35 @@
+import Shortcuts
+import Actions
+#Color: Red, #Icon: magnifyingGlass
+
+// Create a clickable deep link for another note in the Notes app.
+askForInput(prompt: "Type a note title", default: ) >> Note Title
+filterNotes() >> filterNotes
+choose(list: Notes, prompt: "Notes Results for '${Note Title}'", multiple: false, all: false) >> choose
+var E096C8E7-0D39-456F-8719-C8EA79A7AD23 = """The Content Graph will open now.
+
+You need to select and copy the UUID for your note.
+
+To do this, first select the 'Note' item from the graph and click 'LNEntity'. Then, copy the alphanumeric UUID.
+
+The UUID is contained inside the identifier field at the top of the page. It comes *after* the 'NoteEntity/notes:note/' part and *before* a comma.
+
+Select it, copy it to the clipboard, then close the Content Graph window so the shortcut will continue."""
+text("${E096C8E7-0D39-456F-8719-C8EA79A7AD23}")
+contentGraph(input: Chosen Item)
+changeCase(text: Clipboard) >> changeCase
+// Workaround to account for the different base URL scheme used on macOS and iOS
+if(DeviceDetails == "Mac") {
+	text(text: "notes://") >> text
+} else {
+	text(text: "mobilenotes://") >> text 1
+} >> IFResult
+url(url: "${Updated Text}showNote?identifier=${ActionOutput}") >> url
+// This workaround requires the free Actions app to remove emoji from a string of text. It is necessary because Shortcuts cannot convert between Markdown and rich text if the title of a note has an emoiji character in it.
+//Unable to get shortcuts action com.sindresorhus.Actions.RemoveEmojiIntent
+var AA866651-8E87-4D93-9290-07631E392FB2 = """
+[￼](￼)"""
+text("${AA866651-8E87-4D93-9290-07631E392FB2}")
+richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+setClipboard(variable: Rich Text from Markdown) >> setClipboard
+alert(alert: "Generated and copied rich text link for note: ${Chosen Item.get(Name)}")

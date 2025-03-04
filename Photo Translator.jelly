@@ -1,0 +1,50 @@
+import Shortcuts
+#Color: navy, #Icon: globe
+
+// Translate text recognized from images (thanks to Live Text) to any language supported by Apple’s Translate app. The shortcut accepts images from the share sheet, quick actions in Finder, picking from the Photos app, or taking new pictures with the Camera.
+var Image = ShortcutInput
+// Set your native language. This ensures you won’t be prompted to translate images that are already in your native language.
+text(text: "English") >> text
+var MyLanguage = Text
+if(Image == nil) {
+	menu(Pick an Image, [Take Picture, Choose Existing]) {
+	case("Take Picture"):
+		takePhoto() >> takePhoto
+var Image = Photo
+	case("Choose Existing"):
+		selectPhoto() >> selectPhoto
+var Image = Photos
+	} >> MenuResult
+} else {
+// An image was passed from the share sheet. The variable has already been set.
+} >> IFResult
+extractTextFromImage(image: Image) >> extractTextFromImage
+detectLanguage(text: "${Text from Image}") >> detectLanguage
+if(Language .contains ""${My Language}"") {
+	translateText(text: "${Text from Image}", to: en_US) >> translateText
+// This is a workaround for the Extract Text action creating linebreaks everywhere. This means all text will be joined with spaces, so everything will be on the same paragraph, but at least you won’t have dozens of seperate lines to join manually.
+	splitText(text: Translated Text) >> splitText
+	combineText(text: Split Text, combine: Spaces) >> combineText
+var TranslatedText = Combined Text
+	menu(Photo Translator Actions, [Show Translation, Copy Translation, Share Translation, Save Translation to Text File]) {
+	case("Show Translation"):
+		showResult(text: "${Translated Text}")
+	case("Copy Translation"):
+		setClipboard(variable: Translated Text) >> setClipboard
+	case("Share Translation"):
+		share(file: Translated Text) >> share
+	case("Save Translation to Text File"):
+var 0B3A0BE8-3E94-4C95-BE2A-6F0A1CEAA871 = """Original Text (￼):
+
+￼
+
+Translated Text:
+
+￼"""
+text("${0B3A0BE8-3E94-4C95-BE2A-6F0A1CEAA871}")
+		setName(input: Text, name: "Translated.md") >> setName
+		saveFile(input: Renamed Item) >> saveFile
+	} >> MenuResult 1
+} else {
+	showResult(text: "Text from this image is already in ${My Language}.")
+}

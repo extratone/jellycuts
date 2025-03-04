@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: grape, #Icon: rectangleStack
+
+// Enter your API Flash access token below.
+text(text: "4a139e0dbab84030823ac4d5ee063a3a") >> text
+list(items: (
+    "https://bilge.world/about",
+    "https://extratone.com/about"
+)) >> list
+repeatEach(List) {
+	url(url: "https://api.apiflash.com/v1/urltoimage?access_key=${Text}&url=${ActionOutput}&full_page=true&format=jpeg&quality=100") >> url
+	downloadURL(url: "${URL}") >> downloadURL
+	getImagesFrom(input: Contents of URL) >> getImagesFrom
+	setName(input: Images, name: "${ShortcutInput.get(Name)}") >> setName
+	if(Renamed Item != nil) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+		alert(alert: "The API Flash web service couldn't return a screenshot of the webpage.", title: "❌ Error ❌", cancel: false)
+	} >> IFResult
+} >> RepeatResult
+quicklook(input: Screenshots)

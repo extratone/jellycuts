@@ -1,0 +1,335 @@
+import Shortcuts
+#Color: lightBlue, #Icon: compass
+
+/*
+Presents a large list of actions related to acting on links with Safari:
+• Searching the web for topics
+• Opening URLs, deep links, or into Safari reader
+• Adding articles to Reading list/Reminders or speaking them aloud
+• Getting the original link for shortened URLs/redirects
+• Running pages through Snopes or the Wayback Machine
+• Viewing source code, grabbing header images, or utilizing RSS feeds
+• Running Javascript on current Safari pages
+• Doing keyword research
+*/
+// I’ve replaced Safari in my dock with this shortcut, making the power of the web on my devices much more accessible despite the small form factor.
+if(ShortcutInput == nil true) {
+	getClipboard() >> getClipboard
+} else {
+} >> Input Result
+menu(What do you want to do?, [Open Safari, Search web, Open link, Get original link, Open with Safari reader, Add to Reading List, Save links on page, Send to Reminders, Estimate reading time, Speak article, Snopes, Wayback machine, View source code, Save header image, Inspect RSS feed, Open RSS posts, Run Javascript on webpage, Research keywords]) {
+case("Open Safari"):
+	openApp(id: "com.apple.mobilesafari")
+case("Search web"):
+	askForInput(prompt: "What do you want to search for?", default: "${Clipboard}") >> askForInput
+	url(url: "http://google.com/search?query=${Provided Input}") >> url
+	showWebPage(url: "${URL}", reader: false)
+case("Open link"):
+	getURLSFromInput(text: "${Input Result}") >> getURLSFromInput
+	if(URLs != nil) {
+		openURL(url: URLs)
+	} else {
+		openApp(id: "com.apple.mobilesafari")
+	} >> IFResult
+case("Get original link"):
+	if(Input Result .contains "apple.news") {
+		downloadURL(url: "${Input Result}") >> downloadURL
+		getURLSFromInput(text: "${Contents of URL}") >> getURLSFromInput 1
+		getItemFromList(list: URLs) >> getItemFromList
+		setClipboard(variable: Item from List)
+		if(ShortcutInput == nil) {
+			showResult(text: ""${Item from List}" copied to the clipboard!")
+		} else {
+		} >> IFResult 1
+	} else {
+		getURLSFromInput(text: "${Input Result}") >> getURLSFromInput 2
+		if(URLs == nil) {
+			showResult(text: "No link found!")
+		} else {
+			repeatEach(URLs) {
+				expandURL(url: "${Repeat Item}") >> expandURL
+			} >> RepeatResult
+			combineText(text: Repeat Results, combine: New Lines) >> combineText
+			setClipboard(variable: Combined Text)
+		}
+	} >> IFResult 2
+case("Open with Safari reader"):
+	count(type: Items, input: Input Result) >> count
+	if(Count > true) {
+		choose(list: Input Result, prompt: "Which page do you want to read?", multiple: false) >> choose
+	} else {
+		getURLSFromInput(text: "${Input Result}") >> getURLSFromInput 3
+	} >> IFResult 3
+	showWebPage(url: "${If Result}", reader: true)
+case("Add to Reading List"):
+	addToReadingList(urls: Input Result)
+case("Save links on page"):
+	getURLSFromInput(text: "${Input Result}") >> getURLSFromInput 4
+	repeatEach(URLs) {
+		getArticle(url: "${Repeat Item}") >> getArticle
+		getURLSFromInput(text: "${Article}") >> getURLSFromInput 5
+		choose(list: URLs, prompt: "Which links do you want to save from "${Article.get(Title)}"?", multiple: true, all: true) >> choose 1
+	} >> RepeatResult 1
+	addToReadingList(urls: Repeat Results)
+case("Send to Reminders"):
+	getURLSFromInput(text: "${Input Result}") >> getURLSFromInput 6
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+case("Estimate reading time"):
+	getArticle(url: "${Input Result}") >> getArticle 1
+	articleDetail(detail: Number of Words, article: Article) >> articleDetail
+	math(input: Number of Words, operation: /, operand: "200") >> math
+	round(number: Calculation Result, mode: Always Round Up) >> round
+	showResult(text: ""${Number of Words}" is ${ActionOutput} words and will take about ${Rounded Number} minutes to read.")
+case("Speak article"):
+// Takes URLs from Share sheet or clipboard, finds the article from the webpage, estimates how long it will take to speak in a prompt, then starts reading it aloud once you confirm.
+/*
+Created for YouTube (https://youtu.be/8w7zDk7jmq4) but now updated for iOS 13+.
+
+Feel free to change the speaking voice, there are 5 other options besides Siri.
+*/
+	getArticle(url: "${Input Result}") >> getArticle 2
+	math(input: Article, operation: /, operand: "163") >> math 1
+	round(number: Calculation Result) >> round 1
+	number(value: 0.55) >> Rate of speech
+// This shortcut is set to speak slightly higher than the default speed (which is a value of 0.5 in Shortcuts). Normally this action speaks at 150 WPM - increasing it by 5% sets the speaking rate at about 163 WPM
+	showResult(text: ""${Rounded Number}" has ${ActionOutput} words.
+
+That will take about ${Article.get(Number of Words)} minutes to read out loud.
+
+Starting now.")
+	speakText(text: "${Article.get(Body)}", wait: false, rate: Rate of speech, language: English (United States))
+case("Snopes"):
+	encodeURL(url: "${Input Result}") >> encodeURL
+	url(url: "https://www.snopes.com/?s=${URL Encoded Text}") >> url 1
+	showWebPage(url: "${URL}")
+case("Wayback machine"):
+	url(url: "https://web.archive.org/web/*/${Input Result}") >> url 2
+	openURL(url: URL)
+case("View source code"):
+	downloadURL(url: "${Input Result}") >> downloadURL 1
+	htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+	quicklook(input: HTML from Rich Text)
+	share(file: HTML from Rich Text)
+case("Save header image"):
+	getType(input: Input Result) >> getType
+	if(Type .contains "Article") {
+		getArticle(url: "${Input Result}") >> getArticle 3
+		articleDetail(detail: Main Image URL, article: Article) >> articleDetail 1
+		downloadURL(url: "${Main Image URL}") >> downloadURL 2
+	} else {
+		downloadURL(url: "${Input Result}") >> downloadURL 3
+		getImagesFrom(input: Contents of URL) >> getImagesFrom
+	} >> IFResult 4
+	saveToCameraRoll(image: If Result) >> saveToCameraRoll
+case("Inspect RSS feed"):
+	getPageRSS(url: "${Input Result}") >> getPageRSS
+	choose(list: RSS Feeds from Page) >> choose 2
+	downloadURL(url: "${Chosen Item}") >> downloadURL 4
+	setName(input: Contents of URL, name: "Feed.txt") >> setName
+	getTextFrom(input: Renamed Item) >> getTextFrom
+	showResult(text: "${Text}")
+case("Open RSS posts"):
+	getPageRSS(url: "${Input Result}") >> getPageRSS 1
+	setClipboard(variable: RSS Feeds from Page)
+	choose(list: RSS Feeds from Page, multiple: true) >> choose 3
+	getURLSFromInput(text: "${Chosen Item}") >> getURLSFromInput 7
+	openURL(url: URLs)
+case("Run Javascript on webpage"):
+	menu(What do you want to do?, [Convert to Dark Mode, Speed up videos, Fullscreen video, Copy video links on page, Remove headers, Add gyroscopic scroll, Barrel roll, Upside down, Emojify text]) {
+	case("Convert to Dark Mode"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "let prevBgColor = getBodyColor(),
+	darkClassList = ['theme-dark', 'theme--dark', 'theme-black', 'theme--black'];
+
+document.body.classList.add(...darkClassList);
+
+if (prevBgColor === getBodyColor()) {
+	let style = document.createElement('style');
+	
+	style.type = "text/css";
+	document.head.appendChild(style);
+
+	style.sheet.insertRule("* { color: #aaa !important; background-color: #333 !important; border-color: currentColor !important; }");
+}
+
+function getBodyColor() {
+	return window.getComputedStyle(document.body).backgroundColor;
+}
+
+completion(true);") >> runJavascriptOnWebpage
+// https://www.reddit.com/r/shortcuts/comments/9n2gyw/comment/e7jdu8t
+	case("Speed up videos"):
+		list(items: (
+    "10%",
+    "20%",
+    "30%"
+)) >> list
+		choose(list: List, prompt: "How much faster?") >> choose 4
+		number(value: Chosen Item) >> number
+		math(input: Number, operation: /, operand: "100") >> math 2
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "document.querySelector("video").playbackRate = 1${Calculation Result};
+
+completion(result);")
+	case("Fullscreen video"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "var videos = document.getElementsByTagName("video");
+if (videos) {
+  var video = videos[0];
+  video.webkitSetPresentationMode(video.webkitPresentationMode === "fullscreen" ? "inline" : "fullscreen");
+}
+
+completion({"success": true});")
+	case("Copy video links on page"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "var vids = document.getElementsByTagName('video')
+var urls = [];
+
+for( var i = 0; i < vids.length; i++){
+		urls.push( vids.item(i).src)
+}
+
+completion(urls);") >> runJavascriptOnWebpage 1
+		choose(list: JavaScript Result) >> choose 5
+		setClipboard(variable: Chosen Item)
+	case("Remove headers"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "(function () { 
+  var i, elements = document.querySelectorAll('body *');
+
+  for (i = 0; i < elements.length; i++) {
+    if (getComputedStyle(elements[i]).position === 'fixed') {
+      elements[i].parentNode.removeChild(elements[i]);
+    }
+  }
+})();
+
+completion();")
+	case("Add gyroscopic scroll"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "
+const handleOrientation = event => {
+
+  const x = event.beta;
+
+
+
+  if (x < 40 && x > 20) return;
+
+
+
+  if (x > 40 && x <= 60) {
+
+    window.scrollBy(0, 9);
+
+  } else if (x > 60) {
+
+    window.scrollBy(0, 10);
+
+  } else {
+
+    window.scrollBy(0, -9);
+
+  }
+
+};
+
+
+
+window.addEventListener("deviceorientation", handleOrientation);
+
+
+
+completion();")
+	case("Barrel roll"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "
+const handleOrientation = event => {
+
+  const x = event.beta;
+
+
+
+  if (x < 40 && x > 20) return;
+
+
+
+  if (x > 40 && x <= 60) {
+
+    window.scrollBy(0, 9);
+
+  } else if (x > 60) {
+
+    window.scrollBy(0, 10);
+
+  } else {
+
+    window.scrollBy(0, -9);
+
+  }
+
+};
+
+
+
+window.addEventListener("deviceorientation", handleOrientation);
+
+
+
+completion();")
+	case("Upside down"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "const styleTag = document.createElement('style');
+
+styleTag.innerText = `
+    body {
+        -webkit-transform: rotate(180deg);
+    }
+`;
+
+document.head.appendChild(styleTag);
+
+completion();")
+	case("Emojify text"):
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "
+const emojis = {
+
+  american: "🇺🇸",
+
+  science: "🔬",
+
+  horror: "🙀",
+
+  second: "🥈",
+
+  written: "✏️",
+
+  television: "📺"
+  
+
+};
+
+
+
+const replaceWordsWithEmoji = text =>
+
+  Object.keys(emojis).reduce(
+
+    (acc, word) => acc.replace(new RegExp(word, "g"), emojis[word]),
+
+    text
+
+  );
+
+
+
+document.body.innerHTML = replaceWordsWithEmoji(document.body.innerHTML);
+
+
+
+completion();
+") >> runJavascriptOnWebpage 2
+	} >> MenuResult
+case("Research keywords"):
+	showResult(text: "Switch to Private mode, then return to Shortcuts")
+	openApp(id: "com.apple.mobilesafari")
+	waitToReturn()
+	askForInput(prompt: "Which keywords would you like to search? (Split by new lines)") >> askForInput 1
+	splitText(text: Provided Input) >> splitText
+	repeatEach(Split Text) {
+		url(url: "http://google.com/search?q=${Repeat Item}")
+	} >> RepeatResult 2
+	openURL(url: Repeat Results)
+} >> MenuResult 1

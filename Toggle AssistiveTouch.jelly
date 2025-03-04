@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: blue, #Icon: hand
+
+/*
+This shortcut is a quick way to turn AssistiveTouch on or off.
+
+Add a Personal Automation to have it automatically toggle AssistiveTouch on when you open specific apps.
+*/
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleAssistiveTouchIntent
+openURL(url: "prefs:root=General") >> openURL

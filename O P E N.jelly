@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: red, #Icon: faceSunglasses
+
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+openURL(url: URLs) >> openURL
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent

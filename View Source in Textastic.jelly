@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: blue, #Icon: textSymbol
+
+/*
+The fastest means of viewing web page source code.
+
+See Texastic's URL scheme documentation: https://www.textasticapp.com/v9/manual/integration_other_apps/x-callback-url.html#download-using-the-textastic-scheme
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+urlComponent(url: "${ShortcutInput}") >> urlComponent
+replaceText(input: "${ShortcutInput}", find: "${Component of URL}", replace: "textastic") >> replaceText
+openURL(url: Updated Text) >> openURL

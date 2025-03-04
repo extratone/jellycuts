@@ -1,0 +1,55 @@
+import Shortcuts
+#Color: teal, #Icon: asterisk
+
+// Prepend text to a section of a specific note in Obsidian.
+var InputText = ShortcutInput
+// Enter the name of the file you want to append text to, followed by its extension – e.g. Dashboard.md
+text(text: "Dashboard.md") >> text
+var FilePath = Text
+// Select the folder where the Dashboard note is stored.
+//Unable to get shortcuts action is.workflow.actions.folder
+var Folder = Folder
+text(text: "## 🧠 On My Mind") >> text 1
+var SectionTitle = Text
+getFile(path: "${File Path}") >> getFile
+var File = File
+// Get the original file's text. Use workaround to get the contents of a .txt version of the file.
+setName(input: File, name: "${File}.txt") >> setName
+getTextFrom(input: Renamed Item) >> getTextFrom
+var OriginalText = Text
+/*
+Time to check for the platform we're using.
+
+This shortcut is NOT designed for Apple Watch.
+*/
+deviceDetails(detail: Device Model) >> deviceDetails
+matchText(text: "${Device Model}", regex: "(iPhone|iPad)") >> matchText
+if(Matches != nil) {
+// It's an iPhone or iPad. We need to launch the app and wait at least two seconds so it can load.
+	openApp(id: "md.obsidian") >> openApp
+	wait(seconds: 2)
+} else {
+/*
+Device is a Mac. We need to check if the app is running first.
+
+Use the technique mentioned here: https://www.macstories.net/stories/macstories-starter-pack-clean-up-urls-and-remove-tracking-parameters-with-url-cleaner/
+*/
+	runAppleScript(input: Matches, script: "on run {input, parameters}	if application "Obsidian" is running then		return "Yes"	end ifend run") >> runAppleScript
+	text(text: "${AppleScript Result}") >> text 2
+	if(Text == "Yes") {
+// Obsidian is running. Do nothing else.
+	} else {
+// We need to open Obsidian.
+		openApp(id: "md.obsidian") >> openApp 1
+		hideAllApps()
+		wait(seconds: 2)
+	}
+}
+// This part deals with the actual prepending of text.
+var A10C7AAE-5E80-441F-AEC2-8E66E072EB82 = """￼
+
+￼"""
+text("${A10C7AAE-5E80-441F-AEC2-8E66E072EB82}")
+replaceText(input: "${Original Text}", find: "${Section Title}", replace: "${Text}", isRegex: true) >> replaceText
+setName(input: Updated Text, name: "${File Path}") >> setName 1
+saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile

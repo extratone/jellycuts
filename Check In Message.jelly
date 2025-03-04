@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: purple, #Icon: lightbulb
+
+/*
+This shortcut helps communicate stress and energy levels to others.
+
+🟢 = Minimal stress levels, can take in new information.
+🟡 = Heightened stress levels, but can manage current task.
+🔴 = Overwhelmed, might not be able to comprehend new information.
+
+🥄 = Refers to Spoon Theory, a way to explain how much energy (or how many spoons) you have to do tasks, chores or activity’s for that day.  
+Imagine every action you do costs a spoon; making breakfast, getting dressed, seeing a friend, travel etc.
+
+Source: https://butyoudontlooksick.com/articles/written-by-christine/the-spoon-theory/
+*/
+list(items: (
+    "\Ud83d\Udfe2 Minimal Stress Levels",
+    "\Ud83d\Udfe1 Heightened Stress Levels",
+    "\Ud83d\Udd34 Overwhelmed"
+)) >> Lights
+choose(list: Lights, prompt: "What's your stress level? 🚦", mll: $3) >> Stress Level
+askForInput(prompt: "What’s your energy level? Out of 12 🥄", type: Number, dllowDecimal: false, allowNegative: false) >> Energy Level
+var 1CC8E9BA-D9EF-4DA5-81CB-01C91C6ED84F = """Here's how I'm feeling:
+🚦- ￼
+🥄- ￼/12"""
+text("${1CC8E9BA-D9EF-4DA5-81CB-01C91C6ED84F}")
+//Unable to get shortcuts action is.workflow.actions.sendmessage

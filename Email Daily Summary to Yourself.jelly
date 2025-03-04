@@ -1,0 +1,208 @@
+import Shortcuts
+#Color: navy, #Icon: Shortcuts
+
+/*
+by: mvan231
+
+Events ☑️
+Reminders due and coming up☑️
+Birthdays☑️
+Weather☑️
+Headlines☑️
+
+Figure out how to format text for sending email - HTML to rich text as email isn't working so modifying and sending as plain text for now
+
+V4 - add upcoming events action with import question
+*/
+// If the number below is set to 1, then the rich text and plain text versions will be previewed in quick looks as well as being asked with an alert before sending the email
+number() >> Preview and Ask
+// Get calendar events
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+filterCalendar() >> filterCalendar
+repeatEach(Calendar Events) {
+var 3B3172FB-5B5C-4334-8408-FE254CA75B31 = """￼
+￼ - ￼
+￼
+￼
+"""
+text("${3B3172FB-5B5C-4334-8408-FE254CA75B31}")
+} >> RepeatResult
+if(Repeat Results != nil) {
+} else {
+	text(text: "No events on calendar today!")
+} >> IFResult
+getTimeBetween(first: "${CurrentDate}", second: 1970/01/01 00:00, interval: Seconds) >> getTimeBetween
+var 87A2C899-AAFC-4056-9ADA-852C51496C75 = """<h2>Meetings/Events</h2>
+<u><a href="calshow:￼">Open Calendar</a></u><br>
+￼"""
+text("${87A2C899-AAFC-4056-9ADA-852C51496C75}")
+// Get Birthdays
+filterCalendar() >> filterCalendar 1
+if(Calendar Events != nil) {
+var CA67E3E7-361F-4736-AFF4-C16E32F4E636 = """<hr style="width:50%;text-align:left;margin-left:0">
+<h2>Birthdays Today</h2>
+￼"""
+text("${CA67E3E7-361F-4736-AFF4-C16E32F4E636}")
+} else {
+	nothing()
+} >> Birthdays If Result
+// Get today
+date() >> date
+formatDate(date: "${Date}", tStyle: None) >> formatDate
+var Today = Formatted Date
+// Get weather
+getForecast() >> getForecast
+getItemFromList(list: Weather Conditions) >> getItemFromList
+locationDetail(detail: City, location: Item from List) >> locationDetail
+math(input: Item from List, operation: *, operand: "100") >> math
+round(number: Calculation Result) >> Rounded humidity
+math(input: Item from List, operation: *, operand: "100") >> math 1
+round(number: Calculation Result) >> Rounded precipitation chance
+// Get reminders due and coming up
+getUpcomingReminders(count: 10, list: $1) >> getUpcomingReminders
+repeatEach(Upcoming Reminders) {
+	nothing() >> nothing
+	if(Repeat Item != nil) {
+		text(text: "due on ${Repeat Item.get(Due Date)}") >> text
+	} >> IFResult 1
+	text(text: "<b>${Repeat Item}</b> ${Variable}<br>") >> text 1
+} >> RepeatResult 1
+text(text: "${Repeat Results}") >> Reminders
+// Get headlines / news
+list(items: (
+    "Apple News",
+    Entertainment,
+    Sports,
+    "Tech News",
+    "World News"
+)) >> News Cats
+var 4B468015-0BC1-4D70-A9EE-380C7888B016 = """{
+  "NewsFeeds": {
+    "Apple News": {
+      "AppleInsider": "https://appleinsider.com/rss/news/",
+      "Mac Stories": "https://www.macstories.net/feed/",
+      "9to5 Mac": "https://9to5mac.com/feed/",
+      "Cult of Mac": "https://www.cultofmac.com/feed/",
+      "MacRumors": "http://feeds.macrumors.com/MacRumors-All",
+      "Apple Newsroom": "https://www.apple.com/newsroom/rss-feed.rss",
+      "The Verge ": "https://www.theverge.com/apple/rss/index.xml",
+      "Engadget ": "https://www.engadget.com/topics/apple/rss.xml",
+      "HomeKit Hero ": "https://homekithero.com/feed/"
+    },
+    "Entertainment": {
+      "BBC News Entertainment & Arts": "http://newsrss.bbc.co.uk/rss/newsonline_world_edition/entertainment/rss.xml",
+      "Buzzfeed": "https://www.buzzfeed.com/celebrity.xml",
+      "E! News": "https://www.eonline.com/syndication/feeds/rssfeeds/topstories.xml",
+      "Hollywood Life": "https://hollywoodlife.com/feed/",
+      "TMZ": "http://www.tmz.com/rss",
+      "Yahoo - Entertainment News": "http://rss.news.yahoo.com/rss/entertainment"
+    },
+    "Sports": {
+      "Sporting News": "https://www.sportingnews.com/us/rss",
+      "Fox Sports": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&aggregateId=7f83e8ca-6701-5ea0-96ee-072636b67336",
+      "Fox Sports NFL": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl",
+      "Fox Sports MLB": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/mlb",
+      "Fox Sports NBA": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nba",
+      "Fox Sports NHL": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nhl",
+      "NFL Nation ": "https://www.espn.com/blog/feed?blog=nflnation",
+      "NHL Rumors": "https://nhlrumors.com/feed/",
+      "Tennis Now": "http://www.tennisnow.com/cmspages/blogrss.aspx",
+      "Deadspin": "https://deadspin.com/rss"
+    },
+    "Tech News": {
+      "BBC News Technology": "http://feeds.bbci.co.uk/news/technology/rss.xml",
+      "CNet": "https://www.cnet.com/rss/news/",
+      "Digital Trends": "https://www.digitaltrends.com/feed/",
+      "Engadget": "https://www.engadget.com/rss.xml",
+      "Gizmodo": "https://gizmodo.com/rss",
+      "Mashable": "https://mashable.com/feeds/rss/all",
+      "Venture Beat": "http://feeds.feedburner.com/venturebeat/SZYF",
+      "SlashGear": "https://www.slashgear.com/feed/",
+      "TechCrunch": "https://techcrunch.com/feed/",
+      "New York Times": "http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+      "SlashDot": "http://feeds.feedburner.com/oreilly/radar/atom",
+      "The Verge": "http://www.theverge.com/rss/frontpage",
+      "VentureBeat": "http://feeds.feedburner.com/venturebeat/SZYF",
+      "Wired": "https://www.wired.com/feed/rss",
+      "ZD Net": "https://www.zdnet.com/news/rss.xml",
+    },
+    "World News": {
+      "ABC News International: New York, NY, US": "http://abcnews.go.com/abcnews/internationalheadlines",
+      "Al jazeera: Qatar": "http://www.aljazeera.com/xml/rss/all.xml",
+      "BBC News: London, England, UK": "http://feeds.bbci.co.uk/news/world/rss.xml",
+      "BuzzFeed: New York, NY, US": "https://www.buzzfeed.com/world.xml",
+      "CNBC : New Jersey, US": "https://www.cnbc.com/id/100727362/device/rss/rss.html",
+      "CNN: Atlanta, Georgia, US": "http://rss.cnn.com/rss/edition_world.rss",
+      "CBC : Toronto, Ontario, Canada": "http://www.cbc.ca/cmlink/rss-world",
+      "CBS News: New York, NY, US": "https://www.cbsnews.com/latest/rss/world",
+      "Daily Express : London, England UK": "http://feeds.feedburner.com/daily-express-world-news",
+      "Global Issues: India": "https://www.globalissues.org/news/feed",
+      "The New York Times: New York, NY, US": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml",
+      "NPR : National Public Radio: Washington DC, US": "http://www.npr.org/rss/rss.php?id=1004",
+      "r/WorldNews": "https://www.reddit.com/r/worldnews/.rss",
+      "Raw Story: Washington, DC, US": "https://www.rawstory.com/category/world/feed/",
+      "Sky News: London, England, UK": "http://feeds.skynews.com/feeds/rss/world.xml",
+      "The Sydney Morning Herald: Sidney, New South Wales, Australia": "http://www.smh.com.au/rssheadlines/world/article/rss.xml",
+      "Time: New York, NY, US": "http://feeds.feedburner.com/time/world",
+      "Toronto Star: Toronto, Ontario, Canada": "http://www.thestar.com/content/thestar/feed.RSSManagerServlet.articles.news.world.rss",
+      "Washington Post: Washington DC, US": "https://feeds.washingtonpost.com/rss/world",
+      "The Washington Times": "http://www.washingtontimes.com/rss/headlines/news/world",
+      "Vox: US": "https://www.vox.com/rss/world/index.xml",
+      "The Cipher Brief: Washington, US": "https://www.thecipherbrief.com/feed"
+    }
+  }
+}"""
+text("${4B468015-0BC1-4D70-A9EE-380C7888B016}")
+// News source items per category to get
+number(value: 2) >> Feeds
+// News feed items to get per feed
+number(value: 2) >> Feed items
+repeatEach(News Cats) {
+	valueFor(key: "${Repeat Item}", dictionary: News RSS Dict) >> News category
+	repeat(Feeds) {
+		getItemFromList(list: News category, type: Random Item) >> getItemFromList 1
+		valueFor(key: "${Item from List}", dictionary: News category) >> valueFor
+		getRSSItems(url: "${Dictionary Value}", count: Feed items) >> getRSSItems
+		repeatEach(RSS Items) {
+			text(text: "• ${Repeat Item 3.get(Title)}<br>")
+		}
+	} >> RepeatResult 2
+} >> News results
+// Combine items together to make the summary
+var E8AB47CC-720C-4351-8F2F-179146CF1E0C = """<h1> ￼ Summary </h1>
+<hr style="width:50%;text-align:left;margin-left:0">
+￼
+￼
+<hr style="width:50%;text-align:left;margin-left:0">
+<h2>Weather</h2>
+<u><a href="weather://">Open Weather</a></u><br>
+￼<br>
+Conditions:￼<br>
+Temp:￼-￼<br>
+Humidity:￼%<br>
+Precipitation%:￼<br>
+Wind:￼<br>
+<hr style="width:50%;text-align:left;margin-left:0">
+<h2>Reminders Due</h2>
+<u><a href="x-apple-reminderkit://">Open Reminders</a></u><br>
+￼
+<hr style="width:50%;text-align:left;margin-left:0">
+<h2>Headlines</h2>
+<br>
+￼"""
+text("${E8AB47CC-720C-4351-8F2F-179146CF1E0C}")
+richTextFromHTML() >> richTextFromHTML
+// Show the HTML formatted rich text
+if(Preview and Ask == 1) {
+	quicklook(input: Rich Text from HTML)
+}
+// Passing rich text to the send email action is not currently working to preserve formatting in iOS 17 beta so in the section below I remove the html code and replace with some tilde and blanks so the plain text looks okay
+replaceText(input: "${HTML}", find: "<\/?h.>", replace: "~~~", isRegex: true) >> replaceText
+replaceText(input: "${Updated Text}", find: "<a href(.*?>){2}|<.*?>", replace: "", isRegex: true) >> replaceText 1
+// Show the modified plain text output
+if(Preview and Ask == 1) {
+	quicklook(input: Updated Text)
+	alert(alert: "Do you want to send as email?")
+}
+// Send it out!
+//Unable to get shortcuts action is.workflow.actions.sendemail

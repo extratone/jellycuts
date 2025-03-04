@@ -1,0 +1,112 @@
+import Shortcuts
+#Color: grayBrown, #Icon: calculator
+
+// Allows you to perform a series of calculations, either by typing it out, using a tip calculator, checking the percentage change between two values, counting or splitting up lists, and doing conversions like timestamps to seconds, time between dates, and MPH <> KM per HR or Miles <> Kilometers.
+// Use this to perform quick calculations or measurements without having to remember the methodology for each step – good example of how Shortcuts can help with accuracy, not just saving time.
+menu(What do you want to do?, [Calculate tip, Type out calculation, Calculate percent change, Count items in a list, Split list into evens or odds only, Convert timestamp to seconds, Convert time between dates to total seconds, Convert between mph/km per hr, Convert between Miles/Kilometers, Convert between Fahrenheit/Celsius, Open Soulver scratchpad]) {
+case("Calculate tip"):
+	runShortcut(name: "Calculate tip") >> runShortcut
+case("Type out calculation"):
+	askForInput(prompt: "What’s the calculation?") >> askForInput
+	calculate(input: "${Provided Input}") >> calculate
+	showResult(text: "${Calculation Result} is ${ActionOutput}")
+case("Calculate percent change"):
+	askForInput(prompt: "What's the original number?", type: Number) >> Original
+	askForInput(prompt: "What's the new number?", type: Number) >> New
+	math(input: New, operation: -, operand: Original) >> math
+	math(input: Calculation Result, operation: /, operand: Original) >> math 1
+	math(input: Calculation Result, operation: *, operand: "100") >> math 2
+	round(number: Calculation Result) >> round
+	showResult(text: "Going from ${Rounded Number} to ${ActionOutput} is a ${Original}% change.")
+case("Count items in a list"):
+	askForInput(prompt: "Enter your list:", default: "${Clipboard}") >> askForInput 1
+	count(type: Lines, input: Provided Input) >> count
+	showResult(text: "${Count}")
+case("Split list into evens or odds only"):
+	askForInput(prompt: "Enter your list:", default: "${Clipboard}") >> askForInput 2
+	repeatEach(Provided Input) {
+		math(input: Repeat Index, operation: …, operand: "2", scientific: Modulus) >> math 3
+		if(Calculation Result == 1) {
+// Odd number – switch “Get text from Repeat Item” with the “Nothing” in Otherwise to get even numbers only
+			getTextFrom(input: Repeat Item) >> getTextFrom
+		} else {
+// Even number
+			nothing()
+		} >> IFResult
+	} >> RepeatResult
+case("Convert timestamp to seconds"):
+	askForInput(prompt: "Enter the duration/timecode:", type: Text) >> askForInput 3
+	splitText(text: Provided Input, separator: Custom, customSeparator: ":") >> splitText
+	getItemFromList(list: Split Text) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 1
+	math(input: Item from List, operand: Converted Measurement) >> math 4
+	setClipboard(variable: Calculation Result)
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+	showResult(text: "${Calculation Result} comes out to ${ActionOutput}")
+case("Convert time between dates to total seconds"):
+	askForInput(prompt: "What’s the first date?", type: Date and Time) >> askForInput 4
+	askForInput(prompt: "What’s the second date?", type: Date and Time) >> askForInput 5
+	getTimeBetween(first: "${Provided Input}", second: "${Provided Input}", interval: Seconds) >> getTimeBetween
+	setClipboard(variable: Time Between Dates)
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+	showResult(text: "There's ${Provided Input} (which is ${ActionOutput} or ${Measurement}) between ${ActionOutput} and ${Provided Input}")
+case("Convert between mph/km per hr"):
+	menu(Which way?, [MPH to KM per HR, KM per HR to MPH]) {
+	case("MPH to KM per HR"):
+		askForInput(prompt: "How many MPH?", type: Number) >> askForInput 6
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		round(number: Converted Measurement, roundTo: Ones Place) >> round 1
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+		setClipboard(variable: Measurement)
+		showResult(text: "${Measurement} converts to about ${ActionOutput}")
+	case("KM per HR to MPH"):
+		askForInput(prompt: "How many km/hr?", type: Number) >> askForInput 7
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		round(number: Converted Measurement, roundTo: Ones Place) >> round 2
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+		setClipboard(variable: Measurement)
+		showResult(text: "${Measurement} converts to about ${ActionOutput}")
+	} >> MenuResult
+case("Convert between Miles/Kilometers"):
+	menu(Which way?, [Convert miles to KM, Convert KM to miles]) {
+	case("Convert miles to KM"):
+		askForInput(prompt: "How many miles?", type: Number) >> askForInput 8
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		setClipboard(variable: Converted Measurement)
+		showResult(text: "${Measurement} converts to ${ActionOutput}")
+	case("Convert KM to miles"):
+		askForInput(prompt: "How many kilometers?", type: Number) >> askForInput 9
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		setClipboard(variable: Converted Measurement)
+		showResult(text: "${Measurement} converts to ${ActionOutput}")
+	} >> MenuResult 1
+case("Convert between Fahrenheit/Celsius"):
+	menu(Which way?, [Fahrenheit to Celsius, Celsius to Fahrenheit]) {
+	case("Fahrenheit to Celsius"):
+		askForInput(prompt: "How many degrees in Fahrenheit?", type: Number, allowNegative: false) >> askForInput 10
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		round(number: Converted Measurement) >> round 3
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+		setClipboard(variable: Measurement)
+		showResult(text: "${Measurement} converts to ${ActionOutput}")
+	case("Celsius to Fahrenheit"):
+		askForInput(prompt: "How many degrees in Celsius?", type: Number, allowNegative: false) >> askForInput 11
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		round(number: Converted Measurement) >> round 4
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+		setClipboard(variable: Measurement)
+		showResult(text: "${Measurement} converts to ${ActionOutput}")
+	}
+case("Open Soulver scratchpad"):
+	openApp(id: "com.acqualia.soulver-iPhone")
+}

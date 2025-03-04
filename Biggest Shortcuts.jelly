@@ -1,0 +1,12 @@
+import Shortcuts
+import GizmoPack
+#Color: grayBrown, #Icon: lightningBolt
+
+// This shortcut uses shortcut metadata and SQL to show a top-10 of your longest shortcuts.
+getShortcuts() >> getShortcuts
+//Unable to get shortcuts action ke.bou.GizmoPack.ShortcutMetadataIntent
+repeatEach(Shortcut Metadata) {
+	dictionary({"actions":"${Repeat Item.get(Number of Actions)}","name":"${Repeat Item.get(Name)}","color":"${Repeat Item.get(Color)}","image":"${Repeat Item.get(System Image Name)}","comment":"${Repeat Item.get(Comment)}"})
+} >> RepeatResult
+//Unable to get shortcuts action ke.bou.GizmoPack.QueryRecordsIntent
+quicklook(input: Output)

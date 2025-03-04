@@ -1,0 +1,33 @@
+import Shortcuts
+#Color: green, #Icon: addMessage
+
+// OverClip is a shortcut created by John Voorhees for Club MacStories members. The shortcut uses Overcast’s audio clip sharing feature and Shortcuts integration and Toolbox Pro’s speech-to-text functionality to build a note in Obsidian with text extracted from an audio clip, related metadata about the source of the audio, and the audio clip embedded in the note.
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.RecogniseSpeechIntent
+wait(seconds: 15)
+var Excerpt = Clipboard
+//Unable to get shortcuts action fm.overcast.overcast.OCCurrentEpisodeInfoIntent
+date() >> date
+formatDate(date: "${CurrentDate}", dStyle: Custom, tStyle: None, custom: "YYYY-MM-dd HH-mm-ss") >> formatDate
+text(text: "${Formatted Date} - Overcast Excerpt") >> text
+var 6E01C65B-45EA-4A5A-9819-09E72F0585D9 = """---
+show: "￼"
+episode: "￼"
+saved: "￼"
+source: "￼"
+excerpt: "￼"
+timestamp: "￼"
+summary: "￼"
+---
+[￼](￼)
+
+> ￼
+
+![[￼.m4a]]"""
+text("${6E01C65B-45EA-4A5A-9819-09E72F0585D9}")
+formatDate(date: "${CurrentDate}", dStyle: Custom, tStyle: None, custom: "YYYY-MM-dd-HH-mm-ss") >> formatDate 1
+setName(input: Text, name: "${Formatted Date} - Overcast Excerpt.md", dontIncludeExtension: false) >> setName
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.SaveFilesToBookmarkedFoldersIntent
+setName(input: ShortcutInput, name: "${Text}.m4a") >> setName 1
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.SaveFilesToBookmarkedFoldersIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.HomeIntent
+openURL(url: "overcast://") >> openURL

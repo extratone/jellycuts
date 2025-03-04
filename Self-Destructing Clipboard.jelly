@@ -1,0 +1,16 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+var Input = ShortcutInput
+count(type: Items, input: Input) >> count
+if(Count > false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} else {
+	getClipboard()
+} >> IFResult
+var Clipboard = If Result
+date() >> date
+adjustDate(operation: Add, duration: , date: "${Date}") >> adjustDate
+formatDate(date: "${Adjusted Date}", dStyle: None) >> formatDate
+var ExpireTime = Formatted Date
+setClipboard(variable: Clipboard, expiration: "${ExpireTime}")

@@ -1,0 +1,56 @@
+import Shortcuts
+#Color: navy, #Icon: iPad
+
+if(DeviceDetails !=) {
+	number(value: 2) >> number
+} else {
+	number(value: 3) >> number 1
+} >> IFResult
+var Limit = If Result
+list(items: (
+    "iPad Pro 12.9 inch (5th Generation)",
+    "iPad Pro 12.9 inch (4th Generation)",
+    "iPad Pro 12.9 inch (3rd Generation)",
+    "iPad Pro 12.9 inch (2nd Generation)",
+    "iPad Pro 12.9 inch (1st Generation)",
+    "iPad Pro 11 inch (3rd Generation)",
+    "iPad Pro 11 inch (2nd Generation)",
+    "iPad Pro 11 inch (1st Generation)",
+    "iPad Pro 10.5 inch",
+    "iPad Pro 9.7 inch",
+    "iPad Air (5th Generation)",
+    "iPad Air (4th Generation)",
+    "iPad Air (3rd Generation)",
+    "iPad Air 2",
+    "iPad Air (1st Generation)",
+    "iPad Mini (6th Generation)",
+    "iPad Mini (5th Generation)",
+    "iPad Mini 4",
+    "iPad Mini 3",
+    "iPad Mini 2",
+    "iPad (9th Generation)",
+    "iPad (8th Generation)",
+    "iPad (7th Generation)",
+    "iPad (6th Generation)",
+    "iPad (5th Generation)"
+)) >> list
+choose(list: List, prompt: "Select up to ${Limit} iPads to Compare:", multiple: true) >> choose
+count(input: Chosen Item) >> count
+if(Count > Limit) {
+	text(text: "You can only compare up to ${Limit} at a time. Please try again :)") >> text
+	alert(alert: "${Text}", cancel: false)
+	runShortcut(name: "Compare iPhones") >> runShortcut
+} >> IFResult 1
+combineText(text: Chosen Item, combine: Custom, separator: ",") >> combineText
+changeCase(text: Combined Text, case: lowercase) >> changeCase
+var List = Updated Text
+dictionary({"generation":"gen",".":"-","(":"",")":"","inch":""," ,":","})
+repeatEach(Dictionary) {
+	valuesFrom(dictionary: Dictionary) >> valuesFrom
+	replaceText(input: "${List}", find: "${Repeat Item}", replace: "${Dictionary Value}") >> replaceText
+var List = Updated Text
+} >> RepeatResult
+replaceText(input: "${List}", find: " ", replace: "-") >> replaceText 1
+replaceText(input: "${Updated Text}", find: "--", replace: "-", caseSensitive: false) >> replaceText 2
+text(text: "https://www.apple.com/ca/ipad/compare/?modelList=${Updated Text}") >> text 1
+openURL(url: Text) >> openURL

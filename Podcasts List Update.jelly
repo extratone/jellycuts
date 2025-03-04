@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+file(file: $0) >> file
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetDetailFromTextIntent

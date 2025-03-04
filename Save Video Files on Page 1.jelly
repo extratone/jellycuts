@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: yellow, #Icon: movieCamera
+
+//Unable to get shortcuts action app.cyan.taio.RunActionsIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+quicklook(input: Filtered List)
+repeatEach(Filtered List) {
+	downloadURL(url: "${Repeat Item}") >> downloadURL
+	saveToCameraRoll(image: Contents of URL, album: Web) >> saveToCameraRoll
+	saveFile(input: Contents of URL, ask: false)
+} >> RepeatResult

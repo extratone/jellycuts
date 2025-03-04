@@ -1,0 +1,222 @@
+import Shortcuts
+#Color: navy, #Icon: Connected
+
+var 55161949-80CF-4AFA-AF48-8C0924824BA7 = """Made by CaryOn
+
+https://routinehub.co/shortcut/2483
+
+Uses UpdateKit to keep up to date."""
+text("${55161949-80CF-4AFA-AF48-8C0924824BA7}")
+dictionary({"Shortcut Name":"SSH","Current Version":"1.2","RoutineHub ID":"2483"})
+cellularDetails() >> cellularDetails
+if(Network Details .contains ":") {
+} else {
+	showResult(text: "Must connect to a work WiFi network.
+${Network Details}")
+	deviceDetails() >> deviceDetails
+	if(Device Name .contains "IPC") {
+		showResult(text: "Testing Mode
+Phone: ${Device Details}")
+	} else {
+		exit()
+	}
+} >> IFResult
+text(text: "Create location for config and recent computers files if it doesn't already exist") >> text
+createFolder(path: "SSH/")
+text(text: "Set User") >> text 1
+getFile(picker: false, path: "SSH/user.txt", error: false) >> getFile
+count(type: Items, input: File) >> count
+if(Count > false) {
+	getFile(picker: false, path: "SSH/user.txt", error: false) >> getFile 1
+	encode(input: File) >> encode
+var UName = Base64 Encoded
+} else {
+	askForInput(prompt: "Enter User Account", default: ) >> askForInput
+var UName = Provided Input
+	encode(input: UName) >> encode 1
+	setName(input: Base64 Encoded, name: "user.txt") >> setName
+	saveFile(input: Renamed Item, ask: false, path: "SSH", overwrite: true)
+}
+text(text: "Check for and set pass if needed") >> text 2
+getFile(picker: false, path: "SSH/config.txt", error: false) >> getFile 2
+count(type: Items, input: File) >> count 1
+if(Count == "0") {
+	askForInput(prompt: "Please enter admin password.") >> askForInput 1
+	encode(input: Provided Input) >> encode 2
+	setName(input: Base64 Encoded, name: "config.txt") >> setName 1
+	saveFile(input: Renamed Item, ask: false, path: "SSH/", overwrite: true) >> saveFile
+} else {
+	getFile(picker: false, path: "SSH/config.txt", error: true) >> getFile 3
+	encode(input: File) >> encode 3
+var PWD = Base64 Encoded
+	count(type: Characters, input: PWD) >> count 2
+var PWDcount = Count
+	replaceText(input: "${PWD}", find: "${PWD}", replace: "${Count} long", isRegex: true) >> replaceText
+var PWDblur = Updated Text
+} >> IFResult 1
+getFile(picker: false, path: "SSH/maclist.txt", error: false) >> getFile 4
+count(type: Lines, input: File) >> count 3
+if(Count == "0") {
+	text() >> text 3
+	setName(input: Text, name: "maclist.txt") >> setName 2
+	saveFile(input: Renamed Item, ask: false, path: "SSH/", overwrite: true) >> saveFile 1
+} else {
+} >> IFResult 2
+getFile(picker: false, path: "SSH/maclist.txt", error: false) >> getFile 5
+splitText(text: File) >> splitText
+var List = Split Text
+getItemFromList(list: List, type: Last Item) >> getItemFromList
+var SystemName = Item from List
+nothing()
+getFile(picker: false, path: "SSH/last.txt", error: false) >> getFile 6
+var LastRan = File
+menu(System Name, [) {
+case("💻 - Enter New System Name"):
+	askForInput(prompt: "System Name") >> askForInput 2
+var SystemName = Provided Input
+	prependFile(path: "SSH/maclist.txt") >> prependFile
+case("↔️ - View Recent Searches (Count)"):
+	choose(list: List, prompt: "Choose Computer") >> choose
+var SystemName = Chosen Item
+case("⏮ - Last Used (LastRan)"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+var SystemName = Variable
+case("⏬ - Last Added (SystemName)"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+case("👥 - Change User (UName)"):
+	askForInput(prompt: "Enter New Username") >> askForInput 3
+	encode(input: Provided Input) >> encode 4
+	setName(input: Base64 Encoded, name: "user.txt") >> setName 3
+	saveFile(input: Renamed Item, ask: false, path: "SSH/", overwrite: true) >> saveFile 2
+	runShortcut(name: "SSH", input: Saved File, show: false)
+case("🔐 - Change Password (PWDblur)"):
+	askForInput(prompt: "Enter Password") >> askForInput 4
+var PWD = Provided Input
+	encode(input: PWD) >> encode 5
+	setName(input: Base64 Encoded, name: "config.txt") >> setName 4
+	saveFile(input: Renamed Item, ask: false, path: "SSH", overwrite: true) >> saveFile 3
+	runShortcut(name: "SSH", input: Saved File, show: false) >> runShortcut
+} >> MenuResult
+text(text: "${SystemName}") >> text 4
+setName(input: Text, name: "last.txt") >> setName 5
+saveFile(input: Renamed Item, ask: false, path: "SSH", overwrite: true) >> saveFile 4
+runSSH(host: "${SystemName}", user: "${UName}", password: "${PWD}", input: Saved File, script: "last | grep 'logged in';echo break;system_profiler SPSoftwareDataType | grep 'Time since boot';echo break;top -l 1 | grep PhysMem;echo break;top -l 1 | grep 'CPU usage';echo break;top -l 1 | grep Networks;echo break;top -l 1 | grep 'Load Avg';echo break;top -l 1 | grep Disks") >> runSSH
+splitText(text: Shell Script Result, separator: Custom, customSeparator: "break") >> splitText 1
+getItemFromList(list: Split Text) >> getItemFromList 1
+splitText(text: Item from List, separator: Spaces) >> splitText 2
+getItemFromList(list: Split Text) >> getItemFromList 2
+var LogInUser = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 3
+var UpTime = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 4
+var Memory = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "4") >> getItemFromList 5
+var CPU = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "5") >> getItemFromList 6
+var Network = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "6") >> getItemFromList 7
+var LoadAvg = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "7") >> getItemFromList 8
+var Disk = Item from List
+var 650C3965-9149-4E2A-8525-574BDB23686A = """Logged In User - ￼ (most recently)
+￼
+￼ (each point = 1 core)
+￼(1m - 5m - 15m)
+￼
+￼
+￼"""
+text("${650C3965-9149-4E2A-8525-574BDB23686A}")
+var Title = Text
+var A4FDC906-DB51-45F8-A56A-CE4352830BA0 = """{
+  "Network": [
+    {
+      "Ping Website/Share": "ping -c 1 ",
+      "Light Network Info": "ifconfig",
+      "Get IP Only": "ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\\  -f2",
+      "List Network Services": "networksetup -listnetworkservices",
+      "Show Network Connections": "netstat"
+    }
+  ],
+  "Hardware": [
+    {
+      "System Hardware Report": "system_profiler SPHardwareDataType",
+      "Disk Usage": "df -h",
+      "List Files By Size": "du -h | sort -h",
+      "Monitor CPU, Processes, Memory": "top -l 1",
+      "Verify Disk": "diskutil verifyDisk disk0",
+      "Verify Volume": "diskutil verifyVolume disk0s2"
+    }
+  ],
+  "Software": [
+    {
+      "System Report": "system_profiler SPSoftwareDataType",
+      "List Applications":"ls -a /Applications",
+      "List All Software Updates": "softwareupdate -l",
+      "Download All Software Updates": "softwareupdate -d",
+      "Install All Software Updates": "softwareupdate -i -a",
+      "Install Required Software Updates": "softwareupdate -i -r"
+    }  
+  ],
+  "Download": [
+    {
+      "Staar": "curl -O 'https://tx-tss.caltesting.org/installers/sb/macos/securebrowser.pkg'",
+      "TestNav: ": "curl -O 'https://s3.amazonaws.com/tn8appinstallers/testnav-1.7.3.dmg'"
+    }
+  ],
+  "History": [
+    {
+      "Logged In User": "last | grep 'logged in'",
+      "Reboots": "last | grep 'reboot'",
+      "Shutdowns": "last | grep 'shutdown'",
+      "Uptime": "system_profiler SPSoftwareDataType | grep 'Time since boot'"
+    }
+  ]
+}"""
+text("${A4FDC906-DB51-45F8-A56A-CE4352830BA0}")
+getDictionaryFrom(input: Text) >> getDictionaryFrom
+choose(list: Dictionary, prompt: "${Title}") >> choose 1
+choose(list: Chosen Item) >> choose 2
+var Command = Chosen Item
+runSSH(host: "${SystemName}", port: "22", user: "${UName}", password: "${PWD}", script: "${Command}") >> runSSH 1
+quicklook(input: Shell Script Result)
+var 6292B66C-FD06-44F7-9460-CF93D6F89FB3 = """UpdateKit portion
+"""
+text("${6292B66C-FD06-44F7-9460-CF93D6F89FB3}")
+getFile(picker: false, path: "SSH/updatekit.txt", error: false) >> getFile 7
+count(type: Items, input: File) >> count 4
+if(Count == "0") {
+	date() >> date
+	text(text: "${Date}") >> text 5
+	setName(input: Text, name: "updatekit.txt") >> setName 6
+	saveFile(input: Renamed Item, ask: false, path: "SSH", overwrite: true) >> saveFile 5
+	showResult(text: "Made it here")
+	getShortcuts() >> getShortcuts
+	if(My Shortcuts .contains "UpdateKit") {
+	} else {
+		showResult(text: "This shortcut uses UpdateKit to keep updated. Please install now.")
+		url(url: "http://www.mikebeas.com/updatekit/") >> url
+		openURL(url: URL)
+		exit()
+	} >> IFResult 3
+} else {
+	getDateFrom(input: File) >> getDateFrom
+	getTimeBetween(first: "${Dates}", second: "${CurrentDate}", interval: Days) >> getTimeBetween
+	math(input: Time Between Dates, operation: *, operand: "-1") >> math
+	if(Calculation Result > false) {
+		date() >> date 1
+		text(text: "${Date}") >> text 6
+		setName(input: Text, name: "updatekit.txt") >> setName 7
+		saveFile(input: Renamed Item, ask: false, path: "SSH", overwrite: true)
+		getShortcuts() >> getShortcuts 1
+		if(My Shortcuts .contains "UpdateKit") {
+			runShortcut(name: "UpdateKit", input: My Shortcuts, show: false) >> runShortcut 1
+		} else {
+			showResult(text: "This shortcut uses UpdateKit to keep updated. Please install now.")
+			url(url: "http://www.mikebeas.com/updatekit/") >> url 1
+			openURL(url: URL)
+			exit()
+		}
+	} else {
+	}
+} >> IFResult 4
+exit()

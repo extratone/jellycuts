@@ -1,0 +1,24 @@
+import Shortcuts
+#Color: navy,#Icon: documentOutline
+
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+text(text: "secret_94sfZd4oi4oDnGgvq3vrgxe2p2vncce9bcck3GM46Cf") >> text
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.comment
+dictionary({"Content tracker":"47fc10e2-95b5-4a86-9539-73c63c938f84"})
+//Unable to get shortcuts action is.workflow.actions.setvariable
+choose(list: Databases, prompt: "Which database?") >> choose
+//Unable to get shortcuts action is.workflow.actions.setvariable
+askForInput(prompt: "What’s the name of the content?") >> askForInput
+//Unable to get shortcuts action is.workflow.actions.setvariable
+dictionary({"title":[{dictionary({"text":{dictionary({"content":"${Title}"})}})}]})
+dictionary({"parent":{dictionary({"database_id":"${Parent}"})},"properties":{dictionary({})}})
+setValue(key: "properties", value: "${Dictionary}", dictionary: Dictionary) >> setValue
+//Unable to get shortcuts action is.workflow.actions.setvariable
+url(url: "https://api.notion.com/v1/pages") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestType: File, requestJSON: , requestVar: Data) >> downloadURL
+keysFrom(dictionary: Contents of URL) >> keysFrom
+replaceText(input: "${Dictionary Value}", find: "-") >> replaceText
+url(url: "notion://www.notion.so/cassinelli/${Updated Text}") >> url
+openURL(url: URL)

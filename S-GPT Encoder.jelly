@@ -1,0 +1,140 @@
+import Shortcuts
+#Color: Red, #Icon: gear
+
+// This is a helper shortcut for S-GPT that needs to be downloaded and installed separately. Without this shortcut, S-GPT won't work.
+count(input: ShortcutInput) >> count
+if(Count > 1) {
+// This means we're triggering one the special modes.
+	if(Count == 2) {
+// Playlist mode.
+var FB3D8050-4064-4089-B689-26C6330282E4 = """S-GPT will create a playlist for you.
+
+Enter a name for your new playlist."""
+text("${FB3D8050-4064-4089-B689-26C6330282E4}")
+		askForInput(prompt: "${Text}") >> Playlist Name
+		createPlaylist(name: "${Playlist Name}", author: "S-GPT") >> createPlaylist
+// Add a time delay to allow the shortcut to catch up
+		wait(seconds: 2)
+		getItemFromList(list: ShortcutInput, type: Last Item) >> getItemFromList
+// Set an empty numeric variable so that we can count how many songs we're adding to the playlist.
+		number(value: 0) >> number
+var SongCount = Number
+		splitText(text: Item from List) >> splitText
+		repeatEach(Split Text) {
+// Start iterating on the lines of text returned by ChatGPT and split them at the custom separator.
+			text(text: "${Repeat Item}") >> text
+			splitText(text: Text, separator: Custom, customSeparator: "%%SEPARATOR%%") >> splitText 1
+			getItemFromList(list: Split Text) >> Artist Name
+			getItemFromList(list: Split Text, type: Last Item) >> Song Title
+// Use iTunes Store search in lieu of a native Apple Music search action.
+			searchItunes(query: "${Song Title} ${ActionOutput}", count: true) >> searchItunes
+			if(iTunes Products != nil) {
+				addToPlaylist(music: iTunes Products, playlist: Playlist Name) >> addToPlaylist
+				math(input: "1", operand: Song Count) >> math
+var SongCount = Calculation Result
+			} else {
+// Skip the unmatched song
+			} >> IFResult
+		} >> RepeatResult
+		alert(alert: "Playlist created.
+
+Songs added to the playlist: ${Song Count}")
+		exit()
+	} else {
+		if(Count == 3) {
+// This is URL mode.
+// Check if the output contains links and offer to open them
+// Check for URLs using Gruber's pattern: https://gist.github.com/gruber/8891611
+			dictionary({"pattern":"(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)/)(?:[^\s()<>{}\[\]]+|\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\))+(?:\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])|(?:(?<!@)[a-z0-9]+(?:[.\-][a-z0-9]+)*[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)\b/?(?!@)))"})
+			getItemFromList(list: ShortcutInput, type: Last Item) >> getItemFromList 1
+			text(text: "${Item from List}") >> text 1
+			matchText(text: "${Text}", regex: "${Dictionary.key(pattern)}", caseSensitive: false) >> matchText
+			if(Matches != nil "http") {
+				getURLSFromInput(text: "${Matches}") >> getURLSFromInput
+				if(URLs != nil) {
+var 42CFDDA5-32C2-4B96-BD14-09A1E7379E2D = """Open URLs from ChatGPT's response?
+
+(The shortcut will still continue running after opening URLs.)"""
+text("${42CFDDA5-32C2-4B96-BD14-09A1E7379E2D}")
+					menu(, [➡️ Yes, ❌ No, keep chatting]) {
+					case("➡️ Yes"):
+						openURL(url: URLs) >> openURL
+					case("❌ No, keep chatting"):
+						nothing() >> nothing
+					} >> MenuResult
+				} else {
+				}
+			} else {
+				exit()
+			} >> IFResult 1
+		} else {
+// More counts here
+		}
+	} >> IFResult 2
+// End of Greater than 1.
+} else {
+// Switch to default input mode.
+	changeCase(text: ShortcutInput, case: lowercase) >> changeCase
+var InputText = Updated Text
+	if(Input Text .contains "clipboard") { >> IFResult 3
+var 174250B6-D0A6-4965-A3AC-1DDEA0242FE1 = """￼
+
+This is the text:
+
+￼"""
+text("${174250B6-D0A6-4965-A3AC-1DDEA0242FE1}")
+	} else {
+		if(Input Text .contains "live text") {
+			selectPhoto() >> selectPhoto
+			extractTextFromImage(image: Photos) >> extractTextFromImage
+var E875C296-C2C6-40E7-A7EE-98BA7195C12B = """Summarize the following text:
+
+￼"""
+text("${E875C296-C2C6-40E7-A7EE-98BA7195C12B}")
+		} else {
+			if(Input Text .contains "my schedule") {
+				filterReminders() >> filterReminders
+				repeatEach(Reminders) {
+					text(text: "- ${Repeat Item.get(Due Date)} (due date: ${Variable.get(Due Date)})") >> text 2
+				} >> Tasks
+				filterCalendar() >> filterCalendar
+				repeatEach(Calendar Events) {
+					text(text: "- ${Repeat Item.get(Start Date)} (due date: ${Variable.get(Start Date)}") >> text 3
+				} >> Events
+var 55B97F81-2E56-4296-AD54-A8690C1D636F = """Below, I'm going to give you a list of my tasks and calendar events for the next 5 days.
+
+Tasks:
+
+￼
+
+Events:
+
+￼
+
+I need you to act like my assistant and tell me which days are overbooked, and whether I should do something about it. Be concise.
+
+Today is ￼."""
+text("${55B97F81-2E56-4296-AD54-A8690C1D636F}")
+			} else {
+				if(Input Text .contains "playlist") {
+var 49AEBCBF-D773-445E-990C-26A6F7DF0464 = """￼
+
+These songs must be real and not a product of your imagination. They must be available on either Spotify or Apple Music; YouTube alone is not enough. 
+
+The playlist should be a list of text with each line in this format:
+
+Artist Name %%SEPARATOR%% Song Name
+
+That's the name of the artist for the song, followed by a space, followed by %%SEPARATOR%%, followed by a space, followed by the name of the song. Use newline characters to separate each line.
+
+Your response should only be the list of text with no additional sentences."""
+text("${49AEBCBF-D773-445E-990C-26A6F7DF0464}")
+				} else {
+				}
+			}
+		}
+	} >> IFResult 4
+	replaceText(input: "${If Result}", find: "\"", replace: "\\\"", isRegex: true) >> replaceText
+	replaceText(input: "${Updated Text}", find: "\n", replace: "\\\n", isRegex: true) >> replaceText 1
+	output(result: "${Updated Text}") >> output
+}

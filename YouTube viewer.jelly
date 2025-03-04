@@ -1,0 +1,346 @@
+import Shortcuts
+#Color: red, #Icon: videoIcon
+
+/*
+Pauses any current media, lowers the volume and brightness to a reasonable amount, turns off any extra network activity, turns on DnD, then presents a menu of actions to take in the YouTube app, including:
+
+- a custom queue
+- searching with voice or going straight to Subscriptions
+- opening History, Watch Later, and Playlists
+- opening shared links for CornerTube automatically
+- using Shazam and opening the music video for the song
+*/
+/*
+I use this to set up my device anytime I want to watch videos, so I don't have to think about my device settings and can jump into specific sections of YouTube right away.
+
+I recommend you delete my private playlist menus and create your own.
+*/
+wifiDetails() >> wifiDetails
+if(Network Details == nil true) {
+	setCellular(state: false)
+} >> IFResult
+number(value: 20) >> number
+date() >> date
+adjustDate(operation: Add, duration: , date: "${Date}") >> adjustDate
+setDND(state: true)
+deviceDetails(detail: Device Model) >> deviceDetails
+if(Device Model .contains "iPad") {
+	vibrate()
+} >> IFResult 1
+if(ShortcutInput == nil) {
+// Takes YouTube links from the Share sheet or clipboard and formats them to open in CornerTube via a deep link, for watching in picture-in-picture.
+// Useful because YouTube doesn't allow watching videos with picture-in-picture.
+	getClipboard() >> getClipboard
+	if(Clipboard .contains "you") {
+		openURL(url: "cornertube://clipboard") >> openURL
+		exit()
+		setClipboard()
+	} >> IFResult 2
+} else {
+	getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+	openURL(url: "cornertube://video/${URLs}")
+	output(result: "${URLs}")
+} >> IFResult 3
+menu(What do you want to do?, [Open YouTube, Watch queue, Search with voice, Open Subcriptions, Open from a channel, Open Watch Later, Open History, Open a Playlist, Shazam to video, AirPlay to the TV]) {
+case("Open YouTube"):
+	openApp(id: "com.google.ios.youtube")
+case("Watch queue"):
+	openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKCZbOfq2BrAH0JuMFyhdf_")
+case("Search with voice"):
+	userActivity()
+case("Open Subcriptions"):
+	userActivity()
+case("Open from a channel"):
+	dictionary({"Matthew Cassinelli":"matthewcassinelli","Chris Lawley":"christopherlawleyuntitledsite","(Enter new)":""})
+	choose(list: Dictionary, prompt: "Which channel?") >> choose
+	if(Chosen Item .contains "(Enter new)") {
+		askForInput(prompt: "What’s the channel URL?", default: matthewcassinelli) >> askForInput
+	} else {
+	} >> IFResult 4
+	downloadURL(url: "${If Result}") >> downloadURL
+	htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+	matchText(text: "${HTML from Rich Text}", regex: "<meta itemprop="channelId" content="(.*)">") >> matchText
+	if(Matches != nil) {
+		getMatchGroup(matches: Matches) >> getMatchGroup
+		text(text: "https://www.youtube.com/feeds/videos.xml?channel_id=${Text}") >> text
+		splitText(text: Text) >> splitText
+		getItemFromList(list: Split Text) >> getItemFromList
+	} else {
+		showResult(text: "Couldn't find RSS feed")
+		exit()
+	} >> IFResult 5
+	getRSSItems(url: "${If Result}", count: 20) >> getRSSItems
+	choose(list: Items from RSS Feed) >> choose 1
+var Video = Chosen Item
+	menu(What do you want to do with the video?, [Open in YouTube, Show in Safari (for PiP), Open in CornerTube, AirPlay, AirDrop, Send via Share sheet, Copy link to clipboard]) {
+	case("Open in YouTube"):
+		openURL(url: Video)
+	case("Show in Safari (for PiP)"):
+		showWebPage(url: "${Video}")
+	case("Open in CornerTube"):
+		url(url: "cornertube://video/${Video}") >> url
+		openURL(url: URL)
+	case("AirPlay"):
+		setMediaDestination(device: $0)
+		openURL(url: Video)
+	case("AirDrop"):
+		share(file: Video)
+	case("Send via Share sheet"):
+	case("Copy link to clipboard"):
+		repeatEach(Video) {
+			text(text: "${Repeat Item.get(URL)} ${Variable.get(URL)}")
+		} >> RepeatResult
+		combineText(text: Repeat Results) >> combineText
+		setClipboard(variable: Combined Text)
+	}
+case("Open Watch Later"):
+// Opens the deep link into the Watch Later page of the YouTube website, where I can then watch videos in picture-in-picture. Requires opening in Safari after showing page.
+/*
+I use this instead of navigating to YouTube > Library > Watch Later every time, because I always forget it's in the Library tab.
+
+Plus, PiP doesn't work in the iPad or iPhone app, but does on the web, so I take the extra step of opening there instead of deep linking into the app.
+*/
+	url(url: "http://www.youtube.com/playlist?list=WL") >> url 1
+	showWebPage(url: "${URL}")
+case("Open History"):
+// Opens the deep link into the History section of the YouTube library page in the app.
+// This shortcut is particularly useful if you watch YouTube on devices like TVs and want to look at any links in the descriptions of videos you’ve watched.
+	openURL(url: "https://www.youtube.com/feed/history")
+case("Open a Playlist"):
+// Presents a menu of YouTube playlists and opens the corresponding links into the main app.
+// Use this to collect videos over time by topic and then play them all back in a row – add your own links or check out the playlists I’ve added for my videos.
+	menu(Which playlist group?, [Siri Shortcuts, Streaming, Health, Video podcasts, Smart Home, Video creation, Music, Events, Favorites, Workflows, Numbers, Apple, Travel, Business, Gaming, Entertainment, Interests, Educational]) {
+	case("Siri Shortcuts"):
+		openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLAZyXWnKdx0GZRtMgKs3tb")
+	case("Streaming"):
+		menu(Which playlist?, [Streaming, OBS]) {
+		case("Streaming"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLcaiAqW-XXIECkDpguGCyj")
+		case("OBS"):
+			openURL()
+		} >> MenuResult
+	case("Health"):
+		menu(Which playlist?, [Health, Fitness, DIY bodycare]) {
+		case("Health"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIR8_s6ZcrNhxc6Y_jM0uLq")
+		case("Fitness"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKxrvpAKpxjMIzQA8yLK7r6")
+		case("DIY bodycare"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLoFRvPlmME6EBcef292uSho0RwcTKLzri")
+		}
+	case("Video podcasts"):
+		openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNI-Ri-BWrId-cthWqYIaCOa")
+	case("Smart Home"):
+		openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKBW3jEcjja0rRJZmYbHv7t")
+	case("Video creation"):
+		menu(Which playlist?, [Audio, Studio setups, Drones, Film history, Video music, Pre-production, Production, Post-production, GH-5, Color-grading, Lighting, Cinematic, Final Cut Pro]) {
+		case("Audio"):
+			menu(Which one?, [Audio, How to Make Your Voice Sound Better]) {
+			case("Audio"):
+				openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKdkF0Kuq2Kjh9R0w7e5Ehh")
+			case("How to Make Your Voice Sound Better"):
+				openURL(url: "https://www.youtube.com/playlist?list=PL6wGbZVVzENm3Qd2f2ngKL-WSpwO8fHSE")
+			}
+		case("Studio setups"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIzQRrssiLmj2rO40qkKQ2E")
+		case("Drones"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJvBmzlOeDzdpumZsAdHwTu")
+		case("Film history"):
+			openURL()
+		case("Video music"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKvN3LZcdI0pmyE2dHiWnQv")
+		case("Pre-production"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIJXMA31_dfzfIeybTQO_sF")
+		case("Production"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKbDiK8C07C8D55FashZE4B")
+		case("Post-production"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKeLT7Qncu7UVTM9dXAQ6Dw")
+		case("GH-5"):
+			menu(Which playlist?, [GH-5, Lumix How-To]) {
+			case("GH-5"):
+				openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNK3434E2W1j__4LDJKKlSwr")
+			case("Lumix How-To"):
+				openURL(url: "https://www.youtube.com/playlist?list=PL1tt4g7BukspWtchaNiI3cyDCpdEsStPn")
+			}
+		case("Color-grading"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIp8oSEsTINWR9UXeefi9D4")
+		case("Lighting"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNILtVwShmMWclMiJaVQ45jf")
+		case("Cinematic"):
+			menu(Which playlist?, [Cinematic, Artistic]) {
+			case("Cinematic"):
+				openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIQkI97TuBJtis0AyD4qNhc")
+			case("Artistic"):
+				openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJ_94yaY9Jx8MsATBguCcfK")
+			}
+		case("Final Cut Pro"):
+			menu(Which playlist?, [Final Cut, Tuts Pro]) {
+			case("Final Cut"):
+				openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJPDNeEruvO-Nu6tEOuYeJg")
+			case("Tuts Pro"):
+				openURL(url: "https://www.youtube.com/playlist?list=PL5dM8U1PBdkwn0nrFrUKg8hIlvRq1yrZE")
+			}
+		} >> MenuResult 1
+	case("Music"):
+		menu(Which playlist?, [Music videos, Chill videos, Drumming, Guitar, Videos about music, Musicians, Vox Earworm, OP-1]) {
+		case("Music videos"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLJq9Bkfe4P-cixFN1i1lh0")
+		case("Chill videos"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKixU4JBvmkhsuvLn0JjVtt")
+		case("Drumming"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNI7--8iRSHMDU5EvNCvWkqg")
+		case("Guitar"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJt5mYBU_owK1MqgIcnusSk")
+		case("Videos about music"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNK5tTORCjYQuoFMQ5skLnzn")
+		case("Musicians"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLxmpce932OnWs0sxkyY7O4")
+		case("Vox Earworm"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLJ8cMiYb3G5fyqfIwGjH2fYC5fFLfdwW4")
+		case("OP-1"):
+		case("OP-1"):
+		}
+	case("Events"):
+		openURL()
+	case("Favorites"):
+		menu(Which playlist?, [My favorites, Alex’s, Merlin’s, Entroducing...]) {
+		case("My favorites"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIQYlIp2u6X5Q3AiEabHJ0a")
+		case("Alex’s"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLToJcMh_AxxfyZ76vDFV0TiWj-L9569fD")
+		case("Merlin’s"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLC4Rx_vdLM96ym_dpg4tT47MfnglssQCg")
+		case("Entroducing..."):
+			openURL(url: "https://www.youtube.com/playlist?list=PLC4Rx_vdLM96WVm_ioIxM45frDKXDsgyA")
+		} >> MenuResult 2
+	case("Workflows"):
+		menu(Which playlist?, [Workflows, Habits, Creator, Gear, Products, XOXO 2018]) {
+		case("Workflows"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKNfnYg2FfCOS0uZb9uYpw1")
+		case("Habits"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJZ97FfDR3tsf1Bq5M1I3_U")
+		case("Creator"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLtJ6oPsTNFwV_16yS8EhV9")
+		case("Gear"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJmkqpyHCrg2ffUgAdG7FAd")
+		case("Products"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJ4xdD-VGQVRd7sE-Y4Vcbo")
+		case("XOXO 2018"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLCbA9r6ecYWVwo9f5Ro_JuKEBwS8kugzP")
+		} >> MenuResult 3
+	case("Numbers"):
+		menu(Which playlist?, [Finances, Options, Vesting, Math]) {
+		case("Finances"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJwC8-kI06Pso7D47jRnmGe")
+		case("Options, Vesting"):
+			openURL(url: "https://youtube.com/playlist?list=PL39D150C749911825")
+		case("Math"):
+			openURL()
+		} >> MenuResult 4
+	case("Apple"):
+		menu(Which playlist?, [Apple, iPad, Apple Watch, iPhone, Mac, iOS, Home Screen]) {
+		case("Apple"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLHXiGliBuZZtvC-YUrTLsE")
+		case("iPad"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNI7--8iRSHMDU5EvNCvWkqg")
+		case("Apple Watch"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKxrvpAKpxjMIzQA8yLK7r6")
+		case("iPhone"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLofgj2h_hOqh_Ff7cFa82N")
+		case("Mac"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNK_vxQ6EvEBpJO-wedWVehf")
+		case("iOS"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJlzfZ9IRJdAyvwfw9kdAQ4")
+		case("Home Screen"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKOYz5aCqrDdiq_ejB0KCUY")
+		} >> MenuResult 5
+	case("Travel"):
+		menu(Which playlist?, [Travel, Thibault]) {
+		case("Travel"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKfRplnH2iGdndw89s2jk42")
+		case("Thibault"):
+			openURL()
+		} >> MenuResult 6
+	case("Business"):
+		menu(Which playlist?, [Wordpress, Marketing]) {
+		case("Wordpress"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLL2VVo0_xTMozcQF22QOQv")
+		case("Marketing"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNImUNI2HQuJL1TrHwYRPkd4")
+		} >> MenuResult 7
+	case("Gaming"):
+		menu(Which playlist?, [Gaming, VR]) {
+		case("Gaming"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJfSnSdf6TyNjwYC69_38xi")
+		case("VR"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJVGKUsdjNnZFVe_Hka9Pff")
+		} >> MenuResult 8
+	case("Entertainment"):
+		menu(Which playlist?, [TV, Movies, Stories, Talks/Ideas, Pets, Magic, Endless]) {
+		case("TV"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKoH__iTK-jszcTvLXmnfh6")
+		case("Movies"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKWe0Sx9KT5hu27qy2BHqNr")
+		case("Stories"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJBwmfG2YrjnqT-y7jUUaDW")
+		case("Talks/Ideas"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKxrvpAKpxjMIzQA8yLK7r6")
+		case("Pets"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKfRplnH2iGdndw89s2jk42")
+		case("Magic"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLC4Rx_vdLM97DvxnmbwsdV3pu6Tfv1iv1")
+		case("Endless"):
+			openURL()
+		} >> MenuResult 9
+	case("Interests"):
+		menu(Which playlist?, [Blender, Adobe, Camera, Photography, Drawing, Programming, Engineering, Cooking, Coffee]) {
+		case("Blender"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLa1F2ddGya_-UvuAqHAksYnB0qL9yWDO6")
+		case("Adobe"):
+			openURL()
+		case("Camera"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKrL7T90oSe8gib5bNYd_pU")
+		case("Photography"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNIhfakaRfaXzqpwJbwY_GCq")
+		case("Drawing"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLIwsPKZIQ2gfLyMgHnDDZl")
+		case("Programming"):
+			menu(Which playlist?, [Programming, Computer Science]) {
+			case("Programming"):
+				openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNKXWPc-W35jbYx4JqT8mTMj")
+			case("Computer Science"):
+				openURL()
+			}
+		case("Engineering"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNICnHR136y1bWLNk56GtZ2D")
+		case("Cooking"):
+			openURL()
+		case("Coffee"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNLfeNULHqys6bECfYux6lUZ")
+		} >> MenuResult 10
+	case("Educational"):
+		menu(Which playlist?, [Learn something new, Mark Rober’s “Refine your mental model of the world”, Science, History, Psychology, Anatomy & Physiology, Philosophy, Intellectual Property, Government & Politics, Survival]) {
+		case("Learn something new"):
+		case("Mark Rober’s “Refine your mental model of the world”"):
+		case("Science"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNI5WWMViCrSf_x5Q5bpa2l6")
+		case("History"):
+		case("Psychology"):
+		case("Anatomy & Physiology"):
+		case("Philosophy"):
+		case("Intellectual Property"):
+		case("Government & Politics"):
+		case("Survival"):
+			openURL(url: "https://www.youtube.com/playlist?list=PLxvZLGuFeYNJqRKQKZ9kqIX_J-bnaSO2h")
+		}
+	} >> MenuResult 11
+case("Shazam to video"):
+// Takes the song title and artist from the currently-playing song and searches for it on YouTube.
+// For people who use YouTube regularly, this makes it super quick to jump into music videos or covers of your favorite songs right away.
+//Unable to get shortcuts action com.apple.musicrecognition.RecognizeMusicIntent
+	encodeURL(url: "${Shazam Media.get(Artist)} ${ActionOutput.get(Artist)}") >> encodeURL
+	openURL(url: "youtube.com/results?search_query=${URL Encoded Text}")
+case("AirPlay to the TV"):
+	setMediaDestination(device: $0)
+	openApp(id: "com.google.ios.youtube")
+}

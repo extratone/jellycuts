@@ -1,0 +1,5120 @@
+import Shortcuts
+#Color: grape, #Icon: textSymbol
+
+text(text: "5.15") >> text
+text(text: "https://routinehub.co/shortcut/3852") >> text 1
+// /Getting settings
+getFile(picker: false, path: "Everything Text", error: false) >> getFile
+splitText(text: File, separator: Custom, customSeparator: "•") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+getDictionaryFrom(input: Item from List) >> getDictionaryFrom
+var Settings = Dictionary
+getFile(picker: false, path: "Everything Text/Text Art", error: false) >> getFile 1
+if(File == nil) {
+	createFolder(path: "Everything Text/Text Art")
+	number(value: 1) >> number
+var n = Number
+// /Set-up text art
+	showResult(text: "You're about to name your Text art, It's being shown to you so you can customize the name of each one, so later you can refer back to it
+Don't delete the colon ":"
+Afterwards, You'll have access to all of the abilities of Everything Text!")
+	repeat(14) {
+var 19A75965-8A11-433D-B468-01312607EC76 = """Text art
+
+┈┏━╮╭━┓┈╭━━━━╮
+┈┃┏┗┛┓┃╭┫ⓞⓘⓝⓚ┃
+┈╰┓▋▋┏╯╯╰━━━━╯
+╭━┻╮╲┗━━━━╮╭╮┈
+┃▎▎┃╲╲╲╲╲╲┣━╯┈
+╰━┳┻▅╯╲╲╲╲┃┈┈┈
+┈┈╰━┳┓┏┳┓┏╯┈┈┈
+┈┈┈┈┗┻┛┗┻┛┈┈┈┈
+Zzz
+╱▏┈┈┈┈┈┈▕╲▕╲┈┈┈
+▏▏┈┈┈┈┈┈▕▏▔▔╲┈┈
+▏╲┈┈┈┈┈┈╱┈▔┈▔╲┈
+╲▏▔▔▔▔▔▔╯╯╰┳━━▀
+┈▏╯╯╯╯╯╯╯╯╱┃┈┈┈
+┈┃┏┳┳━━━┫┣┳┃┈┈┈
+┈┃┃┃┃┈┈┈┃┃┃┃┈┈┈
+┈┗┛┗┛┈┈┈┗┛┗┛┈┈┈
+Zzz
+┊┊┊┊┊╭╭╭╮╮╮┊┊┊┊ 
+┊┊┊┊┊╰╰╲╱╯╯┊┊┊┊ 
+┊┏╮╭┓╭━━━━━━╮┊┊ 
+┊╰╮╭╯┃┈┈┈┈┈┈┃┊┊ 
+┊┊┃╰━╯┈┈╰╯┈┈┃┊┊ 
+┊┊┃┈┈┈┈┈┈┈╰━┫┊┊ 
+╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲
+Zzz
+▕▔▔╲╱▔▔▔╲╱▔▔▏
+┈╲＿╱╰╮┈╭╯╲＿╱
+┈┈┈▏▉╮┈╭▉▕
+┈┈╱╲╰╰┊╯╯╱╲
+┈╱╰▕╰╰┳╯╯▏╯╲
+▕╰╰╰╲╰┻╯╱╯╯╯▏
+▕╰╰╰╰▔▔▔╯╯╯╯▏
+▕╰╰╰╰╰╮╭╯╯╯╯▏
+┈╲╭╮┈╰╮╭╯╭╮╱
+┈┈┫┣╭━━━╮┫┃
+┈┈┃┃┃┈┈┈┃┃┃
+┈┈┗┛┛┈┈┈┗┗┛
+Zzz
+┈┈╭━╱▔▔▔▔╲━╮┈┈┈
+┈┈╰╱╭▅╮╭▅╮╲╯┈┈┈
+╳┈┈▏╰┈▅▅┈╯▕┈┈┈┈
+┈┈┈╲┈╰━━╯┈╱┈┈╳┈
+┈┈┈╱╱▔╲╱▔╲╲┈┈┈┈
+┈╭━╮▔▏┊┊▕▔╭━╮┈╳
+┈┃┊┣▔╲┊┊╱▔┫┊┃┈┈
+┈╰━━━━╲╱━━━━╯┈╳ 
+Zzz
+_______§§§§§§§§§§§§§§§§_____ 
+_____§§§__§§§§__§§§§__§§____
+___§§§§§§__§§§§__§§§§__§§§__
+_§§§__§§§§__§§§§__§§§§__§§§_
+§§§§§__§§§§__§§§§__§§§§__§§§ 
+§_§§§§__§§§§__§§§§__§§§§__§§ 
+§__§§§§__§§§§__§§§§__§§§§__§ 
+§§__§§§§__§§§§__§§§§__§§§§_§ 
+§§§__§§§§__§§§§__§§§§__§§§§§ 
+_§§§__§§§§__§§§§__§§§§__§§§_ 
+__§§§__§§§§__§§§§__§§§§__§__ 
+___§§§__§§§§__§§§§__§§§§§___ 
+_____§§__§§§§__§§§§__§§§____ 
+______§§§§§§§§§§§§§§§§§_____ 
+_________¶¶__¶¶¶__¶¶________
+__________¶___¶___¶_________
+__________¶___¶___¶_________ 
+__________¶___¶___¶_________ 
+________¶¶¶¶¶¶¶¶¶¶¶¶¶_______
+________ ¶1111111111¶_______
+________ ¶1111111111¶_______ 
+________¶¶¶¶¶¶¶¶¶¶¶¶¶_______
+Zzz
+__00000
+___000
+____0
+__00000
+_0000000
+_0000000
+_0000000
+_0000000
+_0000000
+__00000
+____0
+___000
+__00000
+Zzz
+╭╮╱▔▔▔▔▔╲┉ⒽⓄ┉ⒽⓄ
+╰╯▕▇▇▇▇▇▇▏┉┉╭━╮
+┉┉╱┃◠╭╮◠┃╲┉╭┛┃┃
+┈╱╭╯╭╯╰╮╰╮╲╰┓╭╯
+┉▏╰━╯╰╯╰━╯▕▕▔▔▏
+┈╲▂▂▂▂▂▂▂▂╱╱╱╱┉
+Zzz
+┈╱▔╲▂╱╱╱╱▂╱▔╲┈┈
+▕▔╲┈╱▔╲┈┈╱╲╱▔▏┈
+▕▏┈▏╱▉╲┈┈╱▉╲▕▏┈
+┈╲▃▏▔▔▔╲▂▂▂▕╱┈┈
+┈┈┈▏┊┊┳┊╲▂╱┳▏┈┈
+┈┈▕╲▂┊╰━━┻━╱┈┈┈
+┈┈╱┈┈▔▔╲▂▂╱╲┈┈┈
+Zzz
+┈┈┈┈╱▔▔▔▔╲┈┈┈┈
+┈┈┈▕▕╲┊┊╱▏▏┈┈┈
+┈┈┈▕▕▂╱╲▂▏▏┈┈┈
+┈┈┈┈╲┊┊┊┊╱┈┈┈┈
+┈┈┈┈▕╲▂▂╱▏┈┈┈┈
+╱▔▔▔▔┊┊┊┊▔▔▔▔╲
+Zzz
+,___,
+[O.o]
+/)__)
+-"--"-
+Zzz
+. .╚⊙ ⊙╝..
+╚═███═╝
+.╚═███═╝
+..╚═███═╝
+...╚═███═╝
+...╚═███═╝
+..╚═███═╝
+.╚═███═╝
+╚═███═╝
+╚═███═╝
+.╚═███═╝
+..╚═███═╝
+...╚═███═╝
+...╚═███═╝
+..╚═███═╝
+.╚═███═╝
+╚═███═╝
+╚═███═╝
+.╚═███═╝
+..╚═███═╝
+...╚═███═╝
+.... ╚═█═╝
+Zzz
+▒▒▒▒▒▒▒▓
+▒▒▒▒▒▒▒▓▓▓
+▒▓▓▓▓▓▓░░░▓
+▒▓░░░░▓░░░░▓
+▓░░░░░░▓░▓░▓
+▓░░░░░░▓░░░▓
+▓░░▓░░░▓▓▓▓
+▒▓░░░░▓▒▒▒▒▓
+▒▒▓▓▓▓▒▒▒▒▒▓
+▒▒▒▒▒▒▒▒▓▓▓▓
+▒▒▒▒▒▓▓▓▒▒▒▒▓
+▒▒▒▒▓▒▒▒▒▒▒▒▒▓
+▒▒▒▓▒▒▒▒▒▒▒▒▒▓
+▒▒▓▒▒▒▒▒▒▒▒▒▒▒▓
+▒▓▒▓▒▒▒▒▒▒▒▒▒▓
+▒▓▒▓▓▓▓▓▓▓▓▓▓
+▒▓▒▒▒▒▒▒▒▓
+▒▒▓▒▒▒▒▒▓
+Zzz
+|^^^^^^^^^^^\||____
+| The STFU Truck |||""'|""\__,_
+| _____________ l||__|__|__|)_____|
+...|(@)@)"""""""**|(@)(@)**|(@)"""
+text("${19A75965-8A11-433D-B468-01312607EC76}")
+		splitText(text: Text, separator: Custom, customSeparator: "Zzz") >> splitText 1
+		getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 1
+var 3E9564CC-E418-4E7B-8C4A-B3150E767E11 = """Name of this art:￼
+￼"""
+text("${3E9564CC-E418-4E7B-8C4A-B3150E767E11}")
+		splitText(text: Text) >> splitText 2
+		getItemFromList(list: Split Text) >> getItemFromList 2
+		splitText(text: Item from List, separator: Custom, customSeparator: ":") >> splitText 3
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 3
+		setName(input: Item from List, name: "${Item from List}", dontIncludeExtension: false) >> setName
+		saveFile(input: Renamed Item, ask: false, path: "Everything Text/Text Art", overwrite: true) >> saveFile
+		math(input: "1", operand: n) >> math
+var n = Calculation Result
+	} >> RepeatResult
+} >> IFResult
+if(ShortcutInput != nil) {
+	getType(input: ShortcutInput) >> getType
+	if(Type == "Safari webpage") {
+		dictionary({"Bodoni Ornaments":"Bodoni Ornaments","Bradley Hand":"BradleyHandITCTT-Bold","Chalkboard":"ChalkboardSE-Regular","Chalkduster":"Chalkduster","Marker Felt":"MarkerFelt-Wide","Noteworthy":"Noteworthy-Bold","Papyrus":"Papyrus","Party Let":"PartyLetPlain","Times New Roman":"Times","Zapfino":"Zapfino"})
+		wait()
+		choose(list: Dictionary, prompt: "Which font do you want to use?", multiple: false) >> Chosen Font
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "var style = document.createElement("style");
+style.type = "text/css";
+var head = document.head;
+head.appendChild(style);
+
+style.sheet.insertRule("* { font-family: '${Chosen Font}', cursive !important; }");
+
+completion(true);") >> runJavascriptOnWebpage
+		exit()
+	} >> IFResult 1
+	if(Type == "Text") {
+		continueInShortcuts()
+var Text = ShortcutInput
+	}
+} else {
+// /Main menu
+	repeat($0) {
+/*
+[Eᴍʙᴇᴅ-ᴀ-Uᴘᴅᴀᴛᴇ]
+Set ID and Version below.
+Make sure to update Version every time you update your shortcut.
+*/
+		dictionary({"ID":"4064","Version":"${Text}"})
+var LocalData = Dictionary
+		getIP() >> getIP
+		count(input: Current IP Address) >> count
+		if(Count == 0) {
+// [Eᴍʙᴇᴅ-ᴀ-Uᴘᴅᴀᴛᴇ] Could not check for updates, there is no internet connection.
+		} else {
+			url(url: "https://routinehub.co/api/v1/shortcuts/${LocalData.key(ID)}/versions/latest") >> url
+			downloadURL(url: "${URL}") >> result
+			if(result .contains "success") {
+				dictionary({"current":"${LocalData.key(Version)}","new":"${Remote.as(Dictionary).key(Version)}"}) >> CompareVersionsData
+var CDF01BD8-5A75-4371-8F12-6676FB455508 = """<html><head></head><body><script>
+// Embed-a-Engine 1.0
+function cmp (a, b) {
+let pa = a.split('.');
+let pb = b.split('.');
+for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+let na = Number(pa[i]);
+let nb = Number(pb[i]);
+if (isNaN(na)) na = 0;
+if (isNaN(nb)) nb = 0;
+if (na > nb) return "RollbackAvailable";
+if (nb > na) return "UpdateAvailable";
+}
+return "NoChanges";
+};
+let data = ￼;
+document.write(cmp(data.current, data.new));
+</script></body></html>"""
+text("${CDF01BD8-5A75-4371-8F12-6676FB455508}")
+				url(url: "data:text/html,${CompareVersionsHTML}") >> url 1
+				urlContents(url: "${URL}") >> urlContents
+				if(Contents of Web Page == "NoChanges") {
+// [Eᴍʙᴇᴅ-ᴀ-Uᴘᴅᴀᴛᴇ] No updates are available at this time.
+				} else {
+					if(Contents of Web Page == "RollbackAvailable") {
+						text(text: "A rollback is available: ${Remote.as(Dictionary).key(Version)} ↘ ${ActionOutput.as(Dictionary).key(Version)}") >> text 2
+					} else {
+						text(text: "An update is available: ${LocalData.as(Dictionary).key(Version)} → ${Variable.as(Dictionary).key(Version)}") >> text 3
+					} >> IFResult 2
+					menu(, [) {
+					case("Install result (Version)"):
+						url(url: "https://routinehub.co/download/${Remote.as(Dictionary).key(id)}") >> url 1
+						openURL(url: URL)
+						exit(var: URL)
+					case("Not now"):
+					} >> MenuResult
+				} >> IFResult 3
+			} else {
+				alert(alert: "Could not check for updates because of a RoutineHub error:
+
+${result.as(Dictionary).key(message)}", title: "", cancel: false)
+			} >> IFResult 4
+		} >> IFResult 5
+	} >> RepeatResult 1
+var FBD747C2-9C87-414F-A7A6-9896DE3ECF5E = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Text Library;;;;
+ORG:See your saved texts/re-edit;
+PHOTO;ENCODING=b: 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
+END:VCARD
+ BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Get/Edit Text;;;;
+ORG:News/Music/Reddit/Files/Custom/and Editing;
+PHOTO;ENCODING=b: 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
+END:VCARD BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Tips/Credits;;;;
+ORG:View some tips and credits;
+PHOTO;ENCODING=b: iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAgESAAMAAAABAAEAAIdpAAQAAAABAAAAJgAAAAAAAqACAAQAAAABAAAAZKADAAQAAAABAAAAZAAAAADly0vvAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAADbElEQVR4Ae2cuW7UUBhGMxIFFNDQICFRQsW+k4Q17LRIiCI0FDQ0NHQ8AU9Dw1MgKgoKFMK+r0IsAoZzxVhyBseZse818cy50qd4tv/+9xzbyViTmZhwSEACEpCABCQgAQlIQAISkIAEJCABCUhAAhKQgAQkIAEJSEACEpCABCQgAQlIQAItJ9Bpef/J2+92u+uZ5AJZQ251Op07ySd1gmICyNhBHpBsfGLjfPGzvTcpAcAHGY8zE7mfX9m+mHRyiy8kAPDFZGRevrNxaeGrvJWEwAAyMik/2LicpAmL/iUwhIxMyk82ZuWXgEAFGZmUOTZWJ2hpfEvWkBGkfCEbxpde5JXXlBGE3COrIrc1nuUiyPhMjZPjSS/yqiPICG8Sz0VuazzLKWMZeY8k4+wyWlJ7W4kg4yM1Rk8Gi1pLNpGVTellrqUuh/CU0hFknGmq38bmYVGzJFy0+0bukqnUkzNHDBmnU/fZeH3AXCHhckN+vOXGkVTNUFsZRXABc5X8IkUjiRQmqivjAzVOFa2n1fexqGvkNykbUaUwkTKK9hrAXC+z0PdYFCmRZIzeO3DAzJCljow+J91aUpRRdFj07gPOzX7aA96uJEUZJTLCQwC6MaCAoqcNJSWCjPfUGL3TVN4RC9xIXpKqYyApFK/7CzzIOJHvfWS3WehB8opUHaVSKBpDxvGRFVC0MKBNk+hSIsh4R42Zop5H/j4WPkWinb6UEWGXAeIkeUGqjnD6CmK3kKIPsQ1aNxwZxyIsqf0lAHGA1JHyhtc/J1VHkKqM/K4EkP2kDtQ6Mo7me3G7RwCi+xqWEo4MZZTtgQDaS56R1COc5pJd4i9bY+seA9Qe8jShkSDjcOvA/M+GAbY7kRRlVBWLkF3kCYk1goxDVfvxdRAA4E5S5/1FJvO1MiLtUoCse20qyDgYqR3LBAIA3U4ekWFHuF6mjBS7EWC3kfkhjAQZ0yl6sWaPwBBSgozkn+9SDAQAvZU8JIuNcAVZGU3uLQAPV3fnSP8IMiab7MW5egQAv5nczxkJfx6PnIxWfbUGAtbhJ/yTzApym6+5mO/58ocEJCABCUhAAhKQgAQkIAEJSEACEpCABCQgAQlIQAISkIAEJCABCUhAAhKQgAQkIAEJSEACEpCABCQgAQlIQAISkIAEJCCBfwn8Aer3IeZ8vrhoAAAAAElFTkSuQmCC
+END:VCARD
+ BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:View Ablities;;;;
+ORG:Fonts and Emoticons;
+PHOTO;ENCODING=b: iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAgESAAMAAAABAAEAAIdpAAQAAAABAAAAJgAAAAAAAqACAAQAAAABAAAAZKADAAQAAAABAAAAZAAAAADly0vvAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAACiElEQVR4Ae3bzytEYRTG8bl+lyZsyU5h7w+wsFCShZXyL1kpUpQkYWk3ZS0rs7CSlWYrWSgldT13MSVhznnv+16N+d46Ncx5z3t9nmsYM2o1DgQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQACBiAJ5nmeqSdVoxLGMChFQCLOqS9WT6k61ETKHNREEhD+vuld9Pt70wWaE8YzwCAj9uzDawbzqxrpnHr0lBDqE0Q7lRTcWS2zDUouAMYx2KA3LTHoCBZxhFKHcqLLA7ZIs60sy9Q+GFmFo2wvVjGP78yzLckc/rRaBIgzV19+m9Klfj23dO2CZT49DQKghYexo3b95dHBwpW0NDGNX6/rTnlkPTg8MY48wElwsgWHsax0/M2LnERjGgdYNxj6Xnp8XGMYhYSS4dALDONK6oQSn09sjhTqn8j7POCaMBNeNUCdUtyrPcaLm4QSnw0jBrnqSUO+pqmsfprrh2eq787Ksq3/EuYZ2q4Cu9rrqSuU5Gmoes+5Bn1NAuNOq4k/lnoNQnM6udiVBKC6xCpoJpQJk7xaE4hWroJ9QKkD2blEilHHvXvQbBQjFCFVlG6FUqW3cq0QoPHk0GrvbAkPZcm/EArtAQChNreGNcnZiX6fe9NbSijVV07iyxRvljFJl2ozfKY/qWyizD2sdAh1Cedb9S45xtMYQ+CGU4t8QVmLMZ0aAgPCnVGeqB9W1ajlgDEtiCyiI4oWubniFNPaXzjwEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQ6AKBD/UOjNFadhe/AAAAAElFTkSuQmCC
+END:VCARD
+"""
+text("${FBD747C2-9C87-414F-A7A6-9896DE3ECF5E}")
+	setName(input: Text, name: "Main-menu.vcf") >> setName 1
+var 5647426E-4050-4997-915D-64EAD20D1849 = """Welcome
+Hit Text library if this is your first time running 
+"""
+text("${5647426E-4050-4997-915D-64EAD20D1849}")
+	choose(list: Renamed Item, prompt: "${Text}") >> choose
+var CHOSEN = Chosen Item
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+	if(CHOSEN .contains "Text Library") {
+		getFile(picker: false, path: "Everything Text/Text library", error: false) >> getFile 2
+		if(File == nil) {
+			createFolder(path: "Everything Text/Text library")
+			createFolder(path: "Everything Text/Text library/Articles")
+			createFolder(path: "Everything Text/Text library/Jokes")
+			createFolder(path: "Everything Text/Text library/Music")
+			createFolder(path: "Everything Text/Text library/Custom")
+			createFolder(path: "Everything Text/Text library/Files")
+			createFolder(path: "Everything Text/Text library/Reddit")
+			text(text: "Don't delete! this is a necessary component!") >> text 4
+			saveFile(input: Text, ask: false, path: "Everything Text/Text library/Dont delete", overwrite: true)
+			runShortcut(name: "Everything Text", show: false) >> runShortcut
+			exit()
+		} >> IFResult 6
+		list(items: (
+    "~Options~",
+    Files,
+    Music,
+    Reddit,
+    Custom,
+    Articles
+)) >> list
+		choose(list: List, prompt: "What do you want to access?") >> Selected folder
+		if(Selected folder == "~Options~") {
+			list(items: (
+    Delete,
+    "Directly add"
+)) >> list 1
+			choose(list: List) >> choose 1
+			if(Chosen Item == "Directly add") {
+				list(items: (
+    Files,
+    Music,
+    Reddit,
+    Articles,
+    Custom
+)) >> list 2
+				choose(list: List, prompt: "Where to save? choose multiple if you want", multiple: true) >> choose 2
+				text(text: "${Ask}") >> text 5
+				repeatEach(Chosen Item) {
+					saveFile(input: Text, ask: false, path: "Everything Text/Text library/${Repeat Item}", overwrite: true)
+				} >> RepeatResult 2
+			} >> IFResult 7
+			if(Chosen Item == "Delete") {
+				list(items: (
+    Files,
+    Music,
+    Reddit,
+    Articles,
+    Custom
+)) >> list 3
+				repeatEach(List) {
+					getFile(picker: false, path: "Everything Text/Text library/${Repeat Item}", error: false)
+				} >> RepeatResult 3
+var allsaved = Repeat Results
+				choose(list: all saved, prompt: "", multiple: true) >> choose 3
+				deleteFile(input: Chosen Item, confirm: true)
+			}
+			runShortcut(name: "Everything Text", show: false) >> runShortcut 1
+			exit()
+		}
+		getFile(picker: false, path: "Everything Text/Text library/${Selected folder}", error: true) >> getFile 3
+		choose(list: File) >> choose 4
+		getTextFrom(input: Chosen Item) >> getTextFrom
+		splitText(text: Text, separator: Custom, customSeparator: "&//&") >> splitText 4
+		getItemFromList(list: Split Text) >> Heading
+		getItemFromList(list: Split Text, type: Item At Index, index: "2") >> Body/void
+var 55C51BE3-4E44-4094-AB17-15B5140D202B = """<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <style>
+    body { 
+      background-color: #F1F1F1; 
+      color: #000; 
+      font-family: system-ui; 
+      font-size: 100%; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.75em; 
+      padding: 0 20px
+    }
+    h1 { 
+      font-weight: 800; 
+      font-size: 2em; 
+      line-height: 1.1em; 
+      margin: 40px 0 
+    }
+    #songtext { 
+      font-size: 1.25em;
+      max-width: 800px;
+      margin: 0 auto
+    }
+    a {
+      text-decoration: none;
+      pointer-events: none;
+      color: #000
+    }
+  @media (prefers-color-scheme: dark) {
+    body {
+    background-color: #1E1E1E;
+    color: #FFF
+    } 
+    a {
+    color: #FFF
+    }
+  }
+  @media print {
+    body { 
+      background-color: #FFF; 
+      color: #000; 
+      margin: 0cm 3cm; 
+      text-align: center; 
+      line-height: 1.5em
+    }
+    h1 { 
+      font-size: 21pt; 
+      font-weight: 800; 
+      line-height: 1.3em; 
+      margin-top: 0;
+    }
+    #songtext { 
+      font-size: 13pt;
+      /*margin-top: -1.5cm*/
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h1>￼</h1>
+    <hr>
+  </div>
+  <div id="songtext">
+    ￼
+  </div>
+  <br><br>
+</body>"""
+text("${55C51BE3-4E44-4094-AB17-15B5140D202B}")
+		richTextFromHTML() >> richTextFromHTML
+		setName(input: Rich Text from HTML, name: "Text Library") >> setName 2
+		quicklook(input: Renamed Item)
+var 2A17E2A7-A770-40E7-9CBA-E5F245EC7B61 = """￼
+&//&
+￼"""
+text("${2A17E2A7-A770-40E7-9CBA-E5F245EC7B61}")
+var Text = Text
+		if(Text .contains "+") {
+			splitText(text: Text, separator: Custom, customSeparator: "+") >> splitText 5
+			getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 4
+			getFile(picker: false, path: "Everything Text/Text Art/${Item from List}.txt") >> getFile 4
+			getTextFrom(input: File) >> getTextFrom 1
+			quicklook(input: Text)
+			replaceText(input: "${Text}", find: "+${Item from List}", replace: "${Text}") >> replaceText
+var Text = Updated Text
+		}
+/*
+/Application of settings
+
+*/
+		getDictionaryFrom(input: Settings) >> getDictionaryFrom 1
+		keysFrom(dictionary: Dictionary) >> keysFrom
+		if(Dictionary Value ==) {
+			setClipboard(variable: Text)
+			sendNotification(body: "copied: ${Text}")
+		} else {
+		} >> IFResult 8
+	}
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+	if(CHOSEN .contains "Get/Edit") {
+// /Getting or editing text
+		menu(, [Music, Article, Reddit, Browse files, Input your own]) {
+		case("Music"):
+/*
+Shortcut by
+user/ROP (RoutineHub)
+u/ROPit (Reddit)
+
+
+—
+
+
+Originally developed by 
+u/KurokoNB (Reddit)
+*/
+/*
+CREDITS
+
+This shortcut was originally developed by u/KurokoNB. I reworked it, optimized the complete design of the displayed lyrics using HTML and CSS stylesheet, added a dark mode including a toggle using JavaScript, which makes it possible to switch between light and dark, extended the shortcut with numerous sharing functions and implemented a print function with a specially created stylesheet.
+*/
+			getCurrentSong() >> getCurrentSong
+var current_song = Current Song
+			if(current_song == nil) {
+				askForInput(prompt: "Enter song name, no song is currently playing") >> askForInput
+				searchItunes(query: "${Provided Input}", by: Song, count: 10) >> searchItunes
+				choose(list: iTunes Products, prompt: "Don't worry about price, It'll get the lyrics") >> choose 5
+				productDetail(detail: Artist, product: Chosen Item) >> productDetail
+var artist = Artist
+				productDetail(detail: Name, product: Chosen Item) >> productDetail 1
+var title = Name
+			} else {
+				musicDetail(music: current_song) >> musicDetail
+var artist = Artist
+				musicDetail(detail: Name, music: current_song) >> musicDetail 1
+var title = Title
+			} >> IFResult 9
+			text(text: "${title} by ${Variable}") >> text 6
+var status = Text
+var current_song = Current Song
+			text(text: "${artist} ${Variable}") >> text 7
+var keywords = Text
+			encodeURL(url: "${keywords}") >> encodeURL
+			url(url: "https://www.google.com/search?q=${Texte d’URL encodée}+site:genius.com") >> url 2
+			urlContents(url: "${URL}") >> urlContents 1
+			getURLSFromInput(text: "${Contents of Web Page}") >> getURLSFromInput
+			repeatEach(URLs) {
+				if(Repeat Item .contains "google") {
+				} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} >> IFResult 10
+			} >> RepeatResult 4
+			getItemFromList(list: results) >> getItemFromList 5
+			replaceText(input: "${Item from List}", find: "/amp/", replace: "/") >> replaceText 1
+			downloadURL(url: "${Updated Text}") >> downloadURL
+var contents_of_url = Contents of URL
+			htmlFromRichText(text: contents_of_url, fullDocument: true) >> htmlFromRichText
+			splitText(text: HTML from Rich Text, separator: Custom, customSeparator: "<!--sse-->") >> splitText 6
+			getItemFromList(list: Scinder le texte, type: Item At Index, index: "3") >> getItemFromList 6
+			splitText(text: Item from List, separator: Custom, customSeparator: "<!--/sse-->") >> splitText 7
+			getItemFromList(list: Split Text) >> getItemFromList 7
+var lyrics = Item from List
+			getName() >> getName
+			splitText(text: Name, separator: Custom, customSeparator: "|") >> splitText 8
+			getItemFromList(list: Split Text) >> getItemFromList 8
+			replaceText(input: "${Item from List}", find: "-", replace: " ") >> replaceText 2
+			replaceText(input: "${Updated Text}", find: " Lyrics ", replace: "") >> replaceText 3
+var artist_title = Updated Text
+var 8B2D28EF-9C7A-4352-8505-F83DF4DB5B8A = """<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <style>
+    body { 
+      background-color: #F1F1F1; 
+      color: #000; 
+      font-family: system-ui; 
+      font-size: 100%; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.75em; 
+      padding: 0 20px
+    }
+    h1 { 
+      font-weight: 800; 
+      font-size: 2em; 
+      line-height: 1.1em; 
+      margin: 40px 0 
+    }
+    #songtext { 
+      font-size: 1.25em;
+      max-width: 800px;
+      margin: 0 auto
+    }
+    a {
+      text-decoration: none;
+      pointer-events: none;
+      color: #000
+    }
+  @media (prefers-color-scheme: dark) {
+    body {
+    background-color: #1E1E1E;
+    color: #FFF
+    } 
+    a {
+    color: #FFF
+    }
+  }
+  @media print {
+    body { 
+      background-color: #FFF; 
+      color: #000; 
+      margin: 0cm 3cm; 
+      text-align: center; 
+      line-height: 1.5em
+    }
+    h1 { 
+      font-size: 21pt; 
+      font-weight: 800; 
+      line-height: 1.3em; 
+      margin-top: 0;
+    }
+    #songtext { 
+      font-size: 13pt;
+      /*margin-top: -1.5cm*/
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h1>￼</h1>
+    <hr>
+  </div>
+  <div id="songtext">
+    ￼
+  </div>
+  <br><br>
+</body>"""
+text("${8B2D28EF-9C7A-4352-8505-F83DF4DB5B8A}")
+			richTextFromHTML() >> richTextFromHTML 1
+var rich_lyrics = Rich Text from HTML
+			setName(input: rich_lyrics, name: "${artist_title}") >> setName 3
+			quicklook(input: Renamed Item)
+			richTextFromHTML() >> richTextFromHTML 2
+var lyrics = Rich Text from HTML
+var 8F38FDC8-FD89-498D-96DA-70A43891EEAC = """￼
+&//&
+￼"""
+text("${8F38FDC8-FD89-498D-96DA-70A43891EEAC}")
+var Text = Text
+			text(text: "Music") >> text 8
+var Folder = Text
+		case("Article"):
+			list(items: (
+    BBC,
+    CNN,
+    ESPN,
+    Reddit,
+    "Wall Steet Journal"
+)) >> list 4
+			choose(list: List) >> choose 6
+			if(Chosen Item == "Wall Steet Journal") {
+				list(items: (
+    Opinion,
+    WorldNews,
+    MarketsMain,
+    Lifestyle
+)) >> list 5
+				choose(list: List) >> choose 7
+				url(url: "https://feeds.a.dj.com/rss/RSS${Chosen Item}.xml") >> url 2
+var RSS = URL
+			} >> IFResult 11
+			if(If Result == "BBC") {
+				list(items: (
+    world,
+    business,
+    health,
+    education,
+    uk,
+    politics,
+    technology,
+    "science_and_environment",
+    "entertainment_and_arts"
+)) >> list 6
+				choose(list: List) >> choose 8
+				url(url: "feeds.bbci.co.uk/news/${Chosen Item}/rss.xml") >> url 3
+var RSS = URL
+			}
+			if(Chosen Item == "Reddit") {
+				list(items: (
+    news,
+    politics,
+    worldnews,
+    upliftingnews
+)) >> list 7
+				choose(list: List) >> choose 9
+				url(url: "https://reddit.com/r/${Chosen Item}.rss?sort=top/") >> url 4
+var RSS = URL
+			} >> IFResult 12
+			if(If Result == "ESPN") {
+				list(items: (
+    nfl,
+    nba,
+    mlb,
+    nhl
+)) >> list 8
+				choose(list: List, prompt: "Sorry, these are all I have for now.") >> choose 10
+				url(url: "https://www.espn.com/espn/rss/${Chosen Item}/news") >> url 5
+var RSS = URL
+			} >> IFResult 13
+			if(If Result == "CNN") {
+				list(items: (
+    topstories,
+    world,
+    us,
+    allpolitics,
+    tech,
+    health,
+    showbiz,
+    travel,
+    latest
+)) >> list 9
+				choose(list: List, prompt: "Sorry, CNN money, video, underscored, and business are not currently available.") >> choose 11
+				url(url: "http://rss.cnn.com/rss/cnn_${Chosen Item}.rss") >> url 6
+var RSS = URL
+			} >> IFResult 14
+			getRSSItems(url: "${RSS}", count: 25) >> getRSSItems
+			choose(list: Items from RSS Feed) >> choose 12
+			urlComponent(url: "${Chosen Item}") >> urlComponent
+			if(Component of URL .contains "reddit") {
+				expandURL(url: "${Chosen Item}") >> expandURL
+				getArticle(url: "${Expanded URL}") >> getArticle
+				articleDetail(detail: Title, article: Article) >> articleDetail
+var Title = Title
+				articleDetail(detail: Body, article: Article) >> articleDetail 1
+				getTextFrom(input: Body) >> getTextFrom 2
+var Story = Text
+var Story1 = Variable
+			} else {
+				getTextFrom(input: Component of URL) >> getTextFrom 3
+				getName() >> getName 1
+var Title = Name
+				splitText(text: Text) >> splitText 9
+				getItemFromList(list: Split Text, type: Items in Range, startIndex: "1", endIndex: "2") >> getItemFromList 9
+				replaceText(input: "${Text}", find: "${Item from List}") >> replaceText 4
+var Story = Updated Text
+			} >> IFResult 15
+			splitText(text: Story) >> splitText 10
+			repeatEach(Split Text) {
+				combineText(text: Repeat Item, combine: Custom, separator: "<br>") >> combineText
+				replaceText(input: "${Story 1}", find: "${Repeat Item}", replace: "${Combined Text}")
+			} >> RepeatResult 5
+			replaceText(input: "${Story 1}", find: "${Title}") >> replaceText 5
+var Story = Updated Text
+var 64689A11-B0B4-40F6-A099-AB70877CB4EA = """<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <style>
+    body { 
+      background-color: #F1F1F1; 
+      color: #000; 
+      font-family: system-ui; 
+      font-size: 100%; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.75em; 
+      padding: 0 20px
+    }
+    h1 { 
+      font-weight: 800; 
+      font-size: 2em; 
+      line-height: 1.1em; 
+      margin: 40px 0 
+    }
+    #songtext { 
+      font-size: 1.25em;
+      max-width: 800px;
+      margin: 0 auto
+    }
+    a {
+      text-decoration: none;
+      pointer-events: none;
+      color: #000
+    }
+  @media (prefers-color-scheme: dark
+) {
+    body {
+    background-color: #1E1E1E;
+    color: #FFF
+    } 
+    a {
+    color: #FFF
+    }
+  }
+  @media print {
+    body { 
+      background-color: #FFF; 
+      color: #000; 
+      margin: 0cm 3cm; 
+      text-align: center; 
+      line-height: 1.5em
+    }
+    h1 { 
+      font-size: 21pt; 
+      font-weight: 800; 
+      line-height: 1.3em; 
+      margin-top: 0;
+    }
+    #songtext { 
+      font-size: 13pt;
+      /*margin-top: -1.5cm*/
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h1>￼</h1>
+    <hr>
+  </div>
+  <div id="songtext">
+    ￼
+  </div>
+  <br><br>
+</body>"""
+text("${64689A11-B0B4-40F6-A099-AB70877CB4EA}")
+			richTextFromHTML() >> richTextFromHTML 3
+			quicklook(input: Rich Text from HTML)
+var BB486101-03F9-49FD-BCDF-AC6DE7C45C82 = """￼
+&//&
+￼"""
+text("${BB486101-03F9-49FD-BCDF-AC6DE7C45C82}")
+var Text = Text
+			text(text: "Articles") >> text 9
+var Folder = Text
+		case("Reddit"):
+			list(items: (
+    Joke,
+    Story
+)) >> list 10
+			choose(list: List) >> choose 13
+			if(Chosen Item == "Joke") {
+				list(items: (
+    dadjokes,
+    jokes,
+    DirtyJokes,
+    darkjokes,
+    MeanJokes
+)) >> list 11
+				choose(list: List) >> choose 14
+				getRSSItems(url: "https://reddit.com/r/${Chosen Item}.rss?sort=top/", count: 75) >> getRSSItems 1
+				getItemFromList(list: Items from RSS Feed, type: Random Item, index: Index) >> getItemFromList 10
+				getArticle(url: "${Item from List}") >> getArticle 1
+				getTextFrom(input: Article) >> getTextFrom 4
+				splitText(text: Text) >> splitText 11
+				count(type: Lines, input: Split Text) >> count 1
+				math(input: Count, operation: -, operand: "2") >> math 1
+				getItemFromList(list: Split Text, type: Items in Range, startIndex: "1", endIndex: Calculation Result) >> getItemFromList 11
+var Pun = Item from List
+				getName() >> getName 2
+var Hitline = Name
+var C50C1A11-D879-45D2-86F9-7909C04BD740 = """<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <style>
+    body { 
+      background-color: #F1F1F1; 
+      color: #000; 
+      font-family: system-ui; 
+      font-size: 100%; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.75em; 
+      padding: 0 20px
+    }
+    h1 { 
+      font-weight: 800; 
+      font-size: 2em; 
+      line-height: 1.1em; 
+      margin: 40px 0 
+    }
+    #songtext { 
+      font-size: 1.25em;
+      max-width: 800px;
+      margin: 0 auto
+    }
+    a {
+      text-decoration: none;
+      pointer-events: none;
+      color: #000
+    }
+  @media (prefers-color-scheme: dark) {
+    body {
+    background-color: #1E1E1E;
+    color: #FFF
+    } 
+    a {
+    color: #FFF
+    }
+  }
+  @media print {
+    body { 
+      background-color: #FFF; 
+      color: #000; 
+      margin: 0cm 3cm; 
+      text-align: center; 
+      line-height: 1.5em
+    }
+    h1 { 
+      font-size: 21pt; 
+      font-weight: 800; 
+      line-height: 1.3em; 
+      margin-top: 0;
+    }
+    #songtext { 
+      font-size: 13pt;
+      /*margin-top: -1.5cm*/
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h1>￼</h1>
+  </div>
+  <div id="songtext">
+    ￼
+  </div>
+  <br><br>
+</body>"""
+text("${C50C1A11-D879-45D2-86F9-7909C04BD740}")
+				richTextFromHTML() >> richTextFromHTML 4
+				setName(input: Rich Text from HTML, name: "r/${Chosen Item}", dontIncludeExtension: false) >> setName 4
+				quicklook(input: Renamed Item)
+var 705FFE78-B34C-4C71-B951-79143255AD54 = """￼
+&//&
+￼"""
+text("${705FFE78-B34C-4C71-B951-79143255AD54}")
+var Text = Text
+			} >> IFResult 16
+			if(If Result == "Story") {
+				list(items: (
+    nosleep,
+    stories,
+    relationships,
+    LetsNotMeet,
+    ShowerThoughts,
+    scarystories
+)) >> list 12
+				choose(list: List) >> choose 15
+				getRSSItems(url: "https://reddit.com/r/${Chosen Item}.rss?sort=top/", count: 50) >> getRSSItems 2
+				getItemFromList(list: Items from RSS Feed, type: Random Item) >> getItemFromList 12
+				getName() >> getName 3
+var Title = Name
+				getTextFrom(input: Item from List) >> getTextFrom 5
+var Story = Text
+				splitText(text: Story) >> splitText 12
+				repeatEach(Split Text) {
+					replaceText(input: "${Story}", find: "${Repeat Item}", replace: "${Repeat Item}<br>") >> replaceText 6
+var Story = Updated Text
+				} >> RepeatResult 6
+				splitText(text: Story) >> splitText 13
+				getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 13
+				replaceText(input: "${Story}", find: "${Item from List}") >> replaceText 7
+var Story = Updated Text
+var FFF9068A-8229-4798-A398-9F9359658D94 = """<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <style>
+    body { 
+      background-color: #F1F1F1; 
+      color: #000; 
+      font-family: system-ui; 
+      font-size: 100%; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.75em; 
+      padding: 0 20px
+    }
+    h1 { 
+      font-weight: 800; 
+      font-size: 2em; 
+      line-height: 1.1em; 
+      margin: 40px 0 
+    }
+    #songtext { 
+      font-size: 1.25em;
+      max-width: 800px;
+      margin: 0 auto
+    }
+    a {
+      text-decoration: none;
+      pointer-events: none;
+      color: #000
+    }
+  @media (prefers-color-scheme: dark) {
+    body {
+    background-color: #1E1E1E;
+    color: #FFF
+    } 
+    a {
+    color: #FFF
+    }
+  }
+  @media print {
+    body { 
+      background-color: #FFF; 
+      color: #000; 
+      margin: 0cm 3cm; 
+      text-align: center; 
+      line-height: 1.5em
+    }
+    h1 { 
+      font-size: 21pt; 
+      font-weight: 800; 
+      line-height: 1.3em; 
+      margin-top: 0;
+    }
+    #songtext { 
+      font-size: 13pt;
+      /*margin-top: -1.5cm*/
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h1>￼</h1>
+  </div>
+  <div id="songtext">
+    ￼
+  </div>
+  <br><br>
+</body>"""
+text("${FFF9068A-8229-4798-A398-9F9359658D94}")
+				richTextFromHTML() >> richTextFromHTML 5
+				setName(input: Rich Text from HTML, name: "r/${Chosen Item}") >> setName 5
+				quicklook(input: Renamed Item)
+var 56E0A091-6C09-490F-AEC8-0FC5391A3EE9 = """￼
+&//&
+￼"""
+text("${56E0A091-6C09-490F-AEC8-0FC5391A3EE9}")
+var Text = Text
+			} >> IFResult 17
+			askForInput(prompt: "What do you want this ${Chosen Item} to be called?") >> askForInput 1
+var Named = Provided Input
+			text(text: "Reddit") >> text 10
+var Folder = Text
+		case("Browse files"):
+			getFile(multiple: false) >> getFile 5
+			getTextFrom(input: File) >> getTextFrom 6
+			text(text: "Files") >> text 11
+var Folder = Text
+		case("Input your own"):
+			askForInput(prompt: "Input your text") >> askForInput 2
+			text(text: "Custom") >> text 12
+var Folder = Text
+		} >> MenuResult 1
+		quicklook(input: Text)
+var Text1 = Variable
+		if(Text .contains "!back") {
+			runShortcut(name: "Everything Text", show: false) >> runShortcut 2
+			exit()
+		} >> IFResult 18
+	}
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+	if(CHOSEN .contains "Tips") {
+var E42BBC85-4DAA-4739-96A2-812D8334FC18 = """-Type !back when you click on "Edit text" to return to main menu.
+-Use this for your badge on shortcuts!
+-Use "•" to space out your l•e•t•t•e•r•s nicely!
+-Browse your files (pssst edit your lyrics from I Am Genius)
+-If no song is playing you can search for it (you don't need to pay)
+-Input A safari webpage to change the font on it!
+-When you select music it'll automatically get the lyrics of the currently playing song, you can search for a song if no song is playing."""
+text("${E42BBC85-4DAA-4739-96A2-812D8334FC18}")
+		showResult(text: "${Text}")
+var 53961C4B-2CB1-4E13-B2CE-F001E585B710 = """Thanks to:
+-Changemeister-
+•For the font changer used in Edit Ultra
+•Can be found on RoutineHub
+
+-Shortcuts Master-
+•For About half of the emoticons
+•Can be found on ShareShortcuts
+(Can't find link to used shortcut :/)
+
+-grandall95-
+•For the web font changer used
+•Can be round in RoutineHub 
+
+-ROP-
+•For MergeCuts which made this process easier; [Embed-a-Update] is used in this too! 
+•The biggest help was from I Am Genius, I stripped it of everything and changed the inputs and save mechanisms so it's a little easier to use (via decreasing ask rate to google by removing un-needed things)
+•Can be found in RoutineHub"""
+text("${53961C4B-2CB1-4E13-B2CE-F001E585B710}")
+		showResult(text: "${Text}")
+		menu(See shortcuts: people that helped?, [I Am Genius-ROP, MergeCuts-ROP, Embed an Update-ROP, Font changer (web)-grandall95, Font changer (text)-Changemeister, Maybe another time]) {
+		case("I Am Genius-ROP"):
+			openURL(url: "https://routinehub.co/shortcut/2851")
+		case("MergeCuts-ROP"):
+			openURL(url: "https://routinehub.co/shortcut/3724")
+		case("Embed an Update-ROP"):
+			openURL(url: "https://routinehub.co/shortcut/2672")
+		case("Font changer (web)-grandall95"):
+			openURL(url: "https://routinehub.co/shortcut/2864")
+		case("Font changer (text)-Changemeister"):
+			openURL(url: "https://routinehub.co/shortcut/2490")
+		case("Maybe another time"):
+		} >> MenuResult 2
+		runShortcut(name: "Everything Text", show: false) >> runShortcut 3
+		exit()
+	}
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+	if(CHOSEN .contains "View") {
+// /Abilities
+		menu(What do you want to see, [No thanks, Text art, Emoticons, Settings]) {
+		case("No thanks"):
+var C6F752B7-7337-4CBA-905A-EAB993C79A13 = """*In same order as shown*
+
+𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅
+
+𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃
+
+𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣
+
+𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ
+
+ᗩᗷᑕᗪᗴᖴᘜᕼIᒍKᒪᗰᑎOᑭᑫᖇᔕTᑌᐯᗯ᙭YᘔᗩᗷᑕᗪᗴᖴᘜᕼIᒍKᒪᗰᑎOᑭQᖇᔕTᑌᐯᗯ᙭Yᘔ
+
+ꍏꌃꏳꀷꏂꎇꁅꀍꀤ꒻ꀘ꒒ꎭꈤꂦᖘꆰꋪꌚ꓄ꀎ꒦ꅐꉧꌩꁴꍏꌃꏳꀷꏂꎇꁅꀍꀤ꒻ꀘ꒒ꎭꈤꂦᖘꆰꋪꌚ꓄ꀎ꒦ꅐꉧꌩꁴ
+
+𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷
+
+𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟
+
+𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓
+
+𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇
+
+𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻
+
+𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯
+
+𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧
+
+𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛
+
+ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ
+
+🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩
+
+🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉
+
+ɐbɔdǝɟƃɥᴉɾʞlɯnodbɹsʇnʌʍxʎzɐbɔdǝɟƃɥᴉɾʞlɯnodbɹsʇnʌʍxʎz
+
+It’s Morse code!!! I ain’t telling you!"""
+text("${C6F752B7-7337-4CBA-905A-EAB993C79A13}")
+			showResult(text: "${Text}")
+		case("Text art"):
+			getFile(picker: false, path: "Everything Text/Text Art", error: true) >> getFile 6
+			filterFiles() >> filterFiles
+			getTextFrom(input: Files) >> getTextFrom 7
+			count(input: Text) >> count 2
+			number(value: 1) >> number 1
+var n = Number
+			repeat(Count) {
+				getItemFromList(list: Text, type: Item At Index, index: n) >> getItemFromList 14
+				quicklook(input: Item from List)
+				menu(, [Next, Exit]) {
+				case("Next"):
+				case("Exit"):
+					runShortcut(name: "Everything Text", show: false) >> runShortcut 4
+					exit()
+				} >> MenuResult 3
+				math(input: "1", operand: n) >> math 2
+var n = Calculation Result
+			} >> RepeatResult 7
+		case("Emoticons"):
+var EBE726BF-9AB1-4657-BD2F-9057AB308992 = """Emoticons
+Angry/Tough 😤💪
+ᕦ(Ò_Óˇ)ᕤ
+Ლ(ಠ益ಠ)
+(╯°□°）╯︵ ┻━┻
+（╬ಠ益ಠ)
+ಠ_ಠ
+ಠ╭╮ಠ
+Cool Shades (There are gun ones, just scroll down! 
+(▀̿Ĺ̯▀̿ ̿)
+(⌐■_■)
+ლ(▀̿̿Ĺ̯̿̿▀̿ლ)
+(▀̿̿Ĺ̯̿̿▀̿ ̿)ﾉ ︵ ┻━┻'
+┬┴┬┴┤ᕦ( ▀̿ Ĺ̯ ▀̿├┬┴┬
+(☞⌐▀͡ ͜ʖ͡▀ )☞
+[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]
+ᕕ( ᐛ )ᕗ
+Happy/Cute
+(ᵔᴥᵔ)
+〆(・∀・＠)
+(づ｡◕‿‿◕｡)づ
+(✿´‿`)
+☜(˚▽˚)☞
+◕‿‿◕｡)
+¯\_(ツ)_/¯
+( ͡ᵔ ͜ʖ ͡ᵔ )
+( ✖ ਊ ✖)
+ಠ‿↼
+(ᗒᗊᗕ)
+\ (•◡•) /
+(＾▽＾)
+(>Ლ)
+Shocked 😯
+┬──┬ ノ( ゜-゜ノ)
+ノ( º _ ºノ)
+>_>
+(>*-*)>
+≧☉_☉≦
+☼.☼  
+°Д°
+( ﾟヮﾟ)
+(ʘᗩʘ')
+ÓÒ
+◉_◉
+(>人<)
+Guns 🔫
+ ̿̿ ̿̿ ̿'̿'\̵͇̿̿\З= ( ▀ ͜͞ʖ▀) =Ε/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿ 
+̿'̿'\̵͇̿̿\З=( ͠° ͟ʖ ͡°)=Ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿ ̿ 
+▄︻̷̿┻̿═━一
+⌐╦╦═─
+ ̿ ̿'̿'\̵͇̿̿\З=
+Extras
+﴾͡๏̯͡๏﴿ O'RLY?
+Sad
+(._.)
+◔̯◔
+༼☯﹏☯༽
+༼ಢ_ಢ༽
+（；＿；）
+(ಥ﹏ಥ)
+( ཀ ʖ̯ ཀ)
+Weird/Wink
+(͠≖ ͜ʖ͠≖) 
+( ° ͜ʖ °) 
+‎┬┴┤( ͡⚆ل͜├┬┴┬
+SPARKLES!  (ᵔᴥᵔ)
+✧･ﾟ: *✧･ﾟ♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡･ﾟ✧*:･ﾟ✧ ✧･
+˚ ҉✧ෆ ҉*₊( ‾ ʖ̫ ‾)₊* ҉ෆ✧ ҉˚
+o✧ं｡˚٩( ͡ᵔ ͜ʖ ͡ᵔ٩)⋆｡˚*ْ✧ं
+༚┈❁┈*ﾟ♬:*( ͡≖ ل͜ ͡≖)*ﾟ♬:*┈❁┈༚
+Confused
+(≖ლ≖๑ )ﾌ
+｢(ﾟ<ﾟ)ﾞ??
+δ(´д｀; )
+Cats
+โ๏∀๏ใ
+=ộ⍛ộ=
+(^･ｪ･^)
+ฅ•ω•ฅ
+Devil
+(◣∀◢)ψ
+(｀∀´)Ψ
+←~∋(｡Ψ▼ｰ▼)∈
+∋━━o(｀∀´oメ）～→
+Thumbs Up
+(＾＾)ｂ
+(￣ー￣)ｂ
+(o^-’)b
+ｄ(*￣o￣)
+Rabbit
+／(=∵=)＼
+⌒(・x・)⌒
+○(･x･)○
+⌒(•ㅅ•)⌒
+/(•ㅅ•)\
+Flower
+(◕▿◕✿)
+❀◕ ‿ ◕❀
+(◕д◕✿)
+(◠‿◠✿)
+
+The Unorganized rest 
+ლ( ̅°̅ ੪ ̅°̅ )ლ 
+ᕦ( ▨̅ ͜▨̅ )ᕥ 
+( ဓ д ဓ )ၛ
+ (X ౪ X )
+ (ၴ෴ၴ)
+(ง '̀͜ '́ )ง 
+ ( ႎ _ ႎ ) 
+(ၜᗝ ၜ)
+( ^ ᗜ ^ )
+( ၜ 𝄩 ၜ )
+(☉ ϖ ☉)
+(ၜᔕၜ)
+(ၜヘၜ)
+q o ― ၣ
+ဨ(ၜ ͜ ၜ)
+( ☉ д ☉ )
+( ☉̅ 益 ☉̅ )
+(ბ ა ͜ ბ)
+(◉-◉)
+(≧ ᗜ ≦)
+щ( စ д ဖ )щ
+‎(ت)
+(Ѳ‿Ѳ)
+(Ƶ͜Ƶ) 
+(စ ද စ)
+(ၜ冖ၜ)
+( ဖ‿ဖ)
+(ၜပၜ)
+(◉ᓀ◉)
+(ၜᴒၜ)
+( ဖ ͜ ဖ )
+(စ ͜ စ)
+ⴵ_( စ - စ)
+(ꙨပꙨ)
+(စ_စ)
+(^‿^)
+(ၜ⌂ၜ)
+(࿐‿࿐)
+(ၜ੪ၜ)
+(ၜ︗ၜ )
+(စ㐃ဖ)
+(-㇣- )
+(◉⼡◉)
+(ⱋ‿ⱋ)
+(ၜ ⱄ ၜ)
+( ဖ‿ဖ)⫗(စ‿စ )
+(⨪_⨪)
+(◉⩊◉) 
+⟅(☉ ⃢ ☉)⟆
+(ↈ_ↈ)
+(⨪ ิ ⨪)
+(ႎ≏ႎ)
+(⨕ﾛ⨕)
+ ߯ _ ߱ 
+‎(◉ܫ◉)
+֎(စ౪စ)
+(⨪ˬ⨪)
+(⪴╰╯⪳) 
+(ဖ෴ဖ)⚔(စ__စ )
+🜟(ᶸU ᳘ᵕ)
+(ﾾ︹ﾾ) 
+(ﾾ𐑙ﾾ)
+(⨪ᥛ⨪)
+(ṑḼṓ)
+(ṧ︵ṧ)
+‎(𐨨𐭃𐨨)
+(῏Ṵ῏)
+(𐐫𐑥𐑯𐐫)
+(᷈⁰︸⁰᷈)
+𒉼(⏕)𒉼
+(𑇡𒉼𑇡)
+(�_�)
+(৲ဓ―ဓ)৲__/
+(;︵;)
+☭
+ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ
+╰║ ❛ ◯ ❛ ║╯꒳ᵒ꒳ᵎᵎᵎ
+ヾ(●´∀｀●)
+"""
+text("${EBE726BF-9AB1-4657-BD2F-9057AB308992}")
+			quicklook(input: Text)
+		case("Settings"):
+			dictionary({"Auto replace":,"Auto-Copy from library":,"Show Selected from library":})
+var EF88574C-8150-4F2F-B378-D48AEDE3536A = """Settings
+•
+￼"""
+text("${EF88574C-8150-4F2F-B378-D48AEDE3536A}")
+			saveFile(input: Text, ask: false, path: "Everything Text", overwrite: true)
+		} >> MenuResult 4
+		runShortcut(name: "Everything Text", show: false) >> runShortcut 5
+		exit()
+	}
+} >> IFResult 19
+// /Edit Ultra
+text(text: "0") >> text 13
+var Selected = Text
+if(Selected != 1) {
+	menu(Use Edit Ultra? Edit Ultra is the snippet that allows you to edit your text, via fonts, Emoticons, and Flares., [Yes, No]) {
+	case("Yes"):
+	case("No"):
+		number(value: 1) >> number 2
+var Selected = Number
+	}
+}
+if(Selected == 1) {
+} else {
+	showResult(text: "Editing-
+${Text}")
+	repeat($0) {
+// Current version-3.8
+		menu(Change font?, [Yes, No]) {
+		case("Yes"):
+// /Change Fonts
+			menu(, [Cancel font change, 𝒮𝒸𝓇𝒾𝓅𝓉 𝒶𝒷𝒸𝒹ℯ𝒻ℊ, 𝓢𝓬𝓻𝓲𝓹𝓽 𝓪𝓫𝓬𝓭𝓮𝓯𝓰, 𝚃𝚢𝚙𝚎𝚠𝚛𝚒𝚝𝚎𝚛 𝚊𝚋𝚌𝚍𝚎𝚏𝚐, 𝕆𝕦𝕥𝕝𝕚𝕟𝕖 𝕒𝕓𝕔𝕕𝕖𝕗𝕘, Tɪɴʏ ᴄᴀᴘs ᴀʙᴄᴅᴇғɢ, ᑕOᗰIᑕ ᗩᗷᑕᗪᗴᖴᘜ, ꒒ꍏꀷꌩꌃꀎꁅ ꍏꌃꏳꀷꏂꎇꁅ, 𝔊𝔬𝔱𝔥𝔦𝔠 𝔞𝔟𝔠𝔡𝔢𝔣𝔤, 𝕲𝖔𝖙𝖍𝖎𝖈 𝖆𝖇𝖈𝖉𝖊𝖋𝖌, 𝖲𝖺𝗇𝗌 𝖺𝖻𝖼𝖽𝖾𝖿𝗀, 𝗦𝗮𝗻𝘀 𝗮𝗯𝗰𝗱𝗲𝗳𝗴, 𝘚𝘢𝘯𝘴 𝘢𝘣𝘤𝘥𝘦𝘧𝘨, 𝙎𝙖𝙣𝙨 𝙖𝙗𝙘𝙙𝙚𝙛𝙜, 𝐒𝐞𝐫𝐢𝐟 𝐚𝐛𝐜𝐝𝐞𝐟𝐠, 𝑆𝑒𝑟𝑖𝑓 𝑎𝑏𝑐𝑑𝑒𝑓𝑔, 𝑺𝒆𝒓𝒊𝒇 𝒂𝒃𝒄𝒅𝒆𝒇𝒈, ⒸⒾⓇⒸⓁⒺⓈ ⒶⒷⒸⒹⒺⒻⒼ, 🅒🅘🅡🅒🅛🅔🅢 🅐🅑🅒🅓🅔🅕🅖, 🅂🅀🅄🄰🅁🄴🅂 🄰🄱🄲🄳🄴🄵🄶, udsᴉpǝ poʍu (Upside down) ɐqɔpǝɟƃ, −− −−− ·−· ··· ·  −·−· −−− −·· · (Morse code)]) {
+			case("Cancel font change"):
+			case("𝒮𝒸𝓇𝒾𝓅𝓉 𝒶𝒷𝒸𝒹ℯ𝒻ℊ"):
+// Start of changing font loop
+				number(value: true) >> number 3
+var n = Number
+				repeat(52) {
+var 4A837160-3084-4BB1-A2CF-4725B27FC251 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${4A837160-3084-4BB1-A2CF-4725B27FC251}")
+					splitText(text: Text) >> splitText 14
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 15
+var Old = Item from List
+var D2C2890C-D59D-46E1-9C2C-FD5F2D3EA6CE = """𝒜
+ℬ
+𝒞
+𝒟
+ℰ
+ℱ
+𝒢
+ℋ
+ℐ
+𝒥
+𝒦
+ℒ
+ℳ
+𝒩
+𝒪
+𝒫
+𝒬
+ℛ
+𝒮
+𝒯
+𝒰
+𝒱
+𝒲
+𝒳
+𝒴
+𝒵
+𝒶
+𝒷
+𝒸
+𝒹
+ℯ
+𝒻
+ℊ
+𝒽
+𝒾
+𝒿
+𝓀
+𝓁
+𝓂
+𝓃
+ℴ
+𝓅
+𝓆
+𝓇
+𝓈
+𝓉
+𝓊
+𝓋 
+𝓌
+𝓍
+𝓎
+𝓏"""
+text("${D2C2890C-D59D-46E1-9C2C-FD5F2D3EA6CE}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 15
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 16
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 8
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 3
+var n = Calculation Result
+				} >> RepeatResult 8
+/*
+End font change loop
+Repeats 52 times, 26 for capitals 26 for lower case
+Happens for every font
+*/
+			case("𝓢𝓬𝓻𝓲𝓹𝓽 𝓪𝓫𝓬𝓭𝓮𝓯𝓰"):
+				number(value: true) >> number 4
+var n = Number
+				repeat(52) {
+var 6845E9F7-DB52-4C28-973A-02B8F26B2F16 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${6845E9F7-DB52-4C28-973A-02B8F26B2F16}")
+					splitText(text: Text) >> splitText 16
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 17
+var Old = Item from List
+var FDE89A57-AC00-4B1F-9251-4E993266AE5E = """𝓐
+𝓑
+𝓒
+𝓓
+𝓔
+𝓕
+𝓖
+𝓗
+𝓘
+𝓙
+𝓚
+𝓛
+𝓜
+𝓝
+𝓞
+𝓟
+𝓠
+𝓡
+𝓢
+𝓣
+𝓤
+𝓥
+𝓦
+𝓧
+𝓨
+𝓩
+𝓪
+𝓫
+𝓬
+𝓭
+𝓮
+𝓯
+𝓰
+𝓱
+𝓲
+𝓳
+𝓴
+𝓵
+𝓶
+𝓷
+𝓸
+𝓹
+𝓺
+𝓻
+𝓼
+𝓽
+𝓾
+𝓿
+𝔀
+𝔁
+𝔂
+𝔃"""
+text("${FDE89A57-AC00-4B1F-9251-4E993266AE5E}")
+var Alphabet = Text
+					splitText(text: Text) >> splitText 17
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 18
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}") >> replaceText 9
+var Text = Updated Text
+					math(input: n, operand: "true") >> math 4
+var n = Calculation Result
+				} >> RepeatResult 9
+			case("𝚃𝚢𝚙𝚎𝚠𝚛𝚒𝚝𝚎𝚛 𝚊𝚋𝚌𝚍𝚎𝚏𝚐"):
+				number(value: true) >> number 5
+var n = Number
+				repeat(52) {
+var 72B73034-4BD9-4ED8-8D5C-2FC4A53EF753 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${72B73034-4BD9-4ED8-8D5C-2FC4A53EF753}")
+					splitText(text: Text) >> splitText 18
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 19
+var Old = Item from List
+var 13B21234-F59C-4C1B-AE71-030F8F88449B = """𝙰
+𝙱
+𝙲
+𝙳
+𝙴
+𝙵
+𝙶
+𝙷
+𝙸
+𝙹
+𝙺
+𝙻
+𝙼
+𝙽
+𝙾
+𝙿
+𝚀
+𝚁
+𝚂
+𝚃
+𝚄
+𝚅
+𝚆
+𝚇
+𝚈
+𝚉
+𝚊
+𝚋
+𝚌
+𝚍
+𝚎
+𝚏
+𝚐
+𝚑
+𝚒
+𝚓
+𝚔
+𝚕
+𝚖
+𝚗
+𝚘
+𝚙
+𝚚
+𝚛
+𝚜
+𝚝
+𝚞
+𝚟
+𝚠
+𝚡
+𝚢
+𝚣"""
+text("${13B21234-F59C-4C1B-AE71-030F8F88449B}")
+var Alphabet = Text
+					splitText(text: Text) >> splitText 19
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 20
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}") >> replaceText 10
+var Text = Updated Text
+					math(input: n, operand: "true") >> math 5
+var n = Calculation Result
+				}
+			case("𝕆𝕦𝕥𝕝𝕚𝕟𝕖 𝕒𝕓𝕔𝕕𝕖𝕗𝕘"):
+				number(value: true) >> number 6
+var n = Number
+				repeat(52) {
+var 44C80EB8-0955-478F-8EC0-84B5A796606B = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${44C80EB8-0955-478F-8EC0-84B5A796606B}")
+					splitText(text: Text) >> splitText 20
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 21
+var Old = Item from List
+var B38E0CFE-B4E2-4C41-8061-40D95E5D08D4 = """𝔸
+𝔹
+ℂ
+𝔻
+𝔼
+𝔽
+𝔾
+ℍ
+𝕀
+𝕁
+𝕂
+𝕃
+𝕄
+ℕ
+𝕆
+ℙ
+ℚ
+ℝ
+𝕊
+𝕋
+𝕌
+𝕍
+𝕎
+𝕏
+𝕐
+ℤ
+𝕒
+𝕓
+𝕔
+𝕕
+𝕖
+𝕗
+𝕘
+𝕙
+𝕚
+𝕛
+𝕜
+𝕝
+𝕞
+𝕟
+𝕠
+𝕡
+𝕢
+𝕣
+𝕤
+𝕥
+𝕦
+𝕧
+𝕨
+𝕩
+𝕪
+𝕫"""
+text("${B38E0CFE-B4E2-4C41-8061-40D95E5D08D4}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 21
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 22
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 11
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 6
+var n = Calculation Result
+				} >> RepeatResult 10
+			case("Tɪɴʏ ᴄᴀᴘs ᴀʙᴄᴅᴇғɢ"):
+				number(value: true) >> number 7
+var n = Number
+				repeat(52) {
+var 89BB87E8-400D-4599-91AC-A40BFD97796D = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${89BB87E8-400D-4599-91AC-A40BFD97796D}")
+					splitText(text: Text) >> splitText 22
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 23
+var Old = Item from List
+var 3DE1840C-EB18-4B4C-AE0F-16FC3B3578B9 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+ᴀ
+ʙ
+ᴄ
+ᴅ
+ᴇ
+ғ
+ɢ
+ʜ
+ɪ
+ᴊ
+ᴋ
+ʟ
+ᴍ
+ɴ
+ᴏ
+ᴘ
+ǫ
+ʀ
+s
+ᴛ
+ᴜ
+ᴠ
+ᴡ
+x
+ʏ
+ᴢ"""
+text("${3DE1840C-EB18-4B4C-AE0F-16FC3B3578B9}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 23
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 24
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 12
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 7
+var n = Calculation Result
+				} >> RepeatResult 11
+			case("ᑕOᗰIᑕ ᗩᗷᑕᗪᗴᖴᘜ"):
+				number(value: true) >> number 8
+var n = Number
+				repeat(52) {
+var DDAACB8C-D601-4CE5-8841-A33EA9CE3463 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${DDAACB8C-D601-4CE5-8841-A33EA9CE3463}")
+					splitText(text: Text) >> splitText 24
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 25
+var Old = Item from List
+var 9ADE4A76-45EC-406B-97B9-0229E895EE10 = """ᗩ
+ᗷ
+ᑕ
+ᗪ
+ᗴ
+ᖴ
+ᘜ
+ᕼ
+I
+ᒍ
+K
+ᒪ
+ᗰ
+ᑎ
+O
+ᑭ
+ᑫ
+ᖇ
+ᔕ
+T
+ᑌ
+ᐯ
+ᗯ
+᙭
+Y
+ᘔ
+ᗩ
+ᗷ
+ᑕ
+ᗪ
+ᗴ
+ᖴ
+ᘜ
+ᕼ
+I
+ᒍ
+K
+ᒪ
+ᗰ
+ᑎ
+O
+ᑭ
+Q
+ᖇ
+ᔕ
+T
+ᑌ
+ᐯ
+ᗯ
+᙭
+Y
+ᘔ"""
+text("${9ADE4A76-45EC-406B-97B9-0229E895EE10}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 25
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 26
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 13
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 8
+var n = Calculation Result
+				} >> RepeatResult 12
+			case("꒒ꍏꀷꌩꌃꀎꁅ ꍏꌃꏳꀷꏂꎇꁅ"):
+				number(value: true) >> number 9
+var n = Number
+				repeat(52) {
+var 2D443CC4-DAB5-42BA-9A9B-EB8275ADC354 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${2D443CC4-DAB5-42BA-9A9B-EB8275ADC354}")
+					splitText(text: Text) >> splitText 26
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 27
+var Old = Item from List
+var 41B148A6-67AA-4E00-9E32-05BCCAACAEB1 = """ꍏ
+ꌃ
+ꏳ
+ꀷ
+ꏂ
+ꎇ
+ꁅ
+ꀍ
+ꀤ
+꒻
+ꀘ
+꒒
+ꎭ
+ꈤ
+ꂦ
+ᖘ
+ꆰ
+ꋪ
+ꌚ
+꓄
+ꀎ
+꒦
+ꅐ
+ꉧ
+ꌩ
+ꁴ
+ꍏ
+ꌃ
+ꏳ
+ꀷ
+ꏂ
+ꎇ
+ꁅ
+ꀍ
+ꀤ
+꒻
+ꀘ
+꒒
+ꎭ
+ꈤ
+ꂦ
+ᖘ
+ꆰ
+ꋪ
+ꌚ
+꓄
+ꀎ
+꒦
+ꅐ
+ꉧ
+ꌩ
+ꁴ"""
+text("${41B148A6-67AA-4E00-9E32-05BCCAACAEB1}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 27
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 28
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 14
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 9
+var n = Calculation Result
+				} >> RepeatResult 13
+			case("𝔊𝔬𝔱𝔥𝔦𝔠 𝔞𝔟𝔠𝔡𝔢𝔣𝔤"):
+				number(value: true) >> number 10
+var n = Number
+				repeat(52) {
+var 2A783FFD-8E4B-477B-BE80-810BF310DE4A = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${2A783FFD-8E4B-477B-BE80-810BF310DE4A}")
+					splitText(text: Text) >> splitText 28
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 29
+var Old = Item from List
+var 25E249E0-DB1E-47BF-A5F7-EF94F7323258 = """𝔄
+𝔅
+ℭ
+𝔇
+𝔈
+𝔉
+𝔊
+ℌ
+ℑ
+𝔍
+𝔎
+𝔏
+𝔐
+𝔑
+𝔒
+𝔓
+𝔔
+ℜ
+𝔖
+𝔗
+𝔘
+𝔙
+𝔚
+𝔛
+𝔜
+ℨ
+𝔞
+𝔟
+𝔠
+𝔡
+𝔢
+𝔣
+𝔤
+𝔥
+𝔦
+𝔧
+𝔨
+𝔩
+𝔪
+𝔫
+𝔬
+𝔭
+𝔮
+𝔯
+𝔰
+𝔱
+𝔲
+𝔳
+𝔴
+𝔵
+𝔶
+𝔷"""
+text("${25E249E0-DB1E-47BF-A5F7-EF94F7323258}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 29
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 30
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 15
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 10
+var n = Calculation Result
+				} >> RepeatResult 14
+			case("𝕲𝖔𝖙𝖍𝖎𝖈 𝖆𝖇𝖈𝖉𝖊𝖋𝖌"):
+				number(value: true) >> number 11
+var n = Number
+				repeat(52) {
+var 45504C13-45A2-4790-B5DD-26419270A650 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${45504C13-45A2-4790-B5DD-26419270A650}")
+					splitText(text: Text) >> splitText 30
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 31
+var Old = Item from List
+var A6633DAF-3166-4B74-A624-69673E3A7EB5 = """𝕬
+𝕭
+𝕮
+𝕯
+𝕰
+𝕱
+𝕲
+𝕳
+𝕴
+𝕵
+𝕶
+𝕷
+𝕸
+𝕹
+𝕺
+𝕻
+𝕼
+𝕽
+𝕾
+𝕿
+𝖀
+𝖁
+𝖂
+𝖃
+𝖄
+𝖅
+𝖆
+𝖇
+𝖈
+𝖉
+𝖊
+𝖋
+𝖌
+𝖍
+𝖎
+𝖏
+𝖐
+𝖑
+𝖒
+𝖓
+𝖔
+𝖕
+𝖖
+𝖗
+𝖘
+𝖙
+𝖚
+𝖛
+𝖜
+𝖝
+𝖞
+𝖟"""
+text("${A6633DAF-3166-4B74-A624-69673E3A7EB5}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 31
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 32
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 16
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 11
+var n = Calculation Result
+				} >> RepeatResult 15
+			case("𝖲𝖺𝗇𝗌 𝖺𝖻𝖼𝖽𝖾𝖿𝗀"):
+				number(value: true) >> number 12
+var n = Number
+				repeat(52) {
+var 8D994FD3-D627-4896-982B-013F486A0A04 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${8D994FD3-D627-4896-982B-013F486A0A04}")
+					splitText(text: Text) >> splitText 32
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 33
+var Old = Item from List
+var 5CE7AD9A-A28B-4C94-A0E9-FD49683AD30D = """𝖠
+𝖡
+𝖢
+𝖣
+𝖤
+𝖥
+𝖦
+𝖧
+𝖨
+𝖩
+𝖪
+𝖫
+𝖬
+𝖭
+𝖮
+𝖯
+𝖰
+𝖱
+𝖲
+𝖳
+𝖴
+𝖵
+𝖶
+𝖷
+𝖸
+𝖹
+𝖺
+𝖻
+𝖼
+𝖽
+𝖾
+𝖿
+𝗀
+𝗁
+𝗂
+𝗃
+𝗄
+𝗅
+𝗆
+𝗇
+𝗈
+𝗉
+𝗊
+𝗋
+𝗌
+𝗍
+𝗎
+𝗏
+𝗐
+𝗑
+𝗒
+𝗓"""
+text("${5CE7AD9A-A28B-4C94-A0E9-FD49683AD30D}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 33
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 34
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 17
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 12
+var n = Calculation Result
+				} >> RepeatResult 16
+			case("𝗦𝗮𝗻𝘀 𝗮𝗯𝗰𝗱𝗲𝗳𝗴"):
+				number(value: true) >> number 13
+var n = Number
+				repeat(52) {
+var 7D9A89DC-A806-4E73-BA6C-6C303B7351F0 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${7D9A89DC-A806-4E73-BA6C-6C303B7351F0}")
+					splitText(text: Text) >> splitText 34
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 35
+var Old = Item from List
+var 04FEC858-70F7-476C-BB0E-A5111C388FE3 = """𝗔
+𝗕
+𝗖
+𝗗
+𝗘
+𝗙
+𝗚
+𝗛
+𝗜
+𝗝
+𝗞
+𝗟
+𝗠
+𝗡
+𝗢
+𝗣
+𝗤
+𝗥
+𝗦
+𝗧
+𝗨
+𝗩
+𝗪
+𝗫
+𝗬
+𝗭
+𝗮
+𝗯
+𝗰
+𝗱
+𝗲
+𝗳
+𝗴
+𝗵
+𝗶
+𝗷
+𝗸
+𝗹
+𝗺
+𝗻
+𝗼
+𝗽
+𝗾
+𝗿
+𝘀
+𝘁
+𝘂
+𝘃
+𝘄
+𝘅
+𝘆
+𝘇"""
+text("${04FEC858-70F7-476C-BB0E-A5111C388FE3}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 35
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 36
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 18
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 13
+var n = Calculation Result
+				} >> RepeatResult 17
+			case("𝘚𝘢𝘯𝘴 𝘢𝘣𝘤𝘥𝘦𝘧𝘨"):
+				number(value: true) >> number 14
+var n = Number
+				repeat(52) {
+var 6D280E5D-9992-4D77-827C-9CB5F0698AD8 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${6D280E5D-9992-4D77-827C-9CB5F0698AD8}")
+					splitText(text: Text) >> splitText 36
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 37
+var Old = Item from List
+var 3EB906E4-3FF3-4199-A53E-020002D6C8EB = """𝘈
+𝘉
+𝘊
+𝘋
+𝘌
+𝘍
+𝘎
+𝘏
+𝘐
+𝘑
+𝘒
+𝘓
+𝘔
+𝘕
+𝘖
+𝘗
+𝘘
+𝘙
+𝘚
+𝘛
+𝘜
+𝘝
+𝘞
+𝘟
+𝘠
+𝘡
+𝘢
+𝘣
+𝘤
+𝘥
+𝘦
+𝘧
+𝘨
+𝘩
+𝘪
+𝘫
+𝘬
+𝘭
+𝘮
+𝘯
+𝘰
+𝘱
+𝘲
+𝘳
+𝘴
+𝘵
+𝘶
+𝘷
+𝘸
+𝘹
+𝘺
+𝘻"""
+text("${3EB906E4-3FF3-4199-A53E-020002D6C8EB}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 37
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 38
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 19
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 14
+var n = Calculation Result
+				} >> RepeatResult 18
+			case("𝙎𝙖𝙣𝙨 𝙖𝙗𝙘𝙙𝙚𝙛𝙜"):
+				number(value: true) >> number 15
+var n = Number
+				repeat(52) {
+var 7F507E23-82DE-459E-B06A-EF84C6429F2A = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${7F507E23-82DE-459E-B06A-EF84C6429F2A}")
+					splitText(text: Text) >> splitText 38
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 39
+var Old = Item from List
+var 9404977A-92BC-45FF-AB61-4B5E0AFB2E17 = """𝘼
+𝘽
+𝘾
+𝘿
+𝙀
+𝙁
+𝙂
+𝙃
+𝙄
+𝙅
+𝙆
+𝙇
+𝙈
+𝙉
+𝙊
+𝙋
+𝙌
+𝙍
+𝙎
+𝙏
+𝙐
+𝙑
+𝙒
+𝙓
+𝙔
+𝙕
+𝙖
+𝙗
+𝙘
+𝙙
+𝙚
+𝙛
+𝙜
+𝙝
+𝙞
+𝙟
+𝙠
+𝙡
+𝙢
+𝙣
+𝙤
+𝙥
+𝙦
+𝙧
+𝙨
+𝙩
+𝙪
+𝙫
+𝙬
+𝙭
+𝙮
+𝙯"""
+text("${9404977A-92BC-45FF-AB61-4B5E0AFB2E17}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 39
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 40
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 20
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 15
+var n = Calculation Result
+				} >> RepeatResult 19
+			case("𝐒𝐞𝐫𝐢𝐟 𝐚𝐛𝐜𝐝𝐞𝐟𝐠"):
+				number(value: true) >> number 16
+var n = Number
+				repeat(52) {
+var 405EE7EA-1F70-47B5-B574-F281B98139B4 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${405EE7EA-1F70-47B5-B574-F281B98139B4}")
+					splitText(text: Text) >> splitText 40
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 41
+var Old = Item from List
+var AC0CD168-503F-41AF-AA44-4605FFD7CA6D = """𝐀
+𝐁
+𝐂
+𝐃
+𝐄
+𝐅
+𝐆
+𝐇
+𝐈
+𝐉
+𝐊
+𝐋
+𝐌
+𝐍
+𝐎
+𝐏
+𝐐
+𝐑
+𝐒
+𝐓
+𝐔
+𝐕
+𝐖
+𝐗
+𝐘
+𝐙
+𝐚
+𝐛
+𝐜
+𝐛
+𝐝
+𝐞
+𝐟
+𝐡
+𝐢
+𝐣
+𝐤
+𝐥
+𝐦
+𝐧
+𝐨
+𝐩
+𝐪
+𝐫
+𝐬
+𝐭
+𝐮
+𝐯
+𝐰
+𝐱
+𝐲
+𝐳"""
+text("${AC0CD168-503F-41AF-AA44-4605FFD7CA6D}")
+var Alphabet = Text
+					splitText(text: Text) >> splitText 41
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 42
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}") >> replaceText 21
+var Text = Updated Text
+					math(input: n, operand: "true") >> math 16
+var n = Calculation Result
+				} >> RepeatResult 20
+			case("𝑆𝑒𝑟𝑖𝑓 𝑎𝑏𝑐𝑑𝑒𝑓𝑔"):
+				number(value: true) >> number 17
+var n = Number
+				repeat(52) {
+var 54C14D8D-6F2C-42BA-AE40-1C4B820DB286 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${54C14D8D-6F2C-42BA-AE40-1C4B820DB286}")
+					splitText(text: Text) >> splitText 42
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 43
+var Old = Item from List
+var DAE07B42-308E-42BA-B091-CD8045780614 = """𝐴
+𝐵
+𝐶
+𝐷
+𝐸
+𝐹
+𝐺
+𝐻
+𝐼
+𝐽
+𝐾
+𝐿
+𝑀
+𝑁
+𝑂
+𝑃
+𝑄
+𝑅
+𝑆
+𝑇
+𝑈
+𝑉
+𝑊
+𝑋
+𝑌
+𝑍
+𝑎
+𝑏
+𝑐
+𝑑
+𝑒
+𝑓
+𝑔
+ℎ
+𝑖
+𝑗
+𝑘
+𝑙
+𝑚
+𝑛
+𝑜
+𝑝
+𝑞
+𝑟
+𝑠
+𝑡
+𝑢
+𝑣
+𝑤
+𝑥
+𝑦
+𝑧"""
+text("${DAE07B42-308E-42BA-B091-CD8045780614}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 43
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 44
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 22
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 17
+var n = Calculation Result
+				} >> RepeatResult 21
+			case("𝑺𝒆𝒓𝒊𝒇 𝒂𝒃𝒄𝒅𝒆𝒇𝒈"):
+				number(value: true) >> number 18
+var n = Number
+				repeat(52) {
+var 337F26FC-3C6B-4D94-9AA1-E29E09F623DC = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${337F26FC-3C6B-4D94-9AA1-E29E09F623DC}")
+					splitText(text: Text) >> splitText 44
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 45
+var Old = Item from List
+var FD24E36F-C803-4A0B-9637-9FF0E59F4EAD = """𝑨
+𝑩
+𝑪
+𝑫
+𝑬
+𝑭
+𝑮
+𝑯
+𝑰
+𝑱
+𝑲
+𝑳
+𝑴
+𝑵
+𝑶
+𝑷
+𝑸
+𝑹
+𝑺
+𝑻
+𝑼
+𝑽
+𝑾
+𝑿
+𝒀
+𝒁
+𝒂
+𝒃
+𝒄
+𝒅
+𝒆
+𝒇
+𝒈
+𝒉
+𝒊
+𝒋
+𝒌
+𝒍
+𝒎
+𝒏
+𝒐
+𝒑
+𝒒
+𝒓
+𝒔
+𝒕
+𝒖
+𝒗
+𝒘
+𝒙
+𝒚
+𝒛
+"""
+text("${FD24E36F-C803-4A0B-9637-9FF0E59F4EAD}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 45
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 46
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 23
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 18
+var n = Calculation Result
+				} >> RepeatResult 22
+			case("ⒸⒾⓇⒸⓁⒺⓈ ⒶⒷⒸⒹⒺⒻⒼ"):
+				number(value: true) >> number 19
+var n = Number
+				repeat(52) {
+var A997B184-BC57-4E78-8A6A-477DDB04E7AA = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${A997B184-BC57-4E78-8A6A-477DDB04E7AA}")
+					splitText(text: Text) >> splitText 46
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 47
+var Old = Item from List
+var 1E326A68-AEC4-45BA-AE4C-9423DC04B308 = """Ⓐ
+Ⓑ
+Ⓒ
+Ⓓ
+Ⓔ
+Ⓕ
+Ⓖ
+Ⓗ
+Ⓘ
+Ⓙ
+Ⓚ
+Ⓛ
+Ⓜ
+Ⓝ
+Ⓞ
+Ⓟ
+Ⓠ
+Ⓡ
+Ⓢ
+Ⓣ
+Ⓤ
+Ⓥ
+Ⓦ
+Ⓧ
+Ⓨ
+Ⓩ
+Ⓐ
+Ⓑ
+Ⓒ
+Ⓓ
+Ⓔ
+Ⓕ
+Ⓖ
+Ⓗ
+Ⓘ
+Ⓙ
+Ⓚ
+Ⓛ
+Ⓜ
+Ⓝ
+Ⓞ
+Ⓟ
+Ⓠ
+Ⓡ
+Ⓢ
+Ⓣ
+Ⓤ
+Ⓥ
+Ⓦ
+Ⓧ
+Ⓨ
+Ⓩ"""
+text("${1E326A68-AEC4-45BA-AE4C-9423DC04B308}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 47
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 48
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 24
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 19
+var n = Calculation Result
+				} >> RepeatResult 23
+			case("🅒🅘🅡🅒🅛🅔🅢 🅐🅑🅒🅓🅔🅕🅖"):
+				number(value: true) >> number 20
+var n = Number
+				repeat(52) {
+var 23FD9468-C13B-492A-B058-161CF3F37772 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${23FD9468-C13B-492A-B058-161CF3F37772}")
+					splitText(text: Text) >> splitText 48
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 49
+var Old = Item from List
+var 64CDFECD-BB5C-4C4B-B38F-95469520C5CD = """🅐
+🅑
+🅒
+🅓
+🅔
+🅕
+🅖
+🅗
+🅘
+🅙
+🅚
+🅛
+🅜
+🅝
+🅞
+🅟
+🅠
+🅡
+🅢
+🅣
+🅤
+🅥
+🅦
+🅧
+🅨
+🅩
+🅐
+🅑
+🅒
+🅓
+🅔
+🅕
+🅖
+🅗
+🅘
+🅙
+🅚
+🅛
+🅜
+🅝
+🅞
+🅟
+🅠
+🅡
+🅢
+🅣
+🅤
+🅥
+🅦
+🅧
+🅨
+🅩"""
+text("${64CDFECD-BB5C-4C4B-B38F-95469520C5CD}")
+var Alphabet = Text
+					splitText(text: Text) >> splitText 49
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 50
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}") >> replaceText 25
+var Text = Updated Text
+					math(input: n, operand: "true") >> math 20
+var n = Calculation Result
+				}
+			case("🅂🅀🅄🄰🅁🄴🅂 🄰🄱🄲🄳🄴🄵🄶"):
+				number(value: true) >> number 21
+var n = Number
+				repeat(52) {
+var 5139F7B9-2097-4C7F-A498-F19B2A1AEFDF = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${5139F7B9-2097-4C7F-A498-F19B2A1AEFDF}")
+					splitText(text: Text) >> splitText 50
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 51
+var Old = Item from List
+var 046E62BD-01A5-4055-985E-FC5EDA3A6681 = """🄰
+🄱
+🄲
+🄳
+🄴
+🄵
+🄶
+🄷
+🄸
+🄹
+🄺
+🄻
+🄼
+🄽
+🄾
+🄿
+🅀
+🅁
+🅂
+🅃
+🅄
+🅅
+🅆
+🅇
+🅈
+🅉
+🄰
+🄱
+🄲
+🄳
+🄴
+🄵
+🄶
+🄷
+🄸
+🄹
+🄺
+🄻
+🄼
+🄽
+🄾
+🄿
+🅀
+🅁
+🅂
+🅃
+🅄
+🅅
+🅆
+🅇
+🅈
+🅉"""
+text("${046E62BD-01A5-4055-985E-FC5EDA3A6681}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 51
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 52
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 26
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 21
+var n = Calculation Result
+				} >> RepeatResult 24
+			case("udsᴉpǝ poʍu (Upside down) ɐqɔpǝɟƃ"):
+				number(value: true) >> number 22
+var n = Number
+				repeat(52) {
+var 54339074-D1AA-492C-B525-87024DCF9FDB = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${54339074-D1AA-492C-B525-87024DCF9FDB}")
+					splitText(text: Text) >> splitText 52
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 53
+var Old = Item from List
+var 41502446-4942-4A16-904D-2EFC25226F73 = """ɐ
+q
+ɔ
+p
+ǝ
+ɟ
+ƃ
+ɥ
+ᴉ
+ɾ
+ʞ
+l
+ɯ
+u
+o
+d
+b
+ɹ
+s
+ʇ
+n
+ʌ
+ʍ
+x
+ʎ
+z
+ɐ
+q
+ɔ
+p
+ǝ
+ɟ
+ƃ
+ɥ
+ᴉ
+ɾ
+ʞ
+l
+ɯ
+u
+o
+d
+b
+ɹ
+s
+ʇ
+n
+ʌ
+ʍ
+x
+ʎ
+z"""
+text("${41502446-4942-4A16-904D-2EFC25226F73}")
+var Alphabet = Text
+					splitText(text: Text, separator: New Lines) >> splitText 53
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 54
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}", caseSensitive: true) >> replaceText 27
+var Text = Updated Text
+					math(input: n, operation: +, operand: "true") >> math 22
+var n = Calculation Result
+				} >> RepeatResult 25
+			case("−− −−− ·−· ··· ·  −·−· −−− −·· · (Morse code)"):
+				number(value: 1) >> number 23
+var n = Number
+				repeat(52) {
+var 8CA0DFAB-90EF-4B58-8DA6-42194A031ED5 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${8CA0DFAB-90EF-4B58-8DA6-42194A031ED5}")
+					splitText(text: Text) >> splitText 54
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 55
+var Old = Item from List
+var FA4179DE-C71F-45D8-953C-8F76243FBF75 = """·−
+−···
+−·−·
+−··
+·
+··−·
+−−·
+····
+··
+·−−−
+−·−
+·−··
+−−
+−·
+−−−
+·−−· 
+−−·−
+·−·
+···
+−
+··−
+···−
+·−−
+−··−
+−·−−
+−−··
+·−
+−···
+−·−·
+−··
+·
+··−·
+−−·
+····
+··
+·−−−
+−·−
+·−··
+−−
+−·
+−−−
+·−−· 
+−−·−
+·−·
+···
+−
+··−
+···−
+·−−
+−··−
+−·−−
+−−··"""
+text("${FA4179DE-C71F-45D8-953C-8F76243FBF75}")
+					splitText(text: Text) >> splitText 55
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 56
+var New = Item from List
+					replaceText(input: "${Text}", find: "${Old}", replace: "${New}") >> replaceText 28
+var Text = Updated Text
+					math(input: "1", operand: n) >> math 23
+var n = Calculation Result
+				} >> RepeatResult 26
+			} >> MenuResult 5
+			showResult(text: "${Text}")
+		case("No"):
+// Also, each one sets the alphabet (fontedd) that way the flares can add the flare every other character.
+var 0F8F320C-0773-4A10-88CE-CF977966DE83 = """A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+K
+L
+M
+N
+O
+P
+Q
+R
+S
+T
+U
+V
+W
+X
+Y
+Z
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z"""
+text("${0F8F320C-0773-4A10-88CE-CF977966DE83}")
+var Alphabet = Text
+		} >> MenuResult 6
+// /Flares
+		if(Alphabet .contains "−···") {
+		} else {
+			menu(♨️Flares?♨️, [Yes, No]) {
+			case("Yes"):
+				menu(What kind of flare, [Choose from Emoticons, Custom Flare, Both]) {
+				case("Choose from Emoticons"):
+var 55FD0A0E-5843-4A17-9447-680315829870 = """Angry/Tough 😤💪
+ᕦ(Ò_Óˇ)ᕤ
+Ლ(ಠ益ಠ)
+(╯°□°）╯︵ ┻━┻
+（╬ಠ益ಠ)
+ಠ_ಠ
+ಠ╭╮ಠ
+Cool Shades (There are gun ones, just scroll down! 
+(▀̿Ĺ̯▀̿ ̿)
+(⌐■_■)
+ლ(▀̿̿Ĺ̯̿̿▀̿ლ)
+(▀̿̿Ĺ̯̿̿▀̿ ̿)ﾉ ︵ ┻━┻'
+┬┴┬┴┤ᕦ( ▀̿ Ĺ̯ ▀̿├┬┴┬
+(☞⌐▀͡ ͜ʖ͡▀ )☞
+[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]
+ᕕ( ᐛ )ᕗ
+Happy/Cute
+(ᵔᴥᵔ)
+〆(・∀・＠)
+(づ｡◕‿‿◕｡)づ
+(✿´‿`)
+☜(˚▽˚)☞
+◕‿‿◕｡)
+¯\_(ツ)_/¯
+( ͡ᵔ ͜ʖ ͡ᵔ )
+( ✖ ਊ ✖)
+ಠ‿↼
+(ᗒᗊᗕ)
+\ (•◡•) /
+(＾▽＾)
+(>Ლ)
+Shocked 😯
+┬──┬ ノ( ゜-゜ノ)
+ノ( º _ ºノ)
+>_>
+(>*-*)>
+≧☉_☉≦
+☼.☼  
+°Д°
+( ﾟヮﾟ)
+(ʘᗩʘ')
+ÓÒ
+◉_◉
+(>人<)
+Guns 🔫
+ ̿̿ ̿̿ ̿'̿'\̵͇̿̿\З= ( ▀ ͜͞ʖ▀) =Ε/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿ 
+̿'̿'\̵͇̿̿\З=( ͠° ͟ʖ ͡°)=Ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿ ̿ 
+▄︻̷̿┻̿═━一
+⌐╦╦═─
+ ̿ ̿'̿'\̵͇̿̿\З=
+Extras
+﴾͡๏̯͡๏﴿ O'RLY?
+Sad
+(._.)
+◔̯◔
+༼☯﹏☯༽
+༼ಢ_ಢ༽
+（；＿；）
+(ಥ﹏ಥ)
+( ཀ ʖ̯ ཀ)
+Weird/Wink
+(͠≖ ͜ʖ͠≖) 
+( ° ͜ʖ °) 
+‎┬┴┤( ͡⚆ل͜├┬┴┬
+SPARKLES!  (ᵔᴥᵔ)
+✧･ﾟ: *✧･ﾟ♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡･ﾟ✧*:･ﾟ✧ ✧･
+˚ ҉✧ෆ ҉*₊( ‾ ʖ̫ ‾)₊* ҉ෆ✧ ҉˚
+o✧ं｡˚٩( ͡ᵔ ͜ʖ ͡ᵔ٩)⋆｡˚*ْ✧ं
+༚┈❁┈*ﾟ♬:*( ͡≖ ل͜ ͡≖)*ﾟ♬:*┈❁┈༚
+Confused
+(≖ლ≖๑ )ﾌ
+｢(ﾟ<ﾟ)ﾞ??
+δ(´д｀; )
+Cats
+โ๏∀๏ใ
+=ộ⍛ộ=
+(^･ｪ･^)
+ฅ•ω•ฅ
+Devil
+(◣∀◢)ψ
+(｀∀´)Ψ
+←~∋(｡Ψ▼ｰ▼)∈
+∋━━o(｀∀´oメ）～→
+Thumbs Up
+(＾＾)ｂ
+(￣ー￣)ｂ
+(o^-’)b
+ｄ(*￣o￣)
+Rabbit
+／(=∵=)＼
+⌒(・x・)⌒
+○(･x･)○
+⌒(•ㅅ•)⌒
+/(•ㅅ•)\
+Flower
+(◕▿◕✿)
+❀◕ ‿ ◕❀
+(◕д◕✿)
+(◠‿◠✿)
+
+The Unorganized rest 
+ლ( ̅°̅ ੪ ̅°̅ )ლ 
+ᕦ( ▨̅ ͜▨̅ )ᕥ 
+( ဓ д ဓ )ၛ
+ (X ౪ X )
+ (ၴ෴ၴ)
+(ง '̀͜ '́ )ง 
+ ( ႎ _ ႎ ) 
+(ၜᗝ ၜ)
+( ^ ᗜ ^ )
+( ၜ 𝄩 ၜ )
+(☉ ϖ ☉)
+(ၜᔕၜ)
+(ၜヘၜ)
+q o ― ၣ
+ဨ(ၜ ͜ ၜ)
+( ☉ д ☉ )
+( ☉̅ 益 ☉̅ )
+(ბ ა ͜ ბ)
+(◉-◉)
+(≧ ᗜ ≦)
+щ( စ д ဖ )щ
+‎(ت)
+(Ѳ‿Ѳ)
+(Ƶ͜Ƶ) 
+(စ ද စ)
+(ၜ冖ၜ)
+( ဖ‿ဖ)
+(ၜပၜ)
+(◉ᓀ◉)
+(ၜᴒၜ)
+( ဖ ͜ ဖ )
+(စ ͜ စ)
+ⴵ_( စ - စ)
+(ꙨပꙨ)
+(စ_စ)
+(^‿^)
+(ၜ⌂ၜ)
+(࿐‿࿐)
+(ၜ੪ၜ)
+(ၜ︗ၜ )
+(စ㐃ဖ)
+(-㇣- )
+(◉⼡◉)
+(ⱋ‿ⱋ)
+(ၜ ⱄ ၜ)
+( ဖ‿ဖ)⫗(စ‿စ )
+(⨪_⨪)
+(◉⩊◉) 
+⟅(☉ ⃢ ☉)⟆
+(ↈ_ↈ)
+(⨪ ิ ⨪)
+(ႎ≏ႎ)
+(⨕ﾛ⨕)
+ ߯ _ ߱ 
+‎(◉ܫ◉)
+֎(စ౪စ)
+(⨪ˬ⨪)
+(⪴╰╯⪳) 
+(ဖ෴ဖ)⚔(စ__စ )
+🜟(ᶸU ᳘ᵕ)
+(ﾾ︹ﾾ) 
+(ﾾ𐑙ﾾ)
+(⨪ᥛ⨪)
+(ṑḼṓ)
+(ṧ︵ṧ)
+‎(𐨨𐭃𐨨)
+(῏Ṵ῏)
+(𐐫𐑥𐑯𐐫)
+(᷈⁰︸⁰᷈)
+𒉼(⏕)𒉼
+(𑇡𒉼𑇡)
+(�_�)
+(৲ဓ―ဓ)৲__/
+(;︵;)
+ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ
+╰║ ❛ ◯ ❛ ║╯꒳ᵒ꒳ᵎᵎᵎ
+☭"""
+text("${55FD0A0E-5843-4A17-9447-680315829870}")
+					splitText(text: Text) >> splitText 56
+					choose(list: Split Text, prompt: "Choose an emoticon(s)", multiple: true) >> choose 16
+				case("Custom Flare"):
+					askForInput(prompt: "Input a custom flare") >> askForInput 3
+				case("Both"):
+var 95F787C1-5AF7-4984-B7F1-0983CA7B7A61 = """Angry/Tough 😤💪
+ᕦ(Ò_Óˇ)ᕤ
+Ლ(ಠ益ಠ)
+(╯°□°）╯︵ ┻━┻
+（╬ಠ益ಠ)
+ಠ_ಠ
+ಠ╭╮ಠ
+Cool Shades (There are gun ones, just scroll down! 
+(▀̿Ĺ̯▀̿ ̿)
+(⌐■_■)
+ლ(▀̿̿Ĺ̯̿̿▀̿ლ)
+(▀̿̿Ĺ̯̿̿▀̿ ̿)ﾉ ︵ ┻━┻'
+┬┴┬┴┤ᕦ( ▀̿ Ĺ̯ ▀̿├┬┴┬
+(☞⌐▀͡ ͜ʖ͡▀ )☞
+[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]
+ᕕ( ᐛ )ᕗ
+Happy/Cute
+(ᵔᴥᵔ)
+〆(・∀・＠)
+(づ｡◕‿‿◕｡)づ
+(✿´‿`)
+☜(˚▽˚)☞
+◕‿‿◕｡)
+¯\_(ツ)_/¯
+( ͡ᵔ ͜ʖ ͡ᵔ )
+( ✖ ਊ ✖)
+ಠ‿↼
+(ᗒᗊᗕ)
+\ (•◡•) /
+(＾▽＾)
+(>Ლ)
+Shocked 😯
+┬──┬ ノ( ゜-゜ノ)
+ノ( º _ ºノ)
+>_>
+(>*-*)>
+≧☉_☉≦
+☼.☼  
+°Д°
+( ﾟヮﾟ)
+(ʘᗩʘ')
+ÓÒ
+◉_◉
+(>人<)
+Guns 🔫
+ ̿̿ ̿̿ ̿'̿'\̵͇̿̿\З= ( ▀ ͜͞ʖ▀) =Ε/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿ 
+̿'̿'\̵͇̿̿\З=( ͠° ͟ʖ ͡°)=Ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿ ̿ 
+▄︻̷̿┻̿═━一
+⌐╦╦═─
+ ̿ ̿'̿'\̵͇̿̿\З=
+Extras
+﴾͡๏̯͡๏﴿ O'RLY?
+Sad
+(._.)
+◔̯◔
+༼☯﹏☯༽
+༼ಢ_ಢ༽
+（；＿；）
+(ಥ﹏ಥ)
+( ཀ ʖ̯ ཀ)
+Weird/Wink
+(͠≖ ͜ʖ͠≖) 
+( ° ͜ʖ °) 
+‎┬┴┤( ͡⚆ل͜├┬┴┬
+SPARKLES!  (ᵔᴥᵔ)
+✧･ﾟ: *✧･ﾟ♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡･ﾟ✧*:･ﾟ✧ ✧･
+˚ ҉✧ෆ ҉*₊( ‾ ʖ̫ ‾)₊* ҉ෆ✧ ҉˚
+o✧ं｡˚٩( ͡ᵔ ͜ʖ ͡ᵔ٩)⋆｡˚*ْ✧ं
+༚┈❁┈*ﾟ♬:*( ͡≖ ل͜ ͡≖)*ﾟ♬:*┈❁┈༚
+Confused
+(≖ლ≖๑ )ﾌ
+｢(ﾟ<ﾟ)ﾞ??
+δ(´д｀; )
+Cats
+โ๏∀๏ใ
+=ộ⍛ộ=
+(^･ｪ･^)
+ฅ•ω•ฅ
+Devil
+(◣∀◢)ψ
+(｀∀´)Ψ
+←~∋(｡Ψ▼ｰ▼)∈
+∋━━o(｀∀´oメ）～→
+Thumbs Up
+(＾＾)ｂ
+(￣ー￣)ｂ
+(o^-’)b
+ｄ(*￣o￣)
+Rabbit
+／(=∵=)＼
+⌒(・x・)⌒
+○(･x･)○
+⌒(•ㅅ•)⌒
+/(•ㅅ•)\
+Flower
+(◕▿◕✿)
+❀◕ ‿ ◕❀
+(◕д◕✿)
+(◠‿◠✿)
+
+The Unorganized rest 
+ლ( ̅°̅ ੪ ̅°̅ )ლ 
+ᕦ( ▨̅ ͜▨̅ )ᕥ 
+( ဓ д ဓ )ၛ
+ (X ౪ X )
+ (ၴ෴ၴ)
+(ง '̀͜ '́ )ง 
+ ( ႎ _ ႎ ) 
+(ၜᗝ ၜ)
+( ^ ᗜ ^ )
+( ၜ 𝄩 ၜ )
+(☉ ϖ ☉)
+(ၜᔕၜ)
+(ၜヘၜ)
+q o ― ၣ
+ဨ(ၜ ͜ ၜ)
+( ☉ д ☉ )
+( ☉̅ 益 ☉̅ )
+(ბ ა ͜ ბ)
+(◉-◉)
+(≧ ᗜ ≦)
+щ( စ д ဖ )щ
+‎(ت)
+(Ѳ‿Ѳ)
+(Ƶ͜Ƶ) 
+(စ ද စ)
+(ၜ冖ၜ)
+( ဖ‿ဖ)
+(ၜပၜ)
+(◉ᓀ◉)
+(ၜᴒၜ)
+( ဖ ͜ ဖ )
+(စ ͜ စ)
+ⴵ_( စ - စ)
+(ꙨပꙨ)
+(စ_စ)
+(^‿^)
+(ၜ⌂ၜ)
+(࿐‿࿐)
+(ၜ੪ၜ)
+(ၜ︗ၜ )
+(စ㐃ဖ)
+(-㇣- )
+(◉⼡◉)
+(ⱋ‿ⱋ)
+(ၜ ⱄ ၜ)
+( ဖ‿ဖ)⫗(စ‿စ )
+(⨪_⨪)
+(◉⩊◉) 
+⟅(☉ ⃢ ☉)⟆
+(ↈ_ↈ)
+(⨪ ิ ⨪)
+(ႎ≏ႎ)
+(⨕ﾛ⨕)
+ ߯ _ ߱ 
+‎(◉ܫ◉)
+֎(စ౪စ)
+(⨪ˬ⨪)
+(⪴╰╯⪳) 
+(ဖ෴ဖ)⚔(စ__စ )
+🜟(ᶸU ᳘ᵕ)
+(ﾾ︹ﾾ) 
+(ﾾ𐑙ﾾ)
+(⨪ᥛ⨪)
+(ṑḼṓ)
+(ṧ︵ṧ)
+‎(𐨨𐭃𐨨)
+(῏Ṵ῏)
+(𐐫𐑥𐑯𐐫)
+(᷈⁰︸⁰᷈)
+𒉼(⏕)𒉼
+(𑇡𒉼𑇡)
+(�_�)
+(৲ဓ―ဓ)৲__/
+(;︵;)
+ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ
+╰║ ❛ ◯ ❛ ║╯꒳ᵒ꒳ᵎᵎᵎ
+☭"""
+text("${95F787C1-5AF7-4984-B7F1-0983CA7B7A61}")
+					splitText(text: Text) >> splitText 57
+					choose(list: Split Text, prompt: "Choose an emoticon(s)", multiple: true) >> choose 17
+					askForInput(prompt: "Input a custom flare") >> askForInput 4
+					list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Ask for Input";
+                        OutputUUID = "6C8A9B5D-0489-43BF-989D-4BBAFD6C5BFA";
+                        Type = ActionOutput;
+                    };
+                    "{1, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                    "{1, 1}" =                     {
+                        OutputName = "Ask for Input";
+                        OutputUUID = "6C8A9B5D-0489-43BF-989D-4BBAFD6C5BFA";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                    "{1, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Ask for Input";
+                        OutputUUID = "6C8A9B5D-0489-43BF-989D-4BBAFD6C5BFA";
+                        Type = ActionOutput;
+                    };
+                    "{1, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                    "{2, 1}" =                     {
+                        OutputName = "Ask for Input";
+                        OutputUUID = "6C8A9B5D-0489-43BF-989D-4BBAFD6C5BFA";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc\Ufffc\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                    "{1, 1}" =                     {
+                        OutputName = "Ask for Input";
+                        OutputUUID = "6C8A9B5D-0489-43BF-989D-4BBAFD6C5BFA";
+                        Type = ActionOutput;
+                    };
+                    "{2, 1}" =                     {
+                        OutputName = "Selected Item";
+                        OutputUUID = "EBDC60B1-98BE-4E15-BDC2-4C063F9DFA85";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc\Ufffc\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 13
+					choose(list: List, prompt: "How do you want the flare to look") >> choose 18
+				} >> Flare
+// Setting the font made or chosen to variable /flare
+var Flare = Flare
+				if(Text .contains " ") {
+					repeatEach(Text) {
+						replaceText(input: "${Text}", find: " ", replace: " ${Flare} ") >> replaceText 29
+					} >> Text_Text
+				} else {
+				} >> IFResult 20
+				number(value: 1) >> number 24
+var n = Number
+var T•e•x•t = Variable
+				sendNotification(body: "Loading possibilities...")
+// The fonted alphabet get combined with the flare using the font changing technique.
+				repeat(52) {
+					splitText(text: Alphabet) >> splitText 58
+					getItemFromList(list: Split Text, type: Item At Index, index: n) >> getItemFromList 57
+var Old = Item from List
+// Old is the fonted letter chosen at index and flare gets added to it
+					text(text: "${Flare}${Variable}") >> text 14
+					splitText(text: Text) >> splitText 59
+var New = Split Text
+// Sets the letter at index with flare to new and replaces the plain fonted letter with the fonted letter and flare combined
+					replaceText(input: "${T•e•x•t}", find: "${Old}", replace: "${New}") >> replaceText 30
+var T•e•x•t = Updated Text
+					math(input: n, operand: "1") >> math 24
+var n = Calculation Result
+				} >> Flare With Every Character
+/*
+Removing the flare at the end of each word
+T-e-x-t-
+T-e-x-t
+*/
+				text(text: "${T•e•x•t} ") >> text 15
+var T•e•x•t = Text
+				if(T•e•x•t .contains ""${Flare} "") {
+					replaceText(input: "${T•e•x•t}", find: "${Flare} ", replace: "  ") >> replaceText 31
+var T•e•x•t = Updated Text
+				} else {
+				} >> IFResult 21
+				if(T•e•x•t .contains ""${Flare}${Variable}"") {
+					replaceText(input: "${T•e•x•t}", find: "${Flare}${Variable}", replace: "${Flare}") >> replaceText 32
+var T•e•x•t = Updated Text
+				} else {
+				}
+				list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Flare;
+                        OutputUUID = "51170828-3121-464D-A37B-FAF675B95A02";
+                        Type = ActionOutput;
+                    };
+                    "{2, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                    "{4, 1}" =                     {
+                        OutputName = Flare;
+                        OutputUUID = "51170828-3121-464D-A37B-FAF675B95A02";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc \Ufffc \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                    "{2, 1}" =                     {
+                        OutputName = Flare;
+                        OutputUUID = "51170828-3121-464D-A37B-FAF675B95A02";
+                        Type = ActionOutput;
+                    };
+                    "{4, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                };
+                string = "\Ufffc \Ufffc \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Text_Text";
+                        OutputUUID = "05BE9F0F-5070-403A-B87C-A3C1F06A242B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = "T\U2022e\U2022x\U2022t";
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "Cancel Flare"
+)) >> list 14
+				choose(list: List) >> choose 19
+				if(Selected Item .contains "Cancel Flare") {
+				} else {
+var Text = Selected Item
+				} >> IFResult 22
+			case("No"):
+			} >> MenuResult 7
+		}
+		menu(Emoticons?, [Yes, No]) {
+		case("Yes"):
+var 534C74E1-19F1-44E6-8F7D-9CB5BA17EA0C = """Angry/Tough 😤💪
+ᕦ(Ò_Óˇ)ᕤ
+Ლ(ಠ益ಠ)
+(╯°□°）╯︵ ┻━┻
+（╬ಠ益ಠ)
+ಠ_ಠ
+ಠ╭╮ಠ
+Cool Shades (There are gun ones, just scroll down! 
+(▀̿Ĺ̯▀̿ ̿)
+(⌐■_■)
+ლ(▀̿̿Ĺ̯̿̿▀̿ლ)
+(▀̿̿Ĺ̯̿̿▀̿ ̿)ﾉ ︵ ┻━┻'
+┬┴┬┴┤ᕦ( ▀̿ Ĺ̯ ▀̿├┬┴┬
+(☞⌐▀͡ ͜ʖ͡▀ )☞
+[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]
+ᕕ( ᐛ )ᕗ
+Happy/Cute
+(ᵔᴥᵔ)
+〆(・∀・＠)
+(づ｡◕‿‿◕｡)づ
+(✿´‿`)
+☜(˚▽˚)☞
+◕‿‿◕｡)
+¯\_(ツ)_/¯
+( ͡ᵔ ͜ʖ ͡ᵔ )
+( ✖ ਊ ✖)
+ಠ‿↼
+(ᗒᗊᗕ)
+\ (•◡•) /
+(＾▽＾)
+(>Ლ)
+Shocked 😯
+┬──┬ ノ( ゜-゜ノ)
+ノ( º _ ºノ)
+>_>
+(>*-*)>
+≧☉_☉≦
+☼.☼  
+°Д°
+( ﾟヮﾟ)
+(ʘᗩʘ')
+ÓÒ
+◉_◉
+(>人<)
+Guns 🔫
+ ̿̿ ̿̿ ̿'̿'\̵͇̿̿\З= ( ▀ ͜͞ʖ▀) =Ε/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿ 
+̿'̿'\̵͇̿̿\З=( ͠° ͟ʖ ͡°)=Ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿ ̿ 
+▄︻̷̿┻̿═━一
+⌐╦╦═─
+ ̿ ̿'̿'\̵͇̿̿\З=
+Extras
+﴾͡๏̯͡๏﴿ O'RLY?
+Sad
+(._.)
+◔̯◔
+༼☯﹏☯༽
+༼ಢ_ಢ༽
+（；＿；）
+(ಥ﹏ಥ)
+( ཀ ʖ̯ ཀ)
+Weird/Wink
+(͠≖ ͜ʖ͠≖) 
+( ° ͜ʖ °) 
+‎┬┴┤( ͡⚆ل͜├┬┴┬
+SPARKLES!  (ᵔᴥᵔ)
+✧･ﾟ: *✧･ﾟ♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡･ﾟ✧*:･ﾟ✧ ✧･
+˚ ҉✧ෆ ҉*₊( ‾ ʖ̫ ‾)₊* ҉ෆ✧ ҉˚
+o✧ं｡˚٩( ͡ᵔ ͜ʖ ͡ᵔ٩)⋆｡˚*ْ✧ं
+༚┈❁┈*ﾟ♬:*( ͡≖ ل͜ ͡≖)*ﾟ♬:*┈❁┈༚
+Confused
+(≖ლ≖๑ )ﾌ
+｢(ﾟ<ﾟ)ﾞ??
+δ(´д｀; )
+Cats
+โ๏∀๏ใ
+=ộ⍛ộ=
+(^･ｪ･^)
+ฅ•ω•ฅ
+Devil
+(◣∀◢)ψ
+(｀∀´)Ψ
+←~∋(｡Ψ▼ｰ▼)∈
+∋━━o(｀∀´oメ）～→
+Thumbs Up
+(＾＾)ｂ
+(￣ー￣)ｂ
+(o^-’)b
+ｄ(*￣o￣)
+Rabbit
+／(=∵=)＼
+⌒(・x・)⌒
+○(･x･)○
+⌒(•ㅅ•)⌒
+/(•ㅅ•)\
+Flower
+(◕▿◕✿)
+❀◕ ‿ ◕❀
+(◕д◕✿)
+(◠‿◠✿)
+
+The Unorganized rest 
+ლ( ̅°̅ ੪ ̅°̅ )ლ 
+ᕦ( ▨̅ ͜▨̅ )ᕥ 
+( ဓ д ဓ )ၛ
+ (X ౪ X )
+ (ၴ෴ၴ)
+(ง '̀͜ '́ )ง 
+ ( ႎ _ ႎ ) 
+(ၜᗝ ၜ)
+( ^ ᗜ ^ )
+( ၜ 𝄩 ၜ )
+(☉ ϖ ☉)
+(ၜᔕၜ)
+(ၜヘၜ)
+q o ― ၣ
+ဨ(ၜ ͜ ၜ)
+( ☉ д ☉ )
+( ☉̅ 益 ☉̅ )
+(ბ ა ͜ ბ)
+(◉-◉)
+(≧ ᗜ ≦)
+щ( စ д ဖ )щ
+‎(ت)
+(Ѳ‿Ѳ)
+(Ƶ͜Ƶ) 
+(စ ද စ)
+(ၜ冖ၜ)
+( ဖ‿ဖ)
+(ၜပၜ)
+(◉ᓀ◉)
+(ၜᴒၜ)
+( ဖ ͜ ဖ )
+(စ ͜ စ)
+ⴵ_( စ - စ)
+(ꙨပꙨ)
+(စ_စ)
+(^‿^)
+(ၜ⌂ၜ)
+(࿐‿࿐)
+(ၜ੪ၜ)
+(ၜ︗ၜ )
+(စ㐃ဖ)
+(-㇣- )
+(◉⼡◉)
+(ⱋ‿ⱋ)
+(ၜ ⱄ ၜ)
+( ဖ‿ဖ)⫗(စ‿စ )
+(⨪_⨪)
+(◉⩊◉) 
+⟅(☉ ⃢ ☉)⟆
+(ↈ_ↈ)
+(⨪ ิ ⨪)
+(ႎ≏ႎ)
+(⨕ﾛ⨕)
+ ߯ _ ߱ 
+‎(◉ܫ◉)
+֎(စ౪စ)
+(⨪ˬ⨪)
+(⪴╰╯⪳) 
+(ဖ෴ဖ)⚔(စ__စ )
+🜟(ᶸU ᳘ᵕ)
+(ﾾ︹ﾾ) 
+(ﾾ𐑙ﾾ)
+(⨪ᥛ⨪)
+(ṑḼṓ)
+(ṧ︵ṧ)
+‎(𐨨𐭃𐨨)
+(῏Ṵ῏)
+(𐐫𐑥𐑯𐐫)
+(᷈⁰︸⁰᷈)
+𒉼(⏕)𒉼
+(𑇡𒉼𑇡)
+(�_�)
+(৲ဓ―ဓ)৲__/
+(;︵;)
+ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʕ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ•̫͡•ʕ•̫͡•ʔ•̫͡•ʔ
+╰║ ❛ ◯ ❛ ║╯꒳ᵒ꒳ᵎᵎᵎ
+☭"""
+text("${534C74E1-19F1-44E6-8F7D-9CB5BA17EA0C}")
+			splitText(text: Text) >> splitText 60
+// Emoticons
+			menu(EMOTICONS!, [Make a Emoticon story, Choose one Emoticon]) {
+			case("Make a Emoticon story"):
+				choose(list: Split Text, prompt: "Choose emoticons to make a story", multiple: true) >> Emoticon
+				repeatEach(Emoticon) {
+					combineText(text: Repeat Item 2)
+				} >> RepeatResult 27
+// Counts the number of emoticons chisen and repeats that number, so you can make a story
+				count(input: Repeat Results) >> count 3
+				repeat(Count) {
+					choose(list: Repeat Results, prompt: "Choose Emoticon to add to story") >> choose 20
+var Emoticon = Selected Item
+					list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                    "{2, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Emoticon;
+                    };
+                };
+                string = "\Ufffc \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Emoticon;
+                    };
+                    "{1, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                };
+                string = "\Ufffc\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 15
+					choose(list: List, prompt: "If this is your first input, it doesn't matter what you select.") >> choose 21
+var Text = Selected Item
+				} >> RepeatResult 28
+			case("Choose one Emoticon"):
+				choose(list: Split Text, prompt: "Emoticons", multiple: false) >> Emoticon
+				list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{1, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                    "{3, 1}" =                     {
+                        OutputName = Emoticon;
+                        OutputUUID = "5E6B6EB9-6880-4B50-8080-D23EA6F9C9E6";
+                        Type = ActionOutput;
+                    };
+                };
+                string = " \Ufffc \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Emoticon;
+                        OutputUUID = "5E6B6EB9-6880-4B50-8080-D23EA6F9C9E6";
+                        Type = ActionOutput;
+                    };
+                    "{2, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Text;
+                    };
+                };
+                string = "\Ufffc \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 16
+				choose(list: List, prompt: "What order?") >> choose 22
+var Text = Selected Item
+			} >> MenuResult 8
+		case("No"):
+		} >> MenuResult 9
+	} >> RepeatResult 29
+var Text1 = Variable
+// -END/Edit Ultra run or check
+} >> IFResult 23
+menu(Text art?, [Yes, No]) {
+case("Yes"):
+var Text1 = Variable
+	getFile(picker: false, path: "Everything Text/Text Art") >> getFile 7
+	filterFiles() >> filterFiles 1
+	choose(list: Files, prompt: "") >> choose 23
+	quicklook(input: Selected Item)
+	getName() >> getName 4
+	text(text: "+${Name}") >> text 16
+var TA = Text
+var Text1 = Variable
+var 058ACCCE-F428-4918-ACA4-3ED04417B15E = """￼
+￼"""
+text("${058ACCCE-F428-4918-ACA4-3ED04417B15E}")
+var Text = Text
+case("No"):
+} >> MenuResult 10
+list(items: (
+    Yes,
+    No
+)) >> list 17
+choose(list: List, prompt: "Custom edit:${Text}") >> choose 24
+if(Chosen Item == "Yes") {
+	text(text: "${Ask}${Text}") >> text 17
+var Text = Text
+} >> IFResult 24
+//Unable to get shortcuts action is.workflow.actions.comment
+var A3B3C73F-3CE9-4564-A8F5-D9AEAC9BA497 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Save to Text Library;;;;
+ORG:Save to your library to use later;
+PHOTO;ENCODING=b: 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
+END:VCARD
+ BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Copy;;;;
+ORG:Copy to your clipboard;
+PHOTO;ENCODING=b: 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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Share;;;;
+ORG:Use your share-sheet;
+PHOTO;ENCODING=b: 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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Spam Text;;;;
+ORG:Send rapidly to multiple people individually;
+PHOTO;ENCODING=b: iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAgESAAMAAAABAAEAAIdpAAQAAAABAAAAJgAAAAAAAqACAAQAAAABAAAAZKADAAQAAAABAAAAZAAAAADly0vvAAABWWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgpMwidZAAADl0lEQVR4Ae2bvWsUQRyGE0PEGAxI/EJFBMEPLCW2NlpaqoioiEQbwVZQ0EILwUaxELWwFfwf0omNiI3iR2MhKIKF4mdM4jNwA8flbnfmdi/GyzPwMns7v3nv7nlvdu/27gYGbBKQgAQkIAEJSEACEpCABCQgAQlIQAISkIAEJCABCUhAAhKQgAQkIAEJSEACEpCABCQgAQlIYMkRmJubW4PW1vnE8RtEG9HKOn372gtYw+gG+oA+ottopOqTxmMXmkKf0Ut0uKpn388H0hC6i1rbQ3Z0HQpzt6O3Laa/uX2i76F2+wSBswzdbIHWfLOrUDDYil40GzVt/2LbUNqFBpjLTaA6bWaFgsk4etrJrLHfUFoDAcxm9KUEXBxODoUJ5+Kkkn7RhrKsFdYC3R7jfkYT7yucjB8AOOWcsj7Rczl19/D08BWAAWIFeoxyWulKwWwv+pZhumhXSuILq74yoO1ArzPghdKUUA5R9z3D11BirEDbiXoRyhF8fxhKJJ3R9zCUo3j/NJSMMGJpD0M5ZiiRcmbfw1CO4x3OE6nNc0rMDmK9OqecxDtcOklthrIAoZwiDUOJoHN6wPVqpZzGezp1mVDnSonBVQil8LsPfCfRH5TaDKViKLfi/E49SZxFOaGEt8/7Ovktqf2A2IbeoNT2icLxMkjUnEE5h6/7ZZ51jP+ri4s5jz1ciAwXA1PbDIWzCcWrqRlMqIsl03Fjyfa8gsPFwvcop10tA4bZpRxDasNXBRNlvn09DoBuwrjDvOEiMIznhvGVOQeLPPt+DAATKHdlhDCGiuAwbhhFgNqNAa3blWEY7YBW2UcYrowqAOuc68qok2ZFL8OoCLDO6R6m6qRZ0cuVURFgndMJYw/qxVvbi/jmND9nQGsUPc+hRm3K54z91M1m+BpGWGUA241mMsCVhtHwvZbhaRjxkAe0DSj8TSClJYXRCGQyxZAaw4hhxB4o5xPgJYfRCGQMz6kSX8OIIbT2gLtSAC8rjOiN3zr0pIOvYURQnXrAXW8Dr6sw4n3gtwk9a/E1jAioqAda+B/gBfQKhW8Gw6opvFBY5BfH8NiCHqF3KPyw+0Acs08gALARVPgDhQSbeSV4rkL/wzej8x67OyQgAQlIQAISkIAEJCABCUhAAhKQgAQkIAEJSEACEpCABCQgAQlIQAISkIAEJCABCUhAAhKQgAQkIAEJSEACEpCABCQgAQlIQAISWDoE/gKZUzyHOhYDUgAAAABJRU5ErkJggg==
+END:VCARD
+ BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Restart;;;;
+ORG:Re-do your edits;
+PHOTO;ENCODING=b: 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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Main Menu;;;;
+ORG:Return to main menu, discarding your text;
+PHOTO;ENCODING=b: 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
+END:VCARD
+
+"""
+text("${A3B3C73F-3CE9-4564-A8F5-D9AEAC9BA497}")
+setName(input: Text, name: "End-menu.vcf") >> setName 6
+choose(list: Renamed Item, prompt: "${Text}", multiple: false) >> choose 25
+var CHOSEN = Chosen Item
+// 
+if(CHOSEN .contains "Save") {
+	keysFrom(dictionary: Settings) >> keysFrom 1
+	if(Dictionary Value ==) {
+		getFile(picker: false, path: "Everything Text/Text library", error: false) >> getFile 8
+		filterFiles() >> filterFiles 2
+		deleteFile(input: Files, confirm: false)
+	} else {
+	} >> IFResult 25
+	if(TA != nil) {
+		text(text: "${TA}${Variable}") >> text 18
+var Text = Text
+	} >> IFResult 26
+	saveFile(input: Text, ask: false, path: "Everything Text/Text library/${Folder}") >> saveFile 1
+	if(Named != nil) {
+		setName(input: Saved File, name: "${Named}")
+	}
+} >> IFResult 27
+if(CHOSEN == "Copy") {
+	setClipboard(variable: Text)
+	sendNotification(body: "Copied- ${Text}")
+} >> IFResult 28
+if(CHOSEN == "Share") {
+	share(file: Text)
+} >> IFResult 29
+if(CHOSEN .contains "Spam") {
+	menu(, [Random number, choose from contacts, Input number]) {
+	case("Random number"):
+		list(items: (
+    2050000000,
+    9070000000,
+    4800000000,
+    5010000000,
+    2090000000,
+    2130000000,
+    9160000000,
+    2030000000,
+    3020000000,
+    3050000000,
+    2170000000,
+    2190000000,
+    3190000000,
+    3160000000,
+    2700000000,
+    2550000000,
+    2070000000,
+    2400000000,
+    3390000000,
+    4130000000,
+    2310000000,
+    9060000000,
+    3140000000,
+    2180000000,
+    4060000000,
+    3080000000,
+    7020000000,
+    6030000000,
+    2010000000,
+    8560000000,
+    5050000000,
+    2120000000,
+    8450000000,
+    2520000000,
+    7010000000,
+    2160000000,
+    9370000000,
+    4050000000,
+    5030000000,
+    2150000000,
+    8780000000,
+    4010000000,
+    8030000000,
+    6050000000,
+    4230000000,
+    2100000000,
+    7130000000,
+    9560000000,
+    8320000000,
+    4350000000,
+    8010000000,
+    8020000000,
+    2760000000,
+    2060000000,
+    3040000000,
+    2620000000,
+    3070000000,
+    9510000000,
+    8080000000
+)) >> list 18
+		getItemFromList(list: List, type: Random Item) >> getItemFromList 58
+		randomNumber(min: 1000000, max: 9999999) >> randomNumber
+		math(input: Item from List, operand: Random Number) >> math 25
+var Contacts = Calculation Result
+	case("choose from contacts"):
+		selectContact(multiple: true) >> selectContact
+var Contacts = Contacts
+	case("Input number"):
+		askForInput(prompt: "Input number", type: Number) >> askForInput 5
+var Contacts = Ask for Input
+	} >> MenuResult 11
+	askForInput(prompt: "How many times do you want to send ${Text}", type: Number) >> Repeat Amount
+	repeat(Repeat Amount) {
+		repeatEach(Contacts) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+		} >> RepeatResult 30
+	} >> RepeatResult 31
+}
+if(CHOSEN == "Restart") {
+	runShortcut(name: "Everything Text", input: Text 1, show: false) >> runShortcut 6
+	exit()
+} >> IFResult 30
+if(CHOSEN .contains "Main") {
+	runShortcut(name: "Everything Text", show: false) >> runShortcut 7
+	exit()
+}
+wait()
+runShortcut(name: "Everything Text", show: false) >> runShortcut 8
+exit()
+//Unable to get shortcuts action is.workflow.actions.comment
+// 
+//Unable to get shortcuts action is.workflow.actions.comment

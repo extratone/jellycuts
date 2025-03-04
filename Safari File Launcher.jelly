@@ -1,0 +1,90 @@
+import Shortcuts
+#Color: blue, #Icon: newsArticle
+
+// Create a launcher for Safari to view a PDF document, image, or Markdown-formatted text file in the browser.
+// Choose between PDF or image.
+menu(Create Safari Launcher, [🌄 Image, 📖 PDF, 📄 Markdown]) {
+case("🌄 Image"):
+	text(text: "image/jpeg") >> text
+var Type = Text
+	selectPhoto() >> selectPhoto
+	convertImage(image: Photos, metadata: false, quality: true) >> convertImage
+case("📖 PDF"):
+	text(text: "application/pdf") >> text 1
+var Type = Text
+	selectFile() >> selectFile
+case("📄 Markdown"):
+// Pick a Markdown-formatted file from iCloud Drive
+	text(text: "text/html") >> text 2
+var Type = Text
+	selectFile() >> selectFile 1
+	getName() >> getName
+var Name = Name
+	getTextFrom(input: File) >> getTextFrom
+	richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+	htmlFromRichText(text: Rich Text from Markdown) >> htmlFromRichText
+var 0B0D0A44-D57A-438D-B06B-8013E95B3699 = """<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="152x152" href="https://www.macstories.net/app/themes/macstories4/images/apple-touch-icon-152x152-precomposed.png" />
+<meta charset="utf-8">
+<style>
+body {
+background-size: cover;
+padding-left: env(safe-area-inset-left);
+padding-right: env(safe-area-inset-right);
+padding-top: env(safe-area-inset-top);
+}
+h1{
+    font-family: -apple-system;
+    color: black;
+    font-weight: 800;
+    font-size: 3em;
+}
+h2 {
+    font-family: -apple-system;
+    font-weight: 800;
+    color: black;
+    font-size: 2em;
+}
+h3,h4 {
+    font-family: -apple-system;
+    font-weight: 800;
+    color: black;
+    font-size: 1.5em;
+}
+p, ul{
+    font-family: -apple-system;
+    font-weight: 400;
+    color: black;
+    font-size: 1.5em;
+}
+ol{
+    font-family: -apple-system;
+    font-weight: 400;
+    color: black;
+    font-size: 1.5em;
+    margin: 15px;
+}
+a {
+color: navy;
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+}
+</style>
+<title>￼</title>
+￼
+</head>"""
+text("${0B0D0A44-D57A-438D-B06B-8013E95B3699}")
+} >> MenuResult
+// Encode the selected item and assemble the necessary Safari data: URL.
+decode(input: Menu Result) >> Encoded Document
+url(url: "data:${Type};base64,${Variable}") >> url
+openURL(url: URL)

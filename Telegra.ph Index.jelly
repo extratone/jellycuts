@@ -1,0 +1,42 @@
+import Shortcuts
+#Color: blue, #Icon: creditCard
+
+/*
+Retrieve a hyperlinked list of posts from a Telegra.ph account.
+
+Telegra.ph API Documentation: https://telegra.ph/api
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text(text: "000000000000000000000000") >> text
+var auth = Text
+url(url: "https://api.telegra.ph/getPageList?access_token=${auth}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+valuesFrom(dictionary: Contents of URL) >> valuesFrom
+repeatEach(Dictionary Value) {
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 1
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 2
+	text(text: "- [${Dictionary Value}](${ActionOutput})") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: index) >> combineText
+var 869ABE75-CE1C-4A23-8DBC-7D1FD26E8794 = """# Telegraph Post Index - `￼`
+
+---
+￼"""
+text("${869ABE75-CE1C-4A23-8DBC-7D1FD26E8794}")
+setClipboard(variable: Text) >> setClipboard
+richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+showWebPage(url: "${Rich Text from Markdown}")

@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: lightBlue, #Icon: tag
+
+// When run by itself, you will be prompted to choose a calendar event and the direct URL inc. UUID will be copied to your clipboard.
+/*
+by: mvan231
+
+~~Format of event link is~~
+x-apple-calevent://{calendarUUID}/{eventUUID}
+x-apple-calevent://C8F0983A-4ED4-42B4-8DD8-020F95A8A33A/EF534E6A-E21A-4FF0-95D9-5FCF289CC801
+*/
+filterCalendar() >> filterCalendar
+choose(list: Calendar Events, prompt: "Select a reminder to get the UUID from.") >> choose
+setClipboard(variable: Chosen Item) >> setClipboard
+alert(alert: "${Chosen Item.as(URL)}", title: "Copied to clipboard!", cancel: false)

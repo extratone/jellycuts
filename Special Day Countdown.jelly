@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: navy, #Icon: magicWandAlt
+
+askForInput(prompt: "What day are you waiting for?", type: Date) >> askForInput
+formatDate(date: "${Provided Input}", tStyle: None) >> DateAwaiting
+getTimeBetween(first: "${DateAwaiting}", second: "${CurrentDate}", interval: Days) >> getTimeBetween
+alert(alert: "There are ${Time Between Dates} days until  
+your Special Day on ${ActionOutput} 🎆", title: "Days Until Your Special Day ", cancel: false)
+//Unable to get shortcuts action is.workflow.actions.sendmessage

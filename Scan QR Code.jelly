@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+scanQR() >> scanQR
+setClipboard(variable: QR/Barcode)
+matchText(text: "${QR/Barcode}", regex: "^https?:\/\/.*$", caseSensitive: false) >> matchText
+if(Matches .contains "http") {
+	openURL(url: Matches)
+} else {
+}

@@ -1,0 +1,39 @@
+import Shortcuts
+#Color: green, #Icon: bookmark
+
+/*
+Generate a standard-format bookmarks HTML export file from Safari on iOS/iPadOS 16.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.apple.mobilesafari.BookmarkEntity
+repeatEach(Bookmarks) {
+	text(text: "<DT><A HREF="${Repeat Item.get(url)}">${Variable.get(url)}</A>") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: list) >> combineText
+var 02C73008-72E9-41B3-8E87-454D6030ED6B = """<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+It will be read and overwritten.
+DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+￼
+</DL><p>"""
+text("${02C73008-72E9-41B3-8E87-454D6030ED6B}")
+setName(input: Text, name: "Bookmarks-${CurrentDate}.html") >> setName
+saveFile(input: Renamed Item)

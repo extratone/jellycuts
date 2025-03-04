@@ -1,0 +1,50 @@
+import Shortcuts
+#Color: green, #Icon: radio
+
+/*
+Retrieve up-to-the-minute program information from Mid-Missouri's NPR station.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+url(url: "https://api.composer.nprstations.org/v1/widget/5387648fe1c8335046a1d4b4/now?format=json&style=v2&show_song=true") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valueFor(key: "onNow.program", dictionary: Dictionary) >> valueFor
+getDictionaryFrom(input: Dictionary Value) >> getDictionaryFrom 1
+var Program = Dictionary
+valueFor(key: "name", dictionary: Program) >> valueFor 1
+var ProgramName = Dictionary Value
+valueFor(key: "program_desc", dictionary: Program) >> valueFor 2
+var ProgramDescription = Dictionary Value
+valueFor(key: "program_link", dictionary: Program) >> valueFor 3
+var ProgramLink = Dictionary Value
+var 243FF495-8457-4025-83D0-206687BACF12 = """**On KBIA**
+
+*￼*
+
+> ￼
+
+[On The Web](￼)"""
+text("${243FF495-8457-4025-83D0-206687BACF12}")
+richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+showWebPage(url: "${Rich Text from Markdown}") >> showWebPage
+menu(Would you like to...?, [) {
+case("Open ProgramName's webpage?"):
+	openURL(url: ProgramLink) >> openURL
+case("Open KBIA's TuneIn stream on your device? (In Apple Music)"):
+	url(url: "https://music.apple.com/us/station/npr-news-kbia-mid-missouri/ra.870744176") >> url 1
+	openURL(url: URL) >> openURL 1
+case("Open KOPN's stream instead? 🤙🏼"):
+	url(url: "https://music.apple.com/us/station/kopn/ra.1461048001") >> url 2
+	openURL(url: URL)
+}

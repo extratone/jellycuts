@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+fileDetail(input: ShortcutInput, property: Name) >> fileDetail
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.TagFilesIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.BookmarkFileIntent
+getFileLink(file: ShortcutInput)

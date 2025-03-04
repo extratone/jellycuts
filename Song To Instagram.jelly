@@ -1,0 +1,94 @@
+import Shortcuts
+#Color: grayBlue, #Icon: star
+
+/*
+V10 
+- add dictionary for font size adjustments
+- update import questions (famously disappeared)
+
+V9 - change offset from bottom offset to top offset for song info
+V8 - added import question for iCloud folder selection
+V7 - fixed calculations
+V6 - fixed icloud section
+V5 - add import question about saving posters to dedicated album or storing screenshot info in iCloud Drive
+V4 - settled on end settings for overlay text to position in middle and offset by percentage from bottom of screen
+V3 - adjusting overlay text
+V2 - added dynamic positioning for text overlay
+*/
+dictionary({"songFontSize":"60","appleSize":"44","name":"Song To Instagram"})
+if(ShortcutInput == nil) {
+	getCurrentSong() >> getCurrentSong
+var Artist = Current Song
+var Track = Current Song
+	musicDetail(detail: Album Artwork, music: Current Song) >> musicDetail
+} else {
+	matchText(text: "${ShortcutInput}", regex: "((?<=i\=)\d+|\d+(\/)?$)") >> matchText
+	searchItunes(query: "${Matches}", by: Product ID) >> searchItunes
+var Artist = iTunes Products
+var Track = iTunes Products
+	downloadURL(url: "${iTunes Products.get(Artwork URL)}") >> downloadURL
+} >> End Artwork If
+if(End Artwork If == nil) {
+	alert(alert: "Image not grabbed from song. Please try to share the song to the shortcut.", title: "Error!", cancel: false)
+	exit()
+} >> IFResult
+list(items: (
+    "Store screenshot size in iCloud Drive",
+    "Save poster images in Photos album",
+    "Show poster before saving / sharing"
+)) >> Setup
+if(Setup .contains "iCloud") {
+	createFolder(path: "${Dictionary.key(name)}") >> createFolder
+	getFile(path: "${Dictionary.key(name)}/settings.json", error: false) >> getFile
+	if(File == nil "iCloud") {
+		takeScreenshot() >> takeScreenshot
+		dictionary({"height":"${Screenshot.get(Height)}","width":"${Screenshot.get(Width)}"})
+		saveFile(input: Dictionary, ask: false, path: "${Dictionary.key(name)}/settings.json", overwrite: true) >> saveFile
+	} >> IFResult 1
+var Height = If Result
+var Width = If Result
+} >> IFResult 2
+if(Setup .contains "Photos") {
+	createAlbum(name: "${Dictionary.key(name)}") >> createAlbum
+	filterPhotos() >> filterPhotos
+	if(Photos != nil "Photos") {
+var Height = Photos
+var Width = Photos
+	}
+}
+if(Height == nil) {
+	takeScreenshot() >> takeScreenshot 1
+var Height = Screenshot
+var Width = Screenshot
+} >> IFResult 3
+text(text: " ") >> text
+getImagesFrom(input: Text) >> getImagesFrom
+resizeImage(image: Images, height: Height, width: Width) >> Background
+calculate(input: "${Height}*(120/100)") >> Bigger h
+resizeImage(image: End Artwork If, height: Bigger h, width: ) >> Resized art
+overlayImage(image1: Resized art, image2: Background, editor: false, opacity: "30", rotation: "0") >> overlayImage
+calculate(input: "${Width}*(70/100)") >> Width calc
+maskImage() >> maskImage
+overlayImage(image1: Masked Image, image2: Overlaid Image, editor: false, width: Width calc, opacity: "100", rotation: "0") >> overlayImage 1
+/*
+750 and 800 points offset below works great for iPhone 14 but may differ based on device (2532 screenshot height)
+
+750/2532 = 0.296 bottom offset
+Now trying from top center offset by 0.685
+
+800/2532 = 0.316 top offset
+*/
+calculate(input: "${Height}*(665/1000)") >> Song offset
+var D5A86D07-CD75-4CD5-9C3D-B5A3AE3383D2 = """￼
+by ￼"""
+text("${D5A86D07-CD75-4CD5-9C3D-B5A3AE3383D2}")
+overlayText(image: Overlaid Image, text: "${Text}", position: Top Center) >> overlayText
+calculate(input: "${Height}*(316/1000)") >>  offset
+overlayText(image: Image with Text, text: " Music", position: Top Center) >> Final image to share
+if(Setup .contains "Show") {
+	showResult(text: "${Final image to share}")
+}
+if(Setup .contains "Photos") {
+	createAlbum(photos: Final image to share, name: "${Dictionary.key(name)}") >> createAlbum 1
+}
+//Unable to get shortcuts action com.burbn.instagram.openin

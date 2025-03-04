@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: tangerine, #Icon: sendMessage
+
+//Unable to get shortcuts action io.vincode.Zavala.GetCurrentOutlineIntent
+//Unable to get shortcuts action io.vincode.Zavala.GetImagesForOutlineIntent
+//Unable to get shortcuts action io.vincode.Zavala.ExportIntent
+var Body = Export File
+matchText(text: "${Body}", regex: "^#\s(.+)") >> matchText
+getItemFromList(list: Matches) >> getItemFromList
+replaceText(input: "${Item from List}", find: "# ") >> replaceText
+var Title = Updated Text
+//Unable to get shortcuts action io.vincode.Ringgold.GetBlogIDIntent
+repeatEach(Images) {
+	text(text: "${Repeat Item}.${Variable}") >> text
+//Unable to get shortcuts action io.vincode.Ringgold.UploadImageIntent
+	replaceText(input: "${Body}", find: "${Text}", replace: "${Published URL.as(Text)}", caseSensitive: false) >> replaceText 1
+var Body = Updated Text
+} >> RepeatResult
+replaceText(input: "${Body}", find: "^#\s(.+)", isRegex: true) >> replaceText 2
+richTextFromHTML() >> richTextFromHTML
+htmlFromRichText(text: Rich Text from HTML) >> htmlFromRichText
+//Unable to get shortcuts action io.vincode.Ringgold.PostHTMLIntent

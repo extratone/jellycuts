@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: tangerine, #Icon: star
+
+// Star Tasks fetches tasks that have been selected in the Things app and adds a star to the end of them as a visual indicator that they are top priorty tasks because Things does not have a flagging feature.
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIGetSelectedItems
+repeatEach(Selected Items) {
+	setClipboard(variable: Repeat Item) >> setClipboard
+	text(text: "${Clipboard} ⭐️") >> text
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIEditItems
+} >> RepeatResult

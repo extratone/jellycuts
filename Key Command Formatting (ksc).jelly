@@ -1,0 +1,30 @@
+import Shortcuts
+#Color: Red, #Icon: commandSquare
+
+/*
+Quickly convert plain language keyboard commands into symbolized/standardized output.
+
+Please see my blog post for the full explanation: https://bilge.world/ksc-shortcut
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+askForInput(prompt: "Command to convert.", default: command control q) >> askForInput
+var command = Provided Input
+//Unable to get shortcuts action com.sindresorhus.Actions.TransformTextIntent
+text(text: "ksc -ms -p ${Transformed Text} > ${ActionOutput}.txt") >> text
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
+//Unable to get shortcuts action AsheKube.app.a-Shell.GetFileIntent
+getTextFrom(input: File) >> getTextFrom
+//Unable to get shortcuts action com.sindresorhus.Actions.TrimWhitespaceIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+setClipboard(variable: Text with Trimmed Whitespace) >> setClipboard

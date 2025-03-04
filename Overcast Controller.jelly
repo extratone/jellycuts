@@ -1,0 +1,199 @@
+import Shortcuts
+#Color: grape, #Icon: cloud
+
+// Presents a menu of various commands for controlling podcasts in Overcast, including changing episodes, starring the current episode, switching chapters, changing speeds, setting the Sleep Timer, seeking playback, starting up playback, saving quotes, copying links from show notes, and opening into the Podcasts app. Also includes Share sheet option for Adding to Overcast from Podcasts.
+/*
+Use this as a way to control every aspect of Overcast that’s available in Shortcuts, from playback to saving good moments to grabbing links that people references to interfacing with the normal Podcasts app.
+
+Feature request: ability to play individual podcasts or playlists in Overcast (and maybe open to them/the player).
+*/
+if(ShortcutInput != nil) {
+//Unable to get shortcuts action fm.overcast.overcast.add
+} else {
+	menu(What do you want to do?, [Open Overcast, Change Episodes, Star This Episode, Switch Chapters, Change Speeds, Set Sleep Timer, Move Speakers, Seek Playback, Play Overcast, Save Quote, Grab Links from Show Notes, Open in Podcasts]) {
+	case("Open Overcast"):
+		openApp(id: "fm.overcast.overcast")
+	case("Change Episodes"):
+		menu(Which way?, [Next Podcast, Previous Podcast]) {
+		case("Next Podcast"):
+//Unable to get shortcuts action fm.overcast.overcast.OCPodcastNextIntent
+		case("Previous Podcast"):
+//Unable to get shortcuts action fm.overcast.overcast.OCPodcastPreviousIntent
+		}
+	case("Star This Episode"):
+//Unable to get shortcuts action fm.overcast.overcast.OCStarIntent
+	case("Switch Chapters"):
+//Unable to get shortcuts action fm.overcast.overcast.OCCurrentEpisodeInfoIntent
+		if(Episode != nil) {
+var C8A01B7F-7BAC-4091-9C4B-F39287E73578 = """The current chapter is "￼."
+
+What do you want to do?"""
+text("${C8A01B7F-7BAC-4091-9C4B-F39287E73578}")
+		} else {
+			text(text: "What do you want to do?") >> text
+		} >> IFResult
+		menu(, [Next Chapter, Previous Chapter]) {
+		case("Next Chapter"):
+//Unable to get shortcuts action fm.overcast.overcast.OCChapterNextIntent
+		case("Previous Chapter"):
+//Unable to get shortcuts action fm.overcast.overcast.OCChapterPreviousIntent
+		} >> MenuResult
+	case("Change Speeds"):
+		menu(What do you want to change?, [Voice Boost, Smart Speed, Playback Speed]) {
+		case("Voice Boost"):
+			menu(What do you want to do?, [Turn Voice Boost On, Turn Voice Boost Off]) {
+			case("Turn Voice Boost On"):
+//Unable to get shortcuts action fm.overcast.overcast.OCVoiceBoostIntent
+			case("Turn Voice Boost Off"):
+//Unable to get shortcuts action fm.overcast.overcast.OCVoiceBoostIntent
+			}
+		case("Smart Speed"):
+			menu(What do you want to do?, [Turn Smart Speed On, Turn Smart Speed Off]) {
+			case("Turn Smart Speed On"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSmartSpeedIntent
+			case("Turn Smart Speed Off"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSmartSpeedIntent
+			}
+		case("Playback Speed"):
+			menu(What speed do you want to set?, [1x, 1.25x, 1.5x, 1.75x, 2x, 2.5x, 3x]) {
+			case("1x"):
+				number(value: 1) >> number
+			case("1.25x"):
+				number(value: 1.25) >> number 1
+			case("1.5x"):
+				number(value: 1.5) >> number 2
+			case("1.75x"):
+				number(value: 1.75) >> number 3
+			case("2x"):
+				number(value: 2) >> number 4
+			case("2.5x"):
+				number(value: 2.5) >> number 5
+			case("3x"):
+				number(value: 3) >> number 6
+			} >> MenuResult 1
+//Unable to get shortcuts action fm.overcast.overcast.OCPlaybackSpeedIntent
+		}
+	case("Set Sleep Timer"):
+		menu(How do you want to set the Sleep Timer?, [Sleep After Custom Time, Sleep After 15 minutes, Sleep After Episode, Cancel Sleep Timer]) {
+		case("Sleep After Custom Time"):
+			askForInput(prompt: "For how long (in minutes) do you want to set the Sleep Timer?", type: Number, allowDecimal: false, allowNegative: false) >> askForInput
+//Unable to get shortcuts action fm.overcast.overcast.OCSleepTimerIntervalIntent
+		case("Sleep After 15 minutes"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSleepTimerIntervalIntent
+		case("Sleep After Episode"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSleepTimerEOFIntent
+		case("Cancel Sleep Timer"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSleepTimerCancelIntent
+		} >> MenuResult 2
+	case("Move Speakers"):
+		runShortcut(name: "Change speaker")
+//Unable to get shortcuts action fm.overcast.overcast.OCPlayIntent
+	case("Seek Playback"):
+		menu(How far?, [Back a minute, Forward two minutes]) {
+		case("Back a minute"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSeekBackIntent
+		case("Forward two minutes"):
+//Unable to get shortcuts action fm.overcast.overcast.OCSeekForwardIntent
+		} >> MenuResult 3
+	case("Play Overcast"):
+//Unable to get shortcuts action fm.overcast.overcast.OCPlayIntent
+	case("Save Quote"):
+		askForInput(prompt: "What’s the quote?") >> askForInput 1
+//Unable to get shortcuts action fm.overcast.overcast.OCCurrentEpisodeInfoIntent
+//Unable to get shortcuts action com.joehribar.toggl.FormatDurationIntent
+//Unable to get shortcuts action com.joehribar.toggl.FormatDurationIntent
+var A65C0050-3815-41A3-A5F3-7D8687AF2970 = """# [Quote from ￼](￼)
+
+[￼ – ￼](￼) (￼) at [￼](￼):
+
+> ￼
+
+## Episode summary:
+￼
+
+## Show notes:"""
+text("${A65C0050-3815-41A3-A5F3-7D8687AF2970}")
+		richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+		markdownFromRich(text: Rich Text from Markdown) >> Summary
+		richTextFromHTML() >> richTextFromHTML
+		markdownFromRich(text: Rich Text from HTML) >> Notes
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Summary;
+                        OutputUUID = "05DF62FA-7DFF-4C54-9ADD-C5BBE9916A26";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Notes;
+                        OutputUUID = "0387F07A-B6A2-4D6F-B325-0B05CB51B7C8";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+		combineText(text: List) >> combineText
+		setClipboard(variable: Combined Text)
+	case("Grab Links from Show Notes"):
+//Unable to get shortcuts action fm.overcast.overcast.OCCurrentEpisodeInfoIntent
+		richTextFromHTML() >> richTextFromHTML 1
+		getURLSFromInput(text: "${Rich Text from HTML}") >> getURLSFromInput
+		choose(list: URLs, prompt: "Which links?", multiple: true, all: false) >> choose
+		menu(What do you want to do?, [Save to Reading List, Save to Instapaper, Open URLs, Copy to Clipboard]) {
+		case("Save to Reading List"):
+			addToReadingList(urls: Chosen Item)
+		case("Save to Instapaper"):
+//Unable to get shortcuts action is.workflow.actions.instapaper.add
+		case("Open URLs"):
+			openURL(url: Chosen Item)
+		case("Copy to Clipboard"):
+			menu(How do you want to copy these?, [List, Markdown, URLs only]) {
+			case("List"):
+				repeatEach(Chosen Item) {
+					text(text: "${Repeat Item.get(Name)}: ${Variable.get(Name)}") >> text 1
+				}
+			case("Markdown"):
+				repeatEach(Chosen Item) {
+					text(text: "[${Repeat Item}](${Variable})") >> text 2
+				}
+			case("URLs only"):
+				setClipboard(variable: Chosen Item)
+			} >> MenuResult 4
+		}
+	case("Open in Podcasts"):
+// Credit to Alex Hay of Toolbox Pro for the original basis of this section: https://twitter.com/toolboxproapp/status/1375999914023522304?s=21
+//Unable to get shortcuts action fm.overcast.overcast.OCCurrentEpisodeInfoIntent
+		searchPodcasts(query: "${Episode.get(podcastTitle)}", by: All, country: United States, items: true) >> searchPodcasts
+		sendMessage() >> sendMessage
+		repeatEach(Episodes) {
+			if(Episode .contains ""${Repeat Item.get(Title)}"") {
+				podcastEpisodeDetail(detail: Store URL, episode: Repeat Item) >> podcastEpisodeDetail
+			} else {
+				nothing()
+			} >> IFResult 1
+		} >> RepeatResult
+		if(Repeat Results == nil) {
+			podcastDetail(detail: Store URL, show: Podcasts) >> podcastDetail
+		} >> IFResult 2
+		openURL(url: If Result)
+	} >> MenuResult 5
+} >> IFResult 3

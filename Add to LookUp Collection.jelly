@@ -1,0 +1,37 @@
+import Shortcuts
+#Color: orange, #Icon: openBook
+
+var CAA980F3-6DE5-442B-B042-8335597ACFA0 = """regicide
+render
+retardataire
+rhombicosidodecahedron
+rhopographer
+rosicler
+rumigeration
+salient
+sherlocking
+sigabrt
+skeuomorphism
+solubility
+spread out
+squiffy
+superlative
+teetotum
+terminology
+text fucking
+til
+undercovered
+unforced error
+velleity
+venerable
+verisimilitude
+vino
+vtuber
+whilom
+winnow
+yashica"""
+text("${CAA980F3-6DE5-442B-B042-8335597ACFA0}")
+splitText(text: Text) >> splitText
+repeatEach(Split Text) {
+//Unable to get shortcuts action in.muditbhargava.LookUp.AddToCollectionIntent
+} >> RepeatResult

@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: orange, #Icon: magicWand
+
+openURL(url: "https://www.youtube.com/watch?v=d914EnpU4Fo&feature=share")

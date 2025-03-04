@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: green, #Icon: locationPin
+
+getLocation() >> getLocation
+locationDetail(detail: Latitude, location: Current Location) >> locationDetail
+locationDetail(detail: Longitude, location: Current Location) >> locationDetail 1
+locationDetail(detail: Altitude, location: Current Location) >> locationDetail 2
+//Unable to get shortcuts action is.workflow.actions.getmapslink
+addToReadingList(urls: Maps URL) >> addToReadingList
+//Unable to get shortcuts action com.sindresorhus.Actions.GeoURIIntent
+text(text: "${Longitude}, ${ActionOutput}") >> text
+var latlong = Text
+dictionary({"lat":"${Latitude}","long":"${Longitude}","latlong":"${latlong}","altitude":"${Altitude}","url":"${Maps URL}","geo":"${Convert Location to Geo URI}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+//Unable to get shortcuts action is.workflow.actions.sendmessage

@@ -1,0 +1,99 @@
+import Shortcuts
+import DataJar
+import Drafts
+
+#Color: red, #Icon: newsArticle
+
+/*
+David Blue's personal web page/article capture Shortcut.
+
+Version 2.0 - 08232022-052505
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+date() >> date
+var davodtime = Date
+getArticle(url: "${ShortcutInput}") >> getArticle
+var articleraw = Article
+markdownFromRich(text: Article) >> markdownFromRich
+var articlemd = Markdown from Rich Text
+articleDetail(detail: Number of Words, article: Article) >> articleDetail
+var wordcount = Number of Words
+articleDetail(detail: Excerpt, article: Article) >> articleDetail 1
+var excerpt = Excerpt
+articleDetail(detail: Author, article: Article) >> articleDetail 2
+var byline = Author
+articleDetail(detail: URL, article: Article) >> articleDetail 3
+var articleurl = URL
+articleDetail(detail: Body, article: Article) >> articleDetail 4
+var articlebody = Body
+articleDetail(detail: Main Image URL, article: Article) >> articleDetail 5
+var imageurl = Main Image URL
+downloadURL(url: "${imageurl}") >> downloadURL
+saveFile(input: Contents of URL, ask: false, overwrite: true) >> saveFile
+//Unable to get shortcuts action net.shinyfrog.bear-iOS.SFCreateNoteFromURLIntent
+var bear = Note
+var coverimage = Contents of URL
+articleDetail(detail: Published Date, article: Article) >> articleDetail 6
+getDateFrom(input: Published Date) >> getDateFrom
+var articledate = Dates
+articleDetail(detail: Title, article: Article) >> articleDetail 7
+var articletitle = Title
+urlContents(url: "${articleurl}") >> urlContents
+saveFile(input: Contents of Web Page, ask: false, path: "${articletitle}.rtf", overwrite: true) >> saveFile 1
+createNote(text: "${Contents of Web Page}") >> createNote
+saveFile(input: articleraw, ask: false, path: "${articletitle}.html", overwrite: true) >> saveFile 2
+var 468DB865-E964-4F62-9411-E3079C91B112 = """# "￼" 
+-"[￼](￼)"
+
+---
+
+￼
+
+￼
+
+---
+
+￼"""
+text("${468DB865-E964-4F62-9411-E3079C91B112}")
+saveFile(input: Text, ask: false, path: "${articletitle}.md", overwrite: true) >> saveFile 3
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.FormatWithFlowIntent
+//Unable to get shortcuts action com.ameba.esse.RunFunctionIntent
+var output = Result
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+var draft = Draft
+//Unable to get shortcuts action is.workflow.actions.evernote.new
+//Unable to get shortcuts action is.workflow.actions.evernote.getlink
+var evernote = Note Link
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTextBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateBookmarkBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateMediaBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTextBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTextBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreatePageIntent
+//Unable to get shortcuts action com.alexhay.nautomate.GetURLFromIDIntent
+var notion = URL
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.CreateEntryIntent
+//Unable to get shortcuts action app.cyan.taio.SaveClippingIntent
+dictionary({"title":"${articletitle}","date":"${articledate}","byline":"${byline}","url":"${articleurl}","wordcount":"${wordcount}","excerpt":"${excerpt}","cover":"${imageurl}","body":"${articlebody}","draft":"${draft}","notion":"${notion}","evernote":"${evernote}","bear":"${bear}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/m4a/Alert_ActivityGoalAttained_Haptic.m4a") >> url 1
+downloadURL(url: "${URL}") >> downloadURL 1
+playSound(file: Contents of URL)

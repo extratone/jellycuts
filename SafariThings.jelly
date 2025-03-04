@@ -1,0 +1,31 @@
+import Shortcuts
+#Color: navy, #Icon: compass
+
+// Create tasks for Safari webpages in Things. The task will be saved with metadata for title, URL, author, and webpage selection (if any) in the notes field of the task.
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+var URL = URLs
+// Use the Actions app to get the title from a URL since it is more reliable than Apple's method for special characters in titles.
+//Unable to get shortcuts action com.sindresorhus.Actions.GetTitleOfURLIntent
+var Title = Title of URL
+getArticle(url: "${URL}") >> getArticle
+articleDetail(detail: Author, article: Article) >> articleDetail
+text(text: "Author: ${Author}") >> text
+var Author = Text
+getType(input: ShortcutInput) >> getType
+// The shortcut is running in Safari, so we can try and get the page selection from it.
+if(Type .contains "Safari") {
+	pageDetail(detail: Page Selection, webpage: ShortcutInput) >> pageDetail
+	markdownFromRich(text: Page Selection) >> markdownFromRich
+	splitText(text: Markdown from Rich Text) >> splitText
+// Prepend each line of the selection with a > sign for blockquotes.
+	repeatEach(Split Text) {
+		text(text: "> ${Repeat Item}") >> text 1
+	} >> RepeatResult
+	combineText(text: Repeat Results) >> combineText
+var Selection = Combined Text
+} else {
+// The input type is not Safari.
+} >> IFResult
+// Create the task. The user may want to modify this to add the ability to set a reminder (in addition to a date) for the task.
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIAddTodo2
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIShowItems2

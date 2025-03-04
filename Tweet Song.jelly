@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+// Share the song you're listening to on Twitter. The shortcut shares the song's name, artist, and artwork.
+// Created by Federico Viticci. Originally covered here: https://www.macstories.net/reviews/workflow-review-integrated-automation-for-ios-8/
+getCurrentSong() >> getCurrentSong
+text(text: "${Current Song.get(Artist)} by ${ActionOutput.get(Artist)}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.getvariable
+getImagesFrom()
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.tweet

@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: red, #Icon: Shortcuts
+
+alert(alert: "Ready to go?", title: "Dictate the body of your note", cancel: true)
+dictateText() >> dictateText
+var Body = Dictated Text
+alert(alert: "", title: "Dictate the title of your note", cancel: false)
+dictateText() >> dictateText 1
+var Title = Dictated Text
+//Unable to get shortcuts action net.shinyfrog.bear-IOS.create

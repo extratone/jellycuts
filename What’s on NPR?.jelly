@@ -1,0 +1,50 @@
+import Shortcuts
+#Color: green, #Icon: radio
+
+/*
+Retrieve live NPR program information with Siri Shortcuts
+
+For more information, visit: https://bilge.world/npr-siri-shortcuts
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+text(text: "5387648fe1c8335046a1d4b4") >> text
+var ucs = Text
+url(url: "https://api.composer.nprstations.org/v1/widget/${ucs}/now?format=json&style=v2&show_song=true") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valueFor(key: "onNow.program", dictionary: Dictionary) >> valueFor
+getDictionaryFrom(input: Dictionary Value) >> getDictionaryFrom 1
+var Program = Dictionary
+valueFor(key: "name", dictionary: Program) >> valueFor 1
+var ProgramName = Dictionary Value
+valueFor(key: "program_desc", dictionary: Program) >> valueFor 2
+var ProgramDescription = Dictionary Value
+valueFor(key: "program_link", dictionary: Program) >> valueFor 3
+var ProgramLink = Dictionary Value
+var 07478B77-E0D4-43AE-9A6D-B6067C104BE6 = """**On KBIA**
+
+*￼*
+
+> ￼
+
+[On The Web](￼)"""
+text("${07478B77-E0D4-43AE-9A6D-B6067C104BE6}")
+richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+showWebPage(url: "${Rich Text from Markdown}") >> showWebPage
+menu(Would you like to...?, [) {
+case("Open ProgramName's webpage?"):
+	openURL(url: ProgramLink) >> openURL
+case("Stream station in Broadcasts."):
+//Unable to get shortcuts action com.highcaffeinecontent.radio.MRDPlayStationIntent
+} >> MenuResult

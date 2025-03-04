@@ -1,0 +1,23 @@
+import Shortcuts
+#Color: green, #Icon: 2x2RectanglesOutline
+
+/*
+Extracts and combines all of your contacts' photos into a photo grid with native actions.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+filterContacts() >> filterContacts
+contactDetail(detail: Contact Photo, contact: Contacts) >> contactDetail
+combineImage(images: Contact Photo, mode: In a Grid, spacing: 0) >> combineImage
+saveToCameraRoll(image: Combined Image) >> saveToCameraRoll
+showResult(text: "${Saved Photo Media}")

@@ -1,0 +1,112 @@
+import Shortcuts
+#Color: blue, #Icon: database
+
+// A comprehensive shortcut to save a variety of file types into DEVONthink To Go. The shortcut can save Safari webpages, images, text, PDFs, videos, MP3s, and more, with the ability to add more supported file types manually. In most cases, files will be previewed natively in DEVONthink. At the end, the shortcut offers the ability to save each DEVONthink item as a task in Things using the Things Natural Language Parser syntax.
+/*
+This is an advanced DEVONthink (DTTG) shortcut that can deal with the following input types:
+
+- Safari webpages (saved as .webarchive or PDF files)
+- Web Archives
+- Images
+- Text
+- PDFs
+- Videos
+- MP3s
+- HTML
+- CSV
+
+Check the dictionary action for a complete list of file types and UTIs that can be rendered natively by DEVONthink, or add your own if you want to experiment. If you add new extensions, you will have to modify the Text regex pattern.
+
+To save items in DTTG, use the dictionary below to create a list of Group Names and UUIDs (as a key:value pair) to present in a Choose from List action as destinations to save files into.
+
+The shortcut supports multiple files at once, either picked from a file picker or shared via the extension.
+
+More details about the Things Parser here: https://www.macstories.net/ios/things-automation-building-a-natural-language-parser-in-workflow/
+*/
+// Create the pattern to match the file extension.
+text(text: "\b(mp3|mp4|gif|mov|pdf|avi|rtf|jpeg|jpg|png|heic|webarchive|tiff|html|csv|txt|md|markdown)\b") >> Pattern
+// Create a dictionary with extension keys and UTI values.
+dictionary({"mp3":"public.mp3","mp4":"public.movie","gif":"com.compuserve.gif","mov":"com.apple.quicktime-movie","pdf":"com.adobe.pdf","avi":"public.avi","rtf":"public.rtf","jpeg":"public.jpeg","jpg":"public.jpeg","png":"public.png","heic":"public.image","webarchive":"com.apple.webarchive","tiff":"public.tiff","html":"public.html","csv":"public.comma-separated-values-text","txt":"public.plain-text","md":"net.daringfireball.markdown","markdown":"net.daringfireball.markdown"}) >> UTIs
+// Change the list of DEVONthink groups and group IDs.
+dictionary({})
+choose(prompt: "Choose a Destination Group") >> Group ID
+dictionary({"base":"x-devonthink://x-callback-url/","document":"createdocument?","item":"source=","URL":"location=","type":"uti=","name":"title=","web archive":"createwebarchive?","comment":"comment=","group":"destination=${Group ID}"}) >> URL Scheme
+//Unable to get shortcuts action is.workflow.actions.getvariable
+count(type: Items) >> count
+if($0 Equals "0") {
+// If the shortcut input equals 0, it means no data was passed to the shortcut. Thus, we ask the user to manually pick a file (or multiple ones).
+	getFile(picker: true, multiple: true)
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action is.workflow.actions.setvariable
+}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+repeatEach($0) {
+	getType() >> getType
+// Make exception for Safari webpage.
+	if($0 $1 "Safari") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		askForInput(prompt: "Add a Comment?") >> Comment
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		menu(Save Webpage As..., [Webarchive, PDF]) {
+		case("Webarchive"):
+			text(text: "${URL Scheme.key(URL)}${ActionOutput.key(URL)}${ShortcutInput.as(WebPage).get(Page URL)}${ShortcutInput.as(WebPage).get(Name)}&${URL Scheme.key(base)}${ActionOutput.key(base)}&${URL Scheme.key(comment)}${ActionOutput.key(comment)}&${URL Scheme.key(name)}") >> text
+		case("PDF"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			createPDF() >> createPDF
+			decode() >> Encoded Webpage PDF
+			text(text: "${Comment}${ActionOutput}${URL Scheme.key(group)}${ActionOutput.key(group)}&${URL Scheme.key(item)}${ActionOutput.key(item)}&${Encoded Webpage PDF}com.adobe.pdf&${ActionOutput}${Repeat Item.as(PDF).get(Name)}&${Variable.as(PDF).get(Name)}")
+		}
+	} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		fileDetail(property: Name) >> File Name
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		fileDetail(property: File Extension) >> File Extension
+		changeCase(case: lowercase)
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		matchText(regex: "${Pattern}", caseSensitive: false) >> matchText
+		count(type: Items) >> count 1
+		if($0 Equals "0") {
+			alert(alert: "The following file isn't natively supported by DEVONthink and can't be processed by this workflow:
+
+${File Name}.${ActionOutput}
+
+Re-run this workflow, excluding this incompatible file.", title: "❌ Not a Compatible File ❌")
+		} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			quicklook()
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			valuesFrom() >> UTI
+			askForInput(prompt: "Add a Title for '${File Extension}.${ActionOutput}'  in DEVONthink")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			askForInput(prompt: "Add a Comment for '${File Name}.${ActionOutput}'  in DEVONthink")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			decode() >> Encoded File
+			text(text: "${URL Scheme.key(document)}${ActionOutput.key(document)}${Comment}${Variable}&${URL Scheme.key(item)}${ActionOutput.key(item)}&${Encoded File}${ActionOutput}&${Name}${Variable}&${URL Scheme.key(base)}") >> text 1
+		} >> IFResult
+	} >> Complete If Text Output
+	url(url: "${Complete If Text Output}") >> url
+	xCallbackURL() >> xCallbackURL
+	valuesFrom() >> DTTG Item Link
+	menu(, [Save as Task, Don't Save]) {
+	case("Save as Task"):
+/*
+This action requires the Things Natural Language Parser shortcut to be installed on your device.
+
+See the original story for details: https://www.macstories.net/ios/things-automation-building-a-natural-language-parser-in-workflow/
+*/
+		askForInput(prompt: "Type a Due Date") >> Date
+		text(text: "${Name} ++Comment: ${Variable} – Item Link: ${Date} \\${ActionOutput} ${Ask}")
+		setClipboard()
+		runShortcut(name: "Things Natural Language Parser", show: false)
+		text(text: "- ${DTTG Item Link} – ${ActionOutput}")
+	case("Don't Save"):
+		text(text: "- ${DTTG Item Link} – ${ActionOutput}")
+	}
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(combine: New Lines)

@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: Red, #Icon: globe
+
+splitScreen(appOne: $0, appTwo: $1)

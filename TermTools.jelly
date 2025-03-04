@@ -1,0 +1,161 @@
+import Shortcuts
+#Color: red, #Icon: circleRightArrow
+
+/*
+RoutineHubUpdate
+
+Current Version: "4.0"
+RoutineHub ID: "1738"
+
+RoutineHubUpdate
+*/
+text(text: "4.0") >> Version
+text(text: "TermTools") >> TermToolsName
+getIP() >> getIP
+count(type: Characters, input: Endereço IP Atual) >> count
+if(Contagem !=) {
+	downloadURL(url: "https://routinehub.co/api/v1/shortcuts/1738/versions/latest") >> downloadURL
+	getDictionaryFrom(input: Conteúdos do URL) >> getDictionaryFrom
+	keysFrom(dictionary: Dicionário) >> keysFrom
+	text(text: "${Valor do Dicionário}") >> text
+	if(Texto == ""${Version}"") {
+		nothing()
+	} else {
+		text(text: "${Dicionário.key(id)}")
+		text(text: "${Dicionário.key(Notes)}") >> text 1
+		menu(, [) {
+		case("Update Now (Text)"):
+			openURL(url: "https://routinehub.co/shortcut/1738")
+			exit()
+		case("Update Later"):
+			nothing()
+		} >> MenuResult
+	}
+} else {
+} >> IFResult
+text(text: "blue") >> User
+count(type: Characters, input: User) >> count 1
+if(Contagem == "0") {
+	alert(alert: "Click in "Cancel", open the configuration page of this shortcut and click on "Customize Shortcut..." in order to set a username and use the shortcut", title: "No username", cancel: true)
+	output(result: "${Contagem}")
+} >> IFResult 1
+deviceDetails() >> Host
+text(text: "${Host}@${ActionOutput}:~$") >> User@Host:~$
+askForInput(prompt: "${User@Host:~$}", default: ) >> askForInput
+changeCase(text: Pedir Entrada, case: lowercase) >> changeCase
+var Command = Updated Text
+count(type: Characters, input: Command) >> count 2
+if(Contagem == 0) {
+	runShortcut(name: TermToolsName, input: Contagem) >> runShortcut
+} >> IFResult 2
+if(Command .contains "help") {
+var 5AD04BE0-D75E-41CB-B008-E13AC1B5A286 = """￼ ￼
+
+Commands in TermTools are not case-sensitive. This means that you don't need to write them whith the same capitalization that is shown below.
+
+help: Show this list
+neofetch: Show information about your device
+killall SpringBoard: Respring (NOT CURRENTLY WORKING)
+apt-get upgrade: Update TermTools using UpdateKit.
+rfkill block wifi: Turn Wi-Fi off
+rfkill unblock wifi: Turn Wi-Fi on
+rfkill block bluetooth: Turn Bluetooth off
+rfkill unblock bluetooth: Turn Bluetooth on
+rfkill block all: Turn Bluetooth and Wi-Fi off
+rfkill unblock all: Turn Bluetooth and Wi-Fi on
+wtb: Run What to Buy X"""
+text("${5AD04BE0-D75E-41CB-B008-E13AC1B5A286}")
+	quicklook(input: Texto)
+	runShortcut(name: TermToolsName, input: Texto, show: true) >> runShortcut 1
+} >> IFResult 3
+if(Command .contains "neofetch") {
+	deviceDetails() >> deviceDetails
+	deviceDetails(detail: Device Model) >> Model
+	deviceDetails(detail: System Version) >> deviceDetails 1
+	deviceDetails(detail: Screen Width) >> Width
+	deviceDetails(detail: Screen Height) >> Height
+	deviceDetails(detail: Current Volume) >> Volume
+	deviceDetails(detail: Current Brightness) >> Brightness
+	getIP() >> External_IPv4
+var E86A8806-D767-43F3-8148-49B3914950E2 = """￼ ￼
+
+Model: ￼
+OS: iOS ￼
+Screen Width: ￼
+Screen Height: ￼
+DE: SpringBoard
+Terminal: ￼ ￼
+Current Volume:￼
+Current Brightness: ￼
+IP Address: ￼"""
+text("${E86A8806-D767-43F3-8148-49B3914950E2}")
+	quicklook(input: Texto)
+	runShortcut(name: TermToolsName, input: Texto) >> runShortcut 2
+} >> IFResult 4
+if(Command .contains "killall springboard") {
+	alert(alert: "This is only kept as a placeholder in case that a new respring bug appears.
+Please click in cancel", title: "Not compatible")
+	url(url: "appleprintcenter://") >> url
+	openURL(url: URL)
+	output(result: "${URL}")
+} >> IFResult 5
+if(Command .contains "apt-get upgrade") {
+	getShortcuts() >> getShortcuts
+	if(Meus Atalhos .contains "UpdateKit") {
+		dictionary({"Shortcut Name":"TermTools","Current Version":"${Version}","RoutineHub ID":"1738"})
+		runShortcut(name: "UpdateKit", input: Dicionário, show: true) >> runShortcut 3
+		if(Shortcut Result .contains "Up To Date") {
+			alert(alert: "You are already in the last version of ${TermToolsName} (${ActionOutput})", title: "Up to date", cancel: false)
+			runShortcut(name: TermToolsName, input: Shortcut Result, show: true) >> runShortcut 4
+		} else {
+			output(result: "${Shortcut Result}")
+		}
+	} else {
+		alert(alert: "In order to update, you need to install the shortcut "UpdateKit". Click in "OK" to install it.", title: "UpdateKit", cancel: false)
+		url(url: "http://www.mikebeas.com/updatekit/") >> url 1
+		openURL(url: URL)
+		output(result: "${URL}")
+	} >> IFResult 6
+} >> IFResult 7
+if(Command .contains "rfkill unblock wifi") {
+	setWiFi()
+	runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 5
+} >> IFResult 8
+if(Resultado de "Se…" .contains "rfkill block wifi") {
+	setWiFi(state: false)
+	runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 6
+} >> IFResult 9
+if(Resultado de "Se…" .contains "rfkill unblock bluetooth") {
+	setBluetooth()
+	runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 7
+} >> IFResult 10
+if(Resultado de "Se…" .contains "rfkill block bluetooth") {
+	setBluetooth()
+	runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 8
+} >> IFResult 11
+if(Resultado de "Se…" .contains "rfkill unblock all") {
+	setWiFi()
+	setBluetooth()
+	runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 9
+} >> IFResult 12
+if(Resultado de "Se…" .contains "rfkill block all") {
+	setBluetooth()
+	setWiFi(state: false)
+	runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 10
+} >> IFResult 13
+if(Resultado de "Se…" .contains "wtb") {
+	text(text: "W.T.Buy X") >> Wtb Name Eng
+	getShortcuts() >> getShortcuts 1
+	if(Meus Atalhos .contains ""${Wtb Name Eng}"") {
+		runShortcut(name: Wtb Name Eng, input: Meus Atalhos) >> runShortcut 11
+		runShortcut(name: TermToolsName, input: Shortcut Result) >> runShortcut 12
+	} else {
+		alert(alert: "You don't have What To Buy X installed
+Click in "OK" to inatall it", title: "${Command} ${Variable}", cancel: false)
+		url(url: "https://routinehub.co/shortcut/1414") >> url 2
+		openURL(url: URL)
+		output(result: "${URL}")
+	}
+} >> IFResult 14
+alert(alert: "-${Command}: ${Variable}: command not found", title: "${User@Host:~$} ${ActionOutput}", cancel: false)
+runShortcut(name: TermToolsName, input: Resultado de "Se…") >> runShortcut 13

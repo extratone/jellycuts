@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: red, #Icon: noSign
+
+setWiFi(state: false)
+setBluetooth()
+//Unable to get shortcuts action is.workflow.actions.personalhotspot.set
+//Unable to get shortcuts action com.agiletortoise.Tally2.IncrementCounterIntent

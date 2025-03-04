@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: lightBlue, #Icon: stopwatch
+
+// Gets the length of an article from input and divides the words by 200 to get a rough reading estimate.
+// Use this shortcut to check how long it might take to read a story based on the total word length and average reading time.
+getArticle(url: "${ShortcutInput}") >> getArticle
+articleDetail(detail: Number of Words, article: Article) >> articleDetail
+math(input: Number of Words, operation: /, operand: "200") >> math
+round(number: Calculation Result, mode: Always Round Up) >> round
+showResult(text: ""${Number of Words}" is ${ActionOutput} words and will take about ${Rounded Number} minutes to read.")

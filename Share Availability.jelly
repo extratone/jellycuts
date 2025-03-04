@@ -1,0 +1,54 @@
+import Shortcuts
+#Color: Red, #Icon: clock
+
+askForInput(type: Date) >> askForInput
+formatDate(date: "${Provided Input}", tStyle: None) >> formatDate
+var Day = Formatted Date
+text(text: "${Day} 12 AM") >> text
+getDateFrom(input: Text) >> getDateFrom
+var Date = Dates
+adjustDate(operation: Add, duration: , date: "${Date}") >> adjustDate
+var End = Adjusted Date
+filterCalendar() >> filterCalendar
+repeatEach(Calendar Events) {
+var Event = Variable
+	eventDetail(detail: Start Date, event: Event) >> eventDetail
+var StartDate = Start Date
+	count(type: Characters, input: Availability) >> count
+	if(Count > false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		if(Date false Start Date) {
+			formatDate(date: "${Start Date}", dStyle: None, tStyle: Short) >> formatDate 1
+var Start = Formatted Date
+			formatDate(date: "${Date}", dStyle: None) >> formatDate 2
+var E98E168B-62E1-488A-9469-D37989FB2146 = """￼
+￼ - ￼"""
+text("${E98E168B-62E1-488A-9469-D37989FB2146}")
+var Availability = Text
+		} else {
+		}
+	} else {
+		formatDate(date: "${Start Date}", dStyle: None, tStyle: Short) >> formatDate 3
+var 9E387765-0191-4F48-AF3B-5CFF3B13AED9 = """I am free on ￼ between:
+Start of day - ￼"""
+text("${9E387765-0191-4F48-AF3B-5CFF3B13AED9}")
+var Availability = Text
+	}
+	eventDetail(detail: End Date, event: Event) >> eventDetail 1
+var Date = End Date
+} >> RepeatResult
+count(type: Characters, input: Availability) >> count 1
+if(Count > false) {
+	formatDate(date: "${Date}", dStyle: None) >> formatDate 4
+var BE40D9B8-0036-4E26-B155-552B6006971E = """￼
+￼ - End of day
+
+Sent via Shortcuts"""
+text("${BE40D9B8-0036-4E26-B155-552B6006971E}")
+} else {
+var F5B3AE54-BCC4-4C4A-BD66-B19957DD223F = """I am free all day on ￼
+
+Sent via Shortcuts"""
+text("${F5B3AE54-BCC4-4C4A-BD66-B19957DD223F}")
+} >> IFResult
+share(file: If Result)

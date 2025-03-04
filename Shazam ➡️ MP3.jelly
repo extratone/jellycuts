@@ -1,0 +1,55 @@
+import Shortcuts
+#Color: green, #Icon: musicWaveForm
+
+//Unable to get shortcuts action com.apple.musicrecognition.RecognizeMusicIntent
+if(Recognize Music != nil) {
+	url(url: Recognize Music) >> url
+	urlComponent(url: "${URL}", component: Path) >> urlComponent
+	matchText(text: "${Komponenta URL}", regex: "track/([0-9]+)") >> matchText
+	getMatchGroup(matches: Shody) >> getMatchGroup
+	url(url: "https://www.shazam.com/discovery/v5/en-US/US/web/-/track/${Text}") >> url 1
+	downloadURL(url: "${URL}") >> downloadURL
+	getDictionaryFrom(input: Obsah URL) >> getDictionaryFrom
+	valueFor(key: "hub", dictionary: Slovník) >> Hub
+	valueFor(key: "actions", dictionary: Hub) >> Actions
+	getItemFromList(list: Actions, type: First Item) >> getItemFromList
+var SongID = Položka ze seznamu
+	url(url: "https://song.link/i/${SongID}") >> url 2
+	url(url: "https://api.song.link/v1-alpha.1/links?url=${URL}") >> Api
+	downloadURL(url: "${Api}") >> downloadURL 1
+	valueFor(key: "linksByPlatform", dictionary: Obsah URL) >> valueFor
+	valueFor(key: "youtubeMusic", dictionary: Hodnota ze slovníku) >> valueFor 1
+	valueFor(key: "url", dictionary: Hodnota ze slovníku) >> YT Music
+	matchText(text: "${YT Music}", regex: "(?:https?:\/\/)?(?:www\.)?music\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})") >> matchText 1
+	getMatchGroup(matches: Matches) >> getMatchGroup 1
+var ID = Text
+	downloadURL(url: "https://upull.me/") >> downloadURL 2
+	htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+	matchText(text: "${HTML from Rich Text}", regex: "value="([^"]+)"") >> matchText 2
+	getMatchGroup(matches: Matches) >> getMatchGroup 2
+	text(text: "https://upull.me/yt/api/${ID}?sig=${Variable}") >> text
+	url(url: "${Text}") >> url 3
+	downloadURL(url: "${URL}", headers: ) >> downloadURL 3
+	valueFor(key: "sig", dictionary: Contents of URL) >> valueFor 2
+	text(text: "https://upull.me/yt/conv/${Dictionary Value}/${ActionOutput}.mp3") >> text 1
+	url(url: "${Text}") >> url 4
+	downloadURL(url: "${URL}") >> downloadURL 4
+	setName(input: Contents of URL, name: "${Recognize Music.as().get(title)} - ${ActionOutput.as().get(title)}") >> setName
+	saveFile(input: Renamed Item) >> saveFile
+} else {
+	sendNotification(body: "Not recognized 😑", title: "", sound: false, attachment: $3) >> sendNotification
+} >> IFResult
+menu(What's next?, [Get more shortcuts, Get the better version of Shazam to MP3, Support the Author, Shazam another, Exit]) {
+case("Get more shortcuts"):
+	url(url: "https://chrunos.com/top-siri-shortcuts/") >> url 5
+	openURL(url: URL)
+case("Get the better version of Shazam to MP3"):
+	url(url: "https://chrunos.com/premium-shortcuts/") >> url 6
+	openURL(url: URL)
+case("Support the Author"):
+	url(url: "https://chrunos.com/donate/") >> url 7
+	openURL(url: URL)
+case("Shazam another"):
+	runShortcut(name: "Shazam ➡️ MP3", ihow: $2)
+case("Exit"):
+}

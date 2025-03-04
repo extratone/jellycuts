@@ -1,0 +1,60 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+/*
+Backup photos on a server using Secure ShellFish organizing photos in folders for each month. You need to change the variables at the top of the shortcut to the correct server and root path for photos.
+
+To make this efficient the shortcut keeps track of all folders and their contents such that it can avoid uploading photos that are already present on the server and only needs to list the server once for each monthly folder.
+
+Even with these optimizations it can still be struggling for the shortcut to run through thousands of photos and you either need to be very patient or limit the date range of photos returned by the Find Photos action.
+
+ItemCache is a dictionary where key is filename and value is the size of the file on the server with this filename. This should be seen in the context of a specific folder and the monthly folder this belongs to.
+
+FolderCache is the outermost dictionary where key is the folder paths for each month and value is a ItemCache dictionary.
+*/
+text(text: "") >> text
+var Server = Text
+text(text: "") >> text 1
+var PhotosRoot = Text
+dictionary({})
+var FolderCache = Dictionary
+filterPhotos() >> filterPhotos
+repeatEach(Photos) {
+	text(text: "${PhotosRoot}/${Variable}") >> text 2
+var Folder = Text
+var Filename = Variable
+	valueFor(key: "${Folder}", dictionary: FolderCache) >> valueFor
+var ItemCache = Dictionary Value
+	if(ItemCache == nil) {
+// This is the first time a photo is located in a folder and we need to list it remotely and we also create it to make sure it exists.
+		text(text: "Listing ${Folder}") >> text 3
+		sendNotification(body: "${Text}", attachment: Text) >> sendNotification
+		dictionary({})
+var ItemCache = Dictionary
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.CreateDir2Intent
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.List3Intent
+		repeatEach(Directory Contents) {
+			setValue(key: "${Repeat Item 2.get(name)}", value: "${Repeat Item 2.get(length)}", dictionary: ItemCache) >> setValue
+var ItemCache = Dictionary
+		} >> RepeatResult
+	} >> IFResult
+// Check serverside size of photo filename, where 0 means it doesnt exist
+	number(value: 0) >> number
+var ServerSize = Number
+	if(ItemCache .contains ""${Filename}"") {
+		valueFor(key: "${Filename}", dictionary: ItemCache) >> valueFor 1
+var ServerSize = Dictionary Value
+	} >> IFResult 1
+	if(ServerSize != Repeat Item) {
+// Photo didn’t exist on server or had the wrong size and we upload and adjust cache.
+		text(text: "${Folder}/${Variable}") >> text 4
+		text(text: "Uploading ${Text}") >> text 5
+		sendNotification(body: "${Text}", sound: false, attachment: Text) >> sendNotification 1
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.UploadFile3Intent
+		setValue(key: "${Filename}", value: "${Repeat Item.get(File Size)}", dictionary: ItemCache) >> setValue 1
+var ItemCache = Dictionary
+	} >> IFResult 2
+// We write ItemCache back to the FolderCache as there might be changes if we listed or uploaded anything.
+	setValue(key: "${Folder}", value: "${ItemCache}", dictionary: FolderCache) >> setValue 2
+var FolderCache = Dictionary
+} >> RepeatResult 1

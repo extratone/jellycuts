@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: navy, #Icon: barGraph
+
+// Visualize time logged for Timery projects over the past week using Charty.
+// Get a list of projects from Timery
+//Unable to get shortcuts action com.joehribar.toggl.GetProjectsIntent
+repeatEach(Project Details) {
+// Check the time logged for each project
+// PLEASE NOTE: An error may occur here if one of your Timery projects has a very long name. This is unfortunately outside of my control and I recommend making the name of that project shorter.
+//Unable to get shortcuts action com.joehribar.toggl.CheckProjectTimeTrackedIntent
+	if(Report Project Details == "0:00:00") {
+	} else {
+		text(text: "${Repeat Item}") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Convert seconds to hours
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+		round(number: Converted Measurement, roundTo: Ones Place) >> round
+		text(text: "${Rounded Number}") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> IFResult
+} >> RepeatResult
+//Unable to get shortcuts action com.brogrammers.charty.NewChartWithSeriesIntent
+//Unable to get shortcuts action com.brogrammers.charty.CopyChartToClipboardIntent
+waitToReturn()
+getImagesFrom(input: Clipboard) >> getImagesFrom
+setName(input: Images, name: "Time Tracked in the Past Week") >> setName
+quicklook(input: Renamed Item)

@@ -1,0 +1,38 @@
+import Shortcuts
+#Color: grayBlue, #Icon: shortcuts
+
+/*
+Rich menu cheatsheet (updated as of iOS 16.4) — @atnbueno (2023-04-27)
+
+Source: user u/gluebyte at Reddit
+- https://www.reddit.com/r/shortcuts/comments/z3ndwi/tip_vcard_menu_guide/
+- https://www.reddit.com/r/shortcuts/comments/kx5xhm/creating_2column_menu_using_vcard/
+*/
+text(text: "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDACAWGBwYFCAcGhwkIiAmMFA0MCwsMGJGSjpQdGZ6eHJmcG6AkLicgIiuim5woNqirr7EztDOfJri8uDI8LjKzsb/2wBDASIkJDAqMF40NF7GhHCExsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsb/wAARCABdAF0DASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAQQAAgMF/8QAKRAAAgIBBQABAwQDAQAAAAAAAQIAEQMEEiExQXETUWEFFCKBIzKR0f/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAbEQEBAQACAwAAAAAAAAAAAAAAARECEiExQf/aAAwDAQACEQMRAD8AfhlYRCjJBchahd8QgyRTLrlHGMbz9/JkdTkNb2r7bYHQEM551LAWDRHvcOLXkNWSmH3AoiB0IIFdWUMpsH2Qm4EJguSCAPYYJJFSJ6/MVrGDQIsxycn9TYrqj8CVBwhWPZEuVBegSR5cwxYnYbhN8SOjWfJNawQtmjwfiY5AVJsf3NMj5FvaOPYv9Vr54+ZUsbaXUnDlpv8AQ9/+zrXOCaPI/wCTtYT/AIUvvaIRpIYJIEkkPUAF9dyKJMT/AFHCuTA2QgbkFgxxiqjxmHm6JZdQubGUZCoPdHqTV61NOFraGG4Dq4wK9EQ1OJQbx5QzeCqP/YcOXIQdxJ2i7kxuX4YyqDdRLKnBhyanMeQeOupRWZmNksfzLIlustMrZH2j2dtBtUKPBUR/TsVKXI9IEdmnNoDDMwZeATKNu+m7KL4oSZMiotsQPt+ZmSf29EkWJmt8SenRX1G12v8AvuMu67GRFBLDzoCLY8dKWmWbVGhjTgekRFue62DKDscB67IPU0CKceQqKG2hEXJx8AWblv3GYIVAsGMO0MJjRl/kxU/EoyIv+pJmH12AAI5PtS2R9qFuz5GGw7pyFxfJJmoYTnrqApCNYoVc3V75BmnM6DLCYI1+ibKeOxALYVYAsLI5B+0wz5Al0f6jTE1x53OPqWQ7ixPJPscpq8bjPJqCFKKfeYqW5lSR5dQRPBbpxMo2qxIsijKG91KxqUwEElWFg9TX6ZHRuEWVVQEk7j+Zk53EA3tHcvtJ+ZCgBBJ65hWOQ3kb5hx5WQ8GVHJv7w1Kh7DqlNB/4n7+R1W4nFqP6RycIvw1INdTqxRCGh605GXM2VrPQ6EY1ZpCBE1lBAl1WATVRAifwcMPJ0Hx2odeiLiE6OiJbTgHw1Ay2cciZ6gbMR/PE6BAPY8nP1xvKq+AQFQIahggSNaQ1jPzFY1oenH5ED//2Q==") >> Base64-encoded photo
+var 27C864AF-D8EB-48EA-8BFD-A233E03F6ADB = """BEGIN:VCARD
+VERSION:3.0
+N:CONTACT WITH 93×93 PHOTO\nMULTILINE (\\n TO BREAK LINE)\nNO 2ND COLUMN
+ORG:SUBTITLE (ORG:)\nTWO LINES (\\n TO BREAK LINE)
+PHOTO;BASE64:￼
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:PHONE, NO PHOTO\nMULTILINE\n(\\n TO BREAK LINE)
+TEL;TYPE=2ND COLUMN:SUBTITLE ( [TEL:] ), LIMITED CHARSET, TWO LINES WITHOUT BREAKS, LIMITED LENGTH
+BEGIN:VCARD
+
+VERSION:3.0
+EMAIL;TYPE=2ND COLUMN:SUBTITLE (EMAIL:)\nTWO LINES (\\n TO BREAK LINE)
+END:VCARD
+"""
+text("${27C864AF-D8EB-48EA-8BFD-A233E03F6ADB}")
+setName(input: Three vCards, name: "menu.vcf") >> Renamed item as Contact
+filterContacts() >> First contact
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+contactDetail(detail: Email Addresses, contact: Renamed item as Contact) >> contactDetail
+setName(input: Direcciones de correo electrónico, name: "RENAMED EMAIL, NO PHOTO, MULTILINE WITHOUT BREAKS") >> setName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+contactDetail(detail: Phone Numbers, contact: Renamed item as Contact) >> contactDetail 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+choose(list: Options, prompt: "Three options") >> choose

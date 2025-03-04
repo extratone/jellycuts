@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: navy, #Icon: doubleQuote
+
+//Unable to get shortcuts action com.apple.musicrecognition.RecognizeMusicIntent
+showResult(text: "${Shazam Media.get(Lyric Snippet Synced)}")
+text(text: "${Shazam Media.get(Lyrics Snippet)}") >> text
+setClipboard(variable: Text) >> setClipboard
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent

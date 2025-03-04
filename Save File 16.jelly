@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: teal, #Icon: shortcuts
+
+getFolderContents(folder: $0) >> getFolderContents
+makeArchive(input: Contents of Folder, type: tar.gz) >> makeArchive
+saveFile(input: Archive, ask: false)

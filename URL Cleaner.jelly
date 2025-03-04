@@ -1,0 +1,41 @@
+import Shortcuts
+#Color: tangerine, #Icon: lightningBolt
+
+// Clean up URLs by removing tracking parameters from them. The shortcut supports a built-in list of widely known tracking parameters (courtesy of Robb Knight), and can be easily expanded to remove more tracking parameters from URLs.
+// Match tracking parameters
+text(text: "_bta_c|_bta_tid|_ga|_hsenc|_hsmi|_ke|_openstat|dm_i|ef_id|epik|fbclid|gclid|gclsrc|gdffi|gdfms|gdftrk|hsa_|igshid|matomo_|mc_|mkwid|msclkid|mtm_|ns_|oly_anon_id|oly_enc_id|otc|pcrid|piwik_|pk_|rb_clickid|redirect_log_mongo_id|redirect_mongo_id|ref|s_kwcid|sb_referer_host|soc_src|soc_trk|spm|sr_|srcid|stm_|trk_|utm_|vero_|resize|tpcc") >> Pattern
+var Pattern = Pattern
+url(url: ShortcutInput) >> url
+var InputURL = URL
+if(Input URL == nil) {
+// There is no URL from the share sheet
+// First, check if it is a Mac
+	if(DeviceDetails == "Mac") {
+		runAppleScript(input: Input URL, script: "on run {input, parameters}	if application "Safari" is running then	return "Yes"end ifend run") >> runAppleScript
+// Check if Safari is running
+		text(text: "${AppleScript Result}") >> text
+		if(Text == "Yes") {
+// Get the URL from the current Safari tab
+			getURL() >> getURL
+var InputURL = URL
+		} else {
+// Safari is not running
+		}
+	} else {
+// It is not a Mac; get the URL from the clipboard
+		getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+var InputURL = URLs
+	}
+} >> IFResult
+// Try one final attempt to see if the Input URL is empty or not; if still empty, just prompt the user to enter one manually.
+if(Input URL == nil) {
+	askForInput(prompt: "What’s the URL to clean up?", type: URL) >> askForInput
+var InputURL = Provided Input
+} >> IFResult 1
+replaceText(input: "${Input URL}", find: "(\?|&)(${Pattern})\=(.+)", isRegex: true, caseSensitive: true) >> replaceText
+getURLSFromInput(text: "${Updated Text}") >> getURLSFromInput 1
+setClipboard(variable: URLs) >> setClipboard
+text(text: "Cleaned up and copied: ${URLs}") >> text 1
+sendNotification(body: "URL cleaned up and copied: ${URLs}", attachment: Text) >> sendNotification
+// Set the output of the shortcut
+getURLSFromInput(text: "${URLs}")

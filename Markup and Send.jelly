@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: picture
+
+markup(input: ShortcutInput) >> markup
+//Unable to get shortcuts action is.workflow.actions.sendmessage

@@ -1,0 +1,32 @@
+import Shortcuts
+#Color: grayBlue, #Icon: bookshelf
+
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindBooksIntent
+choose(list: Filename) >> choose
+var C14F6BA2-27FE-441C-8181-6586C5227F6D = """---
+tags: Books
+---
+![](￼)
+**Author**:: ￼
+**Title**:: ￼
+**Category**:: ￼
+**Status**:: 📥
+
+**Related Books**::
+
+What is this book about?
+What is being said in detail, and how?
+Is this book true in whole or in part?
+What of it?
+
+### Actions
+
+### My Notes
+
+## Details
+￼
+
+[[url: ￼]]"""
+text("${C14F6BA2-27FE-441C-8181-6586C5227F6D}")
+saveFile(input: Text, ask: false, path: "${Chosen Item.get(title)}", overwrite: true) >> saveFile
+renameFile(file: Saved File, name: "${Chosen Item.get(title)}.md") >> renameFile

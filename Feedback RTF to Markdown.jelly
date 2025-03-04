@@ -1,0 +1,80 @@
+import Shortcuts
+#Color: navy, #Icon: newsArticle
+
+/*
+This shortcut converts to Markdown the Feedback RTF files that can be generated (Cmd+E) in macOS Feedback app — @atnbueno (2023-02-25)
+
+- Originally an answer to https://discord.com/channels/551914015131959308/551962196138000386/1075622672018444408
+*/
+filterFiles() >> filterFiles
+if(Archivos == nil) {
+	alert(alert: "❌ No RTF file/s received", title: "", cancel: false)
+	exit()
+} >> IFResult
+repeatEach(Archivos) {
+var Filename = Variable
+	setName(input: Repeat Item, name: "RTF.txt") >> RTF source
+/*
+Remove curly brackets, control words at the top, and empty lines
+
+- This gives us the same number of lines as in the plain text version of the RTF
+*/
+	replaceText(input: "${RTF source}", find: "\{\X+?par.+\v+|(?<=\v)\v+|\\(?=\v)|\}$", isRegex: true) >> replaceText
+var Controlwords = Texto actualizado
+/*
+Extract relevant control words in the form of custom emojis
+
+- I’ve had to avoid emojis that have a non-emoji alternate representation
+*/
+	dictionary({"\b0":"🔻","\b":"🔺","\fs24":"🟩","\fs28":"🟨","\fs36":"🟥","\fs30":"🟧","\i0":"🔹","\i":"🔸"})
+	repeatEach(Diccionario) {
+		valuesFrom(dictionary: Diccionario) >> valuesFrom
+		replaceText(input: "${Control words}", find: "${Repeat Item 2}", replace: "${Valor del diccionario}") >> replaceText 1
+var Controlwords = Texto actualizado
+		nothing()
+	} >> RepeatResult
+	matchText(text: "${Control words}", regex: "[🟥🟧🟨🟩🔻🔺🔹🔸\v]", caseSensitive: $2) >> matchText
+	combineText(text: Coincidencias, combine: Custom) >> combineText
+	splitText(text: Texto combinado) >> splitText
+var Controlemojis = Dividir texto
+/*
+Parse the “control emojis” adding one of each kind to each line of content
+
+- This will allow to determine what each line is, without on/off control toggles spread through multiple lines
+*/
+	text(text: "🟩🔻🔹") >> text
+var Metadata = Texto
+	splitText(text: Repeat Item) >> splitText 1
+	repeatEach(Dividir texto) {
+		if(Repeat Item 2 != nil) {
+			getItemFromList(list: Control emojis, type: Item At Index, index: Repeat Index 2) >> Control emojis
+			text(text: "${Control emojis}${ActionOutput}") >> Emojis
+			matchText(text: "${Emojis}", regex: "[🟥🟧🟨🟩]", caseSensitive: $2) >> matchText 1
+			getItemFromList(list: Coincidencias) >> Size
+			matchText(text: "${Emojis}", regex: "[🔻🔺]", caseSensitive: $2) >> matchText 2
+			getItemFromList(list: Coincidencias) >> Weight
+			matchText(text: "${Emojis}", regex: "[🔹🔸]", caseSensitive: $2) >> matchText 3
+			getItemFromList(list: Coincidencias) >> Style
+			text(text: "${Size}${ActionOutput}${Weight}") >> text 1
+var Metadata = Texto
+			text(text: "${Metadata}${Variable}") >> text 2
+		}
+	} >> RepeatResult 1
+	combineText(text: Resultado de la repetición) >> combineText 1
+	replaceText(input: "${Texto combinado}", find: "([🟩🔻🔹]|(?<=[🟥🟧🟨])🔺)", replace: true, caseSensitive: $4) >> replaceText 2
+var Markdown = Texto actualizado
+/*
+Final step: conversion to Markdown
+
+- Includes a few tweaks to the original format of the feedback template
+*/
+	dictionary({"(?<=\v)(#+|-)(?=\h)":"\$1","($|\v)+":"$1$1","🟥":"# ","🟨":"## ","🔺":"### ","🔸":"- ","^.+\v+(- .+)\v+(# .+)\v+🟧(.+?) — (.+?)(\v)":"$2$5$5- $3$5- $4$5$1$5","(\v)- (.+)\v+(###.+)\v":"$1$3 ($2)$1","(\v## Files)(\v)(\X+?)(###\h)":"$1$2$3## Messages$2$2$4","(\v#.+):(\v)":"$1$2","https?://\S+":"<$0>","\h+(\v)":"$1","(\v## Files)(\v)(\X+?)$":"$1$2$3$2","(\v)+$":"$1"})
+	repeatEach(Diccionario) {
+		valuesFrom(dictionary: Diccionario) >> valuesFrom 1
+		replaceText(input: "${Markdown}", find: "${Repeat Item 2}", replace: "${Valor del diccionario}", isRegex: true) >> replaceText 3
+var Markdown = Texto actualizado
+		nothing()
+	}
+	setName(input: Markdown, name: "${Filename}.md") >> setName
+} >> RepeatResult 2
+saveFile(input: Resultado de la repetición, ask: true, path: "", overwrite: true) >> saveFile

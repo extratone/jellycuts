@@ -1,0 +1,31 @@
+import Shortcuts
+import aShell
+#Color: yellow, #Icon: recycle
+
+/*
+Update all Python packages installed in a-Shell.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text() >> text
+setClipboard(variable: Text) >> setClipboard
+var FE036042-8A98-498A-BE97-91E4B06647BB = """pip3 list --user --outdated | pbcopy
+pip3 list --user --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+open shortcuts://"""
+text("${FE036042-8A98-498A-BE97-91E4B06647BB}")
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
+waitToReturn()
+getClipboard() >> getClipboard
+showResult(text: "${Clipboard}")

@@ -1,0 +1,20 @@
+import Shortcuts
+#Color: blue, #Icon: rectangleSplit
+
+// Split the screen using two windows from currenly running apps. You can choose up to two windows from a list, so one will be resized to fill the left half of the screen, and the other will fill the right half.
+number(value: 0) >> number
+var Passes = Number
+findWindows() >> findWindows
+choose(list: Windows, prompt: "Create a Window Pair", multiple: true) >> choose
+repeatEach(Chosen Item) {
+	if(Passes == 0) {
+		resizeWindow(window: Repeat Item, config: Left Half) >> resizeWindow
+	} else {
+		if(Passes == 1) {
+			resizeWindow(window: Repeat Item, config: Right Half) >> resizeWindow 1
+		} else {
+		}
+	} >> IFResult
+	math(input: "1", operand: Passes) >> math
+var Passes = Calculation Result
+}

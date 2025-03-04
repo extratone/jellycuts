@@ -1,0 +1,69 @@
+import Shortcuts
+#Color: green, #Icon: clock
+
+/*
+Share a RoutineHub developer’s profile webpage to get their shortcuts sorted by latest updates
+2024-07-16 	v1.0
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) {
+	downloadURL(url: "https://update.gluebyte.workers.dev/?id=3298B39C") >> downloadURL
+	if(Contents of URL .contains "2024-07-16") { >> IFResult
+		menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+		case("🌏  Go to RoutineHub"): >> MenuResult
+			openURL(url: "https://routinehub.co/shortcut/19162/") >> openURL
+			exit()
+		case("👾  Download Update"): >> MenuResult 1
+			downloadURL(url: "https://routinehub.co/api/v1/shortcuts/19162/versions/latest") >> downloadURL 1
+			matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+			expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+			replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+			openURL(url: Updated Text) >> openURL 1
+			exit()
+		case("⮐  Not Now"):
+		} >> MenuResult 2
+	} >> IFResult 1
+} >> IFResult 2
+replaceText(input: "${ShortcutInput.get(Page URL)}", find: "^.*/user/([^/?]+)(?:\?.+)?$", replace: "$1", isRegex: true) >> user
+if(user .contains "/") {
+	alert(alert: "
+
+🛑  Please share a RoutineHub developer’s profile page
+
+${ShortcutInput.get(Page URL)}
+
+", tancel: false)
+	exit()
+}
+replaceText(input: "${ShortcutInput.get(Page URL)}?page=1", find: "^.*?\?page=(\d+).*$", replace: "$1", isRegex: true) >> current page
+setName(input: ShortcutInput, name: "a.txt") >> setName
+replaceText(input: " href="?page=1 ${Renamed Item}", find: "(?s)^.* href="\?page=(\d+).*$", replace: "$1", isRegex: true) >> replaceText 1
+repeat(Updated Text) {
+	if(Repeat Index == current page) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	} else {
+		if(Repeat Index != 1) {
+			text(text: "?page=${Repeat Index}") >> text
+		} >> IFResult 3
+		downloadURL(url: "https://routinehub.co/user/${user}${ActionOutput}") >> downloadURL 2
+		setName(input: Contents of URL, name: "a.txt") >> setName 1
+	} >> IFResult 4
+	replaceText(input: "${If Result}", find: "(?s)^.*<div class="authored">(.*?)</section>.*$", replace: "$1", isRegex: true) >> replaceText 2
+	matchText(text: "${Updated Text}", regex: "(?s)<div class="column .*?</a>\s*</div>") >> matchText 1
+	replaceText(input: "${Matches}", find: "(?s)^.*?="/shortcut/(\d+)/".*$", replace: "https://routinehub.co/api/v1/shortcuts/$1/versions/latest", isRegex: true) >> replaceText 3
+	downloadURL(url: "${Updated Text}") >> downloadURL 3
+	repeatEach(Contents of URL) {
+		formatDate(date: "${Repeat Item 2.as(Dictionary).key(Release)}", dStyle: Custom, custom: "yyyy-MM-dd") >> formatDate
+		getItemFromList(list: Matches, type: Item At Index, index: Repeat Index 2) >> getItemFromList
+		replaceText(input: "${Formatted Date}${ActionOutput}", find: "(?s)<div class="level-left categories">.*?</div>", replace: "<div class="level-left categories"><span class="level-item"><small>${Formatted Date}</small></span></div>", isRegex: true) >> replaceText 4
+	}
+} >> RepeatResult
+filterFiles() >> filterFiles
+replaceText(input: "${Files}", find: "^\d\d\d\d-\d\d-\d\d", isRegex: true) >> replaceText 5
+text(text: "${Updated Text}") >> text 1
+setValue(key: "html", value: "${Text}") >> setValue
+runJavascriptOnWebpage(url: ShortcutInput, javascript: "document.querySelector('div.authored').children.item(1).innerHTML = ${Dictionary}.html;
+document.querySelector('nav.pagination')?.remove();
+completion();") >> runJavascriptOnWebpage

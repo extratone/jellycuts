@@ -1,0 +1,60 @@
+import Shortcuts
+#Color: red, #Icon: newsArticle
+
+/*
+David Blue's personal web page/article capture Shortcut.
+
+More details: https://davidblue.wtf/capture
+
+Version 2.1 - 09032022-184835
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+getArticle(url: "${ShortcutInput}") >> getArticle
+markdownFromRich(text: Article) >> markdownFromRich
+articleDetail(detail: URL, article: Article) >> articleDetail
+articleDetail(detail: Body, article: Article) >> articleDetail 1
+articleDetail(detail: Main Image URL, article: Article) >> articleDetail 2
+articleDetail(detail: Published Date, article: Article) >> articleDetail 3
+articleDetail(detail: Title, article: Article) >> articleDetail 4
+createNote(text: "${Article}") >> createNote
+var 470A45A8-E57D-4B89-A7FC-C05968B9BF3F = """# "￼" 
+-"[￼](￼)"
+
+---
+
+￼"""
+text("${470A45A8-E57D-4B89-A7FC-C05968B9BF3F}")
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.FormatWithFlowIntent
+//Unable to get shortcuts action com.ameba.esse.RunFunctionIntent
+var output = Result
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTextBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateBookmarkBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateMediaBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTextBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTextBlockIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.nautomate.CreatePageIntent
+//Unable to get shortcuts action com.alexhay.nautomate.GetURLFromIDIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+setClipboard(variable: output) >> setClipboard
+//Unable to get shortcuts action app.cyan.taio.SaveClippingIntent
+openURL(url: Draft) >> openURL
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent

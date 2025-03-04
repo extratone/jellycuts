@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: yellow, #Icon: archive
+
+var term = ShortcutInput
+url(url: "https://dictionaryapi.com/api/v3/references/collegiate/json/${term}?key=9d8a234e-9b2d-415c-bb9e-df72db19db24") >> url
+downloadURL(url: "${URL}") >> downloadURL
+//Unable to get shortcuts action ke.bou.GizmoPack.FilterDictionariesIntent
+//Unable to get shortcuts action ke.bou.GizmoPack.FilterDictionariesIntent
+//Unable to get shortcuts action ke.bou.GizmoPack.CombineListsIntent
+getItemFromList(list: Combined List) >> getItemFromList
+valueFor(key: "fl", dictionary: Item from List) >> valueFor
+var fl = Dictionary Value
+valueFor(key: "shortdef", dictionary: Item from List) >> valueFor 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+var AF7684D8-213B-4A22-B24C-758BFDDB9A24 = """# ￼
+-￼
+
+￼"""
+text("${AF7684D8-213B-4A22-B24C-758BFDDB9A24}")
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.OpenDraftIntent

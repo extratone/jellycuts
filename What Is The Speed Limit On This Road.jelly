@@ -1,0 +1,38 @@
+import Shortcuts
+#Color: grape, #Icon: car
+
+showResult(text: "Got it! Give me one moment!")
+getCurrentConditions() >> getCurrentConditions
+conditionDetail(detail: Location, condition: Weather Conditions) >> conditionDetail
+var Latt = Location
+var Long = Location
+url(url: "https://overpass-api.de/api/interpreter?data=%5Bout:json%5D%5Btimeout:25%5D;(way(around:15,${Latt},${Variable})%5B%22maxspeed%22%5D;);(._;%3E;);out;") >> url
+downloadURL(url: "${URL}") >> downloadURL
+var OverpassCall = Contents of URL
+repeatEach(OverpassCall) {
+	if(Repeat Item .contains "maxspeed") {
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+		text(text: "The speed limit on ${Measurement} is ${ActionOutput}!") >> text
+	} else {
+		nothing()
+	} >> IFResult
+} >> RepeatResult
+if(Repeat Results == nil) {
+	text(text: "I'm sorry, but i was unable to find a speed limit on this road") >> text 1
+} else {
+	getItemFromList(list: Repeat Results) >> getItemFromList
+} >> IFResult 1
+showResult(text: "${If Result}")
+dictionary({"ShortcutID":"4594","Version":"2.0.1"})
+text(text: "https://routinehub.co/api/v1/shortcuts/${Dictionary.key(ShortcutID)}/versions/latest") >> text 2
+downloadURL(url: "${Text}") >> downloadURL 1
+text(text: "0${Contents of URL.as(Dictionary).key(Version)}") >> text 3
+text(text: "0${Dictionary.key(Version)}") >> text 4
+if(Text > Text) {
+	menu(There is an update availible! Would you like to install it?, [Yes, No]) {
+	case("Yes"):
+		openURL(url: Contents of URL)
+		exit()
+	case("No"):
+	} >> MenuResult
+} >> IFResult 2

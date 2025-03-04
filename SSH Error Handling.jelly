@@ -1,0 +1,48 @@
+import Shortcuts
+#Color: grayBrown, #Icon: threeCircles
+
+/*
+SSH error handling test
+
+By u/ctawn 2018-10-29
+Based on great tip by u/passwd123456
+*/
+/*
+Explanation:  when using Run Script Over SSH, and there is a shell error, shortcuts will put up an error alert and not return results to the shortcut. By using this syntax, we can trap as follows:
+
+Results: returned as text, type text
+No result: returned as data, type file, get text from input="data"
+Error: returned as text with full error message
+
+These examples specific to Mac. 
+
+Example one depends on what iTunes is doing or the state
+
+Put in your own credentials
+*/
+var 6BF934D4-0A0B-4C4C-B6F2-91F3E006C4ED = """tell Application "iTunes" to name of current track
+tell Application "System Events" to name of home folder
+nonsense
+Say "cheese""""
+text("${6BF934D4-0A0B-4C4C-B6F2-91F3E006C4ED}")
+splitText() >> splitText
+choose(prompt: "1: ?; 2: result, 3: error, 4: no result") >> choose
+//Unable to get shortcuts action is.workflow.actions.setvariable
+runSSH(host: "192.168.0.202", port: "22", user: "", password: "", script: "out=`osascript -e '${Cmd}' 2>&1`; echo $out") >> runSSH
+//Unable to get shortcuts action is.workflow.actions.setvariable
+getTextFrom() >> getTextFrom
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.getvariable
+getType() >> getType
+//Unable to get shortcuts action is.workflow.actions.getvariable
+if($0 Equals "data") {
+	text(text: "No result / output") >> text
+} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	if($0 $1 "execution error") {
+		text(text: "The error:") >> text 1
+	} else {
+		text(text: "The result/output:") >> text 2
+	}
+} >> IFResult
+alert(alert: "${FinalResult}", title: "${If Result}", cancel: false)

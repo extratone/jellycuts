@@ -1,0 +1,686 @@
+import Shortcuts
+#Color: red, #Icon: sun
+
+dictionary({"name":"Total Weather by Siri","by":"tldodge","version":"10.2","last updated":"2/2/2023","updatelog ":{"10.2":"Updated conditions dictionary.","10.1":"Added overnight low temperatures and updated conditions dictionary. ","10.0":"Added compatibility with iOS & iPadOS 16.","9.1":"Bug fixes.","9.0":"Added wind to tomorrow’s forecast.  Temperature units (°F or °C) are now selected in device Settings.","8.8":"Fixed, “could not evaluate key path” bug.","8.7":"Today’s forecasted temperatures are now more accurate.","8.6":"Updated weather conditions dictionary;  Improved stability through better error handling when data is missing from weather.com.","8.5":"Improved error handling when specific data is missing from weather.com.  Improved sun phase reporting. ","8.4":"Date conversion bug fixed.","8.3":"Improved visibility reporting.","8.2":"Fixed a bug causing decreased precision in barometric pressure reporting as a result of the iOS 13 upgrade.","8.1":"Added question to select a remote weather location;  Better error handling when sunrise or sunset times are missing from weather.com; Improved windspeed reporting.","8.0":"Updated for iOS 13.1","7.3":"Fixed some minor text formatting.","7.2":"Fixed bug when reporting sunrise and sunset. ","7.1":"Clarified options.","7.0":"New Feature for the hearing impaired: Option to read instead of hear Siri’s weather report.","6.3":"Updated Import Questions to run properly on Shortcuts 2.1.3. ","6.2":"Fix bug that might have reported a forecast of -0 temps. ","6.1":"Report now includes UV risk catagory. ","6.0.2":"Updated dictionary of conditions. ","6.0.1":"Improved some minor phrasing including how temperatures are reported when 1 or -1 degree.","6.0":"May now select during installation, to select to hear either imperial or metric units in weather reports."},"credits":"Thanks to John Sills and Joe Really."})
+/*
+This section sets options such as setting units of measurement to either Imperial or Metric and setting the option for the hearing impaired (read instead of hear Siri's weather report.)
+
+IMPORTANT: DO NOT EDIT QUESTIONS.  DOING SO WILL CAUSE THE SHORTCUT TO NOT WORK PROPERLY.
+
+Setting the dictionary values below to "True", will switch:
+
+Text output instead of Siri.
+Precipitation from inches to millimeters. 
+Wind Speed from miles per hour to kilometers per hour.  
+Barometric Pressure from inches of mercury to hectopascals.
+Visibility from miles to kilometers.
+
+You may select temperature units (°F or °C) in your device settings.  Go to General > Language & Region > Temperature Unit.
+*/
+dictionary({"Deaf?":"false","Switch precip to mm?":"false","Switch wind to km/h?":"false","Switch pressure to hPa?":"false","Switch visibility to km?":"false"})
+getDictionaryFrom(input: Dictionary) >> getDictionaryFrom
+var OptionsDict = Dictionary
+// This section sets the rate and pitch of Siri's voice for consistency and a more natural speech. 
+number(value: 0.5) >> number
+var SiriRate = Number
+number(value: true) >> number 1
+var SiriPitch = Number
+// This section gets the weather data from www.weather.com for the user's current location and passes the name of the city on for use by Siri.
+sendNotification(body: "Getting your current or selected location . . .", sound: false) >> sendNotification
+getCurrentConditions() >> getCurrentConditions
+var WeatherConditions = Weather Conditions
+locationDetail(detail: City, location: WeatherConditions) >> locationDetail
+var City = City
+conditionDetail(detail: Location, condition: WeatherConditions) >> conditionDetail
+var Location = Location
+getForecast() >> Weather Forecast
+var WeatherForecast = Weather Forecast
+// This section gets the device iOS version.  (Some weather data in iOS 16 such as visibility, humidity, and participation chances are reported in a different format than iOS 15 and earlier.)
+deviceDetails(detail: System Version) >> deviceDetails
+round(number: System Version, mode: Always Round Down) >> round
+var iOSVersion = Rounded Number
+// This section gets the current date and time and sets the time period of the day (morning, afternoon, evening, or night.)
+dictionary({"00":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"01":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"02":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"03":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"04":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"05":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"06":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"1"},"07":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"2"},"08":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"2"},"09":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"2"},"10":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"2"},"11":{"report":"this morning","sunphase":"morning","hightemp":"1","lowtemp":"2"},"12":{"report":"this afternoon","sunphase":"afternoon","hightemp":"1","lowtemp":"3"},"13":{"report":"this afternoon","sunphase":"afternoon","hightemp":"1","lowtemp":"3"},"14":{"report":"this afternoon","sunphase":"afternoon","hightemp":"1","lowtemp":"3"},"15":{"report":"this afternoon","sunphase":"afternoon","hightemp":"1","lowtemp":"3"},"16":{"report":"this afternoon","sunphase":"afternoon","hightemp":"1","lowtemp":"3"},"17":{"report":"this evening","sunphase":"evening","hightemp":"1","lowtemp":"3"},"18":{"report":"this evening","sunphase":"evening","hightemp":"1","lowtemp":"3"},"19":{"report":"this evening","sunphase":"evening","hightemp":"2","lowtemp":"3"},"20":{"report":"tonight","sunphase":"evening","hightemp":"2","lowtemp":"3"},"21":{"report":"tonight","sunphase":"evening","hightemp":"2","lowtemp":"3"},"22":{"report":"tonight","sunphase":"evening","hightemp":"2","lowtemp":"3"},"23":{"report":"tonight","sunphase":"evening","hightemp":"2","lowtemp":"3"}})
+var TimePeriods = Dictionary
+date() >> date
+var Now = Date
+locationDetail(detail: Longitude, location: Location) >> locationDetail 1
+locationDetail(detail: Latitude, location: Location) >> locationDetail 2
+dictionary({"Now":"${Now}","RemoteTimeDay":"","Location":"${Location}","Lon":"${Longitude}","Lat":"${Latitude}"})
+/*
+If a remote weather location has been selected, an optional Total Weather Time Adjust module may be run by inserting a Run Shortcut action here. It will get the current day and time for the selected remote location from the TimeZoneDB.com API (requires a free API Key by registering.)
+
+Insert a Run Shortcut action below and set to run the Total Weather Time Adjust Module shortcut and set the Input to the above "Dictionary" (magic variable.)  "Show While Running" should be switched off.
+
+Reset the variable RemoteDict below from "Dictionary" to "Shortcut Result".
+  
+*/
+var RemoteDict = Dictionary
+keysFrom(dictionary: RemoteDict) >> keysFrom
+var Now = Dictionary Value
+formatDate(date: "${Now}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate
+var DateToday = Formatted Date
+adjustDate(operation: Add, duration: , date: "${DateToday}") >> adjustDate
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate 1
+var DateTomorrow = Formatted Date
+adjustDate(operation: Subtract, duration: , date: "${DateToday}") >> adjustDate 1
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate 2
+var DateYesterday = Formatted Date
+formatDate(date: "${Now}", dStyle: Custom, custom: "EEEE") >> formatDate 3
+var WeekDayNow = Formatted Date
+formatDate(date: "${Now}", dStyle: Custom, custom: "hh:mm a") >> formatDate 4
+var TimeNow = Formatted Date
+formatDate(date: "${Now}", dStyle: Custom, custom: "HH") >> formatDate 5
+var HourNow = Formatted Date
+keysFrom(dictionary: TimePeriods) >> keysFrom 1
+var TimeOfDay = Dictionary Value
+getTimeBetween(first: "${Now}", second: "${CurrentDate}", interval: Hours) >> getTimeBetween
+var TimeDiff = Time Between Dates
+keysFrom(dictionary: RemoteDict) >> keysFrom 2
+var RemoteTimeDay = Dictionary Value
+// This section  creates a dictionary of phrases for Siri to use to improve grammar when describing current (0) and forecasted (1) weather conditions.  The appropriate phrase is then selected to match current conditions.   The dictionary below may need to be manually updated from time to time when a condition is added by weather.com that is not included. 
+dictionary({"Clear":{"0":"There are clear skies","1":"with clear skies"},"Mostly Clear":{"0":"It is mostly clear","1":"with mostly clear skies"},"Cloudy":{"0":"It is cloudy","1":"with cloudy skies"},"Partly Cloudy":{"0":"It is partly cloudy","1":"with partly cloudy skies"},"Mostly Cloudy":{"0":"There are mostly cloudy skies","1":"with mostly cloudy skies"},"Haze":{"0":"It is hazy","1":"with haze"},"Foggy":{"0":"It is foggy","1":"and foggy"},"Heavy Fog":{"0":"There is heavy fog","1":"with heavy fog"},"Rain":{"0":"It is raining","1":"with rain"},"Light Rain":{"0":"There is light rain","1":"with light rain"},"Freezing Rain":{"0":"There is freezing rain","1":"and freezing rain"},"Showers":{"0":"There are rain showers","1":"with rain showers"},"Windy":{"0":"It is windy.","1":"and windy"},"Snow":{"0":"It is snowing","1":"and snow"},"Snow Showers":{"0":"There are snow showers","1":"with snow showers"},"Light Snow Showers":{"0":"There are light snow showers","1":"with light snow showers"},"Blowing Snow":{"0":"There is blowing snow","1":"with blowing snow"},"Flurries":{"0":"There are snow flurries","1":"with snow flurries"},"Mixed Rain And Snow":{"0":"There is a mix of rain and snow","1":"with a mix of rain and snow"},"Sleet":{"0":"It is sleeting","1":"with sleet"},"Mixed Snow And Sleet":{"0":"There is mixed snow and sleet","1":"with mixed snow and sleet"},"Thunderstorms":{"0":"There are thunderstorms","1":"with thunderstorms"},"Drizzle":{"0":"There is drizzle","1":"with drizzle"},"Isolated Thundershowers":{"0":"There are isolated thundershowers","1":"with isolated thundershowers"},"Isolated Thunderstorms":{"0":"There are isolated thunderstorms","1":"with isolated thunderstorms"},"Scattered Thunderstorms":{"0":"There are scattered thunderstorms","1":"with scattered thunderstorms"},"Scattered Showers":{"0":"There are scattered showers","1":"with scattered showers"},"Sunny":{"0":"It is sunny","1":"with sunny skies"},"Mostly Sunny":{"0":"It’s mostly sunny ","1":"with mostly sunny skies"},"Breezy":{"0":"It is breezy","1":"and breezy"},"Thunderstorm":{"0":"There is a thunderstorm","1":"with a thunderstorm"},"Heavy Rain":{"0":"There is heavy rain","1":"with heavy rain"}}) >> Condition Dictionary
+var ConditionsDict = Condition Dictionary
+keysFrom(dictionary: ConditionsDict) >> keysFrom 3
+if(Dictionary Value .contains ""${WeatherConditions.get(Condition)}"") {
+	keysFrom(dictionary: ConditionsDict) >> CurrentConditions
+	text(text: "${City} in ${Variable}") >> text
+var ConditionPhrase = Text
+} else {
+	text(text: "There are currently ${WeatherConditions.get(Condition)} conditions in ${Variable.get(Condition)}") >> text 1
+var ConditionPhrase = Text
+} >> IFResult
+// This section determines and formats the wind direction and rounds off the wind speed.  The dictionary of wind directions was designed by Joe Really.
+dictionary({"0":"northerly","1":"northeasterly","2":"easterly","3":"southeasterly","4":"southerly","5":"southwesterly","6":"westerly","7":"northwesterly","8":"northerly"})
+var WindDirDict = Dictionary
+count(type: Characters, input: WeatherConditions) >> count
+if(Count != nil) {
+	math(input: WeatherConditions, operation: /, operand: "45") >> math
+	round(number: Calculation Result) >> round 1
+	keysFrom(dictionary: WindDirDict) >> keysFrom 4
+var WindDirection = Dictionary Value
+	keysFrom(dictionary: OptionsDict) >> keysFrom 5
+	if(Dictionary Value == "0") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		round(number: WeatherConditions, roundTo: Ones Place, mode: Always Round Down) >> round 2
+var WindSpeed = Rounded Number
+		if(WindSpeed == 1) {
+			text(text: "mile per hour") >> text 2
+var WindUnit = Text
+		} else {
+			text(text: "miles per hour") >> text 3
+var WindUnit = Text
+		} >> IFResult 1
+	} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		round(number: WeatherConditions, mode: Always Round Down) >> round 3
+var WindSpeed = Rounded Number
+		if(WindSpeed == 1) {
+			text(text: "kilometer per hour") >> text 4
+var WindUnit = Text
+		} else {
+			text(text: "kilometers per hour") >> text 5
+var WindUnit = Text
+		} >> IFResult 2
+	} >> IFResult 3
+	text(text: "  There is a ${WindUnit} wind blowing at ${Variable} ${WindSpeed}.") >> text 6
+var WindPhrase = Text
+} else {
+	text() >> text 7
+var WindPhrase = Text
+} >> IFResult 4
+// This section formats and rounds off the current temperatures. It sets the High and Low temperature phrases to use. It also sets the "Feels Like" temperature.
+count(input: WeatherConditions) >> count 1
+if(Count != nil) {
+	round(number: WeatherConditions) >> round 4
+var Temperature = Rounded Number
+	if(Temperature == "1") {
+		text(text: "  The temperature is ${Temperature} degree") >> text 8
+var TempPhrase = Text
+	} else {
+		if(Temperature == "-1") {
+			text(text: "  The temperature is ${Temperature} degree") >> text 9
+var TempPhrase = Text
+		} else {
+			text(text: "  The temperature is ${Temperature} degrees") >> text 10
+var TempPhrase = Text
+		}
+	} >> IFResult 5
+	round(number: WeatherConditions) >> round 5
+var FeelsLike = Rounded Number
+	if(FeelsLike == ""${Temperature}"") {
+		text(text: ".") >> text 11
+var FeelsLikePhrase = Text
+	} else {
+		text(text: ", but it feels like ${FeelsLike}.") >> text 12
+var FeelsLikePhrase = Text
+	} >> IFResult 6
+} else {
+	text() >> text 13
+var TempPhrase = Text
+} >> IFResult 7
+// This section determines the humidity and dew point phrase, if either are given. 
+count(type: Characters, input: WeatherConditions) >> count 2
+if(Count != nil) {
+	if(WeatherConditions false 1) {
+		math(input: WeatherConditions, operation: *, operand: "100") >> math 1
+var AdjustedHumidity = Calculation Result
+	} else {
+var AdjustedHumidity = Variable
+	} >> IFResult 8
+	count(type: Characters, input: WeatherConditions) >> count 3
+	if(Count == nil 0) {
+		text() >> text 14
+var DewpointPhrase = Text
+	} else {
+		round(number: WeatherConditions) >> round 6
+var Dewpoint = Rounded Number
+		if(Dewpoint == "1") {
+			text(text: " with a dew point of ${Dewpoint} degree") >> text 15
+var DewpointPhrase = Text
+		} else {
+			if(Dewpoint == "-1") {
+				text(text: " with a dew point of ${Dewpoint} degree") >> text 16
+var DewpointPhrase = Text
+			} else {
+				text(text: " with a dew point of ${Dewpoint} degrees") >> text 17
+var DewpointPhrase = Text
+			}
+		} >> IFResult 9
+	} >> IFResult 10
+	text(text: "  The relative humidity is ${DewpointPhrase}%${Variable}.") >> text 18
+var HumidityPhrase = Text
+} else {
+	text() >> text 19
+var HumidityPhrase = Text
+} >> IFResult 11
+// This section sets the Visibility phrase. 
+count(type: Characters, input: WeatherConditions) >> count 4
+if(Count != nil) {
+	keysFrom(dictionary: OptionsDict) >> keysFrom 6
+	if(Dictionary Value == "0") {
+		round(number: WeatherConditions, roundTo: Tenths, mode: Always Round Down) >> round 7
+var Visibility = Rounded Number
+		if(Visibility == 1) {
+			text(text: " with a visibility of ${Visibility} mile.") >> text 20
+var VisibilityPhrase = Text
+		} else {
+			text(text: " with a visibility of ${Visibility} miles.") >> text 21
+var VisibilityPhrase = Text
+		}
+	} else {
+		round(number: WeatherConditions, roundTo: Tenths, mode: Normal) >> round 8
+var Visibility = Rounded Number
+		if(Visibility == 1) {
+			text(text: " with a visibility of ${Visibility} kilometer.") >> text 22
+var VisibilityPhrase = Text
+		} else {
+			text(text: " with a visibility of ${Visibility} kilometers.") >> text 23
+var VisibilityPhrase = Text
+		}
+	} >> IFResult 12
+} else {
+	text(text: ".") >> text 24
+var VisibilityPhrase = Text
+} >> IFResult 13
+// This section rounds off the current Precipitation Amount and sets the Precipitation Chance phrase to use.
+keysFrom(dictionary: OptionsDict) >> keysFrom 7
+if(Dictionary Value == "0") {
+	formatNumber(number: WeatherConditions, places: 2) >> formatNumber
+var PrecipitationAmount = Formatted Number
+	text(text: "${PrecipitationAmount} inches") >> text 25
+var Precipitation = Text
+} else {
+	formatNumber(number: WeatherConditions, places: 2) >> formatNumber 1
+var PrecipitationAmount = Formatted Number
+	text(text: "${PrecipitationAmount} millimetres") >> text 26
+var Precipitation = Text
+} >> IFResult 14
+if(iOSVersion == 16) {
+	math(input: WeatherConditions, operation: *, operand: "100") >> math 2
+var AdjustedPrecipChance = Calculation Result
+} else {
+var AdjustedPrecipChance = Variable
+}
+dictionary({"0":{"0":"There has been no measurable precipitation within the past 24-hours and none is currently expected.","1":"There has been ${Precipitation} of precipitation within the past 24-hours, however no additional is expected at present."},"10":{"0":"There is currently a slight ${AdjustedPrecipChance}% chance of precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${AdjustedPrecipChance} of precipitation in the past 24-hours and there is a slight chance of ${Variable}% for new amounts."},"20":{"0":"There is currently a small${AdjustedPrecipChance}% chance of precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${AdjustedPrecipChance} of precipitation in the past 24-hours and there is a slight chance of ${Variable}% for additional amounts."},"30":{"0":"There is currently a ${AdjustedPrecipChance}% chance of precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${AdjustedPrecipChance} of precipitation in the past 24-hours and there is a low chance of ${Variable}% for new amounts."},"40":{"0":"There is currently a ${AdjustedPrecipChance}% chance of precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${AdjustedPrecipChance} of precipitation in the past 24-hours and there is a moderate chance of ${Variable}% for new amounts."},"50":{"0":"There is currently a 50 50 chance of precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${Precipitation} of precipitation in the past 24-hours and there is a 50 50 chance for an additional amount."},"60":{"0":"There is currently a good chance of ${AdjustedPrecipChance}% for precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${AdjustedPrecipChance} of precipitation in the past 24-hours and there is a moderate chance of ${Variable}% for new amounts."},"70":{"0":"There is currently a high chance of ${AdjustedPrecipChance}% for precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${Precipitation} of precipitation in the past 24-hours and there is a high chance of ${Variable}% for an additional amount."},"80":{"0":"Precipitation is soon likely with a ${AdjustedPrecipChance}% chance, although there has been no measurable amount in the past 24-hours.","1":"There has been ${Precipitation} of precipitation in the past 24-hours and an additional amount is likely with an ${Variable}% chance."},"90":{"0":"Precipitation is soon likely with a ${AdjustedPrecipChance}% chance, although there has been no measurable amount in the past 24-hours.","1":"There has been ${Precipitation} of precipitation in the past 24-hours and an additional amount is likely with an ${Variable}% chance."},"100":{"0":"There is a 100% chance of precipitation, although there has been no measurable amount in the past 24-hours.","1":"There has been ${Precipitation} of precipitation in the past 24-hours and there is currently a 100% chance for new amounts."}})
+var PrecipChDict = Dictionary
+if(PrecipitationAmount == "0.00") {
+	text(text: "0") >> text 27
+var AmountSwitch = Text
+} else {
+	text(text: "1") >> text 28
+var AmountSwitch = Text
+} >> IFResult 15
+count(type: Characters, input: WeatherConditions) >> count 5
+if(Count == nil 0) {
+	text() >> text 29
+var PrecipPhrase = Text
+} else {
+	round(number: AdjustedPrecipChance, roundTo: Tens Place, mode: Always Round Down) >> round 9
+	keysFrom(dictionary: PrecipChDict) >> keysFrom 8
+	text(text: "  ${Dictionary Value}") >> text 30
+var PrecipPhrase = Text
+} >> IFResult 16
+// This section formats the barometric pressure and phrase. 
+count(type: Characters, input: WeatherConditions) >> count 6
+if(Count != nil) {
+	keysFrom(dictionary: OptionsDict) >> keysFrom 9
+	if(Dictionary Value == "0") {
+		round(number: WeatherConditions, roundTo: Hundredths) >> round 10
+var Pressure = Rounded Number
+		text(text: "  The barometric pressure is ${Pressure} inches of mercury.") >> text 31
+var PressurePhrase = Text
+	} else {
+		round(number: WeatherConditions, roundTo: Hundredths) >> round 11
+var Pressure = Rounded Number
+		text(text: "  The barometric pressure is ${Pressure} hectopascals.") >> text 32
+var PressurePhrase = Text
+	} >> IFResult 17
+} else {
+	text() >> text 33
+var PressurePhrase = Text
+} >> IFResult 18
+// This section create a list of formatted forecast dates.
+formatDate(date: "${WeatherForecast.get(Date)}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate 6
+var ForecastDateList = Formatted Date
+// This section creates a dictionary of forecasted high temperatures. 
+repeatEach(WeatherForecast) {
+	getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastHighTempDict) >> setValue
+var ForecastHighTempDict = Dictionary
+} >> RepeatResult
+// This section creates a dictionary of forecasted low temperatures. 
+repeatEach(WeatherForecast) {
+	getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 1
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastLowTempDict) >> setValue 1
+var ForecastLowTempDict = Dictionary
+} >> RepeatResult 1
+// This section creates a dictionary of forecasted conditions. 
+repeatEach(WeatherForecast) {
+	getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 2
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastCondDict) >> setValue 2
+var ForecastCondDict = Dictionary
+} >> RepeatResult 2
+// This section creates a dictionary of forecasted wind speeds.
+keysFrom(dictionary: OptionsDict) >> keysFrom 10
+if(Dictionary Value == 0) {
+	repeatEach(WeatherForecast) {
+		getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 3
+		setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastWindSpeedDict) >> setValue 3
+var ForecastWindSpeedDict = Dictionary
+	} >> RepeatResult 3
+} else {
+	repeatEach(WeatherForecast) {
+		getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 4
+		setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastWindSpeedDict) >> setValue 4
+var ForecastWindSpeedDict = Dictionary
+	} >> RepeatResult 4
+} >> IFResult 19
+// This section creates a dictionary of forecasted wind directions. 
+repeatEach(WeatherForecast) {
+	getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 5
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: WindDirectionDict) >> setValue 5
+var WindDirectionDict = Dictionary
+} >> RepeatResult 5
+// This section creates a dictionary of forecasted precipitation chances. 
+repeatEach(WeatherForecast) {
+	getItemFromList(list: ForecastDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 6
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastPrecipChDict) >> setValue 6
+var ForecastPrecipChDict = Dictionary
+} >> RepeatResult 6
+// This section creates a dictionary of forecasted sunrise times.
+adjustDate(operation: Add, duration: , date: "${WeatherForecast.get(Sunrise Time)}") >> adjustDate 2
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate 7
+var ForecastSunriseDateList = Formatted Date
+adjustDate(operation: Add, duration: , date: "${WeatherForecast.get(Sunrise Time)}") >> adjustDate 3
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "h:mm a") >> formatDate 8
+repeatEach(Formatted Date) {
+	getItemFromList(list: ForecastSunriseDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 7
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastSunriseDict) >> setValue 7
+var ForecastSunriseDict = Dictionary
+} >> RepeatResult 7
+// This section creates a dictionary of forecasted sunset times. 
+adjustDate(operation: Add, duration: , date: "${WeatherForecast.get(Sunset Time)}") >> adjustDate 4
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate 9
+var ForecastSunsetDateList = Formatted Date
+adjustDate(operation: Add, duration: , date: "${WeatherForecast.get(Sunset Time)}") >> adjustDate 5
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "h:mm a") >> formatDate 10
+repeatEach(Formatted Date) {
+	getItemFromList(list: ForecastSunsetDateList, type: Item At Index, index: Repeat Index) >> getItemFromList 8
+	setValue(key: "${Item from List}", value: "${Repeat Item}", dictionary: ForecastSunsetDict) >> setValue 8
+var ForecastSunsetDict = Dictionary
+} >> RepeatResult 8
+// This section creates a dictionary of sunrise and sunset periods. 
+dictionary({"00":"morning","01":"morning","02":"morning","03":"morning","04":"morning","05":"morning","06":"morning","07":"morning","08":"morning","09":"morning","10":"morning","11":"morning","12":"afternoon","13":"afternoon","14":"afternoon","15":"afternoon","16":"afternoon","17":"evening","18":"evening","19":"evening","20":"evening","21":"evening","22":"evening","23":"evening"})
+var SunPhaseDict = Dictionary
+// This section sets the sunrise phrase. 
+keysFrom(dictionary: ForecastSunriseDict) >> Conditions Value
+var ForecastSunriseToday = Conditions Value
+count(type: Characters, input: ForecastSunriseToday) >> count 7
+if(Count != nil) {
+	getTimeBetween(first: "${ForecastSunriseToday}", second: "${TimeNow}") >> getTimeBetween 1
+var ForecastSunriseDiff = Time Between Dates
+} else {
+	number(value: -1) >> number 2
+var ForecastSunriseDiff = Number
+} >> IFResult 20
+if(ForecastSunriseDiff false false) {
+	keysFrom(dictionary: ForecastSunriseDict) >> keysFrom 11
+var ForecastSunriseTomorrow = Dictionary Value
+	count(type: Characters, input: ForecastSunriseTomorrow) >> count 8
+	if(Count != nil 0) {
+		keysFrom(dictionary: TimePeriods) >> keysFrom 12
+var SunrisePeriod = Dictionary Value
+		text(text: "  Sunrise tomorrow ${SunrisePeriod} will be at ${Variable}.") >> text 34
+var SunrisePhrase = Text
+		number(value: true) >> number 3
+var SunriseOrder = Number
+	} else {
+	} >> IFResult 21
+} else {
+	count(input: ForecastSunriseToday) >> count 9
+	if(Count != nil 0) {
+		keysFrom(dictionary: TimePeriods) >> keysFrom 13
+var SunrisePeriod = Dictionary Value
+		text(text: "  Sunrise this ${ForecastSunriseToday} will be at ${Variable}.") >> text 35
+var SunrisePhrase = Text
+		number(value: false) >> number 4
+var SunriseOrder = Number
+	} else {
+	} >> IFResult 22
+} >> IFResult 23
+// This section sets the sunset phrase. 
+keysFrom(dictionary: ForecastSunsetDict) >> Conditions Value
+var ForecastSunsetToday = Conditions Value
+count(type: Characters, input: ForecastSunsetToday) >> count 10
+if(Count != nil) {
+	getTimeBetween(first: "${ForecastSunsetToday}", second: "${TimeNow}") >> getTimeBetween 2
+var ForecastSunsetDiff = Time Between Dates
+} else {
+	number(value: -1) >> number 5
+var ForecastSunsetDiff = Number
+} >> IFResult 24
+if(ForecastSunsetDiff false false) {
+	keysFrom(dictionary: ForecastSunsetDict) >> keysFrom 14
+var ForecastSunsetTomorrow = Dictionary Value
+	count(type: Characters, input: ForecastSunsetTomorrow) >> count 11
+	if(Count != nil 0) {
+		keysFrom(dictionary: TimePeriods) >> keysFrom 15
+var SunsetPeriod = Dictionary Value
+		text(text: "  Sunset tomorrow ${SunsetPeriod} will be at ${Variable}.") >> text 36
+var SunsetPhrase = Text
+		number(value: true) >> number 6
+var SunsetOrder = Number
+	} else {
+	} >> IFResult 25
+} else {
+	count(input: ForecastSunsetToday) >> count 12
+	if(Count != nil 0) {
+		keysFrom(dictionary: TimePeriods) >> keysFrom 16
+var SunsetPeriod = Dictionary Value
+		text(text: "  Sunset this ${ForecastSunsetToday} will be at ${Variable}.") >> text 37
+var SunsetPhrase = Text
+		number(value: false) >> number 7
+var SunsetOrder = Number
+	} else {
+	} >> IFResult 26
+} >> IFResult 27
+// This section sets the order of the sunrise and sunset phrases. 
+if(SunriseOrder > SunsetOrder) {
+	text(text: "${SunrisePhrase}${Variable}") >> text 38
+var SunSchedule = Text
+} else {
+	text(text: "${SunsetPhrase}${Variable}") >> text 39
+var SunSchedule = Text
+} >> IFResult 28
+// This section sets the Air Quality and Index phrase if it is provided.
+text(text: "${WeatherConditions.get(Air Quality Category)}") >> text 40
+count(type: Characters, input: Text) >> count 13
+if(Count == "0") {
+	text() >> text 41
+var AirQualityPhrase = Text
+} else {
+	changeCase(text: WeatherConditions, case: lowercase) >> changeCase
+var AirQualityCat = Updated Text
+	text(text: "  The air quality is ${WeatherConditions.get(Air Quality Index)} with an index of ${Variable.get(Air Quality Index)}.") >> text 42
+var AirQualityPhrase = Text
+}
+// This section sets the UV Index to be included only after Sunrise and before Sunset. 
+dictionary({"0":"low","1":"low","2":"low","3":"moderate","4":"moderate","5":"moderate","6":"high","7":"high","8":"very high","9":"very high","10":"very high"})
+var UVCatDict = Dictionary
+round(number: WeatherConditions) >> round 12
+var UVIndex = Rounded Number
+if(UVIndex false 11) {
+	keysFrom(dictionary: UVCatDict) >> keysFrom 17
+var UVCatagory = Dictionary Value
+} else {
+	text(text: "Extreme") >> text 43
+var UVCatagory = Text
+} >> IFResult 29
+keysFrom(dictionary: ForecastSunriseDict) >> keysFrom 18
+formatDate(date: "${Dictionary Value}", dStyle: Custom, custom: "HH:mm") >> formatDate 11
+var SunriseToday = Formatted Date
+keysFrom(dictionary: ForecastSunsetDict) >> keysFrom 19
+formatDate(date: "${Dictionary Value}", dStyle: Custom, custom: "HH:mm") >> formatDate 12
+var SunsetToday = Formatted Date
+formatDate(date: "${TimeNow}", dStyle: Custom, custom: "HH:mm") >> formatDate 13
+if(Formatted Date > SunriseToday) {
+	formatDate(date: "${TimeNow}", dStyle: Custom, custom: "HH:mm") >> formatDate 14
+	if(Formatted Date false SunsetToday) {
+		text(text: "  The UV risk is ${UVIndex} with an index of ${Variable}.") >> text 44
+var UVIndexPhrase = Text
+	} else {
+	}
+} else {
+} >> IFResult 30
+// This section gets today's past or forecasted high temp and formats the phrase.
+keysFrom(dictionary: TimePeriods) >> keysFrom 20
+var HighSwitch = Dictionary Value
+if(HighSwitch == "2") {
+	count(type: Characters, input: WeatherConditions) >> count 14
+	if(Count != nil) {
+		round(number: WeatherConditions) >> round 13
+var TodaysHigh = Rounded Number
+		text(text: "  The high today was ${TodaysHigh}") >> text 45
+var HighPhrase = Text
+	} else {
+		text() >> text 46
+var HighPhrase = Text
+	} >> IFResult 31
+} else {
+	keysFrom(dictionary: ForecastHighTempDict) >> keysFrom 21
+	count(type: Characters, input: Dictionary Value) >> count 15
+	if(Count != nil) {
+		formatNumber(number: Dictionary Value, places: false) >> formatNumber 2
+var ForecastTodaysHigh = Formatted Number
+		round(number: ForecastTodaysHigh) >> round 14
+var ForecastHighTempToday = Rounded Number
+		text(text: "  The expected high today is ${ForecastHighTempToday}") >> text 47
+var HighPhrase = Text
+	} else {
+		text() >> text 48
+var HighPhrase = Text
+	} >> IFResult 32
+} >> IFResult 33
+// This section gets today's past or forecasted low temp and formats the phrasing. 
+keysFrom(dictionary: TimePeriods) >> keysFrom 22
+var LowSwitch = Dictionary Value
+// Between 7AM and Noon, the past overnight low is reported.
+if(LowSwitch == "2") {
+	count(type: Characters, input: WeatherConditions) >> count 16
+	if(Count != nil 0) {
+		round(number: WeatherConditions) >> round 15
+var Low = Rounded Number
+		count(type: Characters, input: HighPhrase) >> count 17
+		if(Count != nil) {
+			text(text: ", the overnight low was ${Low}.") >> text 49
+var LowPhrase = Text
+		} else {
+			text(text: " The overnight low was ${Low}.") >> text 50
+var LowPhrase = Text
+		}
+	} else {
+		text(text: ".") >> text 51
+var LowPhrase = Text
+	}
+} else {
+// Between Noon and Midnight, today's forecasted low is reported. 
+	if(LowSwitch == "3") {
+		keysFrom(dictionary: ForecastLowTempDict) >> keysFrom 23
+		count(type: Characters, input: Dictionary Value) >> count 18
+		if(Count != nil) {
+			formatNumber(number: Dictionary Value, places: false) >> formatNumber 3
+var ForecastTodaysLow = Formatted Number
+			round(number: ForecastTodaysLow) >> round 16
+var ForecastLowTempToday = Rounded Number
+			count(type: Characters, input: HighPhrase) >> count 19
+			if(Count != nil) {
+				text(text: ", the low overnight will be ${ForecastLowTempToday}.") >> text 52
+var LowPhrase = Text
+			} else {
+				text(text: " The low overnight will be ${ForecastLowTempToday}.") >> text 53
+var LowPhrase = Text
+			} >> IFResult 34
+		} else {
+			text(text: ".") >> text 54
+var LowPhrase = Text
+		} >> IFResult 35
+	} else {
+// Between Midnight and 7AM, yesterday's forecasted low is reported, while available.  
+		keysFrom(dictionary: ForecastLowTempDict) >> keysFrom 24
+		count(type: Characters, input: Dictionary Value) >> count 20
+		if(Count != nil) {
+			formatNumber(number: Dictionary Value, places: false) >> formatNumber 4
+var ForcastYesterdaysLow = Formatted Number
+			round(number: ForcastYesterdaysLow) >> round 17
+var ForcastLowTempYesterday = Rounded Number
+			count(type: Characters, input: HighPhrase) >> count 21
+			if(Count != nil 0) {
+				text(text: ", the low overnight will be ${ForcastLowTempYesterday}.") >> text 55
+var LowPhrase = Text
+			} else {
+				text(text: " The low overnight will be ${ForcastLowTempYesterday}.") >> text 56
+var LowPhrase = Text
+			}
+		} else {
+			text(text: ".") >> text 57
+var LowPhrase = Text
+		}
+	}
+} >> IFResult 36
+// This section gets tomorrow's forecast and formats the phrasing. 
+keysFrom(dictionary: ForecastHighTempDict) >> keysFrom 25
+count(type: Characters, input: Dictionary Value) >> count 22
+if(Count != nil) {
+	formatNumber(number: Dictionary Value, places: false) >> formatNumber 5
+var ForecastHigh = Formatted Number
+	round(number: ForecastHigh) >> round 18
+var ForecastHighTempTomorrow = Rounded Number
+	text(text: "Tomorrow's high will be ${ForecastHighTempTomorrow}") >> text 58
+var HighTomorrowPhrase = Text
+} else {
+	text() >> text 59
+var HighTomorrowPhrase = Text
+} >> IFResult 37
+adjustDate(duration: , date: "${DateTomorrow.as(Date)}") >> adjustDate 6
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "MMM dd, yyyy") >> formatDate 15
+keysFrom(dictionary: ForecastLowTempDict) >> keysFrom 26
+count(type: Characters, input: Dictionary Value) >> count 23
+if(Count != nil) {
+	formatNumber(number: Dictionary Value, places: false) >> formatNumber 6
+var ForecastLow = Formatted Number
+	round(number: ForecastLow) >> round 19
+var ForecastLowTempTomorrow = Rounded Number
+	count(type: Characters, input: ForecastHigh) >> count 24
+	if(Count != nil) {
+		text(text: " and the overnight low will be ${ForecastLowTempTomorrow}") >> text 60
+var LowTomorrowPhrase = Text
+	} else {
+		text(text: "Tomorrow's overnight low will be ${ForecastLowTempTomorrow}") >> text 61
+var LowTomorrowPhrase = Text
+	}
+} else {
+	text() >> text 62
+var LowTomorrowPhrase = Text
+} >> IFResult 38
+keysFrom(dictionary: WindDirectionDict) >> keysFrom 27
+var WindDirTomorrow = Dictionary Value
+count(type: Characters, input: Dictionary Value) >> count 25
+if(Count != nil) {
+	math(input: WindDirTomorrow, operation: /, operand: "45") >> math 3
+	round(number: Calculation Result) >> round 20
+	keysFrom(dictionary: WindDirDict) >> keysFrom 28
+	text(text: " ${Dictionary Value}") >> text 63
+var WindDirTomorrowPhrase = Text
+} else {
+	text() >> text 64
+var WindDirTomorrowPhrase = Text
+} >> IFResult 39
+keysFrom(dictionary: ForecastWindSpeedDict) >> keysFrom 29
+round(number: Dictionary Value) >> round 21
+var ForecastWindSpeedTomorrow = Rounded Number
+text(text: " ${Dictionary Value}") >> text 65
+count(type: Characters, input: Text) >> count 26
+if(Count == 0) {
+	text() >> text 66
+var ForecastWindSpeedPhrase = Text
+} else {
+	keysFrom(dictionary: OptionsDict) >> keysFrom 30
+	if(Dictionary Value == 0) {
+		if(ForecastWindSpeedTomorrow == 1) {
+			text(text: " and a${ForecastWindSpeedTomorrow} wind at about ${Variable} mile per hour ") >> text 67
+var ForecastWindSpeedPhrase = Text
+		} else {
+			text(text: " and a${ForecastWindSpeedTomorrow} wind at about ${Variable} miles per hour") >> text 68
+var ForecastWindSpeedPhrase = Text
+		} >> IFResult 40
+	} else {
+		if(ForecastWindSpeedTomorrow == 1) {
+			text(text: " and a${ForecastWindSpeedTomorrow} wind at about ${Variable} kilometer per hour") >> text 69
+var ForecastWindSpeedPhrase = Text
+		} else {
+			text(text: " and a${ForecastWindSpeedTomorrow} wind at about ${Variable} kilometers per hour") >> text 70
+var ForecastWindSpeedPhrase = Text
+		}
+	} >> IFResult 41
+} >> IFResult 42
+keysFrom(dictionary: ForecastCondDict) >> keysFrom 31
+var ForecastCondTomorrow = Dictionary Value
+keysFrom(dictionary: ConditionsDict) >> keysFrom 32
+if(Dictionary Value .contains ""${ForecastCondTomorrow}"") {
+	keysFrom(dictionary: ConditionsDict) >> TomorrowsConditions
+	text(text: " ${TomorrowsConditions}${ActionOutput}.") >> text 71
+var TomorrowsCondPhrase = Text
+} else {
+	text(text: " with ${ForecastWindSpeedPhrase} conditions${Variable}. ") >> text 72
+var TomorrowsCondPhrase = Text
+} >> IFResult 43
+keysFrom(dictionary: ForecastPrecipChDict) >> keysFrom 33
+if(iOSVersion == 16) {
+	math(input: Dictionary Value, operation: *, operand: "100") >> math 4
+var ForecastPrecipChTomorrow = Calculation Result
+} else {
+var ForecastPrecipChTomorrow = Dictionary Value
+} >> IFResult 44
+text(text: "${Dictionary Value}") >> text 73
+count(type: Characters, input: Text) >> count 27
+if(Count == 0) {
+	text() >> text 74
+var ForecastPrecipPhrase = Text
+} else {
+	text(text: "  The chance for precipitation on ${ForecastPrecipChTomorrow} is ${Variable}%. ") >> text 75
+var ForecastPrecipPhrase = Text
+} >> IFResult 45
+// This section formats the report to pass on to Siri to read aloud or the output of a text report. 
+var 608A1A2E-E3C4-4151-9EC7-2D1DFE7177C8 = """￼ ￼￼￼￼￼￼￼￼￼￼￼￼￼￼
+
+￼￼￼￼ """
+text("${608A1A2E-E3C4-4151-9EC7-2D1DFE7177C8}")
+translateText(text: "${Text}", to: en_US) >> translateText
+keysFrom(dictionary: OptionsDict) >> keysFrom 34
+if(Dictionary Value == "0") {
+	text(text: "${Translated Text}") >> text 76
+	speakText(text: "${Text}", rate: SiriRate, pitch: SiriPitch, language: en-US)
+} else {
+	showResult(text: "${Translated Text}")
+} >> IFResult 46

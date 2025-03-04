@@ -1,0 +1,35 @@
+import Shortcuts
+#Color: navy, #Icon: medicine
+
+/*
+Easily download or share media from any Discord server rather than attaching it or sharing the link. 
+
+Thanks for downloading! 
+*/
+/*
+Created by: @3raxton
+Version 1.0.0
+https://www.braxtonhuff.com
+Like this shortcut? Donate here: PayPal.me/braxtonhuff
+*/
+/*
+If you know someone looking for a designer to join their team let me know! 
+
+Running into issues? Reach out on Twitter: @3raxton
+*/
+menu(Is this an image or a video?, [Image, Video]) {
+case("Image"):
+	downloadURL(url: "${ShortcutInput}") >> downloadURL
+	getImagesFrom(input: Contents of URL) >> getImagesFrom
+case("Video"):
+	downloadURL(url: "${ShortcutInput}") >> downloadURL 1
+	encodeAudio(media: Contents of URL, title: "") >> encodeAudio
+} >> MenuResult
+menu(Would you like to save or share?, [Save, Share]) {
+case("Save"):
+	saveToCameraRoll(image: Menu Result) >> saveToCameraRoll
+	sendNotification(body: "Content saved!", title: "Cord", attachment: Saved Photo Media)
+case("Share"):
+	shareEXT(file: Menu Result)
+	sendNotification(body: "Content shared!", title: "Cord", sound: true, attachment: Menu Result)
+} >> MenuResult 1

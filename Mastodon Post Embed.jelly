@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: grape, #Icon: doubleQuoteOutline
+
+/*
+Construct HTML embed code for a single Mastodon post from its URL.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+text(text: "<iframe src="${URLs}/embed" class="mastodon-embed" style="max-width: 100%; border: 0" width="400" allowfullscreen="allowfullscreen"></iframe><script src="https://static-cdn.mastodon.social/embed.js" async="async"></script>") >> text
+output(result: "${Text}", noResultBehavior: Copy to Clipboard, response: "${Text}")

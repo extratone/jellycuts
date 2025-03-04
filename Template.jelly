@@ -1,0 +1,129 @@
+import Shortcuts
+#Color: red, #Icon: magicWandAlt
+
+/*
+Notes:
+- call the "update" function whenever you want to check for updates
+
+**make sure to update Shortcut Name and RoutineHub ID for the shortcut to run properly**
+*/
+/*
+AppData and dependency/res dictionaries
+
+*/
+dictionary({"Shortcut Name":"Template","Version":"1.1","RoutineHub ID":"2152"}) >> AppData
+// commonly used assets like icons
+dictionary({"ic_item":"iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAABqUlEQVR4Ae3aT8tMYRzG8e+UzMxKWViwlUKasbdiJRsLr4CdrOQdsBsLwtDI0o6VbETKTilSiA0LihoLGfPPzPkpnU4zYqHuOXdXXZ/rFXybeXqec54f/2BmZmZmZmZm+7nMS74xZVZtvrKf1RYrW1YrVhZ/2Zx33OAgG9GiT0HUsIKbtEmsxWOixj1JnTAgat4tEupSELXvBMlcJzLsK7tI5C2RZY9okMSMyLRzJBHZNqOrHRC8pq0dEFxTDwiOqQd8YYd2QHBfPSA4ox4wYZ92QPCCrdoBwUX1gIIj2gHBJ7ZrBwR31QOCU+oBI3ZrBwRP2aIdEFxQD1hySDsg+MA27YDgtgOy7r32V2ih/kN83r/IMu67+p8SJ0E54A4oB3zUfqApOAzKAT1QDniu/VplzF5QDjgNygH3QDngs/rr9aOgHHAFlANe0VIOmNLR/kf3We1Tgwc0SKJPZNiQnSTSocgQcJyS5mcwIKkmD2s+tGlC6oRLLGp6bOnTZCP20OMZQ0blfpQb/96k3LTc2lnm+kHmn4eY1XHNG65ygP9iZmZmZmZmZr8AnhtDjFkaQycAAAAASUVORK5CYII=","ic_back":"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","dep_updatekit":"UpdateKit"}) >> res
+if(ShortcutInput .contains ""${ShortcutInput}"") {
+// Global Variables
+	getDictionaryFrom(input: ShortcutInput) >> getDictionaryFrom
+var input = Dictionary
+var function = Variable
+} else {
+// first run setup
+	dictionary({"function":"main"})
+	runShortcut(name: AppData, input: Dictionary, show: false) >> runShortcut
+	exit(var: Shortcut Result)
+} >> IFResult
+// Update Check using UpdateKit
+if(function == "update") {
+	getShortcuts() >> getShortcuts
+	if(My Shortcuts .contains ""${res.key(dep_updatekit)}"") {
+		runShortcut(name: res, input: AppData, show: false)
+	}
+} >> IFResult 1
+// Main Menu
+if(function == "main") {
+	menu(Main Menu, [Simple Menu, Menu With Icons]) {
+	case("Simple Menu"):
+		dictionary({"function":"submenu 1"})
+		runShortcut(name: AppData, input: Dictionary, show: false) >> runShortcut 1
+	case("Menu With Icons"):
+		dictionary({"function":"submenu 2"})
+		runShortcut(name: AppData, input: Dictionary, show: false) >> runShortcut 2
+	} >> MenuResult
+	dictionary({"function":"main"})
+	runShortcut(name: AppData, input: Dictionary, show: false) >> runShortcut 3
+	exit(var: Shortcut Result)
+} >> IFResult 2
+// Simple Submenu with Back functionality 
+if(function == "submenu 1") {
+	menu(Simple Submenu, [choice 1, choice 2, Back]) {
+	case("choice 1"):
+	case("choice 2"):
+	case("Back"):
+		nothing()
+	} >> MenuResult 1
+	exit(var: Menu Result)
+} >> IFResult 3
+// Menu with icons and Back functionality 
+if(function == "submenu 2") {
+	list(items: (
+    "choice 1",
+    "choice 2"
+)) >> list
+	repeatEach(List) {
+/*
+*Use this template to create custom menu items*
+
+BEGIN:VCARD
+VERSION:3.0
+N: [title here]
+ORG: [sub title here]
+PHOTO;encoding=b: [encoded icon here]
+END:VCARD
+*/
+var F6CE8939-9DD1-4D40-9A10-C020ECE1E5CD = """BEGIN:VCARD
+VERSION:3.0
+N: ￼
+ORG: index: ￼
+PHOTO;encoding=b:￼
+END:VCARD"""
+text("${F6CE8939-9DD1-4D40-9A10-C020ECE1E5CD}")
+	} >> RepeatResult
+var E7D28D72-8370-4014-B816-B3AA4D6CA96F = """BEGIN:VCARD
+VERSION:3.0
+N:Back
+PHOTO;encoding=b:￼
+END:VCARD"""
+text("${E7D28D72-8370-4014-B816-B3AA4D6CA96F}")
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "2F524EF0-2772-4543-86E8-768FB260703D";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Text;
+                        OutputUUID = "57AC9037-75C3-40E5-8950-EB46AAC72A9F";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+	combineText(text: List, combine: New Lines) >> combineText
+	setName(input: Combined Text, name: "a.vcf") >> setName
+	getContactsFrom(input: Renamed Item) >> getContactsFrom
+	choose(list: Contacts) >> choose
+	exit(var: Selected Item)
+}

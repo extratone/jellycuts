@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+// Opens Interactive Screenshot app to allow user to take screenshot of QR code.
+takeScreenshot() >> takeScreenshot
+getImagesFrom(input: Screenshot) >> getImagesFrom
+if(Images == nil) {
+	exit()
+} else {
+// Uses API to extract and read QR Code from screen shot and then opens the embedded URL found in the QR Code.
+	text(text: "http://api.qrserver.com/v1/read-qr-code/") >> text
+	downloadURL(url: "${Text}", method: POST, requestType: Form) >> downloadURL
+	getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+	valueFor(key: "symbol.1.data", dictionary: Dictionary) >> valueFor
+	getURLSFromInput(text: "${Dictionary Value}") >> getURLSFromInput
+	if(URLs == nil) {
+		alert(alert: "No URL Found.", cancel: false)
+	} else {
+		openURL(url: URLs) >> openURL
+	}
+}

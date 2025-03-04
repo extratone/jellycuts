@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: grape, #Icon: folderGear
+
+// Get the JSON representation of a shortcut from your library.
+getShortcuts() >> getShortcuts
+choose(list: My Shortcuts) >> choose
+getFileOfType(input: Chosen Item, type: "com.apple.plist") >> getFileOfType
+getFileOfType(input: File of Type, type: "public.json") >> getFileOfType 1
+getTextFrom(input: File of Type) >> JSON
+setName(input: JSON, name: "${Chosen Item}.json") >> setName
+saveFile(input: Renamed Item, ask: false)

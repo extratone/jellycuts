@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: grayGreen, #Icon: iPhoneApps
+
+splitText(text: ShortcutInput) >> splitText
+//Unable to get shortcuts action com.sindresorhus.Actions.RemoveFromListIntent
+repeatEach(List) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickMatchTextIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+	splitText(text: Repeat Item, separator: Custom, customSeparator: ": ") >> splitText 1
+	getItemFromList(list: Split Text, type: First Item) >> getItemFromList
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.TextCaseIntent
+var name = Formatted Text
+	getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList 1
+var url = Item from List
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+} >> RepeatResult
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetAudioIntent
+playSound(file: Sound)

@@ -1,0 +1,20 @@
+import Shortcuts 1092.9.8
+#Color: green,#Icon: compose
+
+getArticle(url: "${Shortcut Input}") >> getArticle
+markdownFromRich(text: Article) >> markdownFromRich
+articleDetail(detail: URL, article: Article) >> articleDetail
+addToReadingList(urls: URL)
+articleDetail(detail: Published Date, article: Article) >> articleDetail
+articleDetail(detail: Author, article: Article) >> articleDetail
+articleDetail(detail: Main Image URL, article: Article) >> articleDetail
+articleDetail(article: Article) >> articleDetail
+text(text: "# "[${Markdown from Rich Text}](${ActionOutput})"
+
+**By *${Title}*** 
+'${ActionOutput}'
+***
+${Published Date}
+
+-"[${ActionOutput}](${Author})"") >> text
+setClipboard(variable: Text)

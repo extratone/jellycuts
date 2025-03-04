@@ -1,0 +1,16 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+//Unable to get shortcuts action com.appliedphasor.working-copy.ListRepositoriesIntent
+repeatEach(Repositories) {
+//Unable to get shortcuts action com.appliedphasor.working-copy.ListReferencesIntent
+	repeatEach(References) {
+		dictionary({})
+		setValue(key: "${Repeat Index 2}", value: "${Repeat Item 2}", dictionary: Dictionary) >> setValue
+		quicklook(input: Dictionary)
+	} >> RepeatResult
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitLogIntent
+	dictionary({"name":"${Repeat Item.get(Name)}","head":"${Repeat Item.get(head)}","remote":"${Repeat Item.get(remote)}","url":"${Repeat Item.get(url)}${Variable.get(url)}","references":"${Dictionary}","commits":"${History}"})
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.SetNestedDictionaryValueIntent
+	quicklook(input: Result)
+} >> RepeatResult 1

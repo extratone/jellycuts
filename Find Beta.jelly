@@ -1,0 +1,112 @@
+import Shortcuts
+#Color: navy, #Icon: airplane
+
+text(text: "") >> text
+menu(Where would you look for beta      , [Twitter search , Departures.to, Wabetainfo.com (often in maintenance mode), Airport, Awesome TestFlight App List (Github), Beta Apps is available (Github), Findbeta.no website for this shortcut, Go to page 2 ➡️]) {
+case("Twitter search "):
+	openURL(url: "https://twitter.com/search?q=url%3Atestflight.apple.com") >> openURL
+case("Departures.to"):
+	openURL(url: "https://departures.to") >> openURL 1
+case("Wabetainfo.com (often in maintenance mode)"):
+	openURL(url: "https://wabetainfo.com/testflight/")
+case("Airport"):
+	openURL(url: "https://app.airport.community/")
+case("Awesome TestFlight App List (Github)"):
+	openURL(url: "https://github.com/pluwen/awesome-testflight-public-link")
+case("Beta Apps is available (Github)"):
+	openURL(url: "https://github.com/manhnh97/CheckStatusTestflight/blob/master/Result_BetaAppsAvailable.md") >> openURL 2
+case("Findbeta.no website for this shortcut"):
+	openURL(url: "https://findbeta.no")
+case("Go to page 2 ➡️"):
+	menu(, [Google Search - the last 24 hours, Google searches, Google Sheets document - mikebert97, Google on specific app, Reddit , Tfstore.top , Share this shortcut, back to page 1 ⬅️, check for update🔄]) {
+	case("Google Search - the last 24 hours"):
+		openURL(url: "https://www.google.com/search?q=site:testflight.apple.com/join/&prmd=insv&sxsrf=ACYBGNQbbcCerxtKNAVJnBPI2Cfm5Lgr-g:1581197417759&source=lnt&tbs=qdr:d&sa=X&ved=2ahUKEwip2J6z88LnAhWM6KYKHU3bAv4QpwV6BAgNEBE&biw=375&bih=635&dpr=3")
+	case("Google searches"):
+		openURL(url: "https://www.google.com/search?q=site:testflight.apple.com/join/#ip=1")
+	case("Google Sheets document - mikebert97"):
+		openURL(url: "https://docs.google.com/spreadsheets/d/1Uej3AQPxRcLRXnmthUXR-7oGkNV_GsMFgCoNnuPtSwI")
+	case("Google on specific app"):
+		askForInput(prompt: "Which app will you beta test?") >> askForInput
+var 3255591D-95B9-406F-8B8A-D8F9CCAE6F64 = """￼  
+
+
+site:testflight.apple.com/join/"""
+text("${3255591D-95B9-406F-8B8A-D8F9CCAE6F64}")
+		searchWeb(text: "${Tekst}")
+	case("Reddit "):
+		openURL(url: "https://www.reddit.com/r/TestFlight/")
+	case("Tfstore.top "):
+		openURL(url: "https://tfstore.top/") >> openURL 3
+	case("Share this shortcut"):
+var 3C20A036-6C1C-49E6-8A98-677B44DFD9FC = """Hi I would recommend this shortcut to make it easier to find places to look for beta apps.
+Download the latest version here:
+
+ 
+https://routinehub.co/shortcut/2837
+it is also available as a website that you can add to your home screen to have it as an app:
+https://findbeta.no"""
+text("${3C20A036-6C1C-49E6-8A98-677B44DFD9FC}")
+		share(file: Tekst) >> share
+		exit()
+	case("back to page 1 ⬅️"):
+		runShortcut(name: "Find Beta") >> runShortcut
+	case("check for update🔄"):
+	}
+	repeat($0) {
+		dictionary({"ID":"2837","Version":"8.0"})
+var LocalData = Dictionary
+		getIP() >> getIP
+		count(input: Current IP Address) >> count
+		if(Count == 0) {
+// [Eᴍʙᴇᴅ-ᴀ-Uᴘᴅᴀᴛᴇ] Could not check for updates, there is no internet connection.
+		} else {
+			url(url: "https://routinehub.co/api/v1/shortcuts/${LocalData.key(ID)}/versions/latest") >> url
+			downloadURL(url: "${URL}") >> result
+			if(result .contains "success") {
+				dictionary({"current":"${LocalData.key(Version)}","new":"${Remote.as(Dictionary).key(Version)}"}) >> CompareVersionsData
+var 20AF5A4F-81B3-4BD3-972D-D8E1A07B5BD6 = """<html><head></head><body><script>
+// Embed-a-Engine 1.0
+function cmp (a, b) {
+let pa = a.split('.');
+let pb = b.split('.');
+for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+let na = Number(pa[i]);
+let nb = Number(pb[i]);
+if (isNaN(na)) na = 0;
+if (isNaN(nb)) nb = 0;
+if (na > nb) return "RollbackAvailable";
+if (nb > na) return "UpdateAvailable";
+}
+return "NoChanges";
+};
+let data = ￼;
+document.write(cmp(data.current, data.new));
+</script></body></html>"""
+text("${20AF5A4F-81B3-4BD3-972D-D8E1A07B5BD6}")
+				url(url: "data:text/html,${CompareVersionsHTML}") >> url 1
+				urlContents(url: "${URL}") >> urlContents
+				if(Contents of Web Page == "NoChanges") {
+// [Eᴍʙᴇᴅ-ᴀ-Uᴘᴅᴀᴛᴇ] No updates are available at this time.
+				} else {
+					if(Contents of Web Page == "RollbackAvailable") {
+						text(text: "A rollback is available: ${Remote.as(Dictionary).key(Version)} ↘ ${ActionOutput.as(Dictionary).key(Version)}") >> text 1
+					} else {
+						text(text: "An update is available: ${Remote.as(Dictionary).key(Version)} → ${ActionOutput.as(Dictionary).key(Version)}") >> text 2
+					} >> IFResult
+					menu(, [) {
+					case("Install result (Version)"):
+						url(url: "https://routinehub.co/download/${Remote.as(Dictionary).key(id)}") >> url 1
+						openURL(url: URL) >> openURL 4
+						output(result: "${URL}") >> output
+					case("Later"):
+					} >> MenuResult
+				} >> IFResult 1
+			} else {
+				alert(alert: "Could not check for updates because of a RoutineHub error:
+
+${result.as(Dictionary).key(message)}", title: "", cancel: false)
+			} >> IFResult 2
+		} >> IFResult 3
+	} >> RepeatResult
+} >> MenuResult 1
+exit()

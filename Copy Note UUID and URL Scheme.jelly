@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: Red, #Icon: magnifyingGlass
+
+// Find a note in the Notes app and copy its UUID from the Shortcuts Content Graph. The shortcut uses the UUID to generate a URL scheme launcher for that specific note in the Notes app.
+askForInput(prompt: "Type a note title", default: ) >> Note Title
+filterNotes() >> filterNotes
+choose(list: Notes, prompt: "Notes Results for '${Note Title}'") >> choose
+var 9059E638-333E-4F40-B5CB-370896D902A3 = """The Content Graph will open now.
+
+You need to select and copy the UUID for your '￼' note.
+
+To do this, first select the 'Note' item from the graph and click 'LNEntity'. Then, copy the alphanumeric UUID.
+
+The UUID is contained inside the identifier field at the top of the page. It comes *after* the 'NoteEntity/notes:note/' part and *before* a comma.
+
+Select it, copy it to the clipboard, then close the Content Graph window so the shortcut will continue."""
+text("${9059E638-333E-4F40-B5CB-370896D902A3}")
+alert(alert: "${Text}", title: "Content Graph Loading...", cancel: false)
+contentGraph(input: Chosen Item)
+changeCase(text: Clipboard) >> changeCase
+url(url: "mobilenotes://showNote?identifier=${Updated Text}") >> url
+setClipboard(variable: URL) >> setClipboard
+alert(alert: "Generated URL scheme for note and copied to the clipboard:
+
+${URL}", title: "Note URL Scheme", cancel: false)

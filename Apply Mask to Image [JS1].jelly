@@ -1,0 +1,36 @@
+import Shortcuts
+#Color: grayBlue, #Icon: picture
+
+/*
+A JavaScript one-liner to apply a mask to an image — @atnbueno (2024-11-03)
+
+- The shortcut expects to receive two images as input: an image to mask and a mask, in that order. There is no error checking.
+- When run without input, the shortcut works as a demo, allowing the user to select an image and a mask and showing the result of masking the first with the second
+
+RoutineHubUpdate
+
+Current Version: "1.0.0"
+RoutineHub ID: "???"
+
+RoutineHubUpdate
+*/
+if(ShortcutInput != nil) {
+	getItemFromList(list: ShortcutInput) >> getItemFromList
+var Image = Ítem de la lista
+	getItemFromList(list: ShortcutInput, type: Last Item) >> getItemFromList 1
+var Mask = Ítem de la lista
+} else {
+	selectPhoto() >> selectPhoto
+var Image = Fotos
+	selectPhoto() >> selectPhoto 1
+var Mask = Fotos
+} >> IFResult
+decode(input: Image) >> B64 image
+decode(input: Mask) >> B64 mask
+dictionary({"image":"data:image/${Image.as(Photo).get(File Extension)};base64,${Variable.as(Photo).get(File Extension)}","mask":"data:image/${Mask.as(Photo).get(File Extension)};base64,${Variable.as(Photo).get(File Extension)}"}) >> Input
+url(url: "data:text/html,<script>with(document){input=${Input};m=createElement("img");m.src=input.mask,m.onload=()=>{i=createElement("img");i.src=input.image,i.onload=()=>{with(createElement("canvas")){height=i.height,width=i.width;with(getContext("2d")){drawImage(i,0,0),globalCompositeOperation="destination-in",drawImage(m,0,0,width,height)}write(toDataURL().slice(22))}}}}</script>") >> URL as Rich text
+decodeURL(url: "${URL as Rich text.as(RichText)}") >> JavaScript output
+decode(input: JavaScript output) >> Decoded masked image
+if(ShortcutInput == nil) {
+	quicklook(input: Decoded masked image)
+}

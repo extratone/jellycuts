@@ -1,0 +1,414 @@
+import Shortcuts
+#Color: red,#Icon: ipadAlt
+
+// Localization by:
+
+Federico Viticci – English and Italian (@viticci)
+Maria Alessandra Gatta – Spanish, professional translator (@alegatta_)
+Anneleen Guilliams – Dutch (@anneleeng92)
+Rod Christiansen – Portuguese (@RodChristiansen)
+rfog – French (@rfog42)
+Salim – German (@productiveboys)
+// Start language checking. Delete the languages you don't want to use from the List action below.
+
+Supported language names are:
+
+English
+Italian
+Spanish
+Dutch
+French
+Portuguese
+German
+// ⬇️ ENTER LANGUAGE NAME BELOW ⬇️
+text(text: "English") >> text
+splitText(text: Text) >> splitText
+count(input: Split Text) >> count
+if( == 0) {
+// Fall back to English if no languages are found
+	text(text: "English") >> text
+	var Language = Text
+} else {
+	if( >= 1) {
+// Work around a potential scenario where the user has left empty lines 
+		repeatEach(Split Text) {
+			if( == nil $2) {
+				nothing()
+			} else {
+				var Language += Repeat Item
+			}
+		} >> Repeat Result
+		getItemFromList(list: Language) >> Language
+		var Language = Language
+	} else {
+	}
+} >> If Result
+// Type contents of alerts below
+// English
+var FEB22DF8-AA83-4855-9D10-728C03F8B848 = """It looks like the Frames.json file is not installed on your device.
+
+You'll have to download this file ONCE in iCloud Drive/Shortcuts for Apple Frames to work.
+
+Click OK and Shortcuts will download the file from MacStories.net and take care of everything for you.
+
+(The download will take a few seconds.)"""
+text("${FEB22DF8-AA83-4855-9D10-728C03F8B848}")
+var F0BA7781-E78F-473F-BF8B-8740CA960CCE = """The Frames.json file has been successfully saved into iCloud Drive/Shortcuts.
+
+There's nothing else you have to do now.
+
+In the future, to install new versions of Apple Frames, you'll have to delete the Frames.json file and download it again.
+
+But for now: welcome to Apple Frames, and enjoy. ☺ 
+
+- Federico"""
+text("${F0BA7781-E78F-473F-BF8B-8740CA960CCE}")
+// Italian
+var B810390B-414F-461F-B27E-91A5F4B0EE13 = """Sembra che il file Frames.json non sia installato sul tuo dispositivo.
+
+Dovrai scaricare questo file UNA SOLTA VOLTA e mantenerlo nella cartella iCloud Drive/Shortcuts affinché Apple Frames possa funzionare.
+
+Clicca OK e Comandi Rapidi scaricherà il file da MacStories.net, occupandosi di tutta la configurazione per te.
+
+(Il download impiegherà qualche secondo.)"""
+text("${B810390B-414F-461F-B27E-91A5F4B0EE13}")
+var 5A668959-F493-4A86-9494-C13B9CCCB32D = """Il file Frames.json è stato scaricato con successo e salvato in iCloud Drive/Shortcuts.
+
+Non devi fare nient'altro.
+
+In futuro, per installare versioni aggiornate di Apple Frames, dovrai eliminare Frames.json e scaricarlo nuovamente.
+
+Comunque, per ora: benvenuto su Apple Frames, e buon utilizzo. ☺ 
+
+- Federico"""
+text("${5A668959-F493-4A86-9494-C13B9CCCB32D}")
+// Spanish
+var DA596779-983B-4811-9B06-C364D8CDE5FB = """Al parecer no tienes Frames.json file instalado en tu dispositivo. Descarga este archivo SOLO UNA VEZ en iCloud Drive/Shortcuts para poder usar Apple Frames.
+
+Pulsa OK y Atajos descargará tu archivo desde MacStories.net encargándose de todo.
+ 
+(La descarga tardará unos segundos en completarse)."""
+text("${DA596779-983B-4811-9B06-C364D8CDE5FB}")
+var 0A4AC3C9-8BF6-4288-9940-2FD9E5A61D49 = """Frames.json file ha sido guardado con éxito en iCloud Drive/Shortcuts.
+
+No es necesario hacer nada más.
+
+En un futuro, para instalar nuevas versiones de Apple Frames, tendrás que eliminar Frames.json file y descargarlo otra vez.
+
+Bienvenido a Apple Frames y que lo disfrutes. ☺
+
+- Federico"""
+text("${0A4AC3C9-8BF6-4288-9940-2FD9E5A61D49}")
+// Dutch
+var 92CAF106-1690-4DBE-84C1-31D9B499C6F3 = """Het lijkt er op dat het Frames.json bestand ontbreekt op jouw apparaat.
+
+Je zal dit bestand EENMAAL moeten bewaren in iCloud Drive/Shortcuts zodat Apple Frames zal werken.
+
+Klik OK en Opdrachten zal het bestand downloaden van MacStories.net en al het nodige voor je doen.
+
+(De download zal enkele seconden duren.)"""
+text("${92CAF106-1690-4DBE-84C1-31D9B499C6F3}")
+var 41F9FE47-271F-4C3E-B380-202D7C4A080D = """Het Frames.json bestand is succesvol bewaard in iCloud Drive/Shortcuts.
+
+Er is nu niets anders meer dat je moet doen.
+
+Wanneer je in de toekomst een nieuwe versie van Apple Frames wilt installeren, zal je het Frames.json bestand moeten verwijderen en opnieuw downloaden.
+
+Maar voor nu: welkom bij Apple Frames, en geniet ervan. ☺ 
+
+- Federico"""
+text("${41F9FE47-271F-4C3E-B380-202D7C4A080D}")
+// French
+var DE72815D-12DD-4D9E-9C36-AB58BB581688 = """Il semble que le fichier Frames.json ne est pas installé sur votre appareil.
+
+Il faut télécharger cet fichier une fois dans iCloud Drive/Shortcuts pour Apple Frames pour travailler.
+
+Cliquer Ok et Raccourcis téléchargera le fichier de MacStories.net et prendre soin de vous.
+
+(Le téléchargement prendra quelques secondes.)"""
+text("${DE72815D-12DD-4D9E-9C36-AB58BB581688}")
+var F53FB3F8-5232-4123-B7A4-2B8BC71429D4 = """Le fichier Frames.json a été sauvegardé avec succès dans iCloud Drive/Shortcuts.
+
+Il y a rien d’autre chose á faire pour l’instant.
+
+Dans le future, pour faire l’installation de nouvelles versions de Apple Frames, vouz devez effacez le fichier Frames.json et le décharger a nouveau.
+
+Mais pour l’instant, bienvenue a Apple Frames, et amusez-vous. ☺ 
+
+- Federico"""
+text("${F53FB3F8-5232-4123-B7A4-2B8BC71429D4}")
+// German
+var 53FE64AF-389D-452D-B22F-E04D0AE542F4 = """Frames.json ist leider nicht auf ihr Gerät installiert. 
+
+Bitte laden Sie diese Datei nur einmal herunter und speichern Sie es in iCloud Drive/Shortcuts. 
+
+Drücken sie OK und Kurzbefehle wird die Datei von MacStories.net herunterladen und installieren.
+
+(Das Herunterladen braucht nur wenige Sekunden)"""
+text("${53FE64AF-389D-452D-B22F-E04D0AE542F4}")
+var 951DC285-DFA5-4976-9221-D0B03300E2F0 = """Die Frames.json Datei wurde erfolgreich heruntergeladen. Apple Fames ist jetzt bereit.
+
+Wenn eine neue Version von Apple Frames herauskommt, muss die Frames.json Datei ersetzt werden.
+
+Herzlich Wilkommen zu Apple Frames. ☺ 
+
+- Federico"""
+text("${951DC285-DFA5-4976-9221-D0B03300E2F0}")
+// Portoguese
+var FF7B2CDA-8CEF-40D4-A65D-F75C47473372 = """Parece que o arquivo Frames.json não está instalado no seu dispositivo.
+
+Você terá que fazer o download desse arquivo UMA VEZ em seu iCloud Drive/Shortcuts para o Apple Frames funcionar.
+
+Clique OK e Atalhos irá fazer o download do arquivo hospedado em MacStories.net e preparar tudo necessário. 
+
+(O download demora alguns segundos.)"""
+text("${FF7B2CDA-8CEF-40D4-A65D-F75C47473372}")
+var CF7D4C08-0865-4F65-8094-23EEF879398F = """O arquivo Frames.json foi salvo com sucesso em iCloud Drive/Shortcuts.
+
+Você não precisa fazer mais nada agora.
+
+Para instalar novas versões do Apple Frames no futuro, você terá que deletar o arquivo Frames.json e fazer o download novamente.
+
+Mas por enquanto: bem vindo ao Apple Frames, e aproveite. ☺ 
+
+- Federico"""
+text("${CF7D4C08-0865-4F65-8094-23EEF879398F}")
+dictionary({"Photos":{"English":"Save to Photos","Spanish":"Guardar en Fotos","Italian":"Salva su Foto","Dutch":"Bewaar in Foto's","French":"Sauvegarder sur Photos","Portuguese":"Salvar em Fotos","German":"In Fotos sichern"},"Files":{"English":"Save to Files","Italian":"Salva su File","Spanish":"Guardar en Archivos","Dutch":"Bewaar in Bestanden","French":"Sauvegarder sur Fichiers","Portuguese":"Salvar em Arquivos ","German":"In Dateien sichern"},"Copy":{"English":"Copy","Italian":"Copia","Spanish":"Copiar","Dutch":"Kopieer","French":"Copier","Portuguese":"Copiar","German":"Kopieren"},"Copy JPEG":{"English":"Copy as JPEG","Italian":"Copia come JPEG","Spanish":"Copiar como JPEG","Dutch":"Kopieer als JPEG","German":"Als JPEG kopieren","French":"Copier au JPEG","Portuguese":"Copiar como JPEG"},"Share":{"English":"Share","Italian":"Condividi","Spanish":"Compartir","Dutch":"Deel","German":"Teilen","French":"Partager","Portuguese":"Compartilhar"},"Preview":{"English":"Preview","Italian":"Anteprima","Spanish":"Vista Previa","Dutch":"Voorbeeld","German":"Vorschauen","French":"Previsualiser","Portuguese":"Pré-apresentação"},"File Naming":{"English":"Rename File","Italian":"Rinomina File","Spanish":"Renombrar Archivo","Dutch":"Wijzig Naam","German":"Die Datei Umbennen","French":"Renommer fichier","Portuguese":"Renomear Arquivo"},"Image Picker":{"English":"Pick Images","Italian":"Scegli Immagini","Spanish":"Escoger Imágenes","Dutch":"Kies Afbeeldingen","German":"Fotos aussuchen","French":"Sélectionner les images","Portuguese":"Escolher Imagens"},"Setup File":{"English":"${English Setup File Message}","Italian":"${Text}","Spanish":"${Text}","Dutch":"${Dutch Setup File Message}","French":"${Text}","German":"${Text}","Portuguese":"${Text}"},"Setup Done":{"English":"${Text}","Italian":"${Text}","Spanish":"${Text}","Dutch":"${Text}","French":"${Text}","Portuguese":"${Text}","German":"${Text}"}})
+var Menu Commands = Dictionary
+// Start routine to check for JSON file
+getFile(path: "Frames.json", error: false) >> getFile
+var Frames File = File
+count(input: Frames File) >> count
+if( == 0) { >> If Result
+// Frames.json file is not installed. It needs to be downloaded.
+	valueFor(key: "Setup File.${Language}", dictionary: Menu Commands) >> Setup File Message
+	alert(alert: "${Setup File Message}", title: "⚠️", cancel: false)
+	downloadURL(url: "https://cdn.macstories.net/Frames.json") >> downloadURL
+	setName(input: Contents of URL, name: "Frames.json") >> setName
+	saveFile(input: Renamed Item, ask: false) >> saveFile
+	wait(seconds: 2)
+	valueFor(key: "Setup Done.${Language}", dictionary: Menu Commands) >>  Setup Done Message
+	alert(alert: "${ Setup Done Message}", title: "✅ ", cancel: false)
+	getFile(path: "Frames.json", error: false) >> getFile
+	var Frames File = File
+} else {
+// There is already a Frames.json file. We can continue the shortcut.
+} >> If Result
+// Read the file again as dictionary and save it to a variable.
+getDictionaryFrom(input: Frames File) >> getDictionaryFrom
+var Frames Dictionary = Dictionary
+// Check if the input has any value or not.
+getImagesFrom(input: Shortcut Input) >> Images Input
+if( == nil "0") { >> If Result
+	valueFor(key: "Image Picker.${Language}", dictionary: Menu Commands) >> Image Picker Title
+	getLastPhoto() >> getLastPhoto
+	var Screenshot = Latest Photos
+} else {
+	getImagesFrom(input: Images Input) >> getImagesFrom
+	var Screenshot = Images
+} >> If Result
+repeatEach(If Result) { >> Repeat Result
+// Set a screenshot variable for each pass of repeat loop and reset it every time
+	var Screenshot = Repeat Item
+	imageDetail(detail: Width, image: Repeat Item) >> imageDetail
+	var Width of Repeat Item = Details of Images
+	imageDetail(detail: Height, image: Repeat Item) >> imageDetail
+	var Height of Repeat Item = Height
+	if( == 1242) { >> If Result
+// 11 Pro Max frame
+		imageDetail(detail: Height, image: Repeat Item) >> imageDetail
+// Check for Pro Max screenshot height.
+		if( == 2688) { >> If Result
+			valueFor(key: "iPhone.11.Pro Max.Portrait", dictionary: Frames Dictionary) >> valueFor
+			var Matched Device Dictionary = Dictionary Value
+		}
+	} else {
+		if( == 1125) { >> If Result
+// Pro portrait
+// Additional check to see we're not dealing with an iPhone 12 mini
+			if( != 2436) { >> If Result
+				valueFor(key: "iPhone.11.Pro.Portrait", dictionary: Frames Dictionary) >> valueFor
+				var Matched Device Dictionary = Dictionary Value
+			} else {
+// It is an iPhone 12 mini in portrait
+				valueFor(key: "iPhone.12-13.mini.Portrait", dictionary: Frames Dictionary) >> valueFor
+				var Matched Device Dictionary = Dictionary Value
+				resizeImage(image: Repeat Item, height: 2340, width: 1080) >> resizeImage
+				var Screenshot = Resized Image
+			}
+		} else {
+			if( == 2688) { >> If Result
+// Pro Max landscape
+				valueFor(key: "iPhone.11.Pro Max.Landscape", dictionary: Frames Dictionary) >> valueFor
+				var Matched Device Dictionary = Dictionary Value
+			} else {
+				if( == 2436) { >> If Result
+// iPhone 12-13 mini landscape
+					valueFor(key: "iPhone.12-13.mini.Landscape", dictionary: Frames Dictionary) >> valueFor
+					var Matched Device Dictionary = Dictionary Value
+					resizeImage(image: Repeat Item, height: 1080, width: 2340) >> resizeImage
+					var Screenshot = Resized Image
+				} else {
+					if( == 368) { >> If Result
+// Apple Watch S4 44mm
+						resizeImage(image: Repeat Item, width: 368) >> resizeImage
+						var Screenshot = Resized Image
+						valueFor(key: "Watch.Series 4.44", dictionary: Frames Dictionary) >> valueFor
+						var Matched Device Dictionary = Dictionary Value
+					} else {
+						if( == 750) { >> If Result
+// iPhone 8 and SE 2020
+							valueFor(key: "iPhone.iPhone 8 and 2020 SE.Portrait", dictionary: Frames Dictionary) >> valueFor
+							var Matched Device Dictionary = Dictionary Value
+						} else {
+// iPad Pro 12.9-inch (2018/2021 model landscape)
+							if( == 2732) {
+								valueFor(key: "iPad.2018-2021 iPad Pro.Landscape", dictionary: Frames Dictionary) >> valueFor
+								var Matched Device Dictionary = Dictionary Value
+							} else {
+// iPad Pro 12.9-inch (2018/2020 model) portrait mode
+								if( == 2048) {
+									imageDetail(detail: Height, image: Repeat Item) >> imageDetail
+// Additional check to make sure 6th gen iPad does not get matched here 
+									if( != 1536) {
+// It is not the base model iPad, so it's a 12.9" Pro in portrait
+										valueFor(key: "iPad.2018-2021 iPad Pro.Portrait", dictionary: Frames Dictionary) >> valueFor
+										var Matched Device Dictionary = Dictionary Value
+									} else {
+									}
+// End of check for 6th gen iPad height
+								} else {
+// 2021 iPad mini in portrait
+									if( == 2208) {
+										valueFor(key: "iPad.2021 iPad mini.Portrait", dictionary: Frames Dictionary) >> valueFor
+										var Matched Device Dictionary = Dictionary Value
+									} else {
+// 2021 iPad mini landscape
+										if( == 1334) {
+											valueFor(key: "iPad.2021 iPad mini.Landscape", dictionary: Frames Dictionary) >> valueFor
+											var Matched Device Dictionary = Dictionary Value
+										} else {
+// Landscape iPad Pro 11" 2018
+											if( == 2388) {
+												valueFor(key: "iPad.2018-2021 iPad Pro 11.Landscape", dictionary: Frames Dictionary) >> valueFor
+												var Matched Device Dictionary = Dictionary Value
+											} else {
+// iPad Pro 11" 2018 Portrait 
+												if( == 1668) {
+													valueFor(key: "iPad.2018-2021 iPad Pro 11.Portrait", dictionary: Frames Dictionary) >> valueFor
+													var Matched Device Dictionary = Dictionary Value
+												} else {
+// Apple Watch S4 40mm
+													if( .contains 324) {
+														valueFor(key: "Watch.Series 4.40", dictionary: Frames Dictionary) >> valueFor
+														var Matched Device Dictionary = Dictionary Value
+													} else {
+// iPhone 11
+														if( == 828) {
+// iPhone 11 frame
+															valueFor(key: "iPhone.11.11.Portrait", dictionary: Frames Dictionary) >> valueFor
+															var Matched Device Dictionary = Dictionary Value
+														} else {
+// iPhone 11 landscape
+															if( == 1792) {
+// iPhone 11 landscape frame
+																valueFor(key: "iPhone.11.11.Landscape", dictionary: Frames Dictionary) >> valueFor
+																var Matched Device Dictionary = Dictionary Value
+															} else {
+// iPhone 12-13 and 12-13 Pro
+																if( == 2532) {
+																	valueFor(key: "iPhone.12-13.Pro.Portrait", dictionary: Frames Dictionary) >> valueFor
+																	var Matched Device Dictionary = Dictionary Value
+																} else {
+// iPhone 12-13 and 12-13 Pro in landscape
+																	if( == 2532) {
+																		valueFor(key: "iPhone.12-13.Pro.Landscape", dictionary: Frames Dictionary) >> valueFor
+																		var Matched Device Dictionary = Dictionary Value
+																	} else {
+// iPhone 12-13 Pro Max in portrait
+																		if( == 1284) {
+																			valueFor(key: "iPhone.12-13.Pro Max.Portrait", dictionary: Frames Dictionary) >> valueFor
+																			var Matched Device Dictionary = Dictionary Value
+																		} else {
+// iPhone 12-13 Pro Max landscape
+																			valueFor(key: "iPhone.12-13.Pro Max.Landscape", dictionary: Frames Dictionary) >> valueFor
+																			var Matched Device Dictionary = Dictionary Value
+// iPad Air 2020 in landscape
+																			if( == 2360) {
+																				valueFor(key: "iPad.2020 iPad Air.Landscape", dictionary: Frames Dictionary) >> valueFor
+																				var Matched Device Dictionary = Dictionary Value
+																			} else {
+// iPad Air 2020 portrait
+																				if( == 1640) {
+																					valueFor(key: "iPad.2020 iPad Air.Portrait", dictionary: Frames Dictionary) >> valueFor
+																					var Matched Device Dictionary = Dictionary Value
+																				} else {
+																					if( == 4480) {
+// iMac
+																						valueFor(key: "Mac.2021 iMac", dictionary: Frames Dictionary) >> valueFor
+																						var Matched Device Dictionary = Dictionary Value
+																					} else {
+// iPad base model 9th gen
+																						if( == 2160) {
+																							valueFor(key: "iPad.2021 iPad.Landscape", dictionary: Frames Dictionary) >> valueFor
+																							var Matched Device Dictionary = Dictionary Value
+																						} else {
+																							if( == 1620) {
+																								valueFor(key: "iPad.2021 iPad.Portrait", dictionary: Frames Dictionary) >> valueFor
+																								var Matched Device Dictionary = Dictionary Value
+																							} else {
+// MBA
+																								if( == 2560) {
+																									valueFor(key: "Mac.2020 MacBook Air", dictionary: Frames Dictionary) >> valueFor
+																									var Matched Device Dictionary = Dictionary Value
+																								} else {
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														} >> If Result
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	} >> If Result
+// End checking for device resolutions.
+
+Frame each repeat item (screenshot) below.
+	encode(input: Matched Device Dictionary) >> Decoded Frame
+	overlayImage(image1: Screenshot, image2: Decoded Frame, editor: false, position: Custom, opacity: "100", rotation: "0") >> overlayImage
+	overlayImage(image1: Decoded Frame, image2: Overlaid Image, editor: false, opacity: "100", rotation: "0") >> overlayImage
+	var Framed Screenshots += Overlaid Image
+} >> Repeat Result
+// If dealing with more than one device, combine them into a single image.
+count(input: Framed Screenshots) >> count
+if( > true) { >> If Result
+	getImagesFrom(input: Framed Screenshots) >> getImagesFrom
+	combineImage(images: Images, mode: In a Grid, spacing: 60) >> combineImage
+	var Framed Screenshots = Combined Image
+} else {
+// A single device was passed, no need to combine images.
+} >> If Result
+// Strip metadata and rename
+convertImage(image: Framed Screenshots, format: PNG, metadata: false) >> convertImage
+date() >> date
+formatDate(date: "${Date}", dStyle: Custom, custom: "EEEE, dd MMM yyyy HH:mm:ss") >> formatDate
+setName(input: Converted Image, name: "${Formatted Date}") >> setName
+var Framed Screenshots = Renamed Item
+saveToCameraRoll(image: Framed Screenshots, album: Frames (Local)) >> saveToCameraRoll
+setClipboard(variable: Saved Photo Media) >> setClipboard
+saveFile(input: Saved Photo Media, ask: false) >> saveFile

@@ -1,0 +1,47 @@
+import Shortcuts
+#Color: red, #Icon: videoIcon
+
+matchText(text: "${ShortcutInput}", regex: "youtu(?:.*\/v\/|.*v\=|\.be\/|.*?embed\/|.*?shorts\/)([A-Za-z0-9_\-]{11})", caseSensitive: false) >> matchText
+getMatchGroup(matches: Matches) >> getMatchGroup
+var VideoID = Text
+if(VideoID == nil "youtube") {
+	sendNotification(body: "VideoId is not found", attachment: VideoID) >> sendNotification
+	output(result: "${VideoID}") >> output
+} >> IFResult
+downloadURL(url: "https://api.revanced.net/get-video?url=https%3A%2F%2Fmusic.youtube.com%2Fwatch%3Fv%3D${VideoID}") >> downloadURL
+if(Contents of URL .contains "Oops, something wrong happened...") {
+	valueFor(key: "files", dictionary: Contents of URL) >> valueFor
+	repeatEach(Dictionary Value) {
+		valueFor(key: "type", dictionary: Repeat Item) >> valueFor 1
+		text(text: "${Dictionary Value}") >> text
+		if(Text == "muxed") {
+			valueFor(key: "downloadUrl", dictionary: Repeat Item) >> valueFor 2
+			valueFor(key: "quality", dictionary: Repeat Item) >> valueFor 3
+			setName(input: Dictionary Value, name: "${Dictionary Value}") >> setName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+			nothing() >> nothing
+		} >> IFResult 1
+	} >> RepeatResult
+	count(input: downloadOptions) >> count
+	if(Count > 1) {
+		choose(list: downloadOptions) >> choose
+		getURLSFromInput(text: "${Chosen Item}") >> getURLSFromInput
+	} else {
+		getURLSFromInput(text: "${downloadOptions}") >> getURLSFromInput 1
+	} >> IFResult 2
+var dl = If Result
+} else {
+	alert(alert: "Oops, something wrong happened...")
+} >> IFResult 3
+downloadURL(url: "${dl}") >> downloadURL 1
+saveToCameraRoll(image: Contents of URL) >> saveToCameraRoll
+menu(Downloaded! What's Next?, [Get More Useful Shortcuts, Get Our Premium Shortcuts, Exit]) {
+case("Get More Useful Shortcuts"):
+	url(url: "https://chrunos.com/top-siri-shortcuts/") >> url
+	openURL(url: URL)
+case("Get Our Premium Shortcuts"):
+	url(url: "https://chrunos.com/premium-shortcuts/") >> url 1
+	openURL(url: URL)
+case("Exit"):
+}

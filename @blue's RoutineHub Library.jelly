@@ -1,0 +1,36 @@
+import Shortcuts
+#Color: navy, #Icon: server
+
+/*
+All of my RoutineHub Shortcuts.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+url(url: "https://gist.github.com/extratone/5bbd865703e98eeaa654ea7e5c36a776/raw/6cee6b939842b15ecb741badd1849a06ad0244b5/blue.json") >> url
+downloadURL(url: "${URL}") >> downloadURL
+valuesFrom(dictionary: Contents of URL) >> valuesFrom
+repeatEach(Dictionary Value) {
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 1
+	url(url: "https://routinehub.co/shortcut/${Dictionary Value}") >> url 1
+	getName() >> getName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "- [${URL}](${ActionOutput})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+url(url: "https://davidblue.wtf/audio/BOZOWARNING.m4a") >> url 2
+downloadURL(url: "${URL}") >> downloadURL 1
+playSound(file: Contents of URL)
+combineText(text: index) >> combineText
+richTextFromMarkdown(markdown: Combined Text) >> richTextFromMarkdown
+showWebPage(url: "${Rich Text from Markdown}")
+openURL(url: "${urls}")

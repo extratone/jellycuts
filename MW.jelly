@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: orange, #Icon: 3DSquareStack
+
+var term = ShortcutInput
+url(url: "https://dictionaryapi.com/api/v3/references/collegiate/json/${term}?key=9d8a234e-9b2d-415c-bb9e-df72db19db24") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+//Unable to get shortcuts action ke.bou.GizmoPack.GenerateCSVIntent
+getTextFrom(input: CSV File) >> getTextFrom
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.FormatWithFlowIntent
+quicklook(input: Formatted Text)

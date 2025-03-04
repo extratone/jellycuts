@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: Red, #Icon: hand
+
+url(url: "https://gist.github.com/extratone/a3d68957deb5be5fc5325f0966aa030d/raw/0ea36f086a5632f07231bb8f245bb312d15735a3/db.vcf") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getContactsFrom(input: Contents of URL) >> getContactsFrom
+quicklook(input: Contacts)

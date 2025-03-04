@@ -1,0 +1,8 @@
+import Shortcuts 1132.2
+#Color: Red,#Icon: shortcuts
+
+getClipboard() >> getClipboard
+text(text: "<audio controls>
+  <source src="${Clipboard}">
+</audio>") >> text
+setClipboard(variable: Text) >> setClipboard

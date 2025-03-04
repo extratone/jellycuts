@@ -1,0 +1,23 @@
+import Shortcuts
+#Color: green, #Icon: shortcuts
+
+text(text: "odette.local") >> text
+var host = Text
+number(value: 22) >> number
+var port = Number
+text(text: "blue") >> text 1
+var user = Text
+askForInput(prompt: "Shortcuts folder name (case-sensitive.)", default: Shared) >> askForInput
+runSSH(host: "${host}", port: "${port}", user: "${user}", auth: Password, password: "htop", script: "shortcuts list -f ${Provided Input}") >> runSSH
+splitText(text: Shell Script Result) >> splitText
+repeatEach(Split Text) {
+//Unable to get shortcuts action maccatalyst.com.Christopher-Hannah.Text-Case.TextCaseIntent
+	text(text: "[${Formatted Text}](shortcuts://x-callback-url/run-shortcut?name=${ActionOutput})") >> text 2
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(text: shortcutslinks) >> combineText
+//Unable to get shortcuts action maccatalyst.com.Christopher-Hannah.Text-Case.TextCaseIntent
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.ReplaceIntent
+setClipboard(variable: Formatted Text) >> setClipboard

@@ -1,0 +1,46 @@
+import Shortcuts
+#Color: purple, #Icon: iPadAlt
+
+/*
+This shortcut combines Shortcuts app editor screenshots using the “Screenshot Stitcher” shortcut — @atnbueno (2023-11-26)
+
+𝗥𝗘𝗤𝗨𝗜𝗥𝗘𝗠𝗘𝗡𝗧𝗦
+- 𝗔𝗽𝗽 𝗹𝗮𝗻𝗴𝘂𝗮𝗴𝗲: English
+- 𝗗𝗲𝘃𝗶𝗰𝗲: iPad Pro 12.9” (landscape)
+- 𝗧𝗲𝘅𝘁 𝗦𝗶𝘇𝗲: Medium (-1)
+
+𝗙𝗘𝗔𝗧𝗨𝗥𝗘𝗦
+- 𝗛𝗲𝗮𝗱𝗲𝗿: Custom-designed
+- 𝗠𝗮𝗿𝗴𝗶𝗻𝘀: Trimmed horizontally
+- 𝗢𝗽𝘁𝗶𝗼𝗻𝗮𝗹: Deletion of source screenshots
+*/
+selectPhoto(types: Images, multiple: true) >> selectPhoto
+filterImages() >> Screenshots
+// Assemble custom header
+getItemFromList(list: Screenshots) >> 1st screenshot
+cropImage(image: 1st screenshot, position: Custom, height: 101, width: 1, x: 0, y: 48) >> cropImage
+resizeImage(image: Imagen recortada, height: 101, width: 1370) >> Header background
+cropImage(image: 1st screenshot, position: Custom, height: 82, width: 1245, x: 219, y: 57) >> Shortcut icon and name
+extractTextFromImage(image: Shortcut icon and name) >> Shortcut name
+overlayImage(image1: Shortcut icon and name, image2: Header background, editor: false, position: Custom, opacity: "100", rotation: "0") >> Custom header
+var Stitchingresult = Custom header
+// Crop screenshots and stitch
+repeatEach(Screenshots) {
+	cropImage(image: Repeat Item, position: Custom, height: 1873, width: 1370, x: 292, y: 149) >> cropImage 1
+} >> Cropped screenshots
+runShortcut(name: "Screenshot Stitcher", input: Cropped screenshots) >> runShortcut
+// Add stitched screenshots to header and show final result
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+combineImage(images: Stitching result, mode: Vertically, spacing: 0) >> Stitching result
+setName(input: Stitching result, name: "${Shortcut name}") >> Stitching result
+if(Stitching result > 20000) {
+	saveToCameraRoll(image: Stitching result) >> saveToCameraRoll
+	alert(alert: "⚠️ The height of the stitched result is ${Stitching result.get(Height)} pixels ⚠️
+
+ℹ️ Shortcuts in iOS 17 has problems to show such large images, so I've saved it to your photo library
+
+❓ Do you still want to preview the stitched result?", titcel: $2)
+}
+showResult(text: "${Stitching result}")
+alert(alert: "Do you want to delete the stitched screenshots?", cancel: true)
+deletePhotos(photos: Screenshots) >> deletePhotos

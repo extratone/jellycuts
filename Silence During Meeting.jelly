@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: grape, #Icon: moon
+
+menu(Is your event starting or ending?, [Starting, Ending]) {
+case("Starting"):
+	setVolume(level: false)
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+	setDND(state: true)
+case("Ending"):
+	setVolume(level: 0.3089285790920258)
+	setDND()
+} >> MenuResult

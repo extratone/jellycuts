@@ -1,0 +1,20 @@
+<h1 id="menu">Menu</h1>
+<h2 id="notes">Notes</h2>
+<p>Menus allow you to give the user a bunch of options to work with. All
+options in the upper list must have a case associated with it. ##
+Syntax</p>
+<pre><code>menu(&lt;#String (Allows Variables)#&gt;, &lt;#Array#&gt;) {
+    case(&lt;#String (No Variables)#&gt;):
+        •Actions•
+    
+    case(&lt;#String (No Variables)#&gt;):
+        •Actions•
+    
+}</code></pre>
+<h2 id="example">Example</h2>
+<pre><code>menu(&quot;Choose an action&quot;, [&quot;Log Water&quot;, &quot;Workout&quot;]) {
+    case(&quot;Log Water&quot;):
+        runShortcut(Log Water)
+    case(&quot;Workout&quot;):
+        runShortcut(Workout)
+}</code></pre>

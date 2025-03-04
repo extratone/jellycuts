@@ -1,0 +1,98 @@
+import Shortcuts
+#Color: orange, #Icon: documentOutline
+
+/*
+Retrieve and concatenate GitHub Issue contents and comments into a single draft.
+
+Full documentation: https://davidblue.wtf/issuedraft
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+urlComponent(url: "${ShortcutInput}", component: Path) >> urlComponent
+splitText(text: Component of URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList
+var owner = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 1
+var repo = Item from List
+text(text: "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") >> text
+var auth = Text
+url(url: "https://api.github.com/repos${Component of URL}") >> url 1
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+valueFor(key: "html_url", dictionary: Contents of URL) >> valueFor
+var link = Dictionary Value
+valueFor(key: "user.login", dictionary: Contents of URL) >> valueFor 1
+var username = Dictionary Value
+valueFor(key: "created_at", dictionary: Contents of URL) >> valueFor 2
+getDateFrom(input: Dictionary Value) >> getDateFrom
+var created = Dates
+valueFor(key: "updated_at", dictionary: Contents of URL) >> valueFor 3
+getDateFrom(input: Dictionary Value) >> getDateFrom 1
+var updated = Dates
+valueFor(key: "title", dictionary: Contents of URL) >> valueFor 4
+var title = Dictionary Value
+valueFor(key: "labels", dictionary: Contents of URL) >> valueFor 5
+repeatEach(Dictionary Value) {
+	valueFor(key: "name", dictionary: Repeat Item) >> valueFor 6
+} >> RepeatResult
+var tags = Repeat Results
+valueFor(key: "body", dictionary: Contents of URL) >> valueFor 7
+var body = Dictionary Value
+var F67FD118-7F51-4997-B72F-59EE2C7B0851 = """# "￼" - ￼/￼
+Updated `￼`
+Created `￼`
+
+- [**Issue**](￼)
+- @[￼](https://github.com/￼)
+- [Repository](https://github.com/￼/￼)
+- [Maintainer/Org](https://github.com/￼)
+
+---
+
+￼"""
+text("${F67FD118-7F51-4997-B72F-59EE2C7B0851}")
+var md = Text
+valueFor(key: "comments", dictionary: Contents of URL) >> valueFor 8
+if(Dictionary Value > 0) {
+	url(url: "${URL}/comments") >> url 2
+	downloadURL(url: "${URL}", headers: ) >> downloadURL 1
+	repeatEach(Contents of URL) {
+		valueFor(key: "user.login", dictionary: Repeat Item) >> association
+		valueFor(key: "user.html_url", dictionary: Repeat Item) >> authorURL
+		valueFor(key: "updated_at", dictionary: Repeat Item) >> valueFor 9
+		getDateFrom(input: Dictionary Value) >> getDateFrom 2
+		valueFor(key: "body", dictionary: Repeat Item) >> commentContent
+		valueFor(key: "html_url", dictionary: Repeat Item) >> commentURL
+		text(text: "[※](${commentURL})‑[${ActionOutput}](${association})") >> text 1
+var ref = Text
+var 2C3C0874-5DC8-4F91-81F6-15D2B06692BC = """￼
+ *￼*
+
+---"""
+text("${2C3C0874-5DC8-4F91-81F6-15D2B06692BC}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 1
+	combineText(text: comments, combine: New Lines, separator: "
+---") >> combineText
+	replaceText(input: "${Combined Text}", find: "# ", replace: "## ", caseSensitive: false) >> replaceText
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> IFResult
+combineText(text: md) >> combineText 1
+list(items: (
+    github,
+    capture
+)) >> additionalTags
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+setClipboard(variable: Draft) >> setClipboard
+//Unable to get shortcuts action com.agiletortoise.Drafts5.OpenDraftIntent

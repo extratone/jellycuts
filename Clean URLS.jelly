@@ -1,0 +1,29 @@
+import Shortcuts
+#Color: yellow, #Icon: scissors
+
+/*
+This shortcut receieves a URL as input or from the clipboard, splits the url by `?`, copies only the first result of that split, and opens said URL in Safari.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+splitText(text: URLs, separator: Custom, customSeparator: "?") >> splitText
+getItemFromList(list: Split Text, type: First Item) >> getItemFromList
+var clean = Item from List
+setClipboard(variable: Item from List) >> setClipboard
+openURL(url: Item from List) >> openURL
+var 2AF456B0-EC35-44B6-AC7E-7F93E367E246 = """Original: ￼
+
+Result: ￼"""
+text("${2AF456B0-EC35-44B6-AC7E-7F93E367E246}")
+//Unable to get shortcuts action com.alexhay.Console.LogConditionalMessageIntent

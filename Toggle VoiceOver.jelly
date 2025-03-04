@@ -1,0 +1,23 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+/*
+This shortcut is a quick way to turn VoiceOver on or off.
+
+Add a Personal Automation to have it automatically toggle VoiceOver on when you open specific apps.
+*/
+getFile(picker: false, path: "VoiceOver.txt", error: false) >> getFile
+if(File == nil) {
+	menu(This shortcut will turn on VoiceOver, which changes the way you navigate your device. If you don’t know how to use VoiceOver, you may not want to turn it on yet., [Turn on VoiceOver, Learn about VoiceOver first, Cancel]) {
+	case("Turn on VoiceOver"):
+	case("Learn about VoiceOver first"):
+		showWebPage(url: "https://support.apple.com/guide/iphone/iph3e2e2281/ios")
+		alert(alert: "Do you want to turn on VoiceOver?")
+	case("Cancel"):
+		exit()
+	} >> MenuResult
+	text(text: "VoiceOver check") >> text
+	saveFile(input: Text, ask: false, path: "VoiceOver.txt")
+} else {
+}
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleVoiceOverIntent

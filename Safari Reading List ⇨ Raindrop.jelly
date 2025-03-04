@@ -1,0 +1,35 @@
+import Shortcuts
+#Color: teal, #Icon: cloud
+
+/*
+Transfer URLs from your native Reading List to Raindrop.
+
+*Please note: this Shortcut requires iOS/iPadOS 16 Beta.*
+
+*This shortcut is currently in beta, also, because the collection-specific portion of its functionality is not working properly. I'm working on troubleshooting it, sorry.*
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+text(text: "00000000-0000-0000-0000-000000000000") >> text
+var AuthToken = Text
+text(text: "00000000") >> text 1
+var Collections = Text
+url(url: "https://davidblue.wtf/audio/ios/caf/acknowledgment_received.caf") >> url
+downloadURL(url: "${URL}") >> downloadURL
+//Unable to get shortcuts action com.apple.mobilesafari.ReadingListItemEntity
+repeatEach(Reading List Items) {
+var cleanurl = Variable
+	url(url: "https://api.raindrop.io/rest/v1/raindrop") >> url 1
+	downloadURL(url: "${URL}", method: POST, headers: , requestJSON: ) >> downloadURL 1
+	playSound(file: Contents of URL)
+} >> RepeatResult

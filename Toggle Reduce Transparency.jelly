@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: blue, #Icon: loadingIndicator
+
+/*
+This shortcut is a quick way to turn Reduce Transparency on or off.
+
+Add a Personal Automation to have it automatically toggle Reduce Transparency on when you open specific apps.
+*/
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleTransparencyIntent

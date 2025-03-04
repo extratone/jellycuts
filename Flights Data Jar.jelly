@@ -1,0 +1,94 @@
+import Shortcuts
+import Actions
+import DataJar
+#Color: green, #Icon: airplane
+
+/*
+Store and (optionally) git track the full suite of available flight data for your Infinite Flight account.
+
+See my blog post if you'd like: https://bilge.world/infinite-flight-api
+
+...and/or this Shortcut's Issue on my iOS-specific GitHub Repository: https://github.com/extratone/i/issues/293
+
+Contact me anytime! Infinite flight users can find my community profile here: http://community.infiniteflight.com/u/extratone
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CheckForUpdatesIntent
+text(text: "") >> text
+var auth = Text
+text(text: "0000") >> text 1
+var userID = Text
+url(url: "https://api.infiniteflight.com/public/v2/sessions") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+valuesFrom(dictionary: Contents of URL) >> valuesFrom
+getItemFromList(list: Dictionary Value) >> getItemFromList
+var expert = Item from List
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+getItemFromList(list: Dictionary Value, type: Item At Index, index: "2") >> getItemFromList 1
+var training = Item from List
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+getItemFromList(list: Dictionary Value, type: Item At Index, index: "3") >> getItemFromList 2
+var casual = Item from List
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+// Server IDs are now up to date.
+url(url: "https://api.infiniteflight.com/public/v2/users/${userID}/flights") >> url 1
+downloadURL(url: "${URL}", headers: ) >> downloadURL 1
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valuesFrom(dictionary: Dictionary) >> valuesFrom 1
+var pages = Dictionary Value
+// Because the initial index of user flights is paginated, we need to repeat the main (following) loop for each page of your flight results.
+repeat(pages) {
+	url(url: "https://api.infiniteflight.com/public/v2/users/${Repeat Index}/flights?page=${Variable}") >> url 2
+	downloadURL(url: "${URL}", headers: ) >> downloadURL 2
+	valuesFrom(dictionary: Contents of URL) >> valuesFrom 2
+	repeatEach(Dictionary Value) {
+		valuesFrom(dictionary: Repeat Item 2) >> valuesFrom 3
+var id = Dictionary Value
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+		valuesFrom(dictionary: Repeat Item 2) >> valuesFrom 4
+		replaceText(input: "${Dictionary Value}", find: " Server") >> replaceText
+		changeCase(text: Updated Text, case: lowercase) >> changeCase
+var servername = Updated Text
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+var serverID = Value
+		url(url: "https://api.infiniteflight.com/public/v2/sessions/${serverID}/flights/${Variable}/flightplan") >> url 3
+		downloadURL(url: "${URL}", headers: ) >> downloadURL 3
+		valuesFrom(dictionary: Contents of URL) >> valuesFrom 5
+		if(Dictionary Value != nil) {
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+		} else {
+		}
+		url(url: "https://api.infiniteflight.com/public/v2/sessions/${serverID}/flights/${Variable}/route") >> url 4
+		downloadURL(url: "${URL}", headers: ) >> downloadURL 4
+		valuesFrom(dictionary: Contents of URL) >> valuesFrom 6
+		if(Dictionary Value != nil) {
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+		} else {
+		} >> IFResult
+	} >> RepeatResult
+	wait(seconds: 15)
+// Waiting 15 seconds between pags of user flight data to avoid hitting the rate limit. :)
+} >> RepeatResult 1
+// Note: unless you intend to git enable your flight data with Working Copy, the following actions are unnecessary. 
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.PrettyPrintDictionariesIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+// These last three download a short and small (<70kb) audio file from my own server to notify those with extensive logs when the process has completed.
+url(url: "https://davidblue.wtf/aviation/concordeoverspeed.m4a") >> url 5
+downloadURL(url: "${URL}") >> downloadURL 5
+playSound(file: Contents of URL)

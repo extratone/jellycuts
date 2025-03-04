@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: blue, #Icon: hand
+
+setDND(state: true)
+quitApp(app: $0)

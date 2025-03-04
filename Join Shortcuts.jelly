@@ -1,0 +1,231 @@
+import Shortcuts
+#Color: Red, #Icon: 3DSquareStack
+
+/*
+Join shortcuts without pre-setup
+2023-10-18 	v1.0.5
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) {
+	getIP() >> getIP
+	if(Current IP Address != nil) {
+		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=F14A3404") >> downloadURL
+		if(Contents of URL .contains "2023-10-18") {
+			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+			case("🌏  Go to RoutineHub"):
+				openURL(url: "https://routinehub.co/shortcut/10038/")
+				exit()
+			case("👾  Download Update"):
+				downloadURL(url: "https://routinehub.co/api/v1/shortcuts/10038/versions/latest") >> downloadURL 1
+				matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+				expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+				replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+				openURL(url: Updated Text)
+				exit()
+			case("⮐  Not Now"):
+			} >> MenuResult
+		} >> IFResult
+	}
+} >> IFResult 1
+alert(alert: "
+🌟 Let’s select main shortcut first.
+", tancel: false)
+runShortcut(name: "Shortcut Source Helper") >> runShortcut
+if(Shortcut Result == nil) {
+	exit()
+} >> IFResult 2
+getFileOfType(input: Shortcut Result, type: "public.json") >> mainshortcut
+replaceText(input: "${mainshortcut}", find: "\u0023", replace: "\\u0023", isRegex: true) >> mainshortcut
+var 6F6114F5-B83F-4ED5-A619-E2E656DC2ED2 = """let q = d.WFWorkflowImportQuestions.map(q => q.ActionIndex);
+let last = d.WFWorkflowActions.length;
+let c = {"0":0};
+c[last] = last;
+let comments = d.WFWorkflowActions.map((a,i) => (a.WFWorkflowActionIdentifier === 'is.workflow.actions.comment' && i != last-1) ? `(${i+1}) ${(['', undefined].includes(t = a.WFWorkflowActionParameters.WFCommentActionText) ? '[empty]' : (typeof t === 'string' ? t : t.Value.string)).trim().replace(/\s+/g,' ')}` : false).filter(a => a != false);
+comments.forEach(a => { n = a.match(/\((\d+)/)[1]; c[n] = parseInt(n); });
+document.body.textContent = encodeURIComponent(JSON.stringify({q:q, c:c, last:last, comments:comments}));"""
+text("${6F6114F5-B83F-4ED5-A619-E2E656DC2ED2}")
+url(url: "data:text/html;charset=utf-8,<body/><script>const d=${Text};${ActionOutput}</script>") >> url
+decodeURL(url: "${URL.as(RichText)}") >> decodeURL
+setValue(key: "shortcut", value: "${mainshortcut.as(Dictionary)}", dictionary: URL Encoded Text) >> setValue
+var dict = Dictionary
+list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{18, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Name;
+                                PropertyUserInfo = WFItemName;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = mainshortcut;
+                        OutputUUID = "F1C9D0C0-80B5-4EA9-A793-FE518E25A164";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "(0) Beginning of \U2018\Ufffc\U2019";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFDictionaryContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                DictionaryKey = comments;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = dict;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{1, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = last;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = dict;
+                    };
+                    "{12, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Name;
+                                PropertyUserInfo = WFItemName;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = mainshortcut;
+                        OutputUUID = "F1C9D0C0-80B5-4EA9-A793-FE518E25A164";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "(\Ufffc) End of \U2018\Ufffc\U2019";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+var menu = List
+if(dict == nil) {
+var D2200010-CDC0-4C58-BFF2-335213604A13 = """[To insert shortcuts in the middle, add comment actions.]
+"""
+text("${D2200010-CDC0-4C58-BFF2-335213604A13}")
+} >> IFResult 3
+dictionary({"0":"0","1":"1"})
+repeat(20) {
+	if(Number == nil) {
+		choose(list: menu, prompt: "${another}${ActionOutput}🎯  Insert ${inserted}shortcut after:", mll: $3) >> choose
+		if(Chosen Item == "✳️🏁  FINISH JOINING  🏁✳️") {
+			number(value: 1) >> number
+		} else {
+			matchText(text: "${Chosen Item}", regex: "(?<=^\()\d+") >> position
+var addif = Dictionary
+			if(Chosen Item .beginsWith "(0) Beginning") {
+				number(value: 1)
+			} >> IFResult 4
+			if(Chosen Item .beginsWith ""(${dict.as(Dictionary).key(last)}) End"") {
+				number(value: 1)
+			} >> IFResult 5
+			if(If Result == 1) {
+				menu(
+💊  Put shortcut inside ‘If’ and ‘End If’?
+, [Yes, No]) {
+				case("Yes"):
+var addif = Dictionary
+				case("No"):
+				} >> MenuResult 1
+			} else {
+				filterFiles() >> filterFiles
+var menu = Files
+			} >> IFResult 6
+			if(Repeat Index == 1) {
+				list(items: (
+    "\U2733\Ufe0f\Ud83c\Udfc1  FINISH JOINING  \Ud83c\Udfc1\U2733\Ufe0f",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = menu;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+var menu = List
+			} >> IFResult 7
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			runShortcut(name: "Shortcut Source Helper") >> runShortcut 1
+			if(Shortcut Result == nil) {
+				exit()
+			} >> IFResult 8
+			getFileOfType(input: Shortcut Result, type: "public.json") >> subshortcut
+			replaceText(input: "${subshortcut}", find: "\u0023", replace: "\\u0023", isRegex: true) >> subshortcut
+			setValue(key: "name", value: "${subshortcut.get(Name)}") >> setValue 1
+			replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 1
+var BD27D34B-9A2C-46B4-90AE-C353E59835B1 = """let uuidgen = () => ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16).toUpperCase());
+(match = s.match(/"UUID":"[-0-9a-fA-F]{36,46}"/g)) && match.forEach(m => { s = s.split(m.slice(7)).join('"'+uuidgen()+'"') });
+(match = [...new Set(s.match(/"GroupingIdentifier":"[0-9a-fA-F-]{36,46}"/g))]) && match.forEach(m => { s = s.split(m.slice(21)).join('"'+uuidgen()+'"') });
+let actions = JSON.parse(s).WFWorkflowActions;
+if (￼) {
+	let uuid = uuidgen();
+	actions = [{"WFWorkflowActionIdentifier":"is.workflow.actions.conditional","WFWorkflowActionParameters":{"WFInput":{"Type":"Variable","Variable":{"Value":{"VariableName":￼.name,"Type":"Variable"},"WFSerializationType":"WFTextTokenAttachment"}},"GroupingIdentifier":uuid,"WFControlFlowMode":0}}, ...actions, {"WFWorkflowActionIdentifier":"is.workflow.actions.conditional","WFWorkflowActionParameters":{"GroupingIdentifier":uuid,"WFControlFlowMode":2}}];
+}
+dict.shortcut.WFWorkflowActions.splice(dict.c['￼'], 0, ...actions);
+let n = actions.length;
+for (const k in dict.c) {
+	if (k >= ￼) { dict.c[k] += n; }
+}
+dict.q.forEach((a, i) => { if (a >= ￼) {
+	dict.shortcut.WFWorkflowImportQuestions[i].ActionIndex += n;
+}});
+document.body.textContent = encodeURIComponent(JSON.stringify(dict));"""
+text("${BD27D34B-9A2C-46B4-90AE-C353E59835B1}")
+			replaceText(input: "${dict}", find: "\u0023", replace: "\\u0023", isRegex: true) >> dict
+			url(url: "data:text/html;charset=utf-8,<body/><script>let dict = ${subshortcut}; let s = JSON.stringify(${ActionOutput});${dict}</script>") >> url 1
+			decodeURL(url: "${URL.as(RichText)}") >> decodeURL 1
+var dict = URL Encoded Text
+var 9250490D-42D6-40EF-A4A0-FE2B81CD2B94 = """🎉  ‘￼’ inserted.
+"""
+text("${9250490D-42D6-40EF-A4A0-FE2B81CD2B94}")
+			text(text: "another ") >> another
+			nothing()
+		} >> IFResult 9
+	}
+} >> RepeatResult
+setName(input: dict, name: "${mainshortcut.get(Name)}.json") >> setName
+getFileOfType(input: Renamed Item, type: "com.apple.plist") >> getFileOfType
+runShortcut(name: "Shortcut Source Helper", input: File of Type) >> runShortcut 2

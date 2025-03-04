@@ -1,0 +1,30 @@
+import Shortcuts
+#Color: yellow, #Icon: 3DSquareStack
+
+/*
+Store App ID values, download app icon, and navigate to an app's Market Tools page from the share sheet.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+text(text: "markettools") >> text
+var jar = Text
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+splitText(text: URLs, separator: Custom, customSeparator: "id") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var appid = Item from List
+url(url: "https://toolbox.marketingtools.apple.com/app/${appid}") >> url
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+url(url: "https://toolbox.marketingtools.apple.com/api/download-artwork?id=${appid}&type=app&sf=us&lang=en-us&lob=apps") >> url 1
+downloadURL(url: "${URL}") >> downloadURL
+share(file: Contents of URL) >> share
+openURL(url: URL) >> openURL

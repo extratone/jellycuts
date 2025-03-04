@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+filterContacts() >> filterContacts
+repeatEach(Contacts) {
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+var fullname = Variable
+}

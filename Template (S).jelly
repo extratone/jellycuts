@@ -1,0 +1,158 @@
+import Shortcuts
+import Actions
+#Color: grayBlue, #Icon: livePhoto
+
+// Important! In the “About” page when making a new version of this shortcut, you must change version number manually.
+dictionary({"Name":"Template (S)","Author":"CatifyShortcuts","Version":"1.4","RHID":"13987"})
+text(text: "True") >> text
+text(text: "False") >> text 1
+//Unable to get shortcuts action com.sindresorhus.Actions.IsOnlineIntent
+if(Is Online ==) {
+//Unable to get shortcuts action com.sindresorhus.Actions.IsReachableIntent
+	if(Is Reachable ==) {
+var Isupdateable? = Text
+	} else {
+		alert(alert: "The update servers are currently offline, so you will not receive any updates until the servers are reachable again.", cancel: false)
+var Isupdateable? = Text
+	} >> IFResult
+var Isuseronline? = Text
+} else {
+	alert(alert: "You are currently offline, so ${Dictionary.key(Name)} can't update. Please become online again to update.", cancel: false)
+var Isupdateable? = Text
+var Isuseronline? = Text
+} >> IFResult 1
+//Unable to get shortcuts action is.workflow.actions.getvariable
+text(text: "${Is updateable?}") >> text 2
+if(Text == "True") {
+	downloadURL(url: "https://routinehub.co/api/v1/shortcuts/${Dictionary.key(RHID)}/versions/latest") >> downloadURL
+var UpdateDetails = Contents of URL
+	text(text: "${Update Details.as(Dictionary).key(Version)}") >> text 3
+	if(Text .contains "BETA") {
+		if(Text != ""${Dictionary.key(Version)}"") {
+			text(text: "Update to ${Dictionary.key(Name)} BETA edition") >> text 4
+var Update = Text
+			text(text: "Override ${Dictionary.key(Name)} BETA edition") >> text 5
+var Override = Text
+			text(text: "a new BETA version. You shouldn't change to the BETA version of ${Dictionary.key(Name)} unless you know that some newly introduced features and bug fixes may be unstable.") >> text 6
+var Chngvrsntp = Text
+		} >> IFResult 2
+	} else {
+		number(value: Update Details) >> number
+		if(Number != Dictionary) {
+			if(Number > Dictionary) {
+				text(text: "Update ${Dictionary.key(Name)} to Version ${ActionOutput.key(Name)}") >> text 7
+var Update = Text
+				text(text: "Override ${Dictionary.key(Name)} update") >> text 8
+var Override = Text
+				text(text: "an update! Please update to continue using ${Dictionary.key(Name)} without bugs and get new features!") >> text 9
+var Chngvrsntp = Text
+				text(text: "${Dictionary.key(Version)}") >> text 10
+				if(Text .contains Dictionary) {
+					text(text: "exited its BETA stage! Please update to get a fully stable version of  ${Dictionary.key(Name)}.") >> text 11
+var Chngvrsntp = Text
+				}
+			} >> IFResult 3
+			if(Number false Dictionary) {
+				text(text: "Downgrade ${Number} to Version ${ActionOutput}") >> text 12
+var Update = Text
+				text(text: "Override ${Dictionary.key(Name)} downgrade") >> text 13
+var Override = Text
+				text(text: "a downgrade. Please downgrade to continue using ${Dictionary.key(Name)} without possible bugs that this new version contains.") >> text 14
+var Chngvrsntp = Text
+			} >> IFResult 4
+		} >> IFResult 5
+	} >> IFResult 6
+var 0A5A34A8-5695-4F6B-A3B0-8885222CCE0C = """￼ has ￼
+
+Release Date: ￼
+
+Update notes: ￼"""
+text("${0A5A34A8-5695-4F6B-A3B0-8885222CCE0C}")
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Update;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Override;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+	choose(list: List, prompt: "${Text}") >> choose
+	if(Chosen Item == ""${Update}"") {
+		alert(alert: "Please authenticate to allow update.", cancel: false)
+//Unable to get shortcuts action com.sindresorhus.Actions.Authenticate
+		waitToReturn()
+		getClipboard() >> getClipboard
+		if(Clipboard == "false") {
+			alert(alert: "The authentication was cancelled, so you can't update.", title: "Authentication cancelled", cancel: false)
+			exit()
+		}
+		downloadURL(url: "routinehub.co/download/${Update Details.as(Dictionary).key(id)}") >> downloadURL 1
+		replaceText(input: "${Update Details.as(Dictionary).key(URL)}", find: "http://www.iCloud.com/", replace: "Shortcuts:/") >> replaceText
+		openURL(url: Updated Text) >> openURL
+		output(result: "${Updated Text}") >> output
+	} >> IFResult 7
+} >> IFResult 8
+getFile(path: "${Dictionary.key(Name)}", error: false) >> getFile
+if(File == nil) {
+var B59F1EBD-BDC1-48FF-8901-84CE6AE4C62D = """Welcome to ￼
+
+This shortcut (put description here)
+
+✅ Benefits ✅
+
+Add here
+
+🟨 Neutral/Downsides 🟨
+
+Add here
+
+©️2023, All rights reserved. Created by u/Catify1 and @CatifyShortcuts"""
+text("${B59F1EBD-BDC1-48FF-8901-84CE6AE4C62D}")
+	setName(input: Text, name: "Welcome!") >> setName
+	quicklook(input: Renamed Item)
+	alert(alert: "Continue to setup?", title: "${Dictionary.key(Name)}", cancel: true)
+	createFolder(path: "${Dictionary.key(Name)}") >> createFolder
+} >> IFResult 9
+menu(Pick an option below., [Do something, About, Exit]) {
+case("Do something"):
+case("About"):
+var A482687D-F958-41B5-B358-737488DC821E = """￼ v1.4
+
+Description: Here.
+
+Created by: u/Catify1 and @CatifyShortcuts
+
+Please submit feedback to either the RoutineHub page or Reddit.
+
+©️2023, All Rights Reserved."""
+text("${A482687D-F958-41B5-B358-737488DC821E}")
+	alert(alert: "${Text}", title: "${Dictionary.key(Name)}", cancel: false)
+	runShortcut(name: "Blob") >> runShortcut
+	exit()
+case("Exit"):
+	exit()
+} >> MenuResult

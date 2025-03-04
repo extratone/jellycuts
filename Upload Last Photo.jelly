@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+getLastPhoto(count: true) >> getLastPhoto
+saveFileDropbox(file: Latest Photos, askToSave: false, path: "/Workflow") >> saveFileDropbox
+getFileLink(file: Latest Photos) >> getFileLink
+setClipboard(variable: Link to File)

@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: red, #Icon: Connected
+
+var 42638219-B3B1-49E7-8A38-2C8CBB70B68D = """
+
+>"""
+text("${42638219-B3B1-49E7-8A38-2C8CBB70B68D}")
+markdownFromRich(text: ShortcutInput) >> markdownFromRich
+replaceText(input: "${Markdown from Rich Text}", find: "\n+", replace: "${Text}", isRegex: true) >> replaceText
+replaceText(input: "${Updated Text}", find: "\(https://go.redirecting.*?url=([^&]+).*?\.html\)", replace: "($1)", isRegex: true, caseSensitive: false) >> replaceText 1
+text(text: "* "[${ShortcutInput.get(Page URL)}](${ShortcutInput.as(WebPage).get(Name)})"") >> text
+setClipboard(variable: Text)

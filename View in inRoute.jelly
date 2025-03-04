@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: green, #Icon: map
+
+locationDetail(detail: Latitude, location: ShortcutInput) >> locationDetail
+locationDetail(detail: Longitude, location: ShortcutInput) >> locationDetail 1
+url(url: "inroute://view?geo=${Latitude},${ActionOutput}") >> url
+openURL(url: URL) >> openURL

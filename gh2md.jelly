@@ -1,0 +1,45 @@
+import Shortcuts
+#Color: Red, #Icon: barcode
+
+/*
+Export GitHub Issues to Markdown.
+
+Please note: this shortcut requires you've preinstalled `gh2md`
+
+`pip install gh2md`
+
+More details: https://github.com/mattduck/gh2md
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text(text: "") >> text
+var auth = Text
+askForInput(prompt: "Specify Repository") >> askForInput
+var repo = Provided Input
+replaceText(input: "${repo}", find: "/", replace: "-", caseSensitive: false) >> replaceText
+text(text: "${Updated Text}.md") >> text 1
+var file = Text
+text() >> text 2
+setClipboard(variable: Text) >> setClipboard
+var D0D39477-4EE7-4E72-8C9F-004DC6F6E04A = """cd
+export GITHUB_ACCESS_TOKEN=￼
+gh2md ￼ ~/Documents/￼
+pbcopy < ~/Documents/￼
+open shortcuts://"""
+text("${D0D39477-4EE7-4E72-8C9F-004DC6F6E04A}")
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
+waitToReturn()
+getClipboard() >> getClipboard
+showResult(text: "${Clipboard}")

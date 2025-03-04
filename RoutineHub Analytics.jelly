@@ -1,0 +1,29 @@
+import Shortcuts
+#Color: green, #Icon: barGraph
+
+/*
+View RoutineHub Analytics
+• iOS: Share RoutineHub shortcut or user page
+• Mac: Open RoutineHub shortcut or user page in Safari and run shortcut
+u/gluebyte
+*/
+if(DeviceDetails ==) {
+	getURL() >> getURL
+} >> IFResult
+if(If Result .beginsWith "https://routinehub.co") {
+	replaceText(input: "${If Result}", find: "https://routinehub.co") >> replaceText
+	url(url: "https://app.usefathom.com/share/pisdlnji/routinehub?filters[0][operator]=is+like&filters[0][property]=Path&filters[0][value]=${Updated Text}&range=all_time") >> url
+} else {
+	if(DeviceDetails ==) {
+var 7EC2693F-3141-434F-86C5-24155E7C0A2D = """Please open a RoutineHub shortcut or user page in Safari.
+"""
+text("${7EC2693F-3141-434F-86C5-24155E7C0A2D}")
+	} else {
+var FB714029-E885-45A1-BDAD-A69A2646630B = """Please share a RoutineHub shortcut or user page.
+"""
+text("${FB714029-E885-45A1-BDAD-A69A2646630B}")
+	} >> IFResult 1
+	alert(alert: "${If Result}Open RoutineHub now?")
+	url(url: "https://routinehub.co/") >> url 1
+} >> IFResult 2
+openURL(url: If Result) >> openURL

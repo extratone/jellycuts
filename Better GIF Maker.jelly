@@ -1,0 +1,239 @@
+import Shortcuts
+#Color: Red, #Icon: rectangleStack
+
+/*
+Convert movies and live photos to high quality GIFs
+2025-01-19 	v1.1.3
+https://routinehub.co/user/gluebyte
+https://bsky.app/profile/gluebyte.xyz
+*/
+if(ShortcutInput == nil) {
+	randomNumber(min: 1, max: 2) >> randomNumber
+	if(Random Number == 1) { >> IFResult
+		getIP() >> getIP
+		if(Current IP Address != nil) {
+			downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=E8B095BE") >> downloadURL
+			if(Contents of URL .contains "2025-01-19") { >> IFResult 1
+				menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+				case("🌏  Go to RoutineHub"):
+					openURL(url: "https://routinehub.co/shortcut/10377/")
+					exit()
+				case("👾  Download Update"):
+					downloadURL(url: "https://routinehub.co/api/v1/shortcuts/10377/versions/latest") >> downloadURL 1
+					matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+					expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+					replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+					openURL(url: Updated Text)
+					exit()
+				case("⮐  Not Now"):
+				} >> MenuResult
+			}
+		} >> IFResult 2
+	} >> IFResult 3
+	selectPhoto(types: (
+    "Live Photos",
+    Videos
+)) >> selectPhoto
+	encodeMedia(media: Photos) >> encodeMedia
+var media = Encoded Media
+	imageDetail(detail: Frame Rate, image: media) >> imageDetail
+var fps = Frame Rate
+	repeat(20) {
+		if(Finish == nil) {
+			text(text: "${Photos.get(Width)}x${ActionOutput.get(Width)}") >> text
+			if(If Result != nil) {
+				if(If Result != Photos) {
+					calculate(input: "ceil(${Photos.get(Width)}/${ActionOutput.get(Width)}*${If Result})") >> calculate
+					text(text: "${Text}  →  ${ActionOutput}x${If Result}")
+				}
+			} >> IFResult 4
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			if(speed != nil) {
+				text(text: "${speed} (${Variable}X)")
+			} >> IFResult 5
+			if(Frame Rate != fps) {
+				text(text: "${If Result}  →  ${ActionOutput}")
+			} >> IFResult 6
+var 2FF7A060-04C1-4666-9466-9A31D2B31852 = """￼
+￼ fps"""
+text("${2FF7A060-04C1-4666-9466-9A31D2B31852}")
+			menu(, [✂️  Trim, 🗜  Resize, 🐢  Change Speed, 🎞  Change Frame Rate, ⮐  Finish and Convert]) {
+			case("✂️  Trim"):
+				trimVideo(video: media) >> trimVideo
+var media = Trimmed Media
+			case("🗜  Resize"):
+				list(items: (
+    320,
+    480,
+    640,
+    720,
+    "Custom\U2026",
+    "Keep Original Size"
+)) >> list
+				text(text: "Original size is ${Photos.get(Width)}x${ActionOutput.get(Width)}. Change width to:") >> text 1
+				choose(list: List, prompt: "${Text}") >> choose
+				if(Chosen Item .beginsWith "Keep") {
+					nothing()
+				} else {
+					if(Chosen Item .beginsWith "Custom") {
+						askForInput(type: Number, allowDecimal: false, allowNegative: false) >> askForInput
+					} >> IFResult 7
+					text(text: "scale=${If Result}:-1,") >> text 2
+				} >> IFResult 8
+			case("🐢  Change Speed"):
+				list(items: (
+    "0.5X",
+    2X,
+    "Custom\U2026",
+    "Keep Original Speed"
+)) >> list 1
+				choose(list: List) >> choose 1
+				if(Chosen Item .beginsWith "Keep") {
+					nothing()
+				} else {
+					if(Chosen Item .beginsWith "Custom") {
+						askForInput(type: Number, allowNegative: false) >> askForInput 1
+						replaceText(input: "${Provided Input}", find: ",", replace: ".") >> replaceText 1
+					} else {
+						replaceText(input: "${Chosen Item}", find: "X")
+					}
+				} >> IFResult 9
+var speed = Speed
+			case("🎞  Change Frame Rate"):
+				list(items: (
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    "Keep Original Frame Rate"
+)) >> list 2
+				choose(list: List, prompt: "Original frame rate is ${Frame Rate}:") >> choose 2
+				if(Chosen Item .beginsWith "Keep") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+				} >> IFResult 10
+var fps = If Result
+			case("⮐  Finish and Convert"):
+				number(value: 1) >> Finish
+			} >> MenuResult 1
+		} >> IFResult 11
+		nothing() >> nothing
+	} >> RepeatResult
+	if(speed != nil) {
+		encodeMedia(media: media, speed: Custom, customSpeed: speed) >> encodeMedia 1
+var media = Encoded Media
+		if(fps == Frame Rate) {
+var fps = Encoded Media
+		} >> IFResult 12
+	} >> IFResult 13
+	getFileOfType(input: media, type: "public.mpeg-4") >> getFileOfType
+	setName(input: File of Type, name: "_bgm") >> setName
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	replaceText(input: "${fps}", find: ",", replace: ".") >> fps
+	decodeURL(url: "${Photos.get(Name)}") >> decodeURL
+var F652254D-D4C5-4756-9BD0-0D8F2A271E54 = """hideKeyboard
+cd ~group
+echo
+python -c 'import time; print(time.time())'
+ffmpeg -v error -stats -i _bgm.mp4 -filter_complex "[0:v]fps=￼,￼split[a][b];[a]palettegen=reserve_transparent=0:stats_mode=diff[p];[b][p]paletteuse=dither=floyd_steinberg" -y Better.gif
+python -c 'import time; print(time.time())'
+ffmpeg -v error -stats -i _bgm.mp4 -filter_complex "[0:v]fps=￼,￼split[a][b];[a]palettegen=reserve_transparent=0:stats_mode=single[p];[b][p]paletteuse=dither=floyd_steinberg:new=1" -y Best.gif
+rm -f _bgm.mp4
+python -c 'import time; print(time.time())'
+open "shortcuts://run-shortcut?name=Better%20GIF%20Maker&input=￼""""
+text("${F652254D-D4C5-4756-9BD0-0D8F2A271E54}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+} else {
+	decodeURL(url: "${ShortcutInput.as(Text)}") >> decodeURL 1
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+	setName(input: Better, name: "${URL Encoded Text}") >> Better
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+	setName(input: Best, name: "${URL Encoded Text}") >> Best
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Better;
+                        OutputUUID = "1F1AA29D-06BB-4867-A0BD-A3BEB580E45B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Best;
+                        OutputUUID = "CBA371A5-6D36-41FE-BDC6-99587638DBA6";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 3
+	repeat(10) {
+		if(Menu Result == nil) {
+			menu(Note: ‘Better’ may look better than ‘Best’ if color changes and movements are small across frames., [) {
+			case("🔎  Quick Look Both"):
+				quicklook(input: List)
+				nothing()
+			case("🔸  Save Better Quality (Better (File Size))"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			case("🔶  Save Best Quality (Best (File Size))"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			case("💕  Save Both"):
+				list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Better;
+                        OutputUUID = "8E5D7FA8-E0D8-4267-A280-5A0C11D9BF06";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Best;
+                        OutputUUID = "6DC6E130-A144-4E71-9112-7E323A9ACD14";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 4
+			} >> MenuResult 2
+		} >> IFResult 14
+	} >> RepeatResult 1
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	saveToCameraRoll(image: Menu Result) >> saveToCameraRoll
+	openApp(id: "com.apple.mobileslideshow")
+} >> IFResult 15
+output(result: "${If Result}")

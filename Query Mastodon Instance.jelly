@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: blue, #Icon: circledI
+
+var C6C1AA19-6333-4D53-A68C-9632996E8059 = """Title: mastodon.social
+icon globe, #da2573, .ultralight
+
+Title: mastodon.social
+icon globe, #da2573, .ultralight
+
+Title: mastodon.social
+icon globe, #da2573, .ultralight
+
+Title: mastodon.social
+icon globe, #da2573, .ultralight
+"""
+text("${C6C1AA19-6333-4D53-A68C-9632996E8059}")
+//Unable to get shortcuts action com.alexhay.ToolboxPro2.QuickMenu
+choose(list: Quick Menu)
+var instance = Quick Menu
+url(url: "${instance}/api/v1/instance") >> url
+downloadURL(url: "${URL}") >> downloadURL
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+setName(input: Prettified JSON, name: "${instance}.json") >> setName
+saveFile(input: Renamed Item, ask: false) >> saveFile
+//Unable to get shortcuts action dk.simonbs.Jayson.ViewJSONIntent

@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: teal, #Icon: server
+
+repeatEach(ShortcutInput) {
+	fileDetail(input: Repeat Item, property: Name) >> fileDetail
+//Unable to get shortcuts action com.sindresorhus.Actions.TransformTextIntent
+	fileDetail(input: Repeat Item, property: File Extension) >> fileDetail 1
+	text(text: "${File Extension}.${ActionOutput}") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.sindresorhus.Actions.GetFilePathIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+	text(text: "- ${File Path}") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(text: names) >> combineText
+setClipboard(variable: Combined Text) >> setClipboard
+url(url: "https://raw.githubusercontent.com/extratone/macOSsystemsounds/main/base64/Blow.txt") >> url
+downloadURL(url: "${URL}") >> downloadURL
+decode(input: Contents of URL) >> decode
+playSound(file: Base64 Encoded)
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

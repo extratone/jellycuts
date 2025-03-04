@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: yellow, #Icon: repostArrows
+
+number(value: 100) >> number
+url(url: "https://www.typewolf.com/feed") >> url
+getRSSItems(url: "${URL}")

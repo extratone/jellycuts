@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: green, #Icon: circledPi
+
+date() >> date
+//Unable to get shortcuts action com.sindresorhus.Actions.SetFileCreationModificationDateIntent
+saveToCameraRoll(image: Modified File) >> saveToCameraRoll

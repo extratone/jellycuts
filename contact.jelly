@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: red, #Icon: hand
+
+getCurrentSong() >> getCurrentSong
+addToPlaylist(music: Current Song, playlist: C̸ ̵O̷ ̴N̵ ̶T̸ ̵A̵ ̴C̶ ̵T̴) >> addToPlaylist
+runShortcut(name: "sl") >> runShortcut

@@ -1,0 +1,49 @@
+import Shortcuts
+
+#Color: navy, #Icon: list
+
+/*
+Retrieve the raw contents of a Discourse forum thread in markdown, send to Drafts.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+url(url: ShortcutInput) >> url
+var url = URL
+getName() >> getName
+var title = Name
+urlComponent(url: "${URL}", component: Host) >> host
+urlComponent(url: "${URL}", component: Scheme) >> scheme
+var host = host
+var scheme = scheme
+splitText(text: URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var id = Item from List
+url(url: "${id}://${Variable}/raw/${host}") >> url 1
+downloadURL(url: "${URL}") >> downloadURL
+getTextFrom(input: Contents of URL) >> getTextFrom
+var raw = Text
+var 7F94CB06-4508-4BAD-AABB-3F9F7B08323B = """# "￼" - ￼
+Updated `￼`
+
+- [**Discourse**](￼)
+
+---
+
+￼"""
+text("${7F94CB06-4508-4BAD-AABB-3F9F7B08323B}")
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+text(text: "[${Draft.get(link)}](${ActionOutput.get(link)})") >> text
+setClipboard(variable: Text) >> setClipboard
+//Unable to get shortcuts action com.agiletortoise.Drafts5.OpenDraftIntent

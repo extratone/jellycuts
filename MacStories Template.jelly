@@ -1,0 +1,48 @@
+import Shortcuts
+#Color: red, #Icon: bookmark
+
+// Trigger document creation in Obsidian based on a template.
+// Enter the name of the Things project you want to use.
+text(text: "") >> text
+var ProjectName = Text
+// Enter the name of the heading in the Things project you want to use.
+text(text: "") >> text 1
+var HeadingTitle = Text
+/*
+Enter your Obsidian template’s absolute path. 
+
+e.g. /Templates/Template Name
+*/
+text(text: "") >> text 2
+var TemplatePath = Text
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIItemEntity
+// Ask for a document title and capitalize it using Text Workflow.
+askForInput(prompt: "What’s the title of the document?") >> askForInput
+//Unable to get shortcuts action com.gtrigonakis.TextWorkflow.TransformTextIntent
+var CapitalizedPostTitle = Results
+// Create a document using the core plugin Templates in your Obsidian vault.
+//Unable to get shortcuts action co.zottmann.ActionsForObsidian.CreateNote
+wait()
+/*
+These are the properties you want to fill in the document.
+
+Templates may have hardcoded paths and project names, but this approach lets you make sure that Shortcuts always fetches the latest information from Things.
+*/
+dictionary({"Project":"${Project}","Project Link":"things:///show?id=${Project.get(id)}"})
+//Unable to get shortcuts action co.zottmann.ActionsForObsidian.SetNoteProperties
+// Get the link to the newly created note.
+//Unable to get shortcuts action co.zottmann.ActionsForObsidian.GetNoteLink
+// Find the heading in Things.
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIItemEntity
+// Enter the tags you want to assign to the task in Things.
+list(items: (
+    Writing,
+    "Working On"
+)) >> Tags
+askForInput(prompt: "What’s the due date?") >> askForInput 1
+date(date: "${Provided Input}") >> date
+// Create the task with a specific project, heading, tags, date, and Obsidian deeplink in the notes field.
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIAddTodo2
+// Update Obsidian document with deep link to the task
+dictionary({"Task Link":"things:///show?id=${New To-Do.get(id)}"})
+//Unable to get shortcuts action co.zottmann.ActionsForObsidian.SetNoteProperties

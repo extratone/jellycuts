@@ -1,0 +1,962 @@
+import Shortcuts
+#Color: grape, #Icon: gear
+
+/*
+Made By Jonathan Setzer
+u/jonathansetzer
+@JonathanSetzer
+Tilt web by @canibeanartist
+Cydia No jailbreak by @Grorge
+Ad block Safari by @OhMika
+If you are making a video on this shortcut please credit me.
+*/
+// Please credit me if you are making a video on this. Also adding more tweaks and ++/hacked apps and games as soon as possible. Also we will try adding more system tweaks. Also please credit me if you are making a video on this.
+createFolder(path: "iTweak")
+createFolder(path: "iTweak/Do Not Delete!!!")
+getFile(picker: false, path: "iTweak/Do Not Delete!!!/First Use.txt", error: false) >> getFile
+count(type: Items) >> count
+if($0 Equals "0") {
+	alert(alert: "Let's get you started...
+
+Reminder: Please don't expect iTweak to have any similar features like Cydia (remember, this is meant for devices without a jailbreak).. 
+Shareshortcuts.com may have different features.
+ And that's it.
+That's all you need to know for now. To see this message again click "Reset Tweak".", title: "Welcome To iTweak!", cancel: false)
+	text(text: "Do not delete this file...") >> text
+	saveFile(ask: false, path: "iTweak/Do Not Delete!!!/First Use.txt") >> saveFile
+} >> IFResult
+text(text: "1334") >> text 1
+//Unable to get shortcuts action is.workflow.actions.setvariable
+url(url: "https://routinehub.co/api/v1/shortcuts/${RHID}/versions/latest") >> url
+downloadURL() >> downloadURL
+valuesFrom() >> valuesFrom
+//Unable to get shortcuts action is.workflow.actions.setvariable
+text(text: "6.1") >> text 2
+//Unable to get shortcuts action is.workflow.actions.setvariable
+text(text: "${Latest Version}") >> text 3
+if($0 Equals ""${Shortcut Version This Is On}"") {
+} else {
+	sendNotification(body: "There is a update to the shortcut "iTweak". Please install the update
+Latest Version: ${Latest Version}
+Your Version: ${Variable}", title: "Update Available ", sound: false)
+	alert(alert: "Your version: ${Latest Version}
+Latest Version : ${Variable}
+Go to the settings pane to see the ChangeLog.", title: "Update Available", cancel: false)
+	getShortcuts() >> getShortcuts
+	if($0 $1 "Update iTweak") {
+		runShortcut(name: "Update iTweak", show: false) >> runShortcut
+		exit()
+	} else {
+		alert(alert: "This is required to update the shortcut. After you have it, it will just run it from inside here.", title: "Install "Update iTweak" to Update iTweak", cancel: false)
+		url(url: "https://www.icloud.com/shortcuts/1775e07c606446a9b9928001daab0f9b") >> url 1
+		openURL()
+		exit()
+	}
+} >> IFResult 1
+var D1B8FEC1-697B-43BA-B07C-7A023ACD3C8C = """𝗶𝗧𝘄𝗲𝗮𝗸
+Install more than 50++ apps and 60 system tweaks to your iDevice all without a jailbreak. Cydia Alternatives And jailbreaks are also available as well as multiple SSH Tools."""
+text("${D1B8FEC1-697B-43BA-B07C-7A023ACD3C8C}")
+menu(, [Donate a coffee?, Leave Feedback, System Tweaks, Other System Tweaks, Jailbreak Tools, iTweak SSH, Power Settings, Settings, Reset Tweak, Stop, ]) {
+case("Donate a coffee?"):
+	alert(alert: "Are you  enjoying this Shortcut? 
+Would you mind donating a cup of coffee? (Or whatever you want). It helps us stay up on long nights when we work and perfect our shortcuts.
+Thanks a lot. The iTweak team appreciates it.", title: "Thank You!", cancel: true)
+	url(url: "https://paypal.me/JonathanSetzer?locale.x=en_US") >> url 2
+	showWebPage(reader: true)
+	alert(alert: "Your contribution made a difference to us! This is a free download and we count on user support.", title: "Thank You For Your Donation!", cancel: false)
+case("Leave Feedback"):
+	alert(alert: "Thanks for taking a moment to tell us what you think! Please include anything you like or don’t like about iTweak, as well as any new features you’d like to see. ", title: "Feedback", cancel: false)
+	playSound()
+	alert(alert: "Do not spam, blackmail, or abuse the email the report is sent to. You may be blocked if you do. Also, reports are taken very seriously.", title: "⚠️ Warning ⚠️ ", cancel: false)
+	text(text: "")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	alert(alert: ""iTweak" would like to access your device model, your system version, your battery, if your WiFi,Bluetooth,and airplane mode are on or off, and the current date. We need this information to submit feedback accurately as some bugs may only be on a certain iOS version, and may only work if you have some settings on or off, or a certain battery. If you are sending feedback not about bugs we still need this information for important reasons. Please "OK" this request to continue in sending feedback. If you have changed your mind, you may hit cancel. Don't worry, we wont share your information with anyone, And is safe in our hands. ", title: ""iTweak" wants to access the following:")
+	text(text: "Is there a problem/something does not work as expected or a General Comment/new feature suggestion? Write "Problem" if their is a problem and "New Feature" for a new feature suggestion and "Comment" for a  comment.") >> text 4
+	askForInput(prompt: "${Text}", default: Type your response here) >> askForInput
+	changeCase() >> changeCase
+	if($0 $1 "PROBLEM") {
+		text(text: "Problem") >> text 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+		if($0 $1 "NEW FEATURE") {
+			text(text: "New feature") >> text 6
+		} else {
+			text(text: "Comment")
+		}
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	}
+	askForInput(prompt: "What's your email?")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	askForInput(prompt: "What's your name?")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	menu(Your Feedback is about:, [A Bug / Something doesn't work as expected, A New Feature suggestion, General comment, Other Feedback (please specify)]) {
+	case("A Bug / Something doesn't work as expected"):
+		text(text: "A Bug / Something didn't work as expected") >> text 7
+	case("A New Feature suggestion"):
+		text(text: "A New Feature Suggestion") >> text 8
+	case("General comment"):
+		text(text: "General comments/comment") >> text 9
+	case("Other Feedback (please specify)"):
+		askForInput(prompt: "Please Specify:", default: ) >> askForInput 1
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		text(text: "${Other}") >> text 10
+	} >> MenuResult
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	askForInput(prompt: "Feedback:") >> askForInput 2
+	changeCase(case: lowercase) >> changeCase 1
+	replaceText(find: ".", caseSensitive: false) >> replaceText
+	replaceText(find: "!", caseSensitive: false) >> replaceText 1
+	replaceText(find: "?", isRegex: false, caseSensitive: false) >> replaceText 2
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	menu(Rate iTweak:, [Terrible, Poor, Okay, Good, Great, Terrific]) {
+	case("Terrible"):
+		text(text: "Terrible") >> text 11
+	case("Poor"):
+		text(text: "Poor") >> text 12
+	case("Okay"):
+		text(text: "Okay") >> text 13
+	case("Good"):
+		text(text: "Good") >> text 14
+	case("Great"):
+		text(text: "Great") >> text 15
+	case("Terrific"):
+		text(text: "Terrific") >> text 16
+	} >> MenuResult 1
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	nothing()
+	sendNotification(body: "We are currently sending feedback to the creator of iTweak. Please wait patiently as we send it. Your feedback is making a difference.", title: "Sending Feedback...", sound: false)
+	deviceDetails(detail: Device Model)
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	deviceDetails(detail: System Version)
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	batteryLevel()
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	wifiDetails() >> wifiDetails
+	if($0 $1 ""${Network Details}"") {
+		text(text: "was on") >> text 17
+	} else {
+		text(text: "was off") >> text 18
+	} >> IFResult 2
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	getIP() >> getIP
+	if($0 $1 ".") {
+		text(text: "is off") >> text 19
+	} else {
+		text(text: "is on")
+	} >> IFResult 3
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	wifiDetails() >> wifiDetails 1
+	count(type: Items) >> count 1
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	if($0 $1 ""${Z}"") {
+		text(text: "was on") >> text 20
+	} else {
+		text(text: "was off")
+	} >> IFResult 4
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	date() >> date
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{28, 1}" =                     {
+                        OutputName = Date;
+                        OutputUUID = "47924FAB-6A59-494F-BA1B-EFF6FBF05730";
+                        Type = ActionOutput;
+                    };
+                    "{31, 1}" =                     {
+                        OutputName = "Formatted Date";
+                        OutputUUID = "C965760F-0993-4B31-B25A-649E9B4123FB";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "New Feedback from iTweak on \Ufffc, \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{34, 1}" =                     {
+                        OutputName = "Formatted Date";
+                        OutputUUID = "C965760F-0993-4B31-B25A-649E9B4123FB";
+                        Type = ActionOutput;
+                    };
+                    "{39, 1}" =                     {
+                        OutputName = Date;
+                        OutputUUID = "47924FAB-6A59-494F-BA1B-EFF6FBF05730";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "You got New Feedback on iTweak at \Ufffc on \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{50, 1}" =                     {
+                        OutputName = "Formatted Date";
+                        OutputUUID = "C965760F-0993-4B31-B25A-649E9B4123FB";
+                        Type = ActionOutput;
+                    };
+                    "{52, 1}" =                     {
+                        OutputName = Date;
+                        OutputUUID = "47924FAB-6A59-494F-BA1B-EFF6FBF05730";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "Thier was New Feedback to your shortcut iTweak at \Ufffc,\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Name;
+                    };
+                    "{33, 1}" =                     {
+                        OutputName = "Formatted Date";
+                        OutputUUID = "C965760F-0993-4B31-B25A-649E9B4123FB";
+                        Type = ActionOutput;
+                    };
+                    "{36, 1}" =                     {
+                        OutputName = Date;
+                        OutputUUID = "47924FAB-6A59-494F-BA1B-EFF6FBF05730";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc Sent you feedback on iTweak at \Ufffc, \Ufffc.";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{42, 1}" =                     {
+                        OutputName = "Formatted Date";
+                        OutputUUID = "C965760F-0993-4B31-B25A-649E9B4123FB";
+                        Type = ActionOutput;
+                    };
+                    "{44, 1}" =                     {
+                        OutputName = Date;
+                        OutputUUID = "47924FAB-6A59-494F-BA1B-EFF6FBF05730";
+                        Type = ActionOutput;
+                    };
+                    "{9, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Name;
+                    };
+                };
+                string = "The user \Ufffc sent you Feedback on iTweak at \Ufffc,\Ufffc.";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+	getItemFromList(type: Random Item) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.setvariable
+var 3E3F8161-CB8E-443E-B628-1118529F5F99 = """Dear Jonathan,
+￼ on iTweak sent you feedback about ￼. Their full feedback was
+ "￼". 
+They also rated iTweak ￼ .
+More info...
+WiFi: ￼
+Bluetooth: ￼
+Airplane Mode: ￼
+System version: IOS ￼
+Battery: ￼ %
+Location: ￼"""
+text("${3E3F8161-CB8E-443E-B628-1118529F5F99}")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	text(text: "${RIM}") >> text 21
+//Unable to get shortcuts action is.workflow.actions.sendemail
+	nothing()
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	text(text: "${Thier Feedback About}")
+	if($0 $1 "Comment") {
+var FDA1D6CA-0C2D-4701-9EDA-DCF94FD67AD8 = """Dear ￼,
+Your comment ￼ under the category ￼ was read by our team. We will consider this comment. Your help was much appreciated.
+From,
+The iTweak Team"""
+text("${FDA1D6CA-0C2D-4701-9EDA-DCF94FD67AD8}")
+	} else {
+		if($0 $1 "New feature") {
+var 4E628881-74F0-47C3-B1DE-4805A07AC705 = """Dear ￼,
+Your new feature ￼ under the category ￼ was read by our team. We will consider this new feature. Your new feature suggestion was much appreciated.
+From,
+The iTweak Team"""
+text("${4E628881-74F0-47C3-B1DE-4805A07AC705}")
+		} else {
+var 20B63A10-9F1A-487F-859C-7DEADDAE939F = """Dear ￼,
+Your problem ￼ under the category ￼ was read by our team. We will try to fix this problem. Your help was much appreciated.
+From,
+The iTweak Team"""
+text("${20B63A10-9F1A-487F-859C-7DEADDAE939F}")
+		}
+	} >> IFResult 5
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	text(text: "${Send}") >> text 22
+//Unable to get shortcuts action is.workflow.actions.sendemail
+	nothing()
+	sendNotification(body: "Your feedback has now been sent to the developers and read. They replied to you check your inbox. Thank you for submitting your feedback to help use create a better iTweak.", title: "Feedback Sent!", sound: false)
+case("System Tweaks"):
+	menu(iTweak, [No Folder Labels /invisable text, Round Folders Wallpapers, Hide Notification Badges wallpaper, Low Power Mode ++, Silent Mode For iPhone, Theatere mode for iPhone/iPad, Dark Mode, Flashlight Disco, Sleep Mode, Tilt Web (not permanant), Custom icons for apps, Invisable icons for apps, Hide Dock Wallpapers, Frames to Docks and Folders, Static Dynamic Wallpapers, Chnage iPhone dock color and folders color, Change Font, Run MacOS on your device, Bike Mode, Camera Mode, Panic Mode, Normal vid to slo-mo or time-lapse, Always on Clock, Edit Text On Webpage (not permanant), Remove Notch iPhone X or above, Turn Of IOS Animations, Facetune for iPhone, Quik Call/Message, Drain Battery, Custom Lock Wallpapers, Remove Water From Speakers, Block IOS Updates and Notifications, Block Adds, Freeze iPhone, Cool Down Your Device, Heat Up Your Device, Speed Intensifier, iMessage Tweak, No Caller ID, Tailor Banner Remover Free, Expand Bezel Wallpapers, Hide Dots on dock wallpapers, Get iPhone X Features on iPad, iPhone, More Tweaks]) {
+	case("No Folder Labels /invisable text"):
+		text() >> text 23
+		setClipboard(local: false, expiration: )
+		alert(alert: "Please hold on the folder you want no text on until a "x" appears.  Click the folder and do you see the folder name bar? Hit that. Remove your folder name and paste the invisible text on your clipboard. Made by Jonathan Setzer.", title: "Directions", cancel: false)
+	case("Round Folders Wallpapers"):
+		deviceDetails(detail: System Version) >> deviceDetails
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		text(text: "${Syst}") >> text 24
+		if($0 Is Greater Than 10.3) {
+			alert(alert: "This tweak requires iOS 9.3 through 10.3 because the bug started 9.3 and was patched 10.3. ", title: "Error", cancel: false)
+			exit()
+		} else {
+			text(text: "${Syst}") >> text 25
+			if($0 Is Greater Than 9.300000000000001) {
+				url(url: "https://heyeased.weebly.com/round-folders-wallpapers.html") >> url 3
+				openURL()
+				exit()
+			} else {
+				alert(alert: "This tweak requires iOS 9.3 through 10.3 because the bug started 9.3 and was patched 10.3. ", title: "Error")
+				exit()
+			}
+		} >> IFResult 6
+	case("Hide Notification Badges wallpaper"):
+		url(url: "https://heyeased.weebly.com/uploads/4/9/1/1/49114053/hide_badge_2.png") >> url 4
+		openURL()
+	case("Low Power Mode ++"):
+		setBrightness(value: false)
+		setDND(state: true)
+		setWiFi(state: false)
+		setBluetooth()
+		setVolume(level: false)
+		deviceDetails(detail: Device Model) >> deviceDetails 1
+		if($0 $1 "iPhone") {
+			setCellular(state: false)
+			toggleLowPowerMode()
+		} else {
+		} >> IFResult 7
+	case("Silent Mode For iPhone"):
+		setVolume(level: false)
+		toggleAirplaneMode()
+		setDND(state: true)
+	case("Theatere mode for iPhone/iPad"):
+		menu(iTweak Theater Mode, [At the theater, Leaving the theater, Main Menu]) {
+		case("At the theater"):
+			deviceDetails(detail: Current Brightness)
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			deviceDetails(detail: Current Volume)
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			setBrightness(value: false)
+			setVolume(level: false)
+			setDND(state: true)
+			deviceDetails(detail: Device Model) >> deviceDetails 2
+			if($0 $1 "iPhone") {
+				toggleLowPowerMode()
+			} >> IFResult 8
+		case("Leaving the theater"):
+			setBrightness(value: Brightness)
+			setVolume(level: Volume)
+			setDND()
+			deviceDetails(detail: Device Model) >> deviceDetails 3
+			if($0 $1 "iPhone") {
+				toggleLowPowerMode()
+			} >> IFResult 9
+		case("Main Menu"):
+		} >> MenuResult 2
+	case("Dark Mode"):
+		menu(iTweak Dark Mode, [Full Dark Mode, Safari Dark Mode, Main Menu]) {
+		case("Full Dark Mode"):
+			alert(alert: "Open Settings go to settings-general-Accessibility-display Accommodations-Invert colors-and turn on "Smart Invert". 
+Tip: to make your dark mode darker go to accessibility and hit" reduce white point". Toggle this to 100%.", title: "Directions", cancel: false)
+			openApp(id: "com.apple.Preferences")
+		case("Safari Dark Mode"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			count(type: Items) >> count 2
+			if($0 Equals "0") {
+				alert(alert: "You need to run this shortcut from the share sheet in safari. Otherwise, it will not work. The following piece is JavaScript that can only be run on safari.", title: "Error", cancel: false)
+				openApp(id: "com.apple.mobilesafari")
+				exit()
+			} >> IFResult 10
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			runJavascriptOnWebpage(javascript: "javascript: (
+function () { 
+// the css we are going to inject
+var css = 'html {-webkit-filter: invert(100%);' +
+    '-moz-filter: invert(100%);' + 
+    '-o-filter: invert(100%);' + 
+    '-ms-filter: invert(100%); }',
+
+head = document.getElementsByTagName('head')[0],
+style = document.createElement('style');
+
+// a hack, so you can "invert back" clicking the bookmarklet again
+if (!window.counter) { window.counter = 1;} else  { window.counter ++;
+if (window.counter % 2 == 0) { var css ='html {-webkit-filter: invert(0%); -moz-filter:    invert(0%); -o-filter: invert(0%); -ms-filter: invert(0%); }'}
+ };
+
+style.type = 'text/css';
+if (style.styleSheet){
+style.styleSheet.cssText = css;
+} else {
+style.appendChild(document.createTextNode(css));
+}
+
+//injecting the css to the head
+head.appendChild(style);
+}());
+
+// Call completion to finish
+completion(true);") >> runJavascriptOnWebpage
+			exit()
+		case("Main Menu"):
+		} >> MenuResult 3
+	case("Flashlight Disco"):
+		repeat(30) {
+			setFlashlight()
+			setFlashlight()
+		} >> RepeatResult
+		setFlashlight()
+	case("Sleep Mode"):
+		getShortcuts() >> getShortcuts 1
+		if($0 $1 "Sleep Mode") {
+			runShortcut(name: "Sleep Mode™", show: false) >> runShortcut 1
+		} else {
+			alert(alert: "Please download the sleep mode Siri shortcut. It will only take a minute", title: "Sleep Mode install", cancel: false)
+			url(url: "https://www.icloud.com/shortcuts/dc6346446bf54904a1233e855530f6ba") >> url 5
+			openURL()
+		} >> IFResult 11
+	case("Tilt Web (not permanant)"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		count(type: Items) >> count 3
+		if($0 Equals "0") {
+			alert(alert: "You need to run this shortcut from the share sheet in safari. Otherwise, it will not work. The following piece is JavaScript that can only be run on safari.", title: "Error", cancel: false)
+			openApp(id: "com.apple.mobilesafari")
+			exit()
+		} >> IFResult 12
+		alert(alert: "Tilt your device on Safari.
+
+Tilt forward
+...scroll down
+Tilt backward
+...scroll up
+Tilt right
+... go forward
+Tilt left
+... go back
+
+", title: "Manual", cancel: false)
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		runJavascriptOnWebpage(javascript: "const handleOrientation = event => {
+const x = event.beta;
+
+  if(x > 50){
+    window.scrollBy(0, 4);
+  }
+  else if(x > 45){
+    window.scrollBy(0, 2);
+  }
+  else if(x > 37){
+    window.scrollBy(0, 1);
+  }
+
+  if(x < 10){
+    window.scrollBy(0, -4);
+  }
+  else if(x < 15){
+    window.scrollBy(0, -2);
+  }
+  else if(x < 23){
+    window.scrollBy(0, -1);
+  }
+
+
+const y = event.gamma;
+
+  if (y > 45) {
+    history.forward();
+  }
+  if (y < -45) {
+    history.back();
+  }
+};
+
+window.addEventListener("deviceorientation", handleOrientation);
+
+completion();") >> runJavascriptOnWebpage 1
+		exit()
+	case("Invisable icons for apps"):
+		url(url: "http://iempty.tooliphone.net") >> url 6
+		openURL()
+	case("Hide Dock Wallpapers"):
+		url(url: "https://heyeased.weebly.com/hide-dock-wallpapers.html") >> url 7
+		openURL()
+	case("Frames to Docks and Folders"):
+		url(url: "https://heyeased.weebly.com/neoclassic-wallpapers.html") >> url 8
+		openURL()
+	case("Frames to Docks and Folders"):
+		url(url: "https://heyeased.weebly.com/static-dynamic-wallpapers.html") >> url 9
+		openURL()
+	case("Chnage iPhone dock colour and folders color"):
+	case("Chnage iPhone dock color and folders color"):
+		menu(iTweak, [iPhone X Or Greater, Lower]) {
+		case("iPhone X Or Greater"):
+			url(url: "https://ioswallart.netlify.com/coloruinonx2") >> url 10
+		case("Lower"):
+			url(url: "https://www.youtube.com/redirect?q=https%3A%2F%2Fioswallart.netlify.com%2Fcoloruinonx&v=gQWz2UHwP-M&event=video_description&redir_token=h1Bv48H6b6giuYkh3T2zVbYXDGl8MTU0ODE5Mzk3OUAxNTQ4MTA3NTc5")
+		}
+		openURL()
+	case("Change Font"):
+		menu(iTweak Font Changer, [Change Font, Change Font Safari]) {
+		case("Change Font"):
+			url(url: "https://lingojam.com/FontChanger") >> url 11
+			openURL()
+		case("Change Font Safari"):
+			getShortcuts() >> getShortcuts 2
+			if($0 $1 "Change Font") {
+				runShortcut(name: "Change Font", show: false) >> runShortcut 2
+			} else {
+				alert(alert: "Please allow the Siri shortcut to be installed.", title: "Change Font Safari Installation", cancel: false)
+				url(url: "https://www.icloud.com/shortcuts/c64da483fbc2407c822525fa94cd93cd") >> url 12
+				openURL()
+			} >> IFResult 13
+		} >> MenuResult 4
+	case("Run MacOS on your device"):
+		url(url: "itms-services://?action=download-manifest&url=https%3A%2F%2Frink.hockeyapp.net%2Fapi%2F2%2Fapps%2F1a812db7e5e84792ab9563dd81feec99%2Fapp_versions%2F16%3F%26avtoken%3Df715bbbc3507d3d2125cbf5944ffe76e2b870548%26download_origin%3Dhockeyapp") >> url 13
+		openURL()
+		exit()
+	case("Camera Mode"):
+		openApp(id: "com.apple.camera")
+		setDND(state: true)
+		setBrightness(value: true)
+	case("Panic Mode"):
+		getShortcuts() >> getShortcuts 3
+		if($0 $1 "Panic Mode") {
+			runShortcut(name: "Panic Mode", show: false) >> runShortcut 3
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/2153afc2bf82471b94e298864c76ee75") >> url 14
+			openURL()
+		} >> IFResult 14
+	case("Normal vid to slo-mo or time-lapse"):
+		getShortcuts() >> getShortcuts 4
+		if($0 $1 "iVideo") {
+			runShortcut(name: "iVideo", show: false) >> runShortcut 4
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/83a450a52c2b4cb3a38beec3ac6d9b81") >> url 15
+			openURL()
+		} >> IFResult 15
+	case("Always on Clock"):
+		getShortcuts() >> getShortcuts 5
+		if($0 $1 "Always On Clock") {
+			runShortcut(name: "Always On Clock", show: false) >> runShortcut 5
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/7355f62d20fb45a68e4081d58397d63d") >> url 16
+			openURL()
+		} >> IFResult 16
+	case("Edit Text On Webpage (not permanant)"):
+		getShortcuts() >> getShortcuts 6
+		if($0 $1 "Edit Webpage Text") {
+			runShortcut(name: "Edit Webpage Text", show: false) >> runShortcut 6
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/2637c4c95ce041549452973e5a039b7c") >> url 17
+			openURL()
+		} >> IFResult 17
+	case("Remove Notch iPhone X or above"):
+		menu(iTweak Notch Remover, [Notch Remover Wallpapers default images, Notch Remover Shortcut With Custom Images, Main Menu]) {
+		case("Notch Remover Wallpapers default images"):
+			url(url: "https://m.mediafire.com/folder/o2wqqftfedrjh/Notchless_Wallpapers") >> url 18
+			openURL()
+			exit()
+		case("Notch Remover Shortcut With Custom Images"):
+			getShortcuts() >> getShortcuts 7
+			if($0 $1 "BetterNotch") {
+				runShortcut(name: "BetterNotch", show: false)
+			} else {
+				url(url: "https://www.icloud.com/shortcuts/f8eff0e60f6d4772ac7bb6be84e8456d")
+				openURL()
+			}
+		case("Main Menu"):
+		} >> MenuResult 5
+	case("Turn Of IOS Animations"):
+		alert(alert: "1. Settings Will Open
+2. Go To General
+3. Find Acessebility
+4. Click on Reduce Motion
+5. Toggle it ON", title: "Directions", cancel: false)
+		openApp(id: "com.apple.Preferences")
+		exit()
+	case("Facetune for iPhone"):
+		url(url: "https://is.gd/ZSmTOS") >> url 19
+		openURL()
+	case("Quik Call/Message"):
+		getShortcuts() >> getShortcuts 8
+		if($0 $1 "Quick Call Or Message") {
+			runShortcut(name: "Quick Call Or Message", show: false) >> runShortcut 7
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/7f37b0d54da44f65a16bdaf2aac2c9e4") >> url 20
+			openURL()
+		} >> IFResult 18
+	case("Drain Battery"):
+		alert(alert: "This can cause damage to your devices battery. This is unsafe no matter how much you use it. We strongly recommend against using this tool. However, this tool can be handy at times when using apps like "Die with me" that require a low battery. But like stated before, we don't recommend using this tool.
+
+*iTweak takes no responsibility for what happens to your battery. Attempt at your own risk*", title: "⚠️Warning ⚠️ ", cancel: $2)
+		setBrightness(value: true)
+		url(url: "https://m.youtube.com/watch?v=y98De45A94Y&t=53s") >> url 21
+		openURL()
+	case("Custom Lock Wallpapers"):
+		url(url: "https://heyeased.weebly.com/custom-lock-wallpapers.html") >> url 22
+		openURL()
+	case("Remove Water From Speakers"):
+		getShortcuts() >> getShortcuts 9
+		if($0 $1 "Water Eject") {
+			runShortcut(name: "Water Eject", show: false) >> runShortcut 8
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/456830e5d25349379614ffd149815126") >> url 23
+			openURL()
+		} >> IFResult 19
+	case("Block IOS Updates and Notifications"):
+		alert(alert: "Please allow the profile to be installed into your device. When you get a pop up click "allow". The page will automatically open in Safari after you have closed this alert.", title: "Installer", cancel: false)
+		url(url: "https://betaprofiles.com/tvos11") >> url 24
+		openURL()
+	case("Block Adds"):
+		menu(iTweak Add Blocker, [Shortcut, Settings Tweak]) {
+		case("Shortcut"):
+			getShortcuts() >> getShortcuts 10
+			if($0 $1 "AdBlock") {
+				runShortcut(name: "AdBlock", show: false) >> runShortcut 9
+			} else {
+				url(url: "https://www.icloud.com/shortcuts/6eb132be87404d4cb494cd0d798f2ea3")
+				openURL()
+				exit()
+			}
+		case("Settings Tweak"):
+			alert(alert: "Go into WiFi settings and set the first dns server to 
+176.103.130.130
+And the second one to 
+176.103.130.131", title: "Directions", cancel: false)
+			openApp(id: "com.apple.Preferences")
+		}
+	case("Block Adds"):
+		url(url: "cloudftl.github.io/OnlineRespring") >> url 25
+		openURL()
+	case("Cool Down Your Device"):
+		setBrightness(value: false)
+		setWiFi(state: false)
+		setBluetooth()
+		setFlashlight()
+		deviceDetails() >> deviceDetails 4
+	case("Heat Up Your Device"):
+		alert(alert: "Heating up your device is not recommended and may cause major damage to your iDevice. 
+*iTweak takes no responsibility for what may happen to your device*", title: "⚠️ Warning ⚠️ ", cancel: $2)
+		setBrightness(value: true)
+		setWiFi()
+		setBluetooth()
+		setFlashlight()
+	case("Speed Intensifier"):
+		getShortcuts() >> getShortcuts 11
+		if($0 $1 "Speed Intensifier (IOS 12)") {
+			runShortcut(name: "Speed Intensifier (iOS 12)", show: false) >> runShortcut 10
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/0892acd683b047409c1bd8f583c847c4") >> url 26
+			openURL()
+		} >> IFResult 20
+	case("iMessage Tweak"):
+		getShortcuts() >> getShortcuts 12
+		if($0 $1 "iMessage Tools") {
+			runShortcut(name: "iMessage Tools", show: false) >> runShortcut 11
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/6e720dbd43e846eda72ae21a1cbe9801") >> url 27
+			openURL()
+		} >> IFResult 21
+	case("No Caller ID"):
+		getShortcuts() >> getShortcuts 13
+		if($0 $1 "No Caller ID") {
+			runShortcut(name: "No Caller ID", show: false) >> runShortcut 12
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/c15ebbc42f894126b7a9b468de679db0") >> url 28
+			openURL()
+			exit()
+		} >> IFResult 22
+	case("Tailor Banner Remover Free"):
+		getShortcuts() >> getShortcuts 14
+		if($0 $1 "Tailor Banner Remover") {
+			runShortcut(name: "Tailor Banner Remover", show: false) >> runShortcut 13
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/138cf8a1ace3459d99004e95870c6e8d") >> url 29
+			openURL()
+			exit()
+		} >> IFResult 23
+	case("Expand Bezel Wallpapers"):
+		url(url: "https://heyeased.weebly.com/expand-bezel-wallpapers.html") >> url 30
+		openURL()
+	case(""):
+		url(url: "https://heyeased.weebly.com/hide-dots-middle.html") >> url 31
+		openURL()
+	case(""):
+		url(url: "http://swiftlythemes.mobi/themecreator/exitst/themecollector.php?themename=7492647614167") >> url 32
+		openURL()
+	case("Get iPhone X Features on iPad, iPhone"):
+		url(url: "itms-services://?action=download-manifest&url=https%3A%2F%2Frink.hockeyapp.net%2Fapi%2F2%2Fapps%2F5f324e8372d64a2bb73e32c917eea787%2Fapp_versions%2F24%3F%26avtoken%3Dfa96c304fa87d838a07422a121f2470ac335d298%26download_origin%3Dhockeyapp") >> url 33
+		openURL()
+		exit()
+	} >> MenuResult 6
+case("Other System Tweaks"):
+	menu(iTweak, [Wallpaper Websites, Themes to Install, Delayed Message, Image Resizer, Downlaod Youtube, Instagram Downlaoder, Fast Charge, Force Safari Desktop Site, Change IOS Badge Color, Run Youtube in the Background, Get Animojii on any device, Get portrait Mode depth controll any iPhone, Remove Dock Status Bar, See inside your iphone wallpapers, Get higher volume than iOS allows you to, Hide Stock Apps, Glowing iPhone Wallapers, Bring Back Slide To Unlock, Nested Folders, Change Folder and dock color, Put controll center in the notification center, Pascode Protect Any App, Open Feedback App on normal IOS Versions, ]) {
+	case("Wallpaper Websites"):
+		menu(iTweak Wallpapers, [Heysead, iDeviceWalls, Main Menu]) {
+		case("Heysead"):
+			url(url: "https://heyeased.weebly.com") >> url 34
+		case("iDeviceWalls"):
+			url(url: "http://idevicewalls.com") >> url 35
+		case("Main Menu"):
+		} >> MenuResult 7
+		openURL()
+	case("Themes to Install"):
+		url(url: "http://iskin.tooliphone.net") >> url 36
+		openURL()
+	case("Delayed Message"):
+		askForInput(prompt: "How many seconds?", type: Number) >> askForInput 3
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		askForInput(prompt: "What should it say?") >> askForInput 4
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		alert(alert: "Please select the contact/contacts you are sending this to.", title: "Alert", cancel: false)
+		selectContact() >> selectContact
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		wait(seconds: Sec)
+		nothing()
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+	case("Image Resizer"):
+		getShortcuts() >> getShortcuts 15
+		if($0 $1 "Resize Image") {
+			runShortcut(name: "Resize Image", show: false) >> runShortcut 14
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/c86b4bf7fdea4d148e490b41bbee200e") >> url 37
+			openURL()
+			exit()
+		} >> IFResult 24
+	case("Downlaod Youtube"):
+		getShortcuts() >> getShortcuts 16
+		if($0 $1 "Download YouTube") {
+			runShortcut(name: "Download YouTube", show: false) >> runShortcut 15
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/79f870afd24d44e68a13c4a38aeacd3e") >> url 38
+			openURL()
+		} >> IFResult 25
+	case("Instagram Downlaoder"):
+		getShortcuts() >> getShortcuts 17
+		if($0 $1 "Grabstagram") {
+			runShortcut(name: "Grabstagram", show: false) >> runShortcut 16
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/94ef00e06324400ea7bc0bc240c13806") >> url 39
+			openURL()
+		} >> IFResult 26
+	case("Fast Charge"):
+		setBrightness(value: false)
+		setVolume(level: false)
+		setCellular(state: false)
+		setWiFi(state: false)
+		setBluetooth()
+		toggleAirplaneMode()
+		setDND(state: true)
+		setFlashlight()
+		text(text: "1,400") >> text 26
+		wait(seconds: Text)
+		toggleAirplaneMode()
+		setDND()
+		setCellular()
+		setBluetooth()
+		setWiFi()
+		setBrightness(value: 0.696)
+		setVolume()
+	case("Force Safari Desktop Site"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		count(type: Items) >> count 4
+		if($0 Equals "0") {
+			alert(alert: "To trigger, use from the Safari share sheet.", title: "Oops!", cancel: false)
+			openApp(id: "com.apple.mobilesafari")
+		} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			runJavascriptOnWebpage(javascript: "const metaTag=document.createElement('meta');metaTag.name='viewport';metaTag.content='width=1600';document.getElementsByTagName('head')[0].appendChild(metaTag);completion();")
+			exit()
+		}
+	case("Change IOS Badge Color"):
+		url(url: "https://m.youtube.com/watch?v=xRQ5e1zEPEE") >> url 40
+		openURL()
+	case("Run Youtube in the Background"):
+		getShortcuts() >> getShortcuts 18
+		if($0 $1 "Background YouTube") {
+			runShortcut(name: "Background YouTube", show: false) >> runShortcut 17
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/f6d15018167940c8ae26cc6904527fb7") >> url 41
+			openURL()
+			exit()
+		} >> IFResult 27
+	case("Get Animojii on any device"):
+		url(url: "https://www.youtube.com/redirect?q=https%3A%2F%2Fgoo.gl%2FvP49eL&v=gyLKgwCyg9Y&redir_token=FfB_Jq-VXSHRbdlJZqZu2hdvNNZ8MTU1MDA5MjcyMEAxNTUwMDA2MzIw&event=video_description") >> url 42
+		openURL()
+	case("Get portrait Mode depth controll any iPhone"):
+		url(url: "https://www.youtube.com/redirect?redir_token=DQvuWN6DqwtRlWAg6FMXopq9i598MTU1MDA5NDQ1N0AxNTUwMDA4MDU3&v=WfiuKuPW9ss&q=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Ffocos%2Fid1274938524%3Fmt%3D8&event=video_description")
+		openURL()
+		exit()
+	case("Remove Dock Status Bar"):
+		url(url: "http://heyeased.weebly.com/uploads/4/9/1/1/49114053/magic_status.png") >> url 43
+		openURL()
+		exit()
+	case("See inside your iphone wallpapers"):
+		getShortcuts() >> getShortcuts 19
+		if($0 $1 "See Inside Your Phone Wallpapers") {
+			runShortcut(name: "See Inside Your Phone Wallpapers", show: false) >> runShortcut 18
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/db526f7fab0d40e9b4f8610a8a0138ee") >> url 44
+			openURL()
+			exit()
+		} >> IFResult 28
+	case(""):
+		alert(alert: "Settings will open after this alert
+1. In settings, go to music
+2. Go to EQ
+3. Select Late Night
+That's all.", title: "Directions", cancel: false)
+		openApp(id: "com.apple.Preferences")
+		exit()
+	case("Hide Stock Apps"):
+		url(url: "https://m.youtube.com/watch?v=BlgXg8uO5Ik") >> url 45
+		openURL()
+		exit()
+	case("Glowing iPhone Wallapers"):
+		url(url: "https://m.imgur.com/QYur4JM") >> url 46
+		openURL()
+		exit()
+	case("Bring Back Slide To Unlock"):
+		url(url: "https://m.youtube.com/watch?index=9&list=PLQm8nd14Vat1NcMKoxNqeRw7xLD1-LtFc&v=ZFW1JXeX6y4") >> url 47
+		openURL()
+		exit()
+	case(""):
+		url(url: "https://m.youtube.com/watch?index=7&list=PLQm8nd14Vat1NcMKoxNqeRw7xLD1-LtFc&v=NILQJOVeSGg") >> url 48
+		openURL()
+		exit()
+	case("Change Folder and dock color"):
+		url(url: "https://heyeased.weebly.com/black-ui.html") >> url 49
+		openURL()
+	case("Put controll center in the notification center"):
+		url(url: "https://itunes.apple.com/us/app/airlaunch-launcher-widget/id993479740?mt=8") >> url 50
+		openURL()
+		exit()
+	case("Pascode Protect Any App"):
+		getShortcuts() >> getShortcuts 20
+		if($0 $1 "Passcode App") {
+			runShortcut(name: "Passcode App", show: false) >> runShortcut 19
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/7b34f5dad74141999ec9a91bd82476d0") >> url 51
+			openURL()
+			exit()
+		} >> IFResult 29
+	case("Open Feedback App on normal IOS Versions"):
+		openApp(id: "com.apple.appleseed.FeedbackAssistant")
+		exit()
+	} >> MenuResult 8
+case("Jailbreak Tools"):
+	getShortcuts() >> getShortcuts 21
+	if($0 $1 "iTweak Jailbreak Tools") {
+		runShortcut(name: "iTweak Jailbreak Tools", show: false) >> runShortcut 20
+	} else {
+		url(url: "https://www.icloud.com/shortcuts/d0ad14f720b5473d9b80fa6da2702326")
+		openURL()
+		exit()
+	}
+case("iTweak SSH"):
+	getShortcuts() >> getShortcuts 22
+	if($0 $1 "iTweak SSH") {
+		runShortcut(name: "iTweak SSH", show: false) >> runShortcut 21
+	} else {
+		url(url: "https://www.icloud.com/shortcuts/7fbf8267d7c741e683668a9c753a9766") >> url 52
+		openURL()
+		exit()
+	} >> IFResult 30
+case("Power Settings"):
+	menu(iTweak, [Respring, Reset, Reboot, Freeze Device, Crash Shortcut, Main Menu]) {
+	case("Respring"):
+		url(url: "appleprintcenter://") >> url 53
+		openURL()
+	case("Reset"):
+		alert(alert: "Do You Want to Continue? System Reset Will Remove Your Contacts, Photos, Reminders,Music, And Calendar Events. Also it Will Also Restore Some of Your Settings.", title: "⚠️ Warning ⚠️ ", cancel: $2)
+		setBluetooth()
+		setBluetooth()
+		setBluetooth()
+		toggleAirplaneMode()
+		deviceDetails(detail: Device Model) >> deviceDetails 5
+		if($0 Equals "iPhone") {
+			toggleLowPowerMode()
+		} >> IFResult 31
+		filterMusic() >> filterMusic
+		deleteFile()
+		filterContacts() >> filterContacts
+		deleteFile()
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+		deleteFile()
+		filterPhotos() >> filterPhotos
+		deleteFile()
+		filterReminders() >> filterReminders
+		deleteFile()
+		url(url: "file:////System/Library/Audio/UISounds/engage_power.caf") >> url 54
+		downloadURL() >> downloadURL 1
+		playSound()
+		url(url: "appleprintcenter://") >> url 55
+		openURL()
+	case("Reboot"):
+		getShortcuts() >> getShortcuts 23
+		if($0 $1 "Reboot") {
+			runShortcut(name: "Reboot", show: false) >> runShortcut 22
+		} else {
+			url(url: "https://www.icloud.com/shortcuts/624f7d8aaf734846801e561a1d131c92") >> url 56
+			openURL()
+		} >> IFResult 32
+	case("Freeze Device"):
+		url(url: "itms-services://?action=download-manifest&url=https://raw.githubusercontent.com/CloudFTL/BrickMy6/master/BRICKIT.plist") >> url 57
+		openURL()
+	case("Crash Shortcut"):
+		randomNumber()
+		emojiName()
+	case("Main Menu"):
+	} >> MenuResult 9
+case("Settings"):
+	getShortcuts() >> getShortcuts 24
+	if($0 $1 "iTweak Settings") {
+		runShortcut(name: "iTweak Settings", show: false) >> runShortcut 23
+	} else {
+		url(url: "https://www.icloud.com/shortcuts/050eab2c24224f06a9c8cd3da1b6354a") >> url 58
+		openURL()
+		exit()
+	} >> IFResult 33
+case("Reset Tweak"):
+	getFile(picker: false, path: "iTweak/Do Not Delete!!!/First Use.txt", error: false) >> getFile 1
+	deleteFile(confirm: false)
+	alert(alert: "Do you want to continue in restarting your device? This is required to reset iTweak.", title: "iTweak will restart after the popup is closed!", cancel: false)
+	url(url: "appleprintcenter://")
+	openURL()
+case("Stop"):
+	exit()
+case(""):
+}
+text(text: "${Latest Version}") >> text 27
+runShortcut(name: "iTweak", show: false) >> runShortcut 24

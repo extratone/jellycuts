@@ -1,0 +1,32 @@
+import Shortcuts
+#Color: yellow, #Icon: documentOutline
+
+/*
+Designed to be called exclusively by a Drafts action found here: https://directory.getdrafts.com/a/2Bi
+
+See this issue on my Drafts-specific GitHub repository for more information: https://github.com/extratone/drafts/issues/81
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+replaceText(input: "${ShortcutInput}", find: "“", replace: """, caseSensitive: true) >> replaceText
+replaceText(input: "${Updated Text}", find: "”", replace: """, caseSensitive: true) >> replaceText 1
+var content = Updated Text
+splitText(text: content) >> splitText
+getItemFromList(list: Split Text) >> getItemFromList
+var title = Item from List
+createNote(text: "${title}") >> createNote
+replaceText(input: "${content}", find: "${title}", caseSensitive: false) >> replaceText 2
+richTextFromMarkdown(markdown: Updated Text) >> richTextFromMarkdown
+appendNote(text: "${Rich Text from Markdown}", note: Note) >> appendNote
+//Unable to get shortcuts action com.apple.mobilenotes.AddTagsToNotesLinkAction
+showNote(note: Appended Note) >> showNote

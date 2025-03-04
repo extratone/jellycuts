@@ -1,0 +1,34 @@
+import Shortcuts
+#Color: blue, #Icon: openBook
+
+/*
+Utilize Apple's native dictionary integration to create definition Apple Notes.
+
+Instructions:
+
+1. Provide a single term to define (either by way of the share sheet or when prompted for text.)
+2. Select your preferred definition from the `Show Definition` action's popup.
+3. Copy the portion (up to `⌘A` to Select All) of the result you'd like to save.
+4. The contents of the system clipboard will be added to a new Apple Note.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+createNote(text: "${ShortcutInput}") >> createNote
+//Unable to get shortcuts action com.apple.mobilenotes.AddTagsToNotesLinkAction
+text() >> text
+setClipboard(variable: Text) >> setClipboard
+showDefinition(text: "${ShortcutInput}")
+getClipboard() >> getClipboard
+appendNote(text: "${Clipboard}", note: Note) >> appendNote

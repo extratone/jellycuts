@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: pink, #Icon: star
+
+// Takes a base64-encoded image of your favorite background and decodes it before passing it into Set Wallpaper for your Home Screen.
+// Use this to store your favorite wallpapers permanently and restore them if you ever change your background. Works well with Encode Image to turn your photo into base64 text.
+text() >> text
+decode(input: Text) >> decode
+getImagesFrom(input: Base64 Encoded) >> getImagesFrom
+changeWallpaper(image: Images, location: Home Screen)

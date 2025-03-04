@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: list
+
+getPlaylist(name: Techno) >> getPlaylist
+playMusic(music: Playlist, repeat: None)

@@ -1,0 +1,110 @@
+import Shortcuts
+#Color: blue, #Icon: cube
+
+var File = ShortcutInput
+nothing() >> nothing
+/*
+【RoutineHub Update Engine】
+Checks For Latest Shortcut Version
+↳ https://routinehub.co/shortcut/16590/
+*/
+dictionary({"Version":"2.4","RoutineHub ID":"17040","Author":"Avieshek","Version Check":"true"}) >> Info
+valueFor(key: "Version Check", dictionary: Info) >> True
+if(True == "Yes") { >> IFResult
+	getIP(source: External, type: IPv4) >> getIP
+	if(Current IP Address != nil) { >> IFResult 1
+		downloadURL(url: "https://routinehub.co/api/v1/shortcuts/${Info.key(RoutineHub ID)}/versions/latest") >> Result 
+		if(Result  .contains "success") { >> IFResult 2
+			splitText(text: Result , separator: Custom, customSeparator: ".") >> splitText
+			repeatEach(Split Text) { >> RepeatResult
+				calculate(input: "((1/1000)^${Latest Version})*${Variable}+${Repeat Index}") >> calculate
+var LatestVersion = Calculation Result
+			} >> RepeatResult 1
+			splitText(text: Info, separator: Custom, customSeparator: ".") >> splitText 1
+			repeatEach(Split Text) { >> RepeatResult 2
+				calculate(input: "((1/1000)^${Current Version})*${Variable}+${Repeat Index}") >> calculate 1
+var CurrentVersion = Calculation Result
+			} >> RepeatResult 3
+			if(Latest Version > Current Version) { >> IFResult 3
+				menu(, [) {
+				case("Update → Result  (Version)"): >> MenuResult
+					expandURL(url: "${Result .as(Dictionary).key(URL)}") >> expandURL
+					replaceText(input: "${Expanded URL}", find: "https://www.icloud.com/", replace: "shortcuts://", caseSensitive: false) >> replaceText
+					openURL(url: Updated Text) >> openURL
+					exit()
+				case("Skip (Info (Version))"):
+				} >> MenuResult 1
+			}
+		}
+	}
+} >> IFResult 4
+/*
+【RoutineHub Update Engine Ends】
+Support → https://www.reddit.com/r/shortcuts/comments/197w4hl/
+
+【Semantic Engine ⚙️】
+↳ https://routinehub.co/shortcut/16589/
+*/
+nothing() >> nothing 1
+menu(Install iPA by signing from the Shortcut:, [Install App from Link, Install App from File, Search iPA Releases, Search iPA Files, iPA Library, Tutorial, Signing Status, Bypass Revoke]) {
+case("Install App from Link"): >> MenuResult 2
+	askForInput(prompt: "iPA-URL", default: ) >> askForInput
+	openURL(url: "https://api.cococloud-signing.online/free-plistv2?apitoken=30707a1c0611574b351a6f6643c21091dffc075d&url=${Provided Input}") >> openURL 1
+case("Install App from File"): >> MenuResult 3
+	selectFile(multiple: false) >> selectFile
+var File = File
+	fileDetail(input: File, property: File Extension) >> fileDetail
+	if(File Extension == "ipa") { >> IFResult 5
+		downloadURL(url: "https://file.io", method: POST, requestType: Form) >> downloadURL
+		valueFor(key: "link", dictionary: Contents of URL) >> valueFor
+		openURL(url: "https://api.cococloud-signing.online/free-plistv2?apitoken=30707a1c0611574b351a6f6643c21091dffc075d&url=${Dictionary Value}") >> openURL 2
+	} else { >>  3
+		alert(alert: "This is not an .ipa File", title: "Error", cancel: false)
+		exit()
+	} >> IFResult 6
+case("Search iPA Releases"): >> MenuResult 4
+	openURL(url: "https://github.com/swaggyP36000/TrollStore-IPAs/releases") >> openURL 3
+case("Search iPA Files"): >> MenuResult 5
+	openURL(url: "https://starfiles.co/search") >> openURL 4
+case("iPA Library"): >> MenuResult 6
+	openURL(url: "https://acutus.fun/") >> openURL 5
+case("Tutorial"): >> MenuResult 7
+	downloadURL(url: "https://i.imgur.com/QqdAsNo.mp4") >> downloadURL 1
+	alert(alert: "Make sure any add-ons or extensions like ad-blockers are not interfering with pop-ups or get DuckDuckGo browser as used default here that can empty any cookies & cache later and is immune to Safari extensions. The Shortcut only signs the app on behalf of you, rest is done on the web so sometimes just load the page again after confirming no customisation is interfering with default behaviour.", title: "First Time Run", cancel: false)
+	downloadURL(url: "https://i.imgur.com/U9NOBJ7.mp4") >> downloadURL 2
+	quicklook(input: Contents of URL)
+	alert(alert: "Some of you for whatever insane reason have done 200+ downloads in one go prompting the signing service to raise some guarded measures for their servers compared to the seamless process of earlier. The process is still simple, just initially confusing for those coming from earlier which is simply behind a small button - nothing new for a seasoned torrentor.", title: ""Just because something's free, don't abuse it like a dead meat."", cancel: false)
+	quicklook(input: Contents of URL)
+	runShortcut(name: "Signed Installer") >> runShortcut
+case("Signing Status"): >> MenuResult 8
+	downloadURL(url: "https://api.cococloud-signing.online/cert-status/api2") >> downloadURL 3
+	matchText(text: "${Contents of URL}", regex: ""(.*?)":"(.*?)"") >> matchText
+	replaceText(input: "${Matches}", find: """, replace: " ") >> replaceText 1
+	replaceText(input: "${Updated Text}", find: " CertificateStatus", replace: "Status") >> replaceText 2
+	replaceText(input: "${Updated Text}", find: " expirationDate", replace: "Expiry") >> replaceText 3
+	replaceText(input: "${Updated Text}", find: " addedDate", replace: "Added") >> replaceText 4
+	replaceText(input: "${Updated Text}", find: " name", replace: "Name") >> replaceText 5
+	replaceText(input: "${Updated Text}", find: " revocationTime", replace: "Revoked") >> replaceText 6
+	downloadURL(url: "https://api.cococloud-signing.online/server-status") >> downloadURL 4
+	matchText(text: "${Contents of URL}", regex: ""Load Status":"(.*?)"") >> matchText 1
+	replaceText(input: "${Matches}", find: """, replace: " ") >> replaceText 7
+	matchText(text: "${Contents of URL}", regex: ""CPU Usage":"(.*?)"") >> matchText 2
+	replaceText(input: "${Matches}", find: """, replace: " ") >> replaceText 8
+	showResult(text: "【Certificate Status】${Updated Text}
+【Server Status】
+${ActionOutput}
+${Updated Text}")
+	runShortcut(name: "Signed Installer", input: Menu Result) >> runShortcut 1
+case("Bypass Revoke"): >> MenuResult 9
+	menu(DNS Profile(s), [Coco ☁️ (1), Coco ☁️ (2), Coco ☁️ (3)]) {
+	case("Coco ☁️ (1)"): >> MenuResult 10
+		showWebPage(url: "https://api.cococloud-signing.online/website/dns/config/cococloud-block-revokes.mobileconfig") >> showWebPage
+		openURL(url: "prefs:root=General&path=ManagedConfigurationList/PurgatoryInstallRequested") >> openURL 6
+	case("Coco ☁️ (2)"): >> MenuResult 11
+		showWebPage(url: "https://api.cococloud-signing.online/website/dns/config/cococloud-block-revokes-v2.mobileconfig") >> showWebPage 1
+		openURL(url: "prefs:root=General&path=ManagedConfigurationList/PurgatoryInstallRequested") >> openURL 7
+	case("Coco ☁️ (3)"): >> MenuResult 12
+		showWebPage(url: "https://api.cococloud-signing.online/website/dns/config/cococloud-block-revokes(v3).mobileconfig") >> showWebPage 2
+		openURL(url: "prefs:root=General&path=ManagedConfigurationList/PurgatoryInstallRequested") >> openURL 8
+	}
+} >> MenuResult 13

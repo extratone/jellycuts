@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: navy, #Icon: clock
+
+/*
+This shortcut was created by the Things team for demo purposes. You can customize it to meet your own needs.
+
+It shows all the items you’ve created in the past week.
+
+Last updated: May 25, 2023
+Source: https://culturedcode.com/things/help/shortcuts/
+*/
+adjustDate(operation: Get Start of Day, date: "${CurrentDate}") >> adjustDate
+adjustDate(operation: Subtract, duration: , date: "${Adjusted Date}") >> adjustDate 1
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIItemEntity
+if(Items != nil) {
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIShowItems2
+} else {
+	alert(alert: "No items were created in the past 7 days.")
+}

@@ -1,0 +1,1771 @@
+import Shortcuts
+#Color: green, #Icon: list
+
+/*
+Choose from Menu ←→ List action conversion tool
+2024-07-06 	v1.1
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) { >> IFResult
+	getIP() >> getIP
+	if(Current IP Address != nil) {
+		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=D1967642") >> downloadURL
+		if(Contents of URL .contains "2024-07-06") { >> IFResult 1
+			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+			case("🌏  Go to RoutineHub"): >> MenuResult
+				openURL(url: "https://routinehub.co/shortcut/18617/") >> openURL
+				exit()
+			case("👾  Download Update"): >> MenuResult 1
+				downloadURL(url: "https://routinehub.co/api/v1/shortcuts/18617/versions/latest") >> downloadURL 1
+				matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+				expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+				replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+				openURL(url: Updated Text) >> openURL 1
+				exit()
+			case("⮐  Not Now"):
+			} >> MenuResult 2
+		} >> IFResult 2
+	} >> IFResult 3
+} >> IFResult 4
+if(Clipboard != nil) { >> IFResult 5
+/*
+Please install the Actions app
+
+https://apps.apple.com/app/id1586435171
+*/
+//Unable to get shortcuts action com.sindresorhus.Actions.GetUniformTypeIdentifierIntent
+} >> IFResult 6
+if(Uniform Type Identifier .contains "com.apple.shortcuts.action") {
+} else {
+	alert(alert: "
+
+🛑 No shortcut actions in clipboard
+
+", tancel: false)
+	exit()
+} >> IFResult 7
+url(url: "data:text/html,<body/><script>document.body.textContent=([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16).toUpperCase())</script>") >> url
+getTextFrom(input: URL) >> uuid
+getItemFromList(list: Clipboard) >> getItemFromList
+setName(input: Item from List, name: "a.plist") >> setName
+getDictionaryFrom(input: Renamed Item) >> action1
+getType(input: action1) >> dictionary
+getTextFrom(input: action1) >> id
+nothing()
+if(id == "is.workflow.actions.list") { >> IFResult 8
+	valuesFrom(dictionary: action1) >> valuesFrom
+	if(Dictionary Value == nil) {
+		list() >> list
+	} >> IFResult 9
+	repeatEach(If Result) {
+		getType(input: Repeat Item) >> getType
+		if(Type == ""${dictionary}"") {
+			dictionary({"WFWorkflowActionIdentifier":"is.workflow.actions.choosefrommenu","WFWorkflowActionParameters":{"WFControlFlowMode":"1","GroupingIdentifier":"${uuid}","WFMenuItemAttributedTitle":{}}})
+		} else {
+			dictionary({"WFWorkflowActionIdentifier":"is.workflow.actions.choosefrommenu","WFWorkflowActionParameters":{"WFControlFlowMode":"1","GroupingIdentifier":"${uuid}","WFMenuItemTitle":"${Repeat Item}"}})
+		} >> IFResult 10
+	} >> RepeatResult
+	list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.choosefrommenu";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFControlFlowMode;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 0;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = GroupingIdentifier;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = uuid;
+                                                                OutputUUID = "9D31A0A0-7332-4BA4-B474-2BC9F366B9B5";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 2;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFMenuItems;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            OutputName = "If Result";
+                                                            OutputUUID = "A5786050-941B-435E-8843-123A40133D94";
+                                                            Type = ActionOutput;
+                                                        };
+                                                        WFSerializationType = WFTextTokenAttachment;
+                                                    };
+                                                    WFSerializationType = WFArraySubstitutableParameterState;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "C8239667-8C47-4CEE-9EFA-A3407922BB76";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.choosefrommenu";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFControlFlowMode;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 2;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = GroupingIdentifier;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = uuid;
+                                                                OutputUUID = "9D31A0A0-7332-4BA4-B474-2BC9F366B9B5";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    }
+)) >> list 1
+} >> IFResult 11
+if(id == "is.workflow.actions.choosefrommenu") {
+	getTextFrom(input: action1) >> gid0
+	url(url: URL) >> url 1
+	getTextFrom(input: URL) >> ouuid
+	valuesFrom(dictionary: action1) >> valuesFrom 1
+	if(Dictionary Value == nil) {
+		list() >> list 2
+	} >> IFResult 12
+	count(input: If Result) >> count
+	count(input: Clipboard) >> count 1
+	math(input: Count, operation: -, operand: Count) >> math
+	math(input: Calculation Result, operation: -, operand: "2") >> math 1
+var remaining = Calculation Result
+	number(value: 2) >> number
+var index = Number
+	repeatEach(If Result) {
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		repeat(remaining) {
+			if(loopend == nil) {
+				math(input: index, operand: "1") >> math 2
+var index = Calculation Result
+				getItemFromList(list: Clipboard, type: Item At Index, index: index) >> getItemFromList 1
+				setName(input: Item from List, name: "a.plist") >> setName 1
+				getFileOfType(input: Renamed Item, type: "public.json") >> getFileOfType
+				getDictionaryFrom(input: File of Type) >> getDictionaryFrom
+				if(id == ""${Dictionary.key(WFWorkflowActionIdentifier)}"") {
+					if(gid0 == ""${Dictionary.key(WFWorkflowActionParameters.GroupingIdentifier)}"") {
+var loopend = Variable
+						nothing() >> nothing
+					}
+				} >> IFResult 13
+			}
+		} >> RepeatResult 1
+		count(input: Repeat Results) >> count 2
+		math(input: remaining, operation: -, operand: Count) >> math 3
+var remaining = Calculation Result
+		url(url: URL) >> url 2
+		getTextFrom(input: URL) >> guuid
+		getType(input: Repeat Item) >> getType 1
+		if(Type == ""${dictionary}"") {
+			list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.conditional";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFControlFlowMode;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 0;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = GroupingIdentifier;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = guuid;
+                                                                OutputUUID = "256B0B20-EDF1-4C89-B050-20738F17028D";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFCondition;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 4;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 1;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFInput;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            WFDictionaryFieldValueItems =                                                             (
+                                                                                                                                {
+                                                                    WFItemType = 0;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Type;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Variable;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                },
+                                                                                                                                {
+                                                                    WFItemType = 1;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Variable;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            Value =                                                                             {
+                                                                                WFDictionaryFieldValueItems =                                                                                 (
+                                                                                                                                                                        {
+                                                                                        WFItemType = 1;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = Value;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                Value =                                                                                                 {
+                                                                                                    WFDictionaryFieldValueItems =                                                                                                     (
+                                                                                                                                                                                                                {
+                                                                                                            WFItemType = 0;
+                                                                                                            WFKey =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = Type;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                            WFValue =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = ActionOutput;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                        },
+                                                                                                                                                                                                                {
+                                                                                                            WFItemType = 0;
+                                                                                                            WFKey =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = OutputUUID;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                            WFValue =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    attachmentsByRange =                                                                                                                     {
+                                                                                                                        "{0, 1}" =                                                                                                                         {
+                                                                                                                            OutputName = ouuid;
+                                                                                                                            OutputUUID = "357CF9FA-9680-473A-94B4-C9B3566481A4";
+                                                                                                                            Type = ActionOutput;
+                                                                                                                        };
+                                                                                                                    };
+                                                                                                                    string = "\Ufffc";
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                        },
+                                                                                                                                                                                                                {
+                                                                                                            WFItemType = 2;
+                                                                                                            WFKey =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = Aggrandizements;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                            WFValue =                                                                                                             {
+                                                                                                                Value =                                                                                                                 (
+                                                                                                                                                                                                                                        {
+                                                                                                                        WFItemType = 1;
+                                                                                                                        WFValue =                                                                                                                         {
+                                                                                                                            Value =                                                                                                                             {
+                                                                                                                                Value =                                                                                                                                 {
+                                                                                                                                    WFDictionaryFieldValueItems =                                                                                                                                     (
+                                                                                                                                                                                                                                                                                {
+                                                                                                                                            WFItemType = 0;
+                                                                                                                                            WFKey =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = Type;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                            WFValue =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = WFCoercionVariableAggrandizement;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                        },
+                                                                                                                                                                                                                                                                                {
+                                                                                                                                            WFItemType = 0;
+                                                                                                                                            WFKey =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = CoercionItemClass;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                            WFValue =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = WFStringContentItem;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                        }
+                                                                                                                                    );
+                                                                                                                                };
+                                                                                                                                WFSerializationType = WFDictionaryFieldValue;
+                                                                                                                            };
+                                                                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                                                                        };
+                                                                                                                    }
+                                                                                                                );
+                                                                                                                WFSerializationType = WFArrayParameterState;
+                                                                                                            };
+                                                                                                        }
+                                                                                                    );
+                                                                                                };
+                                                                                                WFSerializationType = WFDictionaryFieldValue;
+                                                                                            };
+                                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = WFSerializationType;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = WFTextTokenAttachment;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    }
+                                                                                );
+                                                                            };
+                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                        };
+                                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                                    };
+                                                                }
+                                                            );
+                                                        };
+                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                    };
+                                                    WFSerializationType = WFDictionaryFieldValue;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 1;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFConditionalActionString;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            Aggrandizements =                                                             (
+                                                                                                                                {
+                                                                    DictionaryKey = WFValue;
+                                                                    Type = WFDictionaryValueVariableAggrandizement;
+                                                                }
+                                                            );
+                                                            Type = Variable;
+                                                            VariableName = "Repeat Item";
+                                                        };
+                                                        WFSerializationType = WFTextTokenAttachment;
+                                                    };
+                                                    WFSerializationType = WFDictionarySubstitutableParameterState;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "2F04D078-D262-4BE4-8737-B7AE6FD0D5CD";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.conditional";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFControlFlowMode;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 2;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = GroupingIdentifier;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = guuid;
+                                                                OutputUUID = "256B0B20-EDF1-4C89-B050-20738F17028D";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    }
+))
+		} else {
+			list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.conditional";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFControlFlowMode;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 0;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = GroupingIdentifier;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = guuid;
+                                                                OutputUUID = "256B0B20-EDF1-4C89-B050-20738F17028D";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFCondition;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 4;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 1;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFInput;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            WFDictionaryFieldValueItems =                                                             (
+                                                                                                                                {
+                                                                    WFItemType = 0;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Type;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Variable;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                },
+                                                                                                                                {
+                                                                    WFItemType = 1;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Variable;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            Value =                                                                             {
+                                                                                WFDictionaryFieldValueItems =                                                                                 (
+                                                                                                                                                                        {
+                                                                                        WFItemType = 1;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = Value;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                Value =                                                                                                 {
+                                                                                                    WFDictionaryFieldValueItems =                                                                                                     (
+                                                                                                                                                                                                                {
+                                                                                                            WFItemType = 0;
+                                                                                                            WFKey =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = Type;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                            WFValue =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = ActionOutput;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                        },
+                                                                                                                                                                                                                {
+                                                                                                            WFItemType = 0;
+                                                                                                            WFKey =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = OutputUUID;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                            WFValue =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    attachmentsByRange =                                                                                                                     {
+                                                                                                                        "{0, 1}" =                                                                                                                         {
+                                                                                                                            OutputName = ouuid;
+                                                                                                                            OutputUUID = "357CF9FA-9680-473A-94B4-C9B3566481A4";
+                                                                                                                            Type = ActionOutput;
+                                                                                                                        };
+                                                                                                                    };
+                                                                                                                    string = "\Ufffc";
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                        },
+                                                                                                                                                                                                                {
+                                                                                                            WFItemType = 2;
+                                                                                                            WFKey =                                                                                                             {
+                                                                                                                Value =                                                                                                                 {
+                                                                                                                    string = Aggrandizements;
+                                                                                                                };
+                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                            };
+                                                                                                            WFValue =                                                                                                             {
+                                                                                                                Value =                                                                                                                 (
+                                                                                                                                                                                                                                        {
+                                                                                                                        WFItemType = 1;
+                                                                                                                        WFValue =                                                                                                                         {
+                                                                                                                            Value =                                                                                                                             {
+                                                                                                                                Value =                                                                                                                                 {
+                                                                                                                                    WFDictionaryFieldValueItems =                                                                                                                                     (
+                                                                                                                                                                                                                                                                                {
+                                                                                                                                            WFItemType = 0;
+                                                                                                                                            WFKey =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = Type;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                            WFValue =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = WFCoercionVariableAggrandizement;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                        },
+                                                                                                                                                                                                                                                                                {
+                                                                                                                                            WFItemType = 0;
+                                                                                                                                            WFKey =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = CoercionItemClass;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                            WFValue =                                                                                                                                             {
+                                                                                                                                                Value =                                                                                                                                                 {
+                                                                                                                                                    string = WFStringContentItem;
+                                                                                                                                                };
+                                                                                                                                                WFSerializationType = WFTextTokenString;
+                                                                                                                                            };
+                                                                                                                                        }
+                                                                                                                                    );
+                                                                                                                                };
+                                                                                                                                WFSerializationType = WFDictionaryFieldValue;
+                                                                                                                            };
+                                                                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                                                                        };
+                                                                                                                    }
+                                                                                                                );
+                                                                                                                WFSerializationType = WFArrayParameterState;
+                                                                                                            };
+                                                                                                        }
+                                                                                                    );
+                                                                                                };
+                                                                                                WFSerializationType = WFDictionaryFieldValue;
+                                                                                            };
+                                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = WFSerializationType;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = WFTextTokenAttachment;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    }
+                                                                                );
+                                                                            };
+                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                        };
+                                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                                    };
+                                                                }
+                                                            );
+                                                        };
+                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                    };
+                                                    WFSerializationType = WFDictionaryFieldValue;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFConditionalActionString;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                Type = Variable;
+                                                                VariableName = "Repeat Item";
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "2F04D078-D262-4BE4-8737-B7AE6FD0D5CD";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.conditional";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 3;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFControlFlowMode;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        string = 2;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = GroupingIdentifier;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = guuid;
+                                                                OutputUUID = "256B0B20-EDF1-4C89-B050-20738F17028D";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    }
+)) >> list 3
+		} >> IFResult 14
+	} >> RepeatResult 2
+	getType(input: action1) >> getType 2
+	if(Type == ""${dictionary}"") { >> IFResult 15
+		list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.list";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 2;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFItems;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            OutputName = "If Result";
+                                                            OutputUUID = "B0AC2A5F-D3BA-4ADB-8759-848BA6B02119";
+                                                            Type = ActionOutput;
+                                                        };
+                                                        WFSerializationType = WFTextTokenAttachment;
+                                                    };
+                                                    WFSerializationType = WFArraySubstitutableParameterState;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = UUID;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = uuid;
+                                                                OutputUUID = "9D31A0A0-7332-4BA4-B474-2BC9F366B9B5";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.choosefromlist";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 1;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFInput;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            WFDictionaryFieldValueItems =                                                             (
+                                                                                                                                {
+                                                                    WFItemType = 1;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Value;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            Value =                                                                             {
+                                                                                WFDictionaryFieldValueItems =                                                                                 (
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = OutputUUID;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                attachmentsByRange =                                                                                                 {
+                                                                                                    "{0, 1}" =                                                                                                     {
+                                                                                                        OutputName = uuid;
+                                                                                                        OutputUUID = "9D31A0A0-7332-4BA4-B474-2BC9F366B9B5";
+                                                                                                        Type = ActionOutput;
+                                                                                                    };
+                                                                                                };
+                                                                                                string = "\Ufffc";
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = Type;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = ActionOutput;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = OutputName;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = List;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    }
+                                                                                );
+                                                                            };
+                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                        };
+                                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                                    };
+                                                                },
+                                                                                                                                {
+                                                                    WFItemType = 0;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = WFSerializationType;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = WFTextTokenAttachment;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                }
+                                                            );
+                                                        };
+                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                    };
+                                                    WFSerializationType = WFDictionaryFieldValue;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = UUID;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = ouuid;
+                                                                OutputUUID = "357CF9FA-9680-473A-94B4-C9B3566481A4";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 1;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFChooseFromListActionPrompt;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            Aggrandizements =                                                             (
+                                                                                                                                {
+                                                                    DictionaryKey = "WFWorkflowActionParameters.WFMenuPrompt";
+                                                                    Type = WFDictionaryValueVariableAggrandizement;
+                                                                }
+                                                            );
+                                                            OutputName = action1;
+                                                            OutputUUID = "4E364D57-AB84-43AD-909E-B7F7F5A842C9";
+                                                            Type = ActionOutput;
+                                                        };
+                                                        WFSerializationType = WFTextTokenAttachment;
+                                                    };
+                                                    WFSerializationType = WFDictionarySubstitutableParameterState;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "47B5187A-037B-4EB5-AB34-8E171545F880";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 4
+	} else { >>  5
+		list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.list";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 2;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFItems;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            OutputName = "If Result";
+                                                            OutputUUID = "B0AC2A5F-D3BA-4ADB-8759-848BA6B02119";
+                                                            Type = ActionOutput;
+                                                        };
+                                                        WFSerializationType = WFTextTokenAttachment;
+                                                    };
+                                                    WFSerializationType = WFArraySubstitutableParameterState;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = UUID;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = uuid;
+                                                                OutputUUID = "9D31A0A0-7332-4BA4-B474-2BC9F366B9B5";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionIdentifier;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    string = "is.workflow.actions.choosefromlist";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 1;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = WFWorkflowActionParameters;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    Value =                                     {
+                                        WFDictionaryFieldValueItems =                                         (
+                                                                                        {
+                                                WFItemType = 1;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFInput;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        Value =                                                         {
+                                                            WFDictionaryFieldValueItems =                                                             (
+                                                                                                                                {
+                                                                    WFItemType = 1;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = Value;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            Value =                                                                             {
+                                                                                WFDictionaryFieldValueItems =                                                                                 (
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = OutputUUID;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                attachmentsByRange =                                                                                                 {
+                                                                                                    "{0, 1}" =                                                                                                     {
+                                                                                                        OutputName = uuid;
+                                                                                                        OutputUUID = "9D31A0A0-7332-4BA4-B474-2BC9F366B9B5";
+                                                                                                        Type = ActionOutput;
+                                                                                                    };
+                                                                                                };
+                                                                                                string = "\Ufffc";
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = Type;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = ActionOutput;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    },
+                                                                                                                                                                        {
+                                                                                        WFItemType = 0;
+                                                                                        WFKey =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = OutputName;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                        WFValue =                                                                                         {
+                                                                                            Value =                                                                                             {
+                                                                                                string = List;
+                                                                                            };
+                                                                                            WFSerializationType = WFTextTokenString;
+                                                                                        };
+                                                                                    }
+                                                                                );
+                                                                            };
+                                                                            WFSerializationType = WFDictionaryFieldValue;
+                                                                        };
+                                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                                    };
+                                                                },
+                                                                                                                                {
+                                                                    WFItemType = 0;
+                                                                    WFKey =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = WFSerializationType;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                    WFValue =                                                                     {
+                                                                        Value =                                                                         {
+                                                                            string = WFTextTokenAttachment;
+                                                                        };
+                                                                        WFSerializationType = WFTextTokenString;
+                                                                    };
+                                                                }
+                                                            );
+                                                        };
+                                                        WFSerializationType = WFDictionaryFieldValue;
+                                                    };
+                                                    WFSerializationType = WFDictionaryFieldValue;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = UUID;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                OutputName = ouuid;
+                                                                OutputUUID = "357CF9FA-9680-473A-94B4-C9B3566481A4";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            },
+                                                                                        {
+                                                WFItemType = 0;
+                                                WFKey =                                                 {
+                                                    Value =                                                     {
+                                                        string = WFChooseFromListActionPrompt;
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                                WFValue =                                                 {
+                                                    Value =                                                     {
+                                                        attachmentsByRange =                                                         {
+                                                            "{0, 1}" =                                                             {
+                                                                Aggrandizements =                                                                 (
+                                                                                                                                        {
+                                                                        DictionaryKey = "WFWorkflowActionParameters.WFMenuPrompt";
+                                                                        Type = WFDictionaryValueVariableAggrandizement;
+                                                                    }
+                                                                );
+                                                                OutputName = action1;
+                                                                OutputUUID = "4E364D57-AB84-43AD-909E-B7F7F5A842C9";
+                                                                Type = ActionOutput;
+                                                            };
+                                                        };
+                                                        string = "\Ufffc";
+                                                    };
+                                                    WFSerializationType = WFTextTokenString;
+                                                };
+                                            }
+                                        );
+                                    };
+                                    WFSerializationType = WFDictionaryFieldValue;
+                                };
+                                WFSerializationType = WFDictionaryFieldValue;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "47B5187A-037B-4EB5-AB34-8E171545F880";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+))
+	}
+} >> IFResult 16
+if(If Result != nil) { >> IFResult 17
+	repeatEach(If Result) {
+		setName(input: Repeat Item, name: "a.json") >> setName 2
+		getFileOfType(input: Renamed Item, type: "com.apple.plist") >> getFileOfType 1
+		setName(input: File of Type, name: "a.plist") >> setName 3
+/*
+Please install the Actions app
+
+https://apps.apple.com/app/id1586435171
+*/
+//Unable to get shortcuts action com.sindresorhus.Actions.SetUniformTypeIdentifier
+	} >> RepeatResult 3
+	setClipboard(variable: Repeat Results) >> setClipboard
+	getClipboard() >> getClipboard
+	alert(alert: "
+
+📋  New actions copied to clipboard  📋
+
+", tincel: false)
+}
+exit()

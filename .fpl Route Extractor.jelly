@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: grape, #Icon: map
+
+/*
+Extract and copy waypoint identifiers as a space-delimited list.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+setName(input: ShortcutInput, name: "${CurrentDate}.txt") >> setName
+getTextFrom(input: Renamed Item) >> getTextFrom
+matchText(text: "${Text}", regex: "<identifier>[\s\S]*?<\/identifier>") >> matchText
+combineText(text: Matches, combine: Spaces) >> combineText
+replaceText(input: "${Combined Text}", find: "<identifier>") >> replaceText
+replaceText(input: "${Updated Text}", find: "</identifier>") >> replaceText 1
+setClipboard(variable: Updated Text) >> setClipboard

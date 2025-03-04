@@ -1,0 +1,14 @@
+import Shortcuts 1092.8.7
+#Color: Red,#Icon: shortcuts
+
+text(|"""This Shortcut generates a list of raw iCloud share URLs to the Shortcuts within a given Shortcuts folder and copies them to the clipboard. Working on one that automatically formats them into a bulleted list of titled markdown links. If you could help with that, please let me know!
+
+davidblue@extratone.com
+Twitter: @NeoYokel
+Mastodon.Social: @DavidBlue"""|)
+getShortcuts() >> getShortcuts
+getFileLink(file: My Shortcuts) >> getFileLink
+getURLSFromInput(text: "${Link to File}") >> getURLSFromInput
+combineText(text: URLs) >> combineText
+quicklook(input: Combined Text)
+setClipboard(variable: Combined Text)

@@ -1,0 +1,55 @@
+import Shortcuts
+#Color: grape, #Icon: circledCheckmark
+
+if(Clipboard == nil) {
+//Unable to get shortcuts action dk.simonbs.DataJar.GetKeysIntent
+	text(text: "${Keys}") >> text
+	splitText(text: Text) >> splitText
+	choose(list: Split Text) >> choose
+} else {
+	getTextFrom() >> getTextFrom
+} >> IFResult
+askForInput(prompt: "Wie soll das Projekt heißen?") >> ProjektName
+askForInput(prompt: "Bis wann soll das Projekt zurückgestellt werden?", type: Date) >> askForInput
+formatDate(date: "${Provided Input}", dStyle: Custom, custom: "yyyy-MM-dd") >> formatDate
+var deferDate = Formatted Date
+askForInput(prompt: "Wann ist das Projekt fällig?", type: Date) >> askForInput 1
+formatDate(date: "${Provided Input}", dStyle: Custom, custom: "yyyy-MM-dd") >> formatDate 1
+var dueDate = Formatted Date
+list() >> list
+choose(list: List) >> choose 1
+var workCat = Chosen Item
+if(workCat == "CGI") {
+	list() >> list 1
+	choose(list: List) >> choose 2
+var level2Cat = Chosen Item
+	text(text: "${level2Cat} : ${Variable}, ${workCat}") >> ofTag
+var ofTag = ofTag
+} else {
+	text(text: "${workCat}") >> ofTag
+var ofTag = ofTag
+} >> IFResult 1
+text(text: "- 5/7 ${dueDate} @parallel(true) @autodone(true) @tags(${Variable}) @due(${ofTag} 17:00) @defer(${Variable} 00:01)") >> text 1
+var Projektbezeichnung = Text
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+text(text: "${Value}") >> text 2
+splitText(text: Text) >> splitText 1
+repeatEach(Split Text) {
+	text(text: "     - ${Repeat Item} @parallel(true) @autodone(false) @tags(${Variable})") >> text 3
+} >> RepeatResult
+combineText(text: Repeat Results) >> combineText
+var 17BA55DA-66B6-49A8-95A5-E0695C9D3156 = """￼
+￼"""
+text("${17BA55DA-66B6-49A8-95A5-E0695C9D3156}")
+//Unable to get shortcuts action com.omnigroup.OmniFocus2.iPhone.pastetaskpaper
+openApp(id: "com.omnigroup.OmniFocus2.iPhone")
+getShortcuts() >> getShortcuts
+if(My Shortcuts .contains "UpdateKit") {
+	dictionary({"Shortcut Name":"Add a List from DataJar to Omnifocus","Version":"1.5","RoutineHub ID":"5318"})
+} else {
+}
+/*
+LaunchCutsTags
+tex.fm
+
+*/

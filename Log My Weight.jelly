@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: person2
+
+askForInput(prompt: "How much did you weigh?", type: Number) >> askForInput
+//Unable to get shortcuts action is.workflow.actions.health.quantity.log

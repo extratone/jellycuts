@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+list(items: (
+    "Get what3words Address",
+    "Open what3words Address"
+)) >> list
+choose(list: List) >> choose
+if(Chosen Item .contains "Get") {
+// Getting the location from the ‘Get Current Weather’ action is faster than using the ‘Get Location’ action but is less accurate.
+	getCurrentConditions() >> getCurrentConditions
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetW3WIntent
+	showResult(text: "${what3words Result.get(words)}")
+} else {
+	askForInput(prompt: "What what3words address would you like to open?", default: garden.scores.spirit) >> askForInput
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetLocationFromW3WIntent
+//Unable to get shortcuts action is.workflow.actions.searchmaps
+} >> IFResult

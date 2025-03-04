@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: grayGreen, #Icon: folder
+
+// Gets all your shortcuts, extracts the Folder names from each, uses Toolbox Pro to remove duplicates, and combines the new unique list of Folder names to the clipboard.
+/*
+Use this in combination with my other shortcut for picking from folders to populate the full list.
+
+Also works well for copying & pasting a large list of folder names without typing it out manually.
+*/
+getShortcuts() >> getShortcuts
+text(text: "${My Shortcuts.get(Folder)}") >> text
+splitText(text: Text) >> splitText
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.RemoveDuplicatesIntent
+combineText(text: De-duplicated List) >> combineText
+setClipboard(variable: Combined Text) >> setClipboard

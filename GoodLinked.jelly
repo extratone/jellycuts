@@ -1,0 +1,47 @@
+import Shortcuts
+#Color: red, #Icon: bookmark
+
+// Create a draft for a linked post in Obsidian based on the article you're currently reading in GoodLinks.
+// First, check if the input was sent by GoodLinks.
+//Unable to get shortcuts action com.ngocluu.goodlinks.GetCurrentLink
+if(Current Link != nil) {
+var URL = Current Link
+var Title = Current Link
+var Author = Current Link
+//Unable to get shortcuts action com.ngocluu.goodlinks.GetCurrentSelection
+var Selection = Current Selection
+} else {
+	alert(alert: "No article is currently open in GoodLinks!")
+	exit()
+} >> IFResult
+// Pick the folder of your Obsidian vault.
+file() >> file
+var Vault = Folder
+// Process multiple paragraphs of selections.
+if(Selection != nil) {
+	splitText(text: Selection) >> splitText
+	repeatEach(Split Text) {
+		text(text: "> ${Repeat Item}") >> text
+	} >> RepeatResult
+	combineText(text: Repeat Results) >> combineText
+var Selection = Combined Text
+}
+var 76850DCF-BF06-479B-9077-8B24A7EA1991 = """# ￼
+
+￼, [writing for](￼)...
+
+￼"""
+text("${76850DCF-BF06-479B-9077-8B24A7EA1991}")
+var Post = Post
+// Sanitize the filename for Obsidian.
+replaceText(input: "${Title}", find: ":") >> replaceText
+replaceText(input: "${Updated Text}", find: "/") >> replaceText 1
+var SanitizedTitleforObsidian = Updated Text
+setName(input: Post, name: "${Sanitized Title for Obsidian}.md") >> setName
+// Save the file, then launch Obsidian and wait briefly for the app to index files locally before calling the URL scheme to open the newly created file.
+saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile
+wait()
+openApp(id: "md.obsidian")
+url(url: "obsidian://open?vault=${Vault.get(Name)}&file=${Variable.get(Name)}") >> url
+openURL(url: URL) >> openURL
+exit()

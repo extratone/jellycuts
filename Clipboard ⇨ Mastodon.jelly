@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: blue, #Icon: doubleQuote
+
+/*
+This shortcut creates a public post with text content from the clipboard from your currently-selected account in Mastodon for iPhone: https://apps.apple.com/us/app/mastodon-for-iphone/id1571998974
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+getClipboard() >> getClipboard
+getTextFrom(input: Clipboard) >> getTextFrom
+//Unable to get shortcuts action org.joinmastodon.app.SendPostIntent

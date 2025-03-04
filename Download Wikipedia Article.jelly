@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: grayBlue, #Icon: downloadArrow
+
+// https://routinehub.co/user/automation_gone_easy
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+replaceText(input: "${URLs}", find: "/wiki/", replace: "/api/rest_v1/page/pdf/", isRegex: false) >> replaceText
+getURLSFromInput(text: "${Updated Text.as(URL)}") >> getURLSFromInput 1
+createPDF(input: URLs) >> createPDF
+saveFile(input: PDF) >> saveFile
+quicklook(input: Saved File)

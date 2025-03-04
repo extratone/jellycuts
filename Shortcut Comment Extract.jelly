@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: Red, #Icon: magnifyingGlass
+
+// Extract the contents of the first Comment action of a shortcut from your library.
+getShortcuts() >> getShortcuts
+choose(list: My Shortcuts) >> choose
+getFileOfType(input: Chosen Item, type: "com.apple.plist") >> getFileOfType
+getDictionaryFrom(input: File of Type) >> getDictionaryFrom
+keysFrom(dictionary: Dictionary) >> keysFrom
+repeatEach(Dictionary Value) {
+	if(Repeat Item != nil "0") {
+// Examine each action in the shortcut
+		getItemFromList(list: Dictionary Value) >> getItemFromList
+		keysFrom(dictionary: Item from List) >> keysFrom 1
+		if(Dictionary Value != nil false) {
+			keysFrom(dictionary: Repeat Item) >> keysFrom 2
+			keysFrom(dictionary: Dictionary Value) >> keysFrom 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+		} >> IFResult
+	} else {
+	} >> IFResult 1
+} >> RepeatResult
+getItemFromList(list: Comment) >> getItemFromList 1
+setClipboard(variable: Item from List) >> setClipboard

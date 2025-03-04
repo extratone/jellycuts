@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: red, #Icon: newsArticle
+
+imageFromPDF(pdf: ShortcutInput, resolution: 300) >> imageFromPDF
+cropImage(image: Image, position: Custom, height: 3000, width: 3000) >> cropImage
+saveToCameraRoll(image: Cropped Image, album: Exported) >> saveToCameraRoll

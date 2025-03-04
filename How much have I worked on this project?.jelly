@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: navy, #Icon: barGraph
+
+// Prompts you to choose a project and time period, then displays the results for your total time tracked.
+// Use this to check in on the long-time progress of your tasks, which isn’t otherwise visible in Timery.
+//Unable to get shortcuts action com.joehribar.toggl.CheckProjectTimeTrackedIntent

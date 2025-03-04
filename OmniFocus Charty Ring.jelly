@@ -1,0 +1,63 @@
+import Shortcuts
+#Color: grape, #Icon: circledCheckmark
+
+/*
+OmniFocus Charty Ring, by Scotty Jackson
+https://heyscottyj.com
+--------------------------------------------
+- Requires Charty version 1.4
+- Creates a ring chart of the progress against available flagged and items due today in OmniFocus
+- If more than one task remains, the icon in the ring is the number of remaining items. Otherwise, a checkmark is displayed.
+- If any of the remaining tasks are due, the ring is the due colour below. Otherwise, it is the in progress colour or the complete colour.
+*/
+/*
+Edit the three hex values for colours below to control the colour of the ring for the three conditions:
+
+1. Incomplete, due items remain (Due Colour)
+2. Incomplete, no due items remain (In Progress Colour)
+3. Complete (Complete Colour)
+*/
+text(text: "000000") >> text
+var DueColour = Text
+text(text: "FFFFFF") >> text 1
+var InProgressColour = Text
+text(text: "FFFFFF") >> text 2
+var CompletedColour = Text
+// Nothing below this point needs to be edited unless you want to deeply customize the chart. Which is cool also!
+//Unable to get shortcuts action com.omnigroup.OmniFocus3.iOS.FindTasksIntent
+count(input: Items) >> count
+var DueAvailable = Count
+//Unable to get shortcuts action com.omnigroup.OmniFocus3.iOS.FindTasksIntent
+count(input: Items) >> count 1
+var DueCompleted = Count
+math(input: Due Available, operand: Due Completed) >> math
+var DueTotal = Calculation Result
+//Unable to get shortcuts action com.omnigroup.OmniFocus3.iOS.FindTasksIntent
+count(input: Items) >> count 2
+var FlaggedAvailable = Count
+//Unable to get shortcuts action com.omnigroup.OmniFocus3.iOS.FindTasksIntent
+count(input: Items) >> count 3
+var FlaggedCompleted = Count
+math(input: Flagged Available, operand: Flagged Completed) >> math 1
+var FlaggedTotal = Calculation Result
+math(input: Due Completed, operand: Flagged Completed) >> math 2
+var TotalCompleted = Calculation Result
+math(input: Due Total, operand: Flagged Total) >> math 3
+var TotalTotal = Calculation Result
+math(input: Total Total, operation: -, operand: Total Completed) >> math 4
+if(Calculation Result == 0) {
+	text(text: "checkmark.circle.fill") >> text 3
+var ChartIcon = Text
+var RingColour = Variable
+} else {
+	text(text: "${Calculation Result}.circle.fill") >> text 4
+var ChartIcon = Text
+	if(Due Available > 0) {
+var RingColour = Variable
+	} else {
+var RingColour = Variable
+	} >> IFResult
+} >> IFResult 1
+//Unable to get shortcuts action com.brogrammers.charty.NewChartWithSeriesIntent
+//Unable to get shortcuts action com.brogrammers.charty.StyleRingSeriesIntent
+//Unable to get shortcuts action com.brogrammers.charty.UpdateWidgetsIntent

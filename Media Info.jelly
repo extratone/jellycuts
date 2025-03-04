@@ -1,0 +1,99 @@
+import Shortcuts
+#Color: grayBlue, #Icon: circledI
+
+/*
+This shortcut allows to easily view the output of the ffprobe command, both in iOS/iPadOS and in macOS — @atnbueno (2021-12-18)
+
+- In iOS/iPadOS this shortcut requires the app “a-Shell” (~900 MB) or the app “a-Shell mini” (~300 MB)
+- In macOS it will use the “ffprobe” command which, if not available, will be downloaded
+- Without input the shortcut works as a demo, allowing the user to pick a media file and see the metadata in table format
+
+
+RoutineHubUpdate
+
+Current Version: “1.6.0”
+RoutineHub ID: "10699"
+
+RoutineHubUpdate
+*/
+if(ShortcutInput == nil) {
+	menu(Select the source of your media, [Camera Roll, iCloud Drive]) {
+	case("Camera Roll"):
+		selectPhoto(types: (
+    Videos,
+    Images
+)) >> selectPhoto
+	case("iCloud Drive"):
+		selectFile(type: Files) >> selectFile
+	} >> MenuResult
+} >> IFResult
+var MediaFile = If Result
+deviceDetails(detail: Device Model) >> deviceDetails
+if(Modelo del dispositivo != "Mac") {
+//Unable to get shortcuts action AsheKube.app.a-Shell.PutFileIntent
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
+} else {
+	runShellScript(input: Modelo del dispositivo, script: "path+=${HOME}/bin
+if ! command -v ffprobe &> /dev/null
+then
+    curl -JLOs https://evermeet.cx/ffmpeg/getrelease/ffprobe/zip
+    unzip -oq ffprobe-*.zip -d ~/bin
+    unlink ffprobe-*.zip
+fi
+ffprobe -i "${Media File.get(File Path)}" -print_format json -show_streams -loglevel error 2>~/Documents/MediaInfo.stderr.txt
+echo", shell: /bin/zsh) >> runShellScript
+	if(Resultado del script de shell == "{}") {
+		nothing() >> nothing
+	}
+} >> IFResult 1
+if(Resultado de la acción Si == nil "") {
+	if(Modelo del dispositivo != "Mac") {
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	} else {
+		runShellScript(input: Modelo del dispositivo, script: "cat ~/Documents/MediaInfo.stderr.txt
+unlink ~/Documents/MediaInfo.stderr.txt", shell: /bin/zsh) >> runShellScript 1
+	} >> IFResult 2
+	alert(alert: "${If Result}", title: "ERROR", cancel: false)
+	exit()
+} else {
+	getDictionaryFrom(input: Resultado de la acción Si) >> getDictionaryFrom
+	url(url: "data:text/html,<body/><script>const m=JSON.parse(`${Diccionario}`)
+    let t,k,T={};for(const e of Object.values(m.streams))T[t=e.codec_type]=T[t]?T[t]+1:1,m[k=1==T[t]?t:e.codec_type+T[t]]=e;delete m.streams;document.body.textContent=encodeURIComponent(JSON.stringify(m))</script>") >> URL as Rich text
+	decodeURL(url: "${URL as Rich text.as(RichText)}") >> JavaScript output
+	getDictionaryFrom(input: JavaScript output) >> getDictionaryFrom 1
+var MediaInfo = Diccionario
+	if(ShortcutInput == nil) {
+var 0EB77421-5611-40E2-896C-1048F54B5D84 = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Media Info for "￼.￼"</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css">
+  <style>
+    html{font-size:62.5%;line-height:1.15;-webkit-text-size-adjust:100%}
+    body{color:#222;font-family:"Source Sans Pro", Helvetica, Arial, sans-serif;font-size:1.5em;font-weight:400;line-height:1.6;margin:0}
+    body>div{box-sizing:border-box;margin:0 auto;max-width:960px;position:relative;width:100%}
+    h1{font-size:3.6rem;font-weight:400;letter-spacing:-.1rem;line-height:1.25;margin:2rem 0}
+    td > table{border-collapse:collapse;border-left:0.3em solid #aac;box-sizing:border-box;width:100%;margin-bottom:0.3em}
+    td,th{border-bottom:thin solid lightgray;min-width:6em;padding-left:0.3em}
+    th{text-align:left;vertical-align:text-top;word-break:keep-all;white-space:nowrap}
+    table table th{min-width:12em}
+    td{word-break:break-all;max-width:50%}
+  </style>
+</head>
+<body>
+  <div><h1>Media Info for "￼.￼"</h1><div></div></div>
+  <script>
+    const m=JSON.parse(`￼`)
+    function o2t(t){if("object"==typeof t&&null!==t){let e="<table>";for(const[r,o]of Object.entries(t).sort())e+=`<tr><th>${r}</th><td>${o2t(o)}</td></tr>`;return e+"</table>"}return t}
+    document.querySelector("h1+div").innerHTML = o2t(m)
+  </script>
+</body>
+</html>"""
+text("${0EB77421-5611-40E2-896C-1048F54B5D84}")
+		setName(input: Text, name: "DemoOutput.html") >> setName
+		showWebPage(url: "${Renamed Item}") >> showWebPage
+	} >> IFResult 3
+} >> IFResult 4
+//Unable to get shortcuts action is.workflow.actions.getvariable

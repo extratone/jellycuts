@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: lightBlue, #Icon: rocket
+
+/*
+WHAT TO BUY PLUGIN
+Do not edit anything between this and the next comment box (exept the content of text boxes with what they ask for). Everything between this and the next comment box are essential to keep What to Buy compatibility as they are.You'll write your plugin between the 2nd and 3rd comment boxes of this shortcut. DO NOT ADD ANY UPDATE CHECKERS TO THIS SHORTCUT, OUR MAIN SHORTCUT WILL RUN IT TO YOU.
+If you have any doubts, contact me via my "Contact LNP" shortcut.
+*/
+var Input = ShortcutInput
+text(text: "DELETE THIS TEXT AND ADD YOUR PLUGIN NAME IN HERE") >> Plugin Name
+text(text: "DELETE THIS TEXT AND ADD THE ROUTINEHUB ID OF YOUR PLUGIN IN HERE") >> RH ID
+text(text: "DELETE THIS TEXT AND ADD YOUR PLUGIN VERSION IN HERE") >> Plugin Version
+var 421E6F27-FBA8-495B-8C13-DBFE28081AC7 = """HERE, DELETE THIS TEXT AND WRITE ONE OF THE FOLLOWING TELLING WHAT WE NEED TO DO AFTER YOUR PLUGIN IS RUN. ONLY ADD ONE OF THE UPPERCASE NAMES (NONE, APP, SAVE, NEW)
+• NONE: Just close the shortcut without saving anything
+• APP: Append the "done" variable to the old list
+• SAVE: Save the "done" variable replacing the old list
+• NEW: Save the "done" variable as a new file. The name of the file will be "(EDITED VIA PLUGIN) {old name}""""
+text("${421E6F27-FBA8-495B-8C13-DBFE28081AC7}")
+/*
+ADD YOUR PLUGIN BETWEEN THIS AND THE NEXT COMMENT BOX.
+You must set a variable called "done" with the edited list. 
+We include a "set variable" action in there and it need to be below the thing that you'll save (probably the last action before the next comment box, but it may vary. Test your plugin before publishing it)
+*/
+var done = Method
+// DO NOT CHANGE ANYTHING BELOW THIS COMMENT BOX, THINGS BELOW THIS COMMENT BOX ARE NEEDED TO KEEP COMPATIBILITY WITH WHAT TO BUY.
+dictionary({"Plugin":"${Plugin Name}","Version":"${Plugin Version}","PluginID":"${RH ID}","Method":"${Method}","File":"${done}"})
+var DicPlugReady = Dictionary

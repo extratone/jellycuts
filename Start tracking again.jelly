@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: navy, #Icon: circledPlay
+
+// Starts up a Timery timer from the last-logged event, starting anew from right now.
+// Use this when you take a break and want to get back into a task you were previously tracking.
+//Unable to get shortcuts action com.joehribar.toggl.ContinueTimeEntryIntent

@@ -1,0 +1,35 @@
+import Shortcuts
+#Color: lightBlue, #Icon: chainlink
+
+var Query_URL = ShortcutInput
+// Default settings you wish your expanded URL to be treated with. Choose whichever options you like. Output can be t, m or j. See https://stretchlink.cc for details.
+dictionary({"clean":"true","output":"t","include_title":"false","tidy_amazon":"true"}) >> Default_Parameters
+// Interactive selection. I chose „output format“ as defining character. You can add further changes or additional Menu selection actions - although handling of dictionaries will get more and more complex.
+menu(Stretch link to what format?, [Text, Markdown, JSON]) {
+case("Text"):
+	setValue(key: "output", value: "t", dictionary: Default_Parameters) >> Sel_t
+var Parameterset = Sel_t
+case("Markdown"):
+	setValue(key: "output", value: "m", dictionary: Default_Parameters) >> setValue
+var Parameterset = Wörterbuch
+case("JSON"):
+	setValue(key: "output", value: "j", dictionary: Default_Parameters) >> setValue 1
+	setValue(key: "include_title", value: "wahr", dictionary: Wörterbuch) >> setValue 2
+var Parameterset = Wörterbuch
+} >> MenuResult
+// Final read-out of parameters
+valuesFrom(dictionary: Parameterset) >> clean_setting
+valuesFrom(dictionary: Parameterset) >> Output_setting
+valuesFrom(dictionary: Parameterset) >> Include_title_setting
+valuesFrom(dictionary: Parameterset) >> Amazon_tidy_setting
+// The initial URL gets combined with all parameters.
+text(text: "${Output_setting}&c=${ActionOutput}&o=${Amazon_tidy_setting}&include_title=${ActionOutput}&t=${clean_setting}") >> Query
+// API call
+downloadURL(url: "https://stretchlink.cc/api/1/?url=${Query}") >> downloadURL
+// Treatment of result. I chose to copy to clipboard as this is the most versatile method on iOS. You could also add „preview“ to check the result or append to note.
+setClipboard(variable: Inhalt der URL) >> setClipboard
+/*
+Shortcut by @macseminare@social.tchncs.de
+Version 1.0, Date 24-12-22 (yy-mm-dd)
+*/
+sendNotification(body: "${Inhalt der URL} copied to clipboard", title: "Link stretched!") >> sendNotification

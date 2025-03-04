@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: green, #Icon: textSymbol
+
+var davodtime = CurrentDate
+getTextFrom(input: ShortcutInput) >> getTextFrom
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+saveFile(input: Text, ask: false, path: "${davodtime}.txt") >> saveFile
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetAudioIntent
+playSound(file: Sound)
+exit()

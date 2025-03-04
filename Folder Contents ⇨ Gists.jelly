@@ -1,0 +1,58 @@
+import Shortcuts
+#Color: tangerine, #Icon: folderGear
+
+/*
+Publish multiple drafts from a selected Workspace as individual GitHub Gists.
+
+Example output: https://gist.github.com/extratone/c7d6901a9c27b4b97029316369f9157a
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text(text: "extratone") >> Username
+var ghuser = Username
+text(text: "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") >> Token
+var ghtoken = Token
+text(text: "${ghtoken}:${Variable}") >> text
+encode(input: Text) >> encode
+text(text: "Basic ${Base64 Encoded}") >> Auth
+var auth = Auth
+getFolderContents(folder: Ask) >> getFolderContents
+repeatEach(Contents of Folder) {
+	fileDetail(input: Repeat Item, property: Name) >> fileDetail
+	fileDetail(input: Repeat Item, property: File Extension) >> fileDetail 1
+//Unable to get shortcuts action com.sindresorhus.Actions.TransformTextIntent
+	text(text: "${File Extension}.${ActionOutput}") >> text 1
+var filename = Text
+var raw = Variable
+var desc = Variable
+	url(url: "https://api.github.com/gists") >> url
+	downloadURL(url: "${URL}", method: POST, headers: , requestType: JSON, requestJSON: ) >> downloadURL
+	getDictionaryFrom(input: URL) >> getDictionaryFrom
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+	valueFor(key: "html_url", dictionary: Dictionary) >> valueFor
+	text(text: "- [${filename}](${Variable})") >> text 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: index) >> combineText
+var 0FE2CE09-19E2-4F39-871C-EFA94C034D9B = """# ￼ Index
+
+---
+
+￼"""
+text("${0FE2CE09-19E2-4F39-871C-EFA94C034D9B}")
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/m4a/RingerChanged.m4a") >> url 1
+downloadURL(url: "${URL}") >> downloadURL 1
+playSound(file: Contents of URL)

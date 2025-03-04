@@ -1,0 +1,23 @@
+import Shortcuts
+#Color: blue, #Icon: ellipsis
+
+/*
+Version: 1.0.0
+Author: Stephen Millard
+Website: https://thoughtasylum.com
+
+This shortcut is for use with the Tot action group for Drafts.
+*/
+if(ShortcutInput == "check") {
+// We don’t need to do anything. This should just be a check call by Drafts to ensure this shortcut exists.
+} else {
+	getNumbersFrom(text: ShortcutInput) >> getNumbersFrom
+	getItemFromList(list: Numbers) >> getItemFromList
+	if(Item from List .between 1...7) {
+//Unable to get shortcuts action com.iconfactory.Tot.GetDotIntent
+		output(result: "${Text}")
+	} else {
+		alert(alert: "Invalid specification. The specified dot could not be retrieved.", title: "Error - Dot Ref = ${Item from List}", cancel: false)
+	}
+} >> IFResult
+nothing()

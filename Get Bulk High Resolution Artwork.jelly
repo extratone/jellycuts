@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: navy, #Icon: picture
+
+adjustDate(operation: Subtract, duration: , date: "${CurrentDate}") >> adjustDate
+var Lastweek = Adjusted Date
+//Unable to get shortcuts action br.com.marcosatanaka.music-harbor.GetMusicDataIntent
+repeatEach(Music Details) {
+	downloadURL(url: "${Repeat Item.get(artworkURL)}") >> downloadURL
+	getImagesFrom(input: Contents of URL) >> getImagesFrom
+	saveFile(input: Images, ask: false) >> saveFile
+	saveToCameraRoll(image: Saved File, album: ART) >> saveToCameraRoll
+} >> RepeatResult

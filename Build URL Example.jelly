@@ -1,0 +1,15 @@
+import Shortcuts
+import Toolbox
+#Color: teal, #Icon: shortcuts
+
+/*
+The Build URL and Create Query Item tools let you construct URLs in a safe way.
+
+They’re especially useful conditionally forming URLs to query an API.
+
+The simple example below asks for a search query and then performs a search on Wikipedia.
+*/
+askForInput(prompt: "What would you like to search for?") >> askForInput
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateQueryItemIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.BuildURLIntent
+openURL(url: URL)

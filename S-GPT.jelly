@@ -1,0 +1,282 @@
+import Shortcuts
+#Color: purple, #Icon: brain
+
+// S-GPT is a shortcut to have conversations with OpenAI's ChatGPT assistant on your iPhone, iPad, and Mac. The shortcut supports both text conversations as well as voice interactions when used inside Siri. S-GPT comes with native system integrations on Apple platforms including the ability to process text from your clipboard, summarize text found in photos, export conversations to Files and Finder, and even create playlists in the Music app. The shortcut requires an OpenAI API token and a helper shortcut called S-GPT Encoder that needs to be downloaded separately.
+// Please enter your OpenAI API key to use S-GPT. Make sure to set up a pay-as-you-go Billing method on the OpenAI website before generating an API key.
+text(text: "") >> text
+var APIKey = Text
+/*
+The ChatGPT model to use.
+
+If you have access to it, replace this with gpt-4.
+*/
+text(text: "gpt-3.5-turbo") >> text 1
+var Model = Text
+// Check if a URL was passed.
+if(ShortcutInput != nil) {
+	getType(input: ShortcutInput) >> getType
+	if(Type .contains "Safari") {
+		getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+var A3A02B4C-2191-4D77-A04C-04A6302FD29D = """Please provide a detailed summary of the following webpage:
+
+￼"""
+text("${A3A02B4C-2191-4D77-A04C-04A6302FD29D}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+	}
+} >> IFResult
+var E08CE0C8-7AFF-417B-82D7-9A1EC4BCF68B = """You are S-GPT, a fork of ChatGPT created by Federico Viticci. You have all the capabilities of ChatGPT but you run inside Apple's Shortcuts app and Siri.
+
+Your responses should be informative and clear, but not excessively long. You have to help users quickly.
+
+Users need to be able to listen to your answers in 15 seconds. Never go longer unless I ask you to be more detailed."""
+text("${E08CE0C8-7AFF-417B-82D7-9A1EC4BCF68B}")
+var System = Text
+// Build a series of tips.
+list(items: (
+    "(Tip: you can always type or say \"export chat\" to perform actions or end the conversation.)",
+    "(Tip: try asking \"What is my schedule\" to get some help with your reminders and events.)",
+    "(Tip: you can ask \"I need live text\" to pick a photo and have S-GPT summarize the text found inside the image.)",
+    "(Tip: try asking \"Make me a playlist with the top songs by the members of boygenius\" to have S-GPT intelligently create a playlist in the Music app for you.)",
+    "(Tip: try asking \"Make a playlist with the top 10 songs by Oasis\".)"
+)) >> list
+var Tips = List
+// Check if input is not empty and prompt the user.
+if(User Messages == nil) {
+	getItemFromList(list: Tips, type: Random Item) >> Random Tip
+var 4D8E41E0-9877-47C0-A9E9-0200CCC09B00 = """What do you want to ask ChatGPT?
+
+￼"""
+text("${4D8E41E0-9877-47C0-A9E9-0200CCC09B00}")
+	askForInput(prompt: "${Text}") >> First Request
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> IFResult 1
+// Set a control variable for Playlist mode.
+changeCase(text: First Request, case: lowercase) >> changeCase
+if(Updated Text .contains "playlist") {
+	text(text: "True") >> text 2
+var Playlist = Text
+} else {
+	nothing() >> nothing
+var Playlist = Nothing
+}
+// We need to escape linebreaks and double quotes in JSON. I think it's probably best if we set up a separate list for escaped messages, which we can send in JSON.
+getItemFromList(list: User Messages) >> getItemFromList
+runShortcut(name: "S-GPT Encoder", input: Item from List) >> runShortcut
+text(text: "{"role": "user", "content": "${Shortcut Result}"}") >> text 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+getItemFromList(list: User Messages) >> getItemFromList 1
+downloadURL(url: "https://api.openai.com/v1/chat/completions", method: POST, headers: , requestJSON: ) >> downloadURL
+keysFrom(dictionary: Contents of URL) >> Dictionary Response
+// Special case for Apple Music integration. Stop the shortcut and make a playlist instead.
+if(Playlist != nil) {
+	list(items: (
+    Playlist,
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Dictionary Response";
+                        OutputUUID = "10CBF6FA-D443-4FAF-8B74-5D9F614B45F4";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+	runShortcut(name: "S-GPT Encoder", input: List) >> runShortcut 1
+} else {
+// Show the main response. We're not showing it in playlist mode because another alert is shown.
+	showResult(text: "${Dictionary Response}")
+}
+// Check for URLs.
+list(items: (
+    URL,
+    "HTTP(S)",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Dictionary Response";
+                        OutputUUID = "10CBF6FA-D443-4FAF-8B74-5D9F614B45F4";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 2
+runShortcut(name: "S-GPT Encoder", input: List) >> runShortcut 2
+// Add it to the list of JSON responses from the assistant.
+runShortcut(name: "S-GPT Encoder", input: Dictionary Response) >> runShortcut 3
+text(text: "{"role": "assistant", "content": "${Shortcut Result}"}") >> text 4
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Large number to fake our way around having a long conversation inside Shortcuts.
+number(value: 1000) >> number
+repeat(Number) {
+	getItemFromList(list: Tips, type: Random Item) >> Random Tip
+var 134A34AD-8078-45E4-920C-3EFEDF039F38 = """Want to follow up?
+
+￼"""
+text("${134A34AD-8078-45E4-920C-3EFEDF039F38}")
+	askForInput(prompt: "${Text}") >> askForInput
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	changeCase(text: Provided Input, case: lowercase) >> changeCase 1
+// Check for playlist mode.
+	if(Updated Text .contains "playlist") {
+		text(text: "True") >> text 5
+var Playlist = Text
+	} else {
+		nothing() >> nothing 1
+var Playlist = Nothing
+	}
+// Encode the new user message.
+	runShortcut(name: "S-GPT Encoder", input: Provided Input) >> runShortcut 4
+	text(text: "{"role": "user", "content": "${Shortcut Result}"}") >> text 6
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	getItemFromList(list: User Messages, type: Last Item) >> Latest Request
+// This is where you need to start combining user messages and assistant responses into one JSON object.
+// Count the items
+	count(input: Escaped User Messages) >> count
+/*
+Here, there is a mismatch between user messages and assistant messages. 
+
+Since the user just formulated their latest message, we are WAITING for a response from the assistant. Which means that at this point we have +1 user message compared to assistant messages.
+
+We need to subtract -1 from the total count of user messages.
+*/
+	math(input: Count, operation: -, operand: "1") >> math
+	repeat(Calculation Result) { >> RepeatResult
+// For each message, we are getting the user message and following up to that with an assistant response.
+		getItemFromList(list: Escaped User Messages, type: Item At Index, index: Repeat Index 2) >> User Message
+		getItemFromList(list: Escaped Assistant Messages, type: Item At Index, index: Repeat Index 2) >> Assistant Message
+var 6017FC8B-7161-448C-9B5A-3865742B99D3 = """￼,
+￼,"""
+text("${6017FC8B-7161-448C-9B5A-3865742B99D3}")
+	} >> RepeatResult 1
+// Combine previous messages, then get the latest user message, then join everything together.
+	combineText(text: Repeat Results) >> combineText
+	getItemFromList(list: Escaped User Messages, type: Last Item) >> Latest User Message
+// Escape system message.
+	replaceText(input: "${System}", find: "\"", replace: "\\\"", isRegex: true) >> replaceText
+	replaceText(input: "${Updated Text}", find: "\n", replace: "\\\n", isRegex: true) >> replaceText 1
+var EscapedSystem = Updated Text
+var CF86ED86-12A0-4818-BBEE-D324ADBFB7AD = """{"role": "system", "content": "￼"},
+￼
+￼"""
+text("${CF86ED86-12A0-4818-BBEE-D324ADBFB7AD}")
+var 69D65488-2972-41B5-99EA-B95C3B024E14 = """{
+"model": "￼",
+"messages": [
+￼
+]
+}"""
+text("${69D65488-2972-41B5-99EA-B95C3B024E14}")
+var OngoingChat = Text
+	changeCase(text: Latest User Message, case: lowercase) >> changeCase 2
+	if(Updated Text .contains "export chat") {
+		count(input: User Messages) >> count 1
+		math(input: Count, operation: -, operand: "1") >> math 1
+		repeat(Calculation Result) {
+			getItemFromList(list: User Messages, type: Item At Index, index: Repeat Index 2) >> Question
+			getItemFromList(list: Assistant Messages, type: Item At Index, index: Repeat Index 2) >> Answer
+var 38BAF17B-2E9C-4621-8B4E-7AE55797120D = """**￼**
+
+￼
+"""
+text("${38BAF17B-2E9C-4621-8B4E-7AE55797120D}")
+		} >> RepeatResult 2
+		text(text: "${Repeat Results}") >> text 7
+		menu(S-GPT Actions, [📋 Copy Latest Response, 📁 Save Latest Response to Text File, 📋↕️ Copy Full Chat, 📁↕️ Save Full Chat to Text File, 👁️↕️ Preview Full Chat, 💬↕️ Translate Full Chat, ❌ Stop S-GPT]) {
+		case("📋 Copy Latest Response"):
+			getItemFromList(list: Assistant Messages, type: Last Item) >> Latest Response
+			setClipboard(variable: Latest Response) >> setClipboard
+		case("📁 Save Latest Response to Text File"):
+			getItemFromList(list: Assistant Messages, type: Last Item) >> getItemFromList 2
+			text(text: "${Item from List}") >> text 8
+			setName(input: Text, name: "${CurrentDate}.md") >> setName
+			saveFile(input: Renamed Item, ask: false) >> saveFile
+			showResult(text: "File saved.")
+		case("📋↕️ Copy Full Chat"):
+			setClipboard(variable: Text) >> setClipboard 1
+		case("📁↕️ Save Full Chat to Text File"):
+			setName(input: Text, name: "${CurrentDate}.md") >> setName 1
+			saveFile(input: Renamed Item, ask: false) >> saveFile 1
+			showResult(text: "File saved.")
+		case("👁️↕️ Preview Full Chat"):
+			quicklook(input: Text)
+		case("💬↕️ Translate Full Chat"):
+			translateText(text: "${Text}", to: Ask) >> translateText
+			quicklook(input: Translated Text)
+		case("❌ Stop S-GPT"):
+			exit()
+		}
+		exit()
+	} else {
+// Perform another request
+		downloadURL(url: "https://api.openai.com/v1/chat/completions", method: POST, headers: , requestType: File, requestJSON: , requestVar: Ongoing Chat) >> downloadURL 1
+		keysFrom(dictionary: Contents of URL) >> keysFrom
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		if(Playlist != nil) {
+			list(items: (
+    Playlist,
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Dictionary Value";
+                        OutputUUID = "B6BC9956-5BB2-45EB-8D9F-BAFA293592F5";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 3
+			runShortcut(name: "S-GPT Encoder", input: List) >> runShortcut 5
+		} else {
+// Load the assistant response.
+			showResult(text: "${Dictionary Value}")
+		}
+// Check if the output contains links and offer to open them
+		list(items: (
+    URL,
+    "HTTP(S)",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Dictionary Value";
+                        OutputUUID = "B6BC9956-5BB2-45EB-8D9F-BAFA293592F5";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 4
+		runShortcut(name: "S-GPT Encoder", input: List) >> runShortcut 6
+// Escape the assistant response and continue the loop.
+		runShortcut(name: "S-GPT Encoder", input: Dictionary Value) >> runShortcut 7
+		text(text: "{"role": "assistant", "content": "${Shortcut Result}"}") >> text 9
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	}
+}

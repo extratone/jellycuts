@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: red, #Icon: shortcuts
+
+// Sets a variable called input to the Shortcuts Input
+var input = ShortcutInput
+quicklook(input)
+
+// Sends the user a notification containing their current clipboard
+sendNotification(body: "${Clipboard}", title: "Clipboard", sound: false, attachment: Clipboard)

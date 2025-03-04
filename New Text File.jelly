@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: green, #Icon: documentOutline
+
+// Quickly save a new text file anywhere in Files.
+date(date: "${CurrentDate}") >> date
+formatDate(date: "${Date}", dStyle: Custom, custom: "yyyy-MM-dd 'at' HH-mm-ss") >> formatDate
+text(text: "${Ask}") >> text
+setName(input: Text, name: "${Formatted Date}.md") >> setName
+saveFile(input: Renamed Item, ask: false) >> saveFile

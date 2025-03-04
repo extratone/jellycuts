@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: grayGreen, #Icon: clipboard
+
+// Asks you to pick a shortcut from a folder and places that name in the correct AppleScript for running the shortcut in the background.
+// Use this shortcut to quickly generate the AppleScript code for running a shortcut – works well for pasting into Stream Deck plugins or other Mac apps that can run AppleScripts.
+getShortcuts() >> getShortcuts
+choose(list: My Shortcuts) >> choose
+var 310862E5-1BB7-4F41-86A5-BD18C39DEFB4 = """tell application "Shortcuts Events"
+	run shortcut "￼"
+end tell"""
+text("${310862E5-1BB7-4F41-86A5-BD18C39DEFB4}")
+setClipboard(variable: Text) >> setClipboard

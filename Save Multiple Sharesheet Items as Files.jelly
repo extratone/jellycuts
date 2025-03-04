@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: lightBlue, #Icon: Connected
+
+createFolder(path: "${Ask}") >> createFolder
+repeatEach(ShortcutInput) { >> RepeatResult
+	saveFile(input: Repeat Item, ask: false) >> saveFile
+}

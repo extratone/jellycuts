@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: blue, #Icon: bookmark
+
+// This shortcut assumes you’ve used Safari 15’s “copy links” feature to copy the rich text links of your open tabs to the clipboard. It saves a rich text file of said links to the root of your iCloud drive folder before extracting said links in markdown and adding them to a Data Jar list entitled “tabs” by default.
+getClipboard() >> getClipboard
+getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+splitText(text: URLs) >> splitText
+repeatEach(Split Text) {
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+} >> RepeatResult

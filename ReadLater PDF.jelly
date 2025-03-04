@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: navy, #Icon: bookmark
+
+// Once you’ve collected several PDFs in iCloud Drive (I’ve used a sub folder of the Shortcuts app folder called ReadLater Inbox), run ReadLater PDF to combine them into a single, two-column, newspaper-style read later PDF. The shortcut will save the resulting combined PDF in a separate ReadLater folder, from which it can be read by any PDF app with access to iCloud Drive. Finally, the shortcut will prompt you to delete the PDFs from the ReadLater Inbox so you can start fresh collecting new stories to combine into a future combined PDF.
+selectFile() >> selectFile
+createPDF(input: File) >> createPDF
+askForInput(prompt: "Send to Apple Books?", default: Yes) >> askForInput
+if(Provided Input == "Yes") {
+//Unable to get shortcuts action com.apple.iBooks.openin
+} else {
+	saveFile(input: PDF, ask: false, path: "ReadLater") >> saveFile
+} >> IFResult
+deleteFile(input: File)

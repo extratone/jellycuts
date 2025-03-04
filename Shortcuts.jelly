@@ -1,0 +1,114 @@
+import Shortcuts
+#Color: grayGreen, #Icon: shortcuts
+
+/*
+Multitool for managing Shortcuts, including:
+• Researching from the User Guide, the Gallery, and MacStories
+• Opening Shortcuts, running shortcuts, and editing shortcuts
+• Listing your shortcuts, folder names, or generating iCloud links
+• Checking your Shortcuts stats
+• Generating deep links back into Shortcuts
+*/
+// I keep this in my dock to make it easier to manage Shortcuts, access specific parts of the app later, and process the information contained in my large library of shortcuts.
+menu(What do you want to do?, [Open User Guide, Open the Gallery, Open Shortcuts, Run a shortcut, Edit a shortcut, List folder names, List shortcut names, Share a shortcut link, Check my shortcuts stats, Make a “Run Shortcut” deep link, Make an “Edit Shortcut” deep link, Open the MacStories review, Open Shortcuts settings]) {
+case("Open User Guide"):
+	showWebPage(url: "https://support.apple.com/guide/shortcuts/welcome/ios")
+case("Open the Gallery"):
+	url(url: "shortcuts://gallery") >> url
+	openURL(url: URL)
+case("Open Shortcuts"):
+	openApp(id: "com.apple.shortcuts")
+case("Run a shortcut"):
+	getShortcuts() >> getShortcuts
+	choose(list: My Shortcuts, prompt: "Which shortcut?") >> choose
+	runShortcut(name: Chosen Item, input: Chosen Item) >> runShortcut
+case("Edit a shortcut"):
+	getShortcuts() >> getShortcuts 1
+	choose(list: My Shortcuts, prompt: "Which shortcut?") >> choose 1
+	openShortcut(name: Chosen Item)
+case("List folder names"):
+	getShortcuts() >> getShortcuts 2
+	text(text: "${My Shortcuts.get(Folder)}") >> text
+	splitText(text: Text) >> splitText
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.RemoveDuplicatesIntent
+	combineText(text: De-duplicated List) >> combineText
+	setClipboard(variable: Combined Text)
+case("List shortcut names"):
+	getShortcuts() >> getShortcuts 3
+	combineText(text: My Shortcuts) >> combineText 1
+	setClipboard(variable: Combined Text) >> setClipboard
+case("Share a shortcut link"):
+	getShortcuts() >> getShortcuts 4
+	choose(list: My Shortcuts, prompt: "Which shortcut would you like to share?", multiple: true) >> choose 2
+	getFileLink(file: Chosen Item) >> getFileLink
+	repeatEach(Link to File) {
+		splitText(text: Repeat Item, separator: Custom, customSeparator: "/") >> splitText 1
+		getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+		url(url: "https://www.icloud.com/shortcuts/api/records/${Item from List}") >> url 1
+		downloadURL(url: "${URL}") >> downloadURL
+		getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+		keysFrom(dictionary: Dictionary) >> keysFrom
+		setName(input: Repeat Item, name: "${Dictionary Value}") >> setName
+	} >> RepeatResult
+	menu(How do you want to share?, [Plain text, Rich text, Markdown, Tabbed]) {
+	case("Plain text"):
+		repeatEach(Repeat Results) {
+			text(text: "${Repeat Item.get(Name)}: ${Variable.get(Name)}") >> text 1
+		}
+	case("Rich text"):
+		repeatEach(Repeat Results) {
+			text(text: "[${Repeat Item}](${Variable})")
+		} >> RepeatResult 1
+		richTextFromMarkdown(markdown: Repeat Results) >> richTextFromMarkdown
+	case("Markdown"):
+		repeatEach(Repeat Results) {
+			text(text: "[${Repeat Item}](${Variable})")
+		} >> RepeatResult 2
+	case("Tabbed"):
+		repeatEach(Repeat Results) {
+			text(text: "${Repeat Item.get(Name)}		${Variable.get(Name)}") >> text 2
+// Includes two “Tabs” for pasting into spreadsheets
+		} >> RepeatResult 3
+	} >> MenuResult
+	combineText(text: Menu Result) >> combineText 2
+	setClipboard(variable: Combined Text) >> setClipboard 1
+case("Check my shortcuts stats"):
+	runShortcut(name: "Check my shortcuts stats") >> runShortcut 1
+case("Make a “Run Shortcut” deep link"):
+	menu(How do you want to choose the shortcut to use in your Run Shortcut link?, [Enter names, Add from clipboard, Choose from my shortcuts]) {
+	case("Enter names"):
+		continueInShortcuts()
+		askForInput(prompt: "What're the titles of the shortcuts?") >> askForInput
+		splitText(text: Provided Input)
+	case("Add from clipboard"):
+		getClipboard() >> getClipboard
+		splitText(text: Clipboard)
+	case("Choose from my shortcuts"):
+		continueInShortcuts()
+		getShortcuts() >> getShortcuts 5
+		filterFiles() >> filterFiles
+		choose(list: Files, multiple: true) >> choose 3
+		repeatEach(Chosen Item) {
+			getName() >> getName
+		} >> RepeatResult 4
+	} >> MenuResult 1
+	repeatEach(Menu Result) {
+		url(url: "shortcuts://run-shortcut?name=${Repeat Item}") >> url 2
+	} >> RepeatResult 5
+	combineText(text: Repeat Results) >> combineText 3
+	setClipboard(variable: Combined Text)
+case("Make an “Edit Shortcut” deep link"):
+	askForInput(prompt: "What're the titles of the shortcuts? (Enter on new lines)") >> askForInput 1
+	splitText(text: Provided Input) >> splitText 2
+	repeatEach(Split Text) {
+		encodeURL(url: "${Repeat Item}") >> encodeURL
+		url(url: "shortcuts://run-shortcut?name=${URL Encoded Text}") >> url 3
+		openURL(url: URL)
+	} >> RepeatResult 6
+	setClipboard(variable: Repeat Results)
+case("Open the MacStories review"):
+	showWebPage(url: "https://www.macstories.net/stories/ios-and-ipados-14-the-macstories-review/14/")
+case("Open Shortcuts settings"):
+	url(url: "prefs:root=SHORTCUTS") >> url 4
+	openURL(url: URL)
+} >> MenuResult 2

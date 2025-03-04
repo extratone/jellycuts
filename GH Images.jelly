@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: grayBlue, #Icon: shrinkArrow
+
+getClipboard() >> getClipboard
+getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+filterFiles() >> filterFiles
+repeatEach(Files) {
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+} >> RepeatResult

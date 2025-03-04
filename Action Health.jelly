@@ -1,0 +1,209 @@
+import Shortcuts
+#Color: tangerine, #Icon: personRunningCircle
+
+/*
+This shortcut is intended to work with the Apple Watch Ultra's Action Button. Start a Workout or Log your weight, water, or caffeine.
+
+This can also be added as a complication on compatible watch faces for other Apple Watches
+
+Created by Tim Nahumck
+*/
+menu(What do you want to do?, [Start a Workout , Log Weight , Log Water, Log Caffeine]) {
+case("Start a Workout "):
+/*
+This is set during the install.
+
+You can also add or subtract from this text list for your individual preferences. Add workouts by adding the name for the individual workout (example "Outdoor Run") as a new item in the list. You can also reorder the lines of text for your most frequent workouts to be listed first.
+
+List of workouts available at the time of creation (as of iOS 16.4 / watchOS 9.4):
+American Football
+Archery
+Australian Football
+Badminton
+Barre
+Baseball
+Basketball
+Bowling
+Boxing
+Climbing
+Cooldown
+Core Training
+Cricket
+Cross Country Skiing
+Cross Training
+Curling
+Dance
+Disc Sports
+Downhill Skiing
+Elliptical
+Equestrian Sports
+Fencing
+Fishing
+Fitness Gaming
+Flexibility
+Functional Strength Training
+Golf
+Gymnastics
+Hand Cycling
+Handball
+High Intensity Interval Trainingth 
+Hiking
+Hockey
+Hunting
+Indoor Cycle
+Indoor Run
+Indoor Walk
+Jump Rope
+Kickboxing
+Lacrosse
+Martial Arts
+Mind & Body
+Mixed Cardio
+Multisport
+Open Water Swim
+Other
+Outdoor Cycle
+Outdoor Run
+Outdoor Walk
+Paddling
+Pickleball
+Pilates
+Play
+Pool Swim
+Racquetball
+Rolling
+Rower
+Rugby
+Sailing
+Skating
+Snow Sports
+Snowboarding
+Soccer
+Social Dance
+Softball
+Squash
+Stair Stepper
+Stairs
+Step Training
+Surfing
+Table Tennis
+Tai Chi
+Tennis
+Track & Field
+Traditional Strength Training
+Volleyball
+Water Fitness
+Water Polo
+Water Sports
+Wrestling
+Yoga
+*/
+	list(items: (
+    "American Football",
+    Baseball,
+    Basketball,
+    Boxing,
+    Climbing,
+    Cooldown,
+    "Core Training",
+    "Cross Training",
+    Curling,
+    "Disc Sports",
+    Elliptical,
+    Flexibility,
+    "Functional Strength Training",
+    Golf,
+    Gymnastics,
+    "High Intensity Interval Training",
+    Hiking,
+    Hockey,
+    "Indoor Cycle",
+    "Indoor Run",
+    "Indoor Walk",
+    Kickboxing,
+    "Martial Arts",
+    "Mind & Body",
+    "Mixed Cardio",
+    Multisport,
+    "Open Water Swim",
+    Other,
+    "Outdoor Cycle",
+    "Outdoor Run",
+    "Outdoor Walk",
+    Paddling,
+    Pickleball,
+    Pilates,
+    "Pool Swim",
+    Racquetball,
+    Rower,
+    Skating,
+    "Snow Sports",
+    Soccer,
+    Softball,
+    "Stair Stepper",
+    Surfing,
+    Tennis,
+    "Track & Field",
+    "Traditional Strength Training",
+    Volleyball,
+    "Water Sports",
+    Wrestling,
+    Yoga
+)) >> list
+	choose(list: List) >> Workout Choice
+	startWorkout() >> startWorkout
+case("Log Weight "):
+// Change the units in the Log Health Sample action step.
+	askForInput(prompt: "Enter your weight (in lbs)", type: Number, allowNegative: false) >> Weight Input
+//Unable to get shortcuts action is.workflow.actions.health.quantity.log
+	output(result: "${Health Sample}") >> output
+case("Log Water"):
+// The numbers below are in fl oz. If another unit is desired, first select the unit in the Log Health Sample action step below, then modify the list below with the most common standard amounts.
+	list(items: (
+    8,
+    12,
+    14,
+    16,
+    20,
+    "Enter amount"
+)) >> list 1
+	choose(list: List, prompt: "How many ounces of water did you drink?", multiple: false) >> Water Menu
+	if(Water Menu == "Enter amount") {
+		askForInput(prompt: "How many ounces do you want to log? ", type: Number) >> askForInput
+	} else {
+	} >> Water Intake
+//Unable to get shortcuts action is.workflow.actions.health.quantity.log
+case("Log Caffeine"):
+// Caffiene amounts listed are for common drinks. Please refer to any nutritional information for the most accurate caffeine amount for what you are drinking.
+	menu(What did you drink?, [Coffee, Cappuccino, Espresso]) {
+	case("Coffee"):
+		menu(What size?, [8 oz, 12 oz, 16 oz, 20 oz]) {
+		case("8 oz"):
+			number(value: 90)
+		case("12 oz"):
+			number(value: 135)
+		case("16 oz"):
+			number(value: 180)
+		case("20 oz"):
+			number(value: 225)
+		}
+	case("Cappuccino"):
+		menu(What size?, [Single, Double]) {
+		case("Single"):
+			number(value: 75)
+		case("Double"):
+			number(value: 150)
+		}
+	case("Espresso"):
+		menu(What size?, [Single, Double]) {
+		case("Single"):
+			number(value: 75)
+		case("Double"):
+			number(value: 150) >> number
+		} >> MenuResult
+	} >> CaffeineMG
+	if(CaffeineMG > false) {
+//Unable to get shortcuts action is.workflow.actions.health.quantity.log
+	} else {
+	}
+} >> MenuResult 1

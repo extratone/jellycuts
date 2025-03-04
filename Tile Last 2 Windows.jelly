@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: grape, #Icon: rectangleSplit
+
+findWindows() >> findWindows
+getItemFromList(list: Windows) >> getItemFromList
+resizeWindow(window: Item from List, config: Left Half)
+getItemFromList(list: Windows, type: Last Item, index: "2") >> getItemFromList 1
+resizeWindow(window: Item from List, config: Right Half)

@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: grayBlue, #Icon: boxFilled
+
+selectFile(multiple: true) >> selectFile
+makeArchive(input: File, type: tar) >> makeArchive
+saveFile(input: Archive, ask: false, path: "${CurrentDate}.tar", overwrite: true) >> saveFile
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.TagFilesIntent
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

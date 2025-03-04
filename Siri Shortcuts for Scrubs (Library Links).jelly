@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: orange, #Icon: memoji
+
+/*
+Displays links to my Siri Shorcuts for Scrubs Library. See it on the web here: https://github.com/extratone/bilge/wiki/David-Blue’s-WORLD-FAMOUS-Fast-n’-Loose™-Siri-Shortcuts-for-𝚂𝙲𝚁𝚄𝙱𝚂
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+url(url: "https://raw.githubusercontent.com/extratone/i/main/shortcuts/scrubs.md") >> url
+downloadURL(url: "${URL}") >> downloadURL
+richTextFromMarkdown(markdown: Contents of URL) >> richTextFromMarkdown
+quicklook(input: Rich Text from Markdown)

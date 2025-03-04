@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: grape, #Icon: feed
+
+url(url: "https://apple.news/TqT-jfrI0QXaYqGoz68HYeQ") >> url
+openURL(url: URL)

@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: grayBlue, #Icon: Shortcuts
+
+downloadURL(url: "${ShortcutInput}") >> downloadURL
+var Content = Contents of URL
+markdownFromRich(text: Content) >> Markdown Preview
+//Unable to get shortcuts action com.sindresorhus.Actions.TruncateTextIntent
+alert(alert: "${Truncated Text}")
+setClipboard(variable: Markdown Preview) >> setClipboard
+//Unable to get shortcuts action com.ulyssesapp.ios.ULNewSheetIntent
+output(result: "${Created Sheet}", noResultBehavior: Do Nothing, response: "${Created Sheet}") >> output

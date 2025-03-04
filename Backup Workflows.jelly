@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+date()
+formatDate(dStyle: Custom, custom: "yyyy-MM-dd-HH-mm-ss")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+getShortcuts()
+makeArchive()
+//Unable to get shortcuts action is.workflow.actions.dropbox.save

@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: loadingIndicatorAlt
+
+getLastScreenshot(count: true) >> getLastScreenshot
+airdrop(file: Latest Screenshots)

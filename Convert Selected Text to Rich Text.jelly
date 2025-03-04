@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: grayBlue, #Icon: gear
+
+// Convert selected Markdown text in any text editor to rich text and replace the selection in the editor.
+richTextFromMarkdown(markdown: ShortcutInput) >> richTextFromMarkdown
+output(result: "${Rich Text from Markdown}", noResultBehavior: Copy to Clipboard, response: "${Rich Text from Markdown}")

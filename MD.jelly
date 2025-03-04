@@ -1,0 +1,7 @@
+import Shortcuts 1092.9.13.2
+#Color: Red,#Icon: arrowcurvedright
+
+pageDetail(detail: Name, webpage: Shortcut Input) >> pageDetail
+pageDetail(detail: Page URL, webpage: Shortcut Input) >> pageDetail
+text(text: "[${Name}](${ActionOutput})") >> text
+setClipboard(variable: Text)

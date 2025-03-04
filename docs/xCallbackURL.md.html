@@ -1,0 +1,6 @@
+<h1 id="open-x-callback-url">Open X-Callback URL</h1>
+<h2 id="notes">Notes</h2>
+<p>Run an x-callback URL. ## Syntax</p>
+<pre><code>xCallbackURL(url: &lt;#String (Allows Variables)#&gt;, custom: &lt;#Boolean#&gt;, success: &lt;#String (Allows Variables)#&gt;, cancel: &lt;#String (Allows Variables)#&gt;, error: &lt;#String (Allows Variables)#&gt;, customXSuccess: &lt;#Boolean#&gt;, xSuccess: &lt;#String (Allows Variables)#&gt;)</code></pre>
+<h2 id="example">Example</h2>
+<pre><code>xCallbackURL(url: &quot;shortcuts://x-callback-url/run-shortcut?name=Calculate%20Tip&amp;input=text&amp;text=24.99.&quot;, custom: true, success: &quot;x-success&quot;, cancel: &quot;x-cancel&quot;, error: &quot;x-error&quot;, customXSuccess: false, xSuccess: &quot;shortcuts://callback&quot;)</code></pre>

@@ -1,0 +1,24 @@
+import Shortcuts
+#Color: Red, #Icon: folderGear
+
+// Backup your shorctuts choosing from a variety of filters.
+file(file: $0) >> file
+menu(Shortcut Exporter Pro Actions, [ 🗄 Backup All Shortcuts, 🗂 Backup by Folder, 🔠 Backup by Name, 🗓 Backup by Date]) {
+case(" 🗄 Backup All Shortcuts"):
+	getShortcuts() >> getShortcuts
+var ShortcutBackup = My Shortcuts
+case("🗂 Backup by Folder"):
+	getShortcuts() >> getShortcuts 1
+var ShortcutBackup = My Shortcuts
+case("🔠 Backup by Name"):
+	askForInput(prompt: "Filter Shortcuts by Name") >> askForInput
+	getShortcuts() >> getShortcuts 2
+	filterFiles() >> filterFiles
+var ShortcutBackup = Files
+case("🗓 Backup by Date"):
+	askForInput(prompt: "How many months of shortcuts do you want to back up? (Your shortcuts will be sorted by Last Modified.)", type: Number) >> askForInput 1
+	getShortcuts() >> getShortcuts 3
+	filterFiles() >> filterFiles 1
+var ShortcutBackup = Files
+} >> MenuResult
+saveFile(input: Shortcut Backup, ask: false) >> saveFile

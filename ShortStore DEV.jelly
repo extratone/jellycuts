@@ -1,0 +1,205 @@
+import Shortcuts
+#Color: orange, #Icon: handbag
+
+getFile(path: "ShortStoreDEV/Key.json", error: false) >> getFile
+if(File == nil) { >> IFResult
+var B04B4778-5F29-43B7-B47D-C98D24DA5A78 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Create an account;;;;
+ORG;CHARSET=utf-8:Create a ShortStore Dev Account;
+PHOTO;ENCODING=b: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Login to an existing account;;;;
+ORG;CHARSET=utf-8:Login to a ShortStore Dev Account;
+PHOTO;ENCODING=b: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
+END:VCARD"""
+text("${B04B4778-5F29-43B7-B47D-C98D24DA5A78}")
+	setName(input: Text, name: "Login.vcf") >> setName
+	choose(list: Renamed Item, prompt: "What do you want to do?") >> choose
+	if(Chosen Item == "Create an account") {
+		askForInput(prompt: "Please enter a username") >> askForInput
+		encodeURL(url: "${Provided Input}") >> encodeURL
+		askForInput(prompt: "Please enter a very secure password.") >> askForInput 1
+		encodeURL(url: "${Provided Input}") >> encodeURL 1
+		downloadURL(url: "https://shortstore.glitch.me/signup?username=${URL Encoded Text}&password=${ActionOutput}") >> downloadURL
+		if(Contents of URL == "Logged in!") {
+			decode(input: Provided Input) >> decode
+			dictionary({"Username":"${Provided Input}","Password":"${Base64 Encoded}"})
+			saveFile(input: Dictionary, ask: false, path: "/ShortStoreDEV/Key.json", overwrite: true) >> saveFile
+		} else {
+			alert(alert: "${Contents of URL}", title: "Error", cancel: false)
+		} >> IFResult 1
+	} else {
+		askForInput(prompt: "Please enter your username") >> askForInput 2
+		encodeURL(url: "${Provided Input}") >> encodeURL 2
+		askForInput(prompt: "Please enter your password") >> askForInput 3
+		encodeURL(url: "${Provided Input}") >> encodeURL 3
+		downloadURL(url: "https://shortstore.glitch.me/login?username=${URL Encoded Text}&password=${ActionOutput}") >> downloadURL 1
+		keysFrom(dictionary: Contents of URL) >> keysFrom
+		if(Dictionary Value == "Logged in!") {
+			decode(input: Provided Input) >> decode 1
+			dictionary({"Username":"${Provided Input}","Password":"${Base64 Encoded}"})
+			saveFile(input: Dictionary, ask: false, path: "/ShortStoreDEV/Key.json", overwrite: true) >> saveFile 1
+		} else {
+			alert(alert: "${Contents of URL.as(Text)}", title: "Error", cancel: false)
+		}
+	} >> IFResult 2
+	runShortcut(name: "RoutineDub", input: Saved File) >> runShortcut
+	exit()
+} else {
+} >> IFResult 3
+decode(input: File) >> decode 2
+text(text: "username=${Base64 Encoded}&password=${ActionOutput}") >> text
+var Api = Text
+url(url: "https://shortstore.theuser11.repl.co/login?${Api}") >> url
+downloadURL(url: "${URL}") >> downloadURL 2
+getTextFrom(input: Contents of URL) >> getTextFrom
+getDictionaryFrom(input: Text) >> getDictionaryFrom
+keysFrom(dictionary: Dictionary) >> keysFrom 1
+count(type: Items, input: Dictionary Value) >> count
+if(Count == 0) {
+var B500151B-0E6D-46CA-9A55-29E91ADBA73E = """Hi there, ￼!
+
+You haven't published any shortcuts. Why not publish some shortcuts?"""
+text("${B500151B-0E6D-46CA-9A55-29E91ADBA73E}")
+} else {
+	repeatEach(Dictionary Value) {
+		keysFrom(dictionary: Repeat Item) >> keysFrom 2
+		if(Downloads == nil) {
+			number(value: 0) >> number
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+		} >> IFResult 4
+		math(input: Dictionary Value, operand: Downloads) >> math
+var Downloads = Calculation Result
+	} >> RepeatResult
+var 6395F1AA-ECFD-41E3-A0C3-4AE63D928095 = """Hi there, ￼!
+
+Downloads: ￼
+Shortcuts: ￼"""
+text("${6395F1AA-ECFD-41E3-A0C3-4AE63D928095}")
+} >> IFResult 5
+menu(, [Add Shortcut, Publish an update, Delete a shortcut, Check for update]) {
+case("Add Shortcut"):
+	askForInput(prompt: "What is the name of your shortcut?") >> askForInput 4
+	encodeURL(url: "${Provided Input}") >> encodeURL 4
+	askForInput(prompt: "What are short notes of your shortcut? Something that sums up your shortcut. Cannot be over 500 characters.") >> askForInput 5
+	encodeURL(url: "${Provided Input}") >> encodeURL 5
+	askForInput(prompt: "Now the full notes of your shortcut. Cannot be over 1000 characters.") >> askForInput 6
+	encodeURL(url: "${Provided Input}") >> encodeURL 6
+	askForInput(prompt: "What is the version of this shortcut?") >> askForInput 7
+	encodeURL(url: "${Provided Input}") >> encodeURL 7
+	askForInput(prompt: "Please enter the link of your shortcut.") >> askForInput 8
+	encodeURL(url: "${Provided Input}") >> encodeURL 8
+	askForInput(prompt: "What are the notes of this version of your shortcut?") >> askForInput 9
+	encodeURL(url: "${Provided Input}") >> encodeURL 9
+	downloadURL(url: "https://shortstore.theuser11.repl.co/addshortcut?${URL Encoded Text}&shortcutname=${ActionOutput}&notes=${Api}&shortnotes=${Variable}&version=${URL Encoded Text}&versionnotes=${ActionOutput}&icloudlink=${URL Encoded Text}") >> downloadURL 3
+	keysFrom(dictionary: Contents of URL) >> keysFrom 3
+	if(Dictionary Value == "Your shortcut was published!") {
+		alert(alert: "Your shortcut was published! It's id is ${Contents of URL.as(Dictionary).key(id)}.")
+		runShortcut(name: "ShortStore DEV") >> runShortcut 1
+		exit()
+	} else {
+		alert(alert: "${Contents of URL}", title: "Error", cancel: false)
+		exit()
+	} >> IFResult 6
+case("Publish an update"):
+	downloadURL(url: "https://shortstore.theuser11.repl.co/login?${Api}") >> downloadURL 4
+	getTextFrom(input: Contents of URL) >> getTextFrom 1
+	keysFrom(dictionary: Text) >> keysFrom 4
+	if(Dictionary Value == "Logged in!") {
+		if(Contents of URL != nil) {
+		} else {
+			alert(alert: "You do not have any published shortcuts.")
+			exit()
+		} >> IFResult 7
+		repeatEach(Contents of URL) {
+			setName(input: Repeat Item, name: "Shortcut.txt") >> setName 1
+			keysFrom(dictionary: Repeat Item) >> keysFrom 5
+			if(Shortcuts == nil) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				dictionary({"name":"${Dictionary Value}","id":"${Repeat Item.as(Dictionary).key(id)}"})
+var ShortcutInfo = Dictionary
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				dictionary({"name":"${Dictionary Value}","id":"${Repeat Item.as(Dictionary).key(id)}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> IFResult 8
+		} >> RepeatResult 1
+		choose(list: Shortcuts, prompt: "Choose the shortcut you want to update.") >> choose 1
+		repeatEach(Shortcut Info) {
+			keysFrom(dictionary: Repeat Item) >> keysFrom 6
+			if(Dictionary Value == ""${Chosen Item}"") {
+				keysFrom(dictionary: Repeat Item) >> keysFrom 7
+var id = Dictionary Value
+			} else {
+			} >> IFResult 9
+			quicklook(input: Dictionary Value)
+		} >> RepeatResult 2
+		askForInput(prompt: "Enter the iCloud link.", default: "${Clipboard}") >> askForInput 10
+		askForInput(prompt: "What is the version number?", type: Text, allowNegative: false) >> askForInput 11
+		askForInput(prompt: "What’s new in version ${Provided Input}?") >> askForInput 12
+		url(url: "http://shortstore.theuser11.repl.co/updateshortcut?${Provided Input}&notes=${ActionOutput}&version=${Provided Input}&icloudlink=${ActionOutput}&id=${Provided Input}") >> url 1
+		downloadURL(url: "${URL}", method: POST, requestType: Form) >> downloadURL 5
+		if(Contents of URL == "Your shortcut was updated!") {
+			alert(alert: "Version ${Provided Input} has been published.")
+		} else {
+			alert(alert: "${Contents of URL.as(Text)}", title: "Error", cancel: false)
+		} >> IFResult 10
+	} >> MenuResult
+case("Delete a shortcut"):
+	if(Count == 0) {
+		alert(alert: "You don't have any shortcuts to delete.")
+		exit()
+	} >> IFResult 11
+	repeatEach(Dictionary Value) {
+		keysFrom(dictionary: Repeat Item) >> keysFrom 8
+		keysFrom(dictionary: Repeat Item) >> keysFrom 9
+		if(Shortcuts == nil) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			dictionary({"name":"${Dictionary Value}","id":"${Dictionary Value}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			dictionary({"name":"${Dictionary Value}","id":"${Dictionary Value}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> IFResult 12
+	} >> RepeatResult 3
+	choose(list: Shortcuts) >> choose 2
+	repeatEach(Shortcut Info) {
+		keysFrom(dictionary: Repeat Item) >> keysFrom 10
+		if(Dictionary Value == ""${Chosen Item}"") {
+var id = Variable
+		} >> IFResult 13
+	} >> RepeatResult 4
+	alert(alert: "Are you sure about this?.")
+	alert(alert: "There is no turning back.")
+	sendNotification(body: "You asked for this...
+") >> sendNotification
+	downloadURL(url: "https://shortstore.theuser11.repl.co/deleteshortcut?${id}&id=${Variable}") >> downloadURL 6
+	if(Contents of URL == "Deleted shortcut!") {
+		alert(alert: "Shortcut was deleted. :(")
+	} else {
+		alert(alert: "${Contents of URL}", title: "Error", cancel: false)
+	} >> IFResult 14
+	exit()
+case("Check for update"):
+	getShortcuts() >> getShortcuts
+	if(My Shortcuts .contains "Lightning Updater") {
+		dictionary({"Name":"ShortStore DEV","Version":"1.1.1","RH ID":"11630"})
+		runShortcut(name: "Hey! Updater", input: Dictionary) >> runShortcut 2
+		if(Shortcut Result == "{"update":false}") {
+			alert(alert: "You are up to date.")
+		} else {
+			sendNotification(body: "Downloading...", attachment: Shortcut Result) >> sendNotification 1
+			exit()
+		} >> IFResult 15
+	} else {
+		alert(alert: "You do not have Lightning Updater.")
+		openURL(url: "https://routinehub.co/shortcut/11308/")
+		exit()
+	} >> IFResult 16
+} >> IFResult 17

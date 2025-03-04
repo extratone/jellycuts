@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: tangerine, #Icon: checklist
+
+url(url: "https://extratone.github.io/table/") >> url
+//Unable to get shortcuts action com.microsoft.msedge.OpenInChromeIntent

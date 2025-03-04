@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: Red, #Icon: recycle
+
+// Convert a rich text selection from a Safari webpage to Markdown and copy the cleaned-up rich text to the clipboard. The rich text will retain basic formatting with elements such as bold, italics, and hyperlinks. The shortcut needs to run as an extension in Safari.
+pageDetail(detail: Page Selection, webpage: ShortcutInput) >> pageDetail
+markdownFromRich(text: Page Selection) >> markdownFromRich
+richTextFromMarkdown(markdown: Markdown from Rich Text) >> richTextFromMarkdown
+setClipboard(variable: Rich Text from Markdown)
+alert(alert: "${Clipboard}", title: "Selection Converted and Copied", cancel: false)

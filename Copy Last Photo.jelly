@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: Red, #Icon: livePhoto
+
+// Copy the latest image from the Photos app to the clipboard.
+getLastPhoto() >> getLastPhoto
+getImagesFrom(input: Latest Photos) >> getImagesFrom
+// This workaround is necessary since sometimes one Copy action isn’t enough to copy the image.
+setClipboard(variable: Images, local: true) >> setClipboard
+setClipboard(variable: Images) >> setClipboard 1

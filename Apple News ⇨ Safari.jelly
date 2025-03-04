@@ -1,0 +1,40 @@
+import Shortcuts
+#Color: teal, #Icon: newsArticle
+
+nothing()
+/*
+This shortcut is literally just a duplicate of Michael Bierman’s “Clean Apple News Links” shortcut: https://routinehub.co/shortcut/4234/
+
+I’ve just removed everything after the URL is returned and instead added the “Open URLs” action. 
+
+It works!
+
+I’m @NeoYokel on Twitter and/or reachable at davidblue@extratone.com if you need help or would like to point out something I could improve.
+*/
+/*
+Version 1.1 
+
+To be honest, I had to duplicate Bierman’s shortcut again, though I believe I understood better what the shortcut was doing. All I know is that 1.0 was only returning the parent directory of a given cleaned Apple News link, but this one should return the right one without any remaining unnecessary stuff. :)
+*/
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+if(URLs != nil) {
+var Input = URLs
+} else {
+	text(text: "${Clipboard}") >> text
+	getURLSFromInput(text: "${Text}") >> getURLSFromInput 1
+var Input = URLs
+	if(Input == nil) {
+		alert(alert: "No URL found", title: "Sorry")
+		exit()
+	} >> IFResult
+} >> IFResult 1
+getItemFromList(list: Input) >> getItemFromList
+var URL = Item from List
+if(Item from List .beginsWith "https://apple.news") {
+// Deal with Apple News 🤦🏻‍♂️
+	downloadURL(url: "${URL}") >> downloadURL
+	getURLSFromInput(text: "${Contents of URL}") >> getURLSFromInput 2
+	getItemFromList(list: URLs) >> getItemFromList 1
+var URL = Item from List
+} >> IFResult 2
+openURL(url: URL)

@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: blue, #Icon: paperclip
+
+// Create Markdown links for the selected tasks.
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIGetSelectedItems
+if(Selected Items == nil) {
+	alert(alert: "Please select a task in the Things app first.", title: "❌ No Task Selected ❌", cancel: false)
+} else {
+	repeatEach(Selected Items) { >> RepeatResult
+		text(text: "[${Repeat Item.get(title)}](things:///show?id=${Variable.get(title)})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 1
+	combineText(text: Tasks) >> combineText
+	setClipboard(variable: Combined Text) >> setClipboard
+}

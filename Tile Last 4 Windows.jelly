@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: grape, #Icon: 2x2RectanglesOutline
+
+findWindows() >> findWindows
+getItemFromList(list: Windows, type: First Item, index: Repeat Index) >> getItemFromList
+resizeWindow(window: Item from List, config: Top Left Quarter)
+getItemFromList(list: Windows, type: Item At Index, index: "2") >> getItemFromList 1
+resizeWindow(window: Item from List, config: Top Right Quarter)
+getItemFromList(list: Windows, type: Item At Index, index: "3") >> getItemFromList 2
+resizeWindow(window: Item from List, config: Bottom Left Quarter)
+getItemFromList(list: Windows, type: Item At Index, index: "4") >> getItemFromList 3
+resizeWindow(window: Item from List, config: Bottom Right Quarter)

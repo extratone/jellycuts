@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: lightBlue, #Icon: calculator
+
+askForInput(prompt: "Image title", default: mickey) >> askForInput
+convertImage(image: ShortcutInput, format: PNG) >> convertImage
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

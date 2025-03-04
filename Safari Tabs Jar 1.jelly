@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: green, #Icon: bookmark
+
+/*
+This shortcut assumes you’ve used Safari 15’s “copy links” feature to copy the rich text links of your open tabs to the clipboard. It extracts the raw URLs from said links via [Make Markdown from Rich Text](https://www.matthewcassinelli.com/actions/make-markdown-from-rich-text/) followed by a [Get URLs from Input](https://www.matthewcassinelli.com/actions/get-urls-from-input/) action and stores said URLs in the Data Jar list specified at install.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+getClipboard() >> getClipboard
+markdownFromRich(text: Clipboard) >> markdownFromRich
+setClipboard(variable: Markdown from Rich Text) >> setClipboard

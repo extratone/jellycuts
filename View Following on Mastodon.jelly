@@ -1,0 +1,76 @@
+import Shortcuts
+#Color: purple, #Icon: people2
+
+/*
+Share a Mastodon profile to this Shortcut to view their Following list (even if they’re on a different instance) and then choose one or more of those profiles to open in browser tabs to see their posts (so you can figure out who to follow, with less friction).
+
+Made by @justin@mastodon.design
+*/
+matchText(text: "${ShortcutInput}", regex: "@((?:[\w]|-)+)@((?:[\w]+\.)(?:\.?[\w]{2,})+)") >> matchText
+repeatEach(Matches) {
+	getMatchGroup(matches: Repeat Item) >> getMatchGroup
+	getMatchGroup(matches: Repeat Item, index: "2") >> getMatchGroup 1
+	dictionary({"Username":"${Text}","Host":"${Text}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+if(Users == nil) {
+	matchText(text: "${ShortcutInput}", regex: "https:\/\/((?:[\w]+\.)(?:\.?[\w]{2,})+)\/@((?:[\w]|-)+)", caseSensitive: false) >> matchText 1
+	repeatEach(Matches) {
+		getMatchGroup(matches: Repeat Item, index: "1") >> getMatchGroup 2
+		getMatchGroup(matches: Repeat Item, index: "2") >> getMatchGroup 3
+		dictionary({"Username":"${Text}","Host":"${Text}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 1
+} >> IFResult
+getItemFromList(list: Users) >> getItemFromList
+url(url: "https://${Item from List.key(Host)}/users/${ActionOutput.key(Host)}/following.json") >> Followers JSON
+downloadURL(url: "${Followers JSON}?page=1") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+count(input: Dictionary) >> count
+math(input: Dictionary, operation: /, operand: Count) >> math
+round(number: Calculation Result, mode: Always Round Up) >> round
+number(value: 10) >> maxPages
+if(Rounded Number false maxPages) {
+var pageCount = Rounded Number
+	text(text: "(from ${Dictionary.key(totalItems)} followed by @${ActionOutput.key(totalItems)})") >> text
+var countLabel = Text
+} else {
+var pageCount = maxPages
+	math(input: pageCount, operation: *, operand: Count) >> math 1
+	text(text: "(from ${Calculation Result} of ${ActionOutput} followed by @${Dictionary.key(totalItems)})") >> text 1
+var countLabel = Text
+} >> IFResult 1
+repeat(pageCount) {
+	downloadURL(url: "${Followers JSON}?page=${ActionOutput}") >> downloadURL 1
+	getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom 1
+	repeatEach(Dictionary) {
+		urlComponent(url: "${Repeat Item 2}", component: Host) >> Instance
+		splitText(text: Repeat Item 2, separator: Custom, customSeparator: "/") >> splitText
+		getItemFromList(list: Split Text, type: Last Item) >> Username
+var 0F3B6D3C-0F64-4518-8819-B6102F2F3CBB = """@￼=@￼
+￼"""
+text("${0F3B6D3C-0F64-4518-8819-B6102F2F3CBB}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	}
+}
+count(input: Links) >> count 1
+if(Count == 1) {
+	getItemFromList(list: Links) >> getItemFromList 1
+	splitText(text: Item from List) >> splitText 1
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 2
+	openURL(url: Item from List) >> openURL
+} else {
+	if(Count > 1) {
+		combineText(text: Links, combine: Custom, separator: "&") >> combineText
+		getDictionaryFrom(input: Combined Text) >> getDictionaryFrom 2
+var 2F2BCF33-AA5D-4817-92E3-96A96C3D18E7 = """Select Profiles(s) to View
+￼"""
+text("${2F2BCF33-AA5D-4817-92E3-96A96C3D18E7}")
+		choose(list: Dictionary, prompt: "${Text}", multiple: true) >> choose
+		repeatEach(Chosen Item) {
+			splitText(text: Repeat Item) >> splitText 2
+			getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 3
+		} >> RepeatResult 2
+		openURL(url: Repeat Results) >> openURL 1
+	}
+} >> IFResult 2

@@ -1,0 +1,33 @@
+import Shortcuts
+#Color: yellow, #Icon: repostArrows
+
+/*
+Ensure all of your Working Copy repositories are up to date with a single run.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+//Unable to get shortcuts action com.appliedphasor.working-copy.ListRepositoriesIntent
+repeatEach(Repositories) {
+//Unable to get shortcuts action com.appliedphasor.working-copy.FetchRepositoryIntent
+	if(Status != "Fetch received nothing.") {
+//Unable to get shortcuts action com.appliedphasor.working-copy.PullRepositoryIntent
+		text(text: "- ${Repeat Item.get(url)} - [${Variable.get(url)}](${Repositories.get(Name)})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+	} >> IFResult
+} >> RepeatResult
+combineText(text: log) >> combineText
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/caf/payment_success.caf") >> url
+downloadURL(url: "${URL}") >> downloadURL
+playSound(file: Contents of URL)

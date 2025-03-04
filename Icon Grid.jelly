@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+combineImage(images: ShortcutInput, mode: In a Grid, spacing: 80) >> combineImage
+convertImage(image: Combined Image, format: PNG) >> convertImage
+quicklook(input: Converted Image)
+saveFile(input: Converted Image, ask: false) >> saveFile

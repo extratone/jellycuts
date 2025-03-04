@@ -1,0 +1,80 @@
+import Shortcuts
+import Actions
+import DataJar
+#Color: navy, #Icon: document
+
+/*
+Helps maintain a public shared repository of my template drafts.
+
+Repo: https://github.com/extratone/ddtemplates/issues/
+This shortcut's issue: https://github.com/extratone/ddtemplates/issues/4
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.agiletortoise.Drafts5.QueryWorkspaceIntent
+repeatEach(Drafts) {
+//Unable to get shortcuts action com.sindresorhus.Actions.TransformTextIntent
+var title = Transform Text
+	combineText(text: Repeat Item, combine: Custom, separator: ", ") >> combineText
+var dtags = Combined Text
+var 21F2DD77-314F-45E7-BB73-F626E2CDBEAD = """---
+title: ￼
+tags: `￼`
+uuid: ￼
+local: ￼
+created: ￼
+syntax: ￼
+---"""
+text("${21F2DD77-314F-45E7-BB73-F626E2CDBEAD}")
+var meta = Text
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+var F675ED79-4BF8-48B2-83BC-B4700877EC11 = """￼
+ ￼"""
+text("${F675ED79-4BF8-48B2-83BC-B4700877EC11}")
+var template = Text
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+	text(text: "- [**${title}**](https://github.com/extratone/ddtemplates/blob/main/md/${Variable}.md) - [meta](https://github.com/extratone/ddtemplates/blob/main/meta/${title}meta.txt) - [txt](https://github.com/extratone/ddtemplates/blob/main/txt/${Variable}.txt) - [raw](https://raw.githubusercontent.com/extratone/ddtemplates/main/md/${title}.md)") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	dictionary({"title":"${title}","tags":"${dtags}","uuid":"${Repeat Item.get(uuid)}","local":"${Repeat Item.get(link)}","created":"${Repeat Item.get(createdAt)}","modified":"${Repeat Item.get(modifiedAt)}","syntax":"${Repeat Item.get(grammarType)}","body":"${Repeat Item.get(content)}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+} >> RepeatResult
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+combineText(text: index) >> combineText 1
+var 382494C7-2EC1-40F3-91B4-0966998E3831 = """# Drafts Templates Repository
+Updated `10142022-103440`
+
+- [**Repository**](https://github.com/extratone/ddtemplates)
+- [Raw README File](https://raw.githubusercontent.com/extratone/ddtemplates/master/README.md)
+- [WTF](https://davidblue.wtf/drafts/8CC21C4E-4085-437D-BFE8-FCECEE9BF02F.html)
+- [WTF Shortlink](https://davidblue.wtf/ddtemplates) - `https://davidblue.wtf/ddtemplates`
+- [JSON](https://github.com/extratone/ddtemplates/blob/main/ddtemplates.json)
+- [Local](shareddocuments:///private/var/mobile/Library/Mobile%20Documents/com~apple~CloudDocs/Written/8CC21C4E-4085-437D-BFE8-FCECEE9BF02F.md)
+- [Things](things:///show?id=5Ta1NnyVVpk5jfdwT7ctbv)
+
+---
+
+## Index
+
+￼"""
+text("${382494C7-2EC1-40F3-91B4-0966998E3831}")
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.GetDraftByUUIDIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.SetDraftIntent

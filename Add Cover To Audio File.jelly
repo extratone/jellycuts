@@ -1,0 +1,128 @@
+import Shortcuts
+import aShell
+import aShellMini
+#Color: green, #Icon: filmstrip
+
+/*
+*Add Cover To Audio File* is a shortcut to easily add a cover image to any audio file.
+
+Supported Audio Formats
+===================
+mp3,mp4,m4a,m4b,mov,mka,mkv,flac
+
+How to use it
+===========
+ - Select an audio file from iCloud Drive among the supported formats, and open the shortcut with the share menu. 
+ - In alternative, you can start the shortcut directly and it will ask you to select an audio file.
+ - Then the shortcut will ask you to select an image file. Any image format supported by iOS will be ok, because the shortcut will convert it to jpg internally.
+ - The shortcut will open the a-Shell Mini app and will run the ffmpeg program to process the file and to add the cover image without changing the original audio stream.
+ - Wait for the process to finish without touching the screen.
+ - When finished you will be asked where do you want to save the resulting audio file. The output file name will be the same of the source audio file plus the "_cover" postfix.
+ - DONE! :D
+Note that iOS does not show the covers for most of the file formats. You can check the cover opening the file in your favourite audio player. My favourite on iOS is [Flacbox](https://itunes.apple.com/us/app/flacbox-flac-player-music/id1097564256).
+
+REQUIREMENTS
+=============
+- You need the [a-Shell Mini](https://apps.apple.com/ao/app/a-shell-mini/id1543537943) app installed.
+
+INFO
+====
+ - 2022-10-09 v1.1.0
+ - Author: [u/fremenmuaddib](https://www.reddit.com/user/fremenmuaddib/)
+ - This shortcut is canonically available on RoutineHub at https://routinehub.co/shortcut/12282/
+*/
+if(ShortcutInput == nil) { >> IFResult
+	alert(alert: "Please select an audio file", cancel: false)
+	selectFile(multiple: false) >> selectFile
+	filterFiles() >> filterFiles
+	count(input: File) >> count
+	if(Conteggio == 0) {
+		alert(alert: "Error: audio file format not supported! (supported formats: mp3,mp4,m4a,m4b,mov,mka,mkv,flac)", cancel: false)
+		exit()
+	} else {
+var mp3file = File
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	} >> IFResult 1
+	alert(alert: "Please select cover image file (in any format supported by iOS, like: jpg, png, bmp...)", cancel: false)
+	selectFile(multiple: false) >> selectFile 1
+	if(File != "jpg") { >> IFResult 2
+		if(File == "pdf") {
+			splitPDF(document: File) >> splitPDF
+			getItemFromList(list: Pagine PDF) >> getItemFromList
+			imageFromPDF(pdf: Elemento dell'elenco, format: public.jpeg, resolution: 300) >> imageFromPDF
+var jpgfile = Immagine
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+		} else {
+			convertImage(image: File, quality: 0.9035874605178833) >> convertImage
+var jpgfile = Immagine convertita
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+		} >> IFResult 3
+	} else {
+var jpgfile = File
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	} >> IFResult 4
+} else {
+	file(file: ShortcutInput) >> file
+	filterFiles() >> filterFiles 1
+	count(input: File) >> count 1
+	if(Conteggio == 0) {
+		alert(alert: "Error: audio file format not supported! (supported formats: mp3,mp4,m4a,m4b,mov,mka,mkv,flac)", cancel: false)
+		exit()
+	} else {
+var mp3file = File
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	} >> IFResult 5
+	alert(alert: "Please select cover image file (in any format supported by iOS, like: jpg, png, bmp...)", cancel: false)
+	selectFile(multiple: false) >> selectFile 2
+	if(File != "jpg") {
+		convertImage(image: File, quality: 0.9035874605178833) >> convertImage 1
+var jpgfile = Immagine convertita
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	} else {
+var jpgfile = File
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+	} >> IFResult 6
+} >> IFResult 7
+matchText(text: "${mp3file.as(File).get(File Extension)}", regex: "mka|mkv", caseSensitive: false) >> matchText
+if(Risultati != nil "m4b") {
+var B37F289E-B60F-42FC-8DD0-2577204A6869 = """ffmpeg -y -i "￼.￼"  -i "￼.￼" -attach "￼.￼" -metadata:s:t "mimetype=image/jpeg" -c copy "￼_cover.￼"
+"""
+text("${B37F289E-B60F-42FC-8DD0-2577204A6869}")
+var ffmpeg_command = Testo
+} >> IFResult 8
+matchText(text: "${mp3file.as(File).get(File Extension)}", regex: "mov", caseSensitive: false) >> matchText 1
+if(Risultati != nil "m4a") {
+var 96B91D18-1B22-4D06-97E3-3DD130B55A56 = """ffmpeg -y -vn -i "￼.￼" -i "￼.￼"  -map 0 -map 1 -c copy -id3v2_version 3 -write_id3v1 1  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)"  -disposition:v:1 attached_pic "￼_cover.￼"
+"""
+text("${96B91D18-1B22-4D06-97E3-3DD130B55A56}")
+var ffmpeg_command = Testo
+} >> IFResult 9
+matchText(text: "${mp3file.as(File).get(File Extension)}", regex: "mp4|m4a|m4b", caseSensitive: false) >> matchText 2
+if(Risultati != nil "m4a") {
+var 31C021A2-BE1A-40DC-AAD4-AE63335EBAC7 = """ffmpeg -y -vn -i "￼.￼" -i "￼.￼" -disposition:v attached_pic -c:a copy -c:v mjpeg -id3v2_version 3 -write_id3v1 1  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)" "￼_cover.￼"
+"""
+text("${31C021A2-BE1A-40DC-AAD4-AE63335EBAC7}")
+var ffmpeg_command = Testo
+} >> IFResult 10
+matchText(text: "${mp3file.as(File).get(File Extension)}", regex: "flac", caseSensitive: false) >> matchText 3
+if(Risultati != nil "m4a") { >> IFResult 11
+var 8D6A0036-12A6-48D4-91BC-25BF2669DC69 = """ffmpeg -y -i "￼.￼" -i "￼.￼" -map 0:a -map 1 -codec copy -disposition:v attached_pic  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)" "￼_cover.￼"
+"""
+text("${8D6A0036-12A6-48D4-91BC-25BF2669DC69}")
+var ffmpeg_command = Testo
+} >> IFResult 12
+matchText(text: "${mp3file.as(File).get(File Extension)}", regex: "mp3", caseSensitive: false) >> matchText 4
+if(Risultati != nil) {
+var 98EB60D3-43A2-44A3-8FFA-C6AF84591E44 = """ffmpeg -y -i "￼.￼" -i "￼.￼" -disposition:v:1 attached_pic -map 0 -map 1 -c copy -id3v2_version 3 -write_id3v1 1  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)" "￼_cover.￼"
+"""
+text("${98EB60D3-43A2-44A3-8FFA-C6AF84591E44}")
+var ffmpeg_command = Testo
+} >> IFResult 13
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+waitToReturn()
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+setName(input: File, name: "${mp3file.as(File).get(File Extension)}_cover.${Variable.as(File).get(File Extension)}") >> setName
+saveFile(input: Elemento rinominato, overwrite: false) >> saveFile
+text(text: "rm -f *.mp3 *.m4a *.m4b *.jpg *.JPG *.jpeg *.aac *.aiff *.flac *.ogg *.wav *.weba *.mp4 *.MP4 *.JPEG *.part *.webm *.mkv *.opus *.caf *.mka *.MKV *.MP3 *.M4A *.M4B *.FLAC *.OGG *.png *.mov *MOV *.gif *.bmp files.txt") >> text
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+sendNotification(body: "File saved in ${File salvato.get(File Path)}") >> sendNotification

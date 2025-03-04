@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: red, #Icon: newsArticle
+
+splitPDF(document: ShortcutInput) >> splitPDF
+repeatEach(PDF Pages) {
+	imageFromPDF(pdf: Repeat Item, resolution: 300) >> imageFromPDF
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineImage(images: pages, mode: Vertically, spacing: 0) >> combineImage
+saveToCameraRoll(image: Combined Image, album: 🇩🅾🅒🅢) >> saveToCameraRoll

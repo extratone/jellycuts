@@ -1,0 +1,5 @@
+import Shortcuts 1092.6
+#Color: red, #Icon: shortcuts
+
+text(text: "Hello World!")
+text(text: "Hello World!") >> introduction

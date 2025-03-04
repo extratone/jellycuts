@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: grayGreen, #Icon: syringe
+
+//Unable to get shortcuts action com.appliedphasor.working-copy.ListRepositoriesIntent
+repeatEach(Repositories) {
+	text(text: "- [${Repeat Item.get(url)}](${Variable.get(url)})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: md) >> combineText
+var 37DEFC74-BE6F-4897-B5F1-FF7B8D11AEC1 = """**Working Copy Index**
+Updated `￼`
+
+￼"""
+text("${37DEFC74-BE6F-4897-B5F1-FF7B8D11AEC1}")
+setClipboard(variable: Text) >> setClipboard
+//Unable to get shortcuts action com.iconfactory.TotMobile.SetDotIntent
+url(url: "things:///update-project?auth-token=jWc7C1OBSlq0QbJrXa4ngw&id=XopUxwnZdy9hwGG8MaQ1Dr&notes=${Text}") >> url
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TINRunThingsURLIntent
+//Unable to get shortcuts action com.iconfactory.TotMobile.ShowDotIntent
+runShortcut(name: "TotGit (Personal)") >> runShortcut
+//Unable to get shortcuts action com.iconfactory.TotMobile.ShowDotIntent

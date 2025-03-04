@@ -1,0 +1,695 @@
+import Shortcuts
+#Color: blue, #Icon: shortcuts
+
+getDictionaryFrom(input: ShortcutInput) >> getDictionaryFrom
+var Input = Dictionary
+dictionary({"Name":"Shortcuts Icon Downloader","Version":"1.5.1","RH ID":"7910","Folders":{"Glyph Color":"GlyphColor.txt","SFU":"Swing Updater/SFU/","SPP":"SecondsPerPhoto.txt"}})
+var Shortcut_details = Dictionary
+dictionary({"Color":{"Red":"4282601983","Orange":"4251333119","Tangerine":"4271458815","Yellow":"4274264319","Lime":"4292093695","Teal":"431817727","Light Blue":"1440408063","Blue":"463140863","Navy":"946986751","Grape":"2071128575","Purple":"3679049983","Pink":"3980825855","Gray Blue":"255","Gray Green":"3031607807","Gray Brown":"2846468607"},"ColorCodes":{"4282601983":"Red","4251333119":"Orange","4271458815":"Tangerine","4274264319":"Yellow","4292093695":"Lime","431817727":"Teal","1440408063":"Light Blue","463140863":"Blue","946986751":"Navy","2071128575":"Grape","3679049983":"Purple","3980825855":"Pink","255":"Gray Blue","3031607807":"Gray Green","2846468607":"Gray Brown"}})
+var Global.Color = Dictionary
+keysFrom(dictionary: Global.Color) >> keysFrom
+createFolder(path: "${Shortcut_details.key(Name)}/") >> createFolder
+createFolder(path: "${Shortcut_details.key(Folders.SFU)}") >> createFolder 1
+dictionary({"Name":"${Dictionary.key(Name)}","Version":"${Dictionary.key(Version)}","RH ID":"${Dictionary.key(RH ID)}"})
+saveFile(input: Dictionary, ask: false, path: "${Dictionary.key(Name)}/${ActionOutput.key(Name)}", overwrite: true) >> saveFile
+getShortcuts() >> getShortcuts
+filterFiles() >> filterFiles
+setName(input: Files, name: "${Files}.plist", dontIncludeExtension: true) >> Chosen Shortcut's .plist file
+matchText(text: "${Chosen Shortcut's .plist file}", regex: "(?<=\<key\>WFWorkflowIconGlyphNumber\<\/key\>\n\t\t\<integer\>)[\S\n\t]*?(?=\<\/integer\>)", caseSensitive: true) >> matchText
+var CurrentGlyph = Matches
+getFile(picker: false, path: "${Shortcut_details.key(Folders.Glyph Color)}/${Variable.key(Folders.Glyph Color)}", error: false) >> getFile
+if(File == nil) {
+	matchText(text: "${Chosen Shortcut's .plist file}", regex: "(?<=\<key\>WFWorkflowIconStartColor\<\/key\>\n\t\t\<integer\>)[\S\n\t]*?(?=\<\/integer\>)") >> matchText 1
+	saveFile(input: Matches, ask: false, path: "${Shortcut_details.key(Folders.Glyph Color)}/${Variable.key(Folders.Glyph Color)}", overwrite: true) >> saveFile 1
+} >> IFResult
+var CurrentColor = If Result
+if(ShortcutInput != nil) {
+	splitText(text: Input) >> splitText
+var CurrentColor = Split Text
+var CurrentGlyph = Variable
+var ChangeItem = Variable
+var IconType = Variable
+	number(value: 4) >> number
+} else {
+	number(value: 6) >> number 1
+} >> IFResult 1
+var A01DEEB8-A5A0-45F3-A139-BD2760F6FDB8 = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>WFWorkflowActions</key>
+	<array/>
+	<key>WFWorkflowClientRelease</key>
+	<string>3.0</string>
+	<key>WFWorkflowClientVersion</key>
+	<string>1050.4.7</string>
+	<key>WFWorkflowIcon</key>
+	<dict>
+		<key>WFWorkflowIconGlyphNumber</key>
+		<integer>Glyph_Number</integer>
+		<key>WFWorkflowIconStartColor</key>
+		<integer>Icon_Color</integer>
+	</dict>
+	<key>WFWorkflowImportQuestions</key>
+	<array/>
+	<key>WFWorkflowInputContentItemClasses</key>
+	<array>
+		<string>WFAppStoreAppContentItem</string>
+		<string>WFArticleContentItem</string>
+		<string>WFContactContentItem</string>
+		<string>WFDateContentItem</string>
+		<string>WFEmailAddressContentItem</string>
+		<string>WFGenericFileContentItem</string>
+		<string>WFImageContentItem</string>
+		<string>WFiTunesProductContentItem</string>
+		<string>WFLocationContentItem</string>
+		<string>WFDCMapsLinkContentItem</string>
+		<string>WFAVAssetContentItem</string>
+		<string>WFPDFContentItem</string>
+		<string>WFPhoneNumberContentItem</string>
+		<string>WFRichTextContentItem</string>
+		<string>WFSafariWebPageContentItem</string>
+		<string>WFStringContentItem</string>
+		<string>WFURLContentItem</string>
+	</array>
+	<key>WFWorkflowMinimumClientVersion</key>
+	<integer>900</integer>
+	<key>WFWorkflowMinimumClientVersionString</key>
+	<string>900</string>
+	<key>WFWorkflowTypes</key>
+	<array>
+		<string>NCWidget</string>
+		<string>WatchKit</string>
+	</array>
+</dict>
+</plist>
+"""
+text("${A01DEEB8-A5A0-45F3-A139-BD2760F6FDB8}")
+dictionary({"Objects":"0xE949","Objects 2":"0xE97B","People":"0xE999","Symbols":"0xE9B9","Change Theme Color":"0xE9D0","Check for Updates":"0xE977"})
+keysFrom(dictionary: Dictionary) >> keysFrom 1
+getItemFromList(list: Dictionary Value, type: Items in Range, startIndex: "1", endIndex: If Result) >> getItemFromList
+dictionary({"Objects":{"Car":"59452","Car Multiple":"61446","Bolt Car":"61447","Bus":"59678","Bus Double Decker":"61448","Tram":"61449","Tram Tunnel":"61450","Bicycle":"59668","Motorcycle":"59783","Ambulance":"59652","Airplane":"59648","Sailboat":"59823","Home":"59755","Church":"59688","Buildings":"59677","Shopping Cart":"59828","Handbag":"59750","Grocery Store":"59747","Utensils":"59863","Fuel Station":"59741","Thermometer":"59854","Sun":"59845","Moon":"59782","Moon Circle":"61517","Snowflake":"59835","Cloud":"59714","Cloud Raining":"59715","Umbrella":"59861","Evergreen Tree":"59731","Flower":"59468","Fire":"59734","Footprints":"59738","Directions Signs":"59724","Binoculars":"59669","Compass":"59717","Globe":"59412","Mountains":"59785","Mountains Picture":"59784","Filmstrip":"59733","Camera":"59682","Movie Camera Filled":"59402","Microphone":"59780","Video Symbol":"59864","Clipboard Glyph":"59711","Calendar":"59681","Chat Bubble":"59414","Message Bubbles":"59403","Message Bubble":"59779","Mail Envelope":"59773","Mail Envelope Open":"59774","Soaring Paper Airplane":"59836","Paper Plane Circle":"61462","Briefcase":"59676","Folder":"59737","Credit Card":"59719","Watch":"59865","Phone":"59814","Laptop":"59436","Keyboard":"59446","Boxed Keyboard":"59494","Calculator":"59680","Bar Graph":"59662","Printer":"59817","Hard Drive":"59752","Server":"59772","Database":"59519","Network Storage":"59826","Archive":"59653","Cube":"59721","Television":"59851","Game Controller":"59742","Puzzle Piece":"59818","Headphones":"59753","Headphones Circle":"61479","Hearing Aid":"61481","Music Beamed Eigth Notes":"59790","Speaker Wave":"59839","Speaker Wave Alt":"61470","Speaker Wave Alt 2":"61471","Speaker Splash":"61472","Speaker":"61473","HiFi Speaker":"61478","TV And HiFi Speaker":"61474","Bookshelf":"59671","Open Book":"59465","Book With Sash":"59672","Book Closed":"61442","Glasses":"59745","Masquerade Mask":"59777","Movie Ticket":"59788","Drama Masks":"59730","Dice":"59723","Baseball":"59663","Basketball":"59664","Soccer Ball":"59837","Tennis Ball":"59852","Football":"59456","Life Preserver":"59762","Telescope":"59850","Microscope":"59781"},"Objects 2":{"Horse":"59756","Clock":"59712","Alarm Clock":"59649","Stopwatch":"59844","Bell":"59667","Sparkling Bell":"59838","Heart":"59754","Star":"59841","Trophy":"59860","Light Bulb":"59763","Lightning Bolt":"59764","Flag":"59736","Tag":"59848","Key":"59760","Hourglass":"59757","Lock":"59770","Unlock":"59862","Battery":"59489","Wand":"59511","Magic Wand":"59771","Paintbrush":"59793","Pencil":"59798","Paper Clip":"59794","Scissors":"59824","Magnifying Glass":"59772","Chain Link":"59685","Color Dropper":"59716","Hammer":"59748","Wrench":"59870","Hammer And Wrench":"59749","Gears":"59743","Puzzle Piece":"59473","Screwdriver":"59825","Hand With Spread Fingers":"59751","Trash":"59859","Water Drop":"59866","Mug":"59789","Steaming Bowl":"59842","Fruit":"59740","Carrot":"59683","Fish":"59735","Cake":"59679","Wine Bottle":"59868","Martini Glass":"59776","Clothes Hanger":"59713","Laundry Machine":"59761","Oven":"59792","Shirt":"59827","Bathtub":"59665","Pill":"59461","Pills":"59815","Medicine Bottle":"59778","Bandage":"59660","Inhaler":"59759","Stethoscope":"59843","Syringe":"59848","Atom":"59657","Chemical":"59686","Cat":"59684","Dog":"59728","Pawprint":"59796","Thumbs Up":"59857","Graduate Cap":"59746","Gift":"59744","Alien":"59651","Bed":"59666","Staircase":"59840","Rocket":"59822","Map":"61444","Gauge":"61452","Speedometer":"61453","Barometer":"61454","Network":"61455","Rectangle Stack":"61456","Square Stack":"61457","3D Square Stack":"61458","Photo Stack":"61459","Photo Stack Angled":"61460","Camera Aperture":"61461","Note Icon":"61464","Note Text":"61465","Note Text Badge Plus":"61466","Send Message":"61467","Add Message":"61468","EarPods":"61475","AirPods":"61476","AirPods Pro":"61477","Radio":"61480","Apple TV":"61482","HomePod":"61483","Apple Watch Waves":"61484","iPhone Icon":"61486","iPhone Radio Waves":"61487","iPhone Apps":"61488","iPad Icon":"61489","iPad Landscape":"61490","iPod":"61491"},"People":{"Baby":"59658","Baby Boy":"59659","Child":"59687","Man":"59775","Woman":"59869","Person In Wheelchair":"59806","Person":"59801","People Two Overlapping":"59800","People Three Overlapping":"59799","Person Standing":"59437","Person At Podium":"59802","Person Giving Speech":"59804","Person Dancing":"59803","Person Lifting Weight":"59807","Person Skiing":"59809","Person Snowboarding":"59810","Person Swimming":"59811","Person Hiking":"59805","Person Walking":"59812","Person Walking With Cane":"59813","Person Running":"59808","Person Run Circle":"61493","Person Run Motion":"61494","Person Closed":"61495","Person Open":"61496"},"Symbols":{"Shortcuts Icon":"61440","Alert Triangle":"59650","Arrow Curved Left":"59654","Arrow Curved Right":"59655","Bookmark":"59670","Barcode":"59661","QR Code":"59819","Play":"59508","Box Filled":"59673","Box Outline":"59674","Braille":"59675","Circled Left Arrow":"59696","Circled Right Arrow":"59705","Circled Download Arrow":"59693","Circled Up Arrow":"59707","Circled Down Arrow":"59692","Circled Upload Arrow":"59708","Circled Play":"59699","Circled Rewind":"59704","Circled Power":"59702","Circled Stop":"59706","Circled Fast Forward":"59695","Circled Question Mark":"59703","Circled Checkmark":"59690","Circled Plus":"59700","Circled X":"59709","Circled Pi Symbol":"59698","Circled Lowercase I":"59697","Circled Blank":"0","Smiley Face":"59834","Document CSS":"59725","Dollar Sign With Line":"59395","Euro Sign":"59512","Pound Sign":"59448","Yen Sign":"59514","Bitcoin Symbol":"59515","Asterisk":"59656","Document Filled":"59726","Document Outline":"59727","News Article":"59791","Four Squares":"59739","Ellipsis":"59392","List":"59445","Twelve Squares":"59405","Connected Share Dots":"59718","Infinity":"59758","Recycle":"59820","Loading Indicator":"59767","Loading Indicator 2":"59516","Target":"59849","Podcasts":"59816","Target Alt":"59454","Location Arrow":"59768","Location Pin":"59769","Parking Symbol":"59795","Crop":"59720","Shrink Arrows":"59830","Move Arrows":"59786","Repost Arrows":"59821","Sync Arrows":"59846","Shuffle Arrows":"59832","Sliders":"59833","Double Quote":"59729","Peace Sign":"59797","Three Overlapping Circles":"59856","Text Symbol":"59853","Cloud Service":"59459","Feed":"59732","Feed Alt":"59497","Wi-Fi":"59867","AirDrop":"61501","Directions Arrow Diamond":"61497","Directions Arrow Circle":"61498","AirPlay Audio":"61499","AirPlay Video":"61500","Music Note List":"61502","Music Note":"61503","Music Square Stack":"61504","Music Waveform Path":"61505","Music Live Photo Play":"61506","Music Live Photo":"61507","Slowmo":"61508","Timelapse":"61509","Calendar Badge Plus":"61510","Calendar Badge Exclamation":"61511","Timer":"61512","Timer Square":"61513","Compose":"61514","Duplicate":"61515","Night Shift":"61518","True Tone":"61519","Dial Min":"61520","Dial Max":"61521","QR Code Viewfinder":"61522","Camera Viewfinder":"61523","Wallet Pass":"61524","Appearance":"61525","No Sign":"61528","Command":"61529","Command Circle":"61530","Command Square":"61531"}}) >> AllGlyphs
+repeatEach(Item from List) {
+	keysFrom(dictionary: AllGlyphs) >> keysFrom 2
+	count(input: Dictionary Value) >> count
+	keysFrom(dictionary: Dictionary) >> Glyph ID
+	replaceText(input: "${Empty .plist}", find: "Glyph_Number", replace: "${Glyph ID}") >> replaceText
+	getItemFromList(list: CurrentColor) >> getItemFromList 1
+	replaceText(input: "${Updated Text}", find: "Icon_Color", replace: "${Item from List}") >> replaceText 1
+	setName(input: Updated Text, name: "${Repeat Index}.shortcut") >> setName
+	getImagesFrom(input: Renamed Item) >> getImagesFrom
+	resizeImage(image: Images, height: 123, width: 123) >> resizeImage
+	decode(input: Resized Image) >> decode
+	if(Count > 0) {
+var A5FE22A0-2DF5-407E-BE81-BEC79E1E131C = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG;CHARSET:￼ icons;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${A5FE22A0-2DF5-407E-BE81-BEC79E1E131C}")
+	} else {
+		if(Repeat Item == "Change Theme Color") {
+			keysFrom(dictionary: Dictionary) >> keysFrom 3
+var 9B6B02B7-27B6-4266-BE98-7E622497E72E = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG;CHARSET:Current Color: ￼;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${9B6B02B7-27B6-4266-BE98-7E622497E72E}")
+		} else {
+			if(Repeat Item == "Check for Updates") {
+var 0476E1AB-8F2A-4643-8E91-81749029396D = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG;CHARSET:Supported by Swing Updater;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${0476E1AB-8F2A-4643-8E91-81749029396D}")
+			}
+		}
+	}
+} >> RepeatResult
+combineText(text: Repeat Results) >> combineText
+setName(input: Combined Text, name: "Glyphs.vcf") >> Glyphs
+text(text: "${Shortcut_details.key(Version)} v${Variable.key(Version)}") >> text
+if(ShortcutInput == nil) {
+	choose(list: Glyphs, prompt: "${Text}") >> Category Name
+} else {
+	if(ChangeItem .contains "Glyph") {
+		choose(list: Glyphs, prompt: "Pick your new glyph") >> choose
+	} else {
+		repeatEach(CurrentColor) {
+			keysFrom(dictionary: Global.Color)
+		} >> RepeatResult 1
+	} >> IFResult 2
+} >> IFResult 3
+var CategoryNames = If Result
+keysFrom(dictionary: AllGlyphs) >> Get Catergory Name Values
+keysFrom(dictionary: Get Catergory Name Values) >> keysFrom 4
+getItemFromList(list: Dictionary Value, type: Items in Range, startIndex: "5", endIndex: "6") >> getItemFromList 2
+if(Item from List .contains ""${Category Names}"") {
+} else {
+	if(CurrentColor == nil "") {
+	} else {
+		if(ChangeItem == "Color") {
+		} else {
+			if(ChangeItem == "Speed") {
+			} else {
+				repeatEach(Dictionary Value) {
+					keysFrom(dictionary: Get Catergory Name Values) >> Glyph ID
+					replaceText(input: "${Empty .plist}", find: "(?<=\<key\>WFWorkflowIconGlyphNumber\<\/key\>\n\t\t\<integer\>)[\S\n\t]*?(?=\<\/integer\>\n)", replace: "${Glyph ID}", isRegex: true, caseSensitive: true) >> replaceText 2
+					getItemFromList(list: CurrentColor) >> getItemFromList 3
+					replaceText(input: "${Updated Text}", find: "Icon_Color", replace: "${Item from List}") >> replaceText 3
+					setName(input: Updated Text, name: "${Repeat Index}.shortcut", dontIncludeExtension: false) >> setName 1
+					getImagesFrom(input: Renamed Item) >> getImagesFrom 1
+					resizeImage(image: Images, height: 123, width: 123) >> resizeImage 1
+					decode(input: Resized Image) >> decode 1
+var D1C58180-A33B-44F7-8F2F-5016DD27F1F5 = """BEGIN:VCARD
+VERSION:3.0
+N:￼;;;;
+NOTE:￼
+PHOTO;ENCODING=b: ￼
+END:VCARD"""
+text("${D1C58180-A33B-44F7-8F2F-5016DD27F1F5}")
+				} >> RepeatResult 2
+				combineText(text: Repeat Results, combine: New Lines) >> combineText 1
+				setName(input: Combined Text, name: "Sub Category.vcf") >> Sub Category
+				choose(list: Sub Category, prompt: "Select an icon:") >> choose 1
+				contactDetail(detail: Notes, contact: Selected Item) >> contactDetail
+var CurrentGlyph = Notes
+			} >> IFResult 4
+		} >> IFResult 5
+	} >> IFResult 6
+} >> IFResult 7
+if(Category Name == "Change Theme Color") {
+	keysFrom(dictionary: Global.Color) >> inputShortcutColorName
+	sendNotification(body: "The color ${inputShortcutColorName} has been excluded from the color selection.", title: "${Shortcut_details.key(Name)}", sound: false, attachment: inputShortcutColorName) >> sendNotification
+	keysFrom(dictionary: Global.Color) >> keysFrom 5
+	filterFiles() >> filterFiles 1
+	repeatEach(Files) {
+		replaceText(input: "${Empty .plist}", find: "Icon_Color", replace: "${Repeat Item}") >> replaceText 4
+		replaceText(input: "${Updated Text}", find: "Glyph_Number", replace: "${Matches}") >> replaceText 5
+		setName(input: Updated Text, name: "${Repeat Index}.shortcut") >> setName 2
+		getImagesFrom(input: Renamed Item) >> getImagesFrom 2
+		resizeImage(image: Images, height: 123, width: 123) >> resizeImage 2
+		decode(input: Resized Image) >> decode 2
+		keysFrom(dictionary: Dictionary) >> keysFrom 6
+var A227F759-08DF-4AF7-A551-54FBEFC72943 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${A227F759-08DF-4AF7-A551-54FBEFC72943}")
+	} >> RepeatResult 3
+	combineText(text: Repeat Results) >> combineText 2
+	setName(input: Combined Text, name: "Glyphs.vcf") >> Glyphs
+	choose(list: Renamed Item, prompt: "Select a new theme color:") >> choose 2
+	keysFrom(dictionary: Global.Color) >> keysFrom 7
+	saveFile(input: Dictionary Value, ask: false, path: "${Shortcut_details.key(Name)}/${Variable.key(Name)}", overwrite: true) >> saveFile 2
+	runShortcut(name: Shortcut_details, show: false) >> runShortcut
+	exit()
+} >> IFResult 8
+if(Category Name == "Check for Updates") {
+	getShortcuts() >> getShortcuts 1
+	if(My Shortcuts .contains "Swing Updater") {
+		dictionary({"Name":"${Shortcut_details.key(Name)}","Version":"${Shortcut_details.key(Version)}","RH ID":"${Shortcut_details.key(RH ID)}","Silence Mode":"true"})
+		runShortcut(name: "Swing Updater", input: Dictionary, show: false) >> runShortcut 1
+		if(Shortcut Result .contains "Install") {
+			output(result: "${Shortcut Result}")
+		} else {
+			if(Shortcut Result .contains "Updated") {
+				alert(alert: "
+There were no updates found for ${Shortcut_details.key(Name)}. Check back later though!", title: "${Shortcut_details.key(Name)}", cancel: false)
+			}
+		} >> IFResult 9
+		runShortcut(name: Shortcut_details, show: false) >> runShortcut 2
+		exit()
+	} else {
+		sendNotification(body: "Swing Updater is required to check for updates for ${Shortcut_details.key(Name)}.", sound: false) >> sendNotification 1
+		openURL(url: "https://routinehub.co/shortcut/2692")
+		exit()
+	}
+} >> IFResult 10
+text(text: "Go") >> text 1
+if(ShortcutInput != nil) {
+	if(ChangeItem == "Color") {
+var Go = Text
+var ColorChange = Variable
+	} else {
+		if(ChangeItem == "Glyph+Color") {
+var Go = Text
+		} >> IFResult 11
+	} >> IFResult 12
+} else {
+var Go = Text
+} >> IFResult 13
+if(Go == "Go") {
+	list(items: (
+    "Solid Color (JPG)",
+    "Multiple Colors (GIF)"
+)) >> list
+	choose(list: List) >> choose 3
+	if(Chosen Item == "Solid Color (JPG)") {
+		text(text: "JPG")
+	} else {
+		text(text: "GIF") >> text 2
+	} >> IFResult 14
+} >> IFResult 15
+var IconType = If Result
+keysFrom(dictionary: Global.Color) >> keysFrom 8
+var CC = Dictionary Value
+var C857A1B1-F899-4262-A678-BACAE018AAA6 = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>WFWorkflowActions</key>
+	<array/>
+	<key>WFWorkflowClientRelease</key>
+	<string>3.0</string>
+	<key>WFWorkflowClientVersion</key>
+	<string>1050.4.7</string>
+	<key>WFWorkflowIcon</key>
+	<dict>
+		<key>WFWorkflowIconGlyphNumber</key>
+		<integer>￼</integer>
+		<key>WFWorkflowIconStartColor</key>
+		<integer>ColorValue</integer>
+	</dict>
+	<key>WFWorkflowImportQuestions</key>
+	<array/>
+	<key>WFWorkflowInputContentItemClasses</key>
+	<array>
+		<string>WFAppStoreAppContentItem</string>
+		<string>WFArticleContentItem</string>
+		<string>WFContactContentItem</string>
+		<string>WFDateContentItem</string>
+		<string>WFEmailAddressContentItem</string>
+		<string>WFGenericFileContentItem</string>
+		<string>WFImageContentItem</string>
+		<string>WFiTunesProductContentItem</string>
+		<string>WFLocationContentItem</string>
+		<string>WFDCMapsLinkContentItem</string>
+		<string>WFAVAssetContentItem</string>
+		<string>WFPDFContentItem</string>
+		<string>WFPhoneNumberContentItem</string>
+		<string>WFRichTextContentItem</string>
+		<string>WFSafariWebPageContentItem</string>
+		<string>WFStringContentItem</string>
+		<string>WFURLContentItem</string>
+	</array>
+	<key>WFWorkflowMinimumClientVersion</key>
+	<integer>900</integer>
+	<key>WFWorkflowMinimumClientVersionString</key>
+	<string>900</string>
+	<key>WFWorkflowTypes</key>
+	<array>
+		<string>NCWidget</string>
+		<string>WatchKit</string>
+	</array>
+</dict>
+</plist>
+"""
+text("${C857A1B1-F899-4262-A678-BACAE018AAA6}")
+if(Go == "Go") {
+	if(ColorChange == ""${Go}"") {
+		if(IconType == "JPG") {
+			count(input: CurrentColor) >> count 1
+			if(Count > 1) {
+			} else {
+				keysFrom(dictionary: Global.Color) >> inputShortcutColorName2
+				sendNotification(body: "The color ${inputShortcutColorName2} has been excluded from the color selection.", title: "${Shortcut_details.key(Name)}", sound: false, attachment: inputShortcutColorName2) >> sendNotification 2
+			} >> IFResult 16
+			filterFiles() >> filterFiles 2
+var CC = Files
+		} >> IFResult 17
+	} >> IFResult 18
+	repeatEach(CC) {
+		replaceText(input: "${Text}", find: "ColorValue", replace: "${Repeat Item}") >> replaceText 6
+		setName(input: Updated Text, name: "${Repeat Index}.shortcut") >> setName 3
+		getImagesFrom(input: Renamed Item) >> getImagesFrom 3
+		decode(input: Images) >> decode 3
+		keysFrom(dictionary: Global.Color) >> keysFrom 9
+var 42B4EF42-C9A7-496B-A3A5-74AEF8CE806F = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${42B4EF42-C9A7-496B-A3A5-74AEF8CE806F}")
+	} >> RepeatResult 4
+	combineText(text: Repeat Results) >> combineText 3
+	setName(input: Combined Text, name: "Colors.vcf") >> setName 4
+	if(IconType == "JPG") {
+		choose(list: Renamed Item, prompt: "Select the shortcut's icon background color:") >> choose 4
+		keysFrom(dictionary: Global.Color) >> keysFrom 10
+var CurrentColor = Dictionary Value
+		getImagesFrom(input: Chosen Item) >> getImagesFrom 4
+	} else {
+		list(items: (
+    "Select All Colors Initially",
+    "Don\U2019t Select All Colors Initially"
+)) >> list 1
+		choose(list: List) >> choose 5
+		repeat(10) {
+			if(If Result == nil) {
+				if(Chosen Item == "Select All Colors Initially") {
+					choose(list: Renamed Item, prompt: "Select the colors you'd like to be in your GIF:", multiple: true, all: true) >> choose 6
+				} else {
+					choose(list: Renamed Item, prompt: "Select the colors you'd like to be in your GIF:", multiple: true, all: false) >> choose 7
+				} >> IFResult 19
+			}
+		} >> RepeatResult 5
+		count(input: If Result) >> count 2
+		if(Count <= 1) {
+			keysFrom(dictionary: Global.Color) >> keysFrom 11
+var CurrentColor = Dictionary Value
+			getImagesFrom(input: If Result)
+		} else {
+			repeatEach(If Result) {
+				keysFrom(dictionary: Global.Color) >> keysFrom 12
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+var CurrentColor = Dictionary Value
+				repeatEach(CurrentColor) {
+					replaceText(input: "${Text}", find: "ColorValue", replace: "${Repeat Item 2}") >> replaceText 7
+					setName(input: Updated Text, name: "${Shortcut_details.key(Name)}.shortcut") >> setName 5
+					getImagesFrom(input: Renamed Item)
+				}
+			} >> RepeatResult 6
+			askForInput(prompt: "Seconds Per Photo:", type: Number, allowNegative: false) >> askForInput
+			saveFile(input: Provided Input, ask: false, path: "${Shortcut_details.key(Name)}/${Variable.key(Name)}", overwrite: true) >> saveFile 3
+			makeGIF(content: Repeat Results, frameTime: Saved File, loopOn: true, autoSize: false, width: "1024", height: "1024")
+		} >> IFResult 20
+	} >> IFResult 21
+} else {
+	repeatEach(CurrentColor) {
+var 63CC8A4A-7691-4978-83E0-857C25299C25 = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>WFWorkflowActions</key>
+	<array/>
+	<key>WFWorkflowClientRelease</key>
+	<string>3.0</string>
+	<key>WFWorkflowClientVersion</key>
+	<string>1050.4.7</string>
+	<key>WFWorkflowIcon</key>
+	<dict>
+		<key>WFWorkflowIconGlyphNumber</key>
+		<integer>￼</integer>
+		<key>WFWorkflowIconStartColor</key>
+		<integer>￼</integer>
+	</dict>
+	<key>WFWorkflowImportQuestions</key>
+	<array/>
+	<key>WFWorkflowInputContentItemClasses</key>
+	<array>
+		<string>WFAppStoreAppContentItem</string>
+		<string>WFArticleContentItem</string>
+		<string>WFContactContentItem</string>
+		<string>WFDateContentItem</string>
+		<string>WFEmailAddressContentItem</string>
+		<string>WFGenericFileContentItem</string>
+		<string>WFImageContentItem</string>
+		<string>WFiTunesProductContentItem</string>
+		<string>WFLocationContentItem</string>
+		<string>WFDCMapsLinkContentItem</string>
+		<string>WFAVAssetContentItem</string>
+		<string>WFPDFContentItem</string>
+		<string>WFPhoneNumberContentItem</string>
+		<string>WFRichTextContentItem</string>
+		<string>WFSafariWebPageContentItem</string>
+		<string>WFStringContentItem</string>
+		<string>WFURLContentItem</string>
+	</array>
+	<key>WFWorkflowMinimumClientVersion</key>
+	<integer>900</integer>
+	<key>WFWorkflowMinimumClientVersionString</key>
+	<string>900</string>
+	<key>WFWorkflowTypes</key>
+	<array>
+		<string>NCWidget</string>
+		<string>WatchKit</string>
+	</array>
+</dict>
+</plist>
+"""
+text("${63CC8A4A-7691-4978-83E0-857C25299C25}")
+		setName(input: Text, name: "T.plist") >> setName 6
+		setName(input: Renamed Item, name: "${Shortcut_details.key(Name)}.shortcut") >> setName 7
+		getImagesFrom(input: Renamed Item) >> getImagesFrom 5
+	} >> RepeatResult 7
+	count(input: Repeat Results) >> count 3
+	if(Count > 1) {
+		if(Input != nil) {
+			if(ChangeItem == "Speed") {
+				askForInput(prompt: "Seconds Per Photo:", type: Number, allowNegative: false) >> askForInput 1
+				saveFile(input: Provided Input, ask: false, path: "${Shortcut_details.key(Name)}/${Variable.key(Name)}", overwrite: true) >> saveFile 4
+			} else {
+				number(value: Input) >> number 2
+			}
+		} else {
+			askForInput(prompt: "Seconds Per Photo:", type: Number) >> askForInput 2
+			saveFile(input: Provided Input, ask: false, path: "${Shortcut_details.key(Name)}/${Variable.key(Name)}", overwrite: true) >> saveFile 5
+		} >> IFResult 22
+		makeGIF(content: Repeat Results, frameTime: If Result, loopOn: true, autoSize: false, width: "1024", height: "1024")
+	} else {
+		getImagesFrom(input: Repeat Results)
+	} >> IFResult 23
+	resizeImage(image: If Result, height: 123, width: 123) >> resizeImage 3
+} >> IFResult 24
+var FinishedResult = If Result
+setName(input: FinishedResult, name: "${Shortcut_details.key(Name)}") >> setName 8
+quicklook(input: Renamed Item)
+if(MyColors != nil) {
+var CurrentColor = Variable
+} >> IFResult 25
+count(type: Items, input: CurrentColor) >> count 4
+if(Count > 1) {
+	text(text: "GIF")
+	text(text: "s") >> text 3
+var S = Text
+} else {
+	text(text: "JPG")
+} >> IFResult 26
+var IconType = If Result
+if(Clipboard .beginsWith "BEGIN:VCARD") {
+	if(IconType == "JPG") {
+		text(text: "Add to vCard Menu")
+	}
+} else {
+	if(IconType == "JPG") {
+		text(text: "Make a vCard Menu")
+	}
+} >> IFResult 27
+var Make/Add = If Result
+dictionary({"${Make/Add}":"59445","Save to Photos":"59693","Save to Files":"59459","Copy Base64":"59794","Change Speed":"59695","Change Glyph":"${CurrentGlyph}","Change Color${S}":"59856","Change Glyph & Colors":"59654"})
+if(Make/Add .contains "vCard Menu") {
+	keysFrom(dictionary: Dictionary) >> keysFrom 13
+} else {
+	keysFrom(dictionary: Dictionary) >> keysFrom 14
+	getItemFromList(list: Dictionary Value, type: Items in Range, startIndex: "2", endIndex: "8") >> getItemFromList 4
+} >> IFResult 28
+repeatEach(If Result) {
+	keysFrom(dictionary: Dictionary) >> keysFrom 15
+	replaceText(input: "${Empty .plist}", find: "Glyph_Number", replace: "${Dictionary Value}") >> replaceText 8
+	if(IconType == "JPG") {
+		replaceText(input: "${Updated Text}", find: "Icon_Color", replace: "${CurrentColor}") >> replaceText 9
+		setName(input: Updated Text, name: "${Repeat Index}.shortcut") >> setName 9
+		getImagesFrom(input: Renamed Item) >> getImagesFrom 6
+		resizeImage(image: Images, height: 123, width: 123) >> resizeImage 4
+	} else {
+		repeatEach(CurrentColor) {
+			replaceText(input: "${Empty .plist}", find: "Icon_Color", replace: "${Repeat Item 2}") >> replaceText 10
+			replaceText(input: "${Updated Text}", find: "Glyph_Number", replace: "${Dictionary Value}") >> replaceText 11
+			setName(input: Updated Text, name: "${Repeat Index 2}.shortcut") >> setName 10
+			getImagesFrom(input: Renamed Item) >> getImagesFrom 7
+		} >> RepeatResult 8
+		getFile(picker: false, path: "${Shortcut_details.key(Folders.SPP)}/${Variable.key(Folders.SPP)}", error: false) >> getFile 1
+		makeGIF(content: Repeat Results, frameTime: File, loopOn: true, autoSize: false, width: "1024", height: "1024") >> makeGIF
+	} >> IFResult 29
+	decode(input: If Result) >> decode 4
+	if(Repeat Item == "Change Speed") {
+		if(File != nil) {
+var FBB63D25-BCD5-43A0-A42E-A12A961AAF75 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG;CHARSET=utf-8:￼ Seconds per Photo;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${FBB63D25-BCD5-43A0-A42E-A12A961AAF75}")
+		} else {
+			nothing()
+		}
+	} else {
+		if(Repeat Item == "Change Glyph") {
+			matchText(text: "${AllGlyphs}", regex: "(?<=")[^,{]+(?=":"${CurrentGlyph}")")
+		} else {
+			if(Repeat Item .contains "Change Color") {
+				repeatEach(CurrentColor) {
+					keysFrom(dictionary: Global.Color) >> keysFrom 16
+				} >> RepeatResult 9
+				count(input: Repeat Results) >> count 5
+				if(Count == 2) {
+					combineText(text: Repeat Results, combine: Custom, separator: " & ")
+				} else {
+					if(Count >= 3) {
+						getItemFromList(list: Repeat Results, type: Last Item) >> getItemFromList 5
+						combineText(text: Repeat Results, combine: Custom, separator: ", ") >> combineText 4
+						replaceText(input: "${Combined Text}", find: "${Item from List}", replace: "& ${Item from List}")
+					} else {
+						keysFrom(dictionary: Global.Color)
+					} >> IFResult 30
+				} >> IFResult 31
+			} else {
+				nothing()
+			}
+		} >> IFResult 32
+var E12A41D1-B771-48A4-93D2-84276F44D1F0 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG;CHARSET=utf-8:￼;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${E12A41D1-B771-48A4-93D2-84276F44D1F0}")
+	} >> IFResult 33
+} >> RepeatResult 10
+combineText(text: Repeat Results) >> combineText 5
+repeat(25) {
+	if(Clipboard .beginsWith "BEGIN:VCARD") {
+		replaceText(input: "${Combined Text}", find: "${Make/Add}", replace: "Add to vCard Menu") >> replaceText 12
+		setName(input: Updated Text, name: "SID.vcf") >> setName 11
+	} else {
+		setName(input: Combined Text, name: "SID.vcf") >> setName 12
+	} >> IFResult 34
+	choose(list: If Result, prompt: "What do you want to do now?") >> Chosen Item
+	if(Chosen Item .contains " vCard Menu") {
+		if(Clipboard .beginsWith "BEGIN:VCARD") {
+			list(items: (
+    "Add to vCard menu in clipboard",
+    "Continue with new vCard"
+)) >> list 2
+			choose(list: List, prompt: "Your clipboard appears to have a menu copied in it. Would you like to add that to the start of this menu?") >> choose 8
+			if(Chosen Item == "Add to vCard menu in clipboard") {
+var AddtovCard = Clipboard
+			} else {
+				text() >> text 4
+var AddtovCard = Text
+			}
+		} >> IFResult 35
+		decode(input: FinishedResult) >> decode 5
+var 9622DE30-593C-41EC-B56C-5C7B55F7284A = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Title;;;;
+ORG:---;
+PHOTO;ENCODING=b:￼
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:---;;;;
+ORG:Subtitle;
+PHOTO;ENCODING=b:￼
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Note;;;;
+ORG:---;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${9622DE30-593C-41EC-B56C-5C7B55F7284A}")
+		setName(input: Text, name: "Add to vCard.vcf") >> setName 13
+		choose(list: Renamed Item, multiple: true) >> choose 9
+		if(Chosen Item .contains "Title") {
+			askForInput(prompt: "What would you like your vCard menu title to be?")
+		} else {
+			nothing()
+		} >> Title
+		if(Chosen Item .contains "---") {
+			askForInput(prompt: "What would you like your vCard menu subtitle to be?")
+		} else {
+			nothing()
+		} >> Subtitle
+		if(Chosen Item .contains "Note") {
+			askForInput(prompt: "What would you like your vCard menu NOTE value to be? This is totally optional and is not necessary for a functional vCard menu.")
+		} else {
+			nothing()
+		} >> NOTE
+var 3149EDCF-1CEB-474B-9B95-AB1E1C106BF4 = """￼BEGIN:VCARD
+N ;CHARSET=utf-8:￼;;;;
+ORG:￼;
+PHOTO;ENCODING=b:￼
+NOTE:￼;
+END:VCARD"""
+text("${3149EDCF-1CEB-474B-9B95-AB1E1C106BF4}")
+		setClipboard(variable: Text, local: true)
+		repeatEach(CurrentColor) {
+			replaceText(input: "${Empty .plist}", find: "Glyph_Number", replace: "0xE934") >> replaceText 13
+			replaceText(input: "${Updated Text}", find: "Icon_Color", replace: "${Repeat Item 2}") >> replaceText 14
+			setName(input: Updated Text, name: "${Updated Text}.shortcut") >> setName 14
+		} >> RepeatResult 11
+		getImagesFrom(input: Repeat Results) >> getImagesFrom 8
+		decode(input: Images) >> decode 6
+var 93B463E7-7683-4582-A15C-996A4556C3FF = """￼BEGIN:VCARD
+N ;CHARSET=utf-8:Add Item to vCard Menu;;;;
+PHOTO;ENCODING=b:￼
+NOTE:￼
+END:VCARD"""
+text("${93B463E7-7683-4582-A15C-996A4556C3FF}")
+		setName(input: Text, name: "vCard.vcf") >> setName 15
+		choose(list: Renamed Item, prompt: "Your vCard menu has been copied to your device's clipboard locally. Tap or press anywhere on the device's screen to return to the previous menu.") >> choose 10
+		if(Chosen Item == "Add Item to vCard Menu") {
+			dictionary({"CurrentColor":"${CurrentColor}","CurrentGlyph":"${CurrentGlyph}","ChangeItem":"Glyph+Color"})
+			runShortcut(name: Shortcut_details, input: Dictionary, show: false) >> runShortcut 3
+			output(result: "${Shortcut Result}")
+		} else {
+			sendNotification(body: "The vCard menu text has been copied to your device's clipboard.", title: "${Shortcut_details.key(Name)}", sound: false) >> sendNotification 3
+		} >> IFResult 36
+	} >> IFResult 37
+	if(Chosen Item == "Save to Photos") {
+		quicklook(input: Renamed Item)
+		menu(Save to Photos?, [Yes, No]) {
+		case("Yes"):
+			saveToCameraRoll(image: FinishedResult) >> saveToCameraRoll
+			sendNotification(body: "Saved to photo gallery.", title: "${Shortcut_details.key(Name)}", sound: false, attachment: Saved Photo Media) >> sendNotification 4
+		case("No"):
+		} >> MenuResult
+	} >> IFResult 38
+	if(Chosen Item == "Save to Files") {
+		quicklook(input: Renamed Item)
+		menu(Save to Files (iCloud Drive)?, [Yes, No]) {
+		case("Yes"):
+			setName(input: FinishedResult, name: "${Chosen Item}") >> setName 16
+			saveFile(input: Renamed Item, ask: true) >> saveFile 6
+			sendNotification(body: "Saved to iCloud Drive in Files application.", title: "${Shortcut_details.key(Name)}", sound: false, attachment: Saved File) >> sendNotification 5
+		case("No"):
+		} >> MenuResult 1
+	}
+	if(Chosen Item == "Copy Base64") {
+		decode(input: FinishedResult) >> decode 7
+		setClipboard(variable: Base64 Encoded, local: true)
+		sendNotification(body: "The Base64 encoded text has been copied to your device's clipboard.", title: "${Shortcut_details.key(Name)}", sound: false) >> sendNotification 6
+	} >> IFResult 39
+	if(Chosen Item == "Change Speed") {
+		dictionary({"CurrentColor":"${CurrentColor}","CurrentGlyph":"${CurrentGlyph}","ChangeItem":"Speed","CurrentSpeed":"${File}"})
+		runShortcut(name: Shortcut_details, input: Dictionary, show: false) >> runShortcut 4
+		output(result: "${Shortcut Result}")
+	}
+	if(Chosen Item == "Change Glyph") {
+		dictionary({"CurrentColor":"${CurrentColor}","CurrentGlyph":"${CurrentGlyph}","ChangeItem":"Glyph","CurrentSpeed":"${File}"})
+		runShortcut(name: Shortcut_details, input: Dictionary, show: false) >> runShortcut 5
+		output(result: "${Shortcut Result}")
+	} >> IFResult 40
+	if(Chosen Item == ""Change Color${S}"") {
+		dictionary({"CurrentColor":"${CurrentColor}","CurrentGlyph":"${CurrentGlyph}","ChangeItem":"Color"})
+		runShortcut(name: Shortcut_details, input: Dictionary, show: false) >> runShortcut 6
+		output(result: "${Shortcut Result}")
+	}
+	if(Chosen Item == "Change Glyph & Colors") {
+		dictionary({"CurrentColor":"${CurrentColor}","CurrentGlyph":"${CurrentGlyph}","ChangeItem":"Glyph+Color"})
+		runShortcut(name: Shortcut_details, input: Dictionary, show: false) >> runShortcut 7
+		output(result: "${Shortcut Result}")
+	}
+} >> RepeatResult 12
+runShortcut(name: Shortcut_details, show: false) >> runShortcut 8

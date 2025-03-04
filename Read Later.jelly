@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+var Input = ShortcutInput
+if(Input .contains "http://") {
+} else {
+	getClipboard()
+} >> IFResult
+menu(Where would you like to save?, [Reading List, Pocket, Instapaper, Pinboard]) {
+case("Reading List"):
+	addToReadingList(urls: If Result) >> addToReadingList
+case("Pocket"):
+//Unable to get shortcuts action is.workflow.actions.pocket.add
+case("Instapaper"):
+//Unable to get shortcuts action is.workflow.actions.instapaper.add
+case("Pinboard"):
+//Unable to get shortcuts action is.workflow.actions.pinboard.add
+} >> MenuResult
+alert(alert: "", title: "Link saved!", cancel: false)

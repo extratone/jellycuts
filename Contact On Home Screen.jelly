@@ -1,0 +1,24 @@
+import Shortcuts
+#Color: teal, #Icon: people2
+
+/*
+This Shortcut allows the user to select a contact to text, call or FaceTime directly from the home screen with a simple tap. 
+
+To create the icon on the home screen undertake the following steps: 
+1. Tap the preferences button next to the name of this shortcut above
+2. Tap on Add to Home Screen
+3. Enter the Contact's name in the field
+4. Tap Add
+
+*/
+//Unable to get shortcuts action is.workflow.actions.contacts
+menu(, [Message, Call, FaceTime]) {
+case("Message"):
+	nothing()
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+case("Call"):
+	call(contact: Contacts)
+case("FaceTime"):
+	facetime(contact: Contacts)
+} >> MenuResult
+output(result: "${Menu Result}")

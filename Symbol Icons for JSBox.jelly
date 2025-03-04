@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: grayBlue, #Icon: boxOutline
+
+/*
+Generate on-spec, monochrome gray SF Symbol icon images for JSBox.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetSymbolNameIntent
+repeatEach(Symbol Name) {
+//Unable to get shortcuts action com.sindresorhus.Actions.SymbolImageIntent
+	convertImage(image: Symbol Image, format: PNG) >> convertImage
+	saveFile(input: Converted Image, ask: false, path: "${Repeat Item}.png", overwrite: true) >> saveFile
+} >> RepeatResult

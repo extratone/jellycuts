@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: red, #Icon: star
+
+// Using GoodLinks' URL scheme, the shortcut quick-saves a URL to GoodLinks from the share sheet adding a specific tag, which can be changed to something more relevant to you. 
+// Enter the tag's name below
+text() >> Tag
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+articleDetail(detail: Title, article: URLs) >> articleDetail
+encodeURL(url: "${Title}") >> encodeURL
+articleDetail(detail: Excerpt, article: URLs) >> articleDetail 1
+encodeURL(url: "${Excerpt}") >> encodeURL 1
+encodeURL(url: "${URLs}") >> encodeURL 2
+text(text: "goodlinks://x-callback-url/save?title=${Text}&summary=${ActionOutput}&tags=${URL Encoded Text}&url=${ActionOutput}&quick=1") >> text
+xCallbackURL(url: "${Text}") >> xCallbackURL

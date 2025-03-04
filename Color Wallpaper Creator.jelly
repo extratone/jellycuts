@@ -1,0 +1,80 @@
+import Shortcuts
+#Color: orange, #Icon: picture
+
+// Create a wallpaper based on a solid color, a left-to-right gradient, or a top-to-bottom-right gradient. The shortcut creates an image using HTML and CSS, which you can save to the Photos library and then use as a wallpaper.
+/*
+For some great color combinations, check out: 
+
+https://uigradients.com/
+*/
+// Calculate pixel ratios to multiply for screen resolution later.
+//Unable to get shortcuts action com.sindresorhus.Actions.RandomColorIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.RandomColorIntent
+deviceDetails(detail: Screen Width) >> deviceDetails
+var WidthNonRetina = Screen Width
+deviceDetails(detail: Screen Height) >> deviceDetails 1
+var HeightNonRetina = Screen Height
+if(Height Non Retina == "896") {
+// XS Max
+	number(value: 3) >> number
+var PixelRatio = Number
+} else {
+	if(Height Non Retina == "812") {
+// XS
+		number(value: 3) >> number 1
+var PixelRatio = Number
+	} else {
+		if(Height Non Retina == "736") {
+// Plus phones
+			number(value: 3) >> number 2
+var PixelRatio = Number
+		} else {
+// Any other Retina device
+			number(value: 2) >> number 3
+var PixelRatio = Number
+		}
+	}
+} >> IFResult
+math(input: Width Non Retina, operation: *, operand: Pixel Ratio) >> math
+var MultipliedWidth = Calculation Result
+math(input: Height Non Retina, operation: *, operand: Pixel Ratio) >> math 1
+var MultipliedHeigth = Calculation Result
+// Choose wallpaper type. The CSS styling needs to be saved in a Background variable.
+menu(Choose Wallpaper Type, [Solid Color, Linear Gradient - Diagonal, Linear Gradient - Left to Right]) {
+case("Solid Color"):
+	askForInput(prompt: "Enter a Color Name or Code") >> askForInput
+	text(text: "background-color: ${Ask for Input};") >> text
+var Background = Text
+case("Linear Gradient - Diagonal"):
+	askForInput(prompt: "Enter Color #1", type: Text) >> Color #1
+	askForInput(prompt: "Enter Color #2") >> Color #2
+	text(text: "background-image: linear-gradient(to bottom right, ${Color #2}, ${ActionOutput});") >> text 1
+var Background = Text
+case("Linear Gradient - Left to Right"):
+	askForInput(prompt: "Enter Color #1") >> Color #1
+	askForInput(prompt: "Enter Color #2") >> #Color 2
+	convertImage(image: #Color 2, format: PNG) >> convertImage
+	convertImage(image: Converted Image)
+	text(text: "background-image: linear-gradient(to right, ${#Color 2} , ${ActionOutput});") >> text 2
+var Background = Text
+} >> MenuResult
+// Assemble HTML, generate image, resize it by device dimensions, and preview it.
+var A70218A5-CDA3-42CF-958D-660215B4F12C = """<head>
+<meta name="viewport" content="initial-scale=1.0">
+<meta charset="utf-8">
+<style>
+body {
+￼
+}
+</style>
+<title>Icon</title>
+</head>"""
+text("${A70218A5-CDA3-42CF-958D-660215B4F12C}")
+richTextFromHTML() >> richTextFromHTML
+createPDF(input: Rich Text from HTML) >> createPDF
+getImagesFrom(input: PDF) >> getImagesFrom
+resizeImage(image: Images, height: Multiplied Heigth, width: Multiplied Width) >> resizeImage
+} >> MenuResult 1
+convertImage(image: Resized Image, format: PNG, metadata: false) >> convertImage 1
+quicklook(input: Converted Image)
+uploadPhotos(photos: Converted Image) >> uploadPhotos

@@ -1,0 +1,232 @@
+import Shortcuts
+#Color: purple, #Icon: 3DSquareStack
+
+/*
+This shortcut vertically stitches pre-cropped PNG screenshots — @atnbueno (2023-11-26)
+
+- It works as a function when it receives input, and as a demo when it doesn’t
+- Screenshots MUST NOT have headers, footers, or scrollbars in the parts to stitch
+- Screenshots MUST all have the same width
+- Screenshots are processed alphabetically by name
+*/
+if(ShortcutInput == nil) {
+	menu(🪡 This shortcut vertically stitches
+       pre-cropped PNG screenshots
+
+✂️ They MUST NOT have headers,
+       footers, or scrollbars in the parts
+       to stitch
+
+📏 They MUST have the same width
+
+🔡 They are processed alphabetically
+       by name
+
+❓ Select a source for the screenshots:, [📂 Files app, 📷 Photos app]) {
+	case("📂 Files app"):
+		wait(seconds: 2)
+		selectFile(multiple: true) >> selectFile
+	case("📷 Photos app"):
+		wait(seconds: 2)
+		selectPhoto(types: Images, multiple: true) >> selectPhoto
+	} >> MenuResult
+} >> Input files
+// Check that input is all PNGs (and warn the user if it’s not)
+count(input: Input files) >> File count
+filterFiles() >> PNG files
+var Screenshots = PNG files
+count(input: Screenshots) >> PNG count
+if(PNG count false File count) {
+	filterFiles() >> filterFiles
+	repeatEach(Archivos) {
+		fileDetail(input: Repeat Item, property: Name) >> fileDetail
+		text(text: "${Nombre}.${ActionOutput}") >> text
+	} >> RepeatResult
+	alert(alert: "These files have been discarded because they are not PNGs:
+
+${Resultado de la repetición}
+
+Do you want to continue?")
+}
+if(PNG count false 2) {
+	alert(alert: "ERROR: Not enough screenshots to stitch!", cancel: false)
+	exit()
+} >> IFResult
+matchText(text: "${Screenshots.as(Image).get(Width)}", regex: "^(\d+)(\n\1)+$") >> matchText
+if(Coincidencias == nil Anchura) {
+	alert(alert: "ERROR: Screenshots don't have the same width", cancel: false)
+	exit()
+} >> IFResult 1
+date() >> Start time
+var LastFeedback = Start time
+// Get the checksums of every row of every screenshot 🥵
+repeatEach(Screenshots) {
+	encode(input: Repeat Item) >> encode
+var 9CEA6496-234A-4F03-858D-D8E90698CBCF = """// CRC function adapted from https://gist.github.com/101arrowz/e58695f7ccfdf74f60ba22018093edea
+
+// Initialize and populate CRC lookup table
+const crcTable = new Int32Array(4096);
+for (let i = 0; i < 256; ++i) {
+  let value = i, bitShift = 9;
+  while (--bitShift)
+    value = ((value & 1) && -306674912) ^ (value >>> 1);
+  crcTable[i] = value;
+}
+
+// Further process CRC lookup table
+for (let i = 0; i < 256; ++i) {
+  let value = crcTable[i];
+  for (let j = 256; j < 4096; j += 256)
+    value = crcTable[i | j] = (value >>> 8) ^ crcTable[value & 255];
+}
+
+// Create and assign subtables for easier access and reference
+const crcSubtables = [];
+for (let i = 0; i < 16;)
+  crcSubtables[i] = crcTable.subarray(i << 8, ++i << 8);
+const [
+  table1, table2, table3, table4, table5, table6, table7, table8,
+  table9, table10, table11, table12, table13, table14, table15, table16
+] = crcSubtables;
+
+// The actual function that calculates the CRC value
+function CRC(data) {
+  let crc = -1, i = 0;
+  const maxLength = data.length - 16;
+  data = data.map(i => i & 254); // ignore LSB of each RGBA channel
+
+  // Process data in chunks
+  for (; i < maxLength;)
+    crc = table16[data[i++] ^ (crc & 255)] ^ table15[data[i++] ^
+      ((crc >> 8) & 255)] ^ table14[data[i++] ^
+      ((crc >> 16) & 255)] ^ table13[data[i++] ^ (crc >>> 24)] ^
+      table12[data[i++]] ^ table11[data[i++]] ^ table10[data[i++]] ^
+      table9[data[i++]] ^ table8[data[i++]] ^ table7[data[i++]] ^
+      table6[data[i++]] ^ table5[data[i++]] ^ table4[data[i++]] ^
+      table3[data[i++]] ^ table2[data[i++]] ^ table1[data[i++]];
+
+  // Process the remaining data
+  for (; i < data.length; ++i)
+    crc = table1[(crc & 255) ^ data[i]] ^ (crc >>> 8);
+
+  // Return the calculated crc value
+  return ~crc >>> 0;
+};
+
+// Decode the image (equivalent to loading it in a webpage)
+const image = new Image();
+image.src = `data:image/png;base64,￼`.replaceAll('\r\n', '');
+
+image.onload = () => {
+  // Draw the image onto a canvas and access its pixels
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  context.drawImage(image, 0, 0);
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+  // Calculate CRC values for each pixel row and store them in an array
+  const rowCRCs = Array.from({ length: canvas.height }, (_, y) => {
+    const rowStart = y * canvas.width * 4;
+    const rowEnd = (y + 1) * canvas.width * 4;
+    return CRC(new Uint8Array(imageData.data.subarray(rowStart, rowEnd)));
+  });
+
+  // Output the CRC values as text
+  document.body.textContent = encodeURIComponent(rowCRCs.join('\n'));
+};"""
+text("${9CEA6496-234A-4F03-858D-D8E90698CBCF}")
+	setName(input: JavaScript, name: "${Repeat Item}.js") >> setName
+	url(url: "data:text/html,<body/><script>${JavaScript}</script>") >> URL as Rich text
+	encodeURL(url: "${URL as Rich text.as(RichText)}") >> JavaScript output
+	setValue(key: "${Repeat Item}", value: "${JavaScript output}", dictionary: Checksums) >> Checksums
+	getTimeBetween(first: "${CurrentDate}", second: "${Last Feedback}", interval: Seconds) >> getTimeBetween
+	if(Tiempo entre fechas > 8) {
+		calculate(input: "rint(${PNG count}/${ActionOutput}*100)") >> calculate
+		sendNotification(body: "Processing screenshots (${Resultado del cálculo}%)...", sound: false) >> sendNotification
+var LastFeedback = CurrentDate
+	}
+	nothing()
+} >> RepeatResult 1
+// Determine the overlap of each consecutive pair of screenshots 
+var 00C60129-8DB5-4596-925C-88A34FAAE686 = """const checksums = Object.fromEntries(Object.entries(￼ ).map(
+  ([image, rows]) => [image, rows.split("\n").map(Number)]
+));
+
+// Initialize the output structure 
+const stitch = Object.fromEntries(Object.entries(checksums).map(
+  ([image, rows]) => [image, {score: null, size: 0, height: rows.length, y: 0}]
+));
+
+// Perform image stitching analysis
+const images = Object.keys(checksums).sort();
+for (let i = 0; i < images.length - 1; i++) {
+  const rows1 = checksums[images[i]];
+  const rows2 = checksums[images[i + 1]];
+  let bestScore = 0, stitchSize = 0;
+  for (let j = rows1.length - 1; j >= Math.max(0, rows1.length - rows2.length); j--) {
+    let matches = 0;
+    const overlap = Math.min(rows1.length - j, rows2.length);
+    for (let k = j; k < overlap + j; k++)
+      if (rows1[k] === rows2[k - j])
+        matches++;
+    const score = matches / overlap;
+    if (score > bestScore) {
+      bestScore = score;
+      stitchSize = overlap;
+    }
+  }
+
+  // Update stitch information for the current and the next images
+  if (stitchSize === rows1.length)
+    stitchSize = null;
+  stitch[images[i]].score = Math.round(bestScore * 100);
+  // stitch[images[i]].size += stitchSize;
+  stitch[images[i]].height -= stitchSize >> 1;
+  stitch[images[i + 1]].height -= stitchSize - (stitchSize >> 1);
+  stitch[images[i + 1]].y += stitchSize - (stitchSize >> 1);
+}
+
+// Output the stitching information as JSON
+document.body.textContent = JSON.stringify(stitch);"""
+text("${00C60129-8DB5-4596-925C-88A34FAAE686}")
+url(url: "data:text/html,<body/><script>${JavaScript}</script>") >> URL as Rich text
+encodeURL(url: "${URL as Rich text.as(RichText)}") >> Stitching data 
+getDictionaryFrom(input: Stitching data ) >> Stitching data
+// Crop half the overlap from each screenshot and combine them
+repeatEach(Screenshots) {
+	valueFor(key: "${Repeat Item}", dictionary: Stitching data) >> valueFor
+	getDictionaryFrom(input: Valor del diccionario) >> getDictionaryFrom
+	getImagesFrom(input: Repeat Item) >> Screenshot
+	if(Valor del diccionario != nil) {
+		cropImage(image: Repeat Item, position: Custom, height: Diccionario, width: Screenshot, x: 0, y: Diccionario) >> cropImage
+		setName(input: Cropped Image, name: "${Repeat Item}.cropped")
+	} >> IFResult 2
+} >> RepeatResult 2
+combineImage(images: Repeat Results, mode: Vertically, spacing: 0) >> combineImage
+getItemFromList(list: Screenshots) >> 1st screenshot
+getItemFromList(list: Screenshots, type: Last Item) >> Last screenshot
+setName(input: Combined Image, name: "${1st screenshot}-${ActionOutput}") >> Stitched image
+date() >> End time
+if(ShortcutInput == nil) {
+/*
+In demo mode, show the user the result of the stitching
+
+- Also, when run from the editor, show the stitching data
+*/
+	if(Stitched image > 20000) {
+		saveToCameraRoll(image: Stitched image) >> saveToCameraRoll
+		alert(alert: "⚠️ The height of the stitched result is ${Stitched image.get(Height)} pixels ⚠️
+
+ℹ️ Shortcuts in iOS 17 has problems to show such large images, so I've saved it to your photo library
+
+❓ Do you still want to preview the stitched result?", titcel: $2)
+	}
+	showResult(text: "${Stitched image}")
+	math(input: End time, operation: -, operand: Start time) >> math
+	round(number: Resultado del cálculo, roundTo: Tenths) >> round
+	setValue(key: "time", value: "${Número redondeado}", dictionary: Stitching data)
+} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} >> IFResult 3

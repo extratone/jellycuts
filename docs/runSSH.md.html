@@ -1,0 +1,6 @@
+<h1 id="run-script-over-ssh">Run Script Over SSH</h1>
+<h2 id="notes">Notes</h2>
+<p>Runs the given script over an SSH connection. ## Syntax</p>
+<pre><code>runSSH(host: &lt;#String (Allows Variables)#&gt;, port: &lt;#String (Allows Variables)#&gt;, user: &lt;#String (Allows Variables)#&gt;, auth: &lt;#Type (WFSSHAuthenticationType)#&gt;, password: &lt;#String (Allows Variables)#&gt;, script: &lt;#Variable#&gt;)</code></pre>
+<h2 id="example">Example</h2>
+<pre><code>runSSH(host: &quot;pi_address&quot;, port: &quot;22&quot;, user: &quot;raspberry&quot;, auth: password, password: &quot;••••••••&quot;, script: Shortcut Input)</code></pre>

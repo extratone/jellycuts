@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: lightBlue, #Icon: doubleQuoteOutline
+
+/*
+Construct embed code for a single Telegram message from its URL.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+splitText(text: ShortcutInput, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Item At Index, index: "4") >> getItemFromList
+var channel = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "5") >> getItemFromList 1
+var postid = Item from List
+text(text: "${postid}/${Variable}") >> text
+var id = Text
+text(text: "<script async="" src="https://telegram.org/js/telegram-widget.js?1" data-telegram-post="${id}" data-width="100%"></script>") >> text 1
+output(result: "${Text}", noResultBehavior: Copy to Clipboard, response: "${Text}")

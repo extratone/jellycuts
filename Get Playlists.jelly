@@ -1,0 +1,83 @@
+import Shortcuts
+import Toolbox
+#Color: yellow, #Icon: headphones
+
+// Check connectivity
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.InternetConnectionIntent
+if(Is Connected ==) {
+} else {
+	alert(alert: "An active internet connection is required to use this shortcut", cancel: false)
+	exit()
+}
+// Search for playlists on Apple Music containing the name of the artist in the currently playing song
+getCurrentSong() >> getCurrentSong
+text(text: " ${Current Song.get(Artist)}") >> text
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+if(Playlist Results == nil) {
+	alert(alert: "No playlists found. 
+Please try a different search.")
+	exit()
+} else {
+} >> IFResult
+// Create list of search results
+repeatEach(Playlist Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+// Create action menu
+dictionary({"Start Playing":{"icon":"play","colour":"53d769"},"Open in Music":{"icon":"music.note","colour":"fecb2e"},"Add to Library":{"icon":"music.note.list","colour":"5D5BDE"},"Read Description":{"icon":"text.alignleft","colour":"5fc9f8"},"Back to Results":{"icon":"arrowshape.turn.up.left","colour":"AEADB2"}})
+repeatEach(Dictionary) {
+	valueFor(key: "${Repeat Item}", dictionary: Dictionary) >> valueFor
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult 1
+// Enter a loop to choose from search results. This is in a loop so that if you exit the action menu, you'll return to the list of results without having to wait for another search
+repeat(20) {
+// Choose from search results
+	choose(list: results, prompt: "Search Results") >> choose
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+// Choose from the action menu in a loop so that you can perform multiple actions if desired
+	text(text: "false") >> text 1
+var exitActionLoop = Text
+	repeat(6) {
+		if(exitActionLoop ==) {
+// User has selected 'back to results' so this loop will finish and the results loop will start again, showing the search results again
+			nothing()
+		} else {
+			choose(list: actionMenu, prompt: "${Menu Item Detail.get(Title)}") >> choose 1
+var route = Chosen Item
+// Start playing chosen playlist
+			if(route == "Start Playing") {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+			} else {
+			} >> IFResult 1
+// Open the chosen playlist in the Music app
+			if(route == "Open in Music") {
+				openURL(url: Menu Item Detail)
+			} else {
+			} >> IFResult 2
+// Add playlist to library
+			if(route == "Add to Library") {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+				sendNotification(body: "✅ ${Menu Item Detail.get(Title)} is downloading to your Apple Music library in the background", sound: false)
+			} else {
+			} >> IFResult 3
+// Read description
+			if(route == "Read Description") {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+				if(Playlist Results == "null") {
+					alert(alert: "There is no description for this item.", cancel: false)
+				} else {
+					alert(alert: "${Playlist Results.get(Editorial Long)}", cancel: false)
+				}
+			} else {
+			}
+// Exit loop and go back to results loop
+			if(route == "Back to Results") {
+				text(text: "true") >> text 2
+var exitActionLoop = Text
+			} else {
+			}
+		} >> IFResult 4
+	} >> RepeatResult 2
+} >> RepeatResult 3

@@ -1,0 +1,65 @@
+import Shortcuts
+#Color: navy, #Icon: person2
+
+/*
+Input a natural language subject name to retrieve a usesthis.com interview and store it with extra data in Drafts.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+askForInput(prompt: "Please specify the natural formatted first and last name of the interview subject.", default: Dave Pell) >> askForInput
+changeCase(text: Provided Input, case: lowercase) >> changeCase
+splitText(text: Updated Text, separator: Spaces) >> splitText
+combineText(text: Split Text, combine: Custom, separator: ".") >> combineText
+var slug = Combined Text
+url(url: "https://usesthis.com/api/interviews/${slug}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+valueFor(key: "interview.date", dictionary: Contents of URL) >> valueFor
+getDateFrom(input: Dictionary Value) >> getDateFrom
+var davodtime = Dates
+valueFor(key: "interview.url", dictionary: Contents of URL) >> valueFor 1
+var url = Dictionary Value
+valueFor(key: "interview.name", dictionary: Contents of URL) >> valueFor 2
+var title = Dictionary Value
+valueFor(key: "interview.contents", dictionary: Contents of URL) >> valueFor 3
+var body = Dictionary Value
+valueFor(key: "interview.gear", dictionary: Contents of URL) >> valueFor 4
+repeatEach(Dictionary Value) {
+	valueFor(key: "name", dictionary: Repeat Item) >> valueFor 5
+	valueFor(key: "description", dictionary: Repeat Item) >> valueFor 6
+	valueFor(key: "api_url", dictionary: Repeat Item) >> valueFor 7
+	text(text: "- [**${Dictionary Value}**](${ActionOutput}) - *${Dictionary Value}*") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: gear) >> combineText 1
+var A90DC8F4-32C3-4F8F-87D5-7579AD1DD9CB = """# ￼ - *Uses This*
+
+- [￼](￼)
+- Date: `￼`
+
+---
+
+[![Portrait](https://usesthis.com/images/interviews/￼/portrait.jpg)](https://usesthis.com/interviews/￼)
+
+￼
+
+---
+
+## Gear
+
+￼"""
+text("${A90DC8F4-32C3-4F8F-87D5-7579AD1DD9CB}")
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+url(url: Draft) >> url 1
+openURL(url: URL) >> openURL

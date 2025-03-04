@@ -1,0 +1,16 @@
+import Shortcuts
+#Color: red, #Icon: cameraViewFinder
+
+// Take a screenshot and present a menu of options. Best used as an icon in the iPadOS dock.
+takeScreenshot() >> takeScreenshot
+menu(Screenshot Actions, [📋 Copy, 🔴 Upload, 📱 Frame, ↗️ Share]) {
+case("📋 Copy"):
+	setClipboard(variable: Screenshot) >> setClipboard
+case("🔴 Upload"):
+// Internal MacStories use only. Replace this with whatever you want.
+	runShortcut(name: "Upload Images", input: Screenshot) >> runShortcut
+case("📱 Frame"):
+	runShortcut(name: "Apple Frames", input: Screenshot) >> runShortcut 1
+case("↗️ Share"):
+	share(file: Screenshot) >> share
+} >> MenuResult

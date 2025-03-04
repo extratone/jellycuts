@@ -1,0 +1,45 @@
+import Shortcuts
+#Color: purple, #Icon: Shortcuts
+
+/*
+This shortcut requires a GitHub personal access token.
+
+Visit https://github.com/settings/tokens/new?scopes=gist
+*/
+text() >> Username
+text() >> Token
+fileDetail(input: ShortcutInput, property: Name) >> Filename
+fileDetail(input: ShortcutInput, property: File Extension) >> Extension
+askForInput(prompt: "Filename?", default: "${Extension}.${ActionOutput}") >> Full Name
+getTextFrom(input: ShortcutInput) >> File Contents
+text(text: "${Token}:${ActionOutput}") >> text
+decode(input: Text) >> decode
+text(text: "Basic ${Base64 Encoded}") >> Auth
+menu(Public?, [Yes, No]) {
+case("Yes"):
+	text(text: "true") >> text 1
+var Public = Text
+case("No"):
+	text(text: "false") >> text 2
+var Public = Text
+} >> MenuResult
+if(Public == "true") {
+	askForInput(prompt: "Description?") >> Description
+var Description = Description
+} else {
+	text(text: "") >> text 3
+var Description = Text
+}
+url(url: "https://api.github.com/gists") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestType: JSON, requestJSON: ) >> downloadURL
+valueFor(key: "html_url", dictionary: Contents of URL) >> valueFor
+getURLSFromInput(text: "${Dictionary Value}") >> getURLSFromInput
+menu(, [Open Link, Copy Link, Share Link]) {
+case("Open Link"):
+	openURL(url: URLs) >> openURL
+case("Copy Link"):
+	setClipboard(variable: URLs)
+case("Share Link"):
+	share(file: URLs)
+}
+//Unable to get shortcuts action com.apple.Numbers.TSADocumentOpenIntent

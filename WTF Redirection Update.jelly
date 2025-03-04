@@ -1,0 +1,29 @@
+import Shortcuts
+import Drafts
+import GizmoPack
+#Color: orange, #Icon: shrinkArrow
+
+var davodtime = CurrentDate
+getDraftByUUID(uuid: ""F5BD82B1BA4"")
+encodeURL(url: "${Draft with UUID}") >> encodeURL
+url(url: "things:///update?auth-token=jWc7C1OBSlq0QbJrXa4ngw&id=7XT2wYEW2DqerFBER35zvC&notes=${URL Encoded Text}") >> url
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TINRunThingsURLIntent
+text(text: "${Draft with UUID.get(content)}") >> text
+//Unable to get shortcuts action com.alexhay.ToolboxPro2.SetGlobalVariable
+universalVariables(operation: set, setValue: Clipboard, setName: "Clipboard Value", setReturnPrevious: true, getName: """", addValue: "", addName: """", addPosition: "", deleteName: """", addIndex: "", removePosition: "", removeIndex: "", removeName: """", database: public)
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+text(text: "README Update ${davodtime}") >> text 1
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+var 16C5C767-0222-4597-9E3A-4427B166F62D = 
+//Big blob of Base64 for the notification sound.
+text("${16C5C767-0222-4597-9E3A-4427B166F62D}")
+decode(input: Text) >> decode
+playSound(file: Base64 Encoded)
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent

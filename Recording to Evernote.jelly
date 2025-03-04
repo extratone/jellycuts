@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: teal, #Icon: Shortcuts
+
+date() >> date
+formatDate(date: "${Date}") >> formatDate
+var Date = Formatted Date
+recordAudio() >> recordAudio
+//Unable to get shortcuts action is.workflow.actions.evernote.new

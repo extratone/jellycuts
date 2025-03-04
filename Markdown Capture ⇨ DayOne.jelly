@@ -1,0 +1,33 @@
+import Shortcuts
+#Color: blue, #Icon: bookmark
+
+/*
+Capture markdown article content with images to Day One.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+getArticle(url: "${ShortcutInput}") >> getArticle
+urlContents(url: "${ShortcutInput}") >> urlContents
+getImagesFrom(input: Contents of Web Page) >> getImagesFrom
+markdownFromRich(text: Article) >> markdownFromRich
+articleDetail(detail: URL, article: Article) >> articleDetail
+articleDetail(detail: Published Date, article: Article) >> articleDetail 1
+articleDetail(article: Article) >> articleDetail 2
+var C25AB001-FF6E-416E-B9AA-8ED7EB55F525 = """# "￼"
+￼
+-"[￼](￼)""""
+text("${C25AB001-FF6E-416E-B9AA-8ED7EB55F525}")
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.CreateEntryIntent
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/caf/WorkoutSaved_Haptic.caf") >> url 1
+downloadURL(url: "${URL}") >> downloadURL
+playSound(file: Contents of URL)

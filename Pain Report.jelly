@@ -1,0 +1,174 @@
+import Shortcuts
+#Color: pink, #Icon: syringe
+
+menu(Where in your body do you feel pain?, [Head, Chest , Stomach, Arm, Leg, Back, I will point to the pain]) {
+case("Head"):
+	text(text: "Head") >> text
+var Painlocation1 = Text
+	list(items: (
+    Headache,
+    "Eye ",
+    "Tooth/Mouth",
+    Throat,
+    Nose,
+    "Ear ",
+    "I will point to the pain"
+)) >> list
+	choose(list: List, prompt: "Where exactly is the pain?", multiple: false) >> choose
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Answer = Chosen Item
+	} else {
+	} >> IFResult
+case("Chest "):
+	text(text: "Chest") >> text 1
+var Painlocation4 = Text
+	list(items: (
+    "Heart ",
+    "Acid Reflux",
+    Lungs,
+    Ribs,
+    "I will point to the pain"
+)) >> list 1
+	choose(list: List, prompt: "Where exactly is the pain?", multiple: false) >> choose 1
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Answer = Chosen Item
+	} else {
+	} >> IFResult 1
+case("Stomach"):
+	text(text: "Stomach") >> text 2
+var Painlocation2 = Text
+	list(items: (
+    "Tummy ",
+    "Bloating ",
+    Diarrhea,
+    Constipation,
+    "Side/ Flank",
+    "I will point to the pain"
+)) >> list 2
+	choose(list: List, prompt: "What type of pain?", multiple: false) >> choose 2
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Answer = Chosen Item
+	} else {
+	} >> IFResult 2
+case("Arm"):
+	text(text: "Arm") >> text 3
+var Painlocation3 = Text
+	list(items: (
+    Shoulder,
+    "Upper Arm",
+    Elbow,
+    Forearm,
+    Wrist,
+    Fingers,
+    Palm,
+    "I will point to the pain"
+)) >> list 3
+	choose(list: List, prompt: "Where exactly is the pain?", multiple: false) >> choose 3
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Answer = Chosen Item
+	} else {
+	} >> IFResult 3
+	list(items: (
+    Left,
+    Right
+)) >> list 4
+	choose(list: List, prompt: "Which side?") >> choose 4
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Side = Chosen Item
+	} else {
+	} >> IFResult 4
+case("Leg"):
+	text(text: "Leg") >> text 4
+var Painlocation5 = Text
+	list(items: (
+    Thigh,
+    Knee,
+    Calf,
+    "Heel of foot",
+    "Ball of foot",
+    Foot,
+    Toe,
+    "I will point to the pain"
+)) >> list 5
+	choose(list: List, prompt: "Where exactly is the pain?", multiple: false) >> choose 5
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Answer = Chosen Item
+	} else {
+	} >> IFResult 5
+	list(items: (
+    Left,
+    Right
+)) >> list 6
+	choose(list: List, prompt: "Which side?") >> choose 6
+	if(Chosen Item .contains ""${Chosen Item}"") {
+var Side = Chosen Item
+	} else {
+	} >> IFResult 6
+case("Back"):
+	text(text: "Back") >> text 5
+var PainLocation6 = Text
+	list(items: (
+    Upper,
+    Middle,
+    Lower
+)) >> list 7
+	choose(list: List, prompt: "Where exactly is the pain?") >> choose 7
+var Answer = Chosen Item
+case("I will point to the pain"):
+	text(text: "(I've pointed to the pain)") >> text 6
+var PainLocation7 = Text
+} >> MenuResult
+list(items: (
+    Aching,
+    Tender,
+    Sharp,
+    Shooting,
+    Hot,
+    Cold,
+    Swollen,
+    Burning,
+    Nagging,
+    Intense,
+    Stabbing,
+    Tingling,
+    Dull,
+    Throbbing,
+    Numb
+)) >> list 8
+choose(list: List, prompt: "What is the pain like?") >> choose 8
+if(Chosen Item .contains ""${Chosen Item}"") {
+var Intensity = Chosen Item
+} else {
+} >> IFResult 7
+list(items: (
+    "1  \Ud83d\Ude0a",
+    "2 ",
+    "3 ",
+    "4 ",
+    "5 ",
+    "6 ",
+    "7 ",
+    "8 ",
+    "9 ",
+    "10 \Ud83d\Ude2b"
+)) >> list 9
+choose(list: List, prompt: "On a scale of 1-10, how bad is the pain?") >> choose 9
+if(Chosen Item .contains ""${Chosen Item}"") {
+var PainRating = Chosen Item
+} else {
+} >> IFResult 8
+date() >> date
+formatDate(date: "${Date}", dStyle: Short, tStyle: Short, custom: "EEE, dd MMM yyyy HH:mm:ss") >> formatDate
+var CurrentDate = Formatted Date
+var 7C53E6EA-7FD1-416C-8BFB-DAB8585CAE87 = """￼.
+My ￼￼￼￼￼ ￼ ￼ hurts.
+Specifically, ￼￼.
+It's a ￼ pain.
+Out of 10, it's a ￼."""
+text("${7C53E6EA-7FD1-416C-8BFB-DAB8585CAE87}")
+menu(Do you want this spoken out loud?, [Yes, No]) {
+case("Yes"):
+	speakText(text: "${Text file format}", rate: 0.4650810062885284)
+case("No"):
+}
+createNote()

@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: grape, #Icon: shortcuts
+
+//Unable to get shortcuts action com.CarobApps.inRoute.LoadFromFavoritesIntent
+//Unable to get shortcuts action com.CarobApps.inRoute.StartRouteIntent

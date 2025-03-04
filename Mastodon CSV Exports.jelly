@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: red, #Icon: shortcuts
+text(text: <#String (Allows Variables)#>)
+repeatEach(<#Variable#>) {
+	downloadURL(url: "https://jellycuts.com", method: POST, headers: {}, requestType: Json, requestJSON: {"name": "Zach"}, requestVar: )
+}

@@ -1,0 +1,98 @@
+import Shortcuts
+#Color: teal, #Icon: musicNote
+
+// Generate links to other streaming services for any song or album passed via the share sheet or clipboard.
+if(ShortcutInput != nil) {
+	getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+} else {
+	getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput 1
+} >> IFResult
+var InputURL = If Result
+getType(input: If Result) >> getType
+if(Type == "URL") {
+	url(url: "https://api.song.link/v1-alpha.1/links?url=${Input URL}") >> url
+	downloadURL(url: "${URL}") >> downloadURL
+	getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+var SongLinkResponse = Dictionary
+	if(Dictionary != nil) {
+		valueFor(key: "entityUniqueId", dictionary: SongLink Response) >> Passed Entity ID
+		text(text: "${Passed Entity ID}") >> text
+// Assemble the initial text for whatever platform the user has shared
+		valueFor(key: "entitiesByUniqueId.${Passed Entity ID}", dictionary: SongLink Response) >> Individual Entity
+		text() >> API Name
+// Make exceptions for how to change case and change names for these platforms, such as turning iTunes into Apple Music or Amazon into Amazon Music
+		if(API Name .contains "itunes") {
+			text(text: "My Shazam Tracks") >> text 1
+var PlatformName = Text
+		} else {
+			if(API Name .contains "amazon") {
+				text(text: "Amazon Music") >> text 2
+var PlatformName = Text
+			} else {
+				if(API Name .contains "youtube") {
+					text(text: "YouTube") >> text 3
+var PlatformName = Text
+				} else {
+// It's another platform
+					changeCase(text: API Name, case: every word) >> changeCase
+var PlatformName = Updated Text
+				}
+			}
+		} >> IFResult 1
+var 2FB47F20-97AD-49AC-B79D-37E19114EC1D = """￼ by ￼
+
+￼: ￼
+"""
+text("${2FB47F20-97AD-49AC-B79D-37E19114EC1D}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Start assembling other service links 
+// Make a special exception for the Apple Music apiProvider name, which is called iTunes by Odesli
+		if(API Name == "itunes") {
+			text(text: "appleMusic") >> text 4
+var APINametoExclude = Text
+		} else {
+var APINametoExclude = API Name
+		} >> IFResult 2
+		dictionary({"Amazon Music":"amazonMusic","Apple Music":"appleMusic","Deezer":"deezer","Pandora":"pandora","Spotify":"spotify","Tidal":"tidal","YouTube":"youtube","YouTube Music":"youtubeMusic"}) >> Main Dictionary
+		valueFor(dictionary: Main Dictionary) >> Service Names
+// Exclude the service the user originally shared an item from, so it doesn't appear again in the list of additional services
+		repeatEach(Service Names) {
+			text(text: "${Repeat Item}") >> text 5
+			if(Text == ""${API Name to Exclude}"") {
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			}
+		} >> RepeatResult
+		splitText(text: Rebuilt List of Services to Pick From) >> splitText
+// Rebuild the list of services once again
+// Here's what happening here: the shortcut iterates over each apiProvider name that does NOT belong to the item we passed as input. But in the Choose from List action, we actually want to show readable service names instead of apiProvider names. So the shortcut gets all the readable keys from the original dictionary, gets the value for each one, and only if the value matches the Repeat Item 1 for the apiProvider name, it appends the readable name to a new list again. Essentially this is a double check made possible by a combo of Repeat + If.
+		repeatEach(Split Text) {
+			valueFor(dictionary: Main Dictionary) >> Readable Service Names
+			repeatEach(Readable Service Names) {
+				valueFor(key: "${Repeat Item 2}", dictionary: Main Dictionary) >> valueFor
+				text(text: "${Dictionary Value}") >> text 6
+				if(Text == ""${Repeat Item}"") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} else {
+				}
+			}
+		} >> RepeatResult 1
+		choose(list: Rebuilt List of Readable Service Names, prompt: "Pick Additional Streaming Services", multiple: true) >> choose
+// Assemble multiple service URLs
+		repeatEach(Chosen Item) {
+			valueFor(key: "${Repeat Item}", dictionary: Main Dictionary) >> valueFor 1
+			valueFor(key: "linksByPlatform.${Dictionary Value}.url", dictionary: SongLink Response) >> Service URL
+var 06CA306D-D57B-42D2-AF57-C2344A1A15C2 = """￼: ￼
+"""
+text("${06CA306D-D57B-42D2-AF57-C2344A1A15C2}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 2
+// Put everything together 
+		combineText(text: Song Share Info) >> combineText
+		share(file: Combined Text)
+	} else {
+// Response is empty 
+		alert(alert: "MusicLink couldn't fetch streaming links for this item.", title: "❌ Error ❌", cancel: false)
+		exit()
+	}
+} >> IFResult 3

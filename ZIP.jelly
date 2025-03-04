@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: barcode
+
+makeArchive(input: ShortcutInput, type: tar.gz) >> makeArchive
+saveFile(input: Archive)

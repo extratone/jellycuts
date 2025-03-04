@@ -1,0 +1,50 @@
+import Shortcuts
+#Color: grayGreen, #Icon: folderGear
+
+/*
+Create an Apple Reminder for a single file.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+Mastodon: https://mastodon.social/@DavidBlue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.TagFilesIntent
+// Tag(s) of your choice are added to the subject file using Apple's native tagging system.
+fileDetail(input: ShortcutInput, property: Name) >> fileDetail
+changeCase(text: Name, case: every word) >> changeCase
+replaceText(input: "${Updated Text}", find: " ") >> replaceText
+var formattedName = Updated Text
+// The original filename is modified (hopefully) to make it more recognizable/readable.
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GenerateThumbnailsIntent
+// Toolbox Pro's [thumbnail generation tool](https://toolboxpro.app/images#:~:text=filter%20to%20images-,generate%20thumbnails,-Generate%20small%20preview) creates an image to be attached to the Reminder result.
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetFileURLIntent
+setClipboard(variable: fileurl) >> setClipboard
+// Toolbox Pro generates a schemed/openable URL to the input file, which is copied to the system clipboard and will be appended as the `URL` variable of the Reminder result.
+fileDetail(input: ShortcutInput, property: File Extension) >> created
+formatSize() >> formatSize
+var 5A847042-ADEB-4A63-A5E3-6B780F8C4B3C = """- Extension: ￼
+- Path: ￼
+- Size: ￼
+- Created: ￼
+- Modified: ￼"""
+text("${5A847042-ADEB-4A63-A5E3-6B780F8C4B3C}")
+var details = Text
+// Details about the input file are gathered to attach to the `Notes` variable of the Reminder result.
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetReminderIDIntent
+url(url: "x-apple-reminderkit://REMCDReminder/${Reminder UUID}") >> url
+openURL(url: URL) >> openURL
+// Toolbox Pro retrieves the UUID of the Reminder result, which is reformatted into a schemed Reminders URL and opened.
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/caf/end_record.caf") >> url 1
+downloadURL(url: "${URL}") >> downloadURL
+playSound(file: Contents of URL)

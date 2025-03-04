@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+takePhoto(camera: Back, count: 4) >> takePhoto
+makeGIF(content: Photo, frameTime: "0.25") >> makeGIF
+quicklook(input: GIF)

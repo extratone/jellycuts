@@ -1,0 +1,87 @@
+import Shortcuts
+#Color: pink, #Icon: musicNoteList
+
+/*
+The default gallery Music Quiz shortcut with added result logging via Data Jar.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+number(value: 5) >> Total Number of Rounds
+var Rounds = Total Number of Rounds
+showResult(text: "Welcome to Music Quiz, a Siri Shortcuts game.
+
+Listen to the music, then pick a song.
+
+There are ${Rounds} rounds.")
+number(value: 0) >> Zero
+var Player’sWins = Zero
+// The ‘Options Count’ below is the number of songs the player will have to choose from each round. Increase the number to make the game harder, because only one will be correct.
+number(value: 5) >> number
+var OptionsCount = Number
+math(input: Options Count, operation: *, operand: Rounds) >> Total Songs To Get
+// Multiplying ‘Options Count’ by ‘Rounds’ returns the total number of songs needed for the game. (e.g. 5 songs/round × 5 rounds = 25 songs)
+filterMusic() >> Music Found
+var Songs = Music Found
+repeat(Rounds) {
+	getItemFromList(list: Songs, type: Items in Range, startIndex: "1", endIndex: Options Count) >> Items from List
+var Round’sSongs = Items from List
+/*
+The above ‘Get Item from List’ action selects a sub-set of ‘Songs’ to use in this round.
+The subsequent ‘Set Variable’ actions puts them into the variable ‘Round’s Songs’.
+*/
+	getItemFromList(list: Round’s Songs, type: Random Item) >> getItemFromList
+var CorrectSong = Item from List
+	musicDetail(detail: Duration, music: Correct Song) >> musicDetail
+	math(input: Duration, operation: /, operand: "2") >> Half Way Point
+	playMusic(music: Correct Song) >> playMusic
+	seek(behavior: To Time, time: )
+	wait(seconds: 5)
+	choose(list: Round’s Songs, prompt: "Which one of these?") >> choose
+/*
+‘Choose from List’ will show all the ‘Round’s Songs’ as options.
+It also will prompt the player to choose the ‘Correct Song’ with ‘Which one of these?’.
+*/
+	if(Chosen Item == ""${Correct Song}"") {
+		math(input: Player’s Wins, operand: "1") >> math
+var Player’sWins = Calculation Result
+		showResult(text: "Right! That was ${Correct Song.get(Artist)} by ${Variable.get(Artist)}.
+
+So far, you’re ${Player’s Wins} for ${Variable}.")
+	} else {
+		showResult(text: "Nope, that was ${Correct Song.get(Artist)} by ${Variable.get(Artist)}.
+
+You guessed ${Correct Song.get(Title)} by ${Variable.get(Title)}.
+
+So far, you’re ${Repeat Index} for ${Variable}.")
+	} >> IFResult
+	if(Repeat Index false Rounds) {
+/*
+The above ‘If’ action checks if there are more rounds to come.
+If there are, the below actions will update the variable ‘Songs’ to exclude the songs that were just shown.
+*/
+		math(input: Options Count, operand: "1") >> Options Count + 1
+		getItemFromList(list: Songs, type: Items in Range, startIndex: Calculation Result) >> Items from List
+var Songs = Items from List
+	} >> IFResult 1
+} >> RepeatResult
+dictionary({"wins":"${Player’s Wins}","rounds":"${Rounds}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+menu(, [Play Again, Share Score]) {
+case("Play Again"):
+	runShortcut(name: "Music Quiz w/Log", show: false)
+case("Share Score"):
+	text(text: "I won ${Player’s Wins} / ${Variable} rounds playing the Siri Shortcuts game Music Quiz 🎶 ") >> Text
+	share(file: Text Message) >> share
+} >> MenuResult

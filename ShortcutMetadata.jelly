@@ -1,0 +1,4 @@
+import Shortcuts
+import GizmoPack
+#Color: red, #Icon: shortcuts
+shortcutMetadata(shortcut: ShortcutInput)

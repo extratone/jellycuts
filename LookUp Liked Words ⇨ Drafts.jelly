@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: navy, #Icon: heart
+
+/*
+Create a draft for each liked word in LookUp.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+//Unable to get shortcuts action in.muditbhargava.LookUp.FindCollectedWordsIntent
+repeatEach(Words) {
+	splitText(text: Repeat Item, separator: Custom, customSeparator: ":") >> splitText
+	getItemFromList(list: Split Text) >> getItemFromList
+var term = Item from List
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 1
+var definition = Item from List
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+}

@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: Red, #Icon: scissors
+
+// Select a photo, crop it a rounded rectangle, and save it back to the Photos app.
+selectPhoto() >> selectPhoto
+maskImage(mode: Rounded Rectangle, mask: Mask) >> maskImage
+saveToCameraRoll(image: Masked Image) >> saveToCameraRoll

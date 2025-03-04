@@ -1,0 +1,902 @@
+import Shortcuts
+#Color: red, #Icon: musicSquareStack
+
+/*
+Controls every part of Apple Music where I’ve thought of functions so far:
+• Now Playing, Up Next, and Listen Now
+• Browse, Playlists, and Radio
+• Practicing music or listening to vinyl
+• Using Shazam or the new Seek action
+
+*/
+/*
+This is my most complex shortcut, built off the original Apple Music collection I created in Workflow for the Gallery and now expanded to include the latest features added to Shortcuts.
+
+I will likely improve this over time, so make sure to check back for updates.
+*/
+menu(Which section?, [Now Playing, Up Next, Listen Now, Browse, Playlists, Radio, Practice, Vinyl, Seek, Shazam]) {
+case("Now Playing"):
+// 
+	menu(What do you want to do?, [Activate Pro mode, Get album release date, Get album track listing, Save this whole album, Save their top songs, Search for lyrics, Save this song, Share this song, Copy Apple Music link, Check what’s currently playing, Embed music]) {
+	case("Activate Pro mode"):
+		menu(Which mode?, [Noise cancellation, Transparency]) {
+		case("Noise cancellation"):
+//Unable to get shortcuts action is.workflow.actions.listeningmode.set
+		case("Transparency"):
+//Unable to get shortcuts action is.workflow.actions.listeningmode.set
+		} >> MenuResult
+	case("Get album release date"):
+		getCurrentSong() >> getCurrentSong
+		if(Current Song == nil) {
+			showResult(text: "Nothing's playing currently! Start some music and try again.")
+		} else {
+			searchItunes(query: " ${Current Song.get(Album)}", category: Music, results: Albums, count: true) >> searchItunes
+			showResult(text: ""${iTunes Products.get(Release Date)}" by ${ActionOutput.get(Release Date)} was released on ${Current Song.get(Artist)}")
+		} >> IFResult
+	case("Get album track listing"):
+		getCurrentSong() >> getCurrentSong 1
+		if(Current Song == nil) {
+			selectSong() >> selectSong
+		} else {
+			filterMusic() >> filterMusic
+		} >> IFResult 1
+		getItemFromList(list: If Result) >> getItemFromList
+// Not pulling correct album
+		repeatEach($0) {
+			text(text: "${Repeat Item.get(Title)}. ${Variable.get(Title)} - ${Repeat Index}") >> text
+		} >> RepeatResult
+		combineText(text: Repeat Results, combine: New Lines) >> combineText
+var 7BF557D0-2902-4D99-957E-22D20CD7F144 = """￼
+
+￼"""
+text("${7BF557D0-2902-4D99-957E-22D20CD7F144}")
+		setClipboard(variable: Text)
+		showResult(text: "${Text}")
+	case("Save this whole album"):
+		getCurrentSong() >> getCurrentSong 2
+		searchItunes(query: "${Current Song}", by: Artist, results: Albums, count: 10) >> searchItunes 1
+		choose(list: iTunes Products, prompt: "Which album(s) would you like to save?", multiple: true) >> choose
+		addToPlaylist(music: Chosen Item) >> addToPlaylist
+	case("Save their top songs"):
+//Unable to get shortcuts action is.workflow.actions.comment
+		getCurrentSong() >> getCurrentSong 3
+		if(Current Song == nil) {
+			askForInput(prompt: "What artists do you want to add? Separate by new lines") >> askForInput
+			splitText(text: Provided Input) >> splitText
+		} else {
+			musicDetail(music: Current Song) >> musicDetail
+		} >> IFResult 2
+		repeatEach(If Result) {
+			searchItunes(query: "${Repeat Item}", category: Music, by: Artist, results: Songs, count: 10) >> searchItunes 2
+		} >> RepeatResult 1
+		createPlaylist(name: "Artist mix from ${CurrentDate} ", music: Repeat Results, author: "Shortcuts", description: "") >> createPlaylist
+	case("Search for lyrics"):
+		getCurrentSong() >> getCurrentSong 4
+		text(text: "${Current Song.get(Title)} ${ActionOutput.get(Title)} lyrics") >> text 1
+		replaceText(input: "${Text}", find: "(", replace: "") >> replaceText
+		replaceText(input: "${Updated Text}", find: ")", replace: "") >> replaceText 1
+		encodeURL(url: "${Updated Text}") >> encodeURL
+		url(url: "google.com/search?q=${URL Encoded Text}&btnI") >> url
+		openURL(url: URL)
+	case("Save this song"):
+		getCurrentSong() >> getCurrentSong 5
+		addToPlaylist(music: Current Song, playlist: $1) >> addToPlaylist 1
+	case("Share this song"):
+		getCurrentSong() >> getCurrentSong 6
+		if(Current Song == nil) {
+			selectSong() >> selectSong 1
+			playMusic(music: Music)
+		} >> Song Input
+		menu(Which part do you want to share?, [Title, Album]) {
+		case("Title"):
+			musicDetail(detail: Title, music: Song Input) >> musicDetail 1
+var Name = Title
+			searchItunes(query: " ${Song Input.get(Artist)} ${ActionOutput.get(Artist)}", by: All, count: true) >> searchItunes 3
+		case("Album"):
+var Name = Song Input
+			searchItunes(query: "${Name} ${Variable}", by: All, results: Albums, count: true) >> searchItunes 4
+		} >> MenuResult 1
+		text(text: "Listening to ${Menu Result} by ${ActionOutput} ${Name}&app=music") >> Tweet text
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Tweet text";
+                        OutputUUID = "A4D13064-33BA-485E-9F74-00CCA5278A42";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = "Album Artwork";
+                                PropertyUserInfo = artwork;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = "Current Song";
+                        OutputUUID = "692B089F-DBE6-4221-AFD8-82D19561E75F";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+		menu(What do you want to do?, [Share, Copy, Tweet, Message]) {
+		case("Share"):
+			share(file: List)
+		case("Copy"):
+			setClipboard(variable: List)
+		case("Tweet"):
+//Unable to get shortcuts action is.workflow.actions.tweet
+		case("Message"):
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+		}
+	case("Copy Apple Music link"):
+		getCurrentSong() >> getCurrentSong 7
+		text(text: "${Current Song.get(Artist)} ${ActionOutput.get(Artist)}") >> text 2
+		encodeURL(url: "${Text}") >> encodeURL 1
+		url(url: "https://itunes.apple.com/search?term=${Text}&entity=musicTrack") >> url 1
+		downloadURL(url: "${URL}") >> downloadURL
+		setName(input: Contents of URL, name: "results.json") >> setName
+//Unable to get shortcuts action dk.simonbs.Jayson.ViewJSONIntent
+		getItemFromList(list: Renamed Item) >> getItemFromList 1
+		keysFrom(dictionary: Item from List) >> keysFrom
+		text(text: "${Dictionary Value}&app=music") >> text 3
+		setClipboard(variable: Text)
+	case("Check what’s currently playing"):
+		getCurrentSong() >> getCurrentSong 8
+		if(Current Song !=) {
+			sendNotification(body: "Looks like there's no music playing currently!", title: "Hmm...", sound: true)
+		} else {
+			sendNotification(body: "by ${Current Song.get(Artist)} – ${ActionOutput.get(Artist)} track #${Current Song.get(Album Track #)}", title: "Now playing "${Current Song.get(Title)}"", attachment: Current Song)
+		} >> IFResult 3
+	case("Embed music"):
+		getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+		if(URLs == nil) {
+			getCurrentSong() >> getCurrentSong 9
+			if(Current Song == nil) {
+				getClipboard() >> getClipboard
+			} else {
+				searchItunes(query: "${Current Song.get(Artist)} ${ActionOutput.get(Artist)} ${Current Song.get(Album)}", count: true) >> searchItunes 5
+				productDetail(detail: Store URL, product: iTunes Products) >> productDetail
+			} >> IFResult 4
+		} >> IFResult 5
+		expandURL(url: "${If Result}") >> expandURL
+		splitText(text: Expanded URL, separator: Custom, customSeparator: "/") >> splitText 1
+		getItemFromList(list: Split Text, type: Item At Index, index: "7") >> getItemFromList 2
+var ID = Item from List
+		splitText(text: Item from List, separator: Custom, customSeparator: "?") >> splitText 2
+		getItemFromList(list: Split Text) >> getItemFromList 3
+		if(Item from List .contains "idpl") {
+			text(text: "playlist") >> text 4
+var type = Text
+			splitText(text: Item from List, separator: Custom, customSeparator: "idpl.") >> splitText 3
+			getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 4
+		} else {
+			if(Item from List .contains "id") {
+				text(text: "song") >> text 5
+var type = Text
+				splitText(text: Item from List, separator: Custom, customSeparator: "id") >> splitText 4
+				getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 5
+			} else {
+			}
+		} >> IFResult 6
+		menu(Which type of embed?, [Small badge, Large badge, Preview player]) {
+		case("Small badge"):
+			text(text: "<iframe src="//tools.applemusic.com/embed/v1/${type}/${Variable}?country=us <//tools.applemusic.com/embed/v1/${ID}/${Variable}?country=us>" height="500px" width="95%" frameborder="0"></iframe>") >> text 6
+		case("Large badge"):
+			text(text: "<a href="${Expanded URL}" style="display:inline-block;overflow:hidden;background:url(//tools.applemusic.com/assets/shared/badges/en-us/music-lrg.svg <http://tools.applemusic.com/assets/shared/badges/en-us/music-lrg.svg>) no-repeat;width:115px;height:40px;"></a>") >> text 7
+		case("Preview player"):
+			text(text: "<iframe src="//tools.applemusic.com/embed/v1/${ID}/${Variable}?country=us <http://tools.applemusic.com/embed/v1/${type}/${Variable}?country=us>" height="500px" width="95%" frameborder="0"></iframe>")
+		}
+	} >> MenuResult 2
+case("Up Next"):
+//Unable to get shortcuts action is.workflow.actions.comment
+	menu(What do you want to do?, [Clear, Clear and add recent, Add to the queue, Add some random songs next, Play their old stuff next, Queue up a genre, Queue up playlists, List recent music]) {
+	case("Clear"):
+		clearUpNext()
+	case("Clear and add recent"):
+		clearUpNext()
+		number(value: 50) >> number
+		filterMusic() >> filterMusic 1
+		choose(list: Music, prompt: "Which tracks do you want to replace the queue with?", multiple: true) >> choose 1
+		addUpNext(music: Chosen Item, place: Next)
+	case("Add to the queue"):
+		selectSong() >> selectSong 2
+		addUpNext(music: Music, place: Ask)
+	case("Add some random songs next"):
+		filterMusic() >> filterMusic 2
+		addUpNext(music: Music, place: Next)
+	case("Play their old stuff next"):
+		getCurrentSong() >> getCurrentSong 10
+		if(Current Song == nil) {
+			selectSong() >> selectSong 3
+		} >> IFResult 7
+		searchItunes(query: "${If Result.get(Artist)}", category: Music, by: Artist, results: Albums, count: 10) >> searchItunes 6
+		filterFiles() >> filterFiles
+		choose(list: Files, prompt: "Which albums?", multiple: true) >> choose 2
+		addUpNext(music: Chosen Item)
+	case("Queue up a genre"):
+var 47DEC6B8-471E-4AAC-A1E3-0AE121DC7814 = """Blues
+Metal
+Reggae
+Experimental
+Pop
+Singer/Songwriter
+Classical
+Soul/Funk
+Hard Rock
+Dance
+Hip-Hop
+Indie
+Jazz
+Classic Rock
+Rock
+Electronic"""
+text("${47DEC6B8-471E-4AAC-A1E3-0AE121DC7814}")
+		splitText(text: Text) >> splitText 5
+		getItemFromList(list: Split Text, type: Random Item) >> getItemFromList 6
+		filterMusic() >> filterMusic 3
+		addUpNext(music: Music, place: Later)
+	case("Queue up playlists"):
+		getPlaylist(name: Ask) >> Playlist
+		getPlaylist(name: Ask) >> Playlist 2
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Playlist;
+                        OutputUUID = "3C346F84-BEAD-4328-B6E3-55593ED36696";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Playlist 2";
+                        OutputUUID = "BBBCDCFD-1787-4C89-8844-158C19A2DD83";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+		addUpNext(music: List, place: Later)
+	case("List recent music"):
+		filterMusic() >> filterMusic 4
+		repeatEach(Music) {
+			list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Artist;
+                                PropertyUserInfo = artist;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Music;
+                        OutputUUID = "9571578B-C50D-457A-A4D1-3D7928F79B3B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Album;
+                                PropertyUserInfo = albumTitle;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Music;
+                        OutputUUID = "9571578B-C50D-457A-A4D1-3D7928F79B3B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = Title;
+                                PropertyUserInfo = title;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Music;
+                        OutputUUID = "9571578B-C50D-457A-A4D1-3D7928F79B3B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = "Last Played Date";
+                                PropertyUserInfo = lastPlayedDate;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Music;
+                        OutputUUID = "9571578B-C50D-457A-A4D1-3D7928F79B3B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 2
+			combineText(text: List, combine: Custom, separator: ",") >> combineText 1
+		} >> RepeatResult 2
+		combineText(text: Repeat Results) >> combineText 2
+var 688D4AB1-7F56-4030-A7BE-264B1D6E1B86 = """Artist,Album,Title,Play Time
+￼"""
+text("${688D4AB1-7F56-4030-A7BE-264B1D6E1B86}")
+		setName(input: Text, name: "Recent.csv") >> setName 1
+		openIn(input: Renamed Item, app: "com.apple.Numbers", ask: false)
+	} >> MenuResult 3
+case("Listen Now"):
+	menu(What do you want to do?, [Quick play, Play my Favorites mix, Take the aux, Throw on Lo-Fi, Head to the Poolside, Play albums that ALWAYS work, Play new music I haven’t listened to, Shuffle a playlist]) {
+	case("Quick play"):
+		filterMusic() >> filterMusic 5
+		playMusic(music: Music, shuffle: Songs)
+	case("Play my Favorites mix"):
+		playMusic(music: $0, shuffle: Songs)
+	case("Take the aux"):
+		filterMusic() >> filterMusic 6
+		playMusic(music: Music, shuffle: Songs)
+	case("Throw on Lo-Fi"):
+		openURL(url: "youtube://watch?v=5qap5aO4i9A")
+	case("Head to the Poolside"):
+		openApp(id: "fm.poolside.mobile")
+	case("Play albums that ALWAYS work"):
+		filterNotes() >> filterNotes
+		splitText(text: Notes) >> splitText 6
+		getItemFromList(list: Split Text, type: Items in Range, index: "2", startIndex: "2") >> getItemFromList 7
+		choose(list: Item from List) >> choose 3
+		splitText(text: Chosen Item, separator: Custom, customSeparator: " by ") >> splitText 7
+		getItemFromList(list: Split Text) >> Title
+		getItemFromList(list: Split Text, type: Last Item) >> Artist
+		filterMusic() >> filterMusic 7
+		playMusic(music: Music)
+	case("Play new music I haven’t listened to"):
+		filterMusic() >> filterMusic 8
+		playMusic(music: Music, shuffle: Songs, repeat: None)
+	case("Shuffle a playlist"):
+		getPlaylist(name: Ask) >> getPlaylist
+		playMusic(music: Playlist, shuffle: Songs)
+	} >> MenuResult 4
+case("Browse"):
+	menu(How do you want to Browse?, [Search, Explore Apple Music 1 hosts, Open Apple Music 1 shows, Open Apple Music TV, Open Mood playlists, Open Genre pages, Open a Genre playlist, Open Fitness+ music, Share my profile]) {
+	case("Search"):
+		askForInput(prompt: "Enter your Apple Music query:", default: "${Clipboard}") >> askForInput 1
+		list(items: (
+    Songs,
+    Artists,
+    Albums
+)) >> list 3
+		choose(list: List, prompt: "How do you want to search?") >> choose 4
+		searchItunes(query: "${Provided Input}", results: Chosen Item, count: 10) >> searchItunes 7
+		choose(list: iTunes Products, prompt: "What do you want to open?") >> choose 5
+		url(url: "${Chosen Item.get(Store URL)}&app=music") >> url 2
+		openURL(url: URL)
+	case("Explore Apple Music 1 hosts"):
+		menu(Which curator page would you like to open?, [Apple Music 1, Zane Lowe, Julie Adenuga, Ebro Darden, Heard on Apple Music 1]) {
+		case("Apple Music 1"):
+			url(url: "http://itunes.apple.com/us/station/beats-1/idra.978194965u?mt=1&app=music")
+		case("Zane Lowe"):
+			url(url: "https://itunes.apple.com/us/curator/zane-lowe/id990050553")
+		case("Julie Adenuga"):
+			url(url: "https://itunes.apple.com/us/curator/julie-adenuga/id993270508")
+		case("Ebro Darden"):
+			url(url: "https://itunes.apple.com/us/curator/ebro-darden/id990473683a")
+		case("Heard on Apple Music 1"):
+			url(url: "https://itunes.apple.com/us/curator/heard-on-beats-1/id993266795")
+		} >> MenuResult 5
+		openURL(url: Menu Result)
+	case("Open Apple Music 1 shows"):
+		menu(Which Beats 1 show page do you want to open?, [SOULECTION, OVOSOUND Radio, The Pharmacy with Dr. Dre, Elton John's Rocket Hour, OTHERtone, .wav radio with Travis Scott and Chase B, Time Crisis with Ezra Koenig, Start Making Sense with Jehnny Beth, Laser Sound, The Echo Chamber with Mike D, OWSLA Radio, Anna Lunoe Presents: Hyperhouse, A Series of Bleeps with Corey Taylor, Baauer's Studio B, Abstract Radio, Gratitude: Artists Sharing Albums, We the Best Radio, One Mix, 2mandyjs present 2x2, Music's Cool with Chilly Gonzalez, Noises Radio, Matt Wilkinson, Boiler Room on Beats 1, Heard on Beats 1]) {
+		case("SOULECTION"):
+			url(url: "https://itunes.apple.com/us/curator/soulection/id993271379")
+		case("OVOSOUND Radio"):
+			url(url: "https://itunes.apple.com/us/curator/ovosound-radio/id993270827")
+		case("The Pharmacy with Dr. Dre"):
+			url(url: "https://itunes.apple.com/us/curator/the-pharmacy-with-dr.-dre/id993271596")
+		case("Elton John's Rocket Hour"):
+			url(url: "https://itunes.apple.com/us/curator/elton-johns-rocket-hour/id993269779")
+		case("OTHERtone"):
+			url(url: "https://itunes.apple.com/us/curator/othertone/id994414803")
+		case(".wav radio with Travis Scott and Chase B"):
+			url(url: "https://itunes.apple.com/us/curator/.wav-radio-travis-scott-chase/id1133743406")
+		case("Time Crisis with Ezra Koenig"):
+			url(url: "https://itunes.apple.com/us/curator/time-crisis-with-ezra-koenig/id993269786")
+		case("Start Making Sense with Jehnny Beth"):
+			url(url: "https://itunes.apple.com/us/curator/start-making-sense-jehnny/id1082539352")
+		case("Laser Sound"):
+			url(url: "http://itunes.apple.com/us/curator/lazer-sound/id1037495979")
+		case("The Echo Chamber with Mike D"):
+			url(url: "https://itunes.apple.com/us/curator/the-echo-chamber-with-mike-d/id1133746284")
+		case("OWSLA Radio"):
+			url(url: "https://itunes.apple.com/us/curator/owsla-radio/id1074475536")
+		case("Anna Lunoe Presents: Hyperhouse"):
+			url(url: "https://itunes.apple.com/us/curator/anna-lunoe-presents-hyperhouse/id998788287")
+		case("A Series of Bleeps with Corey Taylor"):
+			url(url: "https://itunes.apple.com/us/curator/series-bleeps-corey-taylor/id1074476745")
+		case("Baauer's Studio B"):
+			url(url: "https://itunes.apple.com/us/curator/baauers-studio-b/id1134107966")
+		case("Abstract Radio"):
+			url(url: "https://itunes.apple.com/us/curator/abstract-radio/id993270836")
+		case("Gratitude: Artists Sharing Albums"):
+			url(url: "https://itunes.apple.com/us/curator/gratitude/id1012083715")
+		case("We the Best Radio"):
+			url(url: "https://itunes.apple.com/us/curator/we-the-best-radio/id1077842124")
+		case("One Mix"):
+			url(url: "https://itunes.apple.com/us/curator/one-mix/id1011969842")
+		case("2mandyjs present 2x2"):
+			url(url: "https://itunes.apple.com/us/curator/2manydjs-present-2x2/id1082540962")
+		case("Music's Cool with Chilly Gonzalez"):
+			url(url: "https://itunes.apple.com/us/curator/musics-cool-chilly-gonzales/id1082540400")
+		case("Noises Radio"):
+			url(url: "https://itunes.apple.com/us/curator/noisey-radio/id1052928700")
+		case("Matt Wilkinson"):
+			url(url: "https://itunes.apple.com/us/curator/matt-wilkinson/id1054535796")
+		case("Boiler Room on Beats 1"):
+			url(url: "https://itunes.apple.com/us/curator/boiler-room-on-beats-1/id1082539854")
+		case("Heard on Beats 1"):
+			url(url: "https://itunes.apple.com/us/curator/heard-on-beats-1/id993266795")
+		} >> MenuResult 6
+		openURL(url: Menu Result)
+	case("Open Apple Music TV"):
+		url(url: "https://music.apple.com/us/station/apple-music-tv/ra.1534941676") >> url 3
+		openURL(url: URL)
+	case("Open Mood playlists"):
+		menu(Which page do you want to open?, [Chill, Throwback, Focus, Motivation, Party, Romance, Blue, Feel Good, Fitness]) {
+		case("Chill"):
+			url(url: "https://itunes.apple.com/us/activity/chill/id976439503")
+		case("Throwback"):
+			url(url: "https://itunes.apple.com/us/activity/decades/id1142652618")
+		case("Focus"):
+			url(url: "https://itunes.apple.com/us/activity/focus/id976439521")
+		case("Motivation"):
+			url(url: "https://itunes.apple.com/us/activity/motivation/id1142652615")
+		case("Party"):
+			url(url: "https://itunes.apple.com/us/activity/party/id976439514")
+		case("Romance"):
+			url(url: "https://itunes.apple.com/us/activity/romance/id976439518")
+		case("Blue"):
+			url(url: "https://itunes.apple.com/us/activity/sad/id976439500")
+		case("Feel Good"):
+			url(url: "https://itunes.apple.com/us/activity/weekend/id976439512")
+		case("Fitness"):
+			url(url: "https://music.apple.com/us/activity/fitness/976439525") >> url 4
+		} >> MenuResult 7
+		url(url: "${Menu Result}&app=music") >> url 5
+		openURL(url: URL)
+	case("Open Genre pages"):
+		menu(Which curator page would you like to open?, [Alternative, Indie, Rock, Hip-Hop, R&B, Soul/Funk, Electronic, Dance, Singer/Songwriter, Jazz, Reggae, Hard Rock, Metal, Classic Rock, Classical, Experimental]) {
+		case("Alternative"):
+			url(url: "https://music.apple.com/us/curator/apple-music-alternative/id976439526?mt=1&app=music") >> url 6
+		case("Indie"):
+			url(url: "https://music.apple.com/us/curator/apple-music-indie/id976439541?mt=1&app=music")
+		case("Rock"):
+			url(url: "https://music.apple.com/us/curator/apple-music-rock/976439554") >> url 7
+		case("Hip-Hop"):
+			url(url: "https://music.apple.com/us/curator/apple-music-hip-hop/id976439539?mt=1&app=music") >> url 8
+		case("R&B"):
+			url(url: "https://music.apple.com/us/curator/apple-music-r-b/id976439551?mt=1&app=music") >> url 9
+		case("Soul/Funk"):
+			url(url: "https://music.apple.com/us/curator/apple-music-soul-funk/id976439585?mt=1&app=music") >> url 10
+		case("Electronic"):
+			url(url: "https://music.apple.com/us/curator/apple-music-electronic/id976439536?mt=1&app=music") >> url 11
+		case("Dance"):
+			url(url: "https://music.apple.com/us/curator/apple-music-dance/id976439535?mt=1&app=music") >> url 12
+		case("Singer/Songwriter"):
+			url(url: "https://music.apple.com/us/curator/apple-music-singer-songwriter/id979231701?mt=1&app=music") >> url 13
+		case("Jazz"):
+			url(url: "https://music.apple.com/us/curator/apple-music-jazz/id976439542?mt=1&app=music") >> url 14
+		case("Reggae"):
+			url(url: "https://music.apple.com/us/curator/apple-music-reggae/id976439552?mt=1&app=music") >> url 15
+		case("Hard Rock"):
+			url(url: "https://music.apple.com/us/curator/apple-music-hard-rock/id979231690?mt=1&app=music") >> url 16
+		case("Metal"):
+			url(url: "https://music.apple.com/us/curator/apple-metal/id976439543?mt=1&app=music") >> url 17
+		case("Classic Rock"):
+			url(url: "https://music.apple.com/us/curator/apple-music-classic-rock/id976439531?mt=1&app=music") >> url 18
+		case("Classical"):
+			url(url: "https://music.apple.com/us/curator/apple-music-classical/id976439532?mt=1&app=music") >> url 19
+		case("Experimental"):
+			url(url: "https://music.apple.com/us/curator/apple-music-experimental/id976439546?mt=1&app=music")
+		} >> MenuResult 8
+		openURL(url: Menu Result)
+	case("Open a Genre playlist"):
+		menu(Which playlist?, [ALT CTRL, Roadhouse, Today’s Christian, Today’s Country, danceXL, Loops, Signal to Noise, The Riff, Rap Life, Untitled Indie Playlist, Jazz Currents, Optimus Metallum, A-List Pop, R&B Now, Run Tings, The New Rock, Today’s Acoustic]) {
+		case("ALT CTRL"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-alternative/idpl.0b593f1142b84a50a2c1e7088b3fb683?mt=1&app=music")
+		case("Roadhouse"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-blues/idpl.a9faca07cf8f47e19f1819b0f5a2e765?mt=1&app=music")
+		case("Today’s Christian"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-christian/idpl.fecfa8a26ea44ad581d4fe501892c8ff?mt=1&app=music")
+		case("Today’s Country"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-country/idpl.87bb5b36a9bd49db8c975607452bfa2b?mt=1&app=music")
+		case("danceXL"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-dance/idpl.6bf4415b83ce4f3789614ac4c3675740?mt=1&app=music")
+		case("Loops"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-electronic/idpl.4705ab1ed97c4f4bb54f48940faf5623?mt=1&app=music")
+		case("Signal to Noise"):
+			url(url: "https://itunes.apple.com/us/playlist/the-a-list-experimental/idpl.10279baca9554281aae0938682daa1d2")
+		case("The Riff"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-hard-rock/idpl.58c2477d86ea46db997048afd159d01d?mt=1&app=music")
+		case("Rap Life"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-hip-hop/idpl.abe8ba42278f4ef490e3a9fc5ec8e8c5?mt=1&app=music")
+		case("Untitled Indie Playlist"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-indie/idpl.0e91490f3310408eb1186fc9befb3d11?mt=1&app=music")
+		case("Jazz Currents"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-jazz/idpl.07405f59596b402385451fa14695eec4?mt=1&app=music")
+		case("Optimus Metallum"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-metal/idpl.51c1d571cc7b484eb1dead1939811f2d?mt=1&app=music")
+		case("A-List Pop"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-pop/idpl.5ee8333dbe944d9f9151e97d92d1ead9?mt=1&app=music")
+		case("R&B Now"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-r-b/idpl.b7ae3e0a28e84c5c96c4284b6a6c70af?mt=1&app=music")
+		case("Run Tings"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-reggae/idpl.e75fb4f0f6f649a89f7c28ef4cc0442f?mt=1&app=music")
+		case("The New Rock"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-rock/idpl.28926c578a80475c904026ea97646ad5?mt=1&app=music")
+		case("Today’s Acoustic"):
+			url(url: "https://geo.itunes.apple.com/us/playlist/the-a-list-singer-songwriter/idpl.8e78f32951a4462f9f4d369c006bc97d?mt=1&app=music") >> url 20
+		} >> MenuResult 9
+		openURL(url: Menu Result)
+	case("Open Fitness+ music"):
+		menu(Which playlist?, [Pure Dance Row, Top Hits Run, Rock & Reps, Country Run, Hip-Hop Won’t Stop, Vinyasa Chill, Good Vibes Ride, Latest HIITs, Hip-Hop Ride, Hip-Hop HIIT]) {
+		case("Pure Dance Row"):
+			openURL(url: "https://music.apple.com/us/playlist/pure-dance-row/pl.6f8f8462368a46d984d0e2e61ac27c3c")
+		case("Top Hits Run"):
+			openURL(url: "https://music.apple.com/us/playlist/top-hits-run/pl.6db5f7b47286460e9928d09d9ac0be69")
+		case("Rock & Reps"):
+			openURL(url: "https://music.apple.com/us/playlist/rock-reps/pl.bbbac0ed083742f7b434bf4db7959e3c")
+		case("Country Run"):
+			openURL(url: "https://music.apple.com/us/playlist/country-run/pl.d1c800b33ee54abc86c946d0abbbb68e")
+		case("Hip-Hop Won’t Stop"):
+			openURL(url: "https://music.apple.com/us/playlist/hip-hop-wont-stop/pl.75dd12b8902842e89d11200994a0d976")
+		case("Vinyasa Chill"):
+			openURL(url: "https://music.apple.com/us/playlist/vinyasa-chill/pl.2469480458cb477dbaafe1182ac650b2")
+		case("Good Vibes Ride"):
+			openURL(url: "https://music.apple.com/us/playlist/good-vibes-ride/pl.f7cab3abb2bd4beb86a2d5523aa3dd03")
+		case("Latest HIITs"):
+			openURL(url: "https://music.apple.com/us/playlist/latest-hiits/pl.b547405d127e46c0b3c3bf511b30314b")
+		case("Hip-Hop Ride"):
+			openURL(url: "https://music.apple.com/us/playlist/hip-hop-ride/pl.bad592978a074732a9e31b4bb47753cc")
+		case("Hip-Hop HIIT"):
+			openURL(url: "https://music.apple.com/us/playlist/hip-hop-hiit/pl.03a069f0ec4f40e6a14684d62b33b750")
+		}
+	case("Share my profile"):
+		text(text: "matthewcassinelli") >> text 8
+		url(url: "https://music.apple.com/profile/${Text}") >> url 21
+		share(file: URL)
+	} >> MenuResult 10
+case("Playlists"):
+	menu(What do you want to do?, [Generate daily playlist, Save song of the day, Add to weekly playlist, Add to monthly playlist, Save to new music playlist, Save song for mixtape, Save from play history]) {
+	case("Generate daily playlist"):
+		text(text: "${CurrentDate} – Daily Playlist") >> Playlist Name
+		getPlaylist(name: Playlist Name) >> getPlaylist 1
+		if(Playlist != nil) {
+			getCurrentSong() >> getCurrentSong 11
+			addToPlaylist(music: Current Song, playlist: Playlist Name) >> addToPlaylist 2
+		} else {
+			createPlaylist(name: "${CurrentDate} – Daily Playlist") >> createPlaylist 1
+			selectSong(multiple: true) >> selectedSongs
+			addToPlaylist(music: selectedSongs, playlist: Playlist Name) >> addToPlaylist 3
+			repeatEach(selectedSongs) {
+				text(text: "${Repeat Item.get(Title)} by ${Variable.get(Title)}") >> text 9
+			} >> RepeatResult 3
+			sendNotification(body: "${Repeat Results}", title: "Adding selected songs")
+			filterMusic() >> addedYesterday
+			if(addedYesterday != nil) {
+				addToPlaylist(music: addedYesterday, playlist: Playlist Name) >> addToPlaylist 4
+				repeatEach(addedYesterday) {
+					text(text: "${Repeat Item.get(Title)} – ${Variable.get(Title)}") >> text 10
+				} >> RepeatResult 4
+				sendNotification(body: "${Repeat Results}", title: "Adding songs from yesterday", sound: true)
+			} >> IFResult 8
+			adjustDate(operation: Subtract, duration: , date: "${CurrentDate}") >> adjustDate
+			filterMusic() >> lastYear
+			addToPlaylist(music: lastYear, playlist: Playlist Name) >> addToPlaylist 5
+			repeatEach(lastYear) {
+				text(text: "${Repeat Item.get(Title)} – ${Variable.get(Title)}") >> text 11
+			} >> RepeatResult 5
+			sendNotification(body: "${Repeat Results}", title: "Adding tracks from the last year")
+			adjustDate(operation: Subtract, duration: , date: "${CurrentDate}") >> adjustDate 1
+			filterMusic() >> OlderThanAYear
+			addToPlaylist(music: OlderThanAYear, playlist: Playlist Name) >> addToPlaylist 6
+			repeatEach(OlderThanAYear) {
+				text(text: "${Repeat Item.get(Title)} – ${Variable.get(Title)}") >> text 12
+			} >> RepeatResult 6
+			sendNotification(body: "${Repeat Results}", title: "Adding songs older than a year")
+		}
+	case("Save song of the day"):
+		getCurrentSong() >> getCurrentSong 12
+		addToPlaylist(music: Current Song, playlist: Songs of the Day) >> addToPlaylist 7
+		musicDetail(detail: Album Artwork, music: Current Song) >> musicDetail 2
+		maskImage(mode: Rounded Rectangle) >> maskImage
+		getFile(picker: false, path: "1300x1300.png", error: true) >> getFile
+		overlayImage(image1: Masked Image, image2: File, editor: false) >> overlayImage
+		searchItunes(query: "${Current Song}", count: true) >> searchItunes 8
+//Unable to get shortcuts action com.dayonelog.dayoneiphone.post
+	case("Add to weekly playlist"):
+		adjustDate(operation: Get Start of Week, duration: , date: "${CurrentDate}") >> Start of Week
+		formatDate(date: "${Start of Week}", dStyle: Custom, custom: "Y - 'Week' w") >> Calendar Week (Formatted)
+		adjustDate(operation: Add, duration: , date: "${Calendar Week (Formatted)}") >> End Of Week
+		getCurrentSong() >> getCurrentSong 13
+		getPlaylist(name: Calendar Week (Formatted)) >> getPlaylist 2
+		if(Playlist == nil) {
+			createPlaylist(name: "${Calendar Week (Formatted)}", music: Current Song, author: "Matthew Cassinelli", description: "Songs for ${Start of Week} to ${ActionOutput}") >> createPlaylist 2
+			sendNotification(body: "Look for playlist "${Calendar Week (Formatted)}"", title: "Playlist created")
+		} else {
+			addToPlaylist(music: Current Song, playlist: Calendar Week (Formatted))
+		} >> IFResult 9
+	case("Add to monthly playlist"):
+		adjustDate(operation: Get Start of Month, duration: , date: "${CurrentDate}") >> Start Of Month
+		adjustDate(duration: , date: "${Start Of Month}") >> adjustDate 2
+		adjustDate(operation: Subtract, duration: , date: "${Adjusted Date}") >> End Of Month
+		formatDate(date: "${CurrentDate}", dStyle: Custom, custom: "YYYY – MMMM") >> Month (Formatted)
+		getCurrentSong() >> getCurrentSong 14
+		getPlaylist(name: Month (Formatted)) >> getPlaylist 3
+		if(Playlist == nil) {
+			createPlaylist(name: "${Month (Formatted)}", music: Current Song, author: "Matthew Cassinelli", description: "Playlist for ${End Of Month} to ${ActionOutput}") >> createPlaylist 3
+		} else {
+			addToPlaylist(music: Current Song, playlist: Month (Formatted))
+		}
+	case("Save to new music playlist"):
+		getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput 1
+		if(URLs != nil) {
+			splitText(text: URLs, separator: Custom, customSeparator: "?i=") >> splitText 8
+			count(input: Split Text) >> count
+			if(Count >= 1) {
+				splitText(text: URLs, separator: Custom, customSeparator: "/") >> splitText 9
+				getItemFromList(list: Split Text, type: Item At Index, index: "7") >> getItemFromList 8
+				searchItunes(query: "${Item from List}", results: Albums, count: true) >> searchItunes 9
+			} else {
+				getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 9
+				searchItunes(query: "${Item from List}", count: true) >> searchItunes 10
+			} >> IFResult 10
+			productDetail(detail: Store URL, product: If Result) >> productDetail 1
+			url(url: "${Store URL}&app=music") >> url 22
+			addToPlaylist(music: URL, playlist: New Music)
+		} else {
+			getCurrentSong() >> getCurrentSong 15
+			searchItunes(query: "${Current Song.get(Album)} ${ActionOutput.get(Album)} ${Current Song.get(Artist)}", count: true)
+		} >> IFResult 11
+	case("Save song for mixtape"):
+		getCurrentSong() >> getCurrentSong 16
+		menu(Which mixtape do you want to save to?, [My Mixtape, For Ariel]) {
+		case("My Mixtape"):
+			addToPlaylist(music: Current Song, playlist: For Matthew) >> addToPlaylist 8
+			text(text: "my")
+		case("For Ariel"):
+			addToPlaylist(music: Current Song, playlist: For Matthew) >> addToPlaylist 9
+			text(text: "Ariel's") >> text 13
+		} >> MenuResult 11
+		showResult(text: "'${Menu Result}' by ${ActionOutput} saved to ${Current Song.get(Artist)} mixtape.")
+		sendNotification(body: "'${Menu Result}' by ${ActionOutput} added to ${Current Song.get(Artist)} mixtape.", title: "Song saved!", attachment: Current Song)
+	case("Save from play history"):
+		filterMusic() >> filterMusic 9
+		choose(list: Music, prompt: "Which songs do you want to act on?", multiple: true, all: false) >> choose 6
+		count(type: Items, input: Chosen Item) >> count 1
+		menu(, [Add to playlist, Make new playlist]) {
+		case("Add to playlist"):
+			addToPlaylist(music: Chosen Item, playlist: Ask)
+		case("Make new playlist"):
+			createPlaylist(name: "${Ask}", music: Chosen Item, description: "${CurrentDate}") >> createPlaylist 4
+		} >> MenuResult 12
+	} >> MenuResult 13
+case("Radio"):
+	menu(What do you want to do?, [Play my personal station, Play Apple Music 1, Play Apple Music Hits, Play Jazz radio, Play Classical radio, Play a Workout station, Turn on KQED]) {
+	case("Play my personal station"):
+		playMusic(music: $0, shuffle: Off)
+	case("Play Apple Music 1"):
+		playMusic(music: $0)
+	case("Play Apple Music Hits"):
+		playMusic(music: $0)
+	case("Play Jazz radio"):
+		menu(Which station would you like to start?, [Smooth Jazz, Cocktails & Crooners, Jazz Grooves, Pure Jazz, Latin Jazz]) {
+		case("Smooth Jazz"):
+			url(url: "https://itunes.apple.com/us/station/smooth-jazz/idra.985496511")
+		case("Cocktails & Crooners"):
+			url(url: "https://itunes.apple.com/us/station/cocktails-crooners/idra.985496516")
+		case("Jazz Grooves"):
+			url(url: "https://itunes.apple.com/us/station/cocktails-crooners/idra.985496516")
+		case("Pure Jazz"):
+			url(url: "https://itunes.apple.com/us/station/pure-jazz/idra.985496180")
+		case("Latin Jazz"):
+			url(url: "https://itunes.apple.com/us/station/latin-jazz/idra.1055204856")
+		} >> MenuResult 14
+		openURL(url: Menu Result)
+	case("Play Classical radio"):
+		playMusic(music: $0)
+	case("Play a Workout station"):
+		menu(Which station would you like to start?, [Pop Workout, Dance Workout, Hip-Hop Workout, Rock Workout]) {
+		case("Pop Workout"):
+			url(url: "https://geo.itunes.apple.com/us/station/pop-workout/idra.990810398?mt=1&app=music")
+		case("Dance Workout"):
+			url(url: "https://geo.itunes.apple.com/us/station/dance-workout/idra.990815680?mt=1&app=music")
+		case("Hip-Hop Workout"):
+			url(url: "https://geo.itunes.apple.com/us/station/hip-hop-workout/idra.990816274?mt=1&app=music")
+		case("Rock Workout"):
+			url(url: "https://geo.itunes.apple.com/us/station/pop-workout/idra.990810398?mt=1&app=music") >> url 23
+		} >> MenuResult 15
+		openURL(url: Menu Result)
+	case("Turn on KQED"):
+		siriDonation()
+	} >> MenuResult 16
+case("Practice"):
+	menu(What do you want to do?, [Add this to my practice playlist, Practice random song, Practice guitar, Read about guitar, Find a guitar chord, Practice drums, Activate “Drum Time”, Finish practicing]) {
+	case("Add this to my practice playlist"):
+		getCurrentSong() >> getCurrentSong 17
+		list(items: (
+    Guitar,
+    Drums,
+    Bass
+)) >> list 4
+		choose(list: List, prompt: "Which instrument?") >> choose 7
+		addToPlaylist(music: Current Song, playlist: Chosen Item)
+	case("Practice random song"):
+		list(items: (
+    Guitar,
+    Drums,
+    Bass
+)) >> list 5
+		choose(list: List, prompt: "Which instrument?") >> choose 8
+		getPlaylist(name: Chosen Item) >> getPlaylist 4
+		getItemFromList(list: Playlist) >> getItemFromList 10
+		playMusic(music: Item from List)
+	case("Practice guitar"):
+//Unable to get shortcuts action com.apple.mobilenotes.ICNotesFolderIntent
+	case("Read about guitar"):
+		menu(Which section?, [Guitar, Bass, Amps, Soloing]) {
+		case("Guitar"):
+//Unable to get shortcuts action com.apple.news.TagIntent
+		case("Bass"):
+//Unable to get shortcuts action com.apple.news.TagIntent
+		case("Amps"):
+//Unable to get shortcuts action com.apple.news.TagIntent
+		case("Soloing"):
+//Unable to get shortcuts action com.apple.news.TagIntent
+		}
+	case("Find a guitar chord"):
+//Unable to get shortcuts action is.workflow.actions.comment
+		runShortcut(name: "Guitar Chord Finder")
+	case("Practice drums"):
+//Unable to get shortcuts action is.workflow.actions.homeaccessory
+	case("Activate “Drum Time”"):
+		runShortcut(name: "Drum time")
+	case("Finish practicing"):
+		runShortcut(name: "I’m done practicing") >> runShortcut
+	} >> MenuResult 17
+case("Vinyl"):
+	menu(What do you want to do?, [Suggest some records, Get vinyl Airtable records]) {
+	case("Suggest some records"):
+		url(url: "https://api.airtable.com/v0/appP6rIyXeV7JiNzq/Records") >> url 24
+		downloadURL(url: "${URL}", headers: ) >> downloadURL 1
+		keysFrom(dictionary: Contents of URL) >> keysFrom 1
+		repeatEach(Dictionary Value) {
+			keysFrom(dictionary: Repeat Item) >> keysFrom 2
+			text(text: ""${Dictionary Value.as(Dictionary).key(Album)}" by ${ActionOutput.as(Dictionary).key(Album)}") >> text 14
+		} >> RepeatResult 7
+		filterFiles() >> filterFiles 1
+		choose(list: Files) >> choose 9
+		sendNotification(body: "${Chosen Item}", title: "Album selected!")
+	case("Get vinyl Airtable records"):
+		url(url: "https://api.airtable.com/v0/appP6rIyXeV7JiNzq/Records") >> url 25
+		downloadURL(url: "${URL}", headers: ) >> downloadURL 2
+		keysFrom(dictionary: Contents of URL) >> keysFrom 3
+		getItemFromList(list: Dictionary Value, type: Items in Range, endIndex: "10") >> getItemFromList 11
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+//Unable to get shortcuts action dk.simonbs.Jayson.ViewJSONIntent
+	} >> MenuResult 18
+case("Seek"):
+	clearUpNext()
+	menu(, [I can feel it, I see a little silhoutte]) {
+	case("I can feel it"):
+		searchItunes(query: "In The Air Tonight by Phil Collins", count: true) >> searchItunes 11
+		playMusic(music: iTunes Products, shuffle: Off, repeat: None)
+		number(value: 0.75) >> number 1
+		wait(seconds: Number)
+		seek(time: )
+	case("I see a little silhoutte"):
+		deviceDetails(detail: Current Volume) >> deviceDetails
+		setVolume(level: false)
+		searchItunes(query: "Bohemian Rhapsody", count: true) >> searchItunes 12
+		playMusic(music: iTunes Products)
+		number(value: 1.925) >> number 2
+		wait(seconds: Number)
+		seek(behavior: Forward By, time: )
+		setVolume(level: Current Volume)
+	} >> MenuResult 19
+case("Shazam"):
+	menu(What do you want to do?, [Shazam this song, Shazam and share it, Show me this music video]) {
+	case("Shazam this song"):
+//Unable to get shortcuts action com.apple.musicrecognition.RecognizeMusicIntent
+		addToPlaylist(music: Shazam Media, playlist: My Shazam Tracks) >> addToPlaylist 10
+		text(text: "${Shazam Media.get(Lyric Snippet Synced)}") >> text 15
+		sendNotification(body: "${Text}", title: ""${Shazam Media.get(Artist)}" by ${ActionOutput.get(Artist)} ", attachment: Shazam Media)
+		openURL(url: Shazam Media)
+	case("Shazam and share it"):
+//Unable to get shortcuts action com.apple.musicrecognition.RecognizeMusicIntent
+		if(Shazam Media ==) {
+			nothing()
+		} else {
+var 940C7DDC-0CBB-4246-9372-76D0EF099AE3 = """Check out this song I just heard – "￼" by ￼
+￼"""
+text("${940C7DDC-0CBB-4246-9372-76D0EF099AE3}")
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+		} >> IFResult 12
+	case("Show me this music video"):
+		runShortcut(name: "Show me this music video") >> runShortcut 1
+	} >> MenuResult 20
+} >> MenuResult 21
+//Unable to get shortcuts action is.workflow.actions.comment
+showResult()

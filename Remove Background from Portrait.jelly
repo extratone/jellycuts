@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: pink, #Icon: aperture
+
+// This menu will allow you to decide between two options, and will run different actions based on what you choose!
+menu(Would you like to choose the photo, or use a random portrait from your library?, [Choose, Random Portrait]) {
+case("Choose"):
+	filterPhotos() >> filterPhotos
+	if(Photos == nil) {
+		alert(alert: "You don't have any portrait photos; you can take some in the camera app", cancel: false)
+		exit()
+	} >> IFResult
+	choose(list: Photos, prompt: "Which photo would you like to use?") >> choose
+	if(Chosen Item == nil) {
+		alert(alert: "No photo chosen; please select a portrait photo to use in this shortcut", cancel: false)
+		exit()
+	} >> IFResult 1
+case("Random Portrait"):
+	filterPhotos() >> filterPhotos 1
+	if(Photos == nil) {
+		alert(alert: "You don't have any portrait photos; you can take some in the camera app", cancel: false)
+		exit()
+	} >> IFResult 2
+} >> MenuResult
+//Unable to get shortcuts action is.workflow.actions.image.removebackground
+showResult(text: "${Image Without Background}")

@@ -1,0 +1,90 @@
+import Shortcuts
+#Color: blue, #Icon: repostArrows
+
+/*
+DTwitter — 3.0.3
+Made by user/heismauri
+
+Get it on RoutineHub
+routinehub.co/shortcut/6166
+*/
+dictionary({"name":"DTwitter","version":"3.0.3","id":"6166","dtwitter":{"api":"https://dtwitter.heismauri.workers.dev/"}}) >> Main
+dictionary({"selector":"true"})
+url(url: "data:text/html,<script>
+let xhr = new XMLHttpRequest()
+xhr.open('GET', 'https://routinehub.co/api/v1/shortcuts/${Main.key(id)}/versions/latest', false)
+xhr.send()
+document.write(xhr.responseText)
+</script>") >> url
+getTextFrom(input: URL) >> Response
+if(Response != nil) {
+	keysFrom(dictionary: Text) >> latestversion
+	if(latestversion != Main) {
+var 0AC5EA69-D9ED-4EB9-867D-71D627A727BD = """An update is available for "￼"
+
+Release notes: 
+￼
+
+￼ → ￼"""
+text("${0AC5EA69-D9ED-4EB9-867D-71D627A727BD}")
+		menu(, [Update now]) {
+		case("Update now"):
+			url(url: "https://routinehub.co/download/${Text.as(Dictionary).key(id)}") >> url 1
+			openURL(url: URL)
+			exit()
+		} >> MenuResult
+	} >> IFResult
+} >> IFResult 1
+if(ShortcutInput != nil) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} else {
+	getClipboard() >> getClipboard
+	if(Clipboard .contains "twitter.com") {
+		askForInput(prompt: "Tweet URL", type: URL, default: "${Clipboard}") >> askForInput
+	} >> IFResult 2
+} >> Input URL
+alert(alert: "If you like this shortcut please consider donating at (https://www.buymeacoffee.com/heismauri). It is very hard to keep this up and running all the time.", cancel: false)
+expandURL(url: "${Input URL}") >> expandURL
+if(Expanded URL .contains "twitter.com") {
+	downloadURL(url: "${Main.key(dtwitter.api)}", method: POST, headers: , requestType: Form, requestJSON: ) >> downloadURL
+	if(Contents of URL .contains "error") {
+		sendNotification(body: "Error - ${Contents of URL.as(Dictionary).key(error)}", title: "${Main.key(name)}") >> sendNotification
+	} else {
+		repeatEach(Contents of URL) {
+			keysFrom(dictionary: Repeat Item) >> type
+			if(type .contains "selector") {
+				list(items: (
+    "High (720p)",
+    "Medium (360p)",
+    "Low (270p)"
+)) >> list
+				keysFrom(dictionary: Repeat Item) >> keysFrom
+				count(type: Items, input: Dictionary Value) >> count
+				math(input: "4", operation: -, operand: Count) >> math
+				getItemFromList(list: List, type: Items in Range, startIndex: Calculation Result) >> getItemFromList
+				if(Count == 1) {
+					getItemFromList(list: Item from List)
+				} else {
+					choose(list: Item from List, prompt: "Select download quality") >> choose
+				} >> IFResult 3
+				splitText(text: If Result, separator: Spaces) >> splitText
+				getItemFromList(list: Split Text) >> getItemFromList 1
+				changeCase(text: Item from List, case: lowercase) >> changeCase
+				keysFrom(dictionary: Repeat Item) >> keysFrom 1
+var link = Dictionary Value
+			} else {
+var link = Variable
+			} >> IFResult 4
+			downloadURL(url: "${link}") >> downloadURL 1
+			if(type .contains "gif") {
+				math(input: "1", operation: /, operand: Contents of URL) >> Delay time
+				makeGIF(content: Contents of URL, frameTime: Calc, autoSize: false, width: Repeat Item, height: Repeat Item) >> makeGIF
+				setName(input: GIF, name: "${Contenido de URL.get(Name)}")
+			} >> IFResult 5
+		} >> RepeatResult
+		saveToCameraRoll(image: Repeat Results) >> saveToCameraRoll
+		sendNotification(body: "Media saved to your gallery", title: "${Main.key(name)}", attachment: Saved Photo Media) >> sendNotification 1
+	} >> IFResult 6
+} else {
+	sendNotification(body: "URL not supported", title: "${Main.key(name)}") >> sendNotification 2
+} >> IFResult 7

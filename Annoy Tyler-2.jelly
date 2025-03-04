@@ -1,0 +1,10 @@
+import Shortcuts 1092.9.13.2
+#Color: teal,#Icon: iphone
+
+askForInput(prompt: "What text do you want to send?", type:) ->[askForInput]
+changeCase(text: Provided Input, case:) ->[changeCase]
+splitText(text: Updated Text, separator:customSeparator:) ->[splitText]
+repeatEach(Split Text) {
+	if( != " ") {
+	} ->[If Result]
+}

@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: navy, #Icon: arrowCurvedRight
+
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+var url = URLs
+//Unable to get shortcuts action AsheKube.app.a-Shell.ExecuteCommandIntent
+//Unable to get shortcuts action AsheKube.app.a-Shell.GetFileIntent
+getTextFrom(input: File) >> getTextFrom
+//Unable to get shortcuts action com.sindresorhus.Actions.TrimWhitespaceIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent

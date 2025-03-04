@@ -1,0 +1,58 @@
+import Shortcuts
+#Color: grape, #Icon: musicSquareStack
+
+// Turn an article from Safari into a spoken version you can listen to. Optionally, you can also save the spoken audio file in the Files app or other apps.
+if(ShortcutInput != nil) {
+	getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+var PageURL = URLs
+} else {
+	getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput 1
+var PageURL = URLs
+} >> IFResult
+getArticle(url: "${Page URL}") >> getArticle
+var Article = Article
+articleDetail(detail: Body, article: Article) >> articleDetail
+getTextFrom(input: Body) >> Article Text
+// Sanitize title to remove special characters
+replaceText(input: "${Article.get(Title)}", find: ":") >> replaceText
+replaceText(input: "${Updated Text}", find: "'") >> replaceText 1
+replaceText(input: "${Updated Text}", find: """) >> replaceText 2
+replaceText(input: "${Updated Text}", find: "’") >> replaceText 3
+replaceText(input: "${Updated Text}", find: "&#8217;") >> replaceText 4
+replaceText(input: "${Updated Text}", find: "%3A") >> replaceText 5
+replaceText(input: "${Updated Text}", find: "&") >> replaceText 6
+var SanitizedTitle = Updated Text
+sendNotification(body: "Siri is generating a spoken version of this article. Please wait.", title: "Generating Spoken Article...", sound: false) >> sendNotification
+spokenAudioFromText(text: "${Article Text}", language: en-US, voice: com.apple.ttsbundle.Samantha-compact) >> spokenAudioFromText
+encodeAudio(media: Spoken Audio, title: "${Sanitized Title}", artist: "${Article.get(Author)}", year: "${Article.get(Published Date)}") >> encodeAudio
+setName(input: Encoded Media, name: "${Sanitized Title}") >> setName
+var AudioFile = Renamed Item
+menu(, [🎧 Listen Now, 💾 Save Audio File, 📲Open Audio File with Apps, 📄 Create Obsidian Embed]) {
+case("🎧 Listen Now"):
+	quicklook(input: Audio File)
+case("💾 Save Audio File"):
+	saveFile(input: Audio File) >> saveFile
+case("📲Open Audio File with Apps"):
+	openIn(input: Audio File, ask: true)
+case("📄 Create Obsidian Embed"):
+	file() >> file
+	urlComponent(url: "${Page URL}", component: Host) >> urlComponent
+// Create YAML syntax for note metadata
+var AD4D8992-45B9-4F8B-B4A8-753D93268F1A = """---
+title: "￼"
+website: "￼"
+source: "￼"
+author: "￼"
+---
+[￼](￼)
+
+![[￼.m4a]]"""
+text("${AD4D8992-45B9-4F8B-B4A8-753D93268F1A}")
+// Silly workaround for Shortcuts bug that doesn't let me edit the Name field of the Set Name action
+	text(text: "${Sanitized Title}.md") >> Filename
+	setName(input: Note, name: "${Filename}") >> setName 1
+// Save both files
+	saveFile(input: Renamed Item, ask: false) >> saveFile 1
+	saveFile(input: Audio File, ask: false) >> saveFile 2
+	openApp(id: "md.obsidian")
+}

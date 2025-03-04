@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: grape, #Icon: folderGear
+
+// Search your notes for any text, then easily tag them all at once.
+askForInput(prompt: "What text do you want to search for in your notes?", type: Text) >> askForInput
+filterNotes() >> filterNotes
+choose(list: Notes, prompt: "Which notes do you want to tag?", multiple: true, all: true) >> choose
+//Unable to get shortcuts action com.apple.Notes.CreateTagLinkAction
+//Unable to get shortcuts action com.apple.Notes.AddTagsToNotesLinkAction

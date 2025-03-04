@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: Red, #Icon: downloadArrow
+
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+downloadURL(url: "${URLs}") >> downloadURL
+saveFile(input: Contents of URL, ask: false, overwrite: true) >> saveFile
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.TagFilesIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetFileURLIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+setClipboard(variable: File URL) >> setClipboard
+url(url: "https://davidblue.wtf/audio/ios/caf/PhotosMemoriesNotification.caf") >> url
+downloadURL(url: "${URL}") >> downloadURL 1
+playSound(file: Contents of URL) >> playSound
+output(result: "${Play Sound}")

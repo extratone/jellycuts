@@ -1,0 +1,20 @@
+import Shortcuts
+#Color: Red, #Icon: tools
+
+matchText(text: "${ShortcutInput.as(URL)}", regex: "https:\/\/www\.icloud\.com\/shortcuts\/(.+)") >> matchText
+getMatchGroup(matches: Matches, index: "1") >> getMatchGroup
+url(url: "https://www.icloud.com/shortcuts/api/records/${Text}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+var MainDict = Dictionary
+keysFrom(dictionary: Dictionary) >> keysFrom
+//Unable to get shortcuts action com.ameba.esse.RunFunctionIntent
+var name = Result
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+keysFrom(dictionary: MainDict) >> keysFrom 1
+downloadURL(url: "${Dictionary Value}") >> downloadURL 1
+setName(input: Contents of URL, name: "shortcut.plist") >> setName
+getTextFrom(input: Renamed Item) >> getTextFrom
+//Unable to get shortcuts action ke.bou.GizmoPack.EncodePlistIntent
+saveFile(input: Plist Encoded, ask: false, overwrite: true) >> saveFile
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent

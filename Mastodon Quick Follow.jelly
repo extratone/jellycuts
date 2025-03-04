@@ -1,0 +1,31 @@
+import Shortcuts
+#Color: navy, #Icon: addMessage
+
+if(ShortcutInput == nil) {
+	takeScreenshot() >> takeScreenshot
+var ToScrape = Screenshot
+} else {
+var ToScrape = ShortcutInput
+} >> IFResult
+text(text: "") >> Server 
+extractTextFromImage(image: ToScrape) >> extractTextFromImage
+splitText(text: Text from Image, separator: Spaces) >> splitText
+repeatEach(Split Text) {
+	matchText(text: "${Repeat Item}", regex: "([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)") >> matchText
+} >> RepeatResult
+if(Repeat Results == nil) {
+	exit()
+} else {
+	splitText(text: Repeat Results) >> splitText 1
+	choose(list: Split Text) >> choose
+	if(Chosen Item .contains ""${Server }"") {
+		matchText(text: "${Chosen Item}", regex: "^.*(?=(\@))") >> matchText 1
+var UsernameToFollow = Matches
+		showResult(text: "${UsernameToFollow}")
+	} else {
+var UsernameToFollow = Chosen Item
+	} >> IFResult 1
+	text(text: "https://${UsernameToFollow}/@${Variable}") >> text
+	showWebPage(url: "${Text}")
+	setClipboard(variable: Text) >> setClipboard
+} >> IFResult 2

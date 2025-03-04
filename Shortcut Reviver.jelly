@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: green, #Icon: ambulance
+
+// Bring old .shortcut files back to life with signing on macOS Montetey.
+// Folder where old and unsigned shortcuts are stored
+file(file: $0) >> Old Shortcuts Folder
+// Folder for new and signed shortcuts
+file(file: $0) >> file
+getFolderContents(folder: Old Shortcuts Folder) >> getFolderContents
+repeatEach(Contents of Folder) {
+// Sign the shortcut with permissions set to “anyone”.
+	runShellScript(script: "shortcuts sign -m anyone -i "${Folder.get(File Path)}" -o "${ActionOutput.get(File Path)}/${Repeat Item}.shortcut"") >> runShellScript
+}

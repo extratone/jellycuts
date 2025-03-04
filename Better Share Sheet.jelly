@@ -1,0 +1,138 @@
+import Shortcuts
+#Color: blue, #Icon: uploadArrow
+
+/*
+Shortcut made by:
+u/mvan231
+u/ibanks3
+u/atnbueno
+u/gluebyte
+
+Initial idea by:
+u/ibanks3
+*/
+/*
+Better Share Sheet
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+Purpose:
+This shortcut is intended to replace the current Shortcuts share sheet with a more rich and user friendly experience
+
+Setup Instructions:
+1. Create a new Shortcuts folder with whatever name you like.
+2. Select all of the shortcuts from the share sheet folder and tap, hold, and drag them.
+While still holding, use your other hand to navigate to the folder created in the previous step, then drop/release the shortcuts into the folder. 
+You will now have all of your shortcuts from the Share Sheet folder into this new folder.
+3. Make sure the shortcuts folder selected when importing the shortcut is the one the share sheet shortcuts were dragged into. If not, you can set it in the action near the top of the shortcut
+4. Run the shortcut manually to generate the JSON file that powers the shortcut when running from share sheet. If you ever add more shortcurs that need to he included, you can simply run the shortcut manually again and it will ask if you want to clear out the shortcut run history, this is optional for adding more shortcurs to the JSON file. (The shortcut will add newly added shortcuts to the file whether you select yes or no).
+5. (OPTIONAL, but recommended) Go to the original Share Sheet "smart folder" in Shortcuts and select all, then select remove. This will clean your share sheet out. You can now enter the settings for Better Share Sheet and add it back to the share sheet.
+FINISHED! The shortcut is now ready for use. 
+
+Usage: Simply tap the share button on any given item and select Better Share Sheet. 
+The shortcut will process the input item and determine the right shortcuts to choose from.
+The shortcuts list will display each share sheet type in the order of, most used; in case of tie: display by last used; in case of last used time being the same (shortcuts that have not yet been shared to), sort alphabetically
+*/
+/*
+V14: 
+- added comments to prepare for release
+- change name to Better Share Sheet
+*/
+/*
+Get the shortcuts from the created Share Sheet folder's shortcuts
+⬇️
+*/
+getShortcuts() >> getShortcuts
+getFile(path: "customShareSheet.json", error: false) >> getFile
+if(File == nil) {
+	number(value: 1) >> number
+} else {
+	if(ShortcutInput == nil) {
+		menu(Clear custom share sheet run history?, [Yes, No]) {
+		case("Yes"):
+			deleteFile(input: File) >> deleteFile
+		case("No"):
+		} >> MenuResult
+		number(value: 1) >> number 1
+	} >> IFResult
+} >> IFResult 1
+if(If Result == 1) {
+	getFileOfType(input: My Shortcuts, type: "com.apple.plist") >> getFileOfType
+	repeatEach(File of Type) {
+		valueFor(key: "WFWorkflowInputContentItemClasses", dictionary: Repeat Item) >> valueFor
+		replaceText(input: "${Dictionary Value}", find: "WF(.*?)ContentItem", replace: "$1", isRegex: true) >> replaceText
+		replaceText(input: "${Updated Text}", find: "AVAsset", replace: "Media") >> replaceText 1
+		replaceText(input: "${Updated Text}", find: "GenericFile", replace: "File") >> replaceText 2
+		replaceText(input: "${Updated Text}", find: "String", replace: "Text") >> replaceText 3
+		replaceText(input: "${Updated Text}", find: "RichText", replace: "Rich text") >> replaceText 4
+		replaceText(input: "${Updated Text}", find: "SafariWebPage", replace: "Safari web page") >> replaceText 5
+		if(Dictionary Value != nil) {
+			setValue(key: "${Repeat Item.get(Name)}", value: "${Updated Text}") >> setValue
+		} >> IFResult 2
+	} >> RepeatResult
+	setValue(key: "d", value: "${Repeat Results}") >> setValue 1
+	if(File != nil) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	} else {
+		text(text: "{}") >> text
+	} >> IFResult 3
+var 4DAE3BF9-4916-4B6F-95BD-241224EF83F0 = """let d = ￼;
+for (a of ￼.d) {
+	let k = Object.keys(a)[0];
+	for (v of Object.values(a).flat()) {
+          if(!d[v])d[v]={};        
+          if(!d[v][k]){d[v][k] = {
+             runs : 0 ,
+             dt : 0
+            }
+          }
+	}
+}
+document.body.textContent = encodeURIComponent(JSON.stringify(d));"""
+text("${4DAE3BF9-4916-4B6F-95BD-241224EF83F0}")
+	url(url: "data:text/html;charset=utf-8,<body/><script>${Text}</script>") >> url
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL
+	getDictionaryFrom(input: URL Encoded Text) >> getDictionaryFrom
+	saveFile(input: Dictionary, ask: false, path: "customShareSheet.json", overwrite: true) >> saveFile
+} >> Dictionary if result
+if(ShortcutInput != nil) {
+	getType(input: ShortcutInput) >> getType
+	matchText(text: "${Dictionary if result.as(Dictionary).get(Keys)}", regex: ".*${Type}.*") >> matchText
+	if(Matches != nil) {
+	} else {
+		text(text: "File") >> text 1
+	} >> Item type if result
+	valueFor(key: "${Item type if result}", dictionary: Dictionary if result) >> Item type sub dict
+var BF66694A-46D4-4D6B-B5A2-DED90CD976A5 = """function sortObj(obj) {
+    return Object.entries(obj)
+        .sort((a, b) =>
+  a[1]["runs"] !== b[1]["runs"]?
+  b[1]["runs"]-a[1]["runs"]:
+  b[1]["dt"] !== a[1]["dt"] ?
+    b[1]["dt"] - a[1]["dt"] :
+     a[0].localeCompare(b[0])
+        )
+        .map(e => e[0]);
+}
+
+let myObj = ￼;
+
+document.write(sortObj(myObj));"""
+text("${BF66694A-46D4-4D6B-B5A2-DED90CD976A5}")
+	url(url: "data:text/html;charset=utf-8,<body/><script>${Text}</script>") >> url 1
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 1
+	splitText(text: URL Encoded Text, separator: Custom, customSeparator: ",") >> splitText
+	repeatEach(Split Text) {
+		filterFiles() >> filterFiles
+	} >> RepeatResult 1
+	if(Repeat Results != nil) {
+		choose(list: Repeat Results, prompt: "Which shortcut to run?") >> choose
+var D1C8AF04-E0B6-4693-8B29-7473D171190F = """let d = ￼;
+d["￼"]["￼"]["runs"]+=1;
+d["￼"]["￼"]["dt"]=new Date().getTime();
+document.body.textContent = encodeURIComponent(JSON.stringify(d));"""
+text("${D1C8AF04-E0B6-4693-8B29-7473D171190F}")
+		url(url: "data:text/html;charset=utf-8,<body/><script>${Text}</script>") >> url 2
+		decodeURL(url: "${URL.as(RichText)}") >> decodeURL 2
+		saveFile(input: URL Encoded Text, ask: false, path: "customShareSheet.json", overwrite: true) >> saveFile 1
+		runShortcut(name: Chosen Item, input: ShortcutInput) >> runShortcut
+	} >> IFResult 4
+}

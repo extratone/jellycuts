@@ -1,0 +1,55 @@
+import Shortcuts
+#Color: navy, #Icon: lock
+
+/*
+Convert letters and numbers into morse code. 
+
+## Usage
+
+When prompted, enter a phrase to convert. Any spaces will be converted to a forward slash. All punctuation will be removed before conversion. 
+*/
+askForInput(prompt: "Enter text to encode") >> askForInput
+replaceText(input: "${Provided Input}", find: " ", replace: "/", caseSensitive: false) >> replaceText
+matchText(text: "${Updated Text}", regex: "[0-9a-zA-Z/]", caseSensitive: false) >> matchText
+splitText(text: Matches, separator: Spaces) >> splitText
+repeatEach(Split Text) {
+	replaceText(input: "${Repeat Item}", find: "a", replace: "•-", caseSensitive: false) >> replaceText 1
+	replaceText(input: "${Updated Text}", find: "b", replace: "-•••", caseSensitive: false) >> replaceText 2
+	replaceText(input: "${Updated Text}", find: "c", replace: "-•-•", caseSensitive: false) >> replaceText 3
+	replaceText(input: "${Updated Text}", find: "d", replace: "-••", caseSensitive: false) >> replaceText 4
+	replaceText(input: "${Updated Text}", find: "e", replace: "•", caseSensitive: false) >> replaceText 5
+	replaceText(input: "${Updated Text}", find: "f", replace: "••-•", isRegex: false, caseSensitive: false) >> replaceText 6
+	replaceText(input: "${Updated Text}", find: "g", replace: "--•", caseSensitive: false) >> replaceText 7
+	replaceText(input: "${Updated Text}", find: "h", replace: "••••", caseSensitive: false) >> replaceText 8
+	replaceText(input: "${Updated Text}", find: "i", replace: "••", caseSensitive: false) >> replaceText 9
+	replaceText(input: "${Updated Text}", find: "j", replace: "•---", caseSensitive: false) >> replaceText 10
+	replaceText(input: "${Updated Text}", find: "k", replace: "-•-", caseSensitive: false) >> replaceText 11
+	replaceText(input: "${Updated Text}", find: "l", replace: "•-••", caseSensitive: false) >> replaceText 12
+	replaceText(input: "${Updated Text}", find: "m", replace: "--", caseSensitive: false) >> replaceText 13
+	replaceText(input: "${Updated Text}", find: "n", replace: "-•", caseSensitive: false) >> replaceText 14
+	replaceText(input: "${Updated Text}", find: "o", replace: "---", caseSensitive: false) >> replaceText 15
+	replaceText(input: "${Updated Text}", find: "p", replace: "•--•", isRegex: false, caseSensitive: false) >> replaceText 16
+	replaceText(input: "${Updated Text}", find: "q", replace: "--•-", caseSensitive: false) >> replaceText 17
+	replaceText(input: "${Updated Text}", find: "r", replace: "•-•-", caseSensitive: false) >> replaceText 18
+	replaceText(input: "${Updated Text}", find: "s", replace: "•••", caseSensitive: false) >> replaceText 19
+	replaceText(input: "${Updated Text}", find: "t", replace: "-", caseSensitive: false) >> replaceText 20
+	replaceText(input: "${Updated Text}", find: "u", replace: "••-", caseSensitive: false) >> replaceText 21
+	replaceText(input: "${Updated Text}", find: "v", replace: "•••-", caseSensitive: false) >> replaceText 22
+	replaceText(input: "${Updated Text}", find: "w", replace: "•--", caseSensitive: false) >> replaceText 23
+	replaceText(input: "${Updated Text}", find: "x", replace: "-••-", caseSensitive: false) >> replaceText 24
+	replaceText(input: "${Updated Text}", find: "y", replace: "-•--", caseSensitive: false) >> replaceText 25
+	replaceText(input: "${Updated Text}", find: "z", replace: "--••", caseSensitive: false) >> replaceText 26
+	replaceText(input: "${Updated Text}", find: "1", replace: "•----", caseSensitive: false) >> replaceText 27
+	replaceText(input: "${Updated Text}", find: "2", replace: "••---", caseSensitive: false) >> replaceText 28
+	replaceText(input: "${Updated Text}", find: "3", replace: "•••--", caseSensitive: false) >> replaceText 29
+	replaceText(input: "${Updated Text}", find: "4", replace: "••••-", caseSensitive: false) >> replaceText 30
+	replaceText(input: "${Updated Text}", find: "5", replace: "•••••", caseSensitive: false) >> replaceText 31
+	replaceText(input: "${Updated Text}", find: "6", replace: "-••••", caseSensitive: false) >> replaceText 32
+	replaceText(input: "${Updated Text}", find: "7", replace: "--•••", caseSensitive: false) >> replaceText 33
+	replaceText(input: "${Updated Text}", find: "8", replace: "---••", caseSensitive: false) >> replaceText 34
+	replaceText(input: "${Updated Text}", find: "9", replace: "----•", caseSensitive: false) >> replaceText 35
+	replaceText(input: "${Updated Text}", find: "0", replace: "-----", caseSensitive: false) >> replaceText 36
+} >> RepeatResult
+combineText(text: Repeat Results, combine: Spaces, separator: "/") >> combineText
+showResult(text: "${Combined Text}")
+setClipboard(variable: Combined Text, local: false) >> setClipboard

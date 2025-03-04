@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: Red, #Icon: dollarSign
+
+askForInput(prompt: "What is the bill?", type: Number) >> askForInput
+menu(How much would you like to tip?, [12%, 15%, 18%, 20%]) {
+case("12%"):
+	number(value: 0.12)
+case("15%"):
+	number(value: 0.15)
+case("18%"):
+	number(value: 0.18)
+case("20%"):
+	number(value: 0.2) >> number
+} >> MenuResult
+math(input: BillAmount, operation: *, operand: PercentTipping) >> math
+formatNumber(number: Calculation Result, places: 2) >> formatNumber
+math(input: Formatted Number, operand: BillAmount) >> math 1
+formatNumber(number: Calculation Result, places: 2) >> formatNumber 1
+alert(alert: "Your tip is $${TipAmount} and your total is $${ActionOutput}", title: "", cancel: false)

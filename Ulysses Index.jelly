@@ -1,0 +1,30 @@
+import Shortcuts
+#Color: yellow, #Icon: signs
+
+/*
+Create an alphabetized index of markdown-formatted hyperlinks for a given Ulysses group.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.ulyssesapp.ios.ULListSheetsIntent
+repeatEach(Sheets) {
+//Unable to get shortcuts action com.ulyssesapp.ios.ULGetIdentifierIntent
+	url(url: "ulysses://x-callback-url/open?id=${Callback Identifier}") >> url
+	text(text: "- [${Repeat Item.get(Name)}](${Variable.get(Name)})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+//Unable to get shortcuts action com.sindresorhus.Actions.SortListIntent
+combineText(text: Sorted List) >> combineText
+setClipboard(variable: Combined Text) >> setClipboard

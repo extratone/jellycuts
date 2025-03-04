@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: red, #Icon: ellipsis
+
+getCurrentSong() >> getCurrentSong
+addToPlaylist(music: Current Song, playlist: C̸ ̵O̷ ̴N̵ ̶T̸ ̵A̵ ̴C̶ ̵T̴) >> addToPlaylist
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxPro2.GetLinkToSong

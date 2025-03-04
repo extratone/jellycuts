@@ -1,0 +1,115 @@
+import Shortcuts
+#Color: yellow, #Icon: photoStackAlt
+
+/*
+This shortcut helps you to upload sets of images to your Micro.blog account and copy the resulting image URLs (optionally as Markdown or HTML) to the clipboard for easy sharing or editing. Get items from the share sheet, or run it without input to choose from sources like Files, Photos, the clipboard, and the camera.
+
+Includes an option to automatically generate image descriptions for each upload using the ‘Generate Alt Text with OpenAI Vision’ shortcut (https://heydingus.net/shortcuts/generate-alt-text-with-openai-vision).
+*/
+/*
+// About  
+
+This shortcut was created by Jarrod Blundy (http://heyjb.me) and is part of the HeyDingus Shortcuts Library (https://heydingus.net/shortcuts) where you can find more shortcuts, tips, and in-depth explainers. Please consider a donation (http://tipjb.me) if you find this shortcut fun or useful. Thank you. 🙌
+
+Version 1.3 - Released 2024-03-19
+Learn more and get the latest version of this shortcut: https://heydingus.net/shortcuts/bulk-mb-image-uploader
+*/
+// ⬇️ Start of Setup Stuff ⬇️
+/*
+Add your Micro.blog API token to the ‘Text’ action below.
+
+Get a token here: https://micro.blog/account/apps
+*/
+text(text: "") >> text
+var mb-api-token = Text
+/*
+What is your blog’s subdomain at micro.blog? It’s the domain you chose when setting up the blog, such as “jarrod.micro.blog” even if you later set a custom domain.
+
+Enter it in the ‘Text’ action below. If you leave this blank, it will default to whatever blog you most recently selected in your account.
+*/
+text(text: "") >> text 1
+var blog-uid = Text
+/*
+Do you want to use OpenAI’s Vision API to automatically generate image descriptions (alt text)? If yes, type “Yes” into the ‘Text’ action below.
+
+Requires the ‘Generate Alt Text with OpenAI Vision’ shortcut: https://heydingus.net/shortcuts/generate-alt-text-with-openai-vision
+*/
+text(text: "") >> text 2
+var generate-alt-text? = Text
+// ⬆️ End of Setup Stuff ⬆️ 
+if(ShortcutInput == nil) {
+	menu(Get file from..., [📂 Files, 🏞️ Photos, 📸 Camera, 📋 Clipboard, 🛑 Cancel]) {
+	case("📂 Files"):
+		selectFile(multiple: true) >> selectFile
+	case("🏞️ Photos"):
+		selectPhoto(types: (
+    Images,
+    "Live Photos"
+), multiple: true) >> selectPhoto
+	case("📸 Camera"):
+		takePhoto() >> takePhoto
+	case("📋 Clipboard"):
+		getImagesFrom(input: Clipboard) >> getImagesFrom
+		if(Images == nil) {
+			alert(alert: "No images were found on clipboard. ", cancel: false)
+			exit()
+		}
+	case("🛑 Cancel"):
+		exit()
+	} >> MenuResult
+var images = Menu Result
+} else {
+var images = ShortcutInput
+} >> IFResult
+repeatEach(images) {
+// Upload file to Micro.blog using API request.
+	if(blog-uid != nil) {
+		text(text: "https://micro.blog/micropub/media?mp-destination=${blog-uid}") >> text 3
+	} else {
+		text(text: "https://micro.blog/micropub/media") >> text 4
+	} >> IFResult 1
+	downloadURL(url: "${If Result}", method: POST, headers: , requestType: Form, requestJSON: , requestVar: Photos) >> downloadURL
+// Get the uploaded file’s URL from the data returned by Micro.blog.
+	getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+	valuesFrom(dictionary: Dictionary) >> valuesFrom
+var image-url = Dictionary Value
+// Build list of image URLs. Includes blank line so that they are sepatated in the list.
+var 3347DCDA-094F-466D-ADC8-A0B583B10393 = """￼
+"""
+text("${3347DCDA-094F-466D-ADC8-A0B583B10393}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Get image descriptions with ‘Generate Alt Text with OpenAI Vision’ shortcut: https://heydingus.net/shortcuts/generate-alt-text-with-openai-vision
+	if(generate-alt-text? .contains "Yes") {
+		runShortcut(name: "Generate Alt Text with OpenAI Vision", input: image-url) >> runShortcut
+var alt-text = Shortcut Result
+	} >> IFResult 2
+// Build list of image HTML. Includes blank line so that they are sepatated in the list.
+var 03872BC0-5B90-4E50-96AC-3A542D1D070F = """<img src="￼" alt="￼">
+"""
+text("${03872BC0-5B90-4E50-96AC-3A542D1D070F}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Build list of image Markdown. Includes blank line so that they are sepatated in the list.
+var 21ED55A1-8FE1-4619-9866-E9897993BA12 = """![￼](￼)
+"""
+text("${21ED55A1-8FE1-4619-9866-E9897993BA12}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Get URL variable so it counts correctly in the next action.
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} >> RepeatResult
+count(input: Repeat Results) >> count
+if(Count == 1) {
+	text(text: "item") >> text 5
+} else {
+	text(text: "items") >> text 6
+} >> item/items
+menu(, [URLs, HTML, Markdown]) {
+case("URLs"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+case("HTML"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+case("Markdown"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} >> MenuResult 1
+text(text: "${Menu Result}") >> text 7
+setClipboard(variable: Text) >> setClipboard
+output(result: "${Clipboard}", noResultBehavior: Do Nothing, response: "${Clipboard}")

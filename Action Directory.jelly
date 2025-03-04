@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: red, #Icon: squareStack
+
+/*
+A tool for opening an action’s listing in Matthew Cassinelli’s Action Directory (https://www.matthewcassinelli.com/actions.)
+
+Action titles should be provided in the format {word1}-{word2}. (Ex: choose-from-menu.)
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+askForInput(prompt: "Action title. Spaces ⇨ hypens (-).", default: ask-for-input) >> askForInput
+text(text: "https://www.matthewcassinelli.com/actions/${Provided Input}") >> text
+url(url: Text) >> url
+openURL(url: URL) >> openURL
+setClipboard(variable: URL) >> setClipboard
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent

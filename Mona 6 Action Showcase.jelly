@@ -1,0 +1,41 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+//Unable to get shortcuts action com.jonny.mona.SelectClientAccountIntent
+//Unable to get shortcuts action com.jonny.mona.GetClientAccountsIntent
+//Unable to get shortcuts action com.jonny.mona.GetCurrentUserProfileIntent
+//Unable to get shortcuts action com.jonny.mona.GetCurrentTweetIntent
+//Unable to get shortcuts action com.jonny.mona.IsAppRunningIntent
+//Unable to get shortcuts action com.jonny.mona.QuitAppIntent
+//Unable to get shortcuts action com.jonny.mona.AddMastodonFilterKeywordsIntent
+//Unable to get shortcuts action com.jonny.mona.CreateMastodonFilterIntent
+//Unable to get shortcuts action com.jonny.mona.DeleteMastodonFilterIntent
+//Unable to get shortcuts action com.jonny.mona.GetMastodonFiltersIntent
+//Unable to get shortcuts action com.jonny.mona.GetMastodonFiltersIntent
+//Unable to get shortcuts action com.jonny.mona.SearchMastodonFilterIntent
+//Unable to get shortcuts action com.jonny.mona.KJYFocusFilter
+//Unable to get shortcuts action com.jonny.mona.KJYOpenURLIntent
+//Unable to get shortcuts action com.jonny.mona.OpenTweetComposerIntent
+//Unable to get shortcuts action com.jonny.mona.OpenSearchIntent
+//Unable to get shortcuts action com.jonny.mona.SwitchAccountIntent
+//Unable to get shortcuts action com.jonny.mona.SwitchAccountIntent
+//Unable to get shortcuts action com.jonny.mona.UploadMediaIntent
+//Unable to get shortcuts action com.jonny.mona.CreatePollIntent
+//Unable to get shortcuts action com.jonny.mona.GetScheduledPostsIntent
+//Unable to get shortcuts action com.jonny.mona.PostTweetIntent
+//Unable to get shortcuts action com.jonny.mona.ChangeScheduledPostDateIntent
+//Unable to get shortcuts action com.jonny.mona.GetAccountIntent
+//Unable to get shortcuts action com.jonny.mona.GetTweetIntent
+//Unable to get shortcuts action com.jonny.mona.KJYSearchIntent
+//Unable to get shortcuts action com.jonny.mona.AdjustSettingsIntent
+//Unable to get shortcuts action com.jonny.mona.ExportOrImportSettingsIntent
+//Unable to get shortcuts action com.jonny.mona.GetThemesIntent
+//Unable to get shortcuts action com.jonny.mona.SetThemeIntent
+//Unable to get shortcuts action com.jonny.mona.GetUserAccessibilityTextIntent
+//Unable to get shortcuts action com.jonny.mona.GetTweetAccessibilityTextIntent
+//Unable to get shortcuts action com.jonny.mona.GetImageCaptionIntent
+//Unable to get shortcuts action com.jonny.mona.GetTextLimitIntent
+//Unable to get shortcuts action com.jonny.mona.GetPrivacyLevelIntent
+//Unable to get shortcuts action com.jonny.mona.SetImageCaptionIntent
+//Unable to get shortcuts action com.jonny.mona.SplitTextIntent
+//Unable to get shortcuts action com.jonny.mona.ExportTweetScreenshotIntent

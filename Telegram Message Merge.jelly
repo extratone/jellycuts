@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: blue, #Icon: paperAirplane
+
+combineText(text: ShortcutInput) >> combineText
+createNote(text: "${Combined Text.as(RichText)}") >> createNote
+setClipboard(variable: Combined Text) >> setClipboard
+prependFile(path: "messagelog.txt") >> prependFile
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent

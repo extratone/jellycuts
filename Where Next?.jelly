@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: Red, #Icon: footprints
+
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+getAddressFrom(input: Upcoming Event) >> Location
+count(type: Items, input: Location) >> count
+if(Count false true) {
+	showResult(text: "The next event on your calendar "${Upcoming Event}," does not have a valid location.")
+	exit()
+} >> IFResult
+//Unable to get shortcuts action is.workflow.actions.gettraveltime
+showResult(text: "We're off to ${Travel Time}. It will take ${ActionOutput} to get there.")
+//Unable to get shortcuts action is.workflow.actions.getdirections

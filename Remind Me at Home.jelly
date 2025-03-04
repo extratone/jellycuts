@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+askForInput(prompt: "What do you want to be reminded about?") >> reminder
+//Unable to get shortcuts action is.workflow.actions.address
+//Unable to get shortcuts action is.workflow.actions.addnewreminder

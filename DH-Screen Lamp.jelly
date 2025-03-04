@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: blue,#Icon: lightbulb
+
+//Unable to get shortcuts action is.workflow.actions.comment
+count(input: Shortcut Input) >> count
+if( > 0) {
+	getDictionaryFrom(input: Shortcut Input)
+} else {
+	dictionary({"Brightness":"1","Colour":"white"})
+} >> If Result
+deviceDetails(detail: Current Brightness) >> deviceDetails
+setBrightness(value: If Result)
+var 0BA355AC-F9A4-4A8C-A810-EDAC1941E0BA = """<!DOCTYPE html>
+<html>
+<head><title> </title></head>
+<body style="background: ￼;">
+</body>
+</html>"""
+text("${0BA355AC-F9A4-4A8C-A810-EDAC1941E0BA}")
+richTextFromHTML() >> richTextFromHTML
+showWebPage(url: "${Rich Text from HTML}")
+setBrightness(value: Current Brightness)

@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: orange, #Icon: play
+
+setMediaDestination(device: Ask)

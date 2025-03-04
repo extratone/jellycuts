@@ -1,0 +1,76 @@
+import Shortcuts
+#Color: red, #Icon: ticket
+
+// This part extracts the html, removes line breaks and tabs, creating a big chunk of text/HTML.
+url(url: ShortcutInput) >> url
+downloadURL(url: "${URL}") >> downloadURL
+htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+splitText(text: HTML from Rich Text) >> splitText
+combineText(text: Split Text, combine: Spaces) >> combineText
+replaceText(input: "${Combined Text}", find: "	", replace: "") >> replaceText
+// This part captures the film name and release year and changes any weird ‘ to display properly.
+matchText(text: "${Updated Text}", regex: "(?<= review of ).*?(?=" />)", caseSensitive: false) >> matchText
+replaceText(input: "${Matches}", find: "&#039;", replace: "'") >> replaceText 1
+/*
+This part captures the review copy, splits the lines, removes any remaining code and puts the lines back together. 
+Then at the end you can preview the post and edit if you need. 
+*/
+if(Updated Text .contains "This review may contain spoilers.") {
+	matchText(text: "${Updated Text}", regex: "(?<=This review may contain spoilers.</em></p> <div><p>).*?(?=</p></div>)", caseSensitive: false) >> matchText 1
+	replaceText(input: "${Matches}", find: "&#039;", replace: "'") >> replaceText 2
+} else {
+	matchText(text: "${Updated Text}", regex: "(?<=og:description" content=").*?(?=" />)") >> matchText 2
+	replaceText(input: "${Matches}", find: "&#039;", replace: "'")
+} >> IFResult
+replaceText(input: "${If Result}", find: "<br />", replace: "<br/>") >> replaceText 3
+replaceText(input: "${Updated Text}", find: "<br/>", replace: "§<br/>") >> replaceText 4
+replaceText(input: "${Updated Text}", find: "</p><p>", replace: "§<br/>§<br/>") >> replaceText 5
+splitText(text: Updated Text, separator: Custom, customSeparator: "<br/>") >> splitText 1
+combineText(text: Split Text) >> combineText 1
+replaceText(input: "${Combined Text}", find: "§") >> replaceText 6
+var 962B76A8-F62A-41AA-B625-AF6E9F2A8D1A = """￼
+
+￼
+
+￼"""
+text("${962B76A8-F62A-41AA-B625-AF6E9F2A8D1A}")
+menu(, [Edit, All good!]) {
+case("Edit"):
+	askForInput(prompt: "Edit below…", default: "${Text}") >> askForInput
+case("All good!"):
+	getTextFrom(input: Text) >> getTextFrom
+} >> MenuResult
+// Below you can post to Mastodon via Mona or just copy to the clipboard. If you want to change the Mastodon client you just need to swap out the ‘post’ actions below the 'Post via Mona' menu item. 
+menu(, [Post via Mona, Copy to clipboard & launch any app, Copy to clipboard]) {
+case("Post via Mona"): >> MenuResult 1
+// This next part counts the characters in the post to make sure it is below 1000. If it is it gives you 1 chance to edit it down. Otherwise it will fail.
+	count(type: Characters, input: Menu Result) >> count
+	count(type: Characters, input: Updated Text) >> count 1
+	math(input: Count, operand: Count) >> math
+	math(input: Calculation Result, operand: "25") >> math 1
+	if(Calculation Result > 995) { >> IFResult 1
+		askForInput(prompt: "Your post is ${Calculation Result}, which is longer than the 1000 character Mastodon limit. Please edit it below.", default: "${Menu Result}") >> askForInput 1
+	} else { >>  2
+		getTextFrom(input: Menu Result) >> getTextFrom 1
+	} >> IFResult 2
+// The next part checks if the post has been marked with spoilers and gives you the choice to add a ‘Content Warning’ to your Mastodon post. If it doesn’t have any spoilers the shortcut will post straight to Mastodon and show you the final post.
+	if(Updated Text .contains "This review may contain spoilers") { >> IFResult 3
+		menu(You've marked this review as containing spoilers. Do you want to mark the post with a 'Content warning' on Mastodon?, [Yes, No]) {
+		case("Yes"):
+//Unable to get shortcuts action com.jonny.mona.KJYPostTweetIntent
+		case("No"):
+//Unable to get shortcuts action com.jonny.mona.KJYPostTweetIntent
+		} >> MenuResult 2
+	} else {
+//Unable to get shortcuts action com.jonny.mona.KJYPostTweetIntent
+	} >> IFResult 4
+case("Copy to clipboard & launch any app"):
+	setClipboard(variable: Menu Result, local: true) >> setClipboard
+	alert(alert: "Review copied to the clipboard.", cancel: false)
+	openApp()
+	exit()
+case("Copy to clipboard"): >> MenuResult 3
+	setClipboard(variable: Menu Result, local: true) >> setClipboard 1
+	alert(alert: "Review copied to the clipboard.", cancel: false)
+	exit()
+} >> MenuResult 4

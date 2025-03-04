@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+filterCalendar() >> filterCalendar
+choose(list: Calendar Events, prompt: "Which event do you want to open?") >> choose
+showInCalendar(event: Chosen Item)

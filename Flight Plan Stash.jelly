@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: grayBrown, #Icon: airplane
+
+var davodtime = CurrentDate
+text(text: "9b6176d9-2377-4f72-b1f2-85f8ec7be935") >> text
+var userID = Text
+text(text: "ews2c0lkhkuuo7s51ghemufjep60hkut") >> text 1
+var auth = Text
+url(url: "https://api.infiniteflight.com/public/v2/users/${userID}/flights") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valuesFrom(dictionary: Dictionary) >> valuesFrom
+getItemFromList(list: Dictionary Value) >> getItemFromList
+var flight = Item from List
+valuesFrom(dictionary: flight) >> valuesFrom 1
+var id = Dictionary Value
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+// https://api.infiniteflight.com/public/v2/sessions/45173539-5080-4c95-9b93-a24713d96ec8/flights/{flightid}/flightplan
+url(url: "https://api.infiniteflight.com/public/v2/sessions/45173539-5080-4c95-9b93-a24713d96ec8/flights/${id}/flightplan") >> url 1
+downloadURL(url: "${URL}", headers: ) >> downloadURL 1
+var plan = Contents of URL
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent

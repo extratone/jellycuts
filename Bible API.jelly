@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: grayBrown, #Icon: openBook
+
+/*
+Retrieve and hear a specified Bible verse spoken aloud via bible-api.com.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+askForInput(prompt: "Book", default: john) >> askForInput
+var book = Provided Input
+askForInput(prompt: "chapter:verse", default: 3:16) >> askForInput 1
+var verse = Provided Input
+url(url: "https://bible-api.com/${verse}%20${Variable}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+valueFor(key: "text", dictionary: Contents of URL) >> valueFor
+setClipboard(variable: Dictionary Value) >> setClipboard
+speakText(text: "${Dictionary Value}")
+showResult(text: "${Dictionary Value}")

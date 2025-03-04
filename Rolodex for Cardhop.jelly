@@ -1,0 +1,48 @@
+import Shortcuts 1092.9.18
+#Color: green,#Icon: textbubble
+
+menu(What do you want to do?, [Show birthdays, Open contact group, Open contact, Create new contact, Add info to a contact, Grab email, Open website, Send birthday note, Check social profiles]) {
+case("Show birthdays"):
+case("Open contact group"):
+case("Open contact"):
+	askForInput(prompt: "Which contact?") >> askForInput
+	choose(list: Contacts, prompt: "Which one?") >> choose
+	openURL(url: Chosen Item)
+case("Create new contact"):
+	askForInput(prompt: "Enter all the contact info in one blurb:") >> askForInput
+	openURL(url: Contact)
+case("Add info to a contact"):
+	askForInput(prompt: "What’s the info you want to add?") >> askForInput
+	askForInput(prompt: "Who do you want to add it to?") >> askForInput
+	choose(list: Contacts) >> choose
+case("Grab email"):
+	askForInput(prompt: "Who’s email do you need?") >> askForInput
+	choose(list: Contacts, prompt: "Which person is correct?") >> choose
+	getEmailFrom(input: "${Chosen Item.get(emails)}") >> getEmailFrom
+	count(input: Email Addresses) >> count
+	if( > 1) {
+		choose(list: Email Addresses, prompt: "Which one?")
+	} else {
+	} >> If Result
+	setClipboard(variable: If Result)
+case("Open website"):
+	askForInput(prompt: "Who’s website do you want to visit?") >> askForInput
+	choose(list: Contacts, prompt: "Which is correct?") >> choose
+	openURL(url: Chosen Item)
+case("Send birthday note"):
+	choose(list: Contacts, prompt: "Which person?") >> choose
+	openURL(url: Chosen Item)
+case("Check social profiles"):
+	askForInput(prompt: "Which person?") >> askForInput
+	choose(list: Contacts) >> choose
+	if( != nil $2) {
+		text(text: "Here's ${Chosen Item.get(socialProfiles)}'s social profiles:
+
+${ActionOutput.get(socialProfiles)}") >> text
+		showResult(text: "${Text}")
+	} else {
+		text(text: "Looks like you haven't added any profiles for ${Chosen Item.get(firstName)} – add some?") >> text
+		alert(alert: "${Text}")
+		openURL(url: Chosen Item)
+	} >> If Result
+} >> Menu Result

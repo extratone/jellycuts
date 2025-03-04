@@ -1,0 +1,47 @@
+import Shortcuts
+import aShell
+import Toolbox
+import Data Jar
+#Color: grayBlue, #Icon: speedometer
+
+/*
+Comprehensively document/store detailed speedtest-cli data from a-Shell.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+var davodtime = CurrentDate
+text() >> text
+setClipboard(variable: Text) >> setClipboard
+text(text: "speedtest --json --share | pbcopy") >> text 1
+executeCommand(command: {text 1}, openWindow: default, keepGoing: true)
+waitToReturn()
+getClipboard() >> getClipboard
+quicklook(input: Clipboard)
+getDictionaryFrom(input: Clipboard) >> getDictionaryFrom
+insertValueInArray(values: Dictionary 1, keyPath: "speedtest/${davodtime}", insertionPoint: index, index: 2, valueConversionMode: file)
+keysFrom(dictionary: Dictionary) >> keysFrom
+downloadURL(url: "${Dictionary Value}") >> downloadURL
+saveToCameraRoll(image: Contents of URL) >> saveToCameraRoll
+keysFrom(dictionary: Dictionary) >> keysFrom 1
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+var down = Converted Measurement
+keysFrom(dictionary: Dictionary) >> keysFrom 2
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+var up = Converted Measurement
+keysFrom(dictionary: Dictionary) >> keysFrom 3
+var ping = Dictionary Value
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.ShowNotificationIntent

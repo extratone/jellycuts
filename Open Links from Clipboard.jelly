@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: blue, #Icon: compass
+
+// Open Links from Clipboard opens a new Safari window using BetterTouchTool’s keyboard shortcut action, opens the URLs on your clipboard, and then switches to tab overview mode.
+//Unable to get shortcuts action com.hegenberg.BetterTouchTool.SendKeyboardShortcutIntent
+getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+openURL(url: URLs) >> openURL
+//Unable to get shortcuts action com.hegenberg.BetterTouchTool.SendKeyboardShortcutIntent

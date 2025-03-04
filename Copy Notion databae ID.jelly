@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: navy, #Icon: database
+
+// For a given Notion bot hooked into your databases, this will tap into the API and return the ID of any database that’s been hooked up.
+// Designed to capture the high-level information about a user’s Notion setup, this lets you copy any database IDs and use them in your other Notion shortcuts to grab or add data.
+text(text: "secret_94sfZd4oi4oDnGgvq3vrgxe2p2vncce9bcck3GM46Cf") >> text
+var APIKey = Text
+url(url: "https://api.notion.com/v1/databases") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+keysFrom(dictionary: Contents of URL) >> keysFrom
+repeatEach(Dictionary Value) {
+	getDictionaryFrom(input: Repeat Item) >> getDictionaryFrom
+	keysFrom(dictionary: Dictionary) >> keysFrom 1
+	keysFrom(dictionary: Dictionary Value) >> Database Name
+	setName(input: Dictionary, name: "${Database Name}") >> setName
+} >> RepeatResult
+choose(list: Repeat Results, prompt: "Which database?") >> choose
+setClipboard(variable: Chosen Item)

@@ -1,0 +1,169 @@
+import Shortcuts
+#Color: grape, #Icon: radio
+
+/*
+Internet Radio Search 4
+
+This shortcut searches the public domain information on radio-browser.info for radio stations matching the dictionary Search Settings, then displays the selected station information as a Vcard with the provided station metadata, including a generated html page with the station.
+
+Internet radio data provided by radio-browser.info
+
+Shortcut made by Gwen the Crow
+*/
+list(items: (
+    clickcount,
+    name,
+    random,
+    bitrate,
+    lastchecktime,
+    clicktimestamp,
+    changetimestamp,
+    clicktrend,
+    votes
+)) >> Search Order List
+getItemFromList(list: Search Order List, type: Item At Index, index: "2") >> Desired Search Order
+//Unable to get shortcuts action is.workflow.actions.comment
+dictionary({"Search":"${Ask}","Icon Fetch":"false","Max Results":"10","Hide Broken":"true","Search Order":"${Desired Search Order}"}) >> Shortcut Settings
+text(text: "") >> Station Menu Initialize
+var StationMenu = Station Menu Initialize
+repeat($0) { >> RepeatResult
+	keysFrom(dictionary: Shortcut Settings) >> Search
+	encodeURL(url: "${Search}") >> encodeURL
+	keysFrom(dictionary: Shortcut Settings) >> keysFrom
+	keysFrom(dictionary: Shortcut Settings) >> Hide Broke Boolean Value
+	keysFrom(dictionary: Shortcut Settings) >> Search Order
+	text(text: "${Hide Broke Boolean Value}") >> Broken Boolean
+	replaceText(input: "${Broken Boolean}", find: "Yes", replace: "true") >> Formatted Boolean 1/2
+	replaceText(input: "${Formatted Boolean 1/2}", find: "No", replace: "false") >> Formatted Boolean
+	url(url: "https://nl1.api.radio-browser.info/json/stations/search?limit=${URL Encoded Text}&name=${ActionOutput}&hidebroken=${Formatted Boolean}&order=${ActionOutput}") >> Radio-browser.info
+} >> RepeatResult 1
+downloadURL(url: "${Radio-browser.info}", method: GET, headers: ) >> Radio JSON List 
+if(Radio JSON List  != nil) { >> IFResult
+	text(text: ""name":"") >> "name":"
+	text(text: "","") >> ","
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> Station Name Match
+	count(type: Items, input: Station Name Match) >> count
+	text(text: ""url":"") >> "url":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> URL Match
+	text(text: ""favicon":"") >> "favicon":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> Icon Match
+	text(text: ""homepage":"") >> "homepage":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> Homepage Match
+	text(text: ""tags":"") >> "tags":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> Tags Match
+	text(text: ""country":"") >> "country":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> Country Match
+	text(text: ""state":"") >> "state":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> State Match
+	text(text: ""language":"") >> "language":"
+	matchText(text: "${Radio JSON List }", regex: "(?<=${","}).*?(?=${ActionOutput})") >> Language Match
+	repeat(Count) { >> RepeatResult 2
+		getItemFromList(list: Tags Match, type: Item At Index, index: Repeat Index) >> Tags
+		replaceText(input: "${Tags}", find: ",", replace: ", ") >> Formatted Tags
+		getItemFromList(list: Homepage Match, type: Item At Index, index: Repeat Index) >> Homepage
+		replaceText(input: "${Homepage}", find: "\", replace: "${Station Menu Initialize}") >> Formatted Hompage URL
+		getItemFromList(list: Station Name Match, type: Item At Index, index: Repeat Index) >> Station Name
+		getItemFromList(list: URL Match, type: Item At Index, index: Repeat Index) >> Station URL
+		getItemFromList(list: Country Match, type: Item At Index, index: Repeat Index) >> Country
+		getItemFromList(list: State Match, type: Item At Index, index: Repeat Index) >> State
+		if(State != ""${Station Menu Initialize}"") {
+			text(text: "${State};") >> State Formatted
+		} else {
+			text()
+		} >> Formatted and Checked State
+		getItemFromList(list: Language Match, type: Item At Index, index: Repeat Index) >> Language
+		changeCase(text: Language, case: sentence case) >> Formatted Language
+		replaceText(input: "${Station URL}", find: "\", replace: "${Station Menu Initialize}") >> Formatted Station URL Text
+		url(url: Formatted Station URL Text) >> Formatted Station URL
+		getItemFromList(list: Icon Match, type: Item At Index, index: Repeat Index) >> Icon URL
+		replaceText(input: "${Icon URL}", find: "\", replace: "${Station Menu Initialize}") >> Formatted Icon URL Text
+		url(url: Formatted Icon URL Text) >> Formatted Icon URL
+		keysFrom(dictionary: Shortcut Settings) >> Icon Fetch Boolean Value
+		text(text: "${Icon Fetch Boolean Value}") >> Icon Fetch Check
+		if(Icon Fetch Check != "No") {
+			if(Formatted Icon URL != nil) {
+				downloadURL(url: "${Formatted Icon URL}") >> Station Icon
+				decode(input: Station Icon) >> decode
+			} else {
+				text(text: " ")
+			} >> IFResult 1
+		} else {
+			text(text: " ") >> text
+		} >> Icon Fetch
+		keysFrom(dictionary: Shortcut Settings) >> Descriptor
+		deviceDetails(detail: Screen Width) >> deviceDetails
+		math(input: Screen Width, operation: /, operand: "3") >> math
+		deviceDetails(detail: Screen Height) >> deviceDetails 1
+		math(input: Screen Height, operation: /, operand: "3") >> math 1
+		deviceDetails(detail: Current Appearance)
+var DB4991F3-3240-43E6-AD07-122953A84D79 = """<!DOCTYPE html>
+<html>
+
+<style>
+div {text-align: center;}
+
+body {background-color: #000000; color: #ffffff;}
+</style>
+
+<body>
+<div>
+<h1>￼</h1>
+<h3>Internet Radio Station</h3>
+</div>
+<div>
+<video width="￼" height="￼" poster="￼" controls>
+        <source src="￼" type="application/x-mpegURL">
+</video>
+<h2>￼</h2>
+<p> 
+<a href="￼" style="color: #ffffff"><h3><b>Homepage</b></h3><br>￼</a>
+<br>
+<a href="￼"style="color: #ffffff"><h3><b>Internet Radio Stream URL</b></h3><br>￼</a>
+</p>
+</div>
+
+</body>
+</html>"""
+text("${DB4991F3-3240-43E6-AD07-122953A84D79}")
+		setName(input: Text, name: "${Station Name}.html") >> setName
+		decode(input: Renamed Item) >> decode 1
+		url(url: "data:text/html;base64,${Base64 Encoded}") >> url
+var 6C25E5E2-7C96-42DD-9FE2-823A441C8E5F = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG;CHARSET=utf-8:￼;
+PHOTO;ENCODING=b:￼
+TITLE:Internet Radio Station
+ADR;type=Location:;￼￼
+item1.URL:￼
+item1.X-ABLabel:Home Page
+item2.URL:data:text/html\;base64\,￼
+item2.X-ABLabel:Generated Radio Page
+item3.URL:￼
+item3.X-ABLabel:Stream Link
+item4.X-ABRELATEDNAMES;type=pref:￼
+item4.X-ABLabel:Tags
+item5.X-ABRELATEDNAMES;type=pref:￼
+item5.X-ABLabel:Language
+CATEGORIES:Work,Test group
+X-ABUID:5AD380FD-B2DE-4261-BA99-DE1D1DB52FBE\:ABPerson
+END:VCARD
+"""
+text("${6C25E5E2-7C96-42DD-9FE2-823A441C8E5F}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		text(text: ""${Formatted Station URL}": "${ActionOutput}"") >> text 1
+	} >> RepeatResult 3
+	text(text: "${Station Menu}") >> text 2
+	setName(input: Text, name: "Stations.vcf") >> Stations Vcard
+	choose(list: Stations Vcard, prompt: "Showing ${Count} station(s).") >> Selected Station
+	getURLSFromInput(text: "${Selected Station}") >> getURLSFromInput
+	getItemFromList(list: URLs, type: Item At Index, index: "2") >> getItemFromList
+	menu(, [) {
+	case("Play Selected Station"):
+		openURL(url: "${Item from List}")
+	case("View Details of Selected Station"):
+		quicklook(input: Selected Station)
+	}
+} else {
+	alert(alert: "No stations found with search "${Search}".")
+} >> IFResult 2

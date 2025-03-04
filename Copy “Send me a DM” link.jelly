@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: lightBlue, #Icon: clipboard
+
+// Creates a link for a special Twitter card that says “Send a private message” and begins a direct message with you when tapped.
+// Use this copy the link to send people to your DMs, well, directly – they can tap a big button in the tweet and open a new conversation with you right away.  
+text(text: "48932450") >> text
+url(url: "https://twitter.com/messages/compose?recipient_id=${Text}") >> url
+setClipboard(variable: URL)

@@ -1,0 +1,88 @@
+import Shortcuts
+#Color: navy, #Icon: networkStorage
+
+// This shortcut helps you to transfer files from a storage device to two other locations. These locations can be configured when the shortcut is imported or in the shortcut settings under Setup > Customize Shortcut. Get started by selecting the source folder.
+getFolderContents(folder: Ask) >> getFolderContents
+formatDate(date: "${CurrentDate}", dStyle: Medium, tStyle: Medium, custom: "yyyy.MM.dd_HH-mm-ssZ") >> formatDate
+// You can add a custom prefix for the destination folder (e.g. “p” for production work). An empty string will cause a prompt asking for input every time the shortcut is run. 
+text(text: "Photos") >> text
+if(Text != nil) {
+	combineText(text: "(
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = Text;
+                    OutputUUID = "5CDAE55B-47C3-4007-9D70-A013D9D66193";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    },
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = "Formatted Date";
+                    OutputUUID = "E6C445CA-5CB9-4B17-B2DF-A9DA65AC1184";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    }
+)", combine: Custom, separator: "_") >> combineText
+var FolderName = Combined Text
+} else {
+	askForInput(prompt: "Do you want to add a custom text to the name of the destination folder?") >> askForInput
+	if(Provided Input != nil) {
+		combineText(text: "(
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = "Provided Input";
+                    OutputUUID = "FEAAE66E-9B74-4324-9794-485FFD7CC012";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    },
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = "Formatted Date";
+                    OutputUUID = "E6C445CA-5CB9-4B17-B2DF-A9DA65AC1184";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    }
+)", combine: Custom, separator: "_") >> combineText 1
+var FolderName = Combined Text
+	} else {
+var FolderName = Formatted Date
+	}
+} >> IFResult
+createFolder(path: "${FolderName}") >> createFolder
+var Destination1 = Created Folder
+createFolder(path: "${FolderName}") >> createFolder 1
+var Destination2 = Created Folder
+repeatEach(Contents of Folder) {
+	saveFile(input: Repeat Item, ask: false) >> saveFile
+	saveFile(input: Repeat Item, ask: false) >> saveFile 1
+} >> RepeatResult
+text(text: "Files have been successfully copied to "${Destination1.get(File Path)}" and "${Variable.get(File Path)}"") >> text 1
+sendNotification(body: "${Text}", sound: true) >> sendNotification
+//Unable to get shortcuts action is.workflow.actions.phonenumber
+if(Phone Number != nil) {
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+}

@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: lightBlue, #Icon: list
+
+/*
+Convert raw Twitter usernames to markdown-formatted hyperlinks by @.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+splitText(text: "${ShortcutInput}") >> splitText
+repeatEach(Split Text) {
+	text(text: "[@${Repeat Item}](https://twitter.com/${Variable})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: "${links}") >> combineText
+setClipboard(variable: Combined Text) >> setClipboard

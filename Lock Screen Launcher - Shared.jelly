@@ -1,0 +1,46 @@
+import Shortcuts
+#Color: red, #Icon: loadingIndicator
+
+menu(, [📻 6 Music, 🎙️ Castro, 🚌 Travel, 🗒️ Scratchpad, 💧 Log Water, Cancel]) {
+case("📻 6 Music"):
+	menu(Play where?, [6 Music - Everywhere, 6 Music - Kitchen]) {
+	case("6 Music - Everywhere"):
+		runShortcut(name: "Everywhere Radio", input: Device Name) >> runShortcut
+	case("6 Music - Kitchen"):
+		runShortcut(name: "Kitchen Radio", input: Device Name) >> runShortcut 1
+	} >> MenuResult
+case("🎙️ Castro"):
+	runShortcut(name: "Start Castro", input: Device Name) >> runShortcut 2
+	menu(Play where?, [Bedroom, Kitchen, Living Room, Everywhere]) {
+	case("Bedroom"):
+		setMediaDestination(device: $0)
+	case("Kitchen"):
+		setMediaDestination(device: $0)
+	case("Living Room"):
+		setMediaDestination(device: $0)
+	case("Everywhere"):
+		runShortcut(name: "Play everywhere") >> runShortcut 3
+	} >> MenuResult 1
+case("🚌 Travel"):
+	menu(What do you want to do?, [Markhouse Bus Stop ⬆️, Markhouse Bus Stop ⬇️, Leah Bridge Road Bus Stop ↙️, Get Me Home  ]) {
+	case("Markhouse Bus Stop ⬆️"):
+		runShortcut(name: "Markhouse Road North", input: Menu Result) >> runShortcut 4
+	case("Markhouse Bus Stop ⬇️"):
+		runShortcut(name: "Markhouse Road South", input: Menu Result) >> runShortcut 5
+	case("Leah Bridge Road Bus Stop ↙️"):
+		runShortcut(name: "Lea Bridge Road West", input: Menu Result) >> runShortcut 6
+	case("Get Me Home  "):
+		runShortcut(name: "Get Me Home", input: Menu Result) >> runShortcut 7
+	} >> MenuResult 2
+case("🗒️ Scratchpad"):
+	menu(, [ Scratchpad, MacStories Ideas]) {
+	case(" Scratchpad"):
+		showNote(note: $0) >> showNote
+	case("MacStories Ideas"):
+		showNote(note: $0) >> showNote 1
+	} >> MenuResult 3
+case("💧 Log Water"):
+	runShortcut(name: "Log Water", input: Device Name) >> runShortcut 8
+case("Cancel"):
+	exit()
+}

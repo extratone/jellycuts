@@ -1,0 +1,52 @@
+import Shortcuts
+#Color: navy, #Icon: database
+
+// A collection of utilities for space images saved with the SpaceWall shortcut.
+// Get the last item fetched and saved by SpaceWall, meaning the previous day’s photo.
+adjustDate(operation: Subtract, duration: , date: "${CurrentDate}") >> adjustDate
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "YYYY-MM-dd") >> formatDate
+var LatestDate = Formatted Date
+menu(SpaceWall Utilities, [✨ Random Wallpaper from Saved Collection, 👇 Pick Specific Photo, 📃 Read Description for Last Photo, 🌄 View Last Photo]) {
+case("✨ Random Wallpaper from Saved Collection"):
+// This folder should point directly to iCloud Drive/Shortcuts/SpaceWall/Images.
+	getFolderContents(folder: $0) >> getFolderContents
+	getItemFromList(list: Contents of Folder, type: Random Item) >> getItemFromList
+	quicklook(input: Item from List)
+	menu(Actions, [Set as Wallpaper, Try Again]) {
+	case("Set as Wallpaper"):
+		changeWallpaper(image: Item from List) >> changeWallpaper
+	case("Try Again"):
+		runShortcut(name: "SpaceWall Utilities", input: Item from List) >> runShortcut
+	} >> MenuResult
+case("👇 Pick Specific Photo"):
+// This folder should point directly to iCloud Drive/Shortcuts/SpaceWall/Images.
+	getFolderContents(folder: $0) >> getFolderContents 1
+	choose(list: Contents of Folder, prompt: "SpaceWall Photos") >> choose
+	getName() >> getName
+// This folder should point directly to iCloud Drive/Shortcuts/SpaceWall/Logs.
+	getFile(path: "/SpaceWall/Logs/${Name}.md") >> getFile
+	getTextFrom(input: File) >> getTextFrom
+var 9BAA4328-8ADE-431A-9EB8-174F893FE161 = """
+🔭 Chosen Image Description 🔭
+
+
+￼"""
+text("${9BAA4328-8ADE-431A-9EB8-174F893FE161}")
+	menu(, [Copy to Clipboard, Set as Wallpaper, Preview]) {
+	case("Copy to Clipboard"):
+		setClipboard(variable: Chosen Item) >> setClipboard
+	case("Set as Wallpaper"):
+		changeWallpaper(image: Chosen Item) >> changeWallpaper 1
+	case("Preview"):
+		quicklook(input: Chosen Item)
+	} >> MenuResult 1
+case("📃 Read Description for Last Photo"):
+// This folder should point directly to iCloud Drive/Shortcuts/SpaceWall/Logs.
+	getFile(path: "/SpaceWall/Logs/${Latest Date}.md") >> getFile 1
+	getTextFrom(input: File) >> getTextFrom 1
+	showResult(text: "${Text}")
+case("🌄 View Last Photo"):
+// This folder should point directly to iCloud Drive/Shortcuts/SpaceWall/Images.
+	getFile(path: "/SpaceWall/Images/${Latest Date}.jpeg") >> getFile 2
+	quicklook(input: File)
+}

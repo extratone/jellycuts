@@ -1,0 +1,38 @@
+import Shortcuts
+#Color: grape, #Icon: telescope
+
+// Load NASA's Astronomy Picture of the Day and use it as a wallpaper for your device. This shortcut can run as an automation daily with no interactions.
+/*
+Enter your NASA API key.
+
+Get a free NASA API key here: https://api.nasa.gov/index.html#apply-for-an-api-key
+*/
+text(text: "9YJBpkNh8jgwbkM3HMvtIcxFLcwyhIKaHnb5qBs1") >> API Key
+// Get the NASA picture for the previous day so we can be sure the image exists on NASA’s servers.
+date() >> date
+adjustDate(operation: Subtract, duration: , date: "${Date}") >> adjustDate
+formatDate(date: "${Adjusted Date}", dStyle: Custom, tStyle: None, custom: "YYYY-MM-dd") >> formatDate
+url(url: "https://api.nasa.gov/planetary/apod?api_key=${Formatted Date}&hd=true&date=${ActionOutput}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+keysFrom(dictionary: Contents of URL) >> keysFrom
+getTextFrom(input: Dictionary Value) >> getTextFrom
+if(Text != "400") {
+// There was no error
+	keysFrom(dictionary: Contents of URL) >> keysFrom 1
+// Get the actual image
+	downloadURL(url: "${Dictionary Value}") >> downloadURL 1
+	getImagesFrom(input: Contents of URL) >> getImagesFrom
+var SpaceImage = Images
+} else {
+} >> IFResult
+changeWallpaper(image: Space Image, location: (
+    "Lock Screen",
+    "Home Screen"
+), preview: false) >> changeWallpaper
+// After setting the wallpaper, save the image file and description separately inside /Shortcuts/SpaceWall.
+text(text: "${Contents of URL.as(Dictionary).key(explanation)}") >> text
+var TodayWallDescription = Text
+setName(input: Today Wall Description, name: "${Formatted Date}.md") >> setName
+saveFile(input: Renamed Item, ask: false, path: "/SpaceWall/Logs/", overwrite: true) >> saveFile
+setName(input: Space Image, name: "${Formatted Date}.jpeg") >> setName 1
+saveFile(input: Renamed Item, ask: false, path: "/SpaceWall/Images/", overwrite: true) >> saveFile 1

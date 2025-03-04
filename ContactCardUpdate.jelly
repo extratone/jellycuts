@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+saveFile(input: ShortcutInput, ask: false, path: "db.vcf", overwrite: true) >> saveFile
+saveFile(input: ShortcutInput, ask: false, path: "db.vcf", overwrite: true) >> saveFile 1
+getTextFrom(input: Saved File) >> getTextFrom
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.UploadFile3Intent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.skyjos.fileexplorerfree.UploadFileIntent

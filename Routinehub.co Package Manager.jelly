@@ -1,0 +1,694 @@
+import Shortcuts
+#Color: blue, #Icon: downloadArrow
+
+/*
+Credits:
+RH-API - A third party api for features that the offical API doesn’t have - by @alombi
+
+Create more visually appealing Menus - by @keveridge on reddit r/shortcuts. Linked in routinehub description.
+
+UpdateKit API by @mikebeas
+*/
+dictionary({"name":"Routinehub.co Package Manager","author":"annpocoyo","version":"1.09","rhid":"13012"})
+var Metadata = Dictionary
+getType(input: ShortcutInput) >> getType
+if(Type == "Dictionary") {
+	getDictionaryFrom(input: ShortcutInput) >> getDictionaryFrom
+	keysFrom(dictionary: Dictionary) >> keysFrom
+var Command = Dictionary Value
+} >> IFResult
+if(Command == "UPDATE") { >> IFResult 1
+	downloadURL(url: "https://updatekit.mikebeas.com/v1", method: POST, requestJSON: ) >> downloadURL
+	getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom 1
+var UpdateKitResponse = Dictionary
+	keysFrom(dictionary: UpdateKit Response) >> keysFrom 1
+	if(Dictionary Value ==) {
+		keysFrom(dictionary: UpdateKit Response) >> keysFrom 2
+		getDictionaryFrom(input: Dictionary Value) >> getDictionaryFrom 2
+var PackageManagerUpdate = Dictionary
+		menu(, [Yes, No]) {
+		case("Yes"):
+			downloadURL(url: "https://rh-api.alombi.xyz/shortcut?id=${Metadata.key(rhid)}&icon=true") >> downloadURL 1
+			setValue(key: "icon", value: "${Contents of URL.as(Dictionary).key(icon)}", dictionary: Metadata) >> setValue
+var Metadata = Dictionary
+var 3A086CFC-5A5F-4115-9821-E46B691A45EE = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:Version ￼;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${3A086CFC-5A5F-4115-9821-E46B691A45EE}")
+			setName(input: Text, name: "updatemenu.vcf") >> setName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			matchText(text: "${Package Manager Update.key(notes)}", regex: ".{1,100}(\s|.$)") >> matchText
+			list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{14, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = release;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        Type = Variable;
+                        VariableName = "Package Manager Update";
+                    };
+                };
+                string = "Release Date: \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "Release Notes:",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Matches;
+                        OutputUUID = "F24BE34A-C5B6-4B4C-B63A-89AD05413500";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "Install Update",
+    Cancel
+)) >> list
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: UpdateMenu, multiple: false) >> choose
+			count(input: UpdateMenu) >> count
+			math(input: Count, operation: -, operand: "1") >> math
+			getItemFromList(list: UpdateMenu, type: Item At Index, index: Calculation Result) >> getItemFromList
+			if(Chosen Item == ""${Item from List}"") {
+				openURL(url: Package Manager Update) >> openURL
+				output(result: "STOP") >> output
+			}
+		case("No"):
+		} >> MenuResult
+	} >> IFResult 2
+} >> IFResult 3
+if(Command == "LATEST") { >> IFResult 4
+	getRSSItems(url: "https://routinehub.co/shortcuts/latest/feed/", count: 10) >> getRSSItems
+	repeatEach(Items from RSS Feed) {
+		matchText(text: "${Repeat Item.get(URL)}", regex: "[0-9]+", caseSensitive: false) >> matchText 1
+		downloadURL(url: "https://rh-api.alombi.xyz/shortcut?id=${Matches}&icon=true") >> downloadURL 2
+var B7D0FDA3-44E2-4C61-A97F-D623500CA46D = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:￼ ⬇️￼ ❤️ ￼;
+NOTE:￼
+URL:https://routinehub.co/shortcut/￼/
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${B7D0FDA3-44E2-4C61-A97F-D623500CA46D}")
+	} >> RepeatResult
+	combineText(text: Repeat Results, combine: New Lines) >> combineText
+	setName(input: Combined Text, name: "newshortcuts.vcf") >> setName 1
+	choose(list: Renamed Item, prompt: "New Shortcuts") >> choose 1
+	output(result: "${Chosen Item.get(Notes)}")
+}
+if(Command == "SEARCH") { >> IFResult 5
+	keysFrom(dictionary: ShortcutInput) >> Search Query
+	getURLSFromInput(text: "${Search Query}") >> getURLSFromInput
+	if(Search Query == ""${URLs.as(Text)}"") {
+		matchText(text: "${URLs.as(Text)}", regex: "https:\/\/routinehub\.co\/shortcut\/[0-9]+", caseSensitive: false) >> matchText 2
+		if(Search Query .contains ""${Matches.get(text)}"") {
+			matchText(text: "${Matches.get(text)}", regex: "[0-9]+", caseSensitive: false) >> matchText 3
+		} else {
+			alert(alert: "Invalid URL", cancel: false)
+			exit()
+		} >> IFResult 6
+	} else {
+		getNumbersFrom(text: Search Query) >> getNumbersFrom
+		if(Numbers != Search Querry) {
+			nothing()
+		}
+	} >> IFResult 7
+	if(If Result == nil) {
+		decodeURL(url: "${Search Query}") >> decodeURL
+		downloadURL(url: "https://rh-api.alombi.xyz/search?q=${URL Encoded Text}", method: GET, headers: , requestType: JSON) >> downloadURL 3
+		getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom 3
+		repeatEach(Dictionary) {
+			downloadURL(url: "https://rh-api.alombi.xyz/shortcut?id=${Repeat Item.as(Dictionary).key(id)}&icon=true") >> downloadURL 4
+var 08BD9C74-0889-4418-BFB1-59D69917D71E = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:￼ ⬇️ ￼ ❤️ ￼;
+NOTE:￼
+URL:￼
+URL;TYPE=API:￼
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${08BD9C74-0889-4418-BFB1-59D69917D71E}")
+		} >> RepeatResult 1
+		combineText(text: Repeat Results, combine: New Lines) >> combineText 1
+		setName(input: Combined Text, name: "results.vcf") >> setName 2
+		if(Renamed Item == nil) {
+			alert(alert: "No search results found", cancel: false)
+			exit()
+		} >> IFResult 8
+		choose(list: Renamed Item, prompt: "Search Results") >> choose 2
+		number(value: Chosen Item) >> number
+	} >> IFResult 9
+	output(result: "${If Result}", noResultBehavior: Do Nothing, response: "${If Result}")
+} >> IFResult 10
+if(Command == "SHORTCUT") { >> IFResult 11
+	if(ShortcutInput == nil) { >> IFResult 12
+		downloadURL(url: "https://rh-api.alombi.xyz/shortcut?id=${ShortcutInput.as(Dictionary).key(id)}&icon=true") >> downloadURL 5
+	} else {
+		getDictionaryFrom(input: ShortcutInput)
+	} >> IFResult 13
+	getDictionaryFrom(input: If Result) >> Response
+	if(Response == nil) {
+		alert(alert: "Shortcut Invaild", cancel: false)
+		exit()
+	} >> IFResult 14
+var 3EDFA5B0-BF71-4655-810E-9FC22B64E991 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:￼
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${3EDFA5B0-BF71-4655-810E-9FC22B64E991}")
+	setName(input: Text, name: "shortcut.vcf") >> setName 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	count(input: Response) >> count 1
+	if(Count > 1) {
+		text(text: "Categories") >> text
+	} else {
+		text(text: "Category") >> text 1
+	} >> IFResult 15
+	combineText(text: Response, combine: Custom, separator: ", ") >> combineText 2
+	combineText(text: "(
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = "If Result";
+                    OutputUUID = "74375B1A-6C1E-472F-B73C-9F0FA89B3FB0";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    },
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = "Combined Text";
+                    OutputUUID = "8505A5E8-22F1-4D02-B5F6-14B99118338C";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    }
+)", combine: Custom, separator: ": ") >> combineText 3
+	if(ShortcutInput == nil) {
+		dictionary({"command":"SCRAPSHORTCUT","id":"${Response.key(id)}"})
+		runShortcut(name: Metadata, input: Dictionary) >> runShortcut
+	} else {
+		getDictionaryFrom(input: ShortcutInput)
+	} >> IFResult 16
+	getDictionaryFrom(input: If Result) >> Shortcut Web Scraper Output
+	matchText(text: "${Shortcut Web Scraper Output.key(description)}", regex: ".{1,100}(\s|.$)") >> matchText 4
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{3, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = author;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "85CCBB49-533C-4872-9A0B-EEFF43821156";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "By \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{3, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = downloads;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "85CCBB49-533C-4872-9A0B-EEFF43821156";
+                        Type = ActionOutput;
+                    };
+                    "{8, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = hearts;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "85CCBB49-533C-4872-9A0B-EEFF43821156";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\U2b07\Ufe0f \Ufffc \U2764\Ufe0f \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Combined Text";
+                        OutputUUID = "E0A0494A-1941-4046-AD36-0C2EF3A2CB4B";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "Description:",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Matches;
+                        OutputUUID = "F7E5ECB4-562D-4473-89E5-0728CE2B83F3";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "Share Link",
+    "Add/View Shortcut",
+    "View Changelog",
+    Done
+)) >> list 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	choose(list: ShortcutMenu, prompt: "") >> choose 3
+	dictionary({"command":"SHORTCUT","id":"${Response.key(id)}"})
+	setValue(key: "shortcutscraperoutput", value: "${Shortcut Web Scraper Output}", dictionary: Dictionary) >> setValue 1
+	setValue(key: "shortcutdata", value: "${Response}", dictionary: Dictionary) >> Go Back Input
+	count(input: ShortcutMenu) >> ShortcutMenu Count
+	getItemFromList(list: ShortcutMenu) >> getItemFromList 1
+	if(Chosen Item == ""${Item from List.as(Contact).get(First Name)}"") {
+		setName(input: Chosen Item, name: "${Chosen Item.as(Contact)}") >> setName 4
+		quicklook(input: Renamed Item)
+		runShortcut(name: Metadata, input: Go Back Input)
+	} >> IFResult 17
+	getItemFromList(list: ShortcutMenu, type: Item At Index, index: "2") >> getItemFromList 2
+	if(Chosen Item == ""${Item from List.as(Text)}"") {
+		dictionary({"command":"AUTHOR","username":"${Response.key(author)}"})
+		runShortcut(name: Metadata, input: Dictionary) >> runShortcut 1
+		runShortcut(name: Metadata, input: Go Back Input)
+	} >> IFResult 18
+	math(input: ShortcutMenu Count, operation: -, operand: "3") >> math 1
+	getItemFromList(list: ShortcutMenu, type: Item At Index, index: Calculation Result) >> getItemFromList 3
+	if(Chosen Item == ""${Item from List}"") {
+		url(url: "https://routinehub.co/shortcut/${Response.key(id)}/") >> url
+		share(file: URL) >> share
+		runShortcut(name: Metadata, input: Go Back Input)
+	} >> IFResult 19
+	math(input: ShortcutMenu Count, operation: -, operand: "2") >> math 2
+	getItemFromList(list: ShortcutMenu, type: Item At Index, index: Calculation Result) >> getItemFromList 4
+	if(Chosen Item == ""${Item from List}"") {
+		downloadURL(url: "https://routinehub.co/api/v1/shortcuts/${Response.key(id)}/versions/latest") >> downloadURL 6
+		url(url: "https://routinehub.co/download/${Contents of URL.as(Dictionary).key(id)}/") >> url 1
+		openURL(url: URL) >> openURL 1
+	} >> IFResult 20
+	math(input: ShortcutMenu Count, operation: -, operand: "1") >> math 3
+	getItemFromList(list: ShortcutMenu, type: Item At Index, index: Calculation Result) >> getItemFromList 5
+	if(Chosen Item == ""${Item from List}"") {
+		dictionary({"command":"CHANGELOG","id":"${Response.key(id)}","icon":"${Response.key(icon)}"})
+		runShortcut(name: Metadata, input: Dictionary) >> runShortcut 2
+		runShortcut(name: Metadata, input: Go Back Input)
+	}
+} >> IFResult 21
+if(Command == "SCRAPSHORTCUT") { >> IFResult 22
+	downloadURL(url: "https://routinehub.co/shortcut/${ShortcutInput.as(Dictionary).key(id)}/") >> downloadURL 7
+	htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+	matchText(text: "${HTML from Rich Text}", regex: "Description<\/h4>\n<div class="content">\n([\S\s]*?)\n<\/div>", caseSensitive: false) >> matchText 5
+	getMatchGroup(matches: Matches) >> getMatchGroup
+	richTextFromHTML() >> richTextFromHTML
+	dictionary({"description":"${Rich Text from HTML}"})
+	output(result: "${Dictionary}")
+}
+if(Command == "CHANGELOG") { >> IFResult 23
+	if(ShortcutInput == nil) {
+		downloadURL(url: "https://rh-api.alombi.xyz/changelog?id=${ShortcutInput.as(Dictionary).key(id)}") >> downloadURL 8
+	} else {
+		getDictionaryFrom(input: ShortcutInput)
+	} >> IFResult 24
+	getDictionaryFrom(input: If Result) >> Response
+	if(Response == nil) {
+		alert(alert: "Shortcut Invaild", cancel: false)
+		exit()
+	} >> IFResult 25
+	keysFrom(dictionary: Response) >> keysFrom 3
+	if(Dictionary Value > 1) {
+		text(text: "Updates")
+	} else {
+		text(text: "Update")
+	} >> Update(s)
+	if(ShortcutInput == nil) {
+		downloadURL(url: "https://rh-api.alombi.xyz/shortcut?id=${Response.key(id)}&icon=true") >> downloadURL 9
+		keysFrom(dictionary: Contents of URL)
+	} else {
+		keysFrom(dictionary: ShortcutInput)
+	} >> icon
+var CC240DCD-9B6E-48AB-9533-572C286A6968 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:￼ ￼
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${CC240DCD-9B6E-48AB-9533-572C286A6968}")
+	setName(input: Text, name: "changeLogList.vcf") >> setName 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "Done") >> text 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	repeatEach(Response) {
+		replaceText(input: "${Repeat Item.as(Dictionary).key(release_notes)}", find: "(\r\n|\r|\n)", isRegex: true, caseSensitive: false) >> replaceText
+		text(text: "${Repeat Item.as(Dictionary).key(downloads)} · ${Variable.as(Dictionary).key(downloads)} · ⬇️ ${Repeat Item.as(Dictionary).key(iOS)} · ￼") >> text 3
+		count(type: Characters, input: Text) >> count 2
+		if(Count >= 100) {
+			splitText(text: Text, separator: Every Character) >> splitText
+			getItemFromList(list: Split Text, type: Items in Range, startIndex: "1", endIndex: "96") >> getItemFromList 6
+			combineText(text: Item from List, combine: Custom) >> combineText 4
+			text(text: "${Combined Text}...")
+		} else {
+			text(text: "${Text}")
+		} >> IFResult 26
+		setName(input: If Result, name: "Version ${Repeat Item.as(Dictionary).key(version)}")
+	} >> RepeatResult 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	choose(list: ChangeLogList) >> choose 4
+	dictionary({"command":"CHANGELOG","id":"${Response.key(id)}","icon":"${icon}"})
+	setValue(key: "changelogdata", value: "${Response}", dictionary: Dictionary) >> Go Back Input
+	getItemFromList(list: ChangeLogList) >> getItemFromList 7
+	if(Chosen Item == ""${Item from List.as(Contact).get(First Name)}"") {
+		setName(input: Chosen Item, name: "${Chosen Item.as(Contact)}") >> setName 6
+		quicklook(input: Renamed Item)
+		runShortcut(name: Metadata, input: Go Back Input)
+	} else {
+		getItemFromList(list: ChangeLogList, type: Item At Index, index: "2") >> getItemFromList 8
+		if(Chosen Item != ""${Item from List.as(Text)}"") {
+			getName() >> getName
+			replaceText(input: "${Name}", find: "Version ", caseSensitive: false) >> replaceText 1
+			setValue(key: "command", value: "VERSION", dictionary: Go Back Input) >> setValue 2
+			setValue(key: "version", value: "${Updated Text}", dictionary: Dictionary) >> setValue 3
+			runShortcut(name: Metadata, input: Dictionary) >> runShortcut 3
+			runShortcut(name: Metadata, input: Go Back Input)
+		} >> IFResult 27
+	} >> IFResult 28
+} >> IFResult 29
+if(Command == "VERSION") { >> IFResult 30
+	if(ShortcutInput == nil) {
+		alert(alert: "Version not provided", cancel: false)
+		exit()
+	}
+	if(ShortcutInput == nil) {
+		downloadURL(url: "https://rh-api.alombi.xyz/changelog?id=${ShortcutInput.as(Dictionary).key(id)}") >> downloadURL 10
+	} else {
+		getDictionaryFrom(input: ShortcutInput) >> getDictionaryFrom 4
+	} >> IFResult 31
+	getDictionaryFrom(input: If Result) >> Response
+	if(Response == nil) { >> IFResult 32
+		alert(alert: "Shortcut Invaild", cancel: false)
+		exit()
+	} >> IFResult 33
+	if(ShortcutInput == nil) {
+		downloadURL(url: "https://rh-api.alombi.xyz/shortcut?id=${Response.key(id)}&icon=true") >> downloadURL 11
+		keysFrom(dictionary: Contents of URL)
+	} else {
+		keysFrom(dictionary: ShortcutInput)
+	} >> icon
+	repeatEach(Response) {
+		keysFrom(dictionary: Repeat Item) >> keysFrom 4
+		if(Dictionary Value == ""${ShortcutInput.as(Dictionary).key(version)}"") {
+			getDictionaryFrom(input: Repeat Item)
+		} else {
+			nothing()
+		}
+	} >> Version Details
+	if(Version Details == nil) {
+		alert(alert: "Version Invaild", cancel: false)
+		exit()
+	}
+var 7735CF84-5E23-492C-856F-A5ED0BD18B6D = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:￼ · ￼ · ￼
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${7735CF84-5E23-492C-856F-A5ED0BD18B6D}")
+	setName(input: Text, name: "versionMenu.vcf") >> setName 7
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	matchText(text: "${Version Details.key(release_notes)}", regex: ".{1,100}(\s|.$)") >> matchText 6
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = Matches;
+                        OutputUUID = "1F1F11CE-1757-4405-82BD-33DC25CE5F18";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{14, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = downloads;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = "Version Details";
+                        OutputUUID = "94F47118-366B-4740-BADE-5F1FEC6A1076";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "Downloads \U2b07\Ufe0f: \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "Go Back"
+)) >> list 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	choose(list: VersionMenu) >> choose 5
+	dictionary({"command":"VERSION","id":"${Response.key(id)}","version":"${Version Details.key(version)}","icon":"${icon}"})
+	setValue(key: "changelogdata", value: "${Response}", dictionary: Dictionary) >> Go Back Input
+	getItemFromList(list: VersionMenu) >> getItemFromList 9
+	if(Chosen Item == ""${Item from List.get(First Name)}"") {
+		setName(input: Chosen Item, name: "${Chosen Item}") >> setName 8
+		quicklook(input: Renamed Item)
+		runShortcut(name: Metadata, input: Go Back Input)
+	} >> IFResult 34
+}
+if(Command == "AUTHOR") { >> IFResult 35
+	if(ShortcutInput == nil) {
+		downloadURL(url: "https://rh-api.alombi.xyz/author?username=${ShortcutInput.as(Dictionary).key(username)}") >> downloadURL 12
+	} else {
+		getDictionaryFrom(input: ShortcutInput) >> Response
+	} >> IFResult 36
+	getDictionaryFrom(input: If Result) >> Response
+	if(Response == nil) {
+		alert(alert: "Username invaild", cancel: false)
+		exit()
+	} >> IFResult 37
+	if(Response != nil) {
+		if(ShortcutInput == nil) {
+			downloadURL(url: "${Response.key(avatar)}") >> downloadURL 13
+			encode(input: Contents of URL) >> encode
+		} else {
+			keysFrom(dictionary: ShortcutInput)
+		} >> IFResult 38
+	} else {
+		text(text: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=") >> text 4
+	} >> IFResult 39
+var 9DD34063-A2E7-4B80-8CCB-1789C84E998E = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:￼;;;;
+ORG:￼;
+URL:￼
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${9DD34063-A2E7-4B80-8CCB-1789C84E998E}")
+	setName(input: Text, name: "author.vcf") >> setName 9
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{17, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = "total_shortcuts";
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "6726E742-14C4-4EF0-B486-15B016A1A769";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "Total Shortcuts: \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{20, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = "total_downloads";
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "6726E742-14C4-4EF0-B486-15B016A1A769";
+                        Type = ActionOutput;
+                    };
+                    "{39, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = "total_hearts";
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "6726E742-14C4-4EF0-B486-15B016A1A769";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "Total Downloads \U2b07\Ufe0f: \Ufffc Total Hearts \U2764\Ufe0f: \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{22, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = "downloads_average";
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "6726E742-14C4-4EF0-B486-15B016A1A769";
+                        Type = ActionOutput;
+                    };
+                    "{43, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                DictionaryKey = "hearts_average";
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Response;
+                        OutputUUID = "6726E742-14C4-4EF0-B486-15B016A1A769";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "Average Downloads \U2b07\Ufe0f: \Ufffc Average Hearts \U2764\Ufe0f: \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    Done
+)) >> list 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	choose(list: AuthorMenu) >> choose 6
+	dictionary({"command":"AUTHOR","username":"${Response.key(username)}","authoravator":"${If Result}"})
+	setValue(key: "authordata", value: "${Response}", dictionary: Dictionary) >> Go Back Input
+	getItemFromList(list: AuthorMenu) >> getItemFromList 10
+	if(Chosen Item == ""${Item from List.as(Contact).get(First Name)}"") {
+		if(Response != nil) {
+			setName(input: Chosen Item, name: "${Chosen Item.as(Contact)}") >> setName 10
+			quicklook(input: Renamed Item)
+			runShortcut(name: Metadata, input: Go Back Input)
+		} >> IFResult 40
+	} >> IFResult 41
+} >> IFResult 42
+if(Command != nil) {
+	exit()
+} >> IFResult 43
+dictionary({"command":"UPDATE"})
+runShortcut(name: Metadata, input: Dictionary) >> runShortcut 4
+if(Shortcut Result == "STOP") {
+	exit()
+} >> IFResult 44
+nothing()
+menu(Routinehub Package Manager, [New Shortcuts, Search, View an author]) {
+case("New Shortcuts"):
+	dictionary({"command":"LATEST"})
+	runShortcut(name: Metadata, input: Dictionary) >> runShortcut 5
+	dictionary({"command":"SHORTCUT","id":"${Shortcut Result.as(Number)}"})
+	runShortcut(name: Metadata, input: Dictionary)
+case("Search"):
+	askForInput(prompt: "Enter a search query, ID or URL", type: Text) >> Search Querry
+	dictionary({"command":"SEARCH","query":"${Search Querry}"})
+	runShortcut(name: Metadata, input: Dictionary) >> runShortcut 6
+	dictionary({"command":"SHORTCUT","id":"${Shortcut Result.as(Number)}"})
+	runShortcut(name: Metadata, input: Dictionary)
+case("View an author"):
+	askForInput(prompt: "Enter a Username") >> askForInput
+	dictionary({"command":"AUTHOR","username":"${Provided Input}"})
+	runShortcut(name: Metadata, input: Dictionary)
+} >> MenuResult 1

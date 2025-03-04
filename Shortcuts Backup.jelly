@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: grayBrown, #Icon: server
+
+getShortcuts() >> getShortcuts
+makeArchive(input: My Shortcuts, type: tar) >> makeArchive
+fileDetail(input: Archive, property: File Size) >> fileDetail
+saveFile(input: Archive, ask: false, path: "${CurrentDate}.tar", overwrite: true) >> saveFile
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetAudioIntent
+playSound(file: Sound)

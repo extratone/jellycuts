@@ -1,0 +1,50 @@
+import Shortcuts
+#Color: grape, #Icon: chainlink
+
+// Extracts metadata from a Mastodon status URL for reuse in other shortcuts.
+/*
+This shortcut creates a custom JSON dictionary of metadata from a status post on Mastodon.
+
+Use this shortcut as subroutine (using Run Shortcut) inside your other shortcuts to extract information like the author name or body of the post.
+
+This shortcut passes the ID and instance to the public Mastodon endpoint for statuses, then reforms the resulting dictionary into a custom format that only includes a single layer of data.
+
+Note: this does not include every piece of data from the status endpoint, only those I found relevant for my uses so far.
+*/
+urlComponent(url: "${ShortcutInput}", component: Host) >> urlComponent
+var Instance = Component of URL
+urlComponent(url: "${ShortcutInput}", component: Path) >> urlComponent 1
+splitText(text: Component of URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> ID
+url(url: "https://${ID}/api/v1/statuses/${ActionOutput}?format=json") >> url 2
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> Mastodon Dictionary
+// Get the `content` of the status.
+valueFor(key: "content", dictionary: Mastodon Dictionary) >> valueFor
+// When a status has an attachment like a video, it appears as a second item in the array, so this only gets the first item.
+getItemFromList(list: Dictionary Value) >> getItemFromList
+// Convert the HTML to rich text (which gets flattened into plain text when stored in the final dictionary).
+richTextFromHTML() >> richTextFromHTML
+// Remove the trailing line break from the end of the paragraph.
+replaceText(input: "${Rich Text from HTML}", find: "\n$", isRegex: true, caseSensitive: false) >> replaceText
+var Body = Updated Text
+// Convert the body into Markdown and store it as the `html` value. 
+markdownFromRich(text: Rich Text from HTML) >> markdownFromRich
+// Extract the `account` details as one large dictionary. Many values are extracted from this dictionary directly in the final `dictionary` below.
+valueFor(key: "account", dictionary: Mastodon Dictionary) >> Account Dictionary
+// Extract the account `note` for their profile summary. Then, perform the same clean-up functions as the `content` above.
+valueFor(key: "note", dictionary: Account Dictionary) >> valueFor 1
+richTextFromHTML() >> richTextFromHTML 1
+replaceText(input: "${Rich Text from HTML}", find: "\n$", isRegex: true, caseSensitive: false) >> replaceText 1
+var Bio = Updated Text
+// Place the URL of the status in the default Mastodon embed code and save it as the `embed` value.
+text(text: "<iframe src="${Mastodon Dictionary.key(url)}/embed" class="mastodon-embed" style="max-width: 100%; border: 0" width="400" allowfullscreen="allowfullscreen"></iframe>") >> text
+// The final dictionary – this stores variables create above, plus values extracted from the `Mastodon Dictionary` and `Author Dictionary` items.
+dictionary({"url":"${Mastodon Dictionary.key(url)}","published":"${Mastodon Dictionary.key(created_at)}","body":"${Body}","html":"${Markdown from Rich Text}","embed":"${Text}","authorBio":"${Bio}","authorURL":"${Mastodon Dictionary.key(account.url)}","authorName":"${Mastodon Dictionary.key(account.display_name)}","authorUsername":"${Mastodon Dictionary.key(account.username)}","authorHandle":"${Mastodon Dictionary.key(account.acct)}","authorIcon":"${Mastodon Dictionary.key(account.avatar_static)}"})
+getDictionaryFrom(input: Dictionary) >> getDictionaryFrom
+/*
+If run directly, respond with the final dictionary to examine its contents before continuing.
+
+If run as subroutine using Run Shortcut, dictionary is passed as output result.
+*/
+output(result: "${Dictionary}", noResultBehavior: Respond, response: "${Dictionary}")

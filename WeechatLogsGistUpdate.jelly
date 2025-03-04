@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: grayBrown, #Icon: chatBubble
+
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.List3Intent
+repeatEach(Directory Contents) {
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.DownloadFile2Intent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+} >> RepeatResult
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.GetFilesIntent
+playSound(file: Files)

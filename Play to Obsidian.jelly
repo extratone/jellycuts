@@ -1,0 +1,86 @@
+import Shortcuts
+#Color: blue, #Icon: circledPlay
+
+//Unable to get shortcuts action br.com.marcosatanaka.play.GetVideoIntent
+repeatEach(Videos) {
+	getURLSFromInput(text: "${Repeat Item}") >> getURLSFromInput
+var URL = URLs
+	downloadURL(url: "${URLs}") >> downloadURL
+	htmlFromRichText(text: Contents of URL) >> htmlFromRichText
+var HTML = HTML from Rich Text
+	matchText(text: "${HTML}", regex: "\"ownerChannelName\"\:\"(.[^"]*)\",") >> matchText
+	getMatchGroup(matches: Matches) >> getMatchGroup
+var ChannelName = Text
+	matchText(text: "${HTML}", regex: "\"title\"\:\{\"runs\"\:\[\{\"text\"\:\"(.[^\}]+)\"\}\]\}") >> matchText 1
+	replaceText(input: "${Text}", find: "\"", replace: """) >> replaceText
+var VideoTitle = Updated Text
+	matchText(text: "${HTML}", regex: "\<meta property\=\"og\:url\" content\=\"(.[^"]+)\"\>") >> matchText 2
+	getMatchGroup(matches: Matches) >> getMatchGroup 1
+var VideoURL = Text
+	matchText(text: "${HTML}", regex: "\"approxDurationMs\"\:\"(.[^"]+)\"") >> matchText 3
+	getMatchGroup(matches: Matches) >> getMatchGroup 2
+	getItemFromList(list: Text) >> getItemFromList
+var duration_ms = Item from List
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+//Unable to get shortcuts action is.workflow.actions.measurement.convert
+	number(value: Converted Minutes) >> number
+	matchText(text: "${Number}", regex: "(.+)(\.|,)") >> matchText 4
+	getMatchGroup(matches: Matches) >> getMatchGroup 3
+var ApproximateMinutes = Text
+	math(input: Approximate Minutes, operation: *, operand: "60") >> Multiplied Minutes
+	math(input: Original Seconds, operation: -, operand: Multiplied Minutes) >> math
+	round(number: Calculation Result, roundTo: Ones Place, mode: Always Round Down) >> round
+	count(type: Characters, input: Rounded Number) >> count
+	if(Count == 1) {
+		text(text: "0${Rounded Number}") >> text
+	} else {
+		text(text: "${Rounded Number}")
+	} >> IFResult
+var Seconds = If Result
+// Match the thumbnail and always get the biggest version of it
+	matchText(text: "${HTML}", regex: "("thumbnail":\{"thumbnails":\[\{"url".*?)(\}\]\},)") >> matchText 5
+	getMatchGroup(matches: Matches) >> getMatchGroup 4
+	getItemFromList(list: Text, type: Last Item) >> getItemFromList 1
+	text(text: "{${Item from List}}]}}") >> text 1
+	getDictionaryFrom(input: Text) >> getDictionaryFrom
+	valueFor(key: "thumbnail.thumbnails", dictionary: Dictionary) >> valueFor
+	getItemFromList(list: Dictionary Value) >> getItemFromList 2
+	valueFor(key: "url", dictionary: Item from List) >> valueFor 1
+	matchText(text: "${Dictionary Value}", regex: "(https?:\/\/.+)(jpeg|jpg|png)") >> matchText 6
+	getMatchGroup(matches: Matches) >> getMatchGroup 5
+	getMatchGroup(matches: Matches, index: "2") >> getMatchGroup 6
+	text(text: "${Text}${ActionOutput}") >> text 2
+var Thumbnail = Text
+	replaceText(input: "${Video Title}", find: ":") >> replaceText 1
+	replaceText(input: "${Updated Text}", find: "/") >> replaceText 2
+	replaceText(input: "${Updated Text}", find: "!") >> replaceText 3
+	replaceText(input: "${Updated Text}", find: "|") >> replaceText 4
+	replaceText(input: "${Updated Text}", find: "\u0026 ", replace: "& ") >> replaceText 5
+var SanitizedTitle = Updated Text
+// Assemble the YAML syntax
+var E5BA2D6D-42F0-4567-A7E8-7DE125FD9FAA = """---
+URL: ￼
+title: "￼"
+channel: "￼"
+tags: ['youtube']
+saved: ￼
+duration: "￼:￼"
+duration_ms: ￼
+thumb: "![](￼)"
+status: New
+---
+
+[￼](￼)"""
+text("${E5BA2D6D-42F0-4567-A7E8-7DE125FD9FAA}")
+	text(text: "${Sanitized Title}.md") >> Filename
+	setName(input: Document, name: "${Filename}") >> setName
+// Select the folder where individual notes are going to be saved
+	if(DeviceDetails ==) {
+		saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile
+	} else {
+		saveFile(input: Renamed Item, ask: false) >> saveFile 1
+	} >> IFResult 1
+//Unable to get shortcuts action br.com.marcosatanaka.play.RemoveTagIntent
+//Unable to get shortcuts action br.com.marcosatanaka.play.CreateTagIntent
+} >> RepeatResult

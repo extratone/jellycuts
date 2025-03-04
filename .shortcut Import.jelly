@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: grape, #Icon: documentOutline
+
+selectFile() >> selectFile
+getFileLink(file: File) >> getFileLink
+matchText(text: "${Link to File}", regex: "[^\/]+$") >> matchText
+text(text: "${Matches}") >> uuid
+url(url: "workflow://shortcuts/${uuid}") >> url
+openURL(url: URL)

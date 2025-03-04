@@ -1,0 +1,219 @@
+import Shortcuts
+#Color: tangerine, #Icon: magicWandAlt
+
+if(ShortcutInput != nil ""${ShortcutInput}"") {
+	appDetail(detail: Store ID, app: ShortcutInput) >> appDetail
+	url(url: "https://itunes.apple.com/lookup?id=${Store ID}") >> url
+	downloadURL(url: "${URL}") >> downloadURL
+	splitText(text: Contents of URL, separator: Custom, customSeparator: "trackName") >> splitText
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+	splitText(text: Item from List, separator: Custom, customSeparator: "",") >> splitText 1
+	getItemFromList(list: Split Text) >> getItemFromList 1
+	replaceText(input: "${Item from List}", find: "":"") >> replaceText
+	text(text: "${Store ID} (${ActionOutput})") >> text
+	setClipboard(variable: Text)
+	showResult(text: "App Name & Store ID Copied")
+} else {
+	dictionary({"Apple Music (1108187390)":"Open = music:// ^Open = musics:// ^Open = audio-player-event:// ^Open radio = itsradio:// ^Open radio = itsradios:// ^Open radio = itunesradio:// ^Open radio = itunesradios://^","Apple News (1066498020)":"Open = applenews:// ^Open = applenewss://^","App Store":"Open = itms-apps://itunes.apple.com ^Open app = itms-apps://itunes.apple.com/app/id ^Search = itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=YourQuery^","Apple TV (1174078549)":"Open = videos://^","Calendar (1108185179)":"Open = calshow://^Open = x-apple-calevent://^Add calendar = webcal://SuscribeLinkForTheCalendar^","Clips (1212699939)":"Open = clips://^","FaceTime (1110145091)":"Start audio call = facetime-audio://TheirPhoneNumberOrEmailAddress^Start audio call = facetime-audio-prompt://TheirPhoneNumberOrEmailAddress^Start video call = facetime://TheirPhoneNumberOrEmailAddress^Start video call = facetime-prompt://TheirPhoneNumberOrEmailAddress^","Apple Feedback":"Open = applefeedback://^","Find My Friends (466122094)":"Open = findmyfriends://^Open = fmf1://^Open = grenada://^","Find My iPhone (376101648)":"Open = fmip1://^","GarageBand (408709785)":"Open = garageband://^","Apple Books (364709193)":"Open = ibooks://^Open = itms-books://^Open = itms-bookss://^","iMovie (377298193)":"Open = imovie://^","iTunes Remote (284417350)":"Open = remote://^","iTunes Store (915061235)":"Open = itms://^Open = itmss://^","iTunes U (490217893)":"Open = itms-itunesu://^","Maps (915056765)":"Open = map://^Open = maps://^Open = mapitem://^","Mail (1108187098)":"Open = message://^Start draft with recipient = mailto://TheirEmailAddress^Start draft with recipient, cc = mailto:TheirEmailAddress?cc=TheirEmailAddress^Start draft with recipient, bcc = mailto:TheirEmailAddress?bcc=TheirEmailAddress^Start draft with recipient, subject = mailto:TheirEmailAddress&subject=Your%20Subject%20Text^Start draft with recipient, body = mailto:TheirEmailAddress&body=Your%20Body%20Text^Start draft with recipient, CC, BCC, subject, body = mailto:TheirEmailAddress?cc=TheirEmailAddress?bcc=TheirEmailAddress&subject=Your%20Subject%20Text&body=Your%20Body%20Text^^[You can make other combinations above using the above identifiers]^","Messages":"Open text for contact = sms://TheirPhoneNumber^","Notes (1110145109)":"Open = mobilenotes://^","Phone":"Call contact = tel://TheirPhoneNumber^Call contact = telprompt://TheirPhoneNumber^","Photos":"Open = photos-redirect://^","Apple Podcasts (525463029)":"Add feed by URL = feed://^Add feed by URL = podcast://^Add specific feed by URL = feed://TheUrlOfTheFeed^Add specific feed by URL = podcast://TheUrlOfTheFeed^","Safari":"Search = x-web-search://^Open FTP file = ftp://LocationToFileOnFtpServer^Open HTTP site = http://WebsiteURL^Open HTTPS site = https://WebsiteURL^New tab = com-apple-mobilesafari-tab://^Web App URL = webclip://^","Settings":"Open = prefs:root^Settings Location URL = prefs://^OAuth Redirect URL = com.apple.preferences://^Siri Shortcuts = prefs-siri-shortcuts://^TV Provider Settings = prefs-tvprovider://^Third Party App Settings = app-prefs://^Finance Script Data Update = prefs-finance-script://^Cellular Plan Install = esim://^"})
+var List = Dictionary
+	menu(, [Choose From List, View All in List, Get Value to Add URL Scheme, Get URL Scheme From IPA, URL Scheme Locations, Open URL, Telegram Channel, Speedy Update]) {
+	case("Choose From List"):
+		choose(list: List, multiple: true, all: false) >> choose
+		repeatEach(Chosen Item) {
+			getName() >> getName
+			splitText(text: Repeat Item, separator: Custom, customSeparator: "^") >> splitText 2
+			combineText(text: "(
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = Name;
+                    OutputUUID = "73302F22-DE87-42A8-B26B-408C6FE1C032";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    },
+        {
+        Value =         {
+            attachmentsByRange =             {
+                "{0, 1}" =                 {
+                    OutputName = "Split Text";
+                    OutputUUID = "91282702-C7C2-45CA-8D69-34E7AA614106";
+                    Type = ActionOutput;
+                };
+            };
+            string = "\Ufffc";
+        };
+        WFSerializationType = WFTextTokenString;
+    }
+)") >> combineText
+		} >> RepeatResult
+		text(text: "${Repeat Results}") >> text 1
+		setName(input: Text, name: "App URL Schemes") >> setName
+		quicklook(input: Renamed Item)
+	case("View All in List"):
+		count(input: List) >> count
+		getItemFromList(list: List, type: Items in Range, startIndex: "1", endIndex: Count) >> getItemFromList 2
+		repeatEach(Item from List) {
+			getName() >> getName 1
+			repeatEach(Name) {
+				valueFor(key: "${Repeat Item 2}", dictionary: Repeat Item) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				splitText(text: Dictionary Value, separator: Custom, customSeparator: "^") >> splitText 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> RepeatResult 1
+		} >> RepeatResult 2
+		text(text: "${All Items}") >> text 2
+		setName(input: Text, name: "App URL Schemes") >> setName 1
+		quicklook(input: Renamed Item)
+	case("Get Value to Add URL Scheme"):
+		askForInput(prompt: "Paste in URL Scheme            (will be copied)") >> askForInput
+		replaceText(input: "${Provided Input}", find: "(\n)", replace: "^$1", isRegex: true, caseSensitive: false) >> replaceText 1
+		replaceText(input: "${Updated Text}", find: "$\n", replace: "", isRegex: true, caseSensitive: false) >> replaceText 2
+		replaceText(input: "${Updated Text}", find: "$", replace: "^", isRegex: true, caseSensitive: false) >> replaceText 3
+		replaceText(input: "${Updated Text}", find: "^^", replace: "^", isRegex: false, caseSensitive: false) >> replaceText 4
+		replaceText(input: "${Updated Text}", find: "\n", replace: "", isRegex: true, caseSensitive: false) >> replaceText 5
+		setClipboard(variable: Updated Text)
+		quicklook(input: Updated Text)
+	case("Get URL Scheme From IPA"):
+		list(items: (
+))
+var Delete = ShortcutInput
+		getFile() >> getFile
+		extractArchive(input: File) >> extractArchive
+var File = Files
+		count(input: File) >> count 1
+		if(Count > 1) {
+			repeatEach(File) {
+				getName() >> getName 2
+				if(Name == "Payload") {
+					setName(input: Repeat Item, name: "324bc7c4-21fc-49c1-96e2-b761d294de1d") >> setName 2
+					saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// iCloud won't update immediately.
+					wait()
+					getFile(picker: false, path: "324bc7c4-21fc-49c1-96e2-b761d294de1d") >> getFile 1
+					repeatEach(File) {
+						fileDetail(input: Repeat Item 2, property: File Extension) >> fileDetail
+						if(File Extension == "app") {
+var File = Variable
+						}
+					} >> RepeatResult 3
+				} >> IFResult
+			}
+		} >> IFResult 1
+		saveFile(input: File, ask: false, overwrite: true) >> saveFile 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		getName() >> getName 3
+var Name = Name
+		list(items: (
+))
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		getFile(picker: false, path: "${Name}.app/info.plist", error: false) >> getFile 2
+var File = File
+		if(File != nil ""${File.as(File)}"") {
+		} else {
+			getFile(picker: false, path: "${Name}.app/Info.plist") >> getFile 3
+var File = File
+		} >> IFResult 2
+		getDictionaryFrom(input: File) >> getDictionaryFrom
+		valueFor(key: "CFBundleURLTypes", dictionary: Dictionary) >> valueFor 1
+		repeatEach(Dictionary Value) {
+			valueFor(key: "CFBundleURLSchemes", dictionary: Repeat Item) >> valueFor 2
+			text(text: "${Dictionary Value}://") >> text 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 4
+		count(input: URLs) >> count 2
+		if(Count == 0) {
+			alert(alert: "This app doesn't have a URL scheme.", cancel: false)
+			exit(var: Count)
+		} >> IFResult 3
+		if(Count == 1) {
+			getItemFromList(list: URLs) >> getItemFromList 3
+			alert(alert: "URL ${Item from List} sent to the clipboard.", cancel: false)
+		} else {
+			choose(list: URLs, prompt: "Choose which URL is going to be copied to the clipboard.", multiple: true) >> choose 1
+		} >> IFResult 4
+		setClipboard(variable: If Result)
+		repeatEach(Delete) {
+			deleteFile(input: Repeat Item, confirm: false)
+		} >> RepeatResult 5
+	case("URL Scheme Locations"):
+var 66377F4F-BB08-4C49-B721-145585AEFA7E = """Inside App (ipa file)
+Go in info.plist & CFBundleURLTypes
+In there you will have list of
+CFBundleURLName & CFBundleURLSchemes
+
+To get settings URL’s
+Need a 3rd party App FileBrowser (Files)
+Install From https://app.iosninja.io
+
+GET SETTING URL SCHEMES INFO BELOW
+
+SettingsSearchManifest.plist locations
+/System/Library/PreferenceManifestsInternal
+/System/Library/PreferenceBundles
+In .bundle files
+open SettingsSearchManifest.plist files
+pref:root urls are in there
+(Not All Bundle Files has this file)
+
+SettingsSearchManifest.plist files Explained
+There is label & searchSectionID & searchURL
+label = name of url scheme
+searchSectionID = prefs:root=searchSectionID 
+SearchURL = prefs:root=searchSectionID&path=path
+
+Nameofapp.plist location
+/System/Library/PreferenceBundles
+In .bundle files open Nameofapp.plist files
+id’s & title are in file Needed to get url
+Example is explained below
+(Not All Bundle Files has this file)
+
+Nameofapp.plist Example Safari Settings
+/System/Library/PreferenceBundles
+MobileSafariSettings.bundle/Safari.plist
+Thats say plist file has
+cell= “PSLinkListCell” Or cell= “PSButtonCell”
+Or cell= “PSLinkCell”
+id = "CLEAR_HISTORY_AND_DATA"
+title = “Safari” (in url is Uppercase)
+Url = prefs:root=SAFARI&path=CLEAR_HISTORY_AND_DATA"""
+text("${66377F4F-BB08-4C49-B721-145585AEFA7E}")
+		setName(input: Text, name: "URL Scheme Locations") >> setName 3
+		quicklook(input: Renamed Item)
+	case("Open URL"):
+		askForInput(prompt: "Type or Paste URL                  (will be copied)") >> askForInput 1
+		url(url: "${Provided Input}") >> url 1
+		setClipboard(variable: URL)
+		openURL(url: URL)
+	case("Telegram Channel"):
+		url(url: "https://t.me/URLSchemeList") >> url 2
+		openURL(url: URL)
+	case("Speedy Update"):
+		dictionary({"Name":"App URL Schemes","Version":"1.3","ID":"4811"})
+		downloadURL(url: "https://routinehub.co/api/v1/shortcuts/${Dictionary.key(ID)}/versions/latest") >> downloadURL 1
+		text(text: "0${Contents of URL.as(Dictionary).key(Version)}") >> text 4
+		if(Text != ""0${Dictionary.key(Version)}"") {
+var 50464D53-4757-4409-B3E1-AE169C48D976 = """An Update/Rollback is Available for ￼
+
+Release Notes: 
+￼
+
+￼ → ￼"""
+text("${50464D53-4757-4409-B3E1-AE169C48D976}")
+			menu(, [Update Now, Update Later]) {
+			case("Update Now"):
+				url(url: "https://routinehub.co/download/${Contents of URL.as(Dictionary).key(ID)}") >> url 3
+				openURL(url: URL)
+			case("Update Later"):
+			} >> MenuResult
+		} else {
+			showResult(text: "No Update Available")
+		} >> IFResult 5
+	} >> MenuResult 1
+} >> IFResult 6

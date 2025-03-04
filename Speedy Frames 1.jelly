@@ -1,0 +1,237 @@
+import Shortcuts
+#Color: red, #Icon: iPadAlt
+
+/*
+This shortcut is a modification of Federico Viticci’s Apple Frames 2.0 optimized for creating single-shot iPhone mockups as quickly as possible. 
+
+On MacStories: https://www.macstories.net/ios/apple-frames-2-0-faster-lighter-and-featuring-support-for-iphone-13-ipad-mini-ipad-10-2-imac-24-macbook-air-and-multiple-languages/
+
+My post: https://bilge.world/speedy-frames
+*/
+text(text: "English") >> text
+splitText(text: Text) >> splitText
+count(input: Split Text) >> count
+if(Count == 0) {
+	text(text: "English") >> text 1
+var Language = Text
+} else {
+	if(Count >= 1) {
+		repeatEach(Split Text) {
+			if(Repeat Item == nil) {
+				nothing()
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			}
+		} >> RepeatResult
+		getItemFromList(list: Language) >> Language
+var Language = Language
+	} else {
+	}
+} >> IFResult
+dictionary({"Photos":{"English":"Save to Photos","Spanish":"Guardar en Fotos","Italian":"Salva su Foto","Dutch":"Bewaar in Foto's","French":"Sauvegarder sur Photos","Portuguese":"Salvar em Fotos","German":"In Fotos sichern"},"Files":{"English":"Save to Files","Italian":"Salva su File","Spanish":"Guardar en Archivos","Dutch":"Bewaar in Bestanden","French":"Sauvegarder sur Fichiers","Portuguese":"Salvar em Arquivos ","German":"In Dateien sichern"},"Copy":{"English":"Copy","Italian":"Copia","Spanish":"Copiar","Dutch":"Kopieer","French":"Copier","Portuguese":"Copiar","German":"Kopieren"},"Copy JPEG":{"English":"Copy as JPEG","Italian":"Copia come JPEG","Spanish":"Copiar como JPEG","Dutch":"Kopieer als JPEG","German":"Als JPEG kopieren","French":"Copier au JPEG","Portuguese":"Copiar como JPEG"},"Share":{"English":"Share","Italian":"Condividi","Spanish":"Compartir","Dutch":"Deel","German":"Teilen","French":"Partager","Portuguese":"Compartilhar"},"Preview":{"English":"Preview","Italian":"Anteprima","Spanish":"Vista Previa","Dutch":"Voorbeeld","German":"Vorschauen","French":"Previsualiser","Portuguese":"Pré-apresentação"},"File Naming":{"English":"Rename File","Italian":"Rinomina File","Spanish":"Renombrar Archivo","Dutch":"Wijzig Naam","German":"Die Datei Umbennen","French":"Renommer fichier","Portuguese":"Renomear Arquivo"},"Image Picker":{"English":"Pick Images","Italian":"Scegli Immagini","Spanish":"Escoger Imágenes","Dutch":"Kies Afbeeldingen","German":"Fotos aussuchen","French":"Sélectionner les images","Portuguese":"Escolher Imagens"},"Setup File":{"English":"${English Setup File Message}","Italian":"${Text}","Spanish":"${Text}","Dutch":"${Dutch Setup File Message}","French":"${Text}","German":"${Text}","Portuguese":"${Text}"},"Setup Done":{"English":"${Text}","Italian":"${Text}","Spanish":"${Text}","Dutch":"${Text}","French":"${Text}","Portuguese":"${Text}","German":"${Text}"}})
+var MenuCommands = Dictionary
+getFile(path: "Frames.json", error: false) >> getFile
+var FramesFile = File
+count(input: Frames File) >> count 1
+if(Count == 0) { >> IFResult 1
+	valueFor(key: "Setup File.${Language}", dictionary: Menu Commands) >> Setup File Message
+	alert(alert: "${Setup File Message}", title: "⚠️", cancel: false)
+	downloadURL(url: "https://cdn.macstories.net/Frames.json") >> downloadURL
+	setName(input: Contents of URL, name: "Frames.json") >> setName
+	saveFile(input: Renamed Item, ask: false) >> saveFile
+	wait(seconds: 2)
+	valueFor(key: "Setup Done.${Language}", dictionary: Menu Commands) >>  Setup Done Message
+	alert(alert: "${ Setup Done Message}", title: "✅ ", cancel: false)
+	getFile(path: "Frames.json", error: false) >> getFile 1
+var FramesFile = File
+} else {
+} >> IFResult 2
+getDictionaryFrom(input: Frames File) >> getDictionaryFrom
+var FramesDictionary = Dictionary
+getImagesFrom(input: ShortcutInput) >> Images Input
+if(Images Input == nil "0") { >> IFResult 3
+	valueFor(key: "Image Picker.${Language}", dictionary: Menu Commands) >> Image Picker Title
+	getLastPhoto() >> getLastPhoto
+var Screenshot = Latest Photos
+} else {
+	getImagesFrom(input: Images Input) >> getImagesFrom
+var Screenshot = Images
+} >> IFResult 4
+repeatEach(If Result) { >> RepeatResult 1
+var Screenshot = Variable
+	imageDetail(detail: Width, image: Repeat Item) >> imageDetail
+var WidthofRepeatItem = Details of Images
+	imageDetail(detail: Height, image: Repeat Item) >> imageDetail 1
+var HeightofRepeatItem = Height
+	if(Width of Repeat Item == 1242) { >> IFResult 5
+		imageDetail(detail: Height, image: Repeat Item) >> imageDetail 2
+		if(Details of Images == 2688) { >> IFResult 6
+			valueFor(key: "iPhone.11.Pro Max.Portrait", dictionary: Frames Dictionary) >> valueFor
+var MatchedDeviceDictionary = Dictionary Value
+		}
+	} else {
+		if(Width of Repeat Item == 1125) { >> IFResult 7
+			if(Height of Repeat Item != 2436) { >> IFResult 8
+				valueFor(key: "iPhone.11.Pro.Portrait", dictionary: Frames Dictionary) >> valueFor 1
+var MatchedDeviceDictionary = Dictionary Value
+			} else {
+				valueFor(key: "iPhone.12-13.mini.Portrait", dictionary: Frames Dictionary) >> valueFor 2
+var MatchedDeviceDictionary = Dictionary Value
+				resizeImage(image: Repeat Item, height: 2340, width: 1080) >> resizeImage
+var Screenshot = Resized Image
+			}
+		} else {
+			if(Width of Repeat Item == 2688) { >> IFResult 9
+				valueFor(key: "iPhone.11.Pro Max.Landscape", dictionary: Frames Dictionary) >> valueFor 3
+var MatchedDeviceDictionary = Dictionary Value
+			} else {
+				if(Width of Repeat Item == 2436) { >> IFResult 10
+					valueFor(key: "iPhone.12-13.mini.Landscape", dictionary: Frames Dictionary) >> valueFor 4
+var MatchedDeviceDictionary = Dictionary Value
+					resizeImage(image: Repeat Item, height: 1080, width: 2340) >> resizeImage 1
+var Screenshot = Resized Image
+				} else {
+					if(Width of Repeat Item == 368) { >> IFResult 11
+						resizeImage(image: Repeat Item, width: 368) >> resizeImage 2
+var Screenshot = Resized Image
+						valueFor(key: "Watch.Series 4.44", dictionary: Frames Dictionary) >> valueFor 5
+var MatchedDeviceDictionary = Dictionary Value
+					} else {
+						if(Width of Repeat Item == 750) { >> IFResult 12
+							valueFor(key: "iPhone.iPhone 8 and 2020 SE.Portrait", dictionary: Frames Dictionary) >> valueFor 6
+var MatchedDeviceDictionary = Dictionary Value
+						} else {
+							if(Width of Repeat Item == 2732) {
+								valueFor(key: "iPad.2018-2021 iPad Pro.Landscape", dictionary: Frames Dictionary) >> valueFor 7
+var MatchedDeviceDictionary = Dictionary Value
+							} else {
+								if(Width of Repeat Item == 2048) {
+									imageDetail(detail: Height, image: Repeat Item) >> imageDetail 3
+									if(Height != 1536) {
+										valueFor(key: "iPad.2018-2021 iPad Pro.Portrait", dictionary: Frames Dictionary) >> valueFor 8
+var MatchedDeviceDictionary = Dictionary Value
+									} else {
+									}
+								} else {
+									if(Width of Repeat Item == 2208) {
+										valueFor(key: "iPad.2021 iPad mini.Portrait", dictionary: Frames Dictionary) >> valueFor 9
+var MatchedDeviceDictionary = Dictionary Value
+									} else {
+										if(Width of Repeat Item == 1334) {
+											valueFor(key: "iPad.2021 iPad mini.Landscape", dictionary: Frames Dictionary) >> valueFor 10
+var MatchedDeviceDictionary = Dictionary Value
+										} else {
+											if(Width of Repeat Item == 2388) {
+												valueFor(key: "iPad.2018-2021 iPad Pro 11.Landscape", dictionary: Frames Dictionary) >> valueFor 11
+var MatchedDeviceDictionary = Dictionary Value
+											} else {
+												if(Width of Repeat Item == 1668) {
+													valueFor(key: "iPad.2018-2021 iPad Pro 11.Portrait", dictionary: Frames Dictionary) >> valueFor 12
+var MatchedDeviceDictionary = Dictionary Value
+												} else {
+													if(Width of Repeat Item .contains 324) {
+														valueFor(key: "Watch.Series 4.40", dictionary: Frames Dictionary) >> valueFor 13
+var MatchedDeviceDictionary = Dictionary Value
+													} else {
+														if(Width of Repeat Item == 828) {
+															valueFor(key: "iPhone.11.11.Portrait", dictionary: Frames Dictionary) >> valueFor 14
+var MatchedDeviceDictionary = Dictionary Value
+														} else {
+															if(Width of Repeat Item == 1792) {
+																valueFor(key: "iPhone.11.11.Landscape", dictionary: Frames Dictionary) >> valueFor 15
+var MatchedDeviceDictionary = Dictionary Value
+															} else {
+																if(Height of Repeat Item == 2532) {
+																	valueFor(key: "iPhone.12-13.Pro.Portrait", dictionary: Frames Dictionary) >> valueFor 16
+var MatchedDeviceDictionary = Dictionary Value
+																} else {
+																	if(Width of Repeat Item == 2532) {
+																		valueFor(key: "iPhone.12-13.Pro.Landscape", dictionary: Frames Dictionary) >> valueFor 17
+var MatchedDeviceDictionary = Dictionary Value
+																	} else {
+																		if(Width of Repeat Item == 1284) {
+																			valueFor(key: "iPhone.12-13.Pro Max.Portrait", dictionary: Frames Dictionary) >> valueFor 18
+var MatchedDeviceDictionary = Dictionary Value
+																		} else {
+																			valueFor(key: "iPhone.12-13.Pro Max.Landscape", dictionary: Frames Dictionary) >> valueFor 19
+var MatchedDeviceDictionary = Dictionary Value
+																			if(Width of Repeat Item == 2360) {
+																				valueFor(key: "iPad.2020 iPad Air.Landscape", dictionary: Frames Dictionary) >> valueFor 20
+var MatchedDeviceDictionary = Dictionary Value
+																			} else {
+																				if(Width of Repeat Item == 1640) {
+																					valueFor(key: "iPad.2020 iPad Air.Portrait", dictionary: Frames Dictionary) >> valueFor 21
+var MatchedDeviceDictionary = Dictionary Value
+																				} else {
+																					if(Width of Repeat Item == 4480) {
+																						valueFor(key: "Mac.2021 iMac", dictionary: Frames Dictionary) >> valueFor 22
+var MatchedDeviceDictionary = Dictionary Value
+																					} else {
+																						if(Width of Repeat Item == 2160) {
+																							valueFor(key: "iPad.2021 iPad.Landscape", dictionary: Frames Dictionary) >> valueFor 23
+var MatchedDeviceDictionary = Dictionary Value
+																						} else {
+																							if(Width of Repeat Item == 1620) {
+																								valueFor(key: "iPad.2021 iPad.Portrait", dictionary: Frames Dictionary) >> valueFor 24
+var MatchedDeviceDictionary = Dictionary Value
+																							} else {
+																								if(Width of Repeat Item == 2560) {
+																									valueFor(key: "Mac.2020 MacBook Air", dictionary: Frames Dictionary) >> valueFor 25
+var MatchedDeviceDictionary = Dictionary Value
+																								} else {
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														} >> IFResult 13
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	} >> IFResult 14
+	encode(input: Matched Device Dictionary) >> Decoded Frame
+	overlayImage(image1: Screenshot, image2: Decoded Frame, editor: false, position: Custom, opacity: "100", rotation: "0") >> overlayImage
+	overlayImage(image1: Decoded Frame, image2: Overlaid Image, editor: false, opacity: "100", rotation: "0") >> overlayImage 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult 2
+count(input: Framed Screenshots) >> count 2
+if(Count > true) { >> IFResult 15
+	getImagesFrom(input: Framed Screenshots) >> getImagesFrom 1
+	combineImage(images: Images, mode: In a Grid, spacing: 60) >> combineImage
+var FramedScreenshots = Combined Image
+} else {
+} >> IFResult 16
+convertImage(image: Framed Screenshots, format: PNG, metadata: false) >> convertImage
+date() >> date
+formatDate(date: "${Date}", dStyle: Custom, custom: "MMDDYYYY-HHmmss") >> formatDate
+setName(input: Converted Image, name: "${Formatted Date}") >> setName 1
+var FramedScreenshots = Renamed Item
+saveToCameraRoll(image: Framed Screenshots, album: Frames (Local)) >> saveToCameraRoll
+clearUpNext() >> clearUpNext
+setClipboard(variable: Saved Photo Media) >> setClipboard
+saveFile(input: Saved Photo Media, ask: false) >> saveFile 1
+deletePhotos(photos: Latest Photos) >> deletePhotos
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.DeviceDetailsIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.DeviceDetailsIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.DeviceDetailsIntent
+deviceDetails(detail: Current Brightness) >> deviceDetails
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.DeviceDetailsIntent
+dictionary({"Uptime":"${Device Detail}","Thermal State":"${Device Detail}","Active CPUs":"${Device Detail}","Brightness":"${Current Brightness}","OS":"${Device Detail}"})
+//Unable to get shortcuts action com.appliedphasor.working-copy.GetFilesIntent
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+//Unable to get shortcuts action com.alexhay.Console.LogImagesIntent
+playSound(file: Files)

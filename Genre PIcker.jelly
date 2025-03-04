@@ -1,0 +1,42 @@
+import Shortcuts
+#Color: purple, #Icon: livePlay
+
+list(items: (
+    Indie,
+    Alternative,
+    Pop
+)) >> list
+choose(list: List, prompt: "Pick a Genre") >> choose
+if(DeviceDetails == "") {
+	if(Chosen Item == "Indie") {
+		openURL(url: "https://music.apple.com/us/curator/apple-music-indie/976439541?itsct=music_box_link&itscg=30200&ls=1&app=music") >> openURL
+	} else {
+	} >> IFResult
+	if(Chosen Item == "Alternative") {
+		openURL(url: "https://music.apple.com/us/curator/apple-music-alternative/976439526?itsct=music_box_link&itscg=30200&ls=1&app=music") >> openURL 1
+	} else {
+	} >> IFResult 1
+	if(Chosen Item == "Pop") {
+		openURL(url: "https://music.apple.com/us/curator/apple-music-pop/976439548?itsct=music_box_link&itscg=30200&ls=1&app=music") >> openURL 2
+	} else {
+	} >> IFResult 2
+	wait(seconds: 8)
+	runAppleScript(script: "on run {input, parameters}	tell application "System Events" to key code 36 using command down	return inputend run") >> runAppleScript
+	wait(seconds: 2)
+	openApp(id: "com.apple.Safari")
+	runAppleScript(script: "on run {input, parameters}	tell application "System Events" to keystroke "w" using command down	return inputend run") >> runAppleScript 1
+	openApp(id: "com.apple.Music")
+} else {
+	if(Chosen Item == "Indie") {
+		openURL(url: "https://music.apple.com/us/curator/apple-music-indie/976439541") >> openURL 3
+	} else {
+	} >> IFResult 3
+	if(Chosen Item == "Alternative") {
+		openURL(url: "https://music.apple.com/us/curator/apple-music-alternative/976439526") >> openURL 4
+	} else {
+	} >> IFResult 4
+	if(Chosen Item == "Pop") {
+		openURL(url: "https://music.apple.com/us/curator/apple-music-pop/976439548") >> openURL 5
+	} else {
+	}
+} >> IFResult 5

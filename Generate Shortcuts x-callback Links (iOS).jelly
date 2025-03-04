@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: green, #Icon: shortcuts
+
+runSSH(host: "odette.local", user: "blue", auth: Password, password: "htop", script: "shortcuts list -f Shared") >> runSSH
+splitText(text: "${Shell Script Result}") >> splitText
+repeatEach(Split Text) {
+//Unable to get shortcuts action maccatalyst.com.Christopher-Hannah.Text-Case.TextCaseIntent
+	text(text: "[${Repeat Item}](shortcuts://x-callback-url/run-shortcut?name=${Variable})") >> text
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(text: shortcutslinks) >> combineText
+setClipboard(variable: Combined Text) >> setClipboard

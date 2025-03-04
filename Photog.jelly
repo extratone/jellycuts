@@ -1,0 +1,63 @@
+import Shortcuts
+#Color: pink, #Icon: aperture
+
+// Presents a series of options for photographers to utilize Lightroom, pick selects, clear shots, or organize photos from the day, and check Golden Hour so they can get out and take the best photos. Also includes option for specialized camera manufacturer apps.
+// Use this to channel your inner photographer and be more intentional with your photography, whether it’s while shooting, when importing, or getting set up ahead of time.
+menu(What do you want to do?, [Add Golden Hour to the calendar, Check timing for Golden Hour, Shoot remotely, Add last import to Lightroom, Pick selects before adding, Import old photos, Save photos to album, Delete photos from today]) {
+case("Save photos to album"):
+	filterPhotos() >> filterPhotos
+	choose(list: Photos, prompt: "Which photos?", multiple: true, all: false) >> choose
+	saveToCameraRoll(image: Chosen Item, album: Ask)
+case("Check timing for Golden Hour"):
+	filterPhotos() >> filterPhotos 1
+	choose(list: Photos, prompt: "Which photos?", multiple: true, all: false) >> choose 1
+	deletePhotos(photos: Chosen Item)
+case("When is Golden Hour?"):
+	runShortcut(name: "When is Golden Hour?")
+case("Add Golden Hour to the calendar"):
+	getForecast() >> getForecast
+	repeatEach(Weather Conditions) {
+		setName(input: Repeat Item, name: "${Repeat Item.get(Date)}") >> setName
+	} >> RepeatResult
+	choose(list: Repeat Results, prompt: "Which days?", multiple: true) >> choose 2
+	repeatEach(Chosen Item) {
+		conditionDetail(detail: Sunset Time, condition: Repeat Item) >> Sunset
+		adjustDate(operation: Subtract, duration: , date: "${Sunset}") >> Sunset-1
+//Unable to get shortcuts action is.workflow.actions.addnewevent
+		conditionDetail(detail: Sunrise Time, condition: Repeat Item) >> Sunrise Hour
+		adjustDate(operation: Add, duration: , date: "${Sunrise Hour}") >> Sunrise Hour +1
+		adjustDate(operation: Subtract, duration: , date: "${Sunrise Hour +1}") >> Half Through
+//Unable to get shortcuts action is.workflow.actions.addnewevent
+	}
+case("Shoot remotely"):
+	openApp()
+case("Add last import to Lightroom"):
+	getLastImport() >> getLastImport
+//Unable to get shortcuts action is.workflow.actions.lightroom.import
+case("Import old photos"):
+	number(value: 500) >> number
+	filterPhotos() >> filterPhotos 2
+	repeatEach(Photos) {
+		imageDetail(detail: Camera Model, image: Repeat Item) >> imageDetail
+		if(Camera Model .contains "GH5") {
+			nothing()
+		} else {
+		}
+	} >> RepeatResult 1
+	choose(list: Repeat Results, prompt: "Which images?") >> choose 3
+	askForInput(prompt: "How do you want to structure the filename? This shortcut will handle enumerating them.") >> askForInput
+	repeatEach(Provided Input) {
+		if(Repeat Index false 10) {
+			text(text: "0${Repeat Index}") >> text
+		} else {
+			number(value: Repeat Index) >> number 1
+		} >> IFResult
+		replaceText(input: "${Provided Input}", find: " ", replace: "-") >> replaceText
+		setName(input: Repeat Item, name: "${Updated Text}-${ActionOutput}") >> setName 1
+	} >> RepeatResult 2
+//Unable to get shortcuts action is.workflow.actions.lightroom.import
+case("Pick selects before adding"):
+	getLastImport() >> getLastImport 1
+	choose(list: Imported Photos, prompt: "Which photos do you want to import?", multiple: true, all: true) >> choose 4
+//Unable to get shortcuts action is.workflow.actions.lightroom.import
+}

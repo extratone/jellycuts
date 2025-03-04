@@ -1,0 +1,94 @@
+import Shortcuts
+#Color: grayGreen, #Icon: scissors
+
+number(value: 10) >> 10
+number(value: 100) >> 100
+number(value: 1000) >> 1000
+var Rock = 10
+var Paper = 100
+var Scissors = 1000
+menu(Rock Paper Scissors, Shoot!, [Rock, Paper, Scissors]) {
+case("Rock"):
+var Playerchoice = Variable
+case("Paper"):
+var Playerchoice = Variable
+case("Scissors"):
+var Playerchoice = Variable
+} >> MenuResult
+list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Rock;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Paper;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = Scissors;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+getItemFromList(list: List, type: Random Item) >> getItemFromList
+var ComputerChoice = Item from List
+math(input: Player choice, operation: -, operand: Computer Choice) >> Outcome
+var Outcome = Outcome
+if(Outcome == 0) {
+	alert(alert: "Tie")
+} >> IFResult
+if(Outcome == -90) {
+	alert(alert: "I picked paper, I win")
+} >> IFResult 1
+if(Outcome == -990) {
+	alert(alert: "I picked scissors, You win")
+} >> IFResult 2
+if(Outcome == 90) {
+	alert(alert: "I picked rock, You win")
+} >> IFResult 3
+if(Outcome == -900) {
+	alert(alert: "I picked scissors, I win")
+} >> IFResult 4
+if(Outcome == 990) {
+	alert(alert: "I picked rock, I win")
+} >> IFResult 5
+if(Outcome == 900) {
+	alert(alert: "I picked paper, you win")
+} >> IFResult 6
+menu(Play Again?, [Yes, No]) {
+case("Yes"):
+	runShortcut(name: "Rock Paper Scissors")
+case("No"):
+} >> MenuResult 1

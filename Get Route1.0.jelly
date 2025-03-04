@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: grayBrown, #Icon: airplane
+
+text(text: "Made by Mika (@Mika on the Community)")
+text(text: "What is your departing airport?") >> text
+askForInput(prompt: "${Text}")
+changeCase()
+getTextFrom() >> getTextFrom
+//Unable to get shortcuts action is.workflow.actions.setvariable
+askForInput(prompt: "What is your arrival airport?") >> askForInput
+changeCase() >> changeCase
+//Unable to get shortcuts action is.workflow.actions.setvariable
+text(text: "https://flightplandatabase.com/search/?from=${Arrival}&to=${Variable}")
+showWebPage()

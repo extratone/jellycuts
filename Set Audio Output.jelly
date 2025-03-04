@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: red, #Icon: headphones
+
+setMediaDestination(device: $0)

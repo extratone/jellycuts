@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: purple, #Icon: chainlink
+
+// This shortcut displays a list of links saved with the weekly-links tag and lets you pick multiple links. Each link is converted to a Markdown-formatted list that is copied to the clipboard.
+//Unable to get shortcuts action com.ngocluu.goodlinks.GetLinksInTagIntent
+choose(list: Links, multiple: true) >> choose
+repeatEach(Chosen Item) {
+var E3386E99-68E0-4E9E-87F0-99E225D24A9F = """ ([Link](￼))
+"""
+text("${E3386E99-68E0-4E9E-87F0-99E225D24A9F}")
+} >> RepeatResult
+runShortcut(name: "WeeklyUtil: Next Issue No.") >> runShortcut
+var 592E3D8D-5EFA-4C11-B1A2-693776C6B618 = """# Weekly ￼ – Interesting Links John.md
+
+￼"""
+text("${592E3D8D-5EFA-4C11-B1A2-693776C6B618}")
+showResult(text: "${Text}")
+setClipboard(variable: Text) >> setClipboard

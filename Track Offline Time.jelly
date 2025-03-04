@@ -1,0 +1,223 @@
+import Shortcuts
+#Color: Red, #Icon: clock
+
+/*
+This shortcut enables offline time tracking with Timery and Data Jar since Timery currently doesn’t have an offline mode (it’s on the to-do list!). With it, you can start & stop saved timers and check the current running time entry.
+
+When starting a current time entry, the shortcut asks which saved timer from Timery you’d like to start and stores the time entry and a start time in Data Jar. When you stop it or start a new one, the shortcut sets a stop time for it.
+
+And when you once again have an internet connection, the shortcut can add the offline time entries to Timery.
+
+Timery: https://apps.apple.com/app/id1425368544
+Data Jar: https://apps.apple.com/app/data-jar/id1453273600
+*/
+nothing()
+// This is the key where offline time entries are stored in Data Jar. If it doesn’t already exist, the shortcut will create it.
+text(text: "Offline Time Entries") >> text
+var DataKey = Text
+//Unable to get shortcuts action dk.simonbs.DataJar.CheckIfValueExistsIntent
+if(Value Exists ==) {
+} else {
+// Offline time entries need to be stored in a list. This creates a temporary list to add the key to Data Jar, and once it exists in Data Jar, the temporary items are deleted.
+	list(items: (
+    "Temporary Item",
+    "Temporary Item"
+)) >> list
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+	repeat(2) {
+//Unable to get shortcuts action dk.simonbs.DataJar.DeleteValueIntent
+	} >> RepeatResult
+} >> IFResult
+// Set the current time to be used in various actions below. This is so if both stopping and starting a current time entry the stop time of the old one and the start time of the new one will be at the same time.
+date() >> date
+var CurrentTime = Date
+// Set some internal variables used to perform the shortcut’s actions.
+number(value: 0) >> number
+var CheckCurrentTimeEntry = Number
+var StartCurrentTimeEntry = Number
+var StopCurrentTimeEntry = Number
+var LogOfflineTime = Number
+//Unable to get shortcuts action dk.simonbs.DataJar.GetChildCountIntent
+nothing()
+// Let’s begin!
+menu(, [ℹ️ Check Current Time Entry, ▶️ Start Current Time Entry, ⏹️ Stop Current Time Entry, ⤴️ Log Offline Time to Timery]) {
+case("ℹ️ Check Current Time Entry"):
+	number(value: 1) >> number 1
+var CheckCurrentTimeEntry = Number
+case("▶️ Start Current Time Entry"):
+	number(value: 1) >> number 2
+var StartCurrentTimeEntry = Number
+case("⏹️ Stop Current Time Entry"):
+	number(value: 1) >> number 3
+var StopCurrentTimeEntry = Number
+case("⤴️ Log Offline Time to Timery"):
+	number(value: 1) >> number 4
+var LogOfflineTime = Number
+} >> IFResult 1
+nothing()
+/*
+Check the current time entry.
+
+The shortcut checks if the last time entry in the list has a stop time. If it does not, it is the current running time entry.
+*/
+if(Check Current Time Entry == 1) {
+	if(Offline Time Entries Count > 0) {
+//Unable to get shortcuts action dk.simonbs.DataJar.CheckIfValueExistsIntent
+		if(Value Exists ==) {
+			text(text: "No time entry is running.") >> text 1
+			menu(, [🆗 Done, ▶️ Start Current Time Entry]) {
+			case("🆗 Done"):
+			case("▶️ Start Current Time Entry"):
+				number(value: 1) >> number 5
+var StartCurrentTimeEntry = Number
+			} >> MenuResult
+		} else {
+// Blank text used if a value doesn’t exist.
+			text() >> text 2
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+			if(Value != nil) {
+				text(text: "${Value}")
+			} else {
+				text(text: "[No Details]")
+			} >> Time Entry Details
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+			if(Start Time != nil) {
+				getTimeBetween(first: "${Current Time}", second: "${Start Time.as(Date)}", interval: Seconds) >> getTimeBetween
+//Unable to get shortcuts action com.joehribar.toggl.FormatDurationIntent
+var 98CB1397-A56C-479F-A2D4-3B5940569D70 = """“￼” running.
+Started at: ￼
+Running for: ￼"""
+text("${98CB1397-A56C-479F-A2D4-3B5940569D70}")
+			} else {
+				text(text: "“${Time Entry Details}” running. No start time set.")
+			} >> IFResult 2
+			menu(, [🆗 Done, ⏹️ Stop Current Time Entry, ▶️ Start New Current Time Entry]) {
+			case("🆗 Done"):
+			case("⏹️ Stop Current Time Entry"):
+				number(value: 1) >> number 6
+var StopCurrentTimeEntry = Number
+			case("▶️ Start New Current Time Entry"):
+				number(value: 1) >> number 7
+var StartCurrentTimeEntry = Number
+			}
+		}
+	} else {
+		text(text: "No offline time tracked.") >> text 3
+		menu(, [🆗 Done, ▶️ Start Current Time Entry]) {
+		case("🆗 Done"):
+		case("▶️ Start Current Time Entry"):
+			number(value: 1) >> number 8
+var StartCurrentTimeEntry = Number
+		} >> MenuResult 1
+	}
+} >> IFResult 3
+nothing()
+/*
+Stop the current time entry.
+
+If the last time entry in the list does not have a stop time set, this sets it.
+*/
+if(Stop Current Time Entry == 1) { >> IFResult 4
+	if(Offline Time Entries Count > 0) {
+//Unable to get shortcuts action dk.simonbs.DataJar.CheckIfValueExistsIntent
+		if(Value Exists ==) {
+			text(text: "No current time entry running.") >> text 4
+		} else {
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+// Blank text used if a value doesn’t exist.
+			text() >> text 5
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+			if(Value != nil) { >> IFResult 5
+				text(text: "${Value}") >> text 6
+			} else {
+				text(text: "[No Details]") >> text 7
+			} >> Time Entry Details
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+			if(Start Time != nil) {
+				getTimeBetween(first: "${Current Time}", second: "${Start Time.as(Date)}", interval: Seconds) >> getTimeBetween 1
+//Unable to get shortcuts action com.joehribar.toggl.FormatDurationIntent
+var BB64088D-1514-43D4-9E78-8CD96078C149 = """“￼” stopped.
+Started at: ￼
+Ran for: ￼"""
+text("${BB64088D-1514-43D4-9E78-8CD96078C149}")
+			} else {
+				text(text: "“${Time Entry Details}” stopped. No start time was set though.") >> text 8
+			} >> IFResult 6
+		} >> IFResult 7
+	} else {
+		text(text: "No offline time tracked.") >> text 9
+	} >> IFResult 8
+	menu(, [🆗 Done, ▶️ Start New Current Time Entry]) {
+	case("🆗 Done"):
+	case("▶️ Start New Current Time Entry"):
+		number(value: 1) >> number 9
+var StartCurrentTimeEntry = Number
+	}
+} >> IFResult 9
+nothing()
+/*
+Start a current time entry.
+
+This adds a new time entry to the list based on a chosen saved timer from Timery.
+*/
+if(Start Current Time Entry == 1) { >> IFResult 10
+	if(Offline Time Entries Count > 0) {
+// If there’s a current time entry running already, stop it.
+//Unable to get shortcuts action dk.simonbs.DataJar.CheckIfValueExistsIntent
+		if(Value Exists ==) {
+		} else {
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+		}
+	} >> IFResult 11
+	nothing() >> nothing
+//Unable to get shortcuts action com.joehribar.toggl.SavedTimerAppEntity
+	choose(list: Saved Timer) >> choose
+	dictionary({"DisplayName":"${Chosen Item}","Project":"${Chosen Item.get(projectName)}","Description":"${Chosen Item.get(timeEntryDescription)}","Tags":"${Chosen Item.get(tagNames)}","Start":"${Current Time}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+	text(text: "“${Chosen Item}” started.") >> text 10
+	showResult(text: "${Text}")
+} >> IFResult 12
+nothing()
+// Add offline time entries to Timery. This step requires an internet connection.
+if(Log Offline Time == 1) {
+	text(text: "This will add all the offline time entries to Timery and delete them from Data Jar. An internet connection is required for this step.") >> text 11
+	menu(, [🆒 Proceed, ⏹️ Cancel]) {
+	case("🆒 Proceed"):
+		if(Offline Time Entries Count > 0) {
+// If there’s a current time entry running already, stop it.
+//Unable to get shortcuts action dk.simonbs.DataJar.CheckIfValueExistsIntent
+			if(Value Exists ==) {
+			} else {
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+			} >> IFResult 13
+			repeat(Offline Time Entries Count) {
+// Blank text used if a value doesn’t exist.
+				text() >> text 12
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action com.joehribar.toggl.AddTimeEntryIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+				if(Display Name != nil) {
+					text(text: "${Display Name}") >> text 13
+				} else {
+					text(text: "[No Details]") >> text 14
+				} >> IFResult 14
+			} >> RepeatResult 1
+			combineText(text: Repeat Results) >> combineText
+// Delete the offline time entries from Data Jar.
+			repeat(Offline Time Entries Count) {
+//Unable to get shortcuts action dk.simonbs.DataJar.DeleteValueIntent
+			} >> RepeatResult 2
+var EE5B4EDF-678C-40E8-B2B1-03033FAB2D2D = """Added ￼ time entries:
+￼"""
+text("${EE5B4EDF-678C-40E8-B2B1-03033FAB2D2D}")
+		} else {
+			text(text: "No offline time tracked.")
+		} >> IFResult 15
+		showResult(text: "${If Result}")
+	case("⏹️ Cancel"):
+	}
+}

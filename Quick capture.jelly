@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: yellow, #Icon: Connected
+
+// Takes the shortcut input or clipboard text and automatically creates a new note in the Notes app – can be customized to send to a Folder as well.
+// This is helpful for quickly creating new notes while you’re doing research – keep it in the widget, run it from the share sheet, or ask Siri to capture anything you’ve got copied to your clipboard and it’ll get added to Notes to be organized later.
+if(ShortcutInput == nil) {
+	getClipboard() >> getClipboard
+} else {
+	getTextFrom(input: ShortcutInput) >> getTextFrom
+} >> Input
+createNote(text: "${Input}", show: false)

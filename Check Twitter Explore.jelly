@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+url(url: "twitter://moments/") >> url
+openURL(url: URL)

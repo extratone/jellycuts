@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: red, #Icon: hifiSpeaker
+
+// Get the artist and track title for the currently selected song in the Music app for macOS Monterey. The shortcut uses AppleScript integration to access the song that is selected in the Music app.
+runAppleScript(script: "on run {input, parameters}tell application "Music"	set selectedTrack to item 1 of (get selection)	return {name, artist} of selectedTrackend tellend run") >> runAppleScript
+// The script outputs a list of items, which can be parsed by Shortcuts.
+getItemFromList(list: AppleScript Result) >> Song
+getItemFromList(list: AppleScript Result, type: Last Item) >> Artist
+text(text: "${Artist} – ${ActionOutput}") >> text
+setClipboard(variable: Text) >> setClipboard
+sendNotification(body: "Copied: ${Text}", attachment: Text) >> sendNotification

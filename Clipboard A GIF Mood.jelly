@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: orange, #Icon: dramaMask
+
+// Enter a theme and pick a gif you want to use. The GIF will then be copied to the Clipboard and you can paste anywhere you want. 
+menu(, [Type, Talk]) {
+case("Type"):
+	askForInput(prompt: "Enter mood") >> askForInput
+case("Talk"):
+	alert(alert: "", title: "Enter mood", cancel: false)
+	dictateText(endTrigger: After Short Pause) >> dictateText
+} >> Mood
+//Unable to get shortcuts action is.workflow.actions.giphy
+setClipboard(variable: GIFs)

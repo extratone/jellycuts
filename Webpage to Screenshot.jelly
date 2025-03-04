@@ -1,0 +1,25 @@
+import Shortcuts
+#Color: tangerine, #Icon: cameraViewFinder
+
+getClipboard() >> getClipboard
+getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+// Enter your API Flash access token below.
+text(text: "4a139e0dbab84030823ac4d5ee063a3a") >> text
+url(url: "https://api.apiflash.com/v1/urltoimage?access_key=${URLs}&url=${ActionOutput}&full_page=false&width=1000&height=4300&format=png&quality=100") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getImagesFrom(input: Contents of URL) >> getImagesFrom
+setName(input: Images, name: "${ShortcutInput.get(Name)}") >> setName
+if(Renamed Item != nil) {
+	quicklook(input: Renamed Item)
+	urlComponent(url: "${ShortcutInput.get(Page URL)}", component: Host) >> urlComponent
+	menu(, [Share Image, Save to Photos, Exit]) {
+	case("Share Image"):
+		share(file: Renamed Item) >> share
+	case("Save to Photos"):
+		saveToCameraRoll(image: Renamed Item) >> saveToCameraRoll
+	case("Exit"):
+		exit()
+	} >> MenuResult
+} else {
+	alert(alert: "The API Flash web service couldn't return a screenshot of the webpage.", title: "❌ Error ❌", cancel: false)
+} >> IFResult

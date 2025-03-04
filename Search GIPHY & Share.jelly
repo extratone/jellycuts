@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+//Unable to get shortcuts action is.workflow.actions.giphy
+share(file: GIFs)

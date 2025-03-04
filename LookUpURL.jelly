@@ -1,0 +1,30 @@
+import Shortcuts
+#Color: navy, #Icon: openBook
+
+/*
+Quickly copy markdown-formatted LookUp share hyperlinks from the share sheet.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+var url = ShortcutInput
+urlComponent(url: "${ShortcutInput}", component: Query) >> urlComponent
+splitText(text: Component of URL, separator: Custom, customSeparator: "&") >> splitText
+getItemFromList(list: Split Text) >> getItemFromList
+replaceText(input: "${Item from List}", find: "word=") >> replaceText
+var term = Updated Text
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+text(text: "- [**${url}** - LookUp](${Variable})") >> text
+setClipboard(variable: Text) >> setClipboard
+//Unable to get shortcuts action app.cyan.taio.SaveClippingIntent

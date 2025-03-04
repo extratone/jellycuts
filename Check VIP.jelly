@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: Red, #Icon: star
+
+// Opens the VIP folder in the Mail app.
+/*
+Use this to check for emails only from individual you’ve designated in Mail as VIP.
+
+This action is the only activity shortcut available from Mail for the various mailboxes available.
+*/
+userActivity()

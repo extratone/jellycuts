@@ -1,0 +1,118 @@
+import Shortcuts
+#Color: yellow, #Icon: scissors
+
+// A universal Safari web clipper for Apple Notes.
+// Enter the name of the tag you want to use in Notes for saved links.
+text(text: "links") >> text
+var TagName = Text
+//Unable to get shortcuts action com.apple.mobilenotes.CreateTagLinkAction
+var AppleNotesTag = Tag
+// Assemble patterns to remove special punctuation from text.
+text(text: "’|‘|’") >> text 1
+var ApostrophePattern = Text
+text(text: "“|”") >> text 2
+var QuotesPattern = Text
+text(text: "–|—") >> text 3
+var DashPattern = Text
+/*
+Check if we passed a URL/Safari webpage to the shortcut OR some text.
+
+The latter case is intended for when you're reading something and want to pass some text to an existing note.
+*/
+getType(input: ShortcutInput) >> getType
+var TypeofInput = Type
+if(Type of Input == "Text") {
+	filterNotes() >> filterNotes
+	if(Notes == nil) { >> IFResult
+		alert(alert: "Passing text to NoteClipper is only supported if you've previously created notes with this shortcut.", title: "❌ Error ❌", cancel: false)
+		exit()
+	} else { >>  1
+var 407DBC15-CEC8-4B3A-B58D-83CBDA6D8633 = """Received input text.
+
+Pick an existing note to append this text to."""
+text("${407DBC15-CEC8-4B3A-B58D-83CBDA6D8633}")
+		choose(list: Notes, prompt: "${Text}") >> choose
+var MatchedNote = Chosen Item
+// Sanitize the text to remove smart punctuation.
+		replaceText(input: "${ShortcutInput}", find: "${Apostrophe Pattern}", isRegex: true, caseSensitive: false) >> replaceText
+		replaceText(input: "${Updated Text}", find: "${Quotes Pattern}", isRegex: true, caseSensitive: false) >> replaceText 1
+		replaceText(input: "${Updated Text}", find: "${Dash Pattern}", isRegex: true, caseSensitive: false) >> replaceText 2
+var C4411A36-E7B6-4D3D-8BA8-A6CC04ED4CF5 = """<br>
+￼"""
+text("${C4411A36-E7B6-4D3D-8BA8-A6CC04ED4CF5}")
+var Selection = Text
+	}
+} else {
+// This is a dumb workaround to get around the fact that Shortcuts cannot convert smart punctuation between Markdown and rich text. Other Unicode characters may cause similar issues.
+// Let's save the webpage as an article as well so we can extract other types of metadata from it.
+	getArticle(url: "${ShortcutInput.as(URL)}") >> getArticle
+var PageasArticle = Article
+// Let's convert the article properties so we can remove smart punctuation from them.
+	replaceText(input: "${Page as Article.get(Title)}", find: "${Quotes Pattern}", replace: """, isRegex: true, caseSensitive: false) >> replaceText 3
+	replaceText(input: "${Updated Text}", find: "${Apostrophe Pattern}", replace: "'", isRegex: true, caseSensitive: false) >> replaceText 4
+	replaceText(input: "${Updated Text}", find: "${Dash Pattern}", replace: "-", isRegex: true, caseSensitive: false) >> replaceText 5
+	text(text: "${Updated Text}") >> text 4
+var Title = Text
+// This is a workaround for a bug in Notes/Shortcuts that cuts off titles after a certain length.
+	matchText(text: "${Title}", regex: "^.{0,60}") >> matchText
+	text(text: "${Matches}…") >> text 5
+var TruncatedTitle = Text
+// Try to find a note that matches the processed title
+	filterNotes() >> filterNotes 1
+var MatchedNote = Notes
+} >> IFResult 1
+// Check if the input was Safari, and if so, get the selection (if any)
+if(Type of Input .contains "Safari") {
+	if(ShortcutInput != nil) { >> IFResult 2
+		markdownFromRich(text: ShortcutInput) >> markdownFromRich
+		splitText(text: Markdown from Rich Text) >> splitText
+// First, we have to deal with properly splitting the page selection by newlines and recombining it. Otherwise, Shortcuts will lose the linebreak.
+		repeatEach(Split Text) { >> RepeatResult
+			if(Repeat Item != nil) { >> IFResult 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} else {
+			} >> IFResult 4
+		} >> RepeatResult 1
+var FC918987-9A76-41CD-9816-3BE876ABF207 = """<br>
+"""
+text("${FC918987-9A76-41CD-9816-3BE876ABF207}")
+		combineText(text: Lines of Page Selection, combine: Custom, separator: "${Text}") >> combineText
+		replaceText(input: "${Combined Text}", find: "${Quotes Pattern}", replace: """, isRegex: true, caseSensitive: false) >> replaceText 6
+		replaceText(input: "${Updated Text}", find: "${Apostrophe Pattern}", replace: "'", isRegex: true, caseSensitive: false) >> replaceText 7
+		replaceText(input: "${Updated Text}", find: "${Dash Pattern}", replace: "-", isRegex: true, caseSensitive: false) >> replaceText 8
+var D7099916-A550-447B-99B0-97B65C988251 = """
+<br>
+￼"""
+text("${D7099916-A550-447B-99B0-97B65C988251}")
+var Selection = Text
+	} >> IFResult 5
+} >> IFResult 6
+// End checking for Safari selection
+count(input: Matched Note) >> count
+if(Count false 1) {
+// Add support for typing an additional note yourself
+	menu(Add a comment?, [💭 Yes, let me add a comment, ❌ No]) {
+	case("💭 Yes, let me add a comment"):
+		askForInput(prompt: "Add a Comment") >> askForInput
+var Comment = Provided Input
+	case("❌ No"):
+		nothing()
+	} >> MenuResult
+var A38E2ADE-F793-48D8-BFCE-2AAB885A9B43 = """* **Original webpage title:** ￼
+* **Author:**  ￼
+* **Link:** ￼
+* **Comment:** ￼
+
+￼"""
+text("${A38E2ADE-F793-48D8-BFCE-2AAB885A9B43}")
+	richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+	createNote(text: "${Truncated Title}") >> createNote
+	number(value: 0.5) >> number
+	wait(seconds: Number)
+	appendNote(text: "${Rich Text from Markdown}", note: Note) >> appendNote
+//Unable to get shortcuts action com.apple.mobilenotes.AddTagsToNotesLinkAction
+} else {
+	richTextFromMarkdown(markdown: Selection) >> richTextFromMarkdown 1
+// The note already exists. We should append the Safari webpage selection to it.
+	appendNote(text: "${Rich Text from Markdown}", note: Matched Note) >> appendNote 1
+} >> IFResult 7

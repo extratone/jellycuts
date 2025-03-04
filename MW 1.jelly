@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: orange, #Icon: 3DSquareStack
+
+var term = ShortcutInput
+url(url: "https://dictionaryapi.com/api/v3/references/collegiate/json/${term}?key=9d8a234e-9b2d-415c-bb9e-df72db19db24") >> url
+downloadURL(url: "${URL}") >> downloadURL
+//Unable to get shortcuts action com.sindresorhus.Actions.ParseJSON5Intent
+valueFor(dictionary: Parsed JSON5) >> valueFor
+repeatEach(Dictionary Value) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetFromDictionaryIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action ke.bou.GizmoPack.GenerateCSVIntent
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.FormatWithFlowIntent
+//Unable to get shortcuts action com.alexhay.nautomate.ChooseIntegrationIntent
+//Unable to get shortcuts action com.alexhay.nautomate.CreateTableBlockIntent
+//Unable to get shortcuts action com.alexhay.nautomate.AddBlocksToPageIntent

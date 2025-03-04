@@ -1,0 +1,35 @@
+import Shortcuts
+#Color: green, #Icon: documentFilled
+
+// Export a note from the Notes app as a Markdown file or via the share sheet. The shortcut requires you to manually copy the title of a note first.
+text(text: "${Clipboard}") >> text
+var OriginalNoteTitle = Text
+filterNotes() >> filterNotes
+var Result = Notes
+// Pick a note if multiple matches are found.
+count(input: Result) >> count
+if(Count > 1) {
+	choose(list: Result, prompt: "Matches for ${Original Note Title}. Pick one.") >> choose
+var Result = Chosen Item
+} >> IFResult
+// Character for a single line break.
+var 5C35BF75-8EC7-47C0-AA63-34C89AFB505C = """
+
+"""
+text("${5C35BF75-8EC7-47C0-AA63-34C89AFB505C}")
+replaceText(input: "${Result.get(Body)}", find: "\n\n", replace: "${Single Line Break}", isRegex: true) >> replaceText
+var 5F85F529-14E6-4D56-A61C-45CDF6A8BF33 = """# ￼
+
+￼"""
+text("${5F85F529-14E6-4D56-A61C-45CDF6A8BF33}")
+var NoteText = Text
+setName(input: Note Text, name: "${Original Note Title}.md") >> setName
+var NoteFile = Renamed Item
+menu(, [Save to Folder, Share File, Copy Text]) {
+case("Save to Folder"):
+	saveFile(input: Note File, ask: true)
+case("Share File"):
+	share(file: Note File) >> share
+case("Copy Text"):
+	setClipboard(variable: Note Text) >> setClipboard
+}

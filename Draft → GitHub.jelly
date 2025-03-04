@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: grayBlue, #Icon: play
+
+//Unable to get shortcuts action com.agiletortoise.Drafts5.GetDraftByUUIDIntent
+getTextFrom(input: Draft) >> getTextFrom
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent

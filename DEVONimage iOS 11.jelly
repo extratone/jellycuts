@@ -1,0 +1,33 @@
+import Shortcuts
+#Color: blue, #Icon: picture
+
+// Beta group.
+text(text: "B3F958D0-F8FB-406E-9987-69FE492026A6") >> text
+//Unable to get shortcuts action is.workflow.actions.getvariable
+count(type: Items) >> count
+if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	getImagesFrom() >> getImagesFrom
+} else {
+	selectPhoto(multiple: true) >> selectPhoto
+	getImagesFrom()
+} >> IFResult
+repeatEach($0) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	quicklook()
+	askForInput(prompt: "Image Title") >> Title
+	askForInput(prompt: "Comment?") >> Comment
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	decode() >> decode
+	url(url: "x-devonthink://x-callback-url/createImage?source=${Ask for Input}&title=${ActionOutput}&comment=${Base64 Encoded}&destination=${ActionOutput}") >> url
+	xCallbackURL(custom: false, customXSuccess: false) >> xCallbackURL
+	valuesFrom() >> valuesFrom
+var BB2EA876-09FF-4080-AC99-9BB15CF7162A = """[￼] ￼
+
+~--￼ (￼)--~"""
+text("${BB2EA876-09FF-4080-AC99-9BB15CF7162A}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(combine: New Lines)
+setClipboard()

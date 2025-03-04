@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: green, #Icon: 3DSquareStack
+
+/*
+This shortcut ideally works as a companion to Safari Tabs Jar: https://routinehub.co/shortcut/10868
+
+…but will function with any Data Jar List of URLs.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+askForInput(prompt: "Name of the target Data Jar List (“Key Path.”)", default: tabs) >> askForInput
+//Unable to get shortcuts action dk.simonbs.DataJar.GetChildCountIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+getURLSFromInput(text: "${Value}") >> getURLSFromInput
+splitText(text: URLs, separator: New Lines) >> splitText
+alert(alert: "Open ${Count} tabs in Safari?", title: "Lots of Links!")
+openURL(url: Split Text) >> openURL

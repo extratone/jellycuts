@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: navy, #Icon: circledI
+
+// Prompts you to enter the time for when a currently-running should have stopped, then stops it and sets that end time.
+// Use this if you leave your time tracker on overnight – you can quickly update the actual time without jumping into the app.
+askForInput(prompt: "When should the timer have stopped?", type: Date and Time) >> Provided Time
+//Unable to get shortcuts action com.joehribar.toggl.StopTimeEntryIntent

@@ -1,0 +1,85 @@
+import Shortcuts
+#Color: blue, #Icon: bike
+
+/*
+Shows options for using Maps:
+• Searching, getting driving directions, getting travel time
+• Picking destinations halfway, logging mileage
+• Driving to specific places or picking types of locations
+• Using biking directions, transit resources, and rideshare actions
+*/
+// This is my dorky name for a multitool that takes advantage of the Apple Maps features in Shortcuts – it’s a great addition to the Maps widget on the Home Screen.
+menu(What do you want to do?, [Search Maps, Get driving directions, Get travel time home, Meet halfway, Log mileage, Organize CarPlay, Let’s go on a hike, Drive to the bay, Bike home, Bike to the park, Get biking directions, Get biking directions somewhere interesting, Open train schedule, I need a ride]) {
+case("Search Maps"):
+	dictionary({"Food":[	"Popular Food","Restaurants","Groceries","Fast Food","Coffee Shops","Bakeries","Dessers"],"Drinks":[	"Popular Drinks","Coffee Shops","Stores","Tea & Juice","Bars","Beer","Wine"],"Shopping":[	"Popular Shopping","Shopping Centers","Groceries","Apparel","Home & Office","Convenience","Sporting Goods"],"Travel":[	"Item 1","Item 2","Item 3","Item 4","Item 5","Item 6","Item 7"],"Services":[	"Item 1","Item 2","Item 3","Item 4","Item 5","Item 6","Item 7"]})
+	choose(list: Dictionary, prompt: "Which category of venue?") >> choose
+	keysFrom(dictionary: Dictionary) >> keysFrom
+//Unable to get shortcuts action is.workflow.actions.searchlocalbusinesses
+	choose(list: Local Businesses, prompt: "Which venue do you want to save?") >> Venue
+//Unable to get shortcuts action is.workflow.actions.searchmaps
+case("Get driving directions"):
+	askForInput(prompt: "Where do you want to go?") >> askForInput
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Get travel time home"):
+//Unable to get shortcuts action is.workflow.actions.location
+//Unable to get shortcuts action is.workflow.actions.gettraveltime
+	formatDate(date: "${Travel Time}", dStyle: None) >> formatDate
+	text(text: "It'll take you ${Formatted Date} to get home – you should arrive around ${ActionOutput} if you leave now.") >> text
+	sendNotification(body: "${Text}", title: "Trip home")
+case("Meet halfway"):
+	askForInput(prompt: "Where do you want to go? (e.g.: restaurant name, type of restaurant, attraction)", default: )
+	askForInput(prompt: "What is your friend’s current location?", default: ) >> askForInput 1
+	getLocation() >> getLocation
+//Unable to get shortcuts action is.workflow.actions.gethalfwaypoint
+//Unable to get shortcuts action is.workflow.actions.searchlocalbusinesses
+	choose(list: Local Businesses) >> choose 1
+//Unable to get shortcuts action is.workflow.actions.searchmaps
+case("Log mileage"):
+	askForInput(prompt: "What’s the current mileage?", type: Number) >> askForInput 2
+	text(text: "${CurrentDate},${CurrentDate},${Provided Input}") >> text 1
+	createFolder(path: "Data/")
+	prependFile(path: "/Data/Mileage.csv", newLine: true) >> prependFile
+//Unable to get shortcuts action is.workflow.actions.measurement.create
+	showResult(text: "Logged ${Measurement} into iCloud Drive!")
+case("Organize CarPlay"):
+	url(url: "prefs:root=General&path=CARPLAY") >> url
+	openURL(url: URL)
+case("Let’s go on a hike"):
+//Unable to get shortcuts action is.workflow.actions.searchlocalbusinesses
+	choose(list: Local Businesses) >> choose 2
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Drive to the bay"):
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Bike home"):
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Bike to the park"):
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Get biking directions"):
+	askForInput(prompt: "Where do you want to go?") >> askForInput 3
+//Unable to get shortcuts action is.workflow.actions.searchlocalbusinesses
+	count(input: Local Businesses) >> count
+	if(Count > 1) {
+		choose(list: Local Businesses, prompt: "Which one?")
+	} >> IFResult
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Get biking directions somewhere interesting"):
+//Unable to get shortcuts action is.workflow.actions.searchlocalbusinesses
+	choose(list: Local Businesses) >> choose 3
+//Unable to get shortcuts action is.workflow.actions.getdirections
+case("Open train schedule"):
+	menu(Which station?, [Ashby, Rockridge, Powell]) {
+	case("Ashby"):
+		url(url: "http://m.bart.gov/schedules/eta?stn=ASHB")
+	case("Rockridge"):
+		url(url: "http://m.bart.gov/schedules/eta?stn=ROCK")
+	case("Powell"):
+		url(url: "http://m.bart.gov/schedules/eta?stn=POWL") >> url 1
+	} >> MenuResult
+	showWebPage(url: "${Menu Result}")
+case("I need a ride"):
+	askForInput(prompt: "For how many people?", type: Number)
+	askForInput(prompt: "Where are you headed?", default: ) >> Destination
+//Unable to get shortcuts action is.workflow.actions.searchlocalbusinesses
+	choose(list: Local Businesses, prompt: "Which is correct?") >> Chosen Venue
+//Unable to get shortcuts action is.workflow.actions.ride.requestride
+}

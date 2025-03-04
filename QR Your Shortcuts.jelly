@@ -1,0 +1,17 @@
+import Shortcuts
+#Color: blue, #Icon: flag
+
+getShortcuts() >> getShortcuts
+choose(list: My Shortcuts, prompt: "What Shortcut do you want this QR code to run?", multiple: true) >> choose
+repeatEach($0) {
+	replaceText(input: "${Repeat Item}", find: " ", replace: "%20") >> replaceText
+	text(text: "shortcuts://run-shortcut?name=${Replace Text}") >> text
+	createQR(text: "${Text}") >> createQR
+} >> RepeatResult
+createPDF(input: Repeat Results, pages: All Pages) >> createPDF
+menu(, [Print QR Code from iOS, Print from another device]) {
+case("Print QR Code from iOS"):
+	printDocument(input: PDF)
+case("Print from another device"):
+	share(file: PDF)
+}

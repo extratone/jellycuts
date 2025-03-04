@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: red, #Icon: hand
+
+//Unable to get shortcuts action is.workflow.actions.contacts
+contactDetail(detail: Phone Numbers, contact: Contacts) >> contactDetail
+var Contacts = Group
+getLocation() >> getLocation
+//Unable to get shortcuts action is.workflow.actions.getmapslink
+nothing()
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+showResult(text: "Message sent to your contact.")

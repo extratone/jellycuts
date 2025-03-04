@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: red, #Icon: videoIcon
+
+expandURL(url: "${ShortcutInput}") >> expandURL
+replaceText(input: "${Expanded URL}", find: "${Expanded URL}", replace: "https://annotate.tv/new?url=${Expanded URL}") >> replaceText
+openURL(url: Updated Text)

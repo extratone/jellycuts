@@ -1,0 +1,51 @@
+import Shortcuts
+#Color: red, #Icon: chainlink
+
+/*
+Save a .txt file of all links present in the active Safari tab.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+runJavascriptOnWebpage(url: ShortcutInput, javascript: "var result = [];
+// Get all links from the page
+var elements = document.querySelectorAll("a");
+for (let element of elements) {
+	result.push({
+		"url": element.href,
+		"text": element.innerText
+	});
+}
+
+// Call completion to finish
+completion(result);") >> runJavascriptOnWebpage
+getDictionaryFrom(input: JavaScript Result) >> getDictionaryFrom
+count(type: Items, input: Dictionary) >> count
+var count = Count
+repeatEach(Dictionary) {
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom
+//Unable to get shortcuts action maccatalyst.com.Christopher-Hannah.Text-Case.TextCaseIntent
+var text = Dictionary Value
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom 1
+var url = Dictionary Value
+	text(text: "[${text}](${Variable})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	quicklook(input: md)
+} >> RepeatResult
+combineText(text: md, combine: New Lines) >> combineText
+//Unable to get shortcuts action com.sindresorhus.Actions.RemoveDuplicateLinesIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.RemoveEmptyLinesIntent
+//Unable to get shortcuts action maccatalyst.com.Christopher-Hannah.Text-Case.FormatWithFlowIntent
+setClipboard(variable: Formatted Text) >> setClipboard
+setName(input: Formatted Text, name: "${CurrentDate}", dontIncludeExtension: true) >> setName
+saveFile(input: Formatted Text, ask: false, path: "") >> saveFile
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

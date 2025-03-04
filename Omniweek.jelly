@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: purple, #Icon: circledCheckmark
+
+date() >> date
+formatDate(date: "${Date}", tStyle: None) >> formatDate
+adjustDate(operation: Subtract, duration: , date: "${Formatted Date}") >> adjustDate
+var CurrDate = Adjusted Date
+repeat(7) {
+	adjustDate(duration: , date: "${CurrDate}") >> adjustDate 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	adjustDate(duration: , date: "${Adjusted Date}") >> adjustDate 2
+//Unable to get shortcuts action com.omnigroup.OmniFocus3.iOS.FindTasksIntent
+	count(input: Items) >> count
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+var CurrDate = Adjusted Date
+	formatDate(date: "${Adjusted Date}", dStyle: Custom, tStyle: None, custom: "dd MMM") >> formatDate 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+//Unable to get shortcuts action com.brogrammers.charty.NewChartIntent
+//Unable to get shortcuts action com.brogrammers.charty.AddSeriesToChartIntent
+openApp(id: "com.brogrammers.charty")

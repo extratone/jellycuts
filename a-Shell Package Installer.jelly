@@ -1,0 +1,39 @@
+import Shortcuts
+import aShell
+#Color: Red, #Icon: downloadArrow
+
+/*
+Choose from a list of all currently-available add-on commands for a-Shell.
+
+The source (commands) GitHub Repository: https://github.com/holzschu/a-Shell-commands
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text() >> text
+setClipboard(variable: text) >> setClipboard
+url(url: "https://github.com/holzschu/a-Shell-commands/raw/master/list") >> url
+downloadURL(url: url) >> downloadURL
+splitText(text: Contents of URL) >> splitText
+choose(list: splitText, prompt: "Choose packages to install.", multiple: true, all: false) >> choose
+combineText(text: Chosen Item, combine: Custom, separator: " ") >> combineText
+var pkgs = Combined Text
+var 02340E87-0986-4E06-BC44-C361D8A48EC6 = """pkg install ￼
+pkg list | pbcopy
+open shortcuts://"""
+text("${02340E87-0986-4E06-BC44-C361D8A48EC6}")
+executeCommand(command: "${text}"}, openWindow: close, keepGoing: true)
+waitToReturn()
+getClipboard() >> getClipboard
+showResult(text: "${Clipboard}")

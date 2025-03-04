@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: purple, #Icon: clipboard
+
+getTextFrom(input: ShortcutInput) >> getTextFrom
+splitText(text: Text, separator: Custom, customSeparator: "%%OSL%%") >> splitText
+getItemFromList(list: Split Text) >> getItemFromList
+var DocumentName = Item from List
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 1
+var LinktoDocument = Item from List
+//Unable to get shortcuts action com.omnigroup.OmniFocus4.AddTaskIntent

@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: navy, #Icon: Shortcuts
+
+askForInput(prompt: "How many minutes do you want to focus for?", type: Number) >> askForInput
+date() >> date
+adjustDate(operation: Add, duration: , date: "${Date}") >> adjustDate
+setDND(state: true)
+timer(duration: )
+setBrightness(value: false)
+setVolume(level: false)
+waitToReturn()
+setBrightness()
+setVolume()

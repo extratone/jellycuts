@@ -1,0 +1,73 @@
+import Shortcuts
+#Color: grape, #Icon: speedometer
+
+fileDetail(input: ShortcutInput, property: File Extension) >> fileDetail
+if(File Extension != "synced") {
+	alert(alert: "Requires Analytics File! Go to Settings > Privacy & Security > Analytics & Improvements > Analytics Data and pick a file that starts with "Analytics-", then share it to this shortcut", title: "Incorrect File Format!", cancel: false)
+	exit()
+} >> IFResult
+setName(input: ShortcutInput, name: "diagnostics.txt") >> setName
+getTextFrom(input: Renamed Item) >> getTextFrom
+matchText(text: "${Text}", regex: "\{(?=[^{}]*"os_version"[^{}]*\})[^{}]*\}") >> matchText
+getItemFromList(list: Matches) >> getItemFromList
+getDictionaryFrom(input: Item from List) >> getDictionaryFrom
+valueFor(key: "os_version", dictionary: Dictionary) >> valueFor
+var OSVersion = Dictionary Value
+matchText(text: "${OSVersion}", regex: "watch", caseSensitive: false) >> matchText 1
+if(Matches != nil) {
+	alert(alert: "This is a WatchOS Diagnostic File, please select a different file")
+	exit()
+}
+matchText(text: "${Text}", regex: "\{(?=[^{}]*"last_value_CycleCount"[^{}]*\})[^{}]*\}", caseSensitive: true) >> matchText 2
+getItemFromList(list: Matches, type: Last Item) >> getItemFromList 1
+getDictionaryFrom(input: Item from List) >> getDictionaryFrom 1
+valueFor(key: "last_value_CycleCount", dictionary: Dictionary) >> valueFor 1
+var Cycles = Dictionary Value
+valueFor(key: "last_value_NominalChargeCapacity", dictionary: Dictionary) >> valueFor 2
+var NominalCharge = Dictionary Value
+valueFor(key: "last_value_MaximumFCC", dictionary: Dictionary) >> valueFor 3
+var MaxCharge = Dictionary Value
+calculate(input: "(${MaxCharge}/${Variable})*100") >> calculate
+round(number: Calculation Result, roundTo: Hundredths) >> round
+var BatteryHealthPercent = Rounded Number
+matchText(text: "${Text}", regex: "\{(?=[^{}]*"dramSize"[^{}]*\})[^{}]*\}") >> matchText 3
+getItemFromList(list: Matches) >> getItemFromList 2
+getDictionaryFrom(input: Item from List) >> getDictionaryFrom 2
+valueFor(key: "dramSize", dictionary: Dictionary) >> valueFor 4
+var RAM = Dictionary Value
+valueFor(key: "deviceCapacity", dictionary: Dictionary) >> valueFor 5
+var Storage = Dictionary Value
+valueFor(key: "timestamp", dictionary: Dictionary) >> valueFor 6
+getDateFrom(input: Dictionary Value) >> getDateFrom
+formatDate(date: "${Dates}", dStyle: Long, tStyle: Long) >> formatDate
+var Timestamp = Formatted Date
+var 03AB47A4-AAE7-4C30-BF29-07282808620A = """📅Diagnostic File Timestamp: ￼
+
+📱Device Info
+	🖥️OS Version:  ￼
+	🐏RAM: ￼GB
+	💾Storage: ￼GB 
+
+
+⚡️Battery Info:
+	🏥Battery Health Percentage: ￼%
+	🪫Nominal Capacity: ￼ mAh
+	🔋Max Design Capacity: ￼ mAh
+	🔄Charge Cycles: ￼ Cycles"""
+text("${03AB47A4-AAE7-4C30-BF29-07282808620A}")
+showResult(text: "${Text}")
+/*
+Designed by @bcoffy@hydrocube.space
+
+This shortcut is designed to parse the JSON in the analytics logs your iPhone sends to apple. It can retrieve information not given by the settings app such as RAM, your battery capacity in mAh, and charge cycles.
+
+It is normal to have a new device with a battery life >100%. All batteries are built with slightly different capacities, so Apple uses a maximum battery estimate that’s somewhat below the average new battery capacity, so that if someone gets a slightly smaller than average battery, their new iPhone/iPad won’t report 99% or 98%
+
+Inspired by the battery health shortcut from Payette Forward: https://www.payetteforward.com/shortcut-check-your-iphones-battery-cycle-count/
+
+RegEx by ChatGPT, because RegEx is incomprehensible dark sorcery
+
+Consider this shortcut FOSS. Share, edit, improve to your heart’s content!
+
+Currently only supports iPad and iPhone
+*/

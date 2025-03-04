@@ -1,0 +1,38 @@
+import Shortcuts
+#Color: yellow, #Icon: circledDownArrow
+
+/*
+Retrieve the original (highest-resolution) verision of a Wikimedia Commons file via API.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+splitText(text: URLs, separator: Custom, customSeparator: ":") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var title = Item from List
+url(url: "https://api.wikimedia.org/core/v1/commons/file/File:${title}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+//Unable to get shortcuts action com.sindresorhus.Actions.PrettyPrintDictionariesIntent
+valueFor(key: "original.url", dictionary: Pretty Printed Dictionary) >> valueFor
+var original = Dictionary Value
+downloadURL(url: "${original}") >> downloadURL 1
+saveFile(input: Contents of URL, ask: false, path: "${title}", overwrite: true) >> saveFile
+getType(input: Saved File) >> getType
+if(Type == "Image") {
+	saveToCameraRoll(image: Contents of URL, album: Web) >> saveToCameraRoll
+} else {
+	nothing()
+} >> IFResult
+url(url: "https://github.com/extratone/iOSSystemSounds/raw/main/m4a/Alert_Health_Haptic.m4a") >> url 1
+downloadURL(url: "${URL}") >> downloadURL 2
+playSound(file: Contents of URL)

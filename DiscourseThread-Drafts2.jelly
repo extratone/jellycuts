@@ -1,0 +1,40 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+var url = ShortcutInput
+urlComponent(url: "${ShortcutInput}", component: Host) >> urlComponent
+replaceText(input: "${Component of URL}", find: ".", replace: "-") >> replaceText
+var host = Updated Text
+urlComponent(url: "${ShortcutInput}", component: Path) >> urlComponent 1
+splitText(text: Component of URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var id = Item from List
+url(url: "${url}.json") >> url 2
+downloadURL(url: "${URL}") >> downloadURL
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+valuesFrom(dictionary: Dictionary) >> valuesFrom
+getDateFrom(input: Dictionary Value) >> getDateFrom
+var davodtime = Dates
+valuesFrom(dictionary: Dictionary) >> valuesFrom 1
+var tags = Dictionary Value
+valuesFrom(dictionary: Dictionary) >> valuesFrom 2
+getItemFromList(list: Dictionary Value) >> getItemFromList 1
+valuesFrom(dictionary: Item from List) >> valuesFrom 3
+quicklook(input: Dictionary Value)
+richTextFromHTML() >> richTextFromHTML
+markdownFromRich(text: Rich Text from HTML) >> markdownFromRich
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.FormatWithFlowIntent
+var mdbody = Formatted Text
+valuesFrom(dictionary: Dictionary) >> valuesFrom 4
+var title = Dictionary Value
+var A736F557-6DDA-4EA6-8003-331730253078 = """# ￼
+Created `￼`
+
+- [Thread](￼)
+
+---
+
+￼"""
+text("${A736F557-6DDA-4EA6-8003-331730253078}")
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent

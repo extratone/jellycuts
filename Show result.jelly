@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: grayGreen, #Icon: circledI
+
+/*
+Meant primarily for "Run Shortcut" as a debugging step, this takes the shortcut input and displays it in an alert so the user can see what type of content is being passed through – accounts for images/media in a notification if present.
+
+Also displays the option to Continue or Cancel the current shortcut in case you want to stop and fix something.
+
+Works with content copied to the clipboard as well.
+*/
+/*
+Use this shortcut instead of trying to remember the method for debugging in Shortcuts – this does it for you.
+
+If you run into other content types that don't display well, try Show Content Graph.
+*/
+if(ShortcutInput == nil) {
+	getClipboard() >> getClipboard
+} else {
+} >> IFResult
+getType(input: If Result) >> getType
+if(Type .contains "Media") {
+	sendNotification(body: "${If Result}", title: "${If Result.get(Name)}", attachment: If Result)
+	alert(alert: "Do you want to continue with the shortcut?", title: "Check the notification for result details")
+} else {
+	alert(alert: "Do you want to continue with the shortcut?", title: "Your content "${If Result}" named "${ActionOutput}" is ${If Result.get(Name)}")
+} >> IFResult 1

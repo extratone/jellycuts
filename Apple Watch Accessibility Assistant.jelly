@@ -1,0 +1,1270 @@
+import Shortcuts
+#Color: navy, #Icon: person2
+
+/*
+Select the needs of the user, choose as many as needed. Creates a note, populated with Apple Support page links and resources, on suggested built-in accessibility features. 
+
+Resources are based on watchOS 8.5
+*/
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+menu(Choose a category of symptoms. You can add more later, if necessary., [Vision, Hearing, Mobility, Cognitive]) {
+case("Vision"):
+	menu(Choose a condition:, [Wears reading glasses, Sensitivity to light, Cannot distinguish certain colors, Depth perception issues, Blurry vision / dizziness / visual distortion, Blind, Blind + braille, Deafblind, All of these, None of these]) {
+	case("Wears reading glasses"):
+		text(text: "Text Size Bold Text Reduce Transparency Zoom Dictation Announce Calls Announce Messages Smart Reply Reduce Motion Maps Predictive text Siri Zoom X-Large Watch Face Scribble Ping your iPhone with Apple Watch Haptic Feedback Taptic Time Walkie Talkie Emergency SOS Fall Detection Privacy") >> text
+	case("Sensitivity to light"):
+		text(text: "Announce Calls Announce Messages Siri X-Large Watch Face Taptic Time Reduce Transparency Unlock with Apple Watch Privacy") >> text 1
+	case("Cannot distinguish certain colors"):
+		text(text: "Grayscale Labels Reduce Transparency Siri Privacy") >> text 2
+	case("Depth perception issues"):
+		text(text: "Dictation Text Size Reduce Motion Reduce Transparency Announce Calls Announce Messages X-Large Watch Face Zoom Haptic Feedback Maps Walkie Talkie Siri Find My Emergency SOS Fall Detection Privacy") >> text 3
+	case("Blurry vision / dizziness / visual distortion"):
+		text(text: "Text Size Bold Text Dictation Smart Reply Announce Calls Announce Messages Reduce Motion Reduce Transparency Maps Predictive text Siri Zoom X-Large Watch Face Scribble Unlock with Apple Watch Ping your iPhone with Apple Watch Find My Haptic Feedback VoiceOver Taptic Time Walkie Talkie Emergency SOS Fall Detection Privacy") >> text 4
+	case("Blind"):
+		text(text: "VoiceOver ECG Sonification Taptic Time Ping your iPhone with Apple Watch Unlock with Apple Watch Announce Calls Announce Messages Dictation Timer app Haptic Feedback Maps Siri Stream audio to hearing devices Emergency SOS Share Location Fall Detection Walkie Talkie Dictation Find My Privacy") >> text 5
+	case("Blind + braille"):
+		text(text: "VoiceOver VoiceOver + Braille ECG Sonification Taptic Time Unlock with Apple Watch Announce Calls Announce Messages Ping your iPhone with Apple Watch Dictation Haptic Feedback Maps Siri Stream audio to hearing devices Emergency SOS Share Location Fall Detection Walkie Talkie Dictation Find My Privacy") >> text 6
+	case("Deafblind"):
+		text(text: "VoiceOver VoiceOver + Braille ECG Sonification Taptic Time Unlock with Apple Watch RTT/TTY Sound Recognition Sleep app Announce Calls Announce Messages Dictation Haptic Feedback Maps Emergency SOS Share Location Fall Detection Walkie Talkie Dictation Find My Privacy") >> text 7
+	case("All of these"):
+var 144E1B88-5DF9-43B2-A4C9-EC805F994ED3 = """Text Size
+Bold Text
+Reduce Transparency
+Zoom
+Dictation
+Announce Calls
+Announce Messages
+Smart Reply
+Reduce Motion
+Maps
+Predictive text
+Siri
+X-Large Watch Face
+Scribble
+Ping your iPhone with Apple Watch
+Haptic Feedback
+Taptic Time
+Walkie Talkie
+Emergency SOS
+Fall Detection
+Privacy
+Unlock with Apple Watch
+Grayscale
+Labels
+Find My
+VoiceOver
+ECG Sonification
+Timer app
+Stream audio to hearing devices
+Share Location
+VoiceOver + Braille
+RTT/TTY
+Sound Recognition
+Sleep app"""
+text("${144E1B88-5DF9-43B2-A4C9-EC805F994ED3}")
+	case("None of these"):
+		nothing()
+	} >> MenuResult
+case("Hearing"):
+	menu(Choose a condition:, [Issues hearing in loud places, mishears conversations, Issues hearing phone call dialog, Missing alarms/alerts, Missing TV dialog, trouble hearing specific frequencies, Ringing in ears, Hard of hearing, one ear only, Hard of hearing / deaf, Deaf + Sign Language, All of these, None of these]) {
+	case("Issues hearing in loud places, mishears conversations"):
+		text(text: "Haptic Feedback Notifications Messages Headphone Notifications Maps Alarms Stream audio to hearing devices Sound Recognition notification Noise app Sleep app Show audio transcriptions Emergency SOS Privacy") >> text 8
+	case("Issues hearing phone call dialog"):
+		text(text: "Stream audio to hearing devices Haptic Feedback Notifications Messages Headphone Notifications Maps Alarms Noise app Sleep app Show audio transcriptions RTT/TTY Emergency SOS Privacy") >> text 9
+	case("Missing alarms/alerts"):
+		text(text: "Haptic Feedback Alarms Reminders Sleep App Notifications Sound Recognition Messages Headphone Notifications Timers app Maps Noise app Show audio transcriptions Emergency SOS Privacy") >> text 10
+	case("Missing TV dialog, trouble hearing specific frequencies"):
+		text(text: "Haptic Feedback Notifications Sound Recognition Stream audio to hearing devices Messages Headphone Notifications Maps Alarms Noise app Sleep app Emergency SOS Privacy") >> text 11
+	case("Ringing in ears"):
+		text(text: "Haptic Feedback Notifications Messages Headphone Notifications Music Stream audio to hearing devices Maps Alarms Noise app Emergency SOS Privacy") >> text 12
+	case("Hard of hearing, one ear only"):
+		text(text: "Mono Audio Haptic Feedback Notifications Messages Headphone Notifications Noise app Stream audio to hearing devices Emergency SOS Privacy") >> text 13
+	case("Hard of hearing / deaf"):
+		text(text: "Haptic Feedback Notifications Sound Recognition Messages Maps Alarms Share Location RTT/TTY Shortcuts - Help Message Noise app Sleep app Timers app Ping your iPhone with Apple Watch Orientation on Wrist Unlock with Apple Watch Emergency SOS Privacy") >> text 14
+	case("Deaf + Sign Language"):
+		text(text: "Haptic Feedback Notifications Sound Recognition Messages Maps Alarms Share Location Noise app Sleep app RTT/TTY Orientation on Wrist Ping your iPhone with Apple Watch Shortcuts - Help Message Timers app Unlock with Apple Watch Emergency SOS Privacy") >> text 15
+	case("All of these"):
+var D7514BEA-0ACB-4222-80BE-7D759402D070 = """Haptic Feedback
+Notifications
+Messages
+Headphone Notifications
+Maps
+Alarms
+Stream audio to hearing devices
+Sound Recognition notification
+Noise app
+Sleep app
+Show audio transcriptions
+Emergency SOS
+Privacy
+RTT/TTY
+Reminders
+Sound Recognition
+Timers app
+Music
+Mono Audio
+Share Location
+Shortcuts - Help Message
+Ping your iPhone with Apple Watch
+Orientation on Wrist
+Unlock with Apple Watch"""
+text("${D7514BEA-0ACB-4222-80BE-7D759402D070}")
+	case("None of these"):
+		nothing()
+	} >> MenuResult 1
+case("Mobility"):
+	menu(Choose a condition:, [Difficulty typing, Lack of fine motor skills, Reduced limb function / low range of motion / single touch point, Involuntary movements / tremors, Low mobility + speech issues, Manual wheelchair user, Motorized wheelchair users, Head movement only, All of these, None of these]) {
+	case("Difficulty typing"):
+		text(text: "AssistiveTouch Touch Accommodations Side button click speed Smart Reply Taptic Time Announce Calls Announce Messages Dictation Predictive Text Quickpath Share Location Shortcuts - Help Message Siri Walkie Talkie Answer Phone Calls Unlock with Apple Watch Emergency SOS Fall Detection Privacy") >> text 16
+	case("Lack of fine motor skills"):
+		text(text: "AssistiveTouch Touch Accommodations Side button click speed Messages Smart Reply Announce Calls Announce Messages Answer Phone Calls Dictation Predictive Text Quickpath Share Location Shortcuts - Help Message Siri Walkie Talkie Unlock with Apple Watch Emergency SOS Fall Detection Privacy") >> text 17
+	case("Reduced limb function / low range of motion / single touch point"):
+		text(text: "AssistiveTouch Touch Accommodations Activity App for wheelchair users Orientation on Wrist Wheelchair Workouts Messages Side button click speed Announce Calls Announce Messages Answer Phone Calls Dictation Predictive Text Scribble Quickpath Share Location Shortcuts - Help Message Siri Unlock with Apple Watch Walkie Talkie Emergency SOS Fall Detection Privacy") >> text 18
+	case("Involuntary movements / tremors"):
+		text(text: "AssistiveTouch Touch Accommodations Messages Side button click speed Announce Calls Announce Messages Answer Phone Calls Dictation Predictive Text Scribble Quickpath Share Location Shortcuts - Help Message Siri Activity App for wheelchair users Orientation on Wrist Wheelchair Workouts Unlock with Apple Watch Walkie Talkie Emergency SOS Fall Detection Privacy") >> text 19
+	case("Low mobility + speech issues"):
+		text(text: "AssistiveTouch Touch Accommodations Orientation on Wrist Messages Side button click speed Announce Calls Announce Messages Predictive Text Scribble Quickpath Share Location Shortcuts - Help Message Unlock with Apple Watch Emergency SOS Fall Detection Privacy") >> text 20
+	case("Manual wheelchair user"):
+		text(text: "Activity App for wheelchair users Orientation on Wrist Wheelchair Workouts Messages Announce Calls Announce Messages Answer Phone Calls AssistiveTouch Siri Shortcuts - Help Message Unlock with Apple Watch Walkie Talkie Emergency SOS Fall Detection Privacy") >> text 21
+	case("Motorized wheelchair users"):
+		text(text: "AssistiveTouch Touch Accommodations Orientation on Wrist Side button click speed Messages Announce Calls Announce Messages Dictation Share Location Shortcuts - Help Message Siri Unlock with Apple Watch Walkie Talkie Emergency SOS Fall Detection Privacy") >> text 22
+	case("Head movement only"):
+		text(text: "Siri Orientation on Wrist Announce Calls Announce Messages Messages Dictation Share Location Shortcuts - Help Message Unlock with Apple Watch Emergency SOS Fall Detection Privacy") >> text 23
+	case("All of these"):
+var 241F4F78-52E5-46AC-97AD-5F651FB960C8 = """AssistiveTouch
+Touch Accommodations
+Side button click speed
+Smart Reply
+Taptic Time
+Announce Calls
+Announce Messages
+Dictation
+Predictive Text
+Quickpath
+Share Location
+Shortcuts - Help Message
+Siri
+Walkie Talkie
+Answer Phone Calls
+Unlock with Apple Watch
+Emergency SOS
+Fall Detection
+Privacy
+Messages
+Activity App for wheelchair users
+Orientation on Wrist
+Wheelchair Workouts
+Scribble"""
+text("${241F4F78-52E5-46AC-97AD-5F651FB960C8}")
+	case("None of these"):
+		nothing()
+	} >> MenuResult 2
+case("Cognitive"):
+	menu(Choose a condition:, [Tired when reading, Concentration issues, Forgetfulness / disorientation, Misplaces devices, Reading difficulties, Spelling issues, Words running together, Motion sickness, List writing, Difficulty following instructions, Mood changes, Safety issues, Language issues, Non-verbal / difficultly speaking, All of these, None of these]) {
+	case("Tired when reading"):
+		text(text: "Text Size Zoom Siri Announce Calls Announce Messages Dictation X-Large Watch Face Siri Emergency SOS Privacy") >> text 24
+	case("Concentration issues"):
+		text(text: "Focus and Do Not Disturb Practice Mindfulness Alarms Find My Timers app Handwashing Haptic Feedback Taptic Time Reminder Messages Music Screen Time Share Location Shortcuts - Help Message Siri Sleep app Display Preferences Text Size Zoom Siri Announce Calls Announce Messages Ping your iPhone with Apple Watch Dictation Larger Text X-Large Watch Face Unlock with Apple Watch Siri Fall Detection Emergency SOS Privacy") >> text 25
+	case("Forgetfulness / disorientation"):
+		text(text: "Alarms Find My Haptic Feedback Maps Reminder Messages Screen Time Share Location Timers app Shortcuts - Help Message Siri Sleep app Siri Focus and Do Not Disturb Announce Calls Announce Messages Handwashing Ping your iPhone with Apple Watch Unlock with Apple Watch Walkie Talkie Fall Detection Emergency SOS Focus and Do Not Disturb Practice Mindfulness Privacy") >> text 26
+	case("Misplaces devices"):
+		text(text: "Ping your iPhone with Apple Watch Find My Siri Privacy Share Location Maps Emergency SOS") >> text 27
+	case("Reading difficulties"):
+		text(text: "Siri Announce Calls Announce Messages Dictation Text Size Taptic Time Zoom X-Large Watch Face Shortcuts Emergency SOS Privacy") >> text 28
+	case("Spelling issues"):
+		text(text: "Siri Announce Calls Announce Messages Dictation Smart Reply Text Size Unlock with Apple Watch Shortcuts Emergency SOS Privacy") >> text 29
+	case("Words running together"):
+		text(text: "Text Size Zoom Dictation Announce Calls Announce Messages Reduce Motion Maps Predictive text Siri Zoom X-Large Watch Face Scribble Walkie Talkie Emergency SOS Privacy") >> text 30
+	case("Motion sickness"):
+		text(text: "Reduce Motion Reduce Transparency Siri Unlock with Apple Watch Mono Audio Walkie Talkie Fall Detection Emergency SOS Shortcuts - Help Message Focus and Do Not Disturb Practice Mindfulness Privacy") >> text 31
+	case("List writing"):
+		text(text: "Reminders Siri Dictation Shortcuts Notifications Alarms Emergency SOS Privacy") >> text 32
+	case("Difficulty following instructions"):
+		text(text: "Focus and Do Not Disturb Screen Time Timers app Reminders Messages Notifications Shortcuts Share Location Maps Emergency SOS Privacy") >> text 33
+	case("Mood changes"):
+		text(text: "Focus and Do Not Disturb Screen Time Shortcuts - Help Music Photos Messages Siri Reminders Practice Mindfulness Sleep App Share Location Fall Detection Emergency SOS Privacy") >> text 34
+	case("Safety issues"):
+		text(text: "Language Text Size Zoom Siri Announce Calls Smart Reply Announce Messages Dictation Share Location Siri Emergency SOS Privacy") >> text 35
+	case("Language issues"):
+		text(text: "Language Text Size Zoom Siri Announce Calls Smart Reply Announce Messages Dictation Share Location Siri Emergency SOS Privacy") >> text 36
+	case("Non-verbal / difficultly speaking"):
+		text(text: "Messages Predictive Text Scribble Quickpath Share Location Shortcuts - Help Message Smart Reply Unlock with Apple Watch Emergency SOS Fall Detection Privacy") >> text 37
+	case("All of these"):
+var 3F8091CA-5248-48AF-858E-952E5B824CE6 = """Text Size
+Zoom
+Siri
+Announce Calls
+Announce Messages
+Dictation
+X-Large Watch Face
+Emergency SOS
+Privacy
+Focus and Do Not Disturb
+Practice Mindfulness
+Alarms
+Find My
+Timers app
+Handwashing
+Haptic Feedback
+Taptic Time
+Reminder
+Messages
+Music
+Screen Time
+Share Location
+Shortcuts - Help Message
+Sleep app
+Display Preferences
+Ping your iPhone with Apple Watch
+Larger Text
+Unlock with Apple Watch
+Fall Detection
+Maps
+Walkie Talkie
+Shortcuts
+Smart Reply
+Reduce Motion
+Predictive text
+Scribble
+Reduce Transparency
+Mono Audio
+Reminders
+Notifications
+Privacy 
+Shortcuts - Help
+Photos
+Language
+Quickpath"""
+text("${3F8091CA-5248-48AF-858E-952E5B824CE6}")
+	case("None of these"):
+		nothing()
+	}
+} >> MenuResult 3
+menu(Would you like to specify more conditions?, [Add more, Finished ✅]) {
+case("Add more"):
+	splitText(text: Menu Result) >> splitText
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	runShortcut(name: "Accessibility Matrix Test - ALT BUILD", input: Accessibility Features) >> runShortcut
+case("Finished ✅"):
+	splitText(text: Menu Result) >> splitText 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "") >> text 38
+var De-dupedList = Text
+	repeatEach(Accessibility Features) {
+		if(De-duped List .contains ""${Repeat Item}"") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> IFResult
+	} >> RepeatResult
+var 450A524F-C9C7-4B3D-A233-86AEBD15F21B = """Accessibility Features on Apple Watch
+
+- Created on ￼ -
+
+Based on your specified selections, below is a list of accessibility features that might be helpful, along with links to support documentation and video tutorials, to find out how to turn them on and get started.
+
+Accessibility Shortcut
+You can set the Digital Crown to turn VoiceOver, Zoom, or Touch Accommodations on or off with a triple-click.
+
+About the Accessibility Shortcut for Apple Watch:
+https://support.apple.com/guide/watch/apda74993b58/watchos      
+
+Use Accessibility features on your Apple Watch:
+https://support.apple.com/HT204576
+
+
+—————————————————————————————————
+
+"""
+text("${450A524F-C9C7-4B3D-A233-86AEBD15F21B}")
+var Header = Text
+var 4CA50D4C-C82E-48E1-8246-555FAF7233ED = """
+
+—————————————————————————————————
+
+
+
+💻 Apple Support
+Apple Support Pages homepage
+https://support.apple.com/
+
+Apple Support App
+Need help? Apple Support app is your personalized guide to the best options from Apple. Find answers with articles tailored to your products and questions. Call, chat or email with an expert right away, or schedule a callback when it’s convenient. Get a repair at an Apple Store or a nearby Apple Authorised Service Provider. Apple Support is here to help. **Supports hard of hearing or non verbal assistance for individuals through chat functionality.
+https://itunes.apple.com/app/apple-support/id1130498044
+
+AppleCare
+Chat with experts online or have us call you right away. You can also schedule a time for us to call you when you’re ready. Answer a few questions and we’ll give you the best options.
+https://support.apple.com/contact
+
+List of AppleCare Support numbers (worldwide) - https://support.apple.com/HT201232
+How to contact Apple for accessibility support - https://support.apple.com/HT209585
+Accessibility Support Helpdesk:
+United States: 1-877-204-3930
+United Kingdom.: 0800 107 6285
+China mainland: 400-619-8141 (Mandarin only)
+Australia: (61) 1-300-365-083
+
+Apple Retail Support
+Join us for free workshops that cover everything from learning the basics of your new product to editing photos and more. Take the kids to free youth programs like Apple Camp. Or inspire the whole class with a Field Trip to the Apple Store. Forgot your Apple ID or have a question about an app or service? Want to make a Genius Bar reservation? We have several convenient Apple Support options for you to choose from.
+https://www.apple.com/retail/
+
+Apple Support Communities
+Find answers, ask questions, and connect with our community of Apple users from around the world.
+https://discussions.apple.com/welcome
+
+Social 
+YouTube https://www.youtube.com/applesupport/
+Accessibility playlist: https://www.youtube.com/watch?v=LyzkIhNIhgE&list=PLIl2EzNYri0cLtSlZowttih25VnSvWITu
+Twitter @AppleSupport
+
+📖 Manuals and Guides
+Apple Watch https://www.apple.com/watch/ Apple WatchOS https://www.apple.com/watchos/watchos-8/  Apple Watch User Guide https://support.apple.com/guide/watch/welcome/watchos
+Apple Watch Support https://support.apple.com/watch 
+
+
+"""
+text("${4CA50D4C-C82E-48E1-8246-555FAF7233ED}")
+var Footer = Text
+var 6C50CB46-31CE-435F-9D34-6891318D4A6C = """-----
+Activity App for wheelchair users
+
+Reach your fitness goals with the Activity app on Apple Watch, designed with wheelchair users in mind. Instead of a Stand goal, the Roll goal encourages you to move every hour. And sensors in Apple Watch even take into account different pushing techniques — giving you the most accurate credit for your daily activity.
+
+The Workout app on Apple Watch helps you workout your way. Accurately measure your workout session and set time, distance, or calorie goals based on the type of exercise you do. For wheelchair users, there are two unique workouts types: Outdoor Wheelchair Walk Pace and Outdoor Wheelchair Run Pace. Just choose the workout type that best matches your activity and Apple Watch turns on the appropriate sensors to track your workout.
+
+To enable health and fitness features designed for wheelchair activity, edit the wheelchair preference in the Health section of My Watch or in the Health app under Health Details.
+
+Use the Health app on your iPhone or iPod touch:
+https://support.apple.com/HT203037
+
+Workout types on Apple Watch:
+https://support.apple.com/HT207934
+
+Explore wheelchair workouts:
+https://support.apple.com/HT207934#wheelchair
+
+Video
+Start a wheelchair workout on Apple Watch:
+https://www.youtube.com/shorts/qE18JFFTBmM 
+(Run time: 00:42)
+
+How to track your activity with your Apple Watch:
+https://youtu.be/uIyZdXWou1E 
+(Run time: 3:22)
+
+
+
+-----
+Alarms
+
+Use the Alarms app to play a sound or vibrate your Apple Watch at a set time. Label alarms to help remind you of activities. Ask Siri to set alarms for you and track your bedtime.
+
+How to set and manage alarms on your Apple Watch:
+https://support.apple.com/guide/watch/apd27ce65478/watchos
+
+
+
+-----
+Announce Calls
+
+With Announce Calls, Siri identifies incoming phone calls and FaceTime calls, which you can accept or decline using your voice. Announce Calls also works with supported third-party apps.
+
+Announce calls with Siri on Apple Watch:
+https://support.apple.com/guide/watch/apd4d7958159/watchos
+
+
+-----
+Announce Messages
+
+When you're wearing your AirPods or compatible Beats headphones, Siri can announce incoming notifications from apps such as Messages and Reminders, and from supported third-party apps. Then you can reply instantly, hands-free.
+
+Announce Messages with Siri on AirPods:
+https://support.apple.com/HT210406
+
+Listen and respond to notifications with AirPods and Beats headphones on Apple Watch:
+https://support.apple.com/guide/watch/apd97b20fe28/watchos 
+
+Pair AirPods and Bluetooth Devices to Apple Watch:
+https://support.apple.com/guide/watch/apd67b3ac484/8.0/watchos
+
+
+
+-----
+Answer Phone Calls
+
+Answer phone calls on Apple Watch to never miss a call again. When you hear or feel the call notification, raise your wrist to see who’s calling. 
+
+Answer phone calls on Apple Watch:
+https://support.apple.com/guide/watch/apd32b6c5658/watchos
+
+
+
+-----
+AssistiveTouch
+
+To support users with limited mobility, with AssistiveTouch you can use hand gestures to navigate and use your Apple Watch.
+
+AssistiveTouch on Apple Watch enables customers who have limb differences to more easily answer incoming calls, control an onscreen motion pointer, and access Notification Center, Control Center, and more.
+
+
+Use AssistiveTouch on your Apple Watch:
+https://support.apple.com/HT212760
+
+Videos
+
+How to use AssistiveTouch on your Apple Watch:
+https://youtu.be/EJawhH-m_TE
+(Runtime 2:24)
+
+
+
+-----
+Bold Text
+
+Turn on Bold Text to give words weight on your screen.
+
+Note: Restart your Apple Watch for changes in bold text to take effect.
+
+Adjust text size and other visual settings on Apple Watch:
+https://support.apple.com/guide/watch/apd766b7bd85/watchos
+
+Adjust brightness, text size, sounds, and haptics on Apple Watch:
+https://support.apple.com/guide/watch/apd62807a9f3/watchos
+
+
+
+-----
+Dictation
+
+In the Messages app on your Apple Watch, you can compose and send messages that contain not only text, but also images, emoji, Memoji stickers, and audio clips. You can also let people know where you are by including your location in a message.
+
+Send messages using Dictation on your Apple Watch:
+https://support.apple.com/guide/watch/apd81334ff71/watchos
+
+
+
+-----
+ECG Sonification
+
+An electrocardiogram (also called an ECG or EKG) is a test that records the timing and strength of the electrical signals that make the heart beat. By looking at an ECG, a doctor can gain insights about your heart rhythm and look for irregularities.
+
+With VoiceOver on, you can turn on Live audio to have your ECG become an audio output through sonified data. 
+
+To toggle Live audio on or off, bring VO focus to the tips field in ECG app on Apple Watch, and then two finger double tap on screen to turn sound of ECG on and off.
+
+Take an ECG with the ECG app on Apple Watch:
+https://support.apple.com/HT208955
+
+
+
+-----
+Emergency SOS
+
+With Emergency SOS, you can quickly and easily call for help and alert your emergency contacts from your Apple Watch.
+
+Use Emergency SOS on your Apple Watch:
+https://support.apple.com/HT206983 
+
+Video
+
+How to use your Apple Watch
+https://youtu.be/Fo5veRwBbu4
+(Run time 3:15)
+
+
+
+-----
+Fall Detection
+
+If Apple Watch SE or Apple Watch Series 4 or later detects a hard fall while you're wearing your watch, it will tap you on the wrist, sound an alarm and display an alert. You can choose to contact emergency services or dismiss the alert by pressing the Digital Crown, tapping Close in the top left-hand corner or tapping "I'm OK".
+
+Use Fall Detection with Apple Watch:
+https://support.apple.com/HT208944
+
+Use Emergency SOS on Apple Watch:
+https://support.apple.com/HT206983
+
+Manage fall detection on Apple Watch:
+https://support.apple.com/guide/watch/apd34c409704/watchos
+
+Video
+How to turn on fall detection:
+https://youtu.be/7ln9cJZLvKs
+
+How to use Emergency SOS on Apple Watch:
+https://youtu.be/rcqxl4s_dow
+
+
+
+-----
+Find My
+
+Find My can help you locate and protect your missing Apple Watch. If you've already set up Find My iPhone on your paired iPhone, it will be enabled automatically on your Apple Watch and any Apple Watch paired using Family Setup. 
+
+So if your watch is lost or stolen, you can use Find My to help you find it again. And thanks to Activation Lock, your Apple ID and password are required before anyone can delete your Apple Watch and use it with their iPhone.
+
+With Find My you can easily locate friends and family members. Share your location with others, and let them share back.
+
+Find My can help you locate and protect your missing Apple Watch:
+https://support.apple.com/HT207024
+
+Use the Find My app:
+https://support.apple.com/find-my
+
+
+Video
+
+How to use Find My on Apple Watch:
+https://youtu.be/EEw8F_qASBE
+(Runtime :49)
+
+
+
+-----
+Focus and Do Not Disturb
+
+Focus helps you stay in the moment when you want to concentrate on an activity. Focus can reduce distractions—allowing only notifications you want to receive (ones that match your focus)—and lets other people and apps know you’re busy.
+
+You can choose from provided Focus options—for example, Driving, Personal, Sleep, and Work. Or you can create a custom Focus on your iPhone, choosing who is allowed to contact you, which apps can send you notifications, and whether or not you receive time-sensitive notifications.
+
+Use Focus on Apple Watch:
+https://support.apple.com/guide/watch/apd6640937c4/watchos
+
+Use Control Center on Apple Watch:
+https://support.apple.com/guide/watch/apd06bc15da1/watchos 
+
+
+
+-----
+Grayscale
+
+To assist users for whom color might impair visibility, Apple Watch lets you enable grayscale onscreen. After you set the filter, the settings apply system-wide.
+
+Note: Restart your Apple Watch for changes in grayscale to take effect.
+
+Adjust the display and text size on Apple Watch:
+https://support.apple.com/guide/watch/apd766b7bd85/watchos
+
+
+
+-----
+Handwashing
+
+Your Apple Watch can detect when you start washing and encourage you to keep going for 20 seconds, the time recommended by global health organizations. Your Apple Watch can also notify you if you haven’t washed your hands within a few minutes of returning home.
+
+Wash your hands with Apple Watch Series 4 or later:
+https://support.apple.com/HT211206
+
+Set up Handwashing on Apple Watch:
+https://support.apple.com/guide/watch/apdc9b9f04a8/watchos
+
+
+
+-----
+Haptic Feedback
+
+Your device lets you know when something’s up, in a way you’ll notice. Choose vibrating alerts for incoming phone and FaceTime calls, new text messages, new and sent mail, and calendar events. Or if you’re on the go, turn on the Taptic Engine on your Apple Watch to give you a gentle tap every time a notification comes in. Vibrating alerts available on iPhone or Apple Watch.
+
+You can adjust the strength of the haptics—or wrist taps—Apple Watch uses for notifications and alerts.
+
+Change the audio and notification settings on your Apple Watch:
+https://support.apple.com/HT204793
+
+Adjust brightness, text size, sounds, and haptics on Apple Watch:
+https://support.apple.com/guide/watch/apd62807a9f3/watchos
+
+Notifications on your Apple Watch:
+https://support.apple.com/HT204791
+
+Tell time with haptic feedback on Apple Watch:
+https://support.apple.com/guide/watch/apd2c755c294/watchos
+
+
+
+-----
+Headphone Notifications
+
+Receive notifications that your volume should be turned down when you've reached the recommended 7-day audio exposure limit.
+
+Headphone notifications on your Apple Watch: 
+https://support.apple.com/HT211903
+
+
+
+-----
+Labels
+
+Turn on button labels to see an additional position indicator. With labels on, you see a one (1) on any option that is on, and a zero (0) on options that are turned off.
+
+Adjust the display and text size on Apple Watch:
+https://support.apple.com/guide/watch/apd766b7bd85/watchos
+
+
+
+-----
+Language
+
+Change language on Apple Watch if required. 
+
+Change language and orientation on Apple Watch:
+https://support.apple.com/guide/watch/apd0bf18f46b/watchos
+
+
+
+-----
+Maps
+
+Maps will help you find your way. Whether it’s home, work, the gym, or your kid’s school, the places you visit most often are displayed for quick, one‑tap navigation when you open Maps on your devices. Or ask Siri, “Give me directions home.”
+
+Your Apple Watch uses sounds and taps to let you know when to turn. A low tone followed by a high tone (tock tick, tock tick) means turn right at the intersection you’re approaching; a high tone followed by a low tone (tick tock, tick tock) means turn left. Not sure what your destination looks like? You’ll feel a vibration when you’re on the last leg, and again when you arrive.
+
+Get directions on Apple Watch:
+https://support.apple.com/guide/watch/apdea7480950/watchos
+
+Use Find People to quickly get directions to a friend:
+https://support.apple.com/guide/watch/apd21475d656/8.0/watchos/
+
+Use Siri on your Apple Watch:
+https://support.apple.com/HT205184
+
+
+
+-----
+Messages
+
+In the Messages app  on your Apple Watch, you can compose and send messages that contain not only text, but also images, emoji, Memoji stickers, and audio clips.
+
+You can compose a message in a variety of ways—most of them on a single screen. After creating a message, tap the Create Message field, then do one or a combination of the following:
+- Use the QWERTY and QuickPath keyboard
+- Use Scribble
+- Dictate text
+- Include emoji
+- Enter text with your iPhone.
+
+You can use Digital Touch to send taps, a kiss, or your heartbeat to friends who have an Apple Watch or iPhone with iOS 10 or later.
+To see (or feel) a tap or heartbeat someone has sent you, tap the notification.
+
+To send someone a map showing your current location, scroll down, then tap Send Location.
+
+Send messages from Apple Watch:
+https://support.apple.com/guide/watch/apd81334ff71/watchos
+
+
+
+-----
+Mono audio
+
+Stereo recordings usually have distinct left- and right-channel audio tracks. Mono Audio can help streamline the differences by playing both audio channels in both ears. You can adjust the balance for greater volume in either ear, so you won’t miss a single note of a concerto or word of an audiobook.
+
+You can also turn on noise cancellation even when you’re using only one of your AirPods.
+
+Accessibility audio settings on Apple Watch:
+https://support.apple.com/guide/watch/apdd4624131a/watchos
+
+Pair Bluetooth headphones or speakers:
+https://support.apple.com/guide/watch/apd67b3ac484/8.0/watchos/
+
+
+
+-----
+Music
+
+Music can soothe, energize and help us calm down. Learn how to make a playlist in the Apple Music app. 
+
+Play music on Apple Watch:
+https://support.apple.com/guide/watch/apd70768b20b/watchos
+
+Add music to Apple Watch:
+https://support.apple.com/guide/watch/apd483798d11/8.0/watchos/
+
+How to make a playlist in the Apple Music app:
+https://support.apple.com/HT207542
+
+Video
+How to create a playlist: 
+https://www.youtube.com/watch?v=cA6wWLG337Y
+(Runtime 1:11)
+
+
+
+-----
+Noise app 
+
+With the Noise app, you can enable Noise notifications to alert you when your Apple Watch identifies sound levels in your environment that could affect your hearing.
+
+Use the Noise app on your Apple Watch:
+https://support.apple.com/HT209593
+
+
+
+-----
+Notifications
+
+Notifications help you keep track of what’s new—they let you know if you missed a call, if the date of an event moved, and more. You can customize your notification settings so you see only what’s important to you.
+
+Notifications on Apple Watch:
+https://support.apple.com/HT204791
+
+Change the audio and notification settings on your Apple Watch:
+https://support.apple.com/HT204793
+
+Videos
+
+How to use your Apple Watch:
+https://youtu.be/Fo5veRwBbu4
+(Run time 3:15)
+
+
+
+-----
+Orientation on Wrist
+
+If you want to move your Apple Watch to your other wrist or prefer the Digital Crown on the other side, adjust your orientation settings so that raising your wrist wakes your Apple Watch, and turning the Digital Crown moves things in the direction you expect.
+
+Change language and orientation on Apple Watch:
+https://support.apple.com/guide/watch/apd0bf18f46b/watchos
+
+
+
+-----
+Photos
+
+On Apple Watch, browse your photos in the Photos app  and show a photo on your watch face.
+
+Use the Photos app on iPhone to organise your photos into albums. Create an album of “happy”, filling with people, places and memories that make you happy or calm, set these at watch face.
+
+View photos and Memories on Apple Watch:
+https://support.apple.com/guide/watch/view-photos-apd5c3c53180/watchos
+
+Choose a photo album and manage storage on Apple Watch:
+https://support.apple.com/guide/watch/apde3d82be52/8.0/watchos/
+
+Customize the watch face:
+https://support.apple.com/guide/watch/apda6559ad78/8.0/watchos/
+
+
+
+-----
+Ping your iPhone with Apple Watch
+
+Your Apple Watch can help you find your iPhone if it’s nearby. Use the Control Center to Ping iPhone, your iPhone makes a tone so you can track it down.
+Tip: In the dark? Touch and hold the Ping iPhone button and iPhone flashes as well.
+
+Locate your iPhone:
+https://support.apple.com/guide/watch/apd06bc15da1/8.0/watchos/8.0#apda30525ced 
+
+Video
+
+Ping your iPhone with your Apple Watch:
+https://youtu.be/IuAFuVA5gJc 
+(Run time: 00:29)
+
+
+
+-----
+Practice Mindfulness
+
+The Mindfulness app on your Apple Watch encourages you to set aside a few minutes a day to focus, center, and connect as you breathe. 
+
+With an Apple Fitness+ subscription, you can listen to guided Meditations on Apple Watch.
+
+Use Apple Watch to practice mindfulness:
+https://support.apple.com/guide/watch/apd371dfe3d7/watchos 
+
+Videos
+
+Add the Breathe complication to Apple Watch:
+https://youtu.be/rPA9qSS7DT0 
+(Run time 0:46)
+
+
+
+-----
+Predictive Text
+
+In Messages, to use predictive text, tap a finished or unfinished word to highlight it, then turn the Digital Crown to see suggested words. Stop turning the Digital Crown to enter the highlighted suggestion.
+
+Send messages from Apple Watch:
+https://support.apple.com/guide/watch/apd81334ff71/watchos
+
+
+
+-----
+Privacy
+
+Privacy is an important concern when using apps that exchange information across the internet. 
+
+The Health app automatically counts your steps, walking, and running distances. And, if you have an Apple Watch, it automatically tracks all of your Activity data. Learn more on how all this data can remain private and secure.
+
+You have control over what you share:
+https://www.apple.com/privacy/control/ 
+
+Manage Health data on your iPhone, iPod touch, or Apple Watch:
+https://support.apple.com/HT204351 
+
+Personal Safety User Guide:
+https://support.apple.com/guide/personal-safety/welcome
+
+
+
+-----
+Wheelchair Workouts
+
+Apple Watch is equipped with fitness algorithms and sensors specifically designed to help wheelchair users more accurately track their activity. So, when the Wheelchair setting is turned on, your iPhone tracks pushes instead of steps, and will register different types of pushes, speeds, and terrains. You'll also see a Roll goal in the Activity app, instead of a Stand goal.
+
+Wheelchair-specific workouts:
+https://support.apple.com/HT204576
+
+
+
+-----
+Quickpath
+
+In the Messages app  on your Apple Watch, you can compose and send messages that contain not only text, but also images, emoji, Memoji stickers, and audio clips.
+
+Use the QWERTY and QuickPath keyboard (Apple Watch Series 7 only), tap characters to enter them or use the QuickPath keyboard to slide from one letter to the next without lifting your finger (not available for all languages). To end a word, lift your finger.
+
+Send messages from Apple Watch:
+https://support.apple.com/guide/watch/apd81334ff71/watchos
+
+
+
+-----
+Reduce Motion
+
+You can reduce screen motion in Apple Watch. When you turn on Reduce Motion, some screen elements — such as the movement of icons on the Home screen — will be simpler and more directly associated with your navigation gestures.
+
+Adjust the display and text size on Apple Watch:
+https://support.apple.com/guide/watch/apd766b7bd85/watchos
+
+Use Accessibility features on your Apple Watch:
+https://support.apple.com/HT204576
+
+
+
+-----
+Reduce Transparency
+
+You can increase contrast on the screen by reducing the transparency of the background behind elements such as alerts, Siri, and Glances.
+
+Adjust the display and text size on Apple Watch:
+https://support.apple.com/guide/watch/apd766b7bd85/watchos 
+
+Change the watch face on your Apple Watch:
+https://support.apple.com/HT205536 
+
+Apple Watch faces and their features:
+https://support.apple.com/guide/watch/apde9218b440/watchos 
+
+Videos
+
+How to create and share customized Apple Watch faces:
+https://www.youtube.com/watch?v=BlxlDirg4h4 
+(Run Time: 2:16) 
+
+
+
+-----
+Reminders
+
+In the Reminders app, you can easily create and organize reminders to keep track of all of life’s to-dos. Use it for shopping lists, projects at work, tasks around the house, and anything else you want to track. Create subtasks, set flags, add attachments, and choose when and where to receive reminders. You can also use smart lists to automatically organize your reminders.
+
+You can create location based reminders (alert to remind you to do something when arriving or leaving locations), time based reminders, and even assign reminders to others.
+
+Your Apple Watch notifies you of reminders you create in the Reminders app on your Apple Watch or iPhone—and on any other iOS device, iPad, or Mac where you’re signed in with your Apple ID.
+
+Set and respond to reminders on Apple Watch:
+https://support.apple.com/guide/watch/apdf10efb1bf/watchos
+
+
+
+-----
+RTT/TTY
+
+Use your iPhone, iPad, Mac, or Apple Watch to make and receive RTT calls. Standard texting involves composing an entire message and tapping Send, but RTT provides instant transmission of a message as it is being composed (as well as support for braille displays). Transcripts for RTT calls are saved in your call history.
+
+Set up and use RTT on Apple Watch (cellular models only):
+https://support.apple.com/guide/watch/apde82d406d1/watchos
+
+
+
+-----
+Screen Time
+
+Use Screen Time to configure controls for a family member’s Apple Watch. With Screen Time you can schedule time away from the screen, and limit both contacts and the apps your family member can use to communicate with those contacts. You can also impose limits on iTunes Store and app purchases, explicit content, and location information.
+
+Schooltime limits Apple Watch features during school hours, allowing a family member to focus.
+
+Set up a family member’s Apple Watch:
+https://support.apple.com/guide/watch/apd54d0a51fb/watchos
+
+Get started with Schooltime on Apple Watch:
+https://support.apple.com/guide/watch/apd160a958b7/8.0/watchos/
+
+
+
+-----
+Scribble
+
+In the Messages app  on your Apple Watch, you can compose and send messages that contain not only text, but also images, emoji, Memoji stickers, and audio clips.
+
+With Scribble, use your finger to write your message. To edit your message, turn the Digital Crown to move the cursor into position, then make your edit.
+To use predictive text, tap a finished or unfinished word to highlight it, then turn the Digital Crown to see suggested words. Stop turning the Digital Crown to enter the highlighted suggestion.
+
+If you’ve set up your Apple Watch to use more than one language, you can choose a different language when using Scribble. Just swipe up from the bottom of the screen, then choose a language. Scribble is not available in all languages.
+
+Send messages from Apple Watch:
+https://support.apple.com/guide/watch/apd81334ff71/watchos 
+
+
+
+-----
+Share Location
+
+Use the Messages app to send and receive texts, photos, videos, and audio messages. In a message, you can tap the contact name to share your location with them. 
+
+View a friend’s location with Apple Watch:
+https://support.apple.com/guide/watch/apd1132106dc/watchos
+
+Video
+How to share your location from messages:
+https://youtu.be/vl2cMa8wCU4
+(Runtime 2:08)
+
+
+
+-----
+Shortcuts - Help Message
+
+A shortcut provides a quick way to get things done with your apps, with just a tap or by asking Siri.
+
+Shortcuts can automate a wide variety of things — for example, getting directions to the next event on your Calendar, moving text from one app to another, generating expense reports and more. 
+
+It can also be used in messaging contacts requesting assistance and giving location. 
+
+Use shortcuts on Apple Watch:
+https://support.apple.com/guide/watch/apd99050d435/watchos
+
+Run shortcuts from Apple Watch:
+https://support.apple.com/guide/shortcuts/apd5888b0858/ios
+
+Shortcuts: 
+https://support.apple.com/guide/shortcuts/apdf22b0444c/
+
+Discover shortcuts in the Gallery:
+https://support.apple.com/guide/shortcuts/apdd018638ca/
+
+Help Message shortcut:
+https://www.icloud.com/shortcuts/3e05c96959914f689b5af0ddcdfed528
+
+Video
+
+How to use the In Case of Emergency shortcut on iPhone, iPad, and iPod touch:
+https://youtu.be/JaeVKgy5vKA (Runtime 2:08)
+
+
+
+-----
+Shortcuts
+
+A shortcut provides a quick way to get things done with your apps, with just a tap or by asking Siri.
+
+Shortcuts can automate a wide variety of things — for example, getting directions to the next event on your Calendar, moving text from one app to another, generating expense reports and more. 
+
+Use shortcuts on Apple Watch:
+https://support.apple.com/guide/watch/apd99050d435/watchos
+
+Run shortcuts from Apple Watch:
+https://support.apple.com/guide/shortcuts/apd5888b0858/ios
+
+Shortcuts: 
+https://support.apple.com/guide/shortcuts/apdf22b0444c/
+
+Discover shortcuts in the Gallery:
+https://support.apple.com/guide/shortcuts/apdd018638ca/
+
+Video
+
+Discover Starter Shortcuts:
+https://youtu.be/aNULa0S5hIU 
+(Runtime 0:49)
+
+
+
+-----
+Show audio transcriptions 
+
+Apple Watch, iPhone and iPad can display transcriptions of announcements made through HomePod.
+
+Display subtitles and captions for videos and HomePod announcements on iPhone: https://support.apple.com/guide/iphone/iph3e2e23d1/
+
+
+
+-----
+Side Button Click Speed
+
+Adjust motor skills settings on Apple Watch to make it easier to use the Side Button on Apple Watch. 
+
+Set the side button speed:
+https://support.apple.com/guide/watch/adjust-motor-skills-settings-apdfbb1b0550/watchos
+
+
+
+-----
+Siri
+
+Learn how to use Siri, the intelligent personal assistant that helps you get things done. Siri can send your messages, place calls, get directions and more. 
+
+You can ask Siri to start a specific workout, open an app, send a message and much more. There are several ways to talk to Siri. On Apple Watch Series 3 or later, Siri speaks responses to you, and you can activate and use Siri from a paired Bluetooth headset. On earlier models, Siri responds visually on your watch face.
+
+With watchOS 6, you can ask Siri to identify a song and get an instant Shazam result. You can also ask Siri a general question and Apple Watch displays the first few search results along with a brief excerpt from each page. Just tap Open Page to view the page on Apple Watch.
+
+Use Siri on your Apple Watch:
+https://support.apple.com/HT205184
+
+Apple Siri page:
+https://www.apple.com/siri/
+
+What can I ask Siri?
+https://support.apple.com/siri 
+
+Use Siri on all your Apple devices:
+https://support.apple.com/HT204389
+
+Run shortcuts with Siri, the Shortcuts app or Siri Suggestions:
+https://support.apple.com/HT209055
+
+
+
+-----
+Sleep app
+
+Create personalized sleep schedules to help meet your sleep goals and improve your overall health.Track your sleep on Apple Watch and use Sleep on iPhone:
+https://support.apple.com/HT211685
+
+Track your sleep with Apple Watch:
+https://support.apple.com/guide/watch/apd830528336/watchos 
+
+Videos
+How to track your sleep with your Apple Watch:
+https://youtu.be/9lkcR5pJSfQ
+(Run time: 3:43)
+
+
+
+-----
+Smart Reply
+
+Send a smart reply: Scroll to see a list of handy phrases that you can use—just tap one to send it.
+
+To add your own phrase, open the Apple Watch app on your iPhone, tap My Watch, go to Messages > Default Replies, then tap Add Reply. To customize the default replies, tap Edit, then drag to reorder them or tap  to delete one.
+
+Write and reply to mail on Apple Watch:
+https://support.apple.com/guide/watch/apd7df390dc3/watchos
+
+
+
+-----
+Sound Recognition
+
+Sound Recognition listens for certain sounds and uses on‑device intelligence to notify you when a specific sound is detected. When using your iPhone, you’ll receive a notification when a particular type of sound or alert, such as a fire alarm or doorbell, is detected and this notification can also pass on to your Apple Watch.  
+Recognize sounds using iPhone:
+https://support.apple.com/guide/iphone/iphf2dc33312/
+
+Notifications on Apple Watch:
+https://support.apple.com/HT204791 
+
+Change the audio and notification settings on your Apple Watch:
+https://support.apple.com/HT204793 
+
+
+
+-----
+Stream audio to hearing devices
+
+Learn how to pair Bluetooth headphones, heart rate monitors and more with your Apple Watch.
+
+When you set up AirPods with your iPhone, they're simultaneously connected to both your Apple Watch and iPhone, and they play sound automatically from either device. 
+
+Stream Apple Music or Apple Podcasts. Or sync content to your watch. You need bluetooth headphones or speakers to listen to music or other audio on your Apple Watch.
+
+Use AirPods and other Bluetooth accessories with Apple Watch:
+https://support.apple.com/HT204218
+
+Listen to music and podcasts on your Apple Watch:
+https://support.apple.com/HT204691
+
+
+
+-----
+Taptic Time
+
+When Apple Watch is in silent mode, it can tap out the time on your wrist with a series of distinct taps.
+
+Select the way you want Taptic Time to vibrate:
+Digits: Apple Watch long taps for every 10 hours, short taps for each following hour, long taps for every 10 minutes, then short taps for each following minute.
+
+Terse: Apple Watch long taps for every five hours, short taps for the remaining hours, then long taps for each quarter hour.
+
+Morse Code: Apple Watch taps each digit of the time in Morse code.
+
+Tell time with haptic feedback on Apple Watch:
+https://support.apple.com/guide/watch/apd2c755c294/watchos
+
+Adjust brightness, text size, sounds, and haptics on Apple Watch:
+https://support.apple.com/guide/watch/apd62807a9f3/watchos
+
+
+
+-----
+Text Size
+
+You can adjust the size of the text that appears in any area that supports Dynamic Type, such as the Settings app.
+
+Adjust text size and other visual settings on Apple Watch:
+https://support.apple.com/guide/watch/apd766b7bd85/watchos 
+
+Adjust brightness and text on Apple Watch:
+https://support.apple.com/guide/watch/apd62807a9f3/watchos
+
+Use Accessibility features on your Apple Watch:
+https://support.apple.com/HT204576
+
+
+
+-----
+Timers app
+
+The Timers app on Apple Watch can help you keep track of time. With watchOS 8, you can set multiple timers that track time for up to 24 hours.
+
+Set timers on Apple Watch:
+https://support.apple.com/guide/watch/apdf448955b2/watchos
+
+
+
+-----
+Touch Accommodations
+
+Adjust how the screen responds to your touch with Touch Accommodations. Control how long you touch before it’s recognized or whether repeat touches are ignored. That way, you can put your ﬁnger down anywhere on the screen and move to the item you want without mistakenly performing an action.
+
+
+Adjust motor skills settings on Apple Watch:
+https://support.apple.com/guide/watch/apdfbb1b0550/watchos
+
+
+
+-----
+Unlock with Apple Watch
+
+When you're wearing a face mask or sunglasses and your Apple Watch, you can simply raise and glance at your iPhone to unlock it.
+
+Unlock with Apple Watch works when your watch is on your wrist and unlocked and your iPhone is nearby.
+
+While you’re wearing Apple Watch, your Mac can sense when you’re nearby and automatically log you in. You can also use Apple Watch to approve other requests for your administrator password. 
+
+Unlock your iPhone with Apple Watch:
+https://support.apple.com/HT212208
+
+Unlock your Mac with your Apple Watch:
+https://support.apple.com/HT206995 
+
+
+
+-----
+VoiceOver
+
+VoiceOver helps you use your Apple Watch even if you can’t see the display. Use simple gestures to move around the screen and listen as VoiceOver speaks each item you select.
+
+Use VoiceOver on Apple Watch:
+https://support.apple.com/guide/watch/apdaabc79d3b/watchos
+
+Apple Watch basics with VoiceOver:
+https://support.apple.com/guide/watch/apde8185443e/watchos
+
+Set up Apple Watch using VoiceOver:
+https://support.apple.com/guide/watch/apd2442c5704/watchos
+
+Videos
+
+How to navigate with VoiceOver: 
+https://www.youtube.com/watch?v=qDm7GiKra28
+(Runtime 3:57)
+
+How to pick a new VoiceOver voice: 
+https://www.youtube.com/watch?v=T6ols9d9urQ
+(Runtime 1:25)
+
+
+
+-----
+VoiceOver + Braille
+
+You can use VoiceOver on your Apple Watch and a Bluetooth-enabled braille display to read and navigate.
+
+Using a braille display with your Apple Watch requires watchOS 7.2 or later.
+
+Use a braille display with VoiceOver on Apple Watch:
+https://support.apple.com/guide/watch/apd1ffb55927/watchos
+
+Braille displays supported by Apple Watch:
+https://support.apple.com/HT211966
+
+Use a braille display with VoiceOver on Apple Watch:
+https://support.apple.com/guide/watch/apd1ffb55927/watchos
+
+Download an electronic braille (.BRF) user guide for Apple Watch:
+https://support.apple.com/content/dam/edam/applecare/images/en_US/otherassets/accessibility/applewatch_user_guide_watchos_8.zip
+
+
+
+-----
+Walkie Talkie
+
+Whether you’re out shopping or trying to find someone in a crowd, use the Walkie-Talkie app to get in touch with a single tap. Add friends and then manage when you want to talk. 
+
+If you have difficulty keeping your finger pressed on the Talk button, you can use a single tap to talk.
+- Open the Settings app  on your Apple Watch.
+- Tap Accessibility, then, below Walkie-Talkie, turn on Tap to Talk.
+When this is on, tap once to talk, then tap again when you’re finished talking.
+
+Use Walkie-Talkie on your Apple Watch:
+https://support.apple.com/HT208917
+
+Use Walkie-Talkie on Apple Watch (User Guide):
+https://support.apple.com/guide/watch/apd246d6eefd/watchos
+
+
+
+-----
+X-Large Watch Face  Your Apple Watch comes with a variety of watch faces, most of which you can customize. 
+X-Large Watch Face is for when you need the largest available display. When you add a complication, it fills the screen.
+
+Apple Watch faces and their features:
+https://support.apple.com/guide/watch/apde9218b440/watchos
+
+
+
+-----
+Zoom
+
+Use Zoom to magnify what’s on the Apple Watch display. Once you’ve turned on Zoom, you can Zoom in or out; Move around (pan); Use the Digital Crown normally instead of panning and Adjust magnification. 
+
+Use Zoom on Apple Watch:
+https://support.apple.com/guide/watch/apd95f904443/watchos
+
+"""
+text("${6C50CB46-31CE-435F-9D34-6891318D4A6C}")
+	splitText(text: Accessibility Features List, separator: Custom, customSeparator: "-----") >> splitText 2
+	repeatEach(De-duped List) {
+		filterFiles() >> filterFiles
+		if(Feature Description != nil) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> IFResult 1
+		nothing()
+	} >> RepeatResult 1
+var C6C58CE7-EC27-4A65-9DAA-88FB49F467B2 = """￼
+￼
+￼"""
+text("${C6C58CE7-EC27-4A65-9DAA-88FB49F467B2}")
+	createNote(text: "${Text}", show: false) >> createNote
+	showNote(note: Note) >> showNote
+} >> MenuResult 4
+output(result: "${Menu Result}")

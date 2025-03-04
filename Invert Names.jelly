@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: teal, #Icon: people3
+
+// Given a list of last and first names separated by a comma, the shortcut inverts their position and returns a plain text list of first names followed by last names.
+// Create a list of names below. Last and first names have to be separated by a comma
+var F3C5F19F-E705-451A-9B27-C722F670DDF7 = """Gallagher, Liam
+Viticci, Federico
+Fils-Aime,Reggie"""
+text("${F3C5F19F-E705-451A-9B27-C722F670DDF7}")
+splitText(text: Text) >> splitText
+repeatEach(Split Text) {
+	matchText(text: "${Repeat Item}", regex: "(.+),\s?(.+)", caseSensitive: false) >> matchText
+var Match = Matches
+	getMatchGroup(matches: Match) >> getMatchGroup
+var Last = Text
+	getMatchGroup(matches: Match, index: "2") >> getMatchGroup 1
+var First = Text
+var 3AFCE822-0FC1-4E9B-8217-2572553E7F41 = """￼
+￼ ￼"""
+text("${3AFCE822-0FC1-4E9B-8217-2572553E7F41}")
+var List = Text
+}

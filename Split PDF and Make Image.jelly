@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: yellow, #Icon: scissors
+
+// Pick a PDF document from a Files picker, choose a page contained in the PDF, and convert it to image. The image is previewed with Quick Look and you can share it with the share sheet.
+splitPDF(document: Ask) >> splitPDF
+choose(list: PDF Pages) >> choose
+imageFromPDF(pdf: Chosen Item, format: public.png, colorspace: RGB, resolution: 300) >> imageFromPDF
+quicklook(input: Image)
+share(file: Image) >> share

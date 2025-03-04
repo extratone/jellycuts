@@ -1,0 +1,62 @@
+import Shortcuts
+#Color: yellow, #Icon: paperAirplane
+
+/*
+Presents a series of actions for Craft, including:
+• Opening workspaces, docs, or My Documents
+• Adding to existing docs
+• Making new docs from scratch, by combining notes, or using Markdown templates
+• Opening into specific docs I’m working on
+*/
+// Use this shortcut to extend the capabilities of Craft, access your existing docs quickly, and add structured content using templates.
+menu(What do you want to do?, [Open workspace, Organize docs, Open any doc, Add to doc, Make a new doc, Merge from Notes, Create project document, Open Members-Only notes, Open the Membership doc, Open Video doc]) {
+case("Open workspace"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.OpenSpaceIntent
+case("Organize docs"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.OpenSpaceIntent
+case("Open any doc"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.OpenDocumentIntent
+case("Add to doc"):
+	if(ShortcutInput == nil) {
+		getClipboard() >> getClipboard
+	} >> IFResult
+//Unable to get shortcuts action com.lukilabs.lukiapp.AddToDocumentIntent
+case("Make a new doc"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.QuickAddIntent
+case("Merge from Notes"):
+// Prompts me to select a folder, then multiple notes form that folder, then combined them and copies the phlox to the clipboard before creating a new blank document in Craft where the text can be pasted.
+// Use this to take various single notes in the Notes app inside a folder and then batch-combine them all into a single document in Craft to be organized – that way you can take advantage of all the system features for Notes, but end up organizing everything in Craft.
+	filterNotes() >> filterNotes
+	choose(list: Notes, multiple: true) >> choose
+	combineText(text: Chosen Item) >> combineText
+	getItemFromList(list: Chosen Item) >> getItemFromList
+//Unable to get shortcuts action com.lukilabs.lukiapp.QuickAddIntent
+case("Create project document"):
+	askForInput(prompt: "What’s the name of the project?") >> askForInput
+var 1D183CB9-986E-4824-AB95-8436184839CA = """# Project Details
+
+## Purpose/Intention
+
+## Time Frame
+
+## Desired Outcomes
+
+# Brainstorming
+
+# Next Actions
+
+# Resources
+
+## Delegated Items
+
+## Notes
+"""
+text("${1D183CB9-986E-4824-AB95-8436184839CA}")
+//Unable to get shortcuts action com.lukilabs.lukiapp.QuickAddIntent
+case("Open Members-Only notes"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.OpenDocumentIntent
+case("Open the Membership doc"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.OpenDocumentIntent
+case("Open Video doc"):
+//Unable to get shortcuts action com.lukilabs.lukiapp.OpenDocumentIntent
+} >> MenuResult

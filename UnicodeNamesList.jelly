@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: tangerine, #Icon: bitcoin
+
+url(url: "https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getTextFrom(input: Contents of URL) >> getTextFrom
+saveFile(input: Text, ask: false, path: "/unicode.txt", overwrite: true) >> saveFile
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.UploadFile3Intent
+saveFileDropbox(file: Saved File, askToSave: false, path: "unicode.txt", overwrite: true) >> saveFileDropbox
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent

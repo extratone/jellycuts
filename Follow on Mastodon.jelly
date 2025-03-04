@@ -1,0 +1,82 @@
+import Shortcuts
+#Color: purple, #Icon: addMessage
+
+/*
+Follow someone from a different Mastodon instance without the copy/paste hoop-jumping by sharing their Profile (or webpage or text that contains a profile link or username) to this Shortcut.
+
+Just make sure your own instance URL is entered in the field below.
+
+Made by @justin@mastodon.design
+*/
+text(text: "mastodon.social") >> text
+var Instance = Text
+getType(input: ShortcutInput) >> getType
+if(Type .contains "web page") {
+var URL = ShortcutInput
+}
+if(Type .contains "URL") {
+var URL = ShortcutInput
+} >> IFResult
+if(URL != nil) {
+	matchText(text: "${URL}", regex: "@((?:[\w]|-)+)@((?:[\w]|-)+\.(?:[\w]|-)+)") >> matchText
+	repeatEach(Matches) {
+		getMatchGroup(matches: Repeat Item) >> getMatchGroup
+		getMatchGroup(matches: Repeat Item, index: "2") >> getMatchGroup 1
+		dictionary({"Username":"${Text}","Host":"${Text}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+	if(Users == nil) {
+		matchText(text: "${URL}", regex: "https:\/\/((?:[\w]|-)+\.(?:[\w]|-)+)\/@((?:[\w]|-)+)", caseSensitive: false) >> matchText 1
+		repeatEach(Matches) {
+			getMatchGroup(matches: Repeat Item, index: "1") >> getMatchGroup 2
+			getMatchGroup(matches: Repeat Item, index: "2") >> getMatchGroup 3
+			dictionary({"Username":"${Text}","Host":"${Text}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 1
+	} >> IFResult 1
+}
+if(Users == nil) {
+	getTextFrom(input: ShortcutInput) >> getTextFrom
+	matchText(text: "${Text}", regex: "@((?:[\w]|-)+)@((?:[\w]|-)+\.(?:[\w]|-)+)", caseSensitive: false) >> matchText 2
+	repeatEach(Matches) {
+		getMatchGroup(matches: Repeat Item) >> getMatchGroup 4
+		getMatchGroup(matches: Repeat Item, index: "2") >> getMatchGroup 5
+		dictionary({"Username":"${Text}","Host":"${Text}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	}
+} >> IFResult 2
+if(Users == nil) {
+	getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+	combineText(text: URLs) >> combineText
+	matchText(text: "${Combined Text}", regex: "https:\/\/((?:[\w]|-)+\.(?:[\w]|-)+)(?:\/web\/|\/)@((?:[\w]|-)+)", caseSensitive: false) >> matchText 3
+	repeatEach(Matches) {
+		getMatchGroup(matches: Repeat Item) >> getMatchGroup 6
+		getMatchGroup(matches: Repeat Item, index: "2") >> getMatchGroup 7
+		dictionary({"Host":"${Text}","Username":"${Text}"})
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	}
+} >> IFResult 3
+repeatEach(Users) {
+	valuesFrom(dictionary: Repeat Item) >> valuesFrom
+	if(Dictionary Value != "twitter.com") {
+var C6B09DA7-8A94-44CB-A545-566543689743 = """@￼@￼
+https://￼/authorize_interaction?uri=https://￼/users/￼"""
+text("${C6B09DA7-8A94-44CB-A545-566543689743}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+	} >> IFResult 4
+} >> RepeatResult 2
+count(input: Links) >> count
+if(Count == 1) {
+	getItemFromList(list: Links) >> getItemFromList
+	splitText(text: Item from List) >> splitText
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 1
+	showWebPage(url: "${Item from List}")
+} else {
+	if(Count > 1) {
+		choose(list: Links, prompt: "") >> choose
+		splitText(text: Chosen Item) >> splitText 1
+		getItemFromList(list: Split Text, type: Last Item) >> getItemFromList 2
+		showWebPage(url: "${Item from List}")
+	}
+} >> IFResult 5

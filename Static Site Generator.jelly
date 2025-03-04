@@ -1,0 +1,237 @@
+import Shortcuts 1132.2
+#Color: grape,#Icon: gear
+
+text(text: "/Workflow/static") >> text
+text(text: "Static Blog") >> text
+text(text: "Jordan Merrick") >> text
+url(url: "https://www.jordanmerrick.com/static") >> url
+text(|"""html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{font-size:2em;margin:0.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
+
+body {
+	font-family: HelveticaNeue-Light, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color:#232323;
+	font-size: 16px;
+	line-height: 28px;
+	padding: 20px 10px;
+}
+
+a:link, a:visited {
+	color: red;
+}
+
+h1.site-title {
+	font-size: 48px;
+}
+
+h1.site-title a {
+	text-decoration: none;
+	color: black;
+}
+
+ul.navigation {
+	margin-bottom: 60px;
+	padding:0;
+}
+
+ul.navigation li {
+	font-size: 24px;
+	display: inline;
+	margin-right: 5px;
+}
+
+article {
+	margin-bottom: 50px;
+}
+
+article img {
+	display:block;
+	margin:0 auto;
+	max-width: 100%;
+}
+
+time {
+	font-weight: bold;
+}
+
+footer.posts ul {
+	padding: 0;
+	display: block;
+}
+
+footer.posts ul li{
+	list-style-type: none;
+	background: #eee;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+footer.posts ul li a{
+	font-size: 18px;
+	font-weight: bold;
+}"""|)
+setName(input: Text, name: "style.css") >> setName
+text(text: "<p>Site generated with <a href="https://itunes.apple.com/gb/app/workflow-powerful-automation/id915249334?mt=8&at=10l64N">Workflow</a>.</p>") >> text
+text(text: "<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="alternate" type="application/atom+xml" title="RSS Feed" href="${SiteURL}/feed.xml" />
+<link rel="stylesheet" type="text/css" href="${Variable}/style.css">") >> text
+repeatEach(PageTextFiles) {
+	getName() >> getName
+	changeCase(text: PageTitle, case: lowercase) >> changeCase
+	replaceText(input: "${Updated Text}", find: "[^a-z0-9]+", replace: "-", isRegex: true, caseSensitive: false) >> replaceText
+	text(text: "<li><a href="${SiteURL}/${Variable}-page.html">${PageTitle}</a></li>") >> text
+} >> Repeat Result
+combineText(text: PageList, combine: New Lines) >> combineText
+text(text: "<ul class="navigation">
+${SiteURL}
+<li><a href="${Variable}/feed.xml">RSS</a></li>
+</ul>") >> text
+repeatEach(PageTextFiles) {
+	getName() >> getName
+	changeCase(text: PageTitle, case: lowercase) >> changeCase
+	replaceText(input: "${Updated Text}", find: "[^a-z0-9]+", replace: "-", isRegex: true, caseSensitive: false) >> replaceText
+	text(text: "# ${PageTitle}
+
+${Variable}") >> text
+	richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+	htmlFromRichText(text: Rich Text from Markdown) >> htmlFromRichText
+	text(text: "${FooterCredit}
+<link rel="stylesheet" type="text/css" href="${Variable}/style.css">
+<title>${Navigation} - ${Variable}</title>
+</head>
+<body>
+<header>
+<h1 class="site-title"><a href="${SiteURL}">${Variable}</a></h1>
+${SiteURL}
+</header>
+<article>
+${Variable}
+</article>
+<footer>
+${SiteTitle}
+</footer>
+</body>
+</html>") >> text
+	setName(input: Text, name: "${PageURL}-page.html") >> setName
+} >> Repeat Result
+repeatEach(Pages) {
+}
+filterFiles() >> filterFiles
+repeatEach(PostTextFiles) {
+	getName() >> getName
+	splitText(text: Name, separator: Custom, customSeparator: "__") >> splitText
+	getItemFromList(list: SplitTitleDate, type: First Item) >> getItemFromList
+	getDateFrom(input: PostDate) >> getDateFrom
+	formatDate(date: "${Dates}", dStyle: Medium, tStyle: None) >> formatDate
+	formatDate(date: "${PostFormattedDate}", dStyle: ISO 8601) >> formatDate
+	formatDate(date: "${PostISODate}", dStyle: Medium) >> formatDate
+	getItemFromList(list: SplitTitleDate, type: Last Item) >> getItemFromList
+	changeCase(text: PostTitle, case: lowercase) >> changeCase
+	replaceText(input: "${Updated Text}", find: "[^a-z0-9]+", replace: "-", isRegex: true, caseSensitive: false) >> replaceText
+	text(text: "# [${Post}](${Variable}/${PostURL}.html)
+
+${Variable}") >> text
+	text(text: "# [${PostURL}](${Variable}/${SiteURL})
+
+${Variable}") >> text
+	richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+	htmlFromRichText(text: Rich Text from Markdown) >> htmlFromRichText
+	text(text: "${HeaderTemplate}
+<title>${Variable} - ${PostFormattedDate}</title>
+</head>
+<body>
+<header>
+<h1 class="site-title"><a href="${Variable}">${FooterCredit}</a></h1>
+${Variable}
+</header>
+<article>
+${SiteTitle}
+<footer>
+<time date time="${Variable}">Published: ${PostTitle}</time>
+</footer>
+</article>
+<footer>
+${Variable}
+</footer>
+</body>
+</html>") >> text
+	setName(input: Text, name: "${PostURL}.html") >> setName
+	text(text: "<li><a href="${PostTitle}/${Variable}.html">${SiteURL}</a><br />${Variable}</li>") >> text
+	richTextFromMarkdown(markdown: Post) >> richTextFromMarkdown
+	htmlFromRichText(text: Rich Text from Markdown) >> htmlFromRichText
+	formatDate(date: "${PostDate}", dStyle: ISO 8601, custom: "EEE, dd MMM yyyy", isoTime: true) >> formatDate
+	text(text: "<entry>
+<title>${Author}</title>
+<link type="text/html" href="${Variable}/${PostURL}.html" />
+<id>${Variable}/${Formatted Date}.html</id>
+<published>${ActionOutput}</published>
+<updated>${SiteURL}</updated>
+<author>
+<name>${Variable}</name>
+<uri>${PostRSS}</uri>
+</author>
+<content type="html" xml:base="${Variable}" xml:lang="en"><![CDATA[${SiteURL}]]></content>
+</entry>") >> text
+} >> Repeat Result
+repeatEach(Posts) {
+} >> Repeat Result
+getItemFromList(list: RecentPostDateList) >> getItemFromList
+formatDate(date: "${Item from List}", dStyle: Medium, tStyle: None, custom: "EEE, dd MMM yyyy") >> formatDate
+getItemFromList(list: PostsMD, type: First Item) >> getItemFromList
+richTextFromMarkdown(markdown: Item from List) >> richTextFromMarkdown
+htmlFromRichText(text: Rich Text from Markdown) >> htmlFromRichText
+text(text: "${SiteTitle}
+<title>${Variable}</title>
+</head>
+<body>
+<header>
+<h1 class="site-title"><a href="${HeaderTemplate}">${Variable}</a></h1>
+${PostISODate}
+</header>
+<article>
+${Variable}
+<footer>
+<time date time="${SiteTitle}">Published: ${Variable}</time>
+</footer>
+</article>
+<footer class="posts">
+<h3>Previous Posts</h3>
+<ul>
+${PostIndex}
+</ul>
+${Variable}
+</footer>
+</body>
+</html>") >> text
+setName(input: Text, name: "index.html") >> setName
+date() >> date
+formatDate(date: "${Date}", dStyle: ISO 8601, isoTime: true) >> formatDate
+number(value: false) >> number
+repeatEach(RSSItems) {
+	number(value: RSSLimitStart) >> number
+	if( false 10) {
+		math(input: RSSLimitStart, operand: "true") >> math
+	} else {
+	} >> If Result
+} >> Repeat Result
+combineText(text: RSSItemList, combine: New Lines) >> combineText
+text(text: "<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title>${SiteURL}</title>
+<subtitle>By ${Variable}</subtitle>
+<link rel="alternate" type="text/html" href="${RSSPublishedDate}" />
+<link rel="self" type="application/atom+xml" href="${Variable}/feed.xml" />
+<id>${SiteTitle}/feed.xml</id>
+
+<updated>${Variable}</updated>
+
+${Combined Text}
+
+</feed>") >> text
+setName(input: Text, name: "feed.xml") >> setName
+date() >> date
+formatDate(date: "${Date}", dStyle: ISO 8601, isoTime: true) >> formatDate
+makeArchive(input: SiteHTMLFiles) >> makeArchive
+openIn(input: Archive, ask: true)

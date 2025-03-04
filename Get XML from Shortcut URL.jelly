@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: Red, #Icon: gear
+
+// Get the XML representation of a shortcut from its iCloud.com link, without having to install the shortcut locally.
+askForInput(prompt: "Paste Shortcut URL", type: URL) >> askForInput
+matchText(text: "${Provided Input}", regex: "https:\/\/www\.icloud\.com\/shortcuts\/(.+)") >> matchText
+getMatchGroup(matches: Matches, index: "1") >> getMatchGroup
+url(url: "https://www.icloud.com/shortcuts/api/records/${Text}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+var MainDict = Dictionary
+keysFrom(dictionary: MainDict) >> keysFrom
+downloadURL(url: "${Dictionary Value}") >> downloadURL 1
+setName(input: Contents of URL, name: "shortcut.plist") >> setName
+getTextFrom(input: Renamed Item) >> getTextFrom
+//Unable to get shortcuts action ke.bou.GizmoPack.EncodePlistIntent
+setClipboard(variable: Plist Encoded) >> setClipboard
+saveFile(input: Plist Encoded, ask: false) >> saveFile

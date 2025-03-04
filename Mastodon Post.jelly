@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: blue, #Icon: robot
+
+/*
+Post text via the Mastodon API.
+
+API Documentation: https://docs.joinmastodon.org/client/intro/
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+text(text: "mastodon.social") >> text
+var instance = Text
+text(text: "0000000000000000000000000000000000000000000000000000000000000000") >> text 1
+var token = Text
+url(url: "https://${instance}/api/v1/statuses") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestJSON: ) >> downloadURL
+valueFor(key: "uri", dictionary: Contents of URL) >> valueFor
+output(result: "${Dictionary Value}", noResultBehavior: Copy to Clipboard, response: "${Dictionary Value}")

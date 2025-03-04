@@ -1,0 +1,36 @@
+import Shortcuts
+#Color: blue, #Icon: puzzlePiece
+
+count(input: ShortcutInput) >> count
+if(Count false 2) {
+} else {
+var Im = ShortcutInput
+} >> IFResult
+menu(Order, [Chronological, Reverse Chronological]) {
+case("Chronological"):
+	filterImages()
+case("Reverse Chronological"):
+	filterImages() >> filterImages
+} >> MenuResult
+var Images = Menu Result
+randomNumber(min: 0, max: 360) >> randomNumber
+var Spacing = Random Number
+menu(, [combine images horizontally, combine images vertically, combine images in a grid]) {
+case("combine images horizontally"):
+	combineImage(images: Images, mode: Horizontally, spacing: Spacing) >> combineImage
+	randomNumber(min: 0, max: 360) >> randomNumber 1
+	rotateImage(image: Images, degrees: Random Number)
+case("combine images vertically"):
+	combineImage(images: Images, mode: Vertically, spacing: Spacing) >> combineImage 1
+case("combine images in a grid"):
+	combineImage(images: Images, mode: In a Grid, spacing: Spacing) >> combineImage 2
+	rotateImage(image: Images, degrees: Random Number) >> rotateImage
+} >> MenuResult 1
+menu(, [save to camera roll and delete source, save to camera roll, edit]) {
+case("save to camera roll and delete source"):
+	saveToCameraRoll(image: Combined Image) >> saveToCameraRoll
+	deletePhotos(photos: Images) >> deletePhotos
+case("save to camera roll"):
+	saveToCameraRoll(image: Combined Image, album: Alpha) >> saveToCameraRoll 1
+case("edit"):
+} >> MenuResult 2

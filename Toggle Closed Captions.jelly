@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: blue, #Icon: doubleQuote
+
+/*
+This shortcut is a quick way to turn Closed Captions on or off.
+
+Add a Personal Automation to have it automatically toggle Closed Captions on when you open specific apps.
+*/
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleCaptionsIntent

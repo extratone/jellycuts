@@ -1,0 +1,5 @@
+import Shortcuts
+import Drafts
+#Color: grape, #Icon: faceGrinningSquint
+queryWorkspace(workspace: Workspace(identifier: "Templates", displayString: "Default", name: "Default"), folder: inbox)
+getallalarms(show: true)

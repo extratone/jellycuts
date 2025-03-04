@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+getTextFrom(input: ShortcutInput) >> getTextFrom
+//Unable to get shortcuts action ke.bou.GizmoPack.EncodePlistIntent
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+//Unable to get shortcuts action dk.simonbs.Jayson.ViewJSONIntent

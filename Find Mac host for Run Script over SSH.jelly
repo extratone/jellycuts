@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: Red, #Icon: server
+
+// Opens the Sharing preference pane in System Preferences to show your IP address for use in remote actions that control your Mac from iOS.
+/*
+Use this shortut to access the IP address and other sharing settings for your Mac immediately.
+
+Use this data to fill out the Run Script over SSH action to control your Mac from iOS, iPadOS, or another Mac.
+*/
+openIn(input: $0, ask: false) >> openIn
+exit()

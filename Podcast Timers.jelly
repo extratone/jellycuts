@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: navy, #Icon: microphone
+
+list(items: (
+    "\Ud83d\Udcd6 research",
+    "\Ud83c\Udf99 recording"
+)) >> list
+choose(list: List, prompt: "What podcast task are you working on?") >> choose
+// Remove one emoji from the selected item by trimming exactly one character at the beginning of the text string.
+matchText(text: "${Chosen Item}", regex: "(.){1}\s(.+)") >> matchText
+getMatchGroup(matches: Matches, index: "2") >> Tag Name
+//Unable to get shortcuts action com.joehribar.toggl.GetSavedTimersIntent
+choose(list: Saved Timer Details) >> choose 1
+//Unable to get shortcuts action com.joehribar.toggl.StartTimeEntryIntent
+var 53D36C69-FAF3-4761-B5E2-51C5560F0D4A = """Timer started:
+
+￼"""
+text("${53D36C69-FAF3-4761-B5E2-51C5560F0D4A}")
+showResult(text: "${Text}")

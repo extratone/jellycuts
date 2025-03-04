@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: grape, #Icon: Shortcuts
+
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+choose(list: Upcoming Events, prompt: "Which event do you want to make into a task?") >> choose
+getName() >> getName
+//Unable to get shortcuts action com.omnigroup.OmniFocus2.iPhone.newitem

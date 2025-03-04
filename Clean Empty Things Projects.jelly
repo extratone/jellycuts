@@ -1,0 +1,40 @@
+import Shortcuts
+#Color: lightBlue, #Icon: xSquare
+
+/*
+Find and (optionally) purge Things Projects without any To-Dos.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+Mastodon: https://mastodon.social/@DavidBlue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIItemEntity
+repeatEach(Items) {
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIItemEntity
+	if(Items == nil) {
+		menu(, [Yes, Ignore]) {
+		case("Yes"):
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIDeleteItems
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		case("Ignore"):
+		} >> MenuResult
+	} else {
+	} >> IFResult
+} >> RepeatResult
+if(deleted == nil) {
+	alert(alert: "∅ empty projects found! 👍", tancel: false)
+} else {
+}
+combineText(text: deleted) >> dIndex
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+showResult(text: "${dIndex}")

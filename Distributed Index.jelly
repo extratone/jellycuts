@@ -1,0 +1,74 @@
+import Shortcuts
+import Drafts
+import DataJar
+#Color: grayBlue, #Icon: list
+
+/*
+Through a quite silly amount of finagling, I have managed to achieve a somewhat sustainable/updatable index file of working iCloud Drive shared hyperlinks via this shortcut. 
+
+Please be advised: I have shared this particular shortcut purely for demonstrative purposes. Please see my blog post for a universalized version: https://bilge.world/index-icloud-drive
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+//Unable to get shortcuts action is.workflow.actions.folder
+getFolderContents(folder: Folder) >> getFolderContents
+filterFiles() >> filterFiles
+repeatEach(Files) {
+	fileDetail(input: Repeat Item, property: Name) >> fileDetail
+//Unable to get shortcuts action com.Christopher-Hannah.Text-Case.TextCaseIntent
+	getFileLink(file: Repeat Item) >> getFileLink
+	text(text: "- [${Formatted Text}](${ActionOutput})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(text: indices) >> combineText
+var 86CD0B98-829E-4364-A9D9-C488D741957C = """# Distributed Index
+Last updated `￼`
+
+---
+- [GitHub Issue](https://github.com/extratone/bilge/issues/330) 
+- [WTF](https://davidblue.wtf/drafts/3B7930BE-07BC-4DB9-A591-4254BEE42A82.html)
+- [WTF Shortlink](https://davidblue.wtf/distributed) `https://davidblue.wtf/distributed`
+- [Distributed Folder](https://www.icloud.com/iclouddrive/0b7XOcnuZWTZlrPVZBegl1DWA#Distributed)
+- [Things](things:///show?id=HvkLFcKxxC9x7X7LBCY3DQ)
+- [Simplenote Local](simplenote://note/e879806edef84144a4caf5686be3e3c3)
+- [Simplenote Publish](http://simp.ly/publish/D5T2P7)
+- [Craft Publish](https://www.craft.do/s/Rjbfm6F98SkAnz)
+- [Craft Local](craftdocs://open?blockId=4B2C2917-3777-4898-A392-C06FAD4F7AFF&spaceId=d64c60d3-b1ba-bda2-5e7a-5c1baae7751f)
+- [Tilde](https://tilde.town/~extratone/distributed)
+
+---
+
+![Distributed Index Frame](https://i.snap.as/Kl9Dwq0g.png)
+
+￼
+---
+[Distributed Index](shortcuts://run-shortcut?name=Distributed%20Index)"""
+text("${86CD0B98-829E-4364-A9D9-C488D741957C}")
+var index = Text
+saveFile(input: index, ask: false, path: "index.md", overwrite: true) >> saveFile
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+getDraftByUUID(uuid: ""3B7930BE-07BC-4DB9-A591-4254BEE42A82"")
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.SetDraftIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.MarkdownToHTMLIntent
+saveFile(input: HTML, ask: false, path: "index.html", overwrite: true) >> saveFile 1
+text(text: "things:///update-project?auth-token=jWc7C1OBSlq0QbJrXa4ngw&id=P7j9UnoHtXyGzdYFU3usSh&title=Distributed%20Index&notes=${index}&creation-date=${Variable}") >> text 1
+//Unable to get shortcuts action com.ameba.esse.RunFunctionIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.InsertValueInArrayIntent
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TINRunThingsURLIntent
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.GetFilesIntent
+playSound(file: Files)

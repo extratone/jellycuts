@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: pink, #Icon: videoIcon
+
+makeGIF(content: ShortcutInput, frameTime: "0.2") >> makeGIF
+saveFile(input: GIF)

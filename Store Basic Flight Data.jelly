@@ -1,0 +1,48 @@
+import Shortcuts
+import Actions
+import DataJar
+#Color: grayBrown, #Icon: airplane
+
+/*
+Maintain a local flight log of Infinite Flight activity in Data Jar.
+
+Please note: this Shortcut requires authentication with the Infinite Flight Live API. Learn more about how you can request access here: https://infiniteflight.com/guide/developer-reference/live-api/overview#obtaining-an-api-key
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text(text: "9b6176d9-2377-4f72-b1f2-85f8ec7be935") >> text
+var infiniteUser = Text
+text(text: "000000000000") >> text 1
+var infiniteAuth = Text
+url(url: "https://api.infiniteflight.com/public/v2/users/9b6176d9-2377-4f72-b1f2-85f8ec7be935/flights") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+keysFrom(dictionary: Dictionary) >> keysFrom
+var pages = Dictionary Value
+repeat(pages) {
+	url(url: "https://api.infiniteflight.com/public/v2/users/${Repeat Index}/flights?page=${Variable}") >> url 1
+	downloadURL(url: "${URL}", headers: ) >> downloadURL 1
+	keysFrom(dictionary: Contents of URL) >> keysFrom 1
+	repeatEach(Dictionary Value) {
+		keysFrom(dictionary: Repeat Item 2) >> keysFrom 2
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+	}
+} >> RepeatResult
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.PrettyPrintDictionariesIntent
+sendNotification(body: "Flights Retrieved", title: "Siri Shortcuts for Infinite Flight", attachment: Pretty Print Dictionaries) >> sendNotification
+url(url: "https://davidblue.wtf/aviation/concordeoverspeed.m4a") >> url 2
+downloadURL(url: "${URL}") >> downloadURL 2
+playSound(file: Contents of URL)

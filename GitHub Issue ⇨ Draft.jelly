@@ -1,0 +1,95 @@
+import Shortcuts
+import Drafts
+#Color: orange, #Icon: documentOutline
+
+/*
+Retrieve and concatenate GitHub Issue contents and comments into a single draft.
+
+Full documentation: https://davidblue.wtf/issuedraft
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+urlComponent(url: "${ShortcutInput}", component: Path) >> urlComponent
+splitText(text: Component of URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList
+var owner = Item from List
+getItemFromList(list: Split Text, type: Item At Index, index: "3") >> getItemFromList 1
+var repo = Item from List
+text(text: "ghp_000000000000000000000000000000000") >> text
+var auth = Text
+url(url: "https://api.github.com/repos${Component of URL}") >> url 1
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+keysFrom(dictionary: Contents of URL) >> keysFrom
+var link = Dictionary Value
+keysFrom(dictionary: Contents of URL) >> keysFrom 1
+getDateFrom(input: Dictionary Value) >> getDateFrom
+var created = Dates
+keysFrom(dictionary: Contents of URL) >> keysFrom 2
+getDateFrom(input: Dictionary Value) >> getDateFrom 1
+var updated = Dates
+keysFrom(dictionary: Contents of URL) >> keysFrom 3
+var title = Dictionary Value
+keysFrom(dictionary: Contents of URL) >> keysFrom 4
+repeatEach(Dictionary Value) {
+	keysFrom(dictionary: Repeat Item) >> keysFrom 5
+} >> RepeatResult
+var tags = Repeat Results
+keysFrom(dictionary: Contents of URL) >> keysFrom 6
+var body = Dictionary Value
+var CD9358E5-8AD9-4495-9D6D-F971A7B42A2A = """# ￼
+Updated `￼`
+
+- [**GitHub Issue**](￼)
+- Created: `￼`
+
+---
+
+￼"""
+text("${CD9358E5-8AD9-4495-9D6D-F971A7B42A2A}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+keysFrom(dictionary: Contents of URL) >> keysFrom 7
+if(Dictionary Value > 0) {
+	url(url: "${URL}/comments") >> url 2
+	downloadURL(url: "${URL}", headers: ) >> downloadURL 1
+	repeatEach(Contents of URL) {
+		keysFrom(dictionary: Repeat Item) >> association
+		keysFrom(dictionary: Repeat Item) >> keysFrom 8
+		getDateFrom(input: Dictionary Value) >> getDateFrom 2
+		keysFrom(dictionary: Repeat Item) >> commentContent
+		keysFrom(dictionary: Repeat Item) >> commentURL
+var A3F22EC6-5BB6-48F1-A520-E1AA6AE7D83F = """
+- [￼](￼)
+
+￼"""
+text("${A3F22EC6-5BB6-48F1-A520-E1AA6AE7D83F}")
+		if(association != ""${owner}"") {
+			keysFrom(dictionary: Repeat Item) >> authorURL
+			text(text: "@[${authorURL}](${ActionOutput})") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> IFResult
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 1
+	combineText(text: comments) >> combineText
+	replaceText(input: "${Combined Text}", find: "# ", replace: "## ", caseSensitive: false) >> replaceText
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> IFResult 1
+combineText(text: md) >> combineText 1
+list(items: (
+    github,
+    capture
+)) >> additionalTags
+capture(content: "$}Combined Text 1", tags: ["${tags{}"], folder: inbox, isFlagged: flagged, grammarType: GrammarType(displayString: "Markdown", identifier: "Markdown")))
+setClipboard(variable: Draft) >> setClipboard
+//Unable to get shortcuts action com.agiletortoise.Drafts5.OpenDraftIntent

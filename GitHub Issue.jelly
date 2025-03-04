@@ -1,0 +1,24 @@
+import Shortcuts
+#Color: lightBlue, #Icon: shortcuts
+
+/*
+curl -X POST 'https://api.github.com/repos/{{user}}/{{repository}}/issues' -H 'Accept:application/vnd.github+json' -H 'Content-Type:application/json' -H 'Authorization:Bearer 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' -d '{
+  "title": "{{title}}",
+  "body": "{{body}}",
+  "labels": [
+    "test"
+  ]
+}'
+*/
+text(text: "extratone") >> text
+var user = Text
+text(text: "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") >> text 1
+var auth = Text
+askForInput(prompt: "Repository Name", default: extratone) >> askForInput
+var repo = Provided Input
+askForInput(prompt: "Issue Title", default: "${CurrentDate}") >> askForInput 1
+var title = Provided Input
+url(url: "https://api.github.com/repos/${repo}/${Variable}/issues") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestJSON: ) >> downloadURL
+valueFor(key: "number", dictionary: Contents of URL) >> valueFor
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent

@@ -1,0 +1,43 @@
+import Shortcuts
+#Color: grayBlue, #Icon: gear
+
+/*
+This shortcut makes easier to import text replacements into macOS keyboard system preferences. Once imported they will synchronize to iOS and be available in in both systems.
+
+It does a bit more work in macOS than in iOS, but it always requires a manual step at the end — @atnbueno (2022-03-22)
+*/
+dictionary({"->":"⭢${Ask}","<-":"⭠","<~":"⮐","2lines":"First line
+Second line","aplo":"","c/o":"℅","XR":"X🅁"})
+getTextFrom(input: Dictionary) >> getTextFrom
+replaceText(input: "${Text}", find: "&", replace: "&amp;") >> replaceText
+replaceText(input: "${Updated Text}", find: "<", replace: "&lt;") >> replaceText 1
+replaceText(input: "${Updated Text}", find: ">", replace: "&gt;") >> replaceText 2
+replaceText(input: "${Updated Text}", find: "'", replace: "&apos;") >> replaceText 3
+getDictionaryFrom(input: Updated Text) >> Text replacements
+// TODO: check if double quotes cause problems in the XML
+valuesFrom(dictionary: Text replacements) >> valuesFrom
+repeatEach(Dictionary Value) {
+	valuesFrom(dictionary: Dictionary) >> valuesFrom 1
+	text(text: "<dict><key>phrase</key><string>${Dictionary Value}</string><key>shortcut</key><string>${ActionOutput}</string></dict>") >> text
+} >> RepeatResult
+combineText(text: Repeat Results) >> combineText
+var C7F12A4C-2EB2-4F92-9C5E-90C80894351B = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><array>￼ </array></plist>"""
+text("${C7F12A4C-2EB2-4F92-9C5E-90C80894351B}")
+setName(input: Texto, name: "Text replacements.xml") >> setName
+if(DeviceDetails ==) {
+	saveFile(input: Ítem renombrado, ask: false, path: "Text replacements.plist", overwrite: true) >> saveFile
+	renameFile(file: Archivo guardado, name: "Text replacements.plist") >> renameFile
+	alert(alert: "Text replacements property list generated and saved to your Mac's desktop. 
+
+Do you want to open System Preferences ⭢ Keyboard ⭢ Text?
+
+When opened you can drag the .plist file over to import the text replacements.")
+	runAppleScript(script: "on run {input, parameters}	tell application "System Preferences"		activate		reveal anchor "Text" of pane id "com.apple.preference.keyboard"	end tellend run") >> runAppleScript
+} else {
+	showResult(text: "Save the XML file somewhere, and then copy it to your Mac's desktop, changing its extension to "plist". 
+
+Then open System Preferences ⭢ Keyboard ⭢ Text, and drag the file over to import the text replacements.")
+	saveFile(input: Renamed Item, overwrite: true)
+} >> IFResult

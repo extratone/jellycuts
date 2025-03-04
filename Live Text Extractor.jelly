@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: yellow, #Icon: photoStackAlt
+
+// Show and copy text found in any image via Live Text. The shortcut supports images passed via the share sheet, quick actions in Finder, or picking manually from Photos.
+var Image = ShortcutInput
+if(Image == nil) {
+	selectPhoto() >> selectPhoto
+var Image = Photos
+} >> IFResult
+extractTextFromImage(image: Image) >> extractTextFromImage
+// This is a workaround for the Extract Text action creating linebreaks everywhere. This means all text will be joined with spaces, so everything will be on the same paragraph, but at least you won’t have dozens of seperate lines to join manually.
+splitText(text: "${Text from Image}") >> splitText
+combineText(text: Split Text, combine: Spaces) >> Merged Text
+showResult(text: "${Merged Text}")
+setClipboard(variable: Merged Text) >> setClipboard

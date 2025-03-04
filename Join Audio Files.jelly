@@ -1,0 +1,158 @@
+ import Shortcuts
+#Color: green, #Icon: filmstrip
+
+/*
+*JOIN AUDIO FILES* is a shortcut to concatenate multiple audio files into one.
+
+How to use it
+===========
+Just select the audio files from the Files app (using multiple selection), and use the share menu to open them with the shortcut.
+The shortcut will open the a-Shell mini app and will do the lossless concatenation using ffmpeg, with no loss of quality.
+You will also be asked if you want to add a cover image to the output audio file. If the image is not in jpg format, it would be automatically converted.
+Wait the shortcut to end all the processing, without touching anything, and after a while you will be asked where to save the resulting audio file.
+
+Supported audio formats:
+=====================
+MP3, M4A, M4B, AAC, AIFF, FLAC, OGG, WAV, WEBA, WEBM, CAF, MKA
+
+Usage notes
+=========== 
+ - Audio files are concatenated according to their alphabetical order (filename 01.mp3, filename 02.mp3, etc.). Always check the "sort by name" option before selecting the files. You can rename the files before selecting them so that their alphabetical order correspond to the order of concatenation that you want. In audiobooks the files are usually already named to match the chapters order. 
+ - Numbers after the filename must be zero-padded to match the same number of characters (example: 001, 002, 003...  010, 011, 012... is right. Instead: 1,2,3...10,11,12... is wrong).
+ - All selected audio files must be in the same format.
+ - All selected audio files must use the same codec and bitrate. Different bitrates/quality/settings of the source files will generate just noise instead of the original audio. If you need to concatenate mixed audio files, convert them to the same format before doing it.
+ - If a cover is selected, the script will try to embed it but it is not guaranteed (some formats and codecs does not support embedding). Any image format would do, the script will automatically convert it to jpg.
+ - Ensure that all the metadata (title, author, date, etc.) are present in the first audio file, because it is from the first file that the metadata of the output audio file is taken.
+ - If the first file has already a cover, do not try to embed a new image, because it may not work and may generate an empty file. The cover of the first audio file will be automatically used by the output file if present. If you want to replace the existing cover you can then use my other shortcuts "Remove Cover From Audio File" and "Add Cover To Audio File".
+ - Do not touch the device screen while the shortcut is running. Even if it appears being idle, it's probably passing data to the a-Shell app. This requires some time, even some minutes, depending from the number of input files.
+ - iCloud Drive Files app does not show thumbnails of the covers for audio files, so to check the result you need to open the file with an app or a player that supports the file audio format. 
+ - I won't bother adding an updater. It would just bloat the shortcut. Just check the routinehub shortcut page if you want to keep it up to date.
+- Enjoy! :D
+
+
+2022-11-26 	v1.2.1
+u/fremenmuaddib
+https://routinehub.co/shortcut/11899/
+*/
+if(ShortcutInput == nil) {
+	alert(alert: "Please select 2 or more audio files of the same type and with the same bitrate. (supported formats: MP3, M4A, M4B, AAC, AIFF, FLAC, OGG, WAV, WEBA, WEBM, CAF, MKA)", cancel: false)
+	selectFile(multiple: true) >> selectFile
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> IFResult
+filterFiles() >> filterFiles
+count(input: File) >> count
+if(Conteggio false 2) {
+	alert(alert: "Please select 2 or more audio files of the same type and with the same bitrate", cancel: false)
+} else {
+	getItemFromList(list: File) >> getItemFromList
+	text(text: "${Elemento dell'elenco.get(File Extension)}") >> text
+var filesextension = Testo
+	formatDate(date: "${Elemento dell'elenco.get(Creation Date)}", dStyle: Custom, custom: "yyyyMMddHHmm.ss") >> formatDate
+	if(filesextension != "wav") {
+		menu(Do you want to add a cover image? (Note: this may not work for all audio formats), [Yes, No]) {
+		case("Yes"):
+			alert(alert: "Please select a cover image file", cancel: false)
+			selectFile(multiple: false) >> selectFile 1
+			if(File != "jpg") { >> IFResult 1
+				if(File == "pdf") {
+					splitPDF(document: File) >> splitPDF
+					getItemFromList(list: Pagine PDF) >> getItemFromList 1
+					imageFromPDF(pdf: Elemento dell'elenco, format: public.jpeg, resolution: 300) >> imageFromPDF
+var jpgfile = Immagine
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+				} else {
+					convertImage(image: File, quality: 0.9035874605178833) >> convertImage
+var jpgfile = Immagine convertita
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+				} >> IFResult 2
+			} else {
+var jpgfile = File
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+			} >> jpgfile
+			text(text: "YES") >> text 1
+var addcover = Testo
+		case("No"):
+			text(text: "NO") >> text 2
+var addcover = Testo
+		} >> MenuResult
+	} else {
+		text(text: "NO") >> text 3
+var addcover = Testo
+	} >> IFResult 3
+	repeatEach(File) {
+		setName(input: Repeat Item, name: "${Repeat Index}") >> setName
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+		text(text: "echo file ${Repeat Item.get(File Extension)}.${Variable.get(File Extension)} >> files.txt") >> text 4
+	} >> RepeatResult
+var 6B285B24-620C-425B-AE0A-60F3BC2D2B8F = """hideKeyboard
+rm -f files.txt
+￼
+open "shortcuts:"
+"""
+text("${6B285B24-620C-425B-AE0A-60F3BC2D2B8F}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	waitToReturn()
+var 223CDEF9-9CD1-4B2B-88AB-143C4E4320AC = """hideKeyboard
+ffmpeg -y -v error -stats -f concat -safe 0 -i files.txt -acodec copy o.￼
+ffmpeg -y -i "1.￼" -i "o.￼" -map 1 -c copy -map_metadata 0 -map_metadata:s:a 0:s:a -map_metadata:s:a 0:s:a "audiooutput.￼"
+open "shortcuts:"
+"""
+text("${223CDEF9-9CD1-4B2B-88AB-143C4E4320AC}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	waitToReturn()
+	text(text: "audiooutput") >> text 5
+var mp3file = Testo
+	text(text: "${mp3file.as(Text)}.${Variable.as(Text)}") >> text 6
+var outputfilename = Testo
+	if(addcover == 2) {
+		matchText(text: "${filesextension}", regex: "mka|mkv", caseSensitive: false) >> matchText
+		if(Risultati != nil "m4b") {
+var 75CE5547-9C96-4483-A269-B3FB1671DE2C = """ffmpeg -y -i "￼.￼"  -i "￼.￼" -attach "￼.￼" -metadata:s:t "mimetype=image/jpeg" -c copy "￼_cover.￼"
+"""
+text("${75CE5547-9C96-4483-A269-B3FB1671DE2C}")
+var ffmpeg_command = Testo
+		} >> IFResult 4
+		matchText(text: "${filesextension}", regex: "mov", caseSensitive: false) >> matchText 1
+		if(Risultati != nil "m4a") {
+var 7D8F9083-98D4-4842-8C24-81AABE3DDB6B = """ffmpeg -y -vn -i "￼.￼" -i "￼.￼"  -map 0 -map 1 -c copy -id3v2_version 3 -write_id3v1 1  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)"  -disposition:v:1 attached_pic "￼_cover.￼"
+"""
+text("${7D8F9083-98D4-4842-8C24-81AABE3DDB6B}")
+var ffmpeg_command = Testo
+		} >> IFResult 5
+		matchText(text: "${filesextension}", regex: "mp4|m4a|m4b", caseSensitive: false) >> matchText 2
+		if(Risultati != nil "m4a") {
+var 32BF29FF-CBA1-4A8C-AAE4-19AD9309957B = """ffmpeg -y -vn -i "￼.￼" -i "￼.￼" -disposition:v attached_pic -c:a copy -c:v mjpeg -id3v2_version 3 -write_id3v1 1  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)" "￼_cover.￼"
+"""
+text("${32BF29FF-CBA1-4A8C-AAE4-19AD9309957B}")
+var ffmpeg_command = Testo
+		} >> IFResult 6
+		matchText(text: "${filesextension}", regex: "flac", caseSensitive: false) >> matchText 3
+		if(Risultati != nil "m4a") {
+var FF7AB251-14F0-43EE-8F18-794BC98BFA17 = """ffmpeg -y -i "￼.￼" -i "￼.￼" -map 0:a -map 1 -codec copy -disposition:v attached_pic  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)" "￼_cover.￼"
+"""
+text("${FF7AB251-14F0-43EE-8F18-794BC98BFA17}")
+var ffmpeg_command = Testo
+		} >> IFResult 7
+		matchText(text: "${filesextension}", regex: "mp3", caseSensitive: false) >> matchText 4
+		if(Risultati != nil) {
+var 7E1FB154-FD77-4F2B-A2A5-1FEEA40F091A = """ffmpeg -y -i "￼.￼" -i "￼.￼" -disposition:v:1 attached_pic -map 0 -map 1 -c copy -id3v2_version 3 -write_id3v1 1  -metadata:s:v "title=Album cover" -metadata:s:v "comment=Cover (front)" "￼_cover.￼"
+"""
+text("${7E1FB154-FD77-4F2B-A2A5-1FEEA40F091A}")
+var ffmpeg_command = Testo
+		} >> IFResult 8
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+		waitToReturn()
+		text(text: "${mp3file.as(Text)}_cover.${Variable.as(Text)}") >> text 7
+var outputfilename = Testo
+	} >> IFResult 9
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+	setName(input: File, name: "${outputfilename}") >> setName 1
+	askForInput(prompt: "Please Enter The File Name (without the extension)", default: "${Elemento dell'elenco}") >> askForInput
+	setName(input: Elemento rinominato, name: "${filesextension}.${Variable}") >> setName 2
+	saveFile(input: Elemento rinominato, overwrite: false) >> saveFile
+	text(text: "rm -f *.mp3 *.m4a *.m4b *.jpg *.JPG *.jpeg *.aac *.aiff *.flac *.ogg *.wav *.weba *.AAC *.m4r *.oga *.tta *.wma *.WMA *.WAV *.cdda *.CDDA *MP2 *.mp2 *.8svx *.CAF *.mp4 *.MP4 *.JPEG *.part *.webm *.mkv *.opus *.caf *.mka *.MKV *.MP3 *.M4A *.M4B *.FLAC *.OGG *.png *.mov *MOV *.gif *.bmp files.txt") >> text 8
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+} >> IFResult 10
+sendNotification(body: "File saved in ${File salvato.get(File Path)}") >> sendNotification

@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: lightBlue, #Icon: magicWand
+
+text(text: "Get your toothbrush, toothpaste and cup. ") >> text
+speakText(text: "${Text}")
+wait(seconds: 10)
+text(text: "Open your toothpaste.") >> text 1
+speakText(text: "${Text}")
+wait(seconds: 4)
+text(text: "Press gently to apply toothpaste onto your toothbrush.") >> text 2
+speakText(text: "${Text}")
+wait(seconds: 10)
+text(text: "Close the toothpaste.") >> text 3
+speakText(text: "${Text}")
+wait(seconds: 6)
+text(text: "Brush your teeth in a circular motion, top and bottom. The timer will alert you when you can stop. ") >> text 4
+speakText(text: "${Text}")
+wait(seconds: 120)
+text(text: "Spit out the toothpaste and rinse your mouth with water.") >> text 5
+speakText(text: "${Text}")
+wait(seconds: 15)
+text(text: "Rinse off your toothbrush.") >> text 6
+speakText(text: "${Text}")
+wait(seconds: 13)
+text(text: "Dry your face and hands.") >> text 7
+speakText(text: "${Text}")

@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: Red, #Icon: chainlink
+
+// Save a link in GoodLinks with a 'linked' tag.
+//Unable to get shortcuts action com.ngocluu.goodlinks.AddLinkIntent
+wait()
+// Open GoodLinks so we can make sure the link is synced across devices.
+openApp(id: "com.ngocluu.goodlinks") >> openApp
+encodeURL(url: "${ShortcutInput.as(WebPage)}") >> encodeURL
+//Unable to get shortcuts action com.sindresorhus.Actions.GetTitleOfURLIntent
+askForInput(prompt: "When is this linked post due?", type: Date and Time) >> askForInput
+// Save the todo in a specific Things project under a specific heading.
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIAddTodo2
+//Unable to get shortcuts action com.culturedcode.ThingsiPad.TAIShowItems2

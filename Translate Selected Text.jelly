@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: teal, #Icon: globe
+
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+if(URLs == ""${ShortcutInput}"") {
+	alert(alert: "Select some text on the page to translate.", title: "No Text Selected")
+} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action com.outerspaceapps.itranslate.translate
+}

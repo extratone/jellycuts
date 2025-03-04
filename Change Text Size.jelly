@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: yellow, #Icon: sliders
+
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent

@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: navy, #Icon: paintbrush
+
+// Prompts you to pick a List, then removes all the completed reminders.
+/*
+Use this shortcut if you’ve been using Reminders for a long time and have many Completed reminders filling up your database (and potentially making Find Reminder queries more complex).
+
+This shortcut will remove ALL the completed reminders, so make sure you don’t care about keeping any of that information – Shortcuts will also prompt you to confirm since this is such a destructive action.
+*/
+filterReminders() >> filterReminders
+removeReminders(reminders: Reminders) >> removeReminders

@@ -1,0 +1,929 @@
+import Shortcuts
+#Color: blue, #Icon: iPhone
+
+/*
+Version 3.3
+
+Add device frames to screenshots for iPhones (8/SE, 11, 12, 13, 14, 15, 16 generations in mini/standard/Plus/Pro Max sizes), iPad Pro (11", 12.9", 13" 2018-2024 models), iPad Air (10.9", 2020-2022 models), iPad mini (2021/2024 models), Apple Watch S4/5/6/7/8/Ultra, iMac (24" model, 2021/2024), MacBook Air (2020-2022 models), and MacBook Pro (2021-2024 models). The shortcut supports portrait and landscape orientations, but does not support Display Zoom; on iPadOS and macOS, the shortcut supports Default and More Space resolutions. If multiple screenshots are passed as input, they will be combined in a single image. The shortcut can be run in the Shortcuts app, as a Home Screen widget, as a Finder Quick Action, or via the share sheet. The shortcut also supports an API for automating input images and framed results.
+*/
+// Create a control variable that checks if the input is empty or not. We can use this to define how input is passed to the shortcut.
+var InputtoFrames = ShortcutInput
+/*
+Next, check if the input contains an `&command` to skip the final list of actions. To do this, we're going to save this variable for later as a plain text string.
+
+Potential options:
+
+- quickLook
+- photos
+- quickSave
+- copy
+- airDrop
+- upload
+- passthrough
+*/
+getTextFrom(input: Input to Frames) >> getTextFrom
+var TextCommandsinInput = Text
+/*
+📁📁📁
+
+Pick the Files/Finder folder you want to use as the SOURCE of screenshots when framing images via the Apple Frames API.
+*/
+file(file: $0) >> file
+var SourceFolder = Folder
+/*
+📁📁📁
+
+Pick the folder you want to use as the DESTINATION of framed images when saving to Files or Finder.
+*/
+file() >> file 1
+var QuickSaveFolder = Folder
+text(text: "3.3") >> text
+var LatestVersionofFrames = Text
+url(url: "https://cdn.macstories.net/frames-1732495370596.zip") >> url
+var FramesCDNURL = URL
+/*
+The Oldest First setting controls whether you should see the latest or oldest screenshots first when the manual photo picker is presented. 
+
+Defaults to False, meaning that the latest screenshots will be shown in the photo picker instead. Change to True to make oldest screenshots appear first instead.
+
+Leave 'False' enabled to see your latest screenshots first. Change it to 'True' to see your oldest screenshots first instead.
+*/
+dictionary({"Oldest First":"false"})
+var OldestFirst = Dictionary
+/*
+The Merge Spacing variable controls the spacing between multiple framed images that should be merged together.
+
+Defaults to 60, but supports an override via the Frames API.
+*/
+dictionary({"mergeSpacing":"60"})
+number(value: Dictionary) >> number
+var MergeSpacing = Number
+/*
+Override Merge Spacing variable with input data sent from the API in this format:
+
++mergeSpacing(number)
+*/
+if(Text Commands in Input .contains "+mergeSpacing") {
+	matchText(text: "${Text Commands in Input}", regex: "\+mergeSpacing\((\d+)\)") >> matchText
+	getMatchGroup(matches: Matches) >> getMatchGroup
+	number(value: Text) >> number 1
+var MergeSpacing = Number
+} >> IFResult
+/*
+A variable that controls whether multiple framed screenshots should be merged into a single one or not.
+
+By default, it is set to True, meaning that Apple Frames will merge multiple images into a single one.
+*/
+dictionary({"mergeImages":"true"})
+var MergeImages = Dictionary
+/*
+The default is True.
+
+However, users can override this via shortcut input by using: +mergeImages=False
+*/
+if(Text Commands in Input .contains "+mergeImages=False") {
+	dictionary({"mergeImages":"false"})
+var MergeImages = Dictionary
+} >> IFResult 1
+// Create control variables for True and False for international users.
+dictionary({"True":"true"})
+var ControlTrue = Dictionary
+dictionary({"False":"false"})
+var ControlFalse = Dictionary
+/*
+Start defining input types for Apple Frames. These are strings of text that are sent to Apple Frames using the 'Run Shortcut' action, and they tell Apple Frames where to get images from. They are a way to automate Apple Frames.
+
+Potential options:
+
+- clipboard: get an image from the system clipboard.
+- latest: get the latest screenshot.
+- number: pass a numeric value to the shortcut that tells it how many recent screenshots to retrieve.
+- capture: tell Apple Frames to capture a screenshot when it runs. Best used on macOS.
+- folder: pick all images from a specific folder in Finder or Files.
+- pick: pick images manually. This basic command is necessary if you want to use one of the &output modes later.
+*/
+if(Input to Frames .contains "clipboard") {
+	if(DeviceDetails .contains "Mac") {
+		alert(alert: "You're running this input command on macOS. 
+
+Due to a macOS bug, Shortcuts is unable to successfully read the contents of the clipboard with this input command.
+
+The shortcut will continue, but you'll have to pick screenshots manually. We hope this bug will be fixed soon.", title: "⚠️ macOS Issue ⚠️", cancel: false)
+	}
+// You passed the clipboard type to Apple Frames. This means you want to get an image from the clipboard.
+	text(text: "(Image|Photo media)") >> text 1
+var ClipboardRegex = Text
+	getType(input: Clipboard) >> getType
+	matchText(text: "${Type}", regex: "${Clipboard Regex}", caseSensitive: false) >> matchText 1
+	if(Matches != nil) {
+		getImagesFrom(input: Clipboard) >> getImagesFrom
+var InputtoFrames = Images
+	} else {
+		alert(alert: "There's no screenshot in your clipboard. Copy a screenshot and run Apple Frames again.", title: "❌ Error ❌", cancel: false)
+		exit()
+	} >> IFResult 2
+} else {
+	if(Input to Frames .contains "latest") {
+// You passed the latest type to the Apple Frames API. This means you want to get the latest screenshot from the Photos app.
+		getLastScreenshot() >> getLastScreenshot
+		getImagesFrom(input: Latest Screenshots) >> getImagesFrom 1
+var InputtoFrames = Images
+	} else {
+		if(Input to Frames .contains "number") {
+			matchText(text: "${Input to Frames.as(Text)}", regex: "number\((\d+)\)") >> matchText 2
+			getMatchGroup(matches: Matches) >> getMatchGroup 1
+			number(value: Text) >> number 2
+			getLastScreenshot(count: Number) >> getLastScreenshot 1
+			getImagesFrom(input: Latest Screenshots) >> getImagesFrom 2
+var InputtoFrames = Images
+			count(input: Input to Frames) >> count
+var InputtoFramesCount = Count
+// Create a numeric value that will be what we substract first from the repeat loop to get the last item from a list and then start proceeding in the opposite direction.
+			number(value: 0) >> number 3
+var CurrentPass = Number
+// Flip the order of screenshots from newest to oldest so that oldest screenshots are on the left and newest on the right. This list needs to be reversed and re-saved.
+			repeatEach(Input to Frames) {
+				math(input: Input to Frames Count, operation: -, operand: Current Pass) >> math
+				getItemFromList(list: Input to Frames, type: Item At Index, index: Calculation Result) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				math(input: Current Pass, operand: "1") >> math 1
+var CurrentPass = Calculation Result
+			} >> RepeatResult
+var InputtoFrames = Variable
+		} else {
+			if(Input to Frames .contains "capture") {
+// The input command says to capture a screenshot immediately and frame it. This is best used on macOS.
+				takeScreenshot() >> takeScreenshot
+				getImagesFrom(input: Screenshot) >> getImagesFrom 3
+var InputtoFrames = Images
+			} else {
+				if(Input to Frames .contains "pick") {
+					matchText(text: "${Text Commands in Input}", regex: "pick\((Files|Photos)\)") >> matchText 3
+					getMatchGroup(matches: Matches) >> getMatchGroup 2
+					if(Text == "Files") {
+						selectFile(multiple: true) >> selectFile
+						getImagesFrom(input: File) >> getImagesFrom 4
+					} else {
+// Check the sorting order.
+						text(text: "${Oldest First.key(Oldest First)}") >> text 2
+						if(Text == ""${Control False.as(Text)}"") {
+							filterPhotos() >> filterPhotos
+						} else {
+							filterPhotos() >> filterPhotos 1
+						} >> IFResult 3
+						choose(list: If Result, prompt: "Select Screenshots", multiple: true) >> choose
+						getImagesFrom(input: Chosen Item) >> getImagesFrom 5
+					} >> IFResult 4
+var InputtoFrames = If Result
+				} else {
+					if(Input to Frames .contains "folder") {
+						getFolderContents(folder: Source Folder) >> getFolderContents
+						filterFiles() >> filterFiles
+						getImagesFrom(input: Files) >> getImagesFrom 6
+var InputtoFrames = Images
+					} else {
+// More input conditions here
+					}
+				}
+			}
+		}
+	}
+} >> IFResult 5
+// Type contents of alerts below
+var 769FB3E5-ECE5-4986-A6CB-1FAA9630982C = """It looks like the Frames folder for Apple Frames 3.3 is not installed on your device.
+
+You'll have to download this zipped folder ONCE for Apple Frames to work.
+
+Click OK and Shortcuts will download the zipped folder from MacStories.net and take care of installing it for you.
+
+(The download will take a few seconds.)"""
+text("${769FB3E5-ECE5-4986-A6CB-1FAA9630982C}")
+var SetupFileMessage = English Setup File Message
+var 17FD6946-28F1-40AD-8358-FE84F702BA91 = """The Frames folder has been successfully saved in iCloud Drive/Shortcuts.
+
+There's nothing else you have to do now. Do NOT modify the contents of iCloud Drive/Shortcuts/Frames.
+
+In the future, to install new versions of Apple Frames, you may have to delete the Frames folder and download it again.
+
+But for now: welcome to Apple Frames, and enjoy. ☺️
+
+- Federico"""
+text("${17FD6946-28F1-40AD-8358-FE84F702BA91}")
+var ThankYouMessage = Text
+// Start routine to check for JSON file
+getFile(path: "/Frames/Frames.json", error: false) >> getFile
+var FramesDictionary = File
+count(input: Frames Dictionary) >> count 1
+if(Count == 0) { >> IFResult 6
+// Frames.json file is not installed. It needs to be downloaded along with the entire folder.
+	alert(alert: "${Setup File Message}", title: "⚠️", cancel: false)
+	downloadURL(url: "${Frames CDN URL}") >> downloadURL
+var DownloadedFile = Contents of URL
+	extractArchive(input: Downloaded File) >> extractArchive
+	saveFile(input: Files, ask: false, path: "/Frames/", overwrite: true) >> saveFile
+	wait(seconds: 2)
+	alert(alert: "${Thank You Message}", title: "✅ ", cancel: false)
+	getFile(path: "/Frames/Frames.json", error: false) >> getFile 1
+var FramesDictionary = File
+} else {
+// There is already a Frames.json file. Now we need to check for the version.
+	getFile(path: "/Frames/version.txt") >> getFile 2
+	text(text: "${File}") >> text 3
+	if(Text != ""${Latest Version of Frames}"") {
+		sendNotification(body: "A newer version of Apple Frames assets has to be downloaded. This will only occur once.", sound: false) >> sendNotification
+		downloadURL(url: "${Frames CDN URL}") >> downloadURL 1
+var DownloadedFile = Contents of URL
+		extractArchive(input: Downloaded File) >> extractArchive 1
+		saveFile(input: Files, ask: false, path: "/Frames/", overwrite: true) >> saveFile 1
+		wait(seconds: 2)
+		alert(alert: "${Thank You Message}", title: "✅ ", cancel: false)
+		getFile(path: "/Frames/Frames.json", error: false) >> getFile 3
+var FramesDictionary = File
+	} else {
+/*
+The user has the latest version of Frames installed. The shortcut can continue.
+
+The Frames Dictionary variable has already been set.
+*/
+	}
+} >> IFResult 7
+// Check if the input has any value or not.
+getImagesFrom(input: Input to Frames) >> getImagesFrom 7
+if(Images == nil "Text") { >> IFResult 8
+// Check whether the user wants to see the latest or oldest screenshots first.
+	text(text: "${Oldest First.key(Oldest First)}") >> Oldest First
+	if(Oldest First == ""${Control False}"") {
+// The user wants to see the latest screenshots first
+		filterPhotos() >> filterPhotos 2
+	} else {
+// Oldest First is enabled
+		filterPhotos() >> filterPhotos 3
+	} >> IFResult 9
+	choose(list: If Result, prompt: "Select Screenshots", multiple: true) >> choose 1
+var Screenshot = Chosen Item
+} else {
+	getImagesFrom(input: Input to Frames) >> getImagesFrom 8
+var Screenshot = Images
+} >> IFResult 10
+repeatEach(If Result) { >> RepeatResult 1
+// Set a screenshot variable for each pass of repeat loop and reset it every time.
+var Screenshot = Variable
+// Start checking device dimensions.
+	imageDetail(detail: Width, image: Repeat Item) >> imageDetail
+var WidthofRepeatItem = Details of Images
+	imageDetail(detail: Height, image: Repeat Item) >> imageDetail 1
+var HeightofRepeatItem = Height
+	if(Width of Repeat Item == 1242) { >> IFResult 11
+// 11 Pro Max frame
+		imageDetail(detail: Height, image: Repeat Item) >> imageDetail 2
+// Check for Pro Max screenshot height. Width is the same as an 8 Plus
+		if(Details of Images == 2688) { >> IFResult 12
+			valuesFrom(dictionary: Frames Dictionary) >> valuesFrom
+var MatchedDeviceDictionary = Dictionary Value
+		} else {
+// Otherwise it is an iPhone 8 Plus in portrait mode
+			resizeImage(image: Repeat Item, width: 1080) >> resizeImage
+var Screenshot = Resized Image
+			valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 1
+var MatchedDeviceDictionary = Dictionary Value
+		}
+	} else {
+		if(Width of Repeat Item == 1125) { >> IFResult 13
+// Pro portrait
+// Additional check to see we're not dealing with an iPhone 12 mini
+			if(Height of Repeat Item != 2436) { >> IFResult 14
+				valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 2
+var MatchedDeviceDictionary = Dictionary Value
+			} else {
+// It is an iPhone 12 mini in portrait
+				valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 3
+var MatchedDeviceDictionary = Dictionary Value
+				resizeImage(image: Repeat Item, height: 2340, width: 1080) >> resizeImage 1
+var Screenshot = Resized Image
+			}
+		} else {
+			if(Width of Repeat Item == 2688) { >> IFResult 15
+// Pro Max landscape
+				valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 4
+var MatchedDeviceDictionary = Dictionary Value
+			} else {
+				if(Width of Repeat Item == 2436) { >> IFResult 16
+// iPhone 12-13 mini landscape
+					valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 5
+var MatchedDeviceDictionary = Dictionary Value
+					resizeImage(image: Repeat Item, height: 1080, width: 2340) >> resizeImage 2
+var Screenshot = Resized Image
+				} else {
+					if(Width of Repeat Item == 368) { >> IFResult 17
+// Apple Watch S4 44mm
+						resizeImage(image: Repeat Item, width: 368) >> resizeImage 3
+var Screenshot = Resized Image
+						valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 6
+var MatchedDeviceDictionary = Dictionary Value
+					} else {
+						if(Width of Repeat Item == 750) { >> IFResult 18
+// iPhone 8 and SE 2020
+							valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 7
+var MatchedDeviceDictionary = Dictionary Value
+						} else {
+// iPad Pro 12.9-inch (2018/2021 model landscape)
+							if(Width of Repeat Item == 2732) {
+								valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 8
+var MatchedDeviceDictionary = Dictionary Value
+							} else {
+// iPad Pro 12.9-inch (2018/2020 model) portrait mode
+								if(Width of Repeat Item == 2048) {
+									imageDetail(detail: Height, image: Repeat Item) >> imageDetail 3
+// Additional check to make sure 6th gen iPad does not get matched here 
+									if(Height != 1536) {
+// It is not the base model iPad, so it's a 12.9" Pro in portrait
+										valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 9
+var MatchedDeviceDictionary = Dictionary Value
+									} else {
+									}
+// End of check for 6th gen iPad height
+								} else {
+// 2021 iPad mini in landscape
+									if(Width of Repeat Item == 2266) {
+										valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 10
+var MatchedDeviceDictionary = Dictionary Value
+									} else {
+// 2021 iPad mini portrait
+										if(Width of Repeat Item == 1488) {
+											valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 11
+var MatchedDeviceDictionary = Dictionary Value
+										} else {
+// Landscape iPad Pro 11" 2018
+											if(Width of Repeat Item == 2388) {
+												valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 12
+var MatchedDeviceDictionary = Dictionary Value
+											} else {
+// iPad Pro 11" 2018 Portrait 
+												if(Width of Repeat Item == 1668) {
+													valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 13
+var MatchedDeviceDictionary = Dictionary Value
+												} else {
+// Apple Watch S4 40mm
+													if(Width of Repeat Item == 324) {
+														valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 14
+var MatchedDeviceDictionary = Dictionary Value
+													} else {
+// iPhone 11
+														if(Width of Repeat Item == 828) {
+// iPhone 11 frame
+															valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 15
+var MatchedDeviceDictionary = Dictionary Value
+														} else {
+// iPhone 11 landscape
+															if(Width of Repeat Item == 1792) {
+// iPhone 11 landscape frame
+																valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 16
+var MatchedDeviceDictionary = Dictionary Value
+															} else {
+// iPhone 12-13 and 12-13 Pro
+																if(Height of Repeat Item == 2532) {
+																	valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 17
+var MatchedDeviceDictionary = Dictionary Value
+																} else {
+// iPhone 12-13 and 12-13 Pro in landscape
+																	if(Width of Repeat Item == 2532) {
+																		valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 18
+var MatchedDeviceDictionary = Dictionary Value
+																	} else {
+// iPhone 12-13 Pro Max in portrait
+																		if(Width of Repeat Item == 1284) {
+																			valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 19
+var MatchedDeviceDictionary = Dictionary Value
+																			valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 20
+																			getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 4
+																			getImagesFrom(input: File) >> 13 Pro Max Portrait Mask
+																			maskImage(mode: Custom Image, mask: 13 Pro Max Portrait Mask) >> maskImage
+var Screenshot = Masked Image
+																		} else {
+																			if(Height of Repeat Item == 1284) {
+// iPhone 12-13 Pro Max landscape
+																				valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 21
+var MatchedDeviceDictionary = Dictionary Value
+																				valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 22
+																				getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 5
+																				maskImage(mode: Custom Image, mask: File) >> maskImage 1
+var Screenshot = Masked Image
+																			} else {
+																				if(Width of Repeat Item == 2360) {
+// iPad Air 2020 in landscape
+																					valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 23
+var MatchedDeviceDictionary = Dictionary Value
+																				} else {
+// iPad Air 2020 portrait
+																					if(Width of Repeat Item == 1640) {
+																						valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 24
+var MatchedDeviceDictionary = Dictionary Value
+																					} else {
+																						if(Width of Repeat Item == 4480) {
+// iMac 24" at default resolution
+																							valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 25
+var MatchedDeviceDictionary = Dictionary Value
+																						} else {
+// iPad base model 9th gen
+																							if(Width of Repeat Item == 2160) {
+																								valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 26
+var MatchedDeviceDictionary = Dictionary Value
+																							} else {
+																								if(Width of Repeat Item == 1620) {
+																									valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 27
+var MatchedDeviceDictionary = Dictionary Value
+																								} else {
+// 2020 MacBook Air @ 2880px resolution
+																									if(Width of Repeat Item == 2880) {
+																										valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 28
+var MatchedDeviceDictionary = Dictionary Value
+// Resize screenshot to match frame
+																										resizeImage(image: Repeat Item, width: 2560) >> resizeImage 4
+var Screenshot = Resized Image
+																									} else {
+// Apple Watch S7 45mm
+																										if(Width of Repeat Item == 396) {
+																											valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 29
+var MatchedDeviceDictionary = Dictionary Value
+																										} else {
+																											if(Width of Repeat Item == 3024) {
+// MBP 2021 14"
+																												valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 30
+var MatchedDeviceDictionary = Dictionary Value
+																											} else {
+																												if(Width of Repeat Item == 3456) {
+// MBP 2021 16" at default resolution
+																													valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 31
+var MatchedDeviceDictionary = Dictionary Value
+																												} else {
+// iPad Pro 12.9" with More Space display scaling
+																													if(Width of Repeat Item == 3180) {
+																														resizeImage(image: Repeat Item, height: 2048, width: 2732) >> resizeImage 5
+var Screenshot = Resized Image
+																														valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 32
+var MatchedDeviceDictionary = Dictionary Value
+																													} else {
+																														if(Width of Repeat Item == 1290) {
+// iPhone 16 Plus, iPhone 14-15 Pro Max, portrait mode.
+																															valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 33
+var MatchedDeviceDictionary = Dictionary Value
+																															valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 34
+																															getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 6
+																															maskImage(mode: Custom Image, mask: File) >> maskImage 2
+var Screenshot = Masked Image
+																															getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 7
+var FrameNoIsland = File
+																														} else {
+																															if(Width of Repeat Item == 2796) {
+// iPhone 16 Plus, iPhone 14-15 Pro Max, landscape
+																																valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 35
+var MatchedDeviceDictionary = Dictionary Value
+																																valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 36
+																																getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 8
+																																maskImage(mode: Custom Image, mask: File) >> maskImage 3
+var Screenshot = Masked Image
+																																getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 9
+var FrameNoIsland = File
+																															} else {
+																																if(Width of Repeat Item == 410) {
+// Apple Watch Ultra, 2024
+																																	valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 37
+var MatchedDeviceDictionary = Dictionary Value
+																																} else {
+																																	if(Width of Repeat Item == 1179) {
+// iPhone 16, 14-15 Pro in portrait
+																																		valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 38
+var MatchedDeviceDictionary = Dictionary Value
+																																		valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 39
+																																		getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 10
+																																		maskImage(mode: Custom Image, mask: File) >> maskImage 4
+var Screenshot = Masked Image
+																																		getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 11
+var FrameNoIsland = File
+																																	} else {
+																																		if(Width of Repeat Item == 2556) {
+// iPhone 16, 14-15 Pro in landscape
+																																			valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 40
+var MatchedDeviceDictionary = Dictionary Value
+																																			valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 41
+																																			getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 12
+																																			maskImage(mode: Custom Image, mask: File) >> maskImage 5
+var Screenshot = Masked Image
+																																			getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 13
+var FrameNoIsland = File
+																																		} else {
+																																			if(Height of Repeat Item == 3180) {
+// 12.9” iPad Pro with more space, portrait mode
+																																				resizeImage(image: Repeat Item, height: 2732, width: 2048) >> resizeImage 6
+var Screenshot = Resized Image
+																																				valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 42
+var MatchedDeviceDictionary = Dictionary Value
+																																			} else {
+																																				if(Width of Repeat Item == 2746) {
+// iPad Air M1 with More Space display setting in landscape
+																																					resizeImage(image: Repeat Item, height: 1640, width: 2360) >> resizeImage 7
+var Screenshot = Resized Image
+																																					valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 43
+var MatchedDeviceDictionary = Dictionary Value
+																																				} else {
+																																					if(Height of Repeat Item == 2746) {
+// iPad Air M1 with More Space display setting in portrait
+																																						resizeImage(image: Repeat Item, height: 2360, width: 1640) >> resizeImage 8
+var Screenshot = Resized Image
+																																						valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 44
+var MatchedDeviceDictionary = Dictionary Value
+																																					} else {
+																																						if(Width of Repeat Item == 2778) {
+// 11” iPad Pro with display scaling enabled in landscape
+																																							resizeImage(image: Repeat Item, height: 1668, width: 2388) >> resizeImage 9
+var Screenshot = Resized Image
+																																							valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 45
+var MatchedDeviceDictionary = Dictionary Value
+																																						} else {
+// CHECK RESOLUTION OF MORE SPACE 11 HEIGHT
+																																							if(Width of Repeat Item == 1940) {
+// 11” iPad Pro with display scaling enabled in portrait
+																																								resizeImage(image: Repeat Item, height: 2388, width: 1668) >> resizeImage 10
+var Screenshot = Resized Image
+																																								valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 46
+var MatchedDeviceDictionary = Dictionary Value
+																																							} else {
+// M1 MacBook Air with More Space resolution
+																																								if(Width of Repeat Item == 3360) {
+																																									valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 47
+var MatchedDeviceDictionary = Dictionary Value
+// Resize screenshot
+																																									resizeImage(image: Repeat Item, width: 2560) >> resizeImage 11
+var Screenshot = Resized Image
+																																								} else {
+// M2 MacBook Air with default resolution
+																																									if(Width of Repeat Item == 2940) {
+																																										if(Height of Repeat Item == 1912) {
+																																											valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 48
+var MatchedDeviceDictionary = Dictionary Value
+																																											resizeImage(image: Repeat Item, height: 1664, width: 2560) >> resizeImage 12
+var Screenshot = Resized Image
+																																										}
+																																									} else {
+// M2 MacBook Air with More Space resolution
+																																										if(Width of Repeat Item == 3420) {
+																																											if(Height of Repeat Item == 2224) {
+																																												valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 49
+var MatchedDeviceDictionary = Dictionary Value
+																																												resizeImage(image: Repeat Item, height: 1664, width: 2560) >> resizeImage 13
+var Screenshot = Resized Image
+																																											}
+																																										} else {
+																																											if(Width of Repeat Item == 4112) {
+// MBP 16" with More Space resolution
+																																												valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 50
+var MatchedDeviceDictionary = Dictionary Value
+																																												resizeImage(image: Repeat Item, width: 3456) >> resizeImage 14
+var Screenshot = Resized Image
+																																											} else {
+// iMac 24" at More Space resolution
+																																												if(Width of Repeat Item == 5120) {
+																																													valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 51
+var MatchedDeviceDictionary = Dictionary Value
+																																													resizeImage(image: Repeat Item, width: 4480) >> resizeImage 15
+var Screenshot = Resized Image
+																																												} else {
+// MBP 14" with More Space resolution
+																																													if(Width of Repeat Item == 3600) {
+																																														valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 52
+var MatchedDeviceDictionary = Dictionary Value
+																																														resizeImage(image: Repeat Item, width: 3024) >> resizeImage 16
+var Screenshot = Resized Image
+																																													} else {
+// Apple Watch S7/8 41mm
+																																														if(Width of Repeat Item == 352) {
+																																															valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 53
+var MatchedDeviceDictionary = Dictionary Value
+																																														} else {
+// MacBook Pro 13"
+																																															if(Width of Repeat Item == 2560) {
+																																																valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 54
+var MatchedDeviceDictionary = Dictionary Value
+																																															} else {
+																																																if(Width of Repeat Item == 2208) {
+// iPhone 8 Plus in landscape
+																																																	resizeImage(image: Repeat Item, width: 1920) >> resizeImage 17
+var Screenshot = Resized Image
+																																																	valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 55
+var MatchedDeviceDictionary = Dictionary Value
+																																																} else {
+// M4 iPad Pro 11" in landscape, Default resolution
+																																																	if(Width of Repeat Item == 2420) {
+																																																		valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 56
+var MatchedDeviceDictionary = Dictionary Value
+																																																	} else {
+// M4 iPad Pro 11" in landscape, More Space enabled
+																																																		if(Width of Repeat Item == 2816) {
+																																																			resizeImage(image: Repeat Item, height: , width: 2420) >> resizeImage 18
+var Screenshot = Resized Image
+																																																			valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 57
+var MatchedDeviceDictionary = Dictionary Value
+																																																		} else {
+// M4 iPad Pro 11" in portrait
+																																																			if(Height of Repeat Item == 2420) {
+																																																				valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 58
+var MatchedDeviceDictionary = Dictionary Value
+																																																			} else {
+// M4 iPad Pro 11" in portrait, More Space enabled
+																																																				if(Height of Repeat Item == 2816) {
+																																																					resizeImage(image: Repeat Item, height: 2420, width: ) >> resizeImage 19
+var Screenshot = Resized Image
+																																																					valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 59
+var MatchedDeviceDictionary = Dictionary Value
+																																																				} else {
+// M4 iPad Pro 13" in landscape
+																																																					if(Width of Repeat Item == 2752) {
+																																																						valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 60
+var MatchedDeviceDictionary = Dictionary Value
+																																																					} else {
+// M4 iPad Pro 13" in landscape, More Space enabled
+																																																						if(Width of Repeat Item == 3200) {
+																																																							resizeImage(image: Repeat Item, width: 2752) >> resizeImage 20
+var Screenshot = Resized Image
+																																																							valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 61
+var MatchedDeviceDictionary = Dictionary Value
+																																																						} else {
+// M4 iPad Pro 13" in portrait
+																																																							if(Height of Repeat Item == 2752) {
+																																																								valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 62
+var MatchedDeviceDictionary = Dictionary Value
+																																																							} else {
+// M4 iPad Pro 13" in portrait, More Space enabled
+																																																								if(Height of Repeat Item == 3200) {
+																																																									resizeImage(image: Repeat Item, height: 2752, width: ) >> resizeImage 21
+var Screenshot = Resized Image
+																																																									valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 63
+var MatchedDeviceDictionary = Dictionary Value
+																																																								} else {
+// Apple Watch Series 10, 42mm
+																																																									if(Height of Repeat Item == 446) {
+																																																										valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 64
+var MatchedDeviceDictionary = Dictionary Value
+																																																										valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 65
+																																																										getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 14
+																																																										maskImage(mode: Custom Image, mask: File) >> maskImage 6
+var Screenshot = Masked Image
+																																																									} else {
+// Apple Watch Series 10, 46mm
+																																																										if(Height of Repeat Item == 496) {
+																																																											valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 66
+var MatchedDeviceDictionary = Dictionary Value
+																																																											valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 67
+																																																											getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 15
+																																																											maskImage(mode: Custom Image, mask: File) >> maskImage 7
+var Screenshot = Masked Image
+																																																										} else {
+// iPhone 16 Pro, portrait
+																																																											if(Height of Repeat Item == 2622) {
+																																																												valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 68
+var MatchedDeviceDictionary = Dictionary Value
+																																																												valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 69
+																																																												getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 16
+																																																												maskImage(mode: Custom Image, mask: File) >> maskImage 8
+var Screenshot = Masked Image
+																																																												getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 17
+var FrameNoIsland = File
+																																																											} else {
+// iPhone 16 Pro, landscape
+																																																												if(Height of Repeat Item == 1206) {
+																																																													valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 70
+var MatchedDeviceDictionary = Dictionary Value
+																																																													valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 71
+																																																													getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 18
+																																																													maskImage(mode: Custom Image, mask: File) >> maskImage 9
+var Screenshot = Masked Image
+																																																													getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 19
+var FrameNoIsland = File
+																																																												} else {
+// iPhone 16 Pro Max, portrait
+																																																													if(Height of Repeat Item == 2868) {
+																																																														valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 72
+var MatchedDeviceDictionary = Dictionary Value
+																																																														valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 73
+																																																														getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 20
+																																																														maskImage(mode: Custom Image, mask: File) >> maskImage 10
+var Screenshot = Masked Image
+																																																														getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 21
+var FrameNoIsland = File
+																																																													} else {
+// iPhone 16 Pro Max, landscape
+																																																														if(Height of Repeat Item == 1320) {
+																																																															valuesFrom(dictionary: Frames Dictionary) >> valuesFrom 74
+var MatchedDeviceDictionary = Dictionary Value
+																																																															valuesFrom(dictionary: Matched Device Dictionary) >> valuesFrom 75
+																																																															getFile(path: "/Frames/${Dictionary Value}_mask.png") >> getFile 22
+																																																															maskImage(mode: Custom Image, mask: File) >> maskImage 11
+var Screenshot = Masked Image
+																																																															getFile(path: "/Frames/${Dictionary Value}_frame_no_island.png") >> getFile 23
+var FrameNoIsland = File
+																																																														} else {
+// More devices here
+																																																														}
+																																																													}
+																																																												}
+																																																											}
+																																																										}
+																																																									}
+																																																								}
+																																																							}
+																																																						}
+																																																					}
+																																																				}
+																																																			}
+																																																		}
+																																																	}
+																																																}
+																																															}
+																																														}
+																																													}
+																																												}
+																																											}
+																																										}
+																																									}
+																																								}
+																																							}
+																																						}
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																}
+																															}
+																														}
+																													} >> IFResult 19
+																												}
+																											}
+																										}
+																									}
+																								}
+																							}
+																						}
+																					}
+																				}
+																			} >> IFResult 20
+																		}
+																	}
+																}
+															}
+														} >> IFResult 21
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	} >> IFResult 22
+// Screenshots from older devices and those with Dynamic Island use a different logic. Thus we need to have a condition here to check if there is a variable for frame without island.
+	valuesFrom(dictionary: Matched Device Dictionary) >> Name
+	getFile(path: "/Frames/${Name}.png") >> Frame File
+var FrameAsset = Frame File
+// The device has a Dynamic Island.
+	if(Frame No Island != nil) {
+		overlayImage(image1: Screenshot, image2: Frame No Island, editor: false, position: Custom, opacity: "100", rotation: "0") >> overlayImage
+		overlayImage(image1: Frame Asset, image2: Overlaid Image, editor: false, opacity: "100", rotation: "0") >> overlayImage 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Reset value of Frame No Island variable
+		dictionary({})
+var FrameNoIsland = Dictionary
+	} else {
+// The Frame No Island variable has no value.
+		overlayImage(image1: Screenshot, image2: Frame Asset, editor: false, position: Custom, opacity: "100", rotation: "0") >> overlayImage 2
+		overlayImage(image1: Frame Asset, image2: Overlaid Image, editor: false, opacity: "100", rotation: "0") >> overlayImage 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	}
+} >> RepeatResult 2
+// If dealing with more than one device, combine them into a single image.
+count(input: Framed Screenshots) >> count 2
+var FramedScreenshotsCount = Count
+if(Count > true) { >> IFResult 23
+	text(text: "screenshots") >> text 4
+var Noun = Text
+// Here we can add a check to see if we want to combine multiple images or not 
+	valuesFrom(dictionary: Merge Images) >> valuesFrom 76
+// Check if the Merge Images variable is True
+	if(Dictionary Value == ""${Control True.as(Text)}"") {
+		getImagesFrom(input: Framed Screenshots) >> getImagesFrom 9
+		combineImage(images: Images, spacing: Merge Spacing) >> combineImage
+var FramedScreenshots = Combined Image
+	} else {
+// The user does not want to merge multiple images
+	}
+} else {
+// A single device was passed, no need to combine images.
+	text(text: "screenshot") >> text 5
+var Noun = Text
+} >> IFResult 24
+// Strip metadata and rename. You have to add a repeat loop and reset the variable here
+var ProcessingFramedScreenshots = Variable
+dictionary({})
+var FramedScreenshots = Dictionary
+repeatEach(Processing Framed Screenshots) {
+	convertImage(image: Repeat Item, format: PNG, metadata: false) >> convertImage
+	date() >> date
+	formatDate(date: "${Date}", dStyle: Custom, custom: "EEEE, dd MMM yyyy HH:mm:ss") >> formatDate
+	setName(input: Converted Image, name: "${Formatted Date}") >> setName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+}
+// Final menu of actions for the framed images.
+dictionary({})
+var FramesDictionary = Dictionary
+var 4B8E432E-5C31-4F67-BE24-083394D655DA = """Framed ￼ ￼.
+
+Pick an action below."""
+text("${4B8E432E-5C31-4F67-BE24-083394D655DA}")
+// Use the proper name for the filesystem based on user device
+if(DeviceDetails == "Mac") {
+	text(text: "Finder") >> text 6
+var FilesystemApp = Text
+} else {
+	text(text: "Files") >> text 7
+var FilesystemApp = Text
+} >> IFResult 25
+/*
+Check the input command. Potential options:
+
+- quickLook
+- photos
+- quickSave
+- copy
+- airDrop
+- upload
+- passthrough
+*/
+if(Text Commands in Input .contains "&quickLook") {
+	quicklook(input: Framed Screenshots)
+	exit()
+} else {
+	if(Text Commands in Input .contains "&photos") {
+		saveToCameraRoll(image: Framed Screenshots) >> saveToCameraRoll
+		exit()
+	} else {
+		if(Text Commands in Input .contains "&quickSave") {
+			saveFile(input: Framed Screenshots, ask: false) >> saveFile 2
+			exit()
+		} else {
+			if(Text Commands in Input .contains "&copy") {
+				setClipboard(variable: Framed Screenshots) >> setClipboard
+				exit()
+			} else {
+				if(Text Commands in Input .contains "&airDrop") {
+					airdrop(file: Framed Screenshots) >> airdrop
+					exit()
+				} else {
+					if(Text Commands in Input .contains "&upload") {
+// Put your own shortcut to upload images here.
+						runShortcut(name: "Upload Images", input: Framed Screenshots) >> runShortcut
+						exit()
+					} else {
+						if(Text Commands in Input .contains "&passthrough") {
+// Pass the framed screenshots along as output
+							output(result: "${Framed Screenshots}")
+						} else {
+// More input commands here
+						}
+					}
+				}
+			}
+		}
+	}
+} >> IFResult 26
+// No input command has been passed for the framed image. Thus, we need to bring up a list of actions to choose from manually.
+menu(, [) {
+case("🌄 Save to Photos"):
+	saveToCameraRoll(image: Framed Screenshots) >> saveToCameraRoll 1
+case("🔠 Rename and Save to Filesystem App"):
+	askForInput(prompt: "Rename Your File") >> askForInput
+	setName(input: Framed Screenshots, name: "${Provided Input}") >> setName 1
+	saveFile(input: Renamed Item)
+case("📁 Quick Save to Filesystem App"):
+	saveFile(input: Framed Screenshots, ask: false) >> saveFile 3
+case("📋 Copy"):
+	setClipboard(variable: Framed Screenshots) >> setClipboard 1
+	getClipboard()
+case("🔀 Copy as JPEG"):
+	convertImage(image: Framed Screenshots, metadata: false, quality: true) >> convertImage 1
+	setClipboard(variable: Converted Image, local: false) >> setClipboard 2
+	getClipboard()
+case("⬆️ Share"):
+	share(file: Framed Screenshots) >> share
+case("📡 AirDrop"):
+	airdrop(file: Framed Screenshots) >> airdrop 1
+case("👁 Preview with Quick Look"):
+	quicklook(input: Framed Screenshots)
+case("☁️ Upload"):
+// If you have a shortcut that uploads images to your server, this is where you can run that shortcut.
+	runShortcut(name: "Upload Images", input: Framed Screenshots) >> runShortcut 1
+} >> MenuResult
+output(result: "${Menu Result}")

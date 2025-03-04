@@ -1,0 +1,52 @@
+import Shortcuts
+#Color: red, #Icon: lock
+
+// Inject a Comment action at the beginning of a shortcut that serves as a description for the shortcut. The modified shortcut is then exported as a .shortcut file, signed, and re-added to Shortcuts.
+file(file: $0) >> Selected Folder
+getShortcuts() >> getShortcuts
+choose(list: My Shortcuts, prompt: "Pick a Shortcut") >> Chosen Shortcut
+getFileOfType(input: Chosen Shortcut, type: "com.apple.plist") >> getFileOfType
+// Save the shortcut as XML
+getTextFrom(input: File of Type) >> XML
+// Find the beginning of the actions
+var 0CC09F3E-1596-4BC3-9ECA-40B12627900D = """<key>WFWorkflowActions</key>
+	<array>"""
+text("${0CC09F3E-1596-4BC3-9ECA-40B12627900D}")
+// Add a description to the shortcut. This will be injected as a Comment action at the top of the shlortcut
+askForInput(prompt: "Enter a description for the shortcut") >> Comment Text
+var C8F4C7A4-D8E4-42B0-969E-F7F0F7D290DB = """<key>WFWorkflowActions</key>
+	<array>
+		<dict>
+			<key>WFWorkflowActionIdentifier</key>
+			<string>is.workflow.actions.comment</string>
+			<key>WFWorkflowActionParameters</key>
+			<dict>
+				<key>WFCommentActionText</key>
+				<string>￼</string>
+			</dict>
+		</dict>"""
+text("${C8F4C7A4-D8E4-42B0-969E-F7F0F7D290DB}")
+replaceText(input: "${XML}", find: "${Text to Replace}", replace: "${Modified Text}") >> replaceText
+askForInput(prompt: "Enter a new name for the shortcut") >> askForInput
+text(text: "${Provided Input}.shortcut") >> Filename
+setName(input: Updated Text, name: "${Filename}") >> setName
+// Save the modified shortcut to the folder selected at the top
+saveFile(input: Renamed Item, ask: false, overwrite: true) >> Unsigned Shortcut File
+matchText(text: "${Unsigned Shortcut File.get(File Path)}", regex: "(.+)\/(.+\.shortcut)") >> matchText
+// Get the path of the folder where the shortcut was saved, so we can `cd` into it and properly sign the shortcut
+getMatchGroup(matches: Matches) >> getMatchGroup
+// Sign the shortcut with permissions set to “anyone”.
+runShellScript(script: "cd ${Unsigned Shortcut File.get(File Path)}
+shortcuts sign -m anyone -i "${ActionOutput.get(File Path)}" -o "${Text}-Signed.shortcut"") >> runShellScript
+getName() >> getName
+showResult(text: "The shortcut '${Name}' was successfully modified and signed. You can now add it again to the Shortcuts app.")
+getFile(path: "${Provided Input}-Signed.shortcut") >> Signed Shortcut File
+// Open the newly modified and re-signed shortcut in the Shortcuts app
+openIn(input: Signed Shortcut File, app: "com.apple.shortcuts")
+// Choose whether you want to delete the original files you saved in a folder in Finder
+menu(Delete Original Files?, [Yes, Delete, No]) {
+case("Yes, Delete"):
+	deleteFile(input: Unsigned Shortcut File) >> deleteFile
+	deleteFile(input: Signed Shortcut File) >> deleteFile 1
+case("No"):
+}

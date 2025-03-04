@@ -1,0 +1,30 @@
+import Shortcuts
+#Color: yellow, #Icon: list
+
+/*
+Retrieve the raw contents of a Discourse forum thread in markdown.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+url(url: ShortcutInput) >> url
+urlComponent(url: "${URL}", component: Host) >> urlComponent
+urlComponent(url: "${URL}", component: Scheme) >> urlComponent 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+splitText(text: URL, separator: Custom, customSeparator: "/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+url(url: "${scheme}://${Variable}/raw/${id}") >> url 2
+downloadURL(url: "${URL}") >> downloadURL
+getTextFrom(input: Contents of URL) >> getTextFrom
+setClipboard(variable: Text) >> setClipboard

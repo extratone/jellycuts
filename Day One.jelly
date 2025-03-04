@@ -1,0 +1,45 @@
+import Shortcuts
+#Color: navy, #Icon: bookmark
+
+// Add or open content to Day One, from creating templates & rich media entries to searching through your journal.
+// Use this Day One shortcut to keep a long-running record of things you do and observations you make over time – I’ve been using Day One for almost 8 years now and I can look back on the exact moment I started dating my girlfriend, for example :)
+menu(What do you want to do?, [Get Daily Prompt, New Template, New Entry, Transcribe, Take photo, Record audio, Capture video, Append to Entry from Today, Show Today’s Summary, Show On This Day, Find and Edit by Tag]) {
+case("Get Daily Prompt"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.GetDailyPromptIntent
+var A5661092-ED24-43D5-B452-A9136388A912 = """Your daily prompt is:
+
+"￼"
+
+What do you want to say?"""
+text("${A5661092-ED24-43D5-B452-A9136388A912}")
+	askForInput(prompt: "${Text}") >> askForInput
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.CreateEntryIntent
+case("New Template"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.CreateTemplateEntryIntent
+case("New Entry"):
+	askForInput(prompt: "What do you want your entry to say?") >> askForInput 1
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.CreateEntryIntent
+case("Transcribe"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.RecordIntent
+case("Take photo"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.RecordIntent
+case("Record audio"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.RecordIntent
+case("Capture video"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.RecordIntent
+case("Append to Entry from Today"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.FindEntriesIntent
+	filterFiles() >> filterFiles
+	choose(list: Files, prompt: "Which entry?") >> choose
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.AppendToEntryIntent
+case("Show Today’s Summary"):
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.ShowTodayIntent
+case("Show On This Day"):
+	askForInput(prompt: "What date?", type: Date) >> askForInput 2
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.ShowDayIntent
+case("Find and Edit by Tag"):
+	askForInput(prompt: "Which tag do you want to search by?") >> askForInput 3
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.FindEntriesIntent
+	choose(list: Entries, prompt: "Which entry?") >> choose 1
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.EditEntryIntent
+} >> MenuResult

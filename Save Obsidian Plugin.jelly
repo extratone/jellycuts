@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: green, #Icon: circledPlus
+
+// Use Working Copy to manually save a plugin folder into Obsidian's hidden plugins folder in your vault.
+// Enter the name of your vault.
+text(text: "Black") >> Vault Name
+// Pick an uncompressed plugin folder from the Files app
+selectFile(type: Folders) >> selectFile
+fileDetail(input: File, property: Name) >> fileDetail
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+wait()
+text(text: "Added '${Name}' plugin") >> text
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+text(text: "${File} saved into your '${ActionOutput}' vault.") >> text 1
+showResult(text: "${Text}")

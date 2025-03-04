@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: grayBlue, #Icon: shortcuts
+
+filterReminders() >> filterReminders
+makeArchive(input: Reminders, type: tar.gz) >> makeArchive
+saveFile(input: Archive, ask: false) >> saveFile
+count(input: Reminders) >> count
+var num = Count
+removeReminders(reminders: Reminders) >> removeReminders
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

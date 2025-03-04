@@ -1,0 +1,421 @@
+import Shortcuts
+#Color: blue,#Icon: ipadAlt
+
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+text(text: "English") >> text
+splitText(text: Text) >> splitText
+count(input: Split Text) >> count
+if( == 0) {
+//Unable to get shortcuts action is.workflow.actions.comment
+	text(text: "English") >> text
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+	if( >= 1) {
+//Unable to get shortcuts action is.workflow.actions.comment
+		repeatEach(Split Text) {
+			if( == nil $2) {
+				nothing()
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			}
+		} >> Repeat Result
+		getItemFromList(list: Language) >> Language
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	} else {
+	}
+} >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+var FEC050B2-D59D-4ACF-9E8B-912B94E3310A = """It looks like the Frames.json file is not installed on your device.
+
+You'll have to download this file ONCE in iCloud Drive/Shortcuts for Apple Frames to work.
+
+Click OK and Shortcuts will download the file from MacStories.net and take care of everything for you.
+
+(The download will take a few seconds.)"""
+text("${FEC050B2-D59D-4ACF-9E8B-912B94E3310A}")
+var 5721E5A4-088D-419C-8582-BB46CD577B39 = """The Frames.json file has been successfully saved into iCloud Drive/Shortcuts.
+
+There's nothing else you have to do now.
+
+In the future, to install new versions of Apple Frames, you'll have to delete the Frames.json file and download it again.
+
+But for now: welcome to Apple Frames, and enjoy. ☺ 
+
+- Federico"""
+text("${5721E5A4-088D-419C-8582-BB46CD577B39}")
+//Unable to get shortcuts action is.workflow.actions.comment
+var 775EEEF3-7740-438B-B4AA-37BF614B5325 = """Sembra che il file Frames.json non sia installato sul tuo dispositivo.
+
+Dovrai scaricare questo file UNA SOLTA VOLTA e mantenerlo nella cartella iCloud Drive/Shortcuts affinché Apple Frames possa funzionare.
+
+Clicca OK e Comandi Rapidi scaricherà il file da MacStories.net, occupandosi di tutta la configurazione per te.
+
+(Il download impiegherà qualche secondo.)"""
+text("${775EEEF3-7740-438B-B4AA-37BF614B5325}")
+var B52F2EB9-91A0-4ECB-B026-277A63E3BED3 = """Il file Frames.json è stato scaricato con successo e salvato in iCloud Drive/Shortcuts.
+
+Non devi fare nient'altro.
+
+In futuro, per installare versioni aggiornate di Apple Frames, dovrai eliminare Frames.json e scaricarlo nuovamente.
+
+Comunque, per ora: benvenuto su Apple Frames, e buon utilizzo. ☺ 
+
+- Federico"""
+text("${B52F2EB9-91A0-4ECB-B026-277A63E3BED3}")
+//Unable to get shortcuts action is.workflow.actions.comment
+var 4293CE18-BBC6-4BC9-B93B-BC7AECCC3E69 = """Al parecer no tienes Frames.json file instalado en tu dispositivo. Descarga este archivo SOLO UNA VEZ en iCloud Drive/Shortcuts para poder usar Apple Frames.
+
+Pulsa OK y Atajos descargará tu archivo desde MacStories.net encargándose de todo.
+ 
+(La descarga tardará unos segundos en completarse)."""
+text("${4293CE18-BBC6-4BC9-B93B-BC7AECCC3E69}")
+var 82667E22-972E-4762-A547-382664FB7F0C = """Frames.json file ha sido guardado con éxito en iCloud Drive/Shortcuts.
+
+No es necesario hacer nada más.
+
+En un futuro, para instalar nuevas versiones de Apple Frames, tendrás que eliminar Frames.json file y descargarlo otra vez.
+
+Bienvenido a Apple Frames y que lo disfrutes. ☺
+
+- Federico"""
+text("${82667E22-972E-4762-A547-382664FB7F0C}")
+//Unable to get shortcuts action is.workflow.actions.comment
+var 13477129-2946-40A7-AEE9-4645FD84BFB1 = """Het lijkt er op dat het Frames.json bestand ontbreekt op jouw apparaat.
+
+Je zal dit bestand EENMAAL moeten bewaren in iCloud Drive/Shortcuts zodat Apple Frames zal werken.
+
+Klik OK en Opdrachten zal het bestand downloaden van MacStories.net en al het nodige voor je doen.
+
+(De download zal enkele seconden duren.)"""
+text("${13477129-2946-40A7-AEE9-4645FD84BFB1}")
+var DCA8C7D7-AE5A-4B8D-B8CB-6C58DD210DEF = """Het Frames.json bestand is succesvol bewaard in iCloud Drive/Shortcuts.
+
+Er is nu niets anders meer dat je moet doen.
+
+Wanneer je in de toekomst een nieuwe versie van Apple Frames wilt installeren, zal je het Frames.json bestand moeten verwijderen en opnieuw downloaden.
+
+Maar voor nu: welkom bij Apple Frames, en geniet ervan. ☺ 
+
+- Federico"""
+text("${DCA8C7D7-AE5A-4B8D-B8CB-6C58DD210DEF}")
+//Unable to get shortcuts action is.workflow.actions.comment
+var 1133AAE2-628C-4E0C-B53C-EE4E7206E25B = """Il semble que le fichier Frames.json ne est pas installé sur votre appareil.
+
+Il faut télécharger cet fichier une fois dans iCloud Drive/Shortcuts pour Apple Frames pour travailler.
+
+Cliquer Ok et Raccourcis téléchargera le fichier de MacStories.net et prendre soin de vous.
+
+(Le téléchargement prendra quelques secondes.)"""
+text("${1133AAE2-628C-4E0C-B53C-EE4E7206E25B}")
+var 31432535-2916-4EE7-BE57-9A2D444FE4DA = """Le fichier Frames.json a été sauvegardé avec succès dans iCloud Drive/Shortcuts.
+
+Il y a rien d’autre chose á faire pour l’instant.
+
+Dans le future, pour faire l’installation de nouvelles versions de Apple Frames, vouz devez effacez le fichier Frames.json et le décharger a nouveau.
+
+Mais pour l’instant, bienvenue a Apple Frames, et amusez-vous. ☺ 
+
+- Federico"""
+text("${31432535-2916-4EE7-BE57-9A2D444FE4DA}")
+//Unable to get shortcuts action is.workflow.actions.comment
+var 0AA716DB-66B8-4580-B784-626518EF380C = """Frames.json ist leider nicht auf ihr Gerät installiert. 
+
+Bitte laden Sie diese Datei nur einmal herunter und speichern Sie es in iCloud Drive/Shortcuts. 
+
+Drücken sie OK und Kurzbefehle wird die Datei von MacStories.net herunterladen und installieren.
+
+(Das Herunterladen braucht nur wenige Sekunden)"""
+text("${0AA716DB-66B8-4580-B784-626518EF380C}")
+var 8104CBA6-8B65-4E60-9837-F3A03E298444 = """Die Frames.json Datei wurde erfolgreich heruntergeladen. Apple Fames ist jetzt bereit.
+
+Wenn eine neue Version von Apple Frames herauskommt, muss die Frames.json Datei ersetzt werden.
+
+Herzlich Wilkommen zu Apple Frames. ☺ 
+
+- Federico"""
+text("${8104CBA6-8B65-4E60-9837-F3A03E298444}")
+//Unable to get shortcuts action is.workflow.actions.comment
+var E6E2B31E-08E3-4519-A9D2-496C53D1C60D = """Parece que o arquivo Frames.json não está instalado no seu dispositivo.
+
+Você terá que fazer o download desse arquivo UMA VEZ em seu iCloud Drive/Shortcuts para o Apple Frames funcionar.
+
+Clique OK e Atalhos irá fazer o download do arquivo hospedado em MacStories.net e preparar tudo necessário. 
+
+(O download demora alguns segundos.)"""
+text("${E6E2B31E-08E3-4519-A9D2-496C53D1C60D}")
+var 7097849B-220F-4F5C-B590-C5F2C3CFAD15 = """O arquivo Frames.json foi salvo com sucesso em iCloud Drive/Shortcuts.
+
+Você não precisa fazer mais nada agora.
+
+Para instalar novas versões do Apple Frames no futuro, você terá que deletar o arquivo Frames.json e fazer o download novamente.
+
+Mas por enquanto: bem vindo ao Apple Frames, e aproveite. ☺ 
+
+- Federico"""
+text("${7097849B-220F-4F5C-B590-C5F2C3CFAD15}")
+dictionary({"Photos":{dictionary({"English":"Save to Photos","Spanish":"Guardar en Fotos","Italian":"Salva su Foto","Dutch":"Bewaar in Foto's","French":"Sauvegarder sur Photos","Portuguese":"Salvar em Fotos","German":"In Fotos sichern"})},"Files":{dictionary({"English":"Save to Files","Italian":"Salva su File","Spanish":"Guardar en Archivos","Dutch":"Bewaar in Bestanden","French":"Sauvegarder sur Fichiers","Portuguese":"Salvar em Arquivos ","German":"In Dateien sichern"})},"Copy":{dictionary({"English":"Copy","Italian":"Copia","Spanish":"Copiar","Dutch":"Kopieer","French":"Copier","Portuguese":"Copiar","German":"Kopieren"})},"Copy JPEG":{dictionary({"English":"Copy as JPEG","Italian":"Copia come JPEG","Spanish":"Copiar como JPEG","Dutch":"Kopieer als JPEG","German":"Als JPEG kopieren","French":"Copier au JPEG","Portuguese":"Copiar como JPEG"})},"Share":{dictionary({"English":"Share","Italian":"Condividi","Spanish":"Compartir","Dutch":"Deel","German":"Teilen","French":"Partager","Portuguese":"Compartilhar"})},"Preview":{dictionary({"English":"Preview","Italian":"Anteprima","Spanish":"Vista Previa","Dutch":"Voorbeeld","German":"Vorschauen","French":"Previsualiser","Portuguese":"Pré-apresentação"})},"File Naming":{dictionary({"English":"Rename File","Italian":"Rinomina File","Spanish":"Renombrar Archivo","Dutch":"Wijzig Naam","German":"Die Datei Umbennen","French":"Renommer fichier","Portuguese":"Renomear Arquivo"})},"Image Picker":{dictionary({"English":"Pick Images","Italian":"Scegli Immagini","Spanish":"Escoger Imágenes","Dutch":"Kies Afbeeldingen","German":"Fotos aussuchen","French":"Sélectionner les images","Portuguese":"Escolher Imagens"})},"Setup File":{dictionary({"English":"${English Setup File Message}","Italian":"${Text}","Spanish":"${Text}","Dutch":"${Dutch Setup File Message}","French":"${Text}","German":"${Text}","Portuguese":"${Text}"})},"Setup Done":{dictionary({"English":"${Text}","Italian":"${Text}","Spanish":"${Text}","Dutch":"${Text}","French":"${Text}","Portuguese":"${Text}","German":"${Text}"})}})
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.comment
+getFile(path: "Frames.json", error: false) >> getFile
+//Unable to get shortcuts action is.workflow.actions.setvariable
+count(input: Frames File) >> count
+if( == 0) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+	valueFor(key: "Setup File.${Language}", dictionary: Menu Commands) >> Setup File Message
+	alert(alert: "${Setup File Message}", title: "⚠️", cancel: false)
+	downloadURL(url: "https://cdn.macstories.net/Frames.json") >> downloadURL
+	setName(input: Contents of URL, name: "Frames.json") >> setName
+	saveFile(input: Renamed Item, ask: false) >> saveFile
+	wait(seconds: 2)
+	valueFor(key: "Setup Done.${Language}", dictionary: Menu Commands) >>  Setup Done Message
+	alert(alert: "${ Setup Done Message}", title: "✅ ", cancel: false)
+	getFile(path: "Frames.json", error: false) >> getFile
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+} >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+getDictionaryFrom(input: Frames File) >> getDictionaryFrom
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.comment
+getImagesFrom(input: Shortcut Input) >> Images Input
+if( == nil "0") { >> If Result
+	valueFor(key: "Image Picker.${Language}", dictionary: Menu Commands) >> Image Picker Title
+	filterPhotos() >> filterPhotos
+	choose(list: Photos, prompt: "${Image Picker Title}", multiple: true) >> choose
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+	getImagesFrom(input: Images Input) >> getImagesFrom
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} >> If Result
+repeatEach(If Result) { >> Repeat Result
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	imageDetail(detail: Width, image: Repeat Item) >> imageDetail
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	imageDetail(detail: Height, image: Repeat Item) >> imageDetail
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	if( == 1242) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+		imageDetail(detail: Height, image: Repeat Item) >> imageDetail
+//Unable to get shortcuts action is.workflow.actions.comment
+		if( == 2688) { >> If Result
+			valueFor(key: "iPhone.11.Pro Max.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		}
+	} else {
+		if( == 1125) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+//Unable to get shortcuts action is.workflow.actions.comment
+			if( != 2436) { >> If Result
+				valueFor(key: "iPhone.11.Pro.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+				valueFor(key: "iPhone.12-13.mini.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+				resizeImage(image: Repeat Item, height: 2340, width: 1080) >> resizeImage
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			}
+		} else {
+			if( == 2688) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+				valueFor(key: "iPhone.11.Pro Max.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			} else {
+				if( == 2436) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+					valueFor(key: "iPhone.12-13.mini.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+					resizeImage(image: Repeat Item, height: 1080, width: 2340) >> resizeImage
+//Unable to get shortcuts action is.workflow.actions.setvariable
+				} else {
+					if( == 368) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+						resizeImage(image: Repeat Item, width: 368) >> resizeImage
+//Unable to get shortcuts action is.workflow.actions.setvariable
+						valueFor(key: "Watch.Series 4.44", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+					} else {
+						if( == 750) { >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+							valueFor(key: "iPhone.iPhone 8 and 2020 SE.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+						} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+							if( == 2732) {
+								valueFor(key: "iPad.2018-2021 iPad Pro.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+							} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+								if( == 2048) {
+									imageDetail(detail: Height, image: Repeat Item) >> imageDetail
+//Unable to get shortcuts action is.workflow.actions.comment
+									if( != 1536) {
+//Unable to get shortcuts action is.workflow.actions.comment
+										valueFor(key: "iPad.2018-2021 iPad Pro.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+									} else {
+									}
+//Unable to get shortcuts action is.workflow.actions.comment
+								} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+									if( == 2208) {
+										valueFor(key: "iPad.2021 iPad mini.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+									} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+										if( == 1334) {
+											valueFor(key: "iPad.2021 iPad mini.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+										} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+											if( == 2388) {
+												valueFor(key: "iPad.2018-2021 iPad Pro 11.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+											} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+												if( == 1668) {
+													valueFor(key: "iPad.2018-2021 iPad Pro 11.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+												} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+													if( .contains 324) {
+														valueFor(key: "Watch.Series 4.40", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+													} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+														if( == 828) {
+//Unable to get shortcuts action is.workflow.actions.comment
+															valueFor(key: "iPhone.11.11.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+														} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+															if( == 1792) {
+//Unable to get shortcuts action is.workflow.actions.comment
+																valueFor(key: "iPhone.11.11.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+															} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																if( == 2532) {
+																	valueFor(key: "iPhone.12-13.Pro.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																	if( == 2532) {
+																		valueFor(key: "iPhone.12-13.Pro.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																	} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																		if( == 1284) {
+																			valueFor(key: "iPhone.12-13.Pro Max.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																		} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																			valueFor(key: "iPhone.12-13.Pro Max.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.comment
+																			if( == 2360) {
+																				valueFor(key: "iPad.2020 iPad Air.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																			} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																				if( == 1640) {
+																					valueFor(key: "iPad.2020 iPad Air.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																				} else {
+																					if( == 4480) {
+//Unable to get shortcuts action is.workflow.actions.comment
+																						valueFor(key: "Mac.2021 iMac", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																					} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																						if( == 2160) {
+																							valueFor(key: "iPad.2021 iPad.Landscape", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																						} else {
+																							if( == 1620) {
+																								valueFor(key: "iPad.2021 iPad.Portrait", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																							} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+																								if( == 2560) {
+																									valueFor(key: "Mac.2020 MacBook Air", dictionary: Frames Dictionary) >> valueFor
+//Unable to get shortcuts action is.workflow.actions.setvariable
+																								} else {
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														} >> If Result
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	} >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+	decode(input: Matched Device Dictionary) >> Decoded Frame
+	overlayImage(image1: Screenshot, image2: Decoded Frame, editor: false, position: Custom, opacity: "100", rotation: "0") >> overlayImage
+	overlayImage(image1: Decoded Frame, image2: Overlaid Image, editor: false, opacity: "100", rotation: "0") >> overlayImage
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> Repeat Result
+//Unable to get shortcuts action is.workflow.actions.comment
+count(input: Framed Screenshots) >> count
+if( > true) { >> If Result
+	getImagesFrom(input: Framed Screenshots) >> getImagesFrom
+	combineImage(images: Images, spacing: 60) >> combineImage
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+} >> If Result
+//Unable to get shortcuts action is.workflow.actions.comment
+convertImage(image: Framed Screenshots, format: PNG, metadata: false) >> convertImage
+date() >> date
+formatDate(date: "${Date}", dStyle: Custom, custom: "EEEE, dd MMM yyyy HH:mm:ss") >> formatDate
+setName(input: Converted Image, name: "${Formatted Date}") >> setName
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.comment
+valueFor(key: "Photos.${Language}", dictionary: Menu Commands) >> Photos
+valueFor(key: "Files.${Language}", dictionary: Menu Commands) >> Files
+valueFor(key: "Copy.${Language}", dictionary: Menu Commands) >> Copy
+valueFor(key: "Copy JPEG.${Language}", dictionary: Menu Commands) >> Copy JPEG
+valueFor(key: "Share.${Language}", dictionary: Menu Commands) >> Share
+valueFor(key: "Preview.${Language}", dictionary: Menu Commands) >> Preview
+menu(, [) {
+case("🌄 Photos"):
+	saveToCameraRoll(image: Framed Screenshots) >> saveToCameraRoll
+case("📁 Files"):
+	valueFor(key: "File Naming.${Language}", dictionary: Menu Commands) >> File Naming Title
+	askForInput(prompt: "${File Naming Title}") >> askForInput
+	setName(input: Framed Screenshots, name: "${Provided Input}") >> setName
+	saveFile(input: Renamed Item)
+case("📋 Copy"):
+	setClipboard(variable: Framed Screenshots) >> setClipboard
+	getClipboard()
+case("🔀 Copy JPEG"):
+	convertImage(image: Framed Screenshots, metadata: false, quality: true) >> convertImage
+	setClipboard(variable: Converted Image, local: false) >> setClipboard
+	getClipboard()
+case("⬆️ Share"):
+	share(file: Framed Screenshots) >> share
+case("👁 Preview"):
+	quicklook(input: Framed Screenshots)
+}

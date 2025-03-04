@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: grayBlue, #Icon: noteTextPlus
+
+//Unable to get shortcuts action com.appliedphasor.working-copy.PullRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.GetFilesIntent
+getTextFrom(input: Files) >> getTextFrom
+//Unable to get shortcuts action com.agiletortoise.Drafts5.SetDraftIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitLogIntent
+quicklook(input: History)

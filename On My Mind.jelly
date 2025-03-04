@@ -1,0 +1,82 @@
+import Shortcuts
+#Color: yellow, #Icon: brain
+
+// Instantly capture ideas and prepend them to a specific section of a note in Obsidian. The shortcut supports keyboard input, the share sheet, and dictation.
+/*
+Enter the name (and syntax) of the section of the Dashboard note where text will be prepended
+
+E.g. ## On My Mind
+*/
+text(text: "## On My Mind") >> text
+var Section = Text
+// Enter the name of your Obsidian vault
+text(text: "My Notes") >> text 1
+var VaultName = Text
+// Enter the name of the file you want to append text to, followed by its extension – e.g. Dashboard.md
+text(text: "Dashboard.md") >> text 2
+var FilePath = Text
+// Select the folder where the Dashboard note is stored.
+//Unable to get shortcuts action is.workflow.actions.folder
+var Folder = Folder
+getFile(path: "${File Path}") >> getFile
+var File = File
+// Get the input text
+text(text: "${ShortcutInput}") >> Input Text
+var InputText = Input Text
+// Check if input is empty or not
+if(Input Text == nil) {
+	if(DeviceDetails != "Mac") {
+// Check whether audio is playing through Bluetooth devices. This requires the Actions app.
+//Unable to get shortcuts action com.sindresorhus.Actions.GetAudioPlaybackDestinationIntent
+		text(text: "${Audio Playback Destination}") >> text 3
+// Try to deal with AirPods. If the audio playback destination is not AirPods, iPhone, or iPad, assume that a mobile device is connected to a Bluetooth source that doesn’t have a good microphone
+		if(Text .contains "AirPods") {
+			dictateText() >> dictateText
+var InputText = Dictated Text
+		} else {
+			matchText(text: "${Text}", regex: "iPhone|iPad|AirPods") >> matchText
+			count(input: Matches) >> count
+// The device is connected to *something*, but it’s not the built-in speaker or AirPods. Therefore, we can assume it’s not a good microphone, so we’ll want to temporarily turn off Bluetooth, dictate text, and re-enable Bluetooth
+			if(Count == 0) { >> IFResult
+				setBluetooth()
+				number(value: 1) >> number
+				wait(seconds: Number)
+				dictateText() >> dictateText 1
+var InputText = Dictated Text
+				setBluetooth()
+			}
+		}
+	} >> IFResult 1
+// Here, if necessary, you can add an optional step to double-check the text you’ve dictated. Otherwise, just use the Input Text variable as-is
+} else {
+// Input was passed from outside the shortcut, but the Input Text variable has already been set.
+} >> IFResult 2
+// Process Twitter links with embeds
+if(Input Text .contains "twitter.com") {
+var 116D9EC3-C07D-427C-9425-A227F602F4DB = """<iframe border=0 frameborder=0 height=600
+width=350 src="https://twitframe.com/show?
+url=￼"></iframe>"""
+text("${116D9EC3-C07D-427C-9425-A227F602F4DB}")
+var InputText = Text
+} else {
+} >> IFResult 3
+// Here, there is a final check to see whether Input Text is empty. If it is, we need to trigger the manual typing method with Ask for Input
+if(Input Text == nil) {
+	askForInput(prompt: "Enter Text for the ‘${Section}’ Section") >> askForInput
+var InputText = Provided Input
+}
+// Get the original file's text
+getTextFrom(input: File) >> getTextFrom
+var OriginalText = Text
+var 874152A7-3796-4794-A072-58330D897917 = """￼
+
+￼"""
+text("${874152A7-3796-4794-A072-58330D897917}")
+replaceText(input: "${Original Text}", find: "${Section}", replace: "${Prepended Text}") >> replaceText
+setName(input: Updated Text, name: "${File Path}") >> setName
+saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile
+// Various tricks to open Obsidian and force-load opening the Dashboard
+openApp(id: "md.obsidian")
+url(url: "obsidian://open?vault=${Vault Name}&file=${Variable}") >> url
+openURL(url: URL) >> openURL
+openApp(id: "md.obsidian")

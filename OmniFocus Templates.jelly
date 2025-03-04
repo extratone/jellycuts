@@ -1,0 +1,54 @@
+import Shortcuts
+#Color: purple, #Icon: clipboard
+
+dictionary({"Name":"OmniFocus Templates","Version":"1.2","Service":"RoutineHub","ID":"1386"})
+//Unable to get shortcuts action is.workflow.actions.setvariable
+getFile() >> getFile
+//Unable to get shortcuts action is.workflow.actions.setvariable
+/*
+I usually start my templates with a line showing what folder they should be created in (>>> FolderName)
+
+If you don't have that as your first line, then I'll assume you want to create a top-level project instead. 
+*/
+matchText(regex: "(?<=^>>> ).*", caseSensitive: false) >> matchText
+count(type: Items) >> count
+if($0 Equals "1") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	replaceText(find: "^.*\n", isRegex: true, caseSensitive: false) >> replaceText
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+} >> IFResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+matchText(regex: "(«[\d\w]+?»)(?![\s\S]*\1)", caseSensitive: false) >> matchText 1
+repeatEach($0) {
+	getTextFrom() >> getTextFrom
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	replaceText(find: "[«»]", isRegex: true, caseSensitive: false) >> replaceText 1
+	askForInput(prompt: "Value for ${Replace Text}:") >> askForInput
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	replaceText(find: "${Variable}", replace: "${Value}", isRegex: false) >> replaceText 2
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+count(type: Characters) >> count 1
+if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action com.omnigroup.OmniFocus2.iPhone.pastetaskpaper
+} else {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action com.omnigroup.OmniFocus2.iPhone.pastetaskpaper
+} >> IFResult 1
+//Unable to get shortcuts action is.workflow.actions.setvariable
+/*
+Support for "Check For Updates"
+https://routinehub.co/shortcut/793
+*/
+createFolder(path: "CFU")
+//Unable to get shortcuts action is.workflow.actions.getvariable
+saveFile(ask: false, path: "CFU/OmniFocus Templates", overwrite: true)
+// Don't want the project to open after creation? Just delete the actions below.
+//Unable to get shortcuts action is.workflow.actions.getvariable
+openURL()

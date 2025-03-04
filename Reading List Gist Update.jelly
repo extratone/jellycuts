@@ -1,0 +1,17 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+//Unable to get shortcuts action com.apple.mobilesafari.ReadingListItemEntity
+repeatEach(Reading List Items) {
+	text(text: "- [${Repeat Item.get(url)}](${Variable.get(url)})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	dictionary({"title":"${Repeat Item.get(title)}","url":"${Repeat Item.get(url)}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+} >> RepeatResult
+combineText(text: md) >> combineText
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.Jayson.PrettifyJSONIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.WriteFileIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent

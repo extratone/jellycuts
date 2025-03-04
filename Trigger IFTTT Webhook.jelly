@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: green, #Icon: circledPower
+
+// Trigger a webhook-based IFTTT applet from Shortcuts. Requires an IFTTT Maker developer key. The shortcut can be executed from Siri or the widget as well.
+text(text: "tv_on") >> Trigger Name
+// Enter key from IFTTT below.
+text(text: "YOUR IFTTT KEY HERE") >> Key
+url(url: "https://maker.ifttt.com/trigger/${Key}/with/key/${ActionOutput}") >> url
+downloadURL(url: "${URL}") >> downloadURL

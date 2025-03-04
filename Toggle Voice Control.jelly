@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: blue, #Icon: chatBubble
+
+/*
+This shortcut is a quick way to turn Voice Control on or off.
+
+Add a Personal Automation to have it automatically toggle Voice Control on when you open specific apps.
+*/
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleVoiceControlIntent

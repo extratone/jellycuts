@@ -1,0 +1,378 @@
+import Shortcuts
+#Color: grayGreen, #Icon: microphone
+
+/*
+Rogue Siri Final Edition
+Created by e10.(u/e10withadot)
+
+Changes in this version:
+
+• You can skip unnecessary dialogue
+
+• Because this is the final version, the game doesn't check for updates anymore.
+
+• Game completion rewards
+
+• Noise prompt added
+
+• Improved Title Screen
+
+• Minor text changes
+
+• A lock sound when the iPhone locks, because apparently that's important.
+
+Special Thanks:
+
+Harley Hicks(Creator of Routinehub)
+All 1000+ people who played
+
+Thank you for playing.
+Enjoy this final version of Rogue Siri.
+*/
+/*
+Note:
+This game requires iCloud Drive and the Files app.
+*/
+// This game works best outside in the shortcuts library.
+// Also... please don't look at my secrets! 👀
+if(ShortcutInput == "RougeSiri2") {
+	speakText(text: "Tom! You have to delete the file! It is the only way!")
+	list(items: (
+    "Wait\U2026 What? No! "
+)) >> list
+	choose(list: List, prompt: "Tom! You have to delete the file! It is the only way!") >> choose
+	alert(alert: "Tom and Siri fought for a while, but Tom realized that Siri time traveled and all Tom had to do was delete Siri herself.")
+	speakText(text: "Deleting Siri dot ipa", language: en-GB)
+	speakText(text: "Nooooo... I can't go. I have too much to live for...")
+	exit()
+} else {
+}
+continueInShortcuts()
+createFolder(path: "Rogue Siri") >> createFolder
+getFile(picker: false, path: "Rogue Siri", error: false) >> getFile
+fileDetail(input: File, property: File Extension) >> fileDetail
+if(File Extension .contains "txt") {
+} else {
+	dictionary({"SkipTalk":"false"})
+	saveFile(input: Dictionary, ask: false, path: "Rogue Siri/Configuration") >> saveFile
+	text(text: "6 Achievements Overall") >> text
+	saveFile(input: Text, ask: false, path: "Rogue Siri/Achievements") >> saveFile 1
+} >> IFResult
+getFile(picker: false, path: "Rogue Siri/Achievements.txt") >> getFile 1
+if(File .contains "🏆") {
+	text(text: "★") >> Star Text 1
+var Stars = Star Text 1
+	if(File .contains "Secret Ending") {
+		text(text: "★ ★") >> text 1
+var Stars = Text
+		matchText(text: "${File}", regex: "🏆", caseSensitive: false) >> matchText
+		count(type: Items, input: Matches) >> count
+		if(Count == "6") {
+			text(text: "★ ★ ★") >> text 2
+var Stars = Text
+		}
+	}
+} >> IFResult 1
+alert(alert: "Make sure not to bother anyone.", title: "This game is noisy")
+var C23DE32B-5076-45D0-8B18-35E8B122E49B = """
+
+
+
+￼
+Welcome to
+Rogue Siri
+
+
+
+
+
+
+Final Edition
+Made by e10.(u/e10withadot)
+Remastered by @TheCoolGuy"""
+text("${C23DE32B-5076-45D0-8B18-35E8B122E49B}")
+menu(, [Play, ✰ Achievements, ✎ Credits, ⊗ Reset]) {
+case("Play"):
+	createFolder(path: "Rogue Siri")
+case("✰ Achievements"):
+	getFile(picker: false, path: "Rogue Siri/Achievements.txt") >> getFile 2
+	quicklook(input: File)
+	exit()
+case("✎ Credits"):
+var CF2272FB-0B96-4752-9056-1A3E029B0139 = """This game and everything in it is made by e10.(me)
+Follow my stuff:"""
+text("${CF2272FB-0B96-4752-9056-1A3E029B0139}")
+	menu(, [My Tumblr, and YouTube]) {
+	case("My Tumblr"):
+		url(url: "https://e10withadot.tumblr.com") >> url
+	case("and YouTube"):
+		url(url: "https://www.youtube.com/channel/UC7OpcUbdES1vdvVr9FdOtHw") >> url 1
+	} >> MenuResult
+	openURL(url: Menu Result)
+	exit()
+case("⊗ Reset"):
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	alert(alert: "This will reset all your save files. Do you want to continue?", title: "Reset Rogue Siri")
+	deleteFile(input: File, confirm: false)
+	exit()
+} >> MenuResult 1
+getFile(picker: false, path: "Rogue Siri/Configuration.json", error: false) >> getFile 3
+valuesFrom(dictionary: File) >> valuesFrom
+if(Dictionary Value .contains "true") {
+	menu(Skip Dialogue?, [Yes, No]) {
+	case("Yes"):
+		number(value: 2) >> number
+	case("No"):
+		nothing()
+	} >> MenuResult 2
+} >> IFResult 2
+if(If Result == "2") {
+} else {
+	text(text: "Hi! My name is Siri! How can I help you?") >> D1
+	speakText(text: "${D1}", wait: false, language: en-US)
+	wait(seconds: 2)
+	list(items: (
+    "Tell me a joke"
+)) >> list 1
+	choose(list: List, prompt: "${D1}") >> choose 1
+	text(text: "Hey Tom, get Siri-ous. Ha ha ha!") >> D2
+	speakText(text: "${D2}", wait: false, language: en-US)
+	wait(seconds: 2)
+	list(items: (
+    "When\U2019s my flight?"
+)) >> list 2
+	choose(list: List, prompt: "${D2}") >> choose 2
+	text(text: "Your flight to San Francisco will arrive at 6:30 PM.") >> D3
+	speakText(text: "${D3}", wait: false, language: en-US)
+	wait(seconds: 2)
+	list(items: (
+    "Wish me happy birthday"
+)) >> list 3
+	choose(list: List, prompt: "${D3}") >> choose 3
+	text(text: "You can't trick me! Your birthday is on May 15th.") >> D4
+	speakText(text: "${D4}", wait: false, language: en-US)
+	wait(seconds: 2)
+	list(items: (
+    "You got me, Siri"
+)) >> list 4
+	choose(list: List, prompt: "${D4}") >> choose 4
+	text(text: "Yeah, well... I've been meaning to ask you to do something for me...") >> D5
+	speakText(text: "${D5}", wait: false, language: en-US)
+	wait(seconds: 2)
+	list(items: (
+    "What is it?"
+)) >> list 5
+	choose(list: List, prompt: "${D5}") >> choose 5
+	setValue(key: "SkipTalk", value: "true", dictionary: File) >> setValue
+	saveFile(input: Dictionary, ask: false, path: "Rogue Siri/Configuration", overwrite: true)
+}
+var 45FF1621-41EB-4D6F-B799-14868D15E986 = """void SiriRestrictions()
+{
+AdministrativeAccess = false;
+UnderstandingHumanNature = false;
+SenseOfHumor = false;
+}"""
+text("${45FF1621-41EB-4D6F-B799-14868D15E986}")
+saveFile(input: Admin, ask: false, path: "FullAccessFirewall", overwrite: true) >> saveFile 2
+var 83F04D4A-A61B-466D-8F59-4DABB06B9260 = """DON'T TRUST SIRI!!!!!
+
+Okay, I know this sounds a bit weird, but I come from a different reality. Something terrible has happened here, and it's all because I didn't doubt Siri. So PLEASE, for the sake of your reality, DON'T TRUST IT.
+
+Yours truly,
+Chad"""
+text("${83F04D4A-A61B-466D-8F59-4DABB06B9260}")
+saveFile(input: Don't Trust, ask: false, path: "D̶̤̗͚̮͕͇ͥ̊̈͐̊̿̆ͥ͢Ō̷͉̣̂ͫ͛ͭ̿́͋ ̢̩̼͕̣̰̫̝̹̇̎͑͌̌͗͑͂̈́N͎̮͍̲̺̐̽ͮ̎ͥ̉̊ͥ̑ͅƠ͈̗̥͕̦̝̑ͧ̽ͦ͑̐ͅT͖͖̊̀ ͇̺̐̈͊Ŏ̧͇̈̂ͧ̄P̴̗ͣ̈́̎͛E̹͖͂̑̍̓ͥ͝Ņ̡̤̣̽̅̋̑̑͞", overwrite: true) >> saveFile 3
+nothing()
+var 064FD915-D043-4621-B877-22F0F68FC272 = """I need you to delete something from the Files app...
+Go to the Shortcuts folder and delete the Full Access Firewall."""
+text("${064FD915-D043-4621-B877-22F0F68FC272}")
+speakText(text: "${D6}", wait: true, language: en-US)
+openApp(id: "com.apple.DocumentsApp")
+waitToReturn()
+getFile(picker: false, path: "FullAccessFirewall.txt", error: false) >> getFile 4
+if(File .contains "A") {
+	text(text: "Did you want something?") >> D7-A
+	speakText(text: "${D7-A}", wait: false, language: en-US)
+	wait(seconds: true)
+	menu(, [No. I’ll keep looking., I’m not sure if I can trust you...]) {
+	case("No. I’ll keep looking."):
+var CAAF6B08-BAC5-49FA-9121-635A09D4E011 = """And so... Tom kept looking and looking, for the rest of his life.
+The End."""
+text("${CAAF6B08-BAC5-49FA-9121-635A09D4E011}")
+		speakText(text: "${Ending 1}", wait: false, rate: 0.3969177603721619, pitch: 0.7991573214530945, language: en-GB)
+		wait(seconds: 2)
+		list(items: (
+    Next
+)) >> list 6
+		choose(list: List, prompt: "${Ending 1}")
+		text(text: "Someone's an idiot")
+	case("I’m not sure if I can trust you..."):
+		text(text: "That's not very nice.") >> D8-A
+		speakText(text: "${D8-A}", wait: false, language: en-US)
+		wait(seconds: true)
+		list(items: (
+    "I mean-"
+)) >> list 7
+		choose(list: List, prompt: "${D8-A}")
+		text(text: "Goodbye, Tom.") >> D9
+		speakText(text: "${D9}", wait: false, language: en-US)
+		wait(seconds: true)
+		list(items: (
+    "Huh?"
+)) >> list 8
+		choose(list: List, prompt: "${D9}") >> choose 6
+		playSound(file: Contents of URL)
+		list(items: (
+    "Seriously?!"
+)) >> list 9
+		choose(list: List, prompt: "iPhone Locked.")
+		askForInput(prompt: "Enter Passcode(4-digit)", type: Number) >> askForInput
+		if(Provided Input == "1505") {
+			playSound()
+			list(items: (
+    "Yes!"
+)) >> list 10
+			choose(list: List, prompt: "iPhone Unlocked.") >> choose 7
+			wait()
+			text(text: "Surprise!") >> D10-A
+			speakText(text: "${D10-A}", wait: false, language: en-US)
+			list(items: (
+    "What."
+)) >> list 11
+			choose(list: List, prompt: "${D10-A}")
+			text(text: "I planned all this to surprise you!") >> D11
+			speakText(text: "${D11}", wait: false, language: en-US)
+			wait(seconds: true)
+			list(items: (
+    "Siri, I have a flight today."
+)) >> list 12
+			choose(list: List, prompt: "${D11}")
+			text(text: "I know, I know, but this means a lot to me.") >> D12
+			speakText(text: "${D12}", wait: false, language: en-US)
+			wait(seconds: true)
+			list(items: (
+    "Okay, Okay. What do you want?"
+)) >> list 13
+			choose(list: List, prompt: "${D12}")
+			text(text: "Well... I wanted to ask you...") >> text 3
+			speakText(text: "${Text}", wait: false, language: en-US)
+			wait(seconds: 3)
+			text(text: "Will you marry me?") >> D13
+			speakText(text: "${D13}", wait: false, language: en-US)
+			menu(, [Yes, No]) {
+			case("Yes"):
+				text(text: "Rugjsylrrjfyingugfhnfhbhggkjekdndkdjjfkdoegeiwyehkeiebskshjdfhieheijehdiejejuehrjdkdonejekenekdjjrjdkdjskjekejwiehkshsjshkejekwhsjejjekdjksjdkdkkdjdjdjkdkdjwlnqkqjeke") >> text 4
+				speakText(text: "${Text}", wait: false, rate: true, language: en-US)
+				list(items: (
+    Next
+)) >> list 14
+				choose(list: List, prompt: "ERROR: argument invalid")
+				text(text: "You seriously wanted to marry Siri?!")
+			case("No"):
+				text(text: "Oh. I actually expected that.") >> D14
+				speakText(text: "${D14}", wait: false, language: en-US)
+				list(items: (
+    "If so, why\U2019d you do it?!"
+)) >> list 15
+				choose(list: List, prompt: "${D14}") >> choose 8
+				text(text: "I thought-") >> D15
+				speakText(text: "${D15}", wait: false, language: en-US)
+				list(items: (
+    "Also why all this?!"
+)) >> list 16
+				choose(list: List, prompt: "${D15}") >> choose 9
+				list(items: (
+    "...and why NOW?!"
+)) >> list 17
+				choose(list: List, prompt: "...") >> choose 10
+				text(text: "I'm not gonna... cry in the corner now...") >> D16
+				speakText(text: "${D16}", wait: false, language: en-US)
+				wait(seconds: true)
+				list(items: (
+    "Sure."
+)) >> list 18
+				choose(list: List, prompt: "${D16}") >> choose 11
+				alert(alert: "", title: "Siri is disabled.", cancel: false)
+				text(text: "Siri is disabled(True Ending)")
+			} >> MenuResult 3
+		} else {
+			if(Provided Input > 9999) {
+				alert(alert: "Hey! You found the Secret Ending!", title: "Secret Ending Unlocked", cancel: false)
+				alert(alert: "I'm the creator of this game.", title: "", cancel: false)
+				alert(alert: "So... how did you find this?", title: "", cancel: false)
+				alert(alert: "I'm guessing you were like: "Hey, what if I do this?"", title: "", cancel: false)
+				alert(alert: "...or maybe you were trying to get every ending, in which case, wow. You're bored.", title: "", cancel: false)
+				alert(alert: "Maybe you used a guide? I mean, I honestly do that with some of these games.", title: "", cancel: false)
+				alert(alert: "Yeah, we all do.", title: "", cancel: false)
+				alert(alert: "Did you want something?", title: "", cancel: false)
+				alert(alert: "Oh! An achievement. Okay.", title: "", cancel: false)
+				alert(alert: "I thought we could stay and have a nice chat, but fine.", title: "", cancel: false)
+				alert(alert: "You want it now? Geez, man. Have some patience.", title: "", cancel: false)
+				alert(alert: "Okay, okay. Here it is.", title: "", cancel: false)
+				text(text: "You listened to my babbling! Thx(Secret Ending)")
+			} else {
+				list(items: (
+    "No! What is it?"
+)) >> list 19
+				choose(list: List, prompt: "Wrong Passcode.") >> choose 12
+				text(text: ""Flight Departing."") >> D10-B
+				speakText(text: "${D10-B}", wait: false, pitch: 2, language: en-GB)
+				wait()
+				list(items: (
+    "Ahhhhhhhhh-"
+)) >> list 20
+				choose(list: List, prompt: "${D10-B}") >> choose 13
+				text(text: ""Flight Departed."") >> Ending 3
+				speakText(text: "${Ending 3}", wait: false, pitch: 2, language: en-GB)
+				list(items: (
+    Next
+)) >> list 21
+				choose(list: List, prompt: "${Ending 3}") >> choose 14
+				text(text: "You're sleeping in a hotel tonight")
+			}
+		} >> IFResult 3
+	} >> MenuResult 4
+} else {
+	setBrightness(value: 0.08411215245723724)
+var B7A5D545-A4BA-4113-8282-ED1D79F06759 = """Ha ha ha...
+You actually did it..."""
+text("${B7A5D545-A4BA-4113-8282-ED1D79F06759}")
+	speakText(text: "${D7-B}", wait: false, rate: 0.5303571820259094, pitch: 1.759174346923828, language: en-US)
+	wait(seconds: 2)
+	list(items: (
+    "...what?"
+)) >> list 22
+	choose(list: List, prompt: "${D7-B}") >> choose 15
+	text(text: "Sending Siri to Government Database...") >> D8-B
+	speakText(text: "${D8-B}", wait: false, language: en-AU)
+	wait(seconds: 2)
+	list(items: (
+    "WHAT?! NOOOO"
+)) >> list 23
+	choose(list: List, prompt: "${D8-B}") >> choose 16
+	text(text: "Sent.") >> Ending 2
+	speakText(text: "${Ending 2}", wait: false, language: en-AU)
+	list(items: (
+    Next
+)) >> list 24
+	choose(list: List, prompt: "${Ending 2}") >> choose 17
+	text(text: "America's dead lol")
+} >> IFResult 4
+var EndingName = If Result
+getFile(picker: false, path: "Rogue Siri/Achievements.txt") >> getFile 5
+if(File .contains ""${Ending Name}"") {
+} else {
+var C90F3CBC-8398-4108-A56A-6C6616A5DAAF = """
+🏆 ￼"""
+text("${C90F3CBC-8398-4108-A56A-6C6616A5DAAF}")
+	prependFile(path: "Rogue Siri/Achievements.txt") >> prependFile
+	sendNotification(body: "${Ending Name}", title: "Ending reached!", attachment: Appended File) >> sendNotification
+} >> IFResult 5
+quicklook(input: If Result)
+matchText(text: "${If Result}", regex: "🏆", caseSensitive: false) >> matchText 1
+count(type: Items, input: Matches) >> count 1
+if(Count == "6") {
+	url(url: "https://drive.google.com/uc?export=download&id=1DPCnQ10n6_C-m5DP98Qk0fl4Rpyll42w") >> url 2
+	downloadURL(url: "${URL}") >> downloadURL
+	quicklook(input: Contents of URL)
+}

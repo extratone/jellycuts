@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+getTextFrom(input: ShortcutInput) >> getTextFrom
+saveFile(input: Text, ask: false, path: "INSTALLFILE.txt") >> saveFile
+openApp(id: "com.appliedphasor.working-copy")

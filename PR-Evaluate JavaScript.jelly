@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: blue,#Icon: cube
+
+//Unable to get shortcuts action is.workflow.actions.comment
+var B24FB8EA-B260-4B6A-83FB-D5E1374850B9 = """<script>
+￼
+</script>"""
+text("${B24FB8EA-B260-4B6A-83FB-D5E1374850B9}")
+url(url: "data:text/html,${JavaScript}") >> url
+urlContents(url: "${URL}") >> urlContents
+getTextFrom(input: Contents of Web Page) >> Better Device Info

@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: Red, #Icon: car
+
+filterCalendar() >> filterCalendar
+choose(list: Calendar Events, prompt: "Where are you going?") >> choose
+//Unable to get shortcuts action is.workflow.actions.getdirections

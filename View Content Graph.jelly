@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: grayGreen, #Icon: shrinkArrow
+
+/*
+Takes any data coming from the share sheet or clipboard and opens into the Shortcuts app to the Content Graph viewer, a mode that exposes the underlying components of content that's being passed through each step of your shortcuts.
+
+The Content Graph is how Shortcuts knows which actions connect to each other, how to intelligently convert data from one type to another, and exposes magic variables/extra details to the user that lets them extract individual bits of data from the resulting content coming from actions.
+*/
+/*
+This shortcut will let you literally see how Shortcuts works – and might be helpful for debugging weird behavior or understanding how a specific type of data you have can be coerced into other content types.
+
+Run this from the share sheet or copy something to your clipboard, then tap through the subsequent steps in the Content Graph menu – you'll reach a web-like node-based view that shows the atomic elements of the content, right down to the API names used by iOS itself.
+*/
+continueInShortcuts()
+if(ShortcutInput != nil) {
+	contentGraph(input: ShortcutInput)
+} else {
+	contentGraph(input: Clipboard)
+}

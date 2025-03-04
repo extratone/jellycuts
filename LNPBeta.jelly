@@ -1,0 +1,77 @@
+import Shortcuts
+#Color: teal, #Icon: fish
+
+//Unable to get shortcuts action is.workflow.actions.setvariable
+text(text: "1.1") >> Version
+count(type: Characters, input: Input) >> count
+if(Contagem == ) {
+	menu(Choose a shortcut to beta test, [What to Buy X, 2000, BasePIN, hUr DuR wRiTe LiKe ThIs, LNPFeedback, TermTools, Test: The Test, UserSearch]) {
+	case("What to Buy X"):
+		text(text: "WTB.txt") >> text
+	case("2000"):
+		text(text: "2000.txt") >> text 1
+	case("BasePIN"):
+		text(text: "BasePIN.txt") >> text 2
+	case("hUr DuR wRiTe LiKe ThIs"):
+		text(text: "Hurdur.txt") >> text 3
+	case("LNPFeedback"):
+		text(text: "LNPFeedback.txt") >> text 4
+	case("TermTools"):
+		text(text: "TermTools.txt") >> text 5
+	case("Test: The Test"):
+		text(text: "Test.txt") >> text 6
+	case("UserSearch"):
+		text(text: "UserSearch.txt") >> text 7
+	} >> MenuResult
+var Shortcut = Resultado do Menu
+} else {
+	getDictionaryFrom(input: Input) >> getDictionaryFrom
+	text(text: "${Dicionário.key(Name)}") >> text 8
+var Shortcut = Texto
+	text(text: "${Dicionário.key(Version)}") >> text 9
+var VerBeta = Texto
+} >> IFResult
+nothing()
+getIP() >> getIP
+count(type: Characters, input: Endereço IP Atual) >> count 1
+if(Contagem !=) {
+	downloadURL(url: "https://routinehub.co/api/v1/shortcuts/3389/versions/latest") >> downloadURL
+	getDictionaryFrom(input: Conteúdos do URL) >> getDictionaryFrom 1
+	keysFrom(dictionary: Dicionário) >> keysFrom
+	text(text: "${Valor do Dicionário}") >> text 10
+	if(Texto == ""${Version}"") {
+		nothing()
+	} else {
+		alert(alert: "You need to update LNPBeta in order to search for betas", title: "Update Required", cancel: false)
+		openURL(url: "https://routinehub.co/shortcut/3389") >> openURL
+		exit()
+	} >> IFResult 1
+} else {
+	alert(alert: "You need an internet connection to search for betas", cancel: false)
+	exit()
+} >> IFResult 2
+nothing()
+downloadURL(url: "https://raw.githubusercontent.com/LucasMNP/LNPBeta-info/master/${Shortcut}") >> downloadURL 1
+splitText(text: Conteúdos do URL) >> splitText
+getItemFromList(list: Dividir Texto) >> getItemFromList
+if(Item da Lista == "NA") {
+	alert(alert: "No betas are available to this shortcut at the moment
+Please download the final version of the shortcut at RoutineHub", title: "Not Available", cancel: false)
+	exit()
+} else {
+	if(Contagem ==) {
+	} else {
+		if(Item da Lista == ""${VerBeta}"") {
+			nothing()
+			exit()
+		} else {
+			getItemFromList(list: Dividir Texto, type: Item At Index, index: "2") >> getItemFromList 1
+			openURL(url: Item da Lista)
+			exit()
+		}
+	} >> IFResult 3
+	nothing()
+	getItemFromList(list: Dividir Texto, type: Item At Index, index: "2") >> getItemFromList 2
+	openURL(url: Item da Lista)
+	exit()
+}

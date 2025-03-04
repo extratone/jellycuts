@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+// This shortcut should show the live feed from MODOT's CCTV camera atop Sorrels Overpass as a preview here within the app.
+url(url: "https://sfs02-traveler.modot.mo.gov/rtplive/MODOT_CAM_321/playlist.m3u8") >> url
+showWebPage(url: "${URL}") >> showWebPage

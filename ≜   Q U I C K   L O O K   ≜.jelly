@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: Red, #Icon: magicWandAlt
+
+quicklook(input: ShortcutInput)

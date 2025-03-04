@@ -1,0 +1,52 @@
+import Shortcuts
+#Color: red, #Icon: eyedropper
+
+dictionary({"Take Photo":"camera","Photo Library":"photo","Files":"doc"})
+repeatEach(Dictionary) {
+	valueFor(key: "${Repeat Item}", dictionary: Dictionary) >> valueFor
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+choose(list: menu) >> choose
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+if(Menu Item Detail .contains "Take") {
+	takePhoto() >> takePhoto
+} else {
+	if(Menu Item Detail .contains "Library") {
+		selectPhoto() >> selectPhoto
+	} else {
+		getFile() >> getFile
+	}
+} >> IFResult
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+text(text: "## Swatch") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AverageColourIntent
+text(text: "${Color}") >> text 1
+getDictionaryFrom(input: Text) >> getDictionaryFrom
+list(items: (
+    average,
+    primary,
+    secondary,
+    detail,
+    background
+)) >> list
+repeatEach(List) {
+	valueFor(key: "${Repeat Item}", dictionary: Dictionary) >> hexCode
+	changeCase(text: Repeat Item, case: every word) >> changeCase
+var 8BCF0842-BFF0-423B-AA4A-91101474CF94 = """---
+## ￼ Colour"""
+text("${8BCF0842-BFF0-423B-AA4A-91101474CF94}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMatteIntent
+	resizeImage(image: Matte, height: 100, width: If Result) >> resizeImage
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	resizeImage(image: Matte, height: 300, width: 200) >> resizeImage 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "<button3>[Copy ${hexCode}](${ActionOutput})") >> text 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult 1
+combineImage(images: swatch) >> combineImage
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickLookExtendedIntent

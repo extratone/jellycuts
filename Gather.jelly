@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: teal, #Icon: 3DSquareStack
+
+menu(, [Copy to Clipboard, Send to nvUltra, Save File, Preview in Marked]) {
+case("Copy to Clipboard"):
+	runShellScript(input: ShortcutInput, script: "gather --stdin --html --copy", shell: /bin/bash) >> runShellScript
+	sendNotification(body: "${Shell Script Result.as(Text)}", title: "Gathered!", attachment: Shell Script Result) >> sendNotification
+case("Send to nvUltra"):
+	runShellScript(input: ShortcutInput, script: "gather --metadata --nvu-add --stdin --html", shell: /bin/bash, inputMode: to stdin) >> runShellScript 1
+case("Save File"):
+	runShellScript(input: ShortcutInput, script: "gather --stdin --metadata --html --file "~/Desktop/%date Clipped Page.md"", shell: /bin/bash) >> runShellScript 2
+case(""):
+	runShellScript(input: ShortcutInput, script: "gather --stdin --metadata --html --url-template "x-marked://preview?text=%text" --url-open", shell: /bin/bash) >> runShellScript 3
+} >> MenuResult
+var Result = Menu Result

@@ -1,0 +1,32 @@
+import Shortcuts
+#Color: orange, #Icon: musicNote
+
+/*
+Retrieves current song’s Song.Link URL, copies URL to clipboard, opens URL in Safari.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+getCurrentSong() >> getCurrentSong
+text(text: "${Current Song.get(Artist)} ${ActionOutput.get(Artist)}") >> text
+url(url: "https://itunes.apple.com/search?term=${Text}&entity=musicTrack") >> url
+downloadURL(url: "${URL}") >> downloadURL
+setName(input: Contents of URL, name: "results.json") >> setName
+valuesFrom(dictionary: Set Name) >> valuesFrom
+getItemFromList(list: Dictionary Value) >> getItemFromList
+valuesFrom(dictionary: Item from List) >> valuesFrom 1
+url(url: "https://song.link/${Dictionary Value}&app=music") >> url 1
+expandURL(url: "${URL}") >> expandURL
+setClipboard(variable: Expanded URL) >> setClipboard
+openURL(url: Expanded URL) >> openURL

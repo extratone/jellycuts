@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: tangerine, #Icon: wrench
+
+// Convert images selected in Finder to JPEG. This shortcut is especially useful to quickly convert .heic photos sent via AirDrop from an iPhone to JPEG for greater compatibility.
+getSelectedFiles() >> getSelectedFiles
+repeatEach(File) {
+	convertImage(image: Repeat Item, metadata: false, quality: true) >> convertImage
+} >> RepeatResult
+output(result: "${Repeat Results}", noResultBehavior: Do Nothing, response: "${Repeat Results}")

@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: grape, #Icon: Shortcuts
+
+getArticle(url: "${ShortcutInput}") >> getArticle
+articleDetail(detail: Body, article: Article) >> articleDetail
+speakText(text: "${Body}")

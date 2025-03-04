@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: tangerine, #Icon: clock
+
+askForInput(prompt: "How long (in seconds) do the instructions say to cook in the microwave?", type: Number, allowDecimal: false, allowNegative: false) >> Cook time in seconds
+askForInput(prompt: "How many watts do the instructions say your microwave should have?", type: Number, allowDecimal: false, allowNegative: false) >> Instructions Wattage
+// Change this number to the wattage of your microwave!
+number(value: 700) >> Microwave Wattage
+// First, we need to get the ratio between your microwave wattage and the wattage expected by the instructions.
+math(input: Instructions Wattage, operation: /, operand: Microwave Wattage) >> Wattage Adjustment Factor
+// Once we have that, we can multiply the cook time by the wattage adjustment factor. This will give us an adjusted time to cook.
+math(input: Cook time in seconds, operation: *, operand: Wattage Adjustment Factor) >> math
+// Now, let’s make these numbers pretty by splitting it into minutes and seconds, and rounding off the result.
+round(number: Calculation Result, mode: Always Round Up) >> Adjusted cook time (rounded)
+math(input: Adjusted cook time (rounded), operation: /, operand: "60", scientific: Modulus) >> math 1
+round(number: Calculation Result, mode: Always Round Down) >> Calculated Minutes
+math(input: Adjusted cook time (rounded), operation: …, scientific: Modulus) >> Calculated Seconds
+// Make sure you follow all food safety guidelines and check your food temperature with a food thermometer!
+alert(alert: "You should cook this for ${Calculated Minutes}m and ${ActionOutput}s in your ${Calculated Seconds} watt microwave.", title: "Cook Time", cancel: false)

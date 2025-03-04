@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: yellow, #Icon: microphone
+
+dictateText() >> dictateText
+share(file: Dictated Text)

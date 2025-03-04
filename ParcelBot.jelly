@@ -1,0 +1,46 @@
+import Shortcuts
+#Color: tangerine, #Icon: Shortcuts
+
+// Get your active deliveries from the Parcel app., This shortcut lets you choose whether you want to see your ongoing deliveries or the ones that have been actually delivered.
+/*
+Enter your Parcel API token.
+
+Get yours at: https://web.parcelapp.net/
+*/
+text(text: "") >> text
+var Token = Text
+// Create empty variables where we'll store delivered items and ongoing ones. We're using dictionaries because then, when we'll be choosing from lists, Shortcuts will automatically present the key as the title and the value as subtitle of the list item.
+dictionary({})
+var DeliveredItems = Dictionary
+dictionary({})
+var OngoingItems = Dictionary
+// Get the recent deliveries from the Parcel API.
+url(url: "https://api.parcel.app/external/deliveries/?filter_mode=recent") >> url
+downloadURL(url: "${URL}", headers: ) >> downloadURL
+if(Contents of URL != nil "true") {
+	valuesFrom(dictionary: Contents of URL) >> Deliveries JSON
+	repeatEach(Deliveries JSON) {
+		text(text: "${Repeat Item.as(Dictionary).key(status_code)}") >> text 1
+// This item has been delivered.
+		if(Text == "0") {
+			valuesFrom(dictionary: Repeat Item) >> valuesFrom
+			getItemFromList(list: Dictionary Value) >> getItemFromList
+			setValue(key: "${Repeat Item.as(Dictionary).key(description)}", value: "${Item from List.as(Dictionary).key(event)}", dictionary: Delivered Items) >> setValue
+var DeliveredItems = Dictionary
+		} else {
+// The status code is not 0, meaning that this delivery is still in progress.
+			valuesFrom(dictionary: Repeat Item) >> valuesFrom 1
+			getItemFromList(list: Dictionary Value) >> getItemFromList 1
+			setValue(key: "${Repeat Item.as(Dictionary).key(description)}", value: "${Item from List.as(Dictionary).key(event)}", dictionary: Ongoing Items) >> setValue 1
+var OngoingItems = Dictionary
+		} >> IFResult
+	} >> RepeatResult
+} else {
+	output(result: "There are no deliveries!")
+} >> IFResult 1
+menu(Choose Your Deliveries, [✅ Delivered, 🚚 Ongoing]) {
+case("✅ Delivered"):
+	choose(list: Delivered Items) >> choose
+case("🚚 Ongoing"):
+	choose(list: Ongoing Items)
+}

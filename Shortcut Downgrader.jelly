@@ -1,0 +1,148 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+/*
+Download iOS 15+ shortcuts on iOS 14
+2022-09-01 	v1.2.1 	u/gluebyte
+https://routinehub.co/shortcut/9899
+*/
+if(DeviceDetails != nil) {
+	alert(alert: "
+🛑  This shortcut runs on iOS 14.
+", tancel: false)
+	exit()
+} >> IFResult
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) {
+	downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=C9D7E551") >> downloadURL
+	if(Contents of URL .contains "2022-09-01") {
+		menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+		case("🌏  Go to RoutineHub"):
+			openURL(url: "https://routinehub.co/shortcut/9899/")
+			exit()
+		case("👾  Download Update"):
+			downloadURL(url: "https://routinehub.co/api/v1/shortcuts/9899/versions/latest") >> downloadURL 1
+			matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+			expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+			replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText
+			openURL(url: Updated Text)
+			exit()
+		case("⮐  Not Now"):
+		} >> MenuResult
+	}
+} >> IFResult 1
+if(ShortcutInput != nil) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+} else {
+	getClipboard() >> getClipboard
+} >> IFResult 2
+if(If Result .beginsWith "https://www.icloud.com/shortcuts/") {
+} else {
+	alert(alert: "
+🛑  Please share or copy a shortcut link.
+", tancel: false)
+	exit()
+} >> IFResult 3
+replaceText(input: "${If Result}", find: "/shortcuts/", replace: "/shortcuts/api/records/") >> replaceText 1
+downloadURL(url: "${Updated Text}") >> downloadURL 2
+downloadURL(url: "${Contents of URL.as(Dictionary).key(fields.shortcut.value.downloadURL)}") >> downloadURL 3
+setName(input: Contents of URL, name: "${Contents of URL.as(Dictionary).key(fields.name.value)}.plist") >> setName
+getFileOfType(input: Renamed Item, type: "public.json") >> getFileOfType
+var 3DD66752-5A44-497A-9BA5-D9706F62B7A3 = """let changed = false;
+for (a of d.WFWorkflowActions) {
+	let p = a.WFWorkflowActionParameters;
+	switch (a.WFWorkflowActionIdentifier) {
+	case 'is.workflow.actions.file.select':
+		a.WFWorkflowActionIdentifier = 'is.workflow.actions.documentpicker.open';
+		p.WFShowFilePicker = true;
+		changed = true;
+		break;
+	case 'is.workflow.actions.documentpicker.open':
+		if (p.WFShowFilePicker == undefined) {
+			p.WFShowFilePicker = false;
+			changed = true;
+		}
+		if (p.WFFile && p.WFFile.fileLocation && (s=p.WFFile.fileLocation.relativeSubpath) !== '') {
+			addPath(s, p, 'WFGetFilePath');
+			delete p.WFFile;
+			changed = true;
+		}
+		break;
+	case 'is.workflow.actions.documentpicker.save':
+		if (p.WFFolder && p.WFFolder.fileLocation && (s=p.WFFolder.fileLocation.relativeSubpath) !== '') {
+			addPath(s, p, 'WFFileDestinationPath');
+			delete p.WFFolder;
+			changed = true;
+		}
+		break;
+	case 'is.workflow.actions.output':
+		if ((o=p.WFOutput) && (v=o.Value) && (r=v.attachmentsByRange) && (t=r['{0, 1}'])) {
+			a.WFWorkflowActionIdentifier = 'is.workflow.actions.exit';
+			p.WFResult = {'Value': t, 'WFSerializationType': 'WFTextTokenAttachment'};
+			changed = true;
+		}
+		break;
+	case 'is.workflow.actions.file.getfoldercontents':
+		if ((l=p.WFFolder.fileLocation).appContainerBundleIdentifier === 'com.apple.shortcuts') {
+			a.WFWorkflowActionIdentifier = 'is.workflow.actions.documentpicker.open';
+			p.WFGetFilePath = l.relativeSubpath;
+			p.WFShowFilePicker = false;
+			delete p.WFFolder;
+			changed = true;
+		}
+		break;
+	case 'is.workflow.actions.url':
+		if ((u=p.WFURLActionURL).WFSerializationType === 'WFTextTokenAttachment') {
+			u.WFSerializationType = 'WFTextTokenString';
+			u.Value = {
+				"string": "\uFFFC",
+				"attachmentsByRange": { "{0, 1}": u.Value }
+			}
+			changed = true;
+		}
+	}
+}
+if (d.WFWorkflowMinimumClientVersion > 1105) {
+	d.WFWorkflowMinimumClientVersionString = '900';
+	changed = true;
+}
+document.write(changed ? encodeURIComponent(JSON.stringify(d)) : 'x');
+
+function addPath(s, p, path) {
+	s += s.endsWith('/') ? '' : '/';
+	if (typeof p[path] === 'string') {
+		p[path] = s + p[path];
+	} else {
+		let val = p[path].Value;
+		val.string = s + val.string;
+		if (r = val.attachmentsByRange) {
+			let l = s.length;
+			let rr = {};
+			for (const [k, v] of Object.entries(r)) {
+				let m = k.match(/\d+/g);
+				rr[`{${parseInt(m[0])+l}, ${m[1]}}`] = JSON.parse(JSON.stringify(v));
+			}
+			val.attachmentsByRange = rr;
+		}
+	}
+}"""
+text("${3DD66752-5A44-497A-9BA5-D9706F62B7A3}")
+url(url: "data:text/html;charset=utf-8,<script>const d=${File of Type};${ActionOutput}</script>") >> url
+getFileOfType(input: URL, type: "com.apple.webarchive") >> getFileOfType 1
+if(File of Type == "x") {
+	alert(alert: "
+🛑  Unable to fix ’${Renamed Item.get(Name)}‘
+", tancel: false)
+	exit()
+} >> IFResult 4
+continueInShortcuts()
+decodeURL(url: "${File of Type}") >> decodeURL
+setName(input: URL Encoded Text, name: "${Renamed Item.get(Name)}.json") >> setName 1
+getFileOfType(input: Renamed Item, type: "com.apple.plist") >> getFileOfType 2
+setName(input: File of Type, name: "${Renamed Item.get(Name)}.shortcut") >> setName 2
+getFileLink(file: Renamed Item) >> getFileLink
+alert(alert: "
+✅  Please remove “.shortcut” from the name in the next screen.
+", cancel: false)
+replaceText(input: "${Link to File}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText 2
+openURL(url: Updated Text)

@@ -1,0 +1,4 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+setClipboard(variable: ShortcutInput, local: true)

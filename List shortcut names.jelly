@@ -1,0 +1,174 @@
+import Shortcuts
+#Color: grayGreen, #Icon: shortcuts
+
+// Using a text field populated from “List Folder names,” lets you select multiple folders, grabs the shortcut names from all of the folders, and lets you copy out the titles.
+/*
+Use this if you have lots of shortcuts and want to share your favorites from specific folders with people.
+
+Replace Combine Text and with Get Link to File to share the links too, although too many at once may overload the iCloud sharing mechanism FYI.
+*/
+var 19674440-D66E-47F4-A59B-D494B7C7CC81 = """Apple Watch
+Notion
+Home screen
+Issue 14
+Issue 13
+Issue 12
+Issue 11
+Office
+Wallpaper
+Custom Icons
+Widgets
+LaunchPad
+LaunchPad pt. 2
+Quick Moves
+Quick Moves pt. 2
+Business Time
+Business Time pt. 2
+Wind Down
+Launchers
+iOS 14.3
+iOS 14.1
+Apple One
+Activism
+Starter Shortcuts
+Emergencies
+Tim’s Watch Routine
+Timery
+Schedule
+YouTube
+Videos
+Planning
+Development
+Pre-Production
+Production
+Post-Production
+Publishing
+Listen Now
+Now Playing
+Up Next
+Apple Music
+Radio
+Curating
+Seek
+Vinyl
+Practice
+Shazam
+Routines
+Reminders
+Cooking
+Task Management
+Speaker Control
+Smart Home
+Sound Recognition
+Blogging
+Writing
+Editing
+Formatting
+Markdown
+Uploading
+Freelance
+Voice
+Copy & Paste
+Special Characters
+Notes
+Notes folders
+Research
+Handwriting
+Mind mapping
+Craft Docs
+Checklists
+Messaging
+Community
+Business
+Meetings
+Video Conferencing
+Website
+Media Library
+Backend
+Membership
+Logging
+Airtable
+Airtable – Shortcuts
+Shortcuts Library
+Action Directory
+App Guide
+Gear Gallery
+Health
+Health stats
+Fitness
+Focus
+Reading
+Internet
+Twitter
+Newsletter
+What’s New In Shortcuts
+Type
+Weather
+Air Quality
+Local
+Rideshare
+Transportation
+Location
+Things
+Tasks
+Projects
+Lists
+Tags
+Templates
+Files
+Journaling
+Podcasts
+Podcasting
+Show Prep
+Smart Tech Today
+TWiT Live
+Podcaster Set
+Streaming
+Live
+Shortcuts.Live
+Twitch
+Guests
+Games
+VR
+Apple TV
+Television
+Movies
+Photography
+Camera
+Metadata
+Shared Albums
+Design
+Assets
+Screenshots
+Frames
+Scrollshots
+GIFs
+Math
+Measurements
+Finances
+Stonks
+Battery
+Charging
+Ringers
+Sounds
+iPad
+Appearance
+Scanning
+Connection
+Accessibility
+Settings
+Troubleshooting
+Decks
+Betas
+Shortcuts
+Work sort
+Concepts"""
+text("${19674440-D66E-47F4-A59B-D494B7C7CC81}")
+splitText(text: Text) >> splitText
+choose(list: Split Text, prompt: "Which folder?", multiple: true) >> choose
+repeatEach(Chosen Item) {
+	getShortcuts() >> getShortcuts
+} >> RepeatResult
+choose(list: Repeat Results, prompt: "Which shortcuts?", multiple: true, all: false) >> choose 1
+combineText(text: Chosen Item) >> combineText
+setClipboard(variable: Combined Text)

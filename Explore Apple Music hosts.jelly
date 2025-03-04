@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: Red, #Icon: person
+
+// Presents a playlist of Apple Music host pages and opens the deep link into that section of the Music app.
+// Use this to keep up with your favorite Apple Music hosts and visit their curator pages (which are slightly buried inside the Music app
+menu(Which curator page would you like to open?, [Apple Music 1, Zane Lowe, Julie Adenuga, Ebro Darden, Heard on Apple Music 1]) {
+case("Apple Music 1"):
+	url(url: "http://itunes.apple.com/us/station/beats-1/idra.978194965u?mt=1&app=music")
+case("Zane Lowe"):
+	url(url: "https://itunes.apple.com/us/curator/zane-lowe/id990050553")
+case("Julie Adenuga"):
+	url(url: "https://itunes.apple.com/us/curator/julie-adenuga/id993270508")
+case("Ebro Darden"):
+	url(url: "https://itunes.apple.com/us/curator/ebro-darden/id990473683a")
+case("Heard on Apple Music 1"):
+	url(url: "https://itunes.apple.com/us/curator/heard-on-beats-1/id993266795")
+} >> MenuResult
+openURL(url: Menu Result) >> openURL

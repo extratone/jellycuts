@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: grayBlue, #Icon: Shortcuts
+
+getClipboard() >> getClipboard
+//Unable to get shortcuts action com.soulmen.ulysses.pad.insert

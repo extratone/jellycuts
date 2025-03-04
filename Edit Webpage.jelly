@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: teal, #Icon: pencil
+
+runJavascriptOnWebpage(url: ShortcutInput, javascript: "document.body.contentEditable = "true"; document.designMode = "on"
+
+completion();") >> runJavascriptOnWebpage

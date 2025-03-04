@@ -1,0 +1,76 @@
+import Shortcuts
+#Color: grayGreen, #Icon: bookshelf
+
+/*
+Takes the information available in the Get My Shortcuts action and performs various statistical calculations on the data, then displays it in an (attempted) plain-English manner.
+
+Use this to get interesting details about your own Shortcuts library like total actions overall, the number of Folders, or common building patterns.
+
+Includes considerations for weird statistical anomalies – for example, this helps account for any shortcuts with outlandishly large numbers of actions that skew a pure average higher or odd patterns like in my library where there's many with 3 actions (two comments and one action that'd otherwise be a "single step").
+*/
+/*
+Shortcuts listing options are:
+  - Action Count descending order
+  - Action Count ascending order
+  - File Size descending order
+
+At the end of the shortcut, you can swipe through the chosen output lists or view them with the list option of the Quick Look
+
+-mvan231
+*/
+getShortcuts() >> getShortcuts
+statistic(input: My Shortcuts, operation: Sum) >> Actions
+statistic(input: My Shortcuts, operation: Maximum) >> Maximum
+formatSize(format: KB, units: true) >> formatSize
+statistic(input: Formatted File Size, operation: Maximum) >> Maxim
+matchText(text: "${Maximum}", regex: "\d+") >> matchText
+combineText(text: Matches, combine: Custom) >> combineText
+count(type: Characters, input: Combined Text) >> Max Size Chars
+getTextFrom(input: My Shortcuts) >> getTextFrom
+filterFiles() >> filterFiles
+text(text: "${Files}") >> text
+replaceText(input: "${Text}", find: "(.*\n|\n.*)(\1)+", replace: "$1", isRegex: true) >> 📂 List
+splitText(text: 📂 List, sustomSeparator: $2) >> splitText
+count(input: Split Text) >> 📁 Count
+count(input: My Shortcuts) >> Shortcut Count
+statistic(input: My Shortcuts, operation: Average) >> statistic
+round(number: Average, mode: Normal) >> Rounded Average
+statistic(input: My Shortcuts, operation: Median) >> statistic 1
+statistic(input: My Shortcuts, operation: Mode) >> statistic 2
+showResult(text: "You have ${Maximum} shortcuts in ${ActionOutput} folders with ${Mode} total actions
+- The shortcut with the most actions has ${ActionOutput} actions
+- The shortcut with the largest file size is ${Maximum}kB
+- The pure average comes out to about ${ActionOutput} actions
+- The typical shortcut has around ${Shortcut Count} or more actions, the most shortcuts in your library have ${ActionOutput} actions at present.")
+list(items: (
+    "See shortcuts list in order of action count (descending order)",
+    "See shortcuts list in order of action count (ascending order)",
+    "See shortcuts list in order of file size"
+)) >> list
+choose(list: List, prompt: "What to do next? (Can select multiple)", multiple: true) >> choose
+if(Chosen Item != nil "") {
+	repeatEach(My Shortcuts) {
+		nothing()
+		formatSize(format: KB, units: true) >> formatSize 1
+		text(text: "[${Repeat Item.get(Name)} actions] ${Variable.get(Name)} ${Repeat Item.get(Action Count)}") >> text 1
+	} >> Shortcut List With Action Count
+	repeatEach(Chosen Item) {
+		matchText(text: "${Repeat Item}", regex: "(ascending|descending)") >> matchText 1
+		if(Matches != nil) {
+			if(Repeat Item .contains "descending") {
+				filterFiles() >> filterFiles 1
+			} >> IFResult
+			if(Repeat Item .contains "ascending") {
+				filterFiles() >> filterFiles 2
+			} >> IFResult 1
+			text(text: "${If Result}") >> Combined List
+			setName(input: Combined List, name: "${Matches} order")
+		} else {
+			replaceText(input: "${Shortcut List With Action Count}", find: "(?m)(^)(.*?)(\d+ kB)", replace: "true $2", isRegex: $3, caseSensitive: false) >> replaceText
+			filterFiles() >> filterFiles 3
+			text(text: "${Files}") >> By Size List
+			setName(input: By Size List, name: "size order")
+		} >> IFResult 2
+	} >> RepeatResult
+	quicklook(input: Repeat Results)
+} >> IFResult 3

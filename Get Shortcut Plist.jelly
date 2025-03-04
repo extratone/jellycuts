@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: grayBlue, #Icon: documentOutline
+
+askForInput(prompt: "URL", type: URL) >> url
+var url = url
+replaceText(input: "${url}", find: "/shortcuts/", replace: "/shortcuts/api/records/", isRegex: false, caseSensitive: true) >> url
+var url = url
+downloadURL(url: "${url}") >> api
+var api = api
+getDictionaryFrom(input: api) >> fileDict
+var fileDict = fileDict
+keysFrom(dictionary: fileDict) >> fileDict
+var fileDict = fileDict
+keysFrom(dictionary: fileDict) >> fileDict
+var fileDict = fileDict
+keysFrom(dictionary: fileDict) >> fileDict
+var fileDict = fileDict
+keysFrom(dictionary: fileDict) >> shortcutURL
+var shortcutURL = shortcutURL
+downloadURL(url: "${shortcutURL}") >> file
+var file = file
+askForInput(prompt: "Save As...", type: Text) >> name
+var name = name
+setName(input: file, name: "${name}.plist", dontIncludeExtension: false) >> plistFile
+var plistFile = plistFile
+saveFile(input: plistFile)

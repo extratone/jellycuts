@@ -1,0 +1,24 @@
+import Shortcuts
+#Color: teal, #Icon: downloadArrow
+
+text(text: "Beta 5") >> Beta Number
+var Beta = Beta Number
+selectPhoto() >> selectPhoto
+quicklook(input: Photos)
+askForInput(prompt: "Feature Name") >> askForInput
+setName(input: Photos, name: "${Provided Input}") >> setName
+deviceDetails(detail: Device Model) >> deviceDetails
+if(Device Model .contains "iPhone") {
+// iPhone set up ✅ 
+	saveFile(input: Renamed Item, ask: false, path: "/${Beta}") >> saveFile
+var SavedFile = Saved File
+} else {
+// iPad set up ✅ 
+	saveFile(input: Renamed Item, ask: false, path: "/${Beta}") >> saveFile 1
+var SavedFile = Saved File
+} >> IFResult
+deletePhotos(photos: Photos) >> deletePhotos
+fileDetail(input: Saved File, property: Name) >> fileDetail
+fileDetail(input: Saved File, property: File Extension) >> fileDetail 1
+text(text: "![[${Name}.${ActionOutput}]]") >> Image Reference
+setClipboard(variable: Image Reference) >> setClipboard

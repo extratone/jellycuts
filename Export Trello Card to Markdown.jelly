@@ -1,0 +1,106 @@
+import Shortcuts
+#Color: pink, #Icon: Shortcuts
+
+/*
+This workflow is based on text files and other authentication methods previously detailed in issues 76 and 77 of MacStories Weekly.
+
+https://club.macstories.net/newsletter-archive/
+*/
+//Unable to get shortcuts action is.workflow.actions.setvariable
+//Unable to get shortcuts action is.workflow.actions.setvariable
+// Don't touch the empty variables above.
+// Trello list name below.
+text() >> List Name
+// Ulysses group ID below.
+text() >> Ulysses group ID
+getFile(picker: false, path: "Logins/Trello/${List Name}.txt") >> List ID
+getFile(picker: false, path: "Logins/Trello/Token.txt", error: true) >> Token
+getFile(picker: false, path: "Logins/Trello/API.txt") >> API
+getFile(picker: false, path: "Logins/Trello/Member.txt") >> Member
+text(text: "https://api.trello.com/1/lists/") >> Method
+url(url: "${Method}${ActionOutput}?key=${API}&token=${ActionOutput}") >> url
+downloadURL() >> downloadURL
+valueFor(key: "name") >> List Name
+text(text: "${List ID}${ActionOutput}/cards?key=${Method}&token=${ActionOutput}") >> text
+downloadURL(method: GET, headers: , requestJSON: ) >> downloadURL 1
+repeatEach($0) {
+	text(text: ""${Repeat Item.as(Dictionary).key(id)}" : "${Variable.as(Dictionary).key(id)}"")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+combineText(combine: Custom, separator: ",") >> combineText
+text(text: "{${Combined Text}}")
+getDictionaryFrom() >> getDictionaryFrom
+choose(prompt: "${List Name} Cards", multiple: true) >> choose
+repeatEach($0) {
+	text(text: "https://api.trello.com/1/cards/${Repeat Item.as(Text)}?key=${Variable.as(Text)}&token=${Token}")
+	downloadURL() >> downloadURL 2
+	valueFor(key: "badges")
+	valueFor(key: "attachments") >> valueFor
+	if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.setvariable
+// Iterate over card to see if they have attachments.
+//Unable to get shortcuts action is.workflow.actions.getvariable
+		valueFor(key: "idAttachmentCover") >> Attachment Cover ID
+		text(text: "https://api.trello.com/1/cards/${Token}/attachments/${ActionOutput}?key=${Attachment Cover ID}&token=${ActionOutput}")
+		downloadURL() >> downloadURL 3
+		valueFor(key: "url")
+		downloadURL()
+		getImagesFrom() >> getImagesFrom
+	} else {
+	}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	valueFor(key: "badges")
+	valueFor(key: "comments")
+	if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		text(text: "https://api.trello.com/1/cards/${API}/actions?key=${ActionOutput}&token=${Repeat Item.as(Text)}&filter=commentCard")
+		downloadURL() >> downloadURL 4
+		repeatEach($0) {
+			valueFor(key: "data") >> valueFor 1
+			valueFor(key: "text") >> Comment Text
+//Unable to get shortcuts action is.workflow.actions.getvariable
+			valueFor(key: "memberCreator")
+			valueFor(key: "fullName") >> Member
+var A74F2B8F-9A82-4EE7-847B-960E6C8AD4E0 = """
+---
+
+￼ commented:
+
+￼"""
+text("${A74F2B8F-9A82-4EE7-847B-960E6C8AD4E0}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		}
+	} else {
+	}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	combineText(combine: New Lines) >> combineText 1
+var 51EA0BF0-B299-496A-830A-84EE776FA091 = """# ￼
+
+￼"""
+text("${51EA0BF0-B299-496A-830A-84EE776FA091}")
+//Unable to get shortcuts action com.soulmen.ulysses.pad.new-sheet
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Check if comments were present. If they were, attach them to the newly created sheet.
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action com.soulmen.ulysses.pad.attach
+		text(text: "0")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	} else {
+		nothing()
+	}
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	if($0 Is Greater Than false) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+//Unable to get shortcuts action com.soulmen.ulysses.pad.attach
+		text(text: "0")
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	} else {
+		nothing()
+	}
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.getvariable
+count(type: Items) >> count
+alert(alert: "${Count} cards have been exported to Ulysses as new sheets.", title: "Trello Export Complete", cancel: false)

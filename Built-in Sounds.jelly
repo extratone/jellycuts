@@ -1,0 +1,89 @@
+import Shortcuts
+#Color: navy, #Icon: musicWaveForm
+
+/*
+PLEASE READ THIS COMMENT
+
+made by User: @shortgram on shareshortcuts.com also as @DRHub on routinehub.co
+
+I based this shortcut on a youtube video i saw
+https://youtu.be/Szepv6jX5qo
+
+I added a timing functionality
+
+My recommended way to run this is by the shortcut widget
+
+I use this on my iPad MINI 4 at maximum system volume (but background sounds volume is at 1%-2% and that sounds good to me). You will probably have to mix up the sound volume to get it to sound good.
+*/
+menu(Choose sound, [ocean, stream, rain, dark noise, turn off]) {
+case("ocean"):
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	menu(Timer?, [15 minutes, 1 hour, 2 hours, no timer]) {
+	case("15 minutes"):
+		wait(seconds: 1800)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("1 hour"):
+		wait(seconds: 3600)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("2 hours"):
+		wait(seconds: 7200)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("no timer"):
+		nothing()
+	}
+case("stream"):
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	menu(Timer?, [15 minutes, 1 hour, 2 hours, no timer]) {
+	case("15 minutes"):
+		wait(seconds: 1800)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("1 hour"):
+		wait(seconds: 3600)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("2 hours"):
+		wait(seconds: 7200)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("no timer"):
+		nothing()
+	}
+case("rain"):
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	menu(Timer?, [15 minutes, 1 hour, 2 hours, no timer]) {
+	case("15 minutes"):
+		wait(seconds: 1800)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("1 hour"):
+		wait(seconds: 3600)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("2 hours"):
+		wait(seconds: 7200)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("no timer"):
+		nothing()
+	}
+case("dark noise"):
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent
+	menu(Timer?, [15 minutes, 1 hour, 2 hours, no timer]) {
+	case("15 minutes"):
+		wait(seconds: 1800)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("1 hour"):
+		wait(seconds: 3600)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("2 hours"):
+		wait(seconds: 7200)
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+	case("no timer"):
+		nothing()
+	}
+case("turn off"):
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent
+}

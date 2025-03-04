@@ -1,0 +1,34 @@
+import Shortcuts
+#Color: green, #Icon: hand
+
+// Opens a set of emoji and will speak the associated need. For non-verbal individuals to ask for what they need.
+menu(What do I need?, [🔇 It’s too noisy, 🍎 I am hungry, 🥤I am thirsty, 🥶 I am cold, 🥵 I am hot, 👨‍👩‍👧👩‍👩‍👧‍👦👨‍👩‍👦‍👦👨‍👨‍👧‍👦 Too many people here, 🤫 No more talking]) {
+case("🔇 It’s too noisy"):
+	text(text: "It is too noisy here, I need to go somewhere quieter.") >> text
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "It is too noisy here, I need to go somewhere quieter.")
+case("🍎 I am hungry"):
+	text(text: "I am hungry.") >> text 1
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "I am hungry.")
+case("🥤I am thirsty"):
+	text(text: "I am thirsty.") >> text 2
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "I am thirsty.")
+case("🥶 I am cold"):
+	text(text: "I am cold.") >> text 3
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "I am cold.")
+case("🥵 I am hot"):
+	text(text: "I feel hot.") >> text 4
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "I feel hot.")
+case("👨‍👩‍👧👩‍👩‍👧‍👦👨‍👩‍👦‍👦👨‍👨‍👧‍👦 Too many people here"):
+	text(text: "There are too many people here. I am feeling overwhelmed.") >> text 5
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "There are too many people here. I am feeling overwhelmed.")
+case("🤫 No more talking"):
+	text(text: "No more talking.") >> text 6
+	speakText(text: "${Text}", wait: false)
+	showResult(text: "No more talking.")
+}

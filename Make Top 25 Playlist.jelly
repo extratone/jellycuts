@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: blue, #Icon: list
+
+filterMusic() >> filterMusic
+createPlaylist(name: "Top 25 Most Played", music: Music, author: "Shortcuts", description: "My most played songs.")

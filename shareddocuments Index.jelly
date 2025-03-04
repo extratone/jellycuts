@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: blue, #Icon: chainlink
+
+getFolderContents(folder: ShortcutInput) >> getFolderContents
+repeatEach(Contents of Folder) {
+	fileDetail(input: Repeat Item, property: File Path) >> fileDetail
+var path = File Path
+	fileDetail(input: Repeat Item, property: Name) >> fileDetail 1
+var name = Name
+	url(url: "shareddocuments:///${path}") >> url
+var url = URL
+	text(text: "[${url}](${Variable})") >> text
+//Unable to get shortcuts action com.ameba.esse.RunFunctionIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+} >> RepeatResult
+combineText(text: linklist) >> combineText
+saveFile(input: Combined Text, ask: false, path: "/${ShortcutInput.get(File Path)}.txt") >> saveFile
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

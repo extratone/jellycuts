@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: grayGreen, #Icon: downloadArrow
+
+// Looks at “What’s On Screen” for the current app and displays the the results (if any).
+/*
+Designed for people trying to take advantage of the new “Receive What’s On Screen” input feature, this checks for any input and displays it in a Show Result action.
+
+If the place you’re running this from provides any on-screen content—which is usually in the form of content like a URL back to the current page—then the shortcut will display that for you.
+
+Run this from the Share sheet or use Siri while you’re looking at something to see if there’s anything there you can utilize –  then you’ll have the information you need to start building a separate shortcut designed to accept that type input.
+
+This shortcut also utilizes the updated Input mechanism inside each shortcut; “If there’s no input” then the shortcut is set to “Stop and Respond” with a prompt that says “Nothing on-screen can be detected here!” which will show on-screen or be spoken by Siri if run using voice.
+*/
+showResult(text: "${ShortcutInput}")

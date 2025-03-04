@@ -1,0 +1,427 @@
+import Shortcuts
+#Color: Red, #Icon: babyBoy
+
+/*
+Tracks your favorite subreddits, showing you new posts and updated posts—i.e. interesting posts with new comments, letting you read more in less time.
+2024-06-16 	v1.1.7
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+list(items: (
+    Safari,
+    "Google Chrome",
+    "Microsoft Edge"
+)) >> list
+getItemFromList(list: List) >> Browser
+dictionary({"add":"add","manage":"manage","track":"track","filename":"Reddit Tracker.json"}) >> Commands
+getFile(picker: false, path: "${Commands.key(filename)}", error: false) >> getFile
+var mainDict = File
+filterFiles() >> SortedSubreddits
+if(ShortcutInput == ""${Commands.key(manage)}"") {
+	nothing()
+} else { >>  1
+	url(url: "apple.com") >> url
+	getType(input: URL) >> URLType
+	getType(input: ShortcutInput) >> getType
+	if(Type == ""${URLType}"") {
+		nothing() >> nothing
+	} else {
+		getTextFrom(input: ShortcutInput) >> getTextFrom
+		if(Text .beginsWith "read ") {
+			replaceText(input: "${Text}", find: "^read ", isRegex: true) >> replaceText
+var readList = Updated Text
+			nothing() >> nothing 1
+		} >> IFResult
+		if(Text .beginsWith "{") {
+			getDictionaryFrom(input: ShortcutInput) >> output
+			if(output == nil) {
+				replaceText(input: "${output.key(subreddit)}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 1
+				url(url: "data:text/html;charset=utf-8,<body/><script>let d=${Updated Text};delete d.plist;document.body.textContent=encodeURIComponent(JSON.stringify(d));</script>") >> url 1
+				encodeURL(url: "${URL.as(RichText)}") >> encodeURL
+				setValue(key: "${output.key(srName)}", value: "${URL Encoded Text.as(Dictionary)}", dictionary: mainDict) >> setValue
+var mainDict = Dictionary
+				saveFile(input: mainDict, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile
+				alert(alert: "Reddit server error. Please try again later.", cancel: false)
+			} else { >>  1
+				setValue(key: "${output.key(srName)}", value: "${output.key(subreddit)}", dictionary: mainDict) >> setValue 1
+var mainDict = Dictionary
+				valuesFrom(dictionary: output) >> html
+				if(html .beginsWith "<") {
+					if(Browser == "Safari") {
+						openApp(id: "com.apple.mobilesafari")
+					}
+					adjustDate(duration: , date: "1970-01-01 00:00 UTC") >> adjustDate
+					if(Adjusted Date 1001) {
+						formatDate(date: "${Adjusted Date}", dStyle: Medium) >> formatDate
+						replaceText(input: "${html}", find: "<h4></h4>", replace: "<h4>Last check: ${Formatted Date}</h4>") >> replaceText 2
+					} else {
+						replaceText(input: "${html}", find: "<h4></h4><hr>", replace: "")
+					} >> IFResult 1
+					decode(input: If Result) >> decode
+					url(url: "data:text/html;charset=utf-8;base64,${Base64 Encoded}") >> url 2
+					if(Browser == "Safari") {
+						openURL(url: URL) >> openURL
+					} else {
+						if(Browser == "Google Chrome") {
+//Unable to get shortcuts action com.google.chrome.ios.OpenInChromeIntent
+						} else {
+//Unable to get shortcuts action com.microsoft.msedge.OpenInChromeIntent
+						}
+					} >> IFResult 2
+				} >> IFResult 3
+				saveFile(input: mainDict, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile 1
+				wait()
+				exit()
+			}
+		}
+	}
+}
+if(mainDict == nil) { >> IFResult 4
+var C8358F58-47E9-4847-8B13-27FEFF466910 = """## Welcome to Reddit Tracker
+
+Add subreddits you would like to track, and enter the number of new posts to check for each subreddit. Every time it runs, it will check the number of most recent posts from a subreddit and show you
+
+- tracked posts with new comments and
+- new posts
+
+since the last check. You can tap any post to view it in a Reddit client. If there are new posts, it will ask you to select posts to track when you run the shortcut again. Old posts that go beyond the number of posts will be removed from the tracked list.
+
+Enjoy!"""
+text("${C8358F58-47E9-4847-8B13-27FEFF466910}")
+	richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+	quicklook(input: Rich Text from Markdown)
+	valuesFrom(dictionary: Commands)
+} else { >>  1
+	if(SortedSubreddits == nil) {
+		valuesFrom(dictionary: Commands)
+	}
+} >> IFResult 5
+var command = If Result
+if(command == nil) { >> IFResult 6
+	repeatEach(mainDict) { >> RepeatResult
+		valuesFrom(dictionary: mainDict) >> Subreddit
+		valuesFrom(dictionary: Subreddit) >> valuesFrom
+		if(Dictionary Value false Subreddit) {
+// Select new posts to track
+var checkDict = Subreddit
+			dictionary({})
+var saveDict = Dictionary
+			repeatEach(Subreddit) {
+				replaceText(input: "${Repeat Item 2}", find: "^.+ (\S+)$", replace: "$1", isRegex: true) >> replaceText 3
+//Unable to get shortcuts action is.workflow.actions.getvariable
+				if(readList .contains ""${Updated Text}"") {
+					text(text: "🔸${Repeat Item 2}") >> text
+				}
+			} >> RepeatResult 1
+			choose(list: Repeat Results, prompt: "Select posts to track on ${Repeat Item}:", multiple: true) >> NewTrackList
+			replaceText(input: "${NewTrackList}", find: "^🔸", rsRegex: true, caseSensitive: $4) >> replaceText 4
+var trackList = Updated Text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			replaceText(input: "${NewTrackList}", find: "^.+ (\S+)$", replace: "$1", isRegex: true) >> replaceText 5
+var newID = Updated Text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			repeatEach(newID) {
+				valuesFrom(dictionary: checkDict) >> valuesFrom 1
+				setValue(key: "${Repeat Item 2}", value: "${Dictionary Value}", dictionary: saveDict) >> setValue 2
+var saveDict = Dictionary
+				nothing()
+			} >> RepeatResult 2
+			setValue(key: "saveUTC", value: "${Subreddit.as(Dictionary).key(checkUTC)}", dictionary: Subreddit) >> setValue 3
+			if(trackList != nil) {
+				setValue(key: "trackList", value: "${trackList}", dictionary: Dictionary) >> setValue 4
+			} >> IFResult 7
+			setValue(key: "saveDict", value: "${saveDict}", dictionary: If Result) >> setValue 5
+			setValue(key: "${Repeat Item}", value: "${Dictionary}", dictionary: mainDict) >> setValue 6
+var mainDict = Dictionary
+		} >> IFResult 8
+		nothing()
+	} >> RepeatResult 3
+	saveFile(input: mainDict, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile 2
+	nothing()
+	if(ShortcutInput .beginsWith ""${Commands.key(manage)}"") {
+var command = Commands
+	} else { >>  3
+		if(Type == ""${URLType}"") {
+var command = Commands
+		}
+	} >> IFResult 9
+// Check subreddit
+	if(If Result == nil) {
+// Update check
+		randomNumber(min: 1, max: 3) >> randomNumber
+		if(Random Number == 1) {
+			downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=9757D770") >> downloadURL
+			if(Contents of URL .contains "2024-06-16") { >> IFResult 10
+				menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+				case("🌏  Go to RoutineHub"):
+					openURL(url: "https://routinehub.co/shortcut/7048/")
+					exit()
+				case("👾  Download Update"):
+					downloadURL(url: "https://routinehub.co/api/v1/shortcuts/7048/versions/latest") >> downloadURL 1
+					matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+					expandURL(url: "https://routinehub.co/download/${Matches}") >> expandURL
+					replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText 6
+					openURL(url: Updated Text)
+					exit()
+				case("⮐  Not Now"):
+				}
+			}
+		} >> IFResult 11
+		list(items: (
+    "\U2611\Ufe0f  Manage Subreddits",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = SortedSubreddits;
+                        OutputUUID = "2E369465-657E-469D-90A8-05B0D646CB5A";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+		choose(list: List, prompt: "") >> choose
+		if(Chosen Item .beginsWith "☑️") {
+var command = Commands
+		} else {
+var subreddit = Chosen Item
+			valuesFrom(dictionary: mainDict) >> valuesFrom 2
+			if(Dictionary Value == nil) {
+				dictionary({"saveUTC":"0"})
+			} >> IFResult 12
+//Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
+		} >> IFResult 13
+	} >> IFResult 14
+} >> IFResult 15
+// Manage subreddits
+if(command .beginsWith ""${Commands.key(manage)}"") { >> IFResult 16
+	if(command .contains " ") {
+		replaceText(input: "${command}", find: "^.+ (\S+)$", replace: "$1", isRegex: true) >> Chosen Subreddit
+	} else {
+		repeatEach(SortedSubreddits) {
+			valuesFrom(dictionary: mainDict) >> valuesFrom 3
+			count(input: Dictionary Value) >> count
+			text(text: "${Dictionary Value.as(Dictionary).key(fetchCount)}  (tracking ${ActionOutput.as(Dictionary).key(fetchCount)}/${Count})") >> text 1
+		} >> RepeatResult 4
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Repeat Results";
+                        OutputUUID = "ED61E4A7-4460-4C16-A00D-F2F9D0400067";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "\U2795  Add New Subreddits",
+    "\U2b90  Back to Main"
+)) >> list 2
+		choose(list: List, prompt: "") >> choose 1
+	} >> IFResult 17
+	if(If Result == "➕  Add New Subreddits") {
+var command = Commands
+	} else {
+		if(If Result != "⮐  Back to Main") {
+			replaceText(input: "${If Result}", find: "  \(.+", isRegex: true) >> replaceText 7
+var chosenSubreddit = Updated Text
+			valuesFrom(dictionary: mainDict) >> subredditDict
+			list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{28, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFDictionaryContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                DictionaryKey = fetchCount;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = subredditDict;
+                        OutputUUID = "45C77691-8DF2-447A-A7EB-5D4780A5900A";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\U270f\Ufe0f  Change Number of Posts (\Ufffc)";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "\U2796  Remove Subreddit",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                CoercionItemClass = WFDictionaryContentItem;
+                                Type = WFCoercionVariableAggrandizement;
+                            },
+                                                        {
+                                DictionaryKey = trackList;
+                                Type = WFDictionaryValueVariableAggrandizement;
+                            }
+                        );
+                        OutputName = subredditDict;
+                        OutputUUID = "45C77691-8DF2-447A-A7EB-5D4780A5900A";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "\U2b90  Back to Manage"
+)) >> list 3
+			getItemFromList(list: List) >> ChangeItem
+			getItemFromList(list: List, type: Item At Index, index: "2") >> RemoveItem
+			getItemFromList(list: List, type: Last Item) >> BackItem
+			count(input: subredditDict) >> count 1
+			choose(list: List, prompt: "${chosenSubreddit} posts are tracked on ${Variable}:") >> choose 2
+			if(Chosen Item == ""${ChangeItem}"") {
+				askForInput(prompt: "Change from ${subredditDict.as(Dictionary).key(fetchCount)} to:", type: Number, allowDecimal: false, allowNegative: false) >> askForInput
+				if(Provided Input > 0) {
+					setValue(key: "fetchCount", value: "${Provided Input}", dictionary: subredditDict) >> setValue 7
+					setValue(key: "${chosenSubreddit}", value: "${Dictionary}", dictionary: mainDict) >> setValue 8
+var mainDict = Dictionary
+					saveFile(input: mainDict, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile 3
+				}
+			} else {
+				if(Chosen Item == ""${RemoveItem}"") {
+					menu(, [REMOVE, ⮐  Back to Manage]) {
+					case("REMOVE"):
+						replaceText(input: "${mainDict}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 8
+						url(url: "data:text/html;charset=utf-8,<body/><script>d=${chosenSubreddit};delete d.${Variable};document.body.textContent=encodeURIComponent(JSON.stringify(d));</script>") >> url 3
+						encodeURL(url: "${URL.as(RichText)}") >> encodeURL 1
+						saveFile(input: URL Encoded Text, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile 4
+					case("⮐  Back to Manage"):
+					} >> MenuResult
+				} else {
+					if(Chosen Item != ""${BackItem}"") {
+						replaceText(input: "${Chosen Item}", find: "^.+ (\S+)$", replace: "$1", isRegex: true) >> CommentID
+						url(url: "https://reddit.com/comments/${PostID}") >> url 4
+						if(Browser == "Safari") {
+							openURL(url: URL) >> openURL 1
+						} else {
+							if(Browser == "Google Chrome") {
+//Unable to get shortcuts action com.google.chrome.ios.OpenInChromeIntent
+							} else {
+//Unable to get shortcuts action com.microsoft.msedge.OpenInChromeIntent
+							}
+						}
+						number(value: 2)
+					} >> IFResult 18
+				}
+			}
+		} else {
+			number(value: 3)
+		} >> IFResult 19
+		if(If Result != "2") {
+			if(If Result == "1") {
+				text(text: "${chosenSubreddit} ${Variable}") >> text 2
+				runShortcut(name: "Reddit Tracker", input: Text) >> runShortcut
+			} else {
+				if(If Result == "3") {
+					runShortcut(name: "Reddit Tracker") >> runShortcut 1
+				} else {
+					runShortcut(name: "Reddit Tracker", input: Commands) >> runShortcut 2
+				} >> IFResult 20
+			} >> IFResult 21
+		} >> IFResult 22
+	}
+} >> IFResult 23
+text(text: "${mainDict.as(Dictionary).get(Keys)}") >> text 3
+replaceText(input: "${Text}", find: "\n|^|$", replace: "#", isRegex: true) >> #Subreddits#
+// Add new subreddits
+if(command == ""${Commands.key(add)}"") { >> IFResult 24
+	askForInput(prompt: "Enter subreddit(s) to track, separated by space or comma. Names are case-insensitive:") >> askForInput 1
+	matchText(text: "${Provided Input}", regex: "[0-9a-zA-Z]\w\w+") >> matchText 1
+	if(Matches != nil) {
+		repeatEach(Matches) {
+			replaceText(input: "${#Subreddits#}", find: "^.*#(${Repeat Item})#.*$", replace: "$1", isRegex: true, caseSensitive: false) >> Subreddit
+			if(Subreddit .beginsWith "#") {
+				askForInput(prompt: "Number of posts to check on ${Repeat Item}:", type: Number, allowDecimal: false, allowNegative: false) >> askForInput 2
+				if(Provided Input > 1) {
+					dictionary({"fetchCount":"${Provided Input}","saveUTC":"0"})
+					setValue(key: "${Repeat Item}", value: "${Dictionary}", dictionary: mainDict) >> setValue 9
+var mainDict = Dictionary
+				} >> IFResult 25
+			} else {
+				showResult(text: "You are already tracking ${Repeat Item}.")
+			} >> IFResult 26
+			nothing()
+		} >> RepeatResult 5
+		saveFile(input: mainDict, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile 5
+	} >> IFResult 27
+	runShortcut(name: "Reddit Tracker") >> runShortcut 3
+} >> IFResult 28
+// Track shared reddit post
+if(command == ""${Commands.key(track)}"") { >> IFResult 29
+	replaceText(input: "${ShortcutInput}", find: "^.*reddit\.com/r/([^/]+)/comments/.+$", replace: "$1", isRegex: true, caseSensitive: false) >> replaceText 9
+	replaceText(input: "${#Subreddits#}", find: "^.*#(${Updated Text})#.*$", replace: "$1", isRegex: true, caseSensitive: false) >> Subreddit
+	if(Subreddit .beginsWith "#") {
+		showResult(text: "The shortcut does not track subreddit ${Subreddit}. Please add the subreddit first.")
+	} else {
+		valuesFrom(dictionary: mainDict) >> valuesFrom 4
+		replaceText(input: "${ShortcutInput}", find: "^.+${Subreddit}/comments/([^/]+).*$", replace: "$1", isRegex: true, caseSensitive: false) >> CommentID
+		valuesFrom(dictionary: Dictionary Value) >> valuesFrom 5
+		if(Dictionary Value == nil) {
+			url(url: "https://www.reddit.com/by_id/t3_${CommentID}.json") >> url 5
+			downloadURL(url: "${URL}") >> downloadURL 2
+			valuesFrom(dictionary: Contents of URL) >> valuesFrom 6
+			replaceText(input: "${Dictionary Value.as(Dictionary).key(title)}", find: "&amp;", replace: "&") >> replaceText 10
+			replaceText(input: "${Updated Text}", find: "&lt;", replace: "<") >> replaceText 11
+			replaceText(input: "${Updated Text}", find: "&gt;", replace: ">") >> Title
+			menu(, [Track, Quit]) {
+			case("Track"):
+				setValue(key: "${CommentID}", value: "${Dictionary Value.as(Dictionary).key(num_comments)}", dictionary: Dictionary Value) >> setValue 10
+				setValue(key: "saveDict", value: "${Dictionary}", dictionary: Dictionary Value) >> setValue 11
+				setValue(key: "${CommentID}", value: "${Dictionary Value.as(Dictionary).key(num_comments)}", dictionary: Dictionary Value) >> setValue 12
+				setValue(key: "checkDict", value: "${Dictionary}", dictionary: Dictionary) >> setValue 13
+				text(text: "${CommentID} ${ActionOutput}") >> text 4
+var trackList = Text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				setValue(key: "trackList", value: "${trackList}", dictionary: Dictionary) >> setValue 14
+				setValue(key: "${Subreddit}", value: "${Dictionary}", dictionary: mainDict) >> setValue 15
+				saveFile(input: Dictionary, ask: false, path: "${Commands.key(filename)}", overwrite: true) >> saveFile 6
+			case("Quit"):
+			}
+		} else {
+			matchText(text: "${Dictionary Value.as(Dictionary).key(trackList)}", regex: ".+(?= ${CommentID})") >> matchText 2
+			menu(, [Untrack post, Quit]) {
+			case("Untrack post"):
+				valuesFrom(dictionary: mainDict) >> subredditDict
+				replaceText(input: "${subredditDict.as(Dictionary).key(trackList)}", find: ".+ ${CommentID}", isRegex: true) >> replaceText 12
+				splitText(text: Updated Text) >> splitText
+				setValue(key: "trackList", value: "${Split Text}", dictionary: subredditDict) >> setValue 16
+				replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 13
+				url(url: "data:text/html;charset=utf-8,<body/><script>d=${Updated Text};delete d.saveDict.${ActionOutput};document.body.textContent=encodeURIComponent(JSON.stringify(d));</script>") >> url 6
+				encodeURL(url: "${URL.as(RichText)}") >> encodeURL 2
+				setValue(key: "${Subreddit}", value: "${URL Encoded Text.as(Dictionary)}", dictionary: mainDict) >> setValue 17
+				saveFile(input: Dictionary, ask: false, path: "${Commands.key(filename)}", overwrite: true)
+			case("Quit"):
+			}
+		} >> IFResult 30
+	} >> IFResult 31
+} >> IFResult 32

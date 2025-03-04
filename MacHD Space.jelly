@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: tangerine, #Icon: circledI
+
+//Unable to get shortcuts action is.workflow.actions.comment
+runAppleScript(script: "set theResult to do shell script "df -h | grep disk1s5s1"") >> runAppleScript
+url(url: "https://github.com/extratone/macOSsystemsounds/raw/main/aiff/Purr.aiff") >> url
+downloadURL(url: "${URL}") >> downloadURL
+playSound(file: Contents of URL)
+sendNotification(body: "${AppleScript Result}", title: "MacintoshHD", sound: false) >> sendNotification
+alert(alert: "${AppleScript Result}", title: "Macintosh HD", cancel: false)
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent

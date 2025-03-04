@@ -1,0 +1,54 @@
+import Shortcuts
+#Color: red, #Icon: chainlink
+
+/*
+Save a .txt file of all links present in the active Safari tab.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+runJavascriptOnWebpage(url: ShortcutInput, javascript: "var result = [];
+// Get all links from the page
+var elements = document.querySelectorAll("a");
+for (let element of elements) {
+	result.push({
+		"url": element.href,
+		"text": element.innerText
+	});
+}
+
+// Call completion to finish
+completion(result);") >> runJavascriptOnWebpage
+getURLSFromInput(text: "${JavaScript Result.as(Dictionary).get(Values)}") >> getURLSFromInput
+combineText(text: URLs, combine: New Lines) >> combineText
+saveFile(input: Combined Text, ask: false, path: "${CurrentDate}.txt", overwrite: true) >> saveFile
+setClipboard(variable: Combined Text) >> setClipboard
+var list = Combined Text
+repeatEach(URLs) {
+	getName() >> getName
+//Unable to get shortcuts action do.anh.Interlink.AddPostIntent
+//Unable to get shortcuts action do.anh.Interlink.SetRegularCollectionIntent
+}
+openURL(url: "https://app.raindrop.io/settings/import") >> openURL
+alert(alert: "Continue to download media files?", title: "Media Scrape Option")
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FilterListIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.CombineListsIntent
+repeatEach(Combined List) {
+	downloadURL(url: "${Repeat Item}") >> downloadURL
+	saveFile(input: Contents of URL, ask: false, overwrite: true) >> saveFile 1
+} >> RepeatResult
+//Unable to get shortcuts action com.alexhay.Console.LogItemsIntent

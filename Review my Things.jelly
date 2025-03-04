@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: navy, #Icon: mug
+
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIItemEntity
+repeatEach(Items) {
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIItemEntity
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIEditItems
+} >> RepeatResult
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIItemEntity
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIEditItems
+//Unable to get shortcuts action com.culturedcode.ThingsiPhone.TAIShowList2

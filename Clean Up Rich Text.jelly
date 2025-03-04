@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: grayGreen, #Icon: gear
+
+// Remove unnecessary styles from rich text stored in the system clipboard. This shortcut will maintain formatting for bold, italics, and links, but it'll remove other elements such as custom fonts, font sizes, colors, and more. The cleaned up rich text will be put back in the clipboard at the end.
+getClipboard()
+markdownFromRich()
+richTextFromMarkdown()
+setClipboard()

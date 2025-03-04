@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: globe
+
+getClipboard() >> getClipboard
+openURL(url: Clipboard)

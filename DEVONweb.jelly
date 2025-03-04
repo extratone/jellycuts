@@ -1,0 +1,40 @@
+import Shortcuts
+#Color: blue, #Icon: compass
+
+// Save a webpage from Safari as a .webarchive or PDF file in DEVONthink To Go. To use this shortcut, share a webpage from Safari with the share sheet. You can optionally add a comment to the item. At the end of the shortcut, the DEVONthink URL to the newly created item will be copied to the clipboard.
+continueInShortcuts()
+// Enter the names and IDs of DEVONthink groups where you want to save items.
+dictionary({"iOS 13":"1D290444-A40F-40C7-AF5E-3D96B1F8D333","Shortcuts and Siri":"26D0EF60-CA79-45CC-91FD-0BDAB53A7757","Design":"B98BA8B3-E595-4E59-B1E9-CFF037F9A11C","iPadOS 13":"A9B2B267-D2EB-4C2B-AF21-7D610030E4DC"})
+keysFrom(dictionary: Dictionary) >> Groups
+choose(list: Dictionary Value, prompt: "Choose a Destination Group") >> Chosen Group
+keysFrom(dictionary: Dictionary) >> Group ID
+dictionary({"base":"x-devonthink://x-callback-url/","document":"createdocument?","item":"source=","URL":"location=","type":"uti=","name":"title=","web archive":"createwebarchive?","comment":"comment=","group":"destination=${Dictionary Value}"}) >> URL Scheme
+count(type: Items, input: ShortcutInput) >> count
+if(Count == "0") {
+} else {
+var ProcessItem = ShortcutInput
+} >> IFResult
+repeatEach(Process Item) {
+	getType(input: Repeat Item) >> getType
+// Check if the shortcut is dealing with a Safari webpage item
+	if(Type .contains "Safari") {
+var Name = Variable
+		askForInput(prompt: "Add a Comment?") >> Comment
+var Comment = Comment
+		menu(Save Webpage As..., [Webarchive, PDF]) {
+		case("Webarchive"):
+			text(text: "${URL Scheme.key(URL)}${ActionOutput.key(URL)}${Comment}${ActionOutput}&${URL Scheme.key(group)}${ActionOutput.key(group)}&${URL Scheme.key(name)}${ActionOutput.key(name)}&${URL Scheme.key(base)}") >> text
+		case("PDF"):
+			createPDF(input: Repeat Item) >> createPDF
+			decode(input: PDF) >> Encoded Webpage PDF
+			text(text: "${Comment}${ActionOutput}${URL Scheme.key(name)}${ActionOutput.key(name)}&${URL Scheme.key(item)}${ActionOutput.key(item)}&${URL Scheme.key(comment)}com.adobe.pdf&${ActionOutput.key(comment)}${URL Scheme.key(group)}&${ActionOutput.key(group)}")
+		}
+	} else {
+		alert(alert: "You can only share Safari webpages with this shortcut.", title: "❌ Error ❌", cancel: false)
+		exit()
+	} >> Complete If Text Output
+	url(url: "${Complete If Text Output}") >> url
+	xCallbackURL(url: "${URL}") >> xCallbackURL
+	keysFrom(dictionary: X-Callback Result) >> DTTG Item Link
+	setClipboard(variable: DTTG Item Link)
+} >> RepeatResult

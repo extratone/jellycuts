@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+/*
+WINSEVN
+This is a proof of concept for getting the whole link or part of a link of an image copied from Safari. 
+
+The instructions are spelled out in the menu items, but the reason for this shortcut is because I wanted to make a simple way to resolve urls that only have the the image path and not the host.
+*/
+url(url: ShortcutInput) >> HOST
+urlComponent(url: "${HOST}", component: Host) >> urlComponent
+urlComponent(url: "${Component of URL}", component: Path) >> PATH
+text(text: "${HOST}${ActionOutput}") >> FULL URL
+menu(What do you want to do?, [Copy [https://...] HOST (exclude image path), Copy [https://...] HOST and PATH (include image path), No Copy (just show the host and image)]) {
+case("Copy [https://...] HOST (exclude image path)"):
+	setClipboard(variable: HOST) >> setClipboard
+case("Copy [https://...] HOST and PATH (include image path)"):
+	setClipboard(variable: FULL URL) >> setClipboard 1
+case("No Copy (just show the host and image )"):
+	showWebPage(url: "${FULL URL}")
+} >> MenuResult

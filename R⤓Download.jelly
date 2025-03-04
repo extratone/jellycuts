@@ -1,0 +1,607 @@
+import Shortcuts
+#Color: lightBlue, #Icon: downloadArrow
+
+text(text: "1") >> text
+text(text: "1") >> text 1
+dictionary({"Version":"9.7","js":[";let out={};dL=[];dd={},n='',p=''
+let index=dict.index
+let contact='Twitter: @r07qxo / Telegram: @r_Shortcuts'
+let lang=JSON.parse(dict['langpack'][('1'+dict.lang).match(/.$/i)?.[0]-1])
+let cver=dict.version
+let serverurl='https://www.moody0100.com/file/242/'
+let www = 'www.moody0100.com/file/242/'
+let pp=dict.source?.replace(/(&amp;|\\u0026)/gm, '&')
+if(pp.match(/^\{".+\}$/i)){
+p=JSON.parse(pp)
+}
+let script=dict.script
+out={...out,version:cver,wait:0,cookieh:'C',urlb:'url',cookie:1,reqbody:'tt',outhkey:'url',doc_id:'10015901848480474', 'kx-request': 'rr', 'x-request': 'rt', 'kx-cftoken': 'kk', 'x-cftoken': 'f', fn: '@r07qxo - R⤓Download', 'kx-requkey': 'X-Requested-Key', 'x-requkey': 'k', 'k-token': 'kt', 'v-token': 'vt', 'timeExpire': 'te'}
+let userA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15'
+let ext=dict.ext.replace(/\n/gm,'\\n');
+out.variables={"shortcode":1,"fetch_comment_count":null,"fetch_related_profile_media_count":null,"parent_comment_count":null,"child_comment_count":null,"fetch_like_count":null,"fetch_tagged_user_count":null,"fetch_preview_comment_count":null,"has_threaded_comments":false,"hoisted_comment_id":null,"hoisted_reply_id":null}
+let inp=dict.input.match(/(https?:[^\s\"\ㅁ$]+)/i)?.[1]
+let input=inp
+out.input = input
+let ask={[lang.openaccount+'Twitter/X']:{web:'https://twitter.com/r07qxo'},[lang.openaccount+'Telegram']:{web:'https://t.me/r_Shortcuts'},[lang.exit]:{urls:www}}
+out['x-lsd']='W9CWO77z3UPJRzrk0HBUhQ'
+if(ext.match(/(?:mp4|jpg|3gp|png|jpeg|jpge|mpeg|gif)/i)){
+out.ext=ext.split('\\n')
+if(('1'+dict.auto).includes('2')){
+out.look=1
+}
+out={...out,save:1}
+}else if(script.includes('urls":"www.moody0100.com/file/242/"') && !script.includes('errors":1') || script.includes('finish":true')){
+out={...out,version:cver,prompt:`${lang.errordownload}\n\n${lang.url}\n${JSON.parse(script).input}\n\n${cver}`,ask:ask,errors:1}
+}else if(index=='2'&&!p){
+out={...out,urls:'https://m-r.pw/242',referer:serverurl.replace(/f.*$/g,""), origin:serverurl.replace(/\/f.*$/g, ""),down:1}
+} else if(script.includes('errors":1')){out.errors=1}else{
+if(!input?.match(/(https?:[^\s\"\ㅁ$]+)/i)){
+input=(dict.input.length>30?dict.input.replace(/\ㅁ /g,'').substr(0,30)+'...':dict.input.replace(/\ㅁ /g,''))
+}
+let error='\n\n'+lang.errordownload+'\n\n'+lang.url+'\n'+inp+'\n\n'+cver+'\n'+contact
+if(index=='1'){
+if(!input.match(/instagram\.com\/(?:p|reels?|tv|igtv)\//i)&&input.match(/(?:^[\s\S]+?)?(http.+(instagram|snapchat|x|twitter)\.com\/)/i)){out={...out,input:input,urls:(input.match(/(?:x|twitter)\.com/i)?'https://yt.r07qxo.workers.dev':'https://r1d-s.r07qxo1.workers.dev'),text:lang,post:1}}else{
+out={...out,urls:serverurl,referer:serverurl.replace(/f.*$/g,""),origin:serverurl.replace(/\/f.*$/g, "")}
+}
+}else{
+script=JSON.parse(script)
+input = script.input ?? input
+out.input = input
+if(script.down){index=index-1;out.down=1}
+if(index=='2'){shortcut=p;out.shortcut=shortcut
+if(!p.urls&&cver!=(p.Version||p.version)){
+out={...out,update:true,ask:{[lang.update.replace(/ㅁ/, (p.version??p.Version))]:{web:(out.down?p.blog:p.URL)}},prompt:`${lang.noteupdate}\n\n${cver} ➜ ${(p.Version||p.version)}\n\n${p.en}`}
+}
+}else{
+if(script.update){out.update=true}
+out.shortcut=script.shortcut;shortcut=out.shortcut}
+if(!out.update){
+if(input.match(/(https?:)/i)){
+input = input.replace(/https.+tubemaxapp.com\/.+video\/(.{11})/g, "https://youtu.be/$1")
+out['x-ig-app']='238260118697367'
+if (input.includes('instagram.com') && script?.urls?.includes('ajaxSearch')) {
+if(pp.match(/Download (Photo|Video)/i)){
+let iurl = input.match(/instagram\.com\/stories\/([\_\w\.\-]+)\/(\d+)/i)
+m1 = iurl?.[1]
+m2 = iurl?.[2] ?? input.match(/instagram\.com\/.+story_media_id=(\d+)/i)?.[1]
+one=''
+mm = p.data.match(/(getPhotoLink[\s\S]+?>\d+x\d+[\S\s]+?>\d+x\d+<|href="[^"]+\?file=[^"]+)/g)
+mm.forEach(d => {
+d = d.replace(/&amp\;/g, "&")
+v = d.match(/ig\/.+?\?file\=(.+$)/i)?.[1]
+if (v) {
+code = v.replace(/\-/gi, "+").replace(/\_/gi, "/")
+length = code.length % 4
+if(length==2){code+='=='}else if 
+(length==3) {code+='='}
+da = atob(code)
+d = da
+} else {
+ww = d.match(/http[^"]+\">\d+x\d+/g)
+purls=[]
+ww.forEach(a => {
+purls.push(JSON.parse(a.replace(/(^[^"]+)\">(\d+)x(\d+)/gm, '{"width":$2,"height":$3,"url":"$1"}')))
+})
+da = purls.reduce((b,c) =>
+(b.width > c.width && b.height > c.height) ? b.url : (b.width > c.width && c.height > b.height) ? c.url : b.url)
+}
+dd = (da.includes('file=http')?decodeURIComponent(da.replace(/^.+file=/gi,"")):da).replace(/&name.*/g, "").replace(/^https:\/\/[^\/]+/, 'https://scontent.cdninstagram.com')
+if (mm.length > 1 && d.includes(m2)){
+one = dd
+}
+dL.push(dd)
+})
+if (one) {
+out = {...out, ask:{[lang.story]:{urls:one},[lang.stories + ' (' + mm.length + ')']:{urls:dL}}, finish:true,fn:'@' + (m1 ?? 'r07qxo') +'  - R⤓Download', prompt:'\n\n'+ (m1 ?? 'Twitter/X: @r07qxo') + '\n\n'}
+} else {
+out={...out,urls:dL,fn:'@' + (m1 ?? 'r07qxo') +'  - R⤓Download',finish:true}
+}}else{
+if(!input.match(/(instagram|threads)\.(?:com|net)\/(?:p|reels?|tv|\@.+\/post)\/([^\/\?]+)/i)) {
+out={...out,prompt:(pp.match(/instagram-private/i)?lang.private+'\n\n\n'+lang.url+'\n'+input+'\n\n'+cver+'\n'+contact:error),ask:ask,errors:1}
+} else {
+out.urls=input
+}}
+} else if(m = input.match(/(instagram|threads)\.(?:com|net)\/(?:p|reels?|tv|\@.+\/post)\/([^\/\?]+)/i)?.[2]){
+out.variables.shortcode=m
+out['kx-request']='User-Agent'
+out['x-request']=userA
+if(index=='2'&&m.length>15){out={...out, prompt:lang.private+'\n\n\n'+lang.url+'\n'+input+'\n\n'+cver+'\n'+contact,ask:ask,errors:1}}else{
+if(script.urls?.match(/(m-r.pw|moody)/)){
+input=input.replace(/\?.*/g, '')
+if(input.match(/\/(?:reels?|tv|igtv)\//i)){out.urls=p.reel.replace(/input/g, input);out.post=1}else{
+out.urls=(input.includes('instagram.com/')?p.insta.replace(/input/gi, input):p.threads)
+}
+if(out.urls.endsWith('media?url=')){
+out.urls=out.urls+encodeURIComponent(input)}else if(out.urls.match(/(?:ajax|graphql)/i)){
+out.post=1
+}
+out.origin=out.urls.match(/https:\/\/[^\/]+/i)[0]
+out.referer=out.origin+'/'
+}else if(script.urls?.includes('/graphql')) {if(p=p.data?.xdt_shortcode_media){let nodes=['GraphSidecar','XDTGraphSidecar'].includes(p['__typename'])?p['edge_sidecar_to_children']['edges'].map(a=>a.node):[p];
+out.urls = []
+nodes.forEach(d=>{
+u = (d['is_video']==true?d['video_url']:d['display_url']).replace(/^https:\/\/[^\/]+/, 'https://scontent.cdninstagram.com')
+out.urls.push(u)
+})
+out={...out,fn:`@${p.owner.username} - R⤓Download`,finish:true}
+}else{
+out={...out, prompt:lang.private+'\n\n'+lang.url+'\n'+input+'\n\n'+cver+'\n'+contact,ask:ask,errors:1}
+}
+}else if(script.urls?.includes('media?url=')){
+if(pp.includes('"image_urls"')){
+out={...out,urls:pp.match(/http[^"]+/g).map(d => {
+return (JSON.parse('{"u":"' + d + '"}').u)
+}),finish:true}
+}
+}else if(script.urls?.match(/com\/(?:p|reels?|tv|igtv)\//i)) {
+p = pp
+	let shortcode, doc_id
+	out = {...out, referer:input, 'kx-request': 'X-Requested-With', 'x-request': 'XMLHttpRequest', 'kx-cftoken': 'X-CSRFToken', 'x-cftoken': p.match(/"csrf_token":"([^"]+)/)?.[1], 'x-ig-app': p.match(/"X-IG-App-ID":"([^"]+)/)?.[1]}
+
+	if (!p.match(/"appScopedIdentity":"\d+/)) {
+
+		lsd = p.match(/"token":"([^"]+)/)?.[1]
+	} else {
+		lsd = p.match(/"LSD":\{"token":"([^"]+)/)?.[1]
+	}
+		out['x-lsd'] = lsd
+		shortcode = p.match(/"shortcode":"([^"]+)/)?.[1]
+
+		if ((js = p.match(/<link rel="preload" href="[^"]+/g))?.length > 4) {
+			for (i=2; i<4 && !doc_id; i++) {
+				out.urls = js[i].match(/[^"]+$/)[0]
+			}
+		}
+			if (shortcut.doc != '0') { out.urls = 'https://www.instagram.com/api/graphql';out.doc_id =  shortcut.doc; out.post=1 }
+}
+}
+//index insta 4
+}else if(input.match(/youtu(?:\.be|be\.com)/)){
+out['x-requkey']=(p?.xkey??shortcut?.xkey)
+m=input.match(/(?:youtu\.be\/|youtube\.com\/(?:shorts\/|watch\?.*(?:vi?|embed)[\=\?\/]))(.{11})/i)?.[1]
+out.vid = m
+if(index=='2'){
+n = 'p - MP4'
+let va = `https://ii.marwan125734.workers.dev/?id=${m}&q=`
+let dd = {[`1080${n}`]:{urls:va+'max'},[`720${n}`]:{urls:va+'720'},[`480${n}`]:{urls:va+'480'},[`360${n}`]:{urls:va+'360'},[`240${n}`]:{urls:va+'240'},[`144${n}`]:{urls:va+'144'}}
+dd[`JPG - ${lang['thumb']}`]={urls:`https://i.ytimg.com/vi/${m}/maxresdefault.jpg`};dd[`JPG - ${lang['sthumb']}`]={urls:`https://i.ytimg.com/vi/${m}/hqdefault.jpg`}
+out={...out,urls:serverurl,query:input,vt:'mp4',post:1,ask:dd}
+} else if(index=='3'){
+out = {...out,ask:p?.ask,prompt:p?.prompt,urls:p?.urls??serverurl,'k-token':'token','timeExpire':p?.timeExpire,'v-token':p['v-token'],'fname':p?.fname,finish:p.finish}
+}else if(index=='4'){
+if(p){
+out={...out,'k-token':'token','timeExpire':script?.timeExpire,'v-token':script['v-token'],'fname':script?.fname}
+if(script?.urls?.includes('9convert')){out.finish=true}else{out.post=1}
+out={...out,urls:(p.c_server?p?.c_server+'/api/json/convert':p.dlink??p.curls)}
+}
+}else if(script?.urls?.includes('/api/json/convert')){
+if(p){
+if(pp.includes('200')){
+out={...out,urls:p.result,finish:true}
+}else if(pp?.includes('300')){
+out['k-token']='token'
+out.timeExpire=script?.timeExpire
+out['v-token']=script['v-token']
+out.fname=script?.fname
+out={...out,urls:script?.urls,post:1,wait:15}
+}}}
+// index yout
+} else if(m=input.match(/http.+?imgur.\w*\/\w+\/.+\-(\w+$)/i)?.[1]??input.match(/http.+?imgur.+?\/(\w+$)/i)?.[1]){
+if(index=='2'){
+out={...out,urls:'https://api.imgur.io/3/gallery/'+m,outh:'Client-ID 5dc6065411ee2ab',outhkey:'Authorization'}
+}else if(index=='3'){
+if(p){
+out={...out,urls:p.data.images.map(d=>{return d.link}),finish:true,fn:(JSON.parse(pp.match(/account_url":"([^"]+)/i)?.[1].replace(/(^.*$)/g, '{"user":"@$1 - R⤓Download"}'))['user'])}
+}
+}
+// imgur index
+} else if(input.match(/(?:facebook\.com|fb\.watch|fbwat.ch)/i)){
+out['kx-request']='User-Agent'
+out['x-request']=userA
+if(index=='2'){
+out={...out,urls:'https://x2mate.com/api/ajaxSearch',post:1}
+}else if(index>='3'){
+if(pp.match(/(sd":"|\(SD\))/i)){
+p=(pp.replace(/\\/g,"").replace(/https:[^\?]+\.(?:net|com)\\?\//g,'https://scontent.xx.fbcdn.net/'))
+hd=p.match(/(?:"hd":"|=")(http[^"]+).{0,50}HD/)?.[1];sd=p.match(/(?:"sd":"|=")(http[^"]+).{0,50}(\(S|("|url)h)D/i)?.[1]
+sd={urls:sd};hhd={urls:hd}
+out={...out,ask:{HD:hd?hhd:hd,SD:sd},prompt:'\n'+lang.select+'\n',finish:true}
+}else{
+if (script?.urls?.includes('x2mate')) {
+out={...out,urls:'https://savef.app/api/ajaxSearch',post:1}
+}}}
+// f index
+} else if(input.match(/(instagram|snapchat|\/(?:x|twitter))\.com\//i)){if(index=='2'){if(p.version){p.outhkey='tt';p['kx-requkey']='X-Requested-Key';p['x-requkey']='k';out=p
+}
+}
+}else if(input.match(/(?:tiktok|douyin).com\//i)){
+out['kx-request']='User-Agent'
+out['x-request']=userA
+if(index=='2'){
+out={...out,urls:p.tik[Math.floor(Math.random() * p.tik.length)],post:1}
+}else if(index=='3'){
+if(pp.match(/http[^"]+\".+?Download/i)){
+pp=p.data
+out.urls = pp.match(/(https[^"]+)".+?Download (MP4)/)?.[1] ?? pp.match(/https[^"]+".+?Download (?:Image|Photo)/g).map(d => {
+return d.replace(/".+/g, "")
+})
+out={...out,finish:true}
+}
+}
+}else if(input.match(/((?:ted|vimeo|dailymotion|flickr|rumble)\.com|flic\.kr)\//i)){
+if(index=='2'){
+let myArray=['https://videodownloaderguru.com/wp-json/aio-dl/video-data/','https://fbdown.online/wp-json/aio-dl/video-data/','https://videodownloaderguru.com/wp-json/aio-dl/video-data/','https://fbdown.online/wp-json/aio-dl/video-data/','https://downloaderr.com/system/action.php','https://downloaderr.com/system/action.php'];
+let url=myArray[Math.floor(Math.random() * myArray.length)];
+out={...out,urls:url,post:1}
+}else if(index=='3'){
+if(pp.includes('"medias":')){
+if(p.medias.length>1){p.medias.forEach(d=>{if(d.extension.match(/(mp4|jpg|3gp|png|jpeg|jpge|mpeg|gif)/i)){dL.push(dd[d.extension.toUpperCase()+' - '+d.quality+' ('+d.formattedSize+')']={urls:d.url.replace(/https:\/\/hugh.cdn.rumble.cloud\/video\//gi, "https://ak2.rmbl.ws/"),finish:true})}})
+out={...out,prompt:'Twitter/X: @r07qxo\n\n'+p.title+'\n\n'+p?.duration,ask:dd}
+}else{out={...out,urls:p.medias[0]?.url,fn:fn,finish:true}}
+}
+}
+}else if(input.match(/(linkedin|tumblr|9gag)\.com/i)){
+if(index=='3'){
+if(pp.includes('formats":')){p.raw.formats.forEach(d=>{if(d.protocol.match(/https?/i)&&d.ext=='mp4'){dL.push(dd[d.format]={finish:true,urls:d.url})}});out={...out,prompt:p.title,ask:dd}
+}
+}else if(index=='2'){
+out.urls='https://nor.celsiusnarhwal.dev/api/extract?url='+input
+}
+// index linked
+}else if(m=input.match(/twitch\.tv\/(?:.+?\/?clip\/)?(.*)/i)?.[1]){
+if(index=='2'){
+out.urls=p.twitch+m
+} else if(index=='3'){
+if(pp.includes('"thumbnail_url":')){r=p.data[0]?.thumbnail_url.replace(/-preview.*/gi,"")
+ask={'1080p':{urls:r+'.mp4'},'720p':{urls:r+'-720.mp4'},'360p':{urls:r+'-360.mp4'}}
+out={...out,prompt:'\n\n'+p.data[0].title+'\n\n',ask:ask,finish:true}
+}
+}
+// index twitch
+}else if(input.match(/likee\.(video|com)/i)){
+if(index=='2'){
+out={...out,urls:'https://likeedownloader.com/process',referer:'https://likeedownloader.com/facebook-video-downloader',post:1,id:input}
+}else if(index=='3'){
+if(pp.match(/htt.+?sscdn.+Download/)){
+out={...out,urls:p.template.match(/href="([^"]+)/g).join('-').replace(/^.+?\-href=\"/g,""),finish:true}
+}
+}
+// index likee
+}else if(input.match(/(?:pinterest\.com|pin\.it)\//i)){
+if(index=='2'){
+out={...out,urls:input}
+}else if(index=='3'){
+if(pp.match(/\.com\/(originals|video)/i)){
+m=pp.match(/imageSpec_orig":\{"height":\d+,"url":"[^"]+|videoList[^\}]+\/720p\/[^"]+\.mp4|http[^"]+\.gif/g)
+if(!m){m=pp.match(/\{"__typename":"ImageDetails","url":"[^"]+/i)}
+m.forEach(d=>{
+dL.push(JSON.parse(d.replace(/^.*("url":"[^"]+\.com\/(original|videos)[^"]+).*$/gi, '{$1"}')).url)
+})
+uni = dL.filter(function(item, index) {
+  return dL.indexOf(item) === index;
+});
+out={...out,urls:uni,finish:true}
+}
+}
+// pin
+}else if(index=='2'){out={...out,prompt:lang.notsupport+'\n\n'+lang.url+'\n'+input+'\n\n'+cver,ask:ask,errors:1,urls:'www.moody0100.com/file/242/'}}
+// host
+}else{
+if(index=='2'){
+out={...out, prompt:'\n'+lang.share+'\n\n\n'+input+'\n\n'+cver+'\n'+contact,errors:1,ask:{[lang.exit]:{urls:www}}}
+}
+}
+// input error
+} else {
+out.urls = serverurl
+}
+// update
+}
+//index1
+}
+// ext
+if(!out?.urls && !out?.errors) {
+out.urls=www
+} else if(!out?.finish&&!n) {
+out.fn = 'R⤓Download.txt'
+}
+document.body.textContent=encodeURIComponent(JSON.stringify(out))
+}catch(e){document.write(e);}
+</script>
+</html>"],"langpack":["{"private":"🚫 The account you want to download from seems private.","share":"⭕️ Please copy the post link or use the share sheet to download","thumb":"Thumbnail HD","sthumb":"Thumbnail SD","sdown":"🚫 Server is down right now please try again later","url":"URL:","exit":"◁ Exit","update":"✔️ Update to ㅁ","medianot":"🚫 Media not found","errordownload":"🔴 Something went wrong while downloading, please restart the shortcut again, if this happens again please inform me on Twitter\/X (@r07qxo) or on Telegram (@r_Shortcuts)","ok":"Ok ✔️","noteupdate":"🔺 A new version of R⤓Download is available to download, here are some information about it:","lang":"en","nsfwnot":"⛔️ Sorry, downloading sensitive content is blocked","openaccount":"Contact me on ","select":"Choose quality:","notsupport":"‎🔴 Sorry, downloading from this site or application is not supported yet. If you have any questions, please contact me on my accounts:\nTwitter: @r07qxo / Telegram: @r_Shortcuts","story":"Download current story","stories":"Download all stories"}","{"private":"🚫 يبدو أن الحساب الذي ترغب في التنزيل منه (خاص)","share":"⭕️ يرجى نسخ رابط المنشور أو استخدام زر المشاركة للتنزيل","thumb":"الصورة المصغرة HD","sthumb":"الصورة المصغرة SD","sdown":"🚫 الخادم غير متصل حاليًا، يرجى المحاولة مرة أخرى في وقت لاحق","url":"الرابط:","exit":"▷ خروج","update":"✔️ تحديث إلى ㅁ","medianot":"🚫 لم يتم العثور على الوسائط","errordownload":"🔴 حدث خطأ أثناء التنزيل، يرجى إعادة تشغيل الاختصار مرة أخرى، إذا حدثت هذه المشكلة مرة أخرى، يرجى إبلاغي على تويتر\/X (@r07qxo) او تيليقرام (@r_Shortcuts)","ok":"حسنا ✔️","noteupdate":"🔺 هناك نسخة جديدة من R⤓Download متاحة للتنزيل، هنا بعض المعلومات حولها:","lang":"ar","nsfwnot":"⛔️ عذرًا، تم حظر تنزيل المحتوى الحساس","openaccount":"تواصل معي على ","select":"اختر الجودة:","notsupport":"‎🔴 عذراً التنزيل من هذا الموقع او التطبيق غير غير مدعومة حتى الآن، اذا اردت استفسار ارجوا التواصل معي على حساباتي:","story":"تحميل الستوري الحالي","stories":"تحميل كل الستوريات"}"],"index":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]})
+repeatEach(Dictionary) { >> RepeatResult
+	repeatEach(If Result) {
+		url(url: Repeat Item 2) >> url
+		if(If Result != nil ""post"") {
+			downloadURL(url: "${URL}", method: POST, headers: , requestType: Form) >> downloadURL
+		} else {
+			downloadURL(url: "${URL}", method: GET, headers: ) >> downloadURL 1
+		} >> toLoad
+		setName(input: toLoad, name: "${js.as(Dictionary).key(fn)}") >> setName
+	} >> loaded
+	list(items: (
+        {
+        WFItemType = 1;
+        WFValue =         {
+            Value =             {
+                Value =                 {
+                    WFDictionaryFieldValueItems =                     (
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = version;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            Aggrandizements =                                             (
+                                                                                                {
+                                                    DictionaryKey = Version;
+                                                    Type = WFDictionaryValueVariableAggrandizement;
+                                                }
+                                            );
+                                            OutputName = Dictionary;
+                                            OutputUUID = "BA3BF362-6591-4CB6-B704-AA5AB5DD7769";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = source;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = loaded;
+                                            OutputUUID = "BCB6F3AB-3DD6-4D84-8315-5E50E5A5C53C";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = script;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = js;
+                                            OutputUUID = "7F33F62E-D28A-4A6F-9F5D-7CFE22AF50AB";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = input;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{2, 1}" =                                         {
+                                            Type = ExtensionInput;
+                                        };
+                                        "{5, 1}" =                                         {
+                                            Type = Clipboard;
+                                        };
+                                    };
+                                    string = "\U3141 \Ufffc\U3141 \Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = lang;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = Text;
+                                            OutputUUID = "E9AB4A43-8026-4C13-80D1-DCF7666205A9";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = ext;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            Aggrandizements =                                             (
+                                                                                                {
+                                                    PropertyName = "File Extension";
+                                                    PropertyUserInfo = WFFileExtensionProperty;
+                                                    Type = WFPropertyVariableAggrandizement;
+                                                }
+                                            );
+                                            OutputName = loaded;
+                                            OutputUUID = "BCB6F3AB-3DD6-4D84-8315-5E50E5A5C53C";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 2;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = langpack;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 (
+                                                                        {
+                                        WFItemType = 0;
+                                        WFValue =                                         {
+                                            Value =                                             {
+                                                attachmentsByRange =                                                 {
+                                                    "{0, 1}" =                                                     {
+                                                        Aggrandizements =                                                         (
+                                                                                                                        {
+                                                                DictionaryKey = "langpack.1";
+                                                                Type = WFDictionaryValueVariableAggrandizement;
+                                                            }
+                                                        );
+                                                        OutputName = Dictionary;
+                                                        OutputUUID = "BA3BF362-6591-4CB6-B704-AA5AB5DD7769";
+                                                        Type = ActionOutput;
+                                                    };
+                                                };
+                                                string = "\Ufffc";
+                                            };
+                                            WFSerializationType = WFTextTokenString;
+                                        };
+                                    },
+                                                                        {
+                                        WFItemType = 0;
+                                        WFValue =                                         {
+                                            Value =                                             {
+                                                attachmentsByRange =                                                 {
+                                                    "{0, 1}" =                                                     {
+                                                        Aggrandizements =                                                         (
+                                                                                                                        {
+                                                                DictionaryKey = "langpack.2";
+                                                                Type = WFDictionaryValueVariableAggrandizement;
+                                                            }
+                                                        );
+                                                        OutputName = Dictionary;
+                                                        OutputUUID = "BA3BF362-6591-4CB6-B704-AA5AB5DD7769";
+                                                        Type = ActionOutput;
+                                                    };
+                                                };
+                                                string = "\Ufffc";
+                                            };
+                                            WFSerializationType = WFTextTokenString;
+                                        };
+                                    }
+                                );
+                                WFSerializationType = WFArrayParameterState;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = index;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            Type = Variable;
+                                            VariableName = "Repeat Item";
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        },
+                                                {
+                            WFItemType = 0;
+                            WFKey =                             {
+                                Value =                                 {
+                                    string = auto;
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                            WFValue =                             {
+                                Value =                                 {
+                                    attachmentsByRange =                                     {
+                                        "{0, 1}" =                                         {
+                                            OutputName = Text;
+                                            OutputUUID = "6302EBBB-B151-4CF8-9E19-42B1C8F98405";
+                                            Type = ActionOutput;
+                                        };
+                                    };
+                                    string = "\Ufffc";
+                                };
+                                WFSerializationType = WFTextTokenString;
+                            };
+                        }
+                    );
+                };
+                WFSerializationType = WFDictionaryFieldValue;
+            };
+            WFSerializationType = WFDictionaryFieldValue;
+        };
+    }
+)) >> list
+	encodeURL(url: "<html><!-- R⤓Download by @r07qxo --><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1, width=device-width"></head><body/><script>try{
+let dict=${List}${ActionOutput}") >> encodeURL
+	url(url: "data:text/html,${URL Encoded Text}") >> JavaScript
+	encodeURL(url: "${JavaScript.as(RichText)}") >> js
+	wait(seconds: js)
+	if(js != nil "q") {
+		choose(list: js, prompt: "${js.as(Dictionary).key(prompt)}") >> choose
+	} >> IFResult
+	if(If Result != nil "openurl") {
+		openURL(url: If Result) >> openURL
+	} >> IFResult 1
+	if(js != nil ""$${Renamed Item.get(File Extension)}$"") {
+		if(js != nil) {
+			quicklook(input: loaded)
+		} else {
+			saveToCameraRoll(image: loaded) >> saveToCameraRoll
+		}
+		exit()
+	} >> IFResult 2
+} >> RepeatResult 1
+var C801E0D7-406E-4625-92CA-B352039111C8 = """⛔️ الرجاء استخدام الاختصار في اشياء ترضي الله عز وجل غير كذا انا ابري نفسي امام الله ⛔️
+
+⛔️ I hope to use the shortcut for what pleases God Almighty other than this and justify myself before God ⛔️"""
+text("${C801E0D7-406E-4625-92CA-B352039111C8}")

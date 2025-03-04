@@ -1,0 +1,43 @@
+import Shortcuts
+#Color: green, #Icon: network
+
+/*
+Send Toolbox Pro’s full location suite details and a map view of your current location via Messages.
+
+GitHub Issue: https://github.com/extratone/i/issues/130
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+//Unable to get shortcuts action is.workflow.actions.contacts
+getLocation() >> getLocation
+//Unable to get shortcuts action is.workflow.actions.getmapslink
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetW3WIntent
+locationDetail(location: Current Location) >> locationDetail
+locationDetail(detail: Longitude, location: Current Location) >> locationDetail 1
+locationDetail(detail: Altitude, location: Current Location) >> locationDetail 2
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.ViewMapIntent
+wait(seconds: 2)
+takeScreenshot() >> takeScreenshot
+getImagesFrom(input: Screenshot) >> getImagesFrom
+cropImage(image: Images, position: Bottom Left, height: 2200, width: 1284, x: 0, y: 0) >> cropImage
+var B1EE597B-28AA-412D-B589-E46438D76CA3 = """Longitutde: ￼ 
+Latitude: ￼ 
+Altitude: ￼
+￼
+￼"""
+text("${B1EE597B-28AA-412D-B589-E46438D76CA3}")
+setClipboard(variable: Text) >> setClipboard
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+overlayImage(image1: Text Image, image2: Cropped Image, editor: false, height: "400", position: Bottom Right, opacity: "85", rotation: "0") >> overlayImage
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+//Unable to get shortcuts action is.workflow.actions.sendmessage

@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: red, Icon: atom
+
+// Ask the user to select an image
+selectPhoto(types: [Images], multiple: false) >> selectedImage
+
+// Encode the selected image in base64
+encode(input: selectedImage) >> base64EncodedImage
+
+// Display the base64 encoded result
+setClipboard(variable: base64EncodedImage, local: false)

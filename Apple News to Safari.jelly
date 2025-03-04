@@ -1,0 +1,110 @@
+import Shortcuts
+#Color: red,#Icon: moveArrow
+
+//Unable to get shortcuts action is.workflow.actions.comment
+randomNumber(min: 1, max: 3) >> randomNumber
+if( == 1) {
+	repeat($0) {
+//Unable to get shortcuts action is.workflow.actions.comment
+		text(text: "13.0") >> text
+//Unable to get shortcuts action is.workflow.actions.setvariable
+		deviceDetails(detail: System Version) >> deviceDetails
+		if( >= minOS) {
+			repeat($0) {
+//Unable to get shortcuts action is.workflow.actions.comment
+				dictionary({"ID":"4234","Version":"1.3.0"})
+//Unable to get shortcuts action is.workflow.actions.setvariable
+				getIP() >> getIP
+				count(input: Current IP Address) >> count
+				if( == 0) {
+//Unable to get shortcuts action is.workflow.actions.comment
+				} else {
+					url(url: "https://routinehub.co/api/v1/shortcuts/${LocalData.key(ID)}/versions/latest") >> url
+					downloadURL(url: "${URL}") >> result
+					if( .contains "success") {
+						dictionary({"current":"${LocalData.key(Version)}","new":"${Remote.as(Dictionary).key(Version)}"})
+var D7432E44-03A2-4E87-8DEB-BC42296CDA91 = """<html><head></head><body><script>
+// Embed-a-Engine 1.0
+function cmp (a, b) {
+let pa = a.split('.');
+let pb = b.split('.');
+for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+let na = Number(pa[i]);
+let nb = Number(pb[i]);
+if (isNaN(na)) na = 0;
+if (isNaN(nb)) nb = 0;
+if (na > nb) return "RollbackAvailable";
+if (nb > na) return "UpdateAvailable";
+}
+return "NoChanges";
+};
+let data = ￼;
+document.write(cmp(data.current, data.new));
+</script></body></html>"""
+text("${D7432E44-03A2-4E87-8DEB-BC42296CDA91}")
+						url(url: "data:text/html,${CompareVersionsHTML}") >> url
+						urlContents(url: "${URL}") >> urlContents
+						if( == "NoChanges") {
+//Unable to get shortcuts action is.workflow.actions.comment
+						} else {
+							if( == "RollbackAvailable") {
+								text(text: "A rollback is available: ${LocalData.as(Dictionary).key(Version)} ↘ ${Variable.as(Dictionary).key(Version)}") >> text
+							} else {
+								text(text: "An update is available: ${Remote.as(Dictionary).key(Version)} → ${ActionOutput.as(Dictionary).key(Version)}") >> text
+							} >> If Result
+							menu(, [) {
+							case("Install result (Version)"):
+								url(url: "https://routinehub.co/download/${Remote.as(Dictionary).key(id)}") >> url
+								openURL(url: URL)
+								output(result: "${URL}")
+							case("Not now"):
+							} >> Menu Result
+						} >> If Result
+					} else {
+						alert(alert: "Could not check for updates because of a RoutineHub error:
+
+${result.as(Dictionary).key(message)}", title: "", cancel: false)
+					} >> If Result
+				} >> If Result
+			} >> Repeat Result
+		} else {
+//Unable to get shortcuts action is.workflow.actions.comment
+			text(text: "true") >> text
+//Unable to get shortcuts action is.workflow.actions.setvariable
+			if( == $2) {
+				deviceDetails(detail: Device Model) >> deviceDetails
+				alert(alert: "This ${Device Model} is running ${ActionOutput}. This shortcut is only supported on ${minOS.as(Number)}. ", title: "Warning")
+var AD40ADBA-E3C2-408C-A969-F71AD028011F = """OS incompatible
+"""
+text("${AD40ADBA-E3C2-408C-A969-F71AD028011F}")
+				output(result: "${Text}")
+			} else {
+			} >> If Result
+		} >> If Result
+	} >> Repeat Result
+}
+nothing()
+//Unable to get shortcuts action is.workflow.actions.comment
+getURLSFromInput(text: "${Shortcut Input}") >> getURLSFromInput
+if( != nil $2) {
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} else {
+	text(text: "${Clipboard}") >> text
+	getURLSFromInput(text: "${Text}") >> getURLSFromInput
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	if( == nil $2) {
+		alert(alert: "No URL found", title: "Sorry")
+		exit()
+	} >> If Result
+} >> If Result
+getItemFromList(list: Input) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.setvariable
+if( .beginsWith "https://apple.news") {
+//Unable to get shortcuts action is.workflow.actions.comment
+	downloadURL(url: "${URL}") >> downloadURL
+	getURLSFromInput(text: "${Contents of URL}") >> getURLSFromInput
+	getItemFromList(list: URLs) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} >> If Result
+urlComponent(url: "${URL}", component: Host) >> urlComponent
+openURL(url: Component of URL)

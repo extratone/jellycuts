@@ -1,0 +1,41 @@
+import Shortcuts
+#Color: red, #Icon: checklist
+
+/*
+Made by Jonathan Reed.
+jonathan@macstories.net
+https://techhub.social/@jonathanreed
+*/
+// Prompt for a new list title.
+//Unable to get shortcuts action com.apple.reminders.TTRCreateListAppIntent
+// This is the list of categories to extract from the JSON database for each asset type.
+list(items: (
+    "Colour Swatches",
+    Logos,
+    Icons,
+    Gradients,
+    Patterns
+)) >> list
+repeatEach(List) {
+// With each item in the list Nautomate will search the database, extract the info needed and turn it into a JSON dictionary.
+//Unable to get shortcuts action com.alexhay.nautomate.CreateSelectFilterIntent
+//Unable to get shortcuts action com.alexhay.nautomate.QueryDatabaseAdvancedIntent
+//Unable to get shortcuts action com.alexhay.nautomate.ConvertDatabaseSearchResultsIntent
+var ItemDictionary = Converted Results
+// Each of these variables is set to the relevant data from the JSON dictionary.
+var Type = Variable
+var ItemName = Variable
+var Designs = Variable
+var Colours = Variable
+	replaceText(input: "${Colours}", find: ",", replace: ", ", caseSensitive: false) >> replaceText
+var Colours = Updated Text
+var ColourSpaces = Variable
+	splitText(text: Colour Spaces, separator: Custom, customSeparator: ",") >> splitText
+var ColourSpaces = Split Text
+// Create a new reminder in the previously created list and fill with the variables from the JSON dictionary.
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+	repeatEach(Colour Spaces) {
+// Add subtasks for the reminders countaining info about the colour space.
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+	}
+}

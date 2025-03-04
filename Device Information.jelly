@@ -1,0 +1,556 @@
+import Shortcuts 1092.9.18
+#Color: graybrown,#Icon: laptop
+
+text(text: "1.5.1") >> text
+text(text: "Device Information ${ShortcutVersion} Change Log
+- Changed the update system from Lightning Update to UpdateKit. You will need to download UpdateKit to continue receiving updates.") >> text
+createFolder(path: "Device Information")
+getFile(picker: false, path: "Device Information/version.txt", error: false) >> getFile
+getTextFrom(input: File) >> getTextFrom
+if( == nil $2) {
+	alert(alert: "Insert first run message here", cancel: false)
+	text(text: "${ShortcutVersion}") >> text
+	saveFile(input: Text, ask: false, path: "Device Information/version.txt", overwrite: true) >> saveFile
+} else {
+	if( != ""${ShortcutVersion}"") {
+		text(text: "Welcome back, you may not have noticed, but Device Information was just updated!
+
+Here's what's new:
+${Changelog}") >> text
+		alert(alert: "${Text}", title: "Device Information Update Services", cancel: false)
+		text(text: "${ShortcutVersion}") >> text
+		saveFile(input: Text, ask: false, path: "Device Information/version.txt", overwrite: true) >> saveFile
+		getFile(picker: false, path: "Device Information/changelog.txt", error: false) >> getFile
+		appendFile(path: "/Shortcuts/Device Information/changelog.txt") >> appendFile
+		saveFile(input: Appended File, ask: false, path: "Device Information/changelog.txt", overwrite: true)
+	}
+} >> If Result
+menu(What would you like to do?, [Get Device Information, Change Device Settings, Open a specific Settings pane, Open Feedback, System Uptime (requires a-Shell), Check for Updates, About, Get a-Shell, Close Shortcut, Quit Shortcuts]) {
+case("Get Device Information"):
+	menu(What do you want to get?, [Everything, Take me to the Settings about page, Run “uname” command on a-Shell, Back]) {
+	case("Everything"):
+		number(value: 3) >> number
+		deviceDetails() >> deviceDetails
+		deviceDetails(detail: Device Model) >> deviceDetails
+		if( .contains "iPad") {
+			text(text: "iPadOS") >> text
+		} else {
+			text(text: "iOS") >> text
+		}
+		deviceDetails(detail: System Version) >> deviceDetails
+		deviceDetails(detail: Screen Width) >> deviceDetails
+		deviceDetails(detail: Screen Height) >> deviceDetails
+		deviceDetails(detail: Current Volume) >> deviceDetails
+		math(input: Current Volume, operation: *, operand: "100") >> math
+		deviceDetails(detail: Current Brightness) >> deviceDetails
+		math(input: Current Brightness, operation: *, operand: "100") >> math
+		batteryLevel() >> batteryLevel
+		menu(Do you want to get External IP Addresses? This will not work if you are on a Cellular Network., [Yes, No]) {
+		case("Yes"):
+			getIP(source: External, type: IPv4) >> getIP
+			menu(, [Yes, No]) {
+			case("Yes"):
+				getIP(type: IPv6) >> getIP
+			case("No"):
+				text(text: "Not retrieved.") >> text
+			} >> Menu Result
+		case("No"):
+			getIP(source: Local) >> getIP
+			getIP(source: Local, type: IPv6) >> getIP
+			text(text: "Not retrieved") >> text
+		} >> Menu Result
+		setCellular(state: true)
+		wifiDetails() >> wifiDetails
+		wifiDetails() >> wifiDetails
+		wifiDetails() >> wifiDetails
+		wifiDetails() >> wifiDetails
+		wifiDetails(detail: BSSID) >> wifiDetails
+		alert(alert: "Here are some details about your ${Number of pages}. To view more information go to your ${Variable}'s settings.
+
+Device Name: ${OS type}
+Model: ${Variable}
+${Screen Height} Version: ${ActionOutput}
+Screen Width: ${Device Model}
+Screen Height: ${ActionOutput}
+
+Page 1 of ${System Version}", title: "Device Information", cancel: false)
+		alert(alert: "Current Volume: ${Battery Level} or ${ActionOutput}%
+Current Brightness: ${Cv}%
+Current Battery Level: ${Variable}%
+
+Page 2 of ${Current Volume}", title: "Current Stats", cancel: false)
+		alert(alert: "IP addresses
+Internal IPv4: ${RT}
+Internal IPv6: ${Variable}
+
+External IPv4: ${CC}
+External IPv6: ${Variable}
+
+Current Network Details
+
+Cellular
+Carrier Name: ${Network Name}
+Radio Technology: ${Variable}
+Country Code: ${L4}
+
+WiFi
+Network Name: ${Variable}
+BSSID: ${Number of pages}
+
+Page 3 of ${Variable}", title: "Current Network Information", cancel: false)
+	case("Take me to the Settings about page"):
+		url(url: "prefs:root=General&path=About") >> url
+		openURL(url: URL)
+		sendNotification(body: "To return to shortcuts, press the "< Shortcuts" link in the top left corner of your screen.", title: "Device Information", sound: false, attachment: URL)
+		waitToReturn()
+		runShortcut(name: "Device Information", show: false) >> runShortcut
+	case("Run “uname” command on a-Shell"):
+		menu(What commands do you want to use?, [All (uname -a), All OS Info (uname -rsv), Machine Hardware Name (uname -m), Nodename (uname -n), Processor Architecture (uname -p), Operation System Release (uname -r), Operating System Name (uname -s), Operating System Version (uname -v), View uname man page (man uname), Back]) {
+		case("All (uname -a)"):
+		case("All OS Info (uname -rsv)"):
+		case("Machine Hardware Name (uname -m)"):
+		case("Nodename (uname -n)"):
+		case("Processor Architecture (uname -p)"):
+		case("Operation System Release (uname -r)"):
+		case("Operating System Name (uname -s)"):
+		case("Operating System Version (uname -v)"):
+		case("View uname man page (man uname)"):
+			waitToReturn()
+		case("Back"):
+		}
+	case("Back"):
+	} >> Menu Result
+case("Change Device Settings"):
+	menu(What do you want to change?, [System Appearance, Display Brightness, Device Volume, Do Not Disturb, Flashlight, Low Power Mode, Set Audio Playback Destination, Set Airplaine Mode, Turn Bluetooth On or Off, Turn Cellular Data On or Off, Turn Wi-Fi On or Off, Accessibility, <— Back]) {
+	case("System Appearance"):
+		toggleAppearance()
+	case("Display Brightness"):
+		setBrightness(value: Ask)
+	case("Device Volume"):
+		setVolume(level: Ask)
+	case("Do Not Disturb"):
+		setDND(state: Ask)
+	case("Flashlight"):
+		setFlashlight(state: Ask)
+	case("Low Power Mode"):
+		toggleLowPowerMode()
+	case("Set Audio Playback Destination"):
+		setMediaDestination(device: Ask)
+	case("Set Airplaine Mode"):
+		setAirplaneMode(state: Ask)
+	case("Turn Bluetooth On or Off"):
+		setBluetooth()
+	case("Turn Cellular Data On or Off"):
+		setCellular(state: Ask)
+	case("Turn Wi-Fi On or Off"):
+		setWiFi(state: Ask)
+	case("Accessibility"):
+		menu(Choose an accessibility option., [Open Magnifier, AssistiveTouch, Audio Descriptions, Classic Invert, Smart Invert, Closed Captions, Increase Contrast, LED Flash, Mono Audio, Text Size, Reduce Motion, Reduce Transparency, Switch Control, Voice Control, VoiceOver, White Point, Zoom, Guided Access, Speak Screen, <— Back]) {
+		case("Open Magnifier"):
+			waitToReturn()
+		case("AssistiveTouch"):
+		case("Audio Descriptions"):
+		case("Classic Invert"):
+		case("Smart Invert"):
+		case("Closed Captions"):
+		case("Increase Contrast"):
+		case("LED Flash"):
+		case("Mono Audio"):
+		case("Text Size"):
+		case("Reduce Motion"):
+		case("Reduce Transparency"):
+		case("Switch Control"):
+		case("Voice Control"):
+		case("VoiceOver"):
+		case("White Point"):
+		case("Zoom"):
+		case("Guided Access"):
+		case("Speak Screen"):
+			waitToReturn()
+		case("<— Back"):
+			runShortcut(name: "Device Information", show: false)
+		}
+	case("<— Back"):
+		runShortcut(name: "Device Information", show: false) >> runShortcut
+	} >> Menu Result
+case("Open a specific Settings pane"):
+	alert(alert: "The actions still need to be rearranged to be in order. The general slowness of this menu on iOS 14 also needs to be fixed.", title: "This action will allow you to visit any settings page with a simple tap.", cancel: false)
+text(|"""eyJpQ2xvdWQiOiJwcmVmczpyb290PUNBU1RMRSIsImlDbG91ZCBCYWNrdXAiOiJw
+
+cmVmczpyb290PUNBU1RMRSZwYXRoPUJBQ0tVUCIsIldpLUZpIjoicHJlZnM6cm9v
+
+dD1XSUZJIiwiQmx1ZXRvb3RoIjoicHJlZnM6cm9vdD1CbHVldG9vdGgiLCJDZWxs
+
+dWxhciI6InByZWZzOnJvb3Q9TU9CSUxFX0RBVEFfU0VUVElOR1NfSUQiLCJDZWxs
+
+dWxhciDih74gQ2VsbHVsYXIgRGF0YSBPcHRpb25zIjoicHJlZnM6cm9vdD1NT0JJ
+
+TEVfREFUQV9TRVRUSU5HU19JRCZwYXRoPUNFTExVTEFSX0RBVEFfT1BUSU9OUyIs
+
+IlBlcnNvbmFsIEhvdHNwb3QiOiJwcmVmczpyb290PUlOVEVSTkVUX1RFVEhFUklO
+
+RyIsIlBlcnNvbmFsIEhvdHNwb3Qg4oe+IEZhbWlseSBTaGFyaW5nIjoicHJlZnM6
+
+cm9vdD1JTlRFUk5FVF9URVRIRVJJTkcmcGF0aD1GYW1pbHklMjBTaGFyaW5nIiwi
+
+UGVyc29uYWwgSG90c3BvdCDih74gV2ktRmkgUGFzc3dvcmQiOiJwcmVmczpyb290
+
+PUlOVEVSTkVUX1RFVEhFUklORyZwYXRoPVdpLUZpJTIwUGFzc3dvcmQiLCJWUE4i
+
+OiJwcmVmczpyb290PUdlbmVyYWwmcGF0aD1WUE4iLCJOb3RpZmljYXRpb25zIjoi
+
+cHJlZnM6cm9vdD1OT1RJRklDQVRJT05TX0lEIiwiTm90aWZpY2F0aW9ucyDih74g
+
+U2lyaSBTdWdnZXN0aW9ucyI6InByZWZzOnJvb3Q9Tk9USUZJQ0FUSU9OU19JRCZw
+
+YXRoPVNpcmklMjBTdWdnZXN0aW9ucyIsIlNvdW5kcyI6InByZWZzOnJvb3Q9U291
+
+bmRzIiwiUmluZ3RvbmUiOiJwcmVmczpyb290PVNvdW5kcyZwYXRoPVJpbmd0b25l
+
+IiwiRG8gTm90IERpc3R1cmIiOiJwcmVmczpyb290PURPX05PVF9ESVNUVVJCIiwi
+
+RG8gTm90IERpc3R1cmIg4oe+IEFsbG93IENhbGxzIEZyb20iOiJwcmVmczpyb290
+
+PURPX05PVF9ESVNUVVJCJnBhdGg9QWxsb3clMjBDYWxscyUyMEZyb20iLCJTY3Jl
+
+ZW4gVGltZSI6InByZWZzOnJvb3Q9U0NSRUVOX1RJTUUiLCJTY3JlZW4gVGltZSDi
+
+h74gRG93bnRpbWUiOiJwcmVmczpyb290PVNDUkVFTl9USU1FJnBhdGg9RE9XTlRJ
+
+TUUiLCJTY3JlZW4gVGltZSDih74gQXBwIExpbWl0cyI6InByZWZzOnJvb3Q9U0NS
+
+RUVOX1RJTUUmcGF0aD1BUFBfTElNSVRTIiwiU2NyZWVuIFRpbWUg4oe+IEFsd2F5
+
+cyBBbGxvd2VkIjoicHJlZnM6cm9vdD1TQ1JFRU5fVElNRSZwYXRoPUFMV0FZU19B
+
+TExPV0VEIiwiR2VuZXJhbCI6InByZWZzOnJvb3Q9R2VuZXJhbCIsIkdlbmVyYWwg
+
+4oe+IEFib3V0IjoicHJlZnM6cm9vdD1HZW5lcmFsJnBhdGg9QWJvdXQiLCJHZW5l
+
+cmFsIOKHviBTb2Z0d2FyZSBVcGRhdGUiOiJwcmVmczpyb290PUdlbmVyYWwmcGF0
+
+aD1TT0ZUV0FSRV9VUERBVEVfTElOSyIsIkdlbmVyYWwg4oe+IENhclBsYXkiOiJw
+
+cmVmczpyb290PUdlbmVyYWwmcGF0aD1DQVJQTEFZIiwiR2VuZXJhbCDih74gQmFj
+
+a2dyb3VuZCBBcHAgUmVmcmVzaCI6InByZWZzOnJvb3Q9R2VuZXJhbCZwYXRoPUFV
+
+VE9fQ09OVEVOVF9ET1dOTE9BRCIsIkdlbmVyYWwg4oe+IE11bHRpdGFza2luZyAo
+
+aVBhZC1vbmx5KSI6InByZWZzOnJvb3Q9R2VuZXJhbCZwYXRoPU1VTFRJVEFTS0lO
+
+RyIsIkdlbmVyYWwg4oe+IERhdGUgJiBUaW1lIjoicHJlZnM6cm9vdD1HZW5lcmFs
+
+JnBhdGg9REFURV9BTkRfVElNRSIsIkdlbmVyYWwg4oe+IEtleWJvYXJkIjoicHJl
+
+ZnM6cm9vdD1HZW5lcmFsJnBhdGg9S2V5Ym9hcmQiLCJHZW5lcmFsIOKHviBLZXli
+
+b2FyZCDih74gS2V5Ym9hcmRzIjoicHJlZnM6cm9vdD1HZW5lcmFsJnBhdGg9S2V5
+
+Ym9hcmRcL0tFWUJPQVJEUyIsIkdlbmVyYWwg4oe+IExhbmd1YWdlICYgUmVnaW9u
+
+IjoicHJlZnM6cm9vdD1HZW5lcmFsJnBhdGg9SU5URVJOQVRJT05BTCIsIkdlbmVy
+
+YWwg4oe+IERpY3Rpb25hcnkiOiJwcmVmczpyb290PUdlbmVyYWwmcGF0aD1ESUNU
+
+SU9OQVJZIiwiR2VuZXJhbCDih74gUHJvZmlsZXMiOiJwcmVmczpyb290PUdlbmVy
+
+YWwmcGF0aD1NYW5hZ2VkQ29uZmlndXJhdGlvbkxpc3QiLCJHZW5lcmFsIOKHviBS
+
+ZXNldCI6InByZWZzOnJvb3Q9R2VuZXJhbCZwYXRoPVJlc2V0IiwiQ29udHJvbCBD
+
+ZW50ZXIiOiJwcmVmczpyb290PUNvbnRyb2xDZW50ZXIiLCJDb250cm9sIENlbnRl
+
+ciDih74gQ3VzdG9taXplIENvbnRyb2xzIjoicHJlZnM6cm9vdD1Db250cm9sQ2Vu
+
+dGVyJnBhdGg9Q1VTVE9NSVpFX0NPTlRST0xTIiwiRGlzcGxheSI6InByZWZzOnJv
+
+b3Q9RElTUExBWSIsIkRpc3BsYXkg4oe+IEF1dG8gTG9jayI6InByZWZzOnJvb3Q9
+
+RElTUExBWSZwYXRoPUFVVE9MT0NLIiwiRGlzcGxheSDih74gVGV4dCBTaXplIjoi
+
+cHJlZnM6cm9vdD1ESVNQTEFZJnBhdGg9VEVYVF9TSVpFIiwiQWNjZXNzaWJpbGl0
+
+eSI6InByZWZzOnJvb3Q9QUNDRVNTSUJJTElUWSIsIkFjY2Vzc2liaWxpdHkg4oe+
+
+IERpc3BsYXkgJiBUZXh0IFNpemUiOiJwcmVmczpyb290PUFDQ0VTU0lCSUxJVFkm
+
+cGF0aD1ESVNQTEFZX0FORF9URVhUIiwiV2FsbHBhcGVyIjoicHJlZnM6cm9vdD1X
+
+YWxscGFwZXIiLCJTaXJpIjoicHJlZnM6cm9vdD1TSVJJIiwiQXBwbGUgUGVuY2ls
+
+IChpUGFkLW9ubHkpIjoicHJlZnM6cm9vdD1QZW5jaWwiLCJGYWNlIElEIjoicHJl
+
+ZnM6cm9vdD1QQVNTQ09ERSIsIkVtZXJnZW5jeSBTT1MiOiJwcmVmczpyb290PUVN
+
+RVJHRU5DWV9TT1MiLCJCYXR0ZXJ5IjoicHJlZnM6cm9vdD1CQVRURVJZX1VTQUdF
+
+IiwiQmF0dGVyeSDih74gQmF0dGVyeSBIZWFsdGggKGlQaG9uZS1vbmx5KSI6InBy
+
+ZWZzOnJvb3Q9QkFUVEVSWV9VU0FHRSZwYXRoPUJBVFRFUllfSEVBTFRIIiwiUHJp
+
+dmFjeSI6InByZWZzOnJvb3Q9UHJpdmFjeSIsIlByaXZhY3kg4oe+IExvY2F0aW9u
+
+IFNlcnZpY2VzIjoicHJlZnM6cm9vdD1Qcml2YWN5JnBhdGg9TE9DQVRJT04iLCJQ
+
+cml2YWN5IOKHviBDb250YWN0cyI6InByZWZzOnJvb3Q9UHJpdmFjeSZwYXRoPUNP
+
+TlRBQ1RTIiwiUHJpdmFjeSDih74gQ2FsZW5kYXJzIjoicHJlZnM6cm9vdD1Qcml2
+
+YWN5JnBhdGg9Q0FMRU5EQVJTIiwiUHJpdmFjeSDih74gUmVtaW5kZXJzIjoicHJl
+
+ZnM6cm9vdD1Qcml2YWN5JnBhdGg9UkVNSU5ERVJTIiwiUHJpdmFjeSDih74gUGhv
+
+dG9zIjoicHJlZnM6cm9vdD1Qcml2YWN5JnBhdGg9UEhPVE9TIiwiUHJpdmFjeSDi
+
+h74gTWljcm9waG9uZSI6InByZWZzOnJvb3Q9UHJpdmFjeSZwYXRoPU1JQ1JPUEhP
+
+TkUiLCJQcml2YWN5IOKHviBTcGVlY2ggUmVjb2duaXRpb24iOiJwcmVmczpyb290
+
+PVByaXZhY3kmcGF0aD1TUEVFQ0hfUkVDT0dOSVRJT04iLCJQcml2YWN5IOKHviBD
+
+YW1lcmEiOiJwcmVmczpyb290PVByaXZhY3kmcGF0aD1DQU1FUkEiLCJQcml2YWN5
+
+IOKHviBNb3Rpb24iOiJwcmVmczpyb290PVByaXZhY3kmcGF0aD1NT1RJT04iLCJB
+
+cHAgU3RvcmUiOiJwcmVmczpyb290PVNUT1JFIiwiQXBwIFN0b3JlIOKHviBBcHAg
+
+RG93bmxvYWRzIjoicHJlZnM6cm9vdD1TVE9SRSZwYXRoPUFwcCUyMERvd25sb2Fk
+
+cyIsIkFwcCBTdG9yZSDih74gVmlkZW8gQXV0b3BsYXkiOiJwcmVmczpyb290PVNU
+
+T1JFJnBhdGg9VmlkZW8lMjBBdXRvcGxheSIsIldhbGxldCI6InByZWZzOnJvb3Q9
+
+UEFTU0JPT0siLCJQYXNzd29yZHMgJiBBY2NvdW50cyI6InByZWZzOnJvb3Q9QUND
+
+T1VOVFNfQU5EX1BBU1NXT1JEUyIsIlBhc3N3b3JkcyAmIEFjY291bnRzIOKHviBG
+
+ZXRjaCBOZXcgRGF0YSI6InByZWZzOnJvb3Q9QUNDT1VOVFNfQU5EX1BBU1NXT1JE
+
+UyZwYXRoPUZFVENIX05FV19EQVRBIiwiUGFzc3dvcmRzICYgQWNjb3VudHMg4oe+
+
+IEFkZCBBY2NvdW50IjoicHJlZnM6cm9vdD1BQ0NPVU5UU19BTkRfUEFTU1dPUkRT
+
+JnBhdGg9QUREX0FDQ09VTlQiLCJNYWlsIjoicHJlZnM6cm9vdD1NQUlMIiwiTWFp
+
+bCDih74gUHJldmlldyI6InByZWZzOnJvb3Q9TUFJTCZwYXRoPVByZXZpZXciLCJN
+
+YWlsIOKHviBTd2lwZSBPcHRpb25zIjoicHJlZnM6cm9vdD1NQUlMJnBhdGg9U3dp
+
+cGUlMjBPcHRpb25zIiwiTWFpbCDih74gTm90aWZpY2F0aW9ucyI6InByZWZzOnJv
+
+b3Q9TUFJTCZwYXRoPU5PVElGSUNBVElPTlMiLCJNYWlsIOKHviBCbG9ja2VkIjoi
+
+cHJlZnM6cm9vdD1NQUlMJnBhdGg9QmxvY2tlZCIsIk1haWwg4oe+IE11dGVkIFRo
+
+cmVhZCBBY3Rpb24iOiJwcmVmczpyb290PU1BSUwmcGF0aD1NdXRlZCUyMFRocmVh
+
+ZCUyMEFjdGlvbiIsIk1haWwg4oe+IEJsb2NrZWQgU2VuZGVyIE9wdGlvbnMiOiJw
+
+cmVmczpyb290PU1BSUwmcGF0aD1CbG9ja2VkJTIwU2VuZGVyJTIwT3B0aW9ucyIs
+
+Ik1haWwg4oe+IE1hcmsgQWRkcmVzc2VzIjoicHJlZnM6cm9vdD1NQUlMJnBhdGg9
+
+TWFyayUyMEFkZHJlc3NlcyIsIk1haWwg4oe+IEluY3JlYXNlIFF1b3RlIExldmVs
+
+IjoicHJlZnM6cm9vdD1NQUlMJnBhdGg9SW5jcmVhc2UlMjBRdW90ZSUyMExldmVs
+
+IiwiTWFpbCDih74gSW5jbHVkZSBBdHRhY2htZW50cyB3aXRoIFJlcGxpZXMiOiJw
+
+cmVmczpyb290PU1BSUwmcGF0aD1JbmNsdWRlJTIwQXR0YWNobWVudHMlMjB3aXRo
+
+JTIwUmVwbGllcyIsIk1haWwg4oe+IFNpZ25hdHVyZSI6InByZWZzOnJvb3Q9TUFJ
+
+TCZwYXRoPVNpZ25hdHVyZSIsIk1haWwg4oe+IERlZmF1bHQgQWNjb3VudCI6InBy
+
+ZWZzOnJvb3Q9TUFJTCZwYXRoPURlZmF1bHQlMjBBY2NvdW50IiwiQ29udGFjdHMi
+
+OiJwcmVmczpyb290PUNPTlRBQ1RTIiwiQ2FsZW5kYXIiOiJwcmVmczpyb290PUNB
+
+TEVOREFSIiwiQ2FsZW5kYXIg4oe+IEFsdGVybmF0ZSBDYWxlbmRhcnMiOiJwcmVm
+
+czpyb290PUNBTEVOREFSJnBhdGg9QWx0ZXJuYXRlJTIwQ2FsZW5kYXJzIiwiQ2Fs
+
+ZW5kYXIg4oe+IFN5bmMiOiJwcmVmczpyb290PUNBTEVOREFSJnBhdGg9U3luYyIs
+
+IkNhbGVuZGFyIOKHviBEZWZhdWx0IEFsZXJ0IFRpbWVzIjoicHJlZnM6cm9vdD1D
+
+QUxFTkRBUiZwYXRoPURlZmF1bHQlMjBBbGVydCUyMFRpbWVzIiwiQ2FsZW5kYXIg
+
+4oe+IERlZmF1bHQgQ2FsZW5kYXIiOiJwcmVmczpyb290PUNBTEVOREFSJnBhdGg9
+
+RGVmYXVsdCUyMENhbGVuZGFyIiwiTm90ZXMiOiJwcmVmczpyb290PU5PVEVTIiwi
+
+Tm90ZXMg4oe+IERlZmF1bHQgQWNjb3VudCI6InByZWZzOnJvb3Q9Tk9URVMmcGF0
+
+aD1EZWZhdWx0JTIwQWNjb3VudCIsIk5vdGVzIOKHviBQYXNzd29yZCI6InByZWZz
+
+OnJvb3Q9Tk9URVMmcGF0aD1QYXNzd29yZCIsIk5vdGVzIOKHviBTb3J0IE5vdGVz
+
+IEJ5IjoicHJlZnM6cm9vdD1OT1RFUyZwYXRoPVNvcnQlMjBOb3RlcyUyMEJ5Iiwi
+
+Tm90ZXMg4oe+IE5ldyBOb3RlcyBTdGFydCBXaXRoIjoicHJlZnM6cm9vdD1OT1RF
+
+UyZwYXRoPU5ldyUyME5vdGVzJTIwU3RhcnQlMjBXaXRoIiwiTm90ZXMg4oe+IFNv
+
+cnQgQ2hlY2tlZCBJdGVtcyI6InByZWZzOnJvb3Q9Tk9URVMmcGF0aD1Tb3J0JTIw
+
+Q2hlY2tlZCUyMEl0ZW1zIiwiTm90ZXMg4oe+IExpbmVzICYgR3JpZHMiOiJwcmVm
+
+czpyb290PU5PVEVTJnBhdGg9TGluZXMlMjAlMjYlMjBHcmlkcyIsIk5vdGVzIOKH
+
+viBBY2Nlc3MgTm90ZXMgZnJvbSBMb2NrIFNjcmVlbiI6InByZWZzOnJvb3Q9Tk9U
+
+RVMmcGF0aD1BY2Nlc3MlMjBOb3RlcyUyMGZyb20lMjBMb2NrJTIwU2NyZWVuIiwi
+
+UmVtaW5kZXJzIjoicHJlZnM6cm9vdD1SRU1JTkRFUlMiLCJSZW1pbmRlcnMg4oe+
+
+IERlZmF1bHQgTGlzdCI6InByZWZzOnJvb3Q9UkVNSU5ERVJTJnBhdGg9REVGQVVM
+
+VF9MSVNUIiwiVm9pY2UgTWVtb3MiOiJwcmVmczpyb290PVZPSUNFX01FTU9TIiwi
+
+UGhvbmUiOiJwcmVmczpyb290PVBob25lIiwiTWVzc2FnZXMiOiJwcmVmczpyb290
+
+PU1FU1NBR0VTIiwiRmFjZVRpbWUiOiJwcmVmczpyb290PUZBQ0VUSU1FIiwiTWFw
+
+cyI6InByZWZzOnJvb3Q9TUFQUyIsIk1hcHMg4oe+IERyaXZpbmcgJiBOYXZpZ2F0
+
+aW9uIjoicHJlZnM6cm9vdD1NQVBTJnBhdGg9RHJpdmluZyUyMCUyNiUyME5hdmln
+
+YXRpb24iLCJNYXBzIOKHviBUcmFuc2l0IjoicHJlZnM6cm9vdD1NQVBTJnBhdGg9
+
+VHJhbnNpdCIsIkNvbXBhc3MiOiJwcmVmczpyb290PUNPTVBBU1MiLCJNZWFzdXJl
+
+IjoicHJlZnM6cm9vdD1NRUFTVVJFIiwiU2FmYXJpIjoicHJlZnM6cm9vdD1TQUZB
+
+UkkiLCJTYWZhcmkg4oe+IENvbnRlbnQgQmxvY2tlcnMiOiJwcmVmczpyb290PVNB
+
+RkFSSSZwYXRoPUNvbnRlbnQlMjBCbG9ja2VycyIsIlNhZmFyaSDih74gRG93bmxv
+
+YWRzIjoicHJlZnM6cm9vdD1TQUZBUkkmcGF0aD1ET1dOTE9BRFMiLCJTYWZhcmkg
+
+4oe+IENsb3NlIFRhYnMiOiJwcmVmczpyb290PVNBRkFSSSZwYXRoPUNsb3NlJTIw
+
+VGFicyIsIlNhZmFyaSDih74gUGFnZSBab29tIjoicHJlZnM6cm9vdD1TQUZBUkkm
+
+cGF0aD1QYWdlJTIwWm9vbSIsIlNhZmFyaSDih74gUmVxdWVzdCBEZXNrdG9wIFdl
+
+YnNpdGUiOiJwcmVmczpyb290PVNBRkFSSSZwYXRoPVJlcXVlc3QlMjBEZXNrdG9w
+
+JTIwV2Vic2l0ZSIsIlNhZmFyaSDih74gUmVhZGVyIjoicHJlZnM6cm9vdD1TQUZB
+
+UkkmcGF0aD1SZWFkZXIiLCJTYWZhcmkg4oe+IENhbWVyYSI6InByZWZzOnJvb3Q9
+
+U0FGQVJJJnBhdGg9Q2FtZXJhIiwiU2FmYXJpIOKHviBNaWNyb3Bob25lIjoicHJl
+
+ZnM6cm9vdD1TQUZBUkkmcGF0aD1NaWNyb3Bob25lIiwiU2FmYXJpIOKHviBMb2Nh
+
+dGlvbiI6InByZWZzOnJvb3Q9U0FGQVJJJnBhdGg9TG9jYXRpb24iLCJOZXdzIjoi
+
+cHJlZnM6cm9vdD1ORVdTIiwiSGVhbHRoIjoicHJlZnM6cm9vdD1IRUFMVEgiLCJT
+
+aG9ydGN1dHMiOiJwcmVmczpyb290PVNIT1JUQ1VUUyIsIk11c2ljIjoicHJlZnM6
+
+cm9vdD1NVVNJQyIsIk11c2ljIOKHviBDZWxsdWxhciBEYXRhIjoicHJlZnM6cm9v
+
+dD1NVVNJQyZwYXRoPWNvbS5hcHBsZS5NdXNpYzpDZWxsdWxhckRhdGEiLCJNdXNp
+
+YyDih74gT3B0aW1pemUgU3RvcmFnZSI6InByZWZzOnJvb3Q9TVVTSUMmcGF0aD1j
+
+b20uYXBwbGUuTXVzaWM6T3B0aW1pemVTdG9yYWdlIiwiTXVzaWMg4oe+IEVRIjoi
+
+cHJlZnM6cm9vdD1NVVNJQyZwYXRoPWNvbS5hcHBsZS5NdXNpYzpFUSIsIk11c2lj
+
+IOKHviBWb2x1bWUgTGltaXQiOiJwcmVmczpyb290PU1VU0lDJnBhdGg9Y29tLmFw
+
+cGxlLk11c2ljOlZvbHVtZUxpbWl0IiwiUGhvdG9zIjoicHJlZnM6cm9vdD1QaG90
+
+b3MiLCJDYW1lcmEiOiJwcmVmczpyb290PUNBTUVSQSIsIkNhbWVyYSDih74gUmVj
+
+b3JkIFZpZGVvIjoicHJlZnM6cm9vdD1DQU1FUkEmcGF0aD1SZWNvcmQlMjBWaWRl
+
+byIsIkNhbWVyYSDih74gUmVjb3JkIFNsby1tbyI6InByZWZzOnJvb3Q9Q0FNRVJB
+
+JnBhdGg9UmVjb3JkJTIwU2xvLW1vIiwiQm9va3MiOiJwcmVmczpyb290PUlCT09L
+
+UyIsIkdhbWUgQ2VudGVyIjoicHJlZnM6cm9vdD1HQU1FQ0VOVEVSIn0="""|)
+	decode(input: Text) >> decode
+	getDictionaryFrom(input: Base64 Encoded) >> getDictionaryFrom
+	valuesFrom(dictionary: Dictionary) >> valuesFrom
+	choose(list: Dictionary Value, prompt: "Where do you want to go?") >> choose
+	valuesFrom(dictionary: Dictionary) >> valuesFrom
+	url(url: "${Dictionary Value}") >> url
+	openURL(url: URL)
+case("Open Feedback"):
+	openApp(id: "com.apple.appleseed.FeedbackAssistant")
+case("System Uptime (requires a-Shell)"):
+	runShortcut(name: "Device Information") >> runShortcut
+case("Check for Updates"):
+{	dictionary("Name":"Device Information","RoutineHub ID":"3468","Version":"${ShortcutVersion}","Prerelease":"False")}
+	runShortcut(name: "UpdateKit", input: Dictionary, show: false) >> runShortcut
+	nothing()
+	runShortcut(name: "Device Information", show: false) >> runShortcut
+case("About"):
+	alert(alert: "This shortcut was made by Jake Thomas.
+
+Shortcut Version: ${ShortcutVersion}
+Language: en-US
+Features: All enabled
+
+Please do not copy or change anything in this shortcut. ", title: "About", cancel: false)
+	alert(alert: "${Changelog}", title: "Change Log", cancel: false)
+	runShortcut(name: "Device Information", show: false) >> runShortcut
+case("Get a-Shell"):
+	url(url: "https://apps.apple.com/us/app/a-shell/id1473805438") >> url
+	appDetail(detail: Category, app: a-Shell) >> appDetail
+	appDetail(detail: Content Rating, app: a-Shell) >> appDetail
+	appDetail(detail: Download Size, app: a-Shell) >> appDetail
+	appDetail(detail: Release Date, app: a-Shell) >> appDetail
+	appDetail(detail: Version, app: a-Shell) >> appDetail
+	appDetail() >> appDetail
+	appDetail(detail: Minimum OS Version, app: a-Shell) >> appDetail
+	appDetail() >> appDetail
+	appDetail() >> appDetail
+	appDetail(detail: Is Universal, app: a-Shell) >> appDetail
+	appDetail(detail: Rating, app: a-Shell) >> appDetail
+	appDetail(detail: # of Ratings, app: a-Shell) >> appDetail
+	appDetail(detail: Rating (This Version), app: a-Shell) >> appDetail
+	appDetail(detail: # of Ratings (This Version), app: a-Shell) >> appDetail
+	appDetail(detail: Price, app: a-Shell) >> appDetail
+	appDetail(detail: Description, app: a-Shell) >> appDetail
+	appDetail(detail: Formatted Price, app: a-Shell) >> appDetail
+	appDetail(detail: Last Updated, app: a-Shell) >> appDetail
+	appDetail(detail: Release Notes, app: a-Shell) >> appDetail
+	appDetail(detail: Supported Devices, app: a-Shell) >> appDetail
+	appDetail(detail: Supported Languages, app: a-Shell) >> appDetail
+	appDetail(detail: Supports Game Center, app: a-Shell) >> appDetail
+	alert(alert: "${Description}", title: "App Store Description", cancel: false)
+	alert(alert: "${Supported Devices}", title: "a-Shell Supported Devices", cancel: false)
+	alert(alert: "Category: ${Minimum OS Version}
+Content Rating: ${ActionOutput}
+Release Date: ${Rating}
+Version: ${ActionOutput}
+Download Size: ${Formatted Price}
+
+Minimum OS Version: ${ActionOutput}
+Universal App: ${Release Notes}
+Supports Game Center: ${ActionOutput}
+Supported Languages: ${Is Universal}
+
+Price: ${ActionOutput}
+Formatted Price: ${Rating (This Version)}
+
+Overall Rating: ${ActionOutput}
+Overall Number of Ratings: ${Release Date}
+Current Version Rating: ${ActionOutput}
+Current Version Number of Ratings: ${Supports Game Center}
+
+Last Updated: ${ActionOutput}
+Release Notes: ${# of Ratings}", title: "App Store Listing Details", cancel: false)
+	alert(alert: "Do you to install a-Shell now for ${Formatted Price}?", title: "Download now?")
+	showWebPage(url: "${URL}")
+case("Close Shortcut"):
+	exit()
+case("Quit Shortcuts"):
+	openApp(id: "com.apple.springboard")
+} >> Menu Result

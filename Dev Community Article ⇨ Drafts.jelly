@@ -1,0 +1,65 @@
+import Shortcuts
+#Color: navy, #Icon: circledDownArrow
+
+/*
+Capture a dev.to article in clean markdown via API.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+var url = ShortcutInput
+text(text: "devto") >> text
+var jar = Text
+splitText(text: url, separator: Custom, customSeparator: "https://dev.to/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var slug = Item from List
+url(url: "https://dev.to/api/articles/${slug}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+keysFrom(dictionary: Contents of URL) >> keysFrom
+var id = Dictionary Value
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+keysFrom(dictionary: Dictionary) >> keysFrom 1
+var title = Dictionary Value
+keysFrom(dictionary: Dictionary) >> keysFrom 2
+text(text: "[![${Dictionary Value}](${ActionOutput})](${title})") >> text 1
+var cover = Text
+keysFrom(dictionary: Dictionary) >> keysFrom 3
+var tags = Dictionary Value
+keysFrom(dictionary: Dictionary) >> keysFrom 4
+url(url: "https://dev.to/${Dictionary Value}") >> url 1
+var profile = URL
+keysFrom(dictionary: Dictionary) >> keysFrom 5
+var byline = Dictionary Value
+keysFrom(dictionary: Dictionary) >> keysFrom 6
+getDateFrom(input: Dictionary Value) >> getDateFrom
+var davodtime = Dates
+keysFrom(dictionary: Dictionary) >> keysFrom 7
+var md = Dictionary Value
+var CE89A754-6628-49B8-AABD-1EA2C31CC419 = """# ￼
+
+- [**Source**](￼)
+- Byline: [￼](￼)
+- Published: `￼`
+
+---
+
+￼
+
+￼"""
+text("${CE89A754-6628-49B8-AABD-1EA2C31CC419}")
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+var draftlink = Draft
+setClipboard(variable: draftlink) >> setClipboard
+openURL(url: draftlink) >> openURL

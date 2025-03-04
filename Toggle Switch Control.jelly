@@ -1,0 +1,23 @@
+import Shortcuts
+#Color: blue, #Icon: hand
+
+/*
+This shortcut is a quick way to turn Switch Control on or off.
+
+Add a Personal Automation to have it automatically toggle Switch Control on when you open specific apps.
+*/
+getFile(picker: false, path: "SwitchControl.txt", error: false) >> getFile
+if(File == nil) {
+	menu(This shortcut will turn on Switch Control, which changes the way you navigate your device. If you don’t know how to use Switch Control, you may not want to turn it on yet., [Turn on Switch Control, Learn about Switch Control first, Cancel]) {
+	case("Turn on Switch Control"):
+	case("Learn about Switch Control first"):
+		showWebPage(url: "https://support.apple.com/en-us/HT201370")
+		alert(alert: "Do you want to turn on Switch Control?")
+	case("Cancel"):
+		exit()
+	} >> MenuResult
+	text(text: "Switch Control check") >> text
+	saveFile(input: Text, ask: false, path: "SwitchControl.txt")
+} else {
+}
+//Unable to get shortcuts action com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleSwitchControlIntent

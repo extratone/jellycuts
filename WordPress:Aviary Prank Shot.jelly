@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: blue, #Icon: faceTears
+
+takePhoto(camera: Front, preview: false) >> takePhoto
+//Unable to get shortcuts action is.workflow.actions.wordpress.post
+setClipboard(variable: WordPress Post URL) >> setClipboard
+openURL(url: WordPress Post URL) >> openURL
+//Unable to get shortcuts action is.workflow.actions.sendmessage
+var B2367DC3-CEA7-4B1E-9218-7284B9EA3B39 = """H̗͇̀ͫͭ̍̚͞â̭̝͚͍͕͇̚͜͠c̡̪̊̎́ͨͥ̂̉k̶̼̳̤ͯ̆̿̀e̥͍̝̪͍̻ͧ̃ͣͬ͜d͕̤͙͎̣̱̠ͧͧͬ͆ͪͤ͞!͖̘̫͚̮̣̳͚͒̂̿͊̃̃͜
+
+I was caught coughing, shouting, or ringing like a bell at ￼! ￼"""
+text("${B2367DC3-CEA7-4B1E-9218-7284B9EA3B39}")
+//Unable to get shortcuts action com.shi.AviaryApp.PostTweetIntent

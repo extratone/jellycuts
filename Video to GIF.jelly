@@ -1,0 +1,18 @@
+import Shortcuts
+#Color: blue, #Icon: movieCamera
+
+filterPhotos() >> filterPhotos
+count(type: Items, input: Photos) >> count
+if(Count > false) {
+} else {
+	alert(alert: "You do not have any videos in your Camera Roll", title: "No Videos", cancel: false)
+}
+choose(list: Photos, prompt: "Which video do you want to make a GIF out of?") >> choose
+trimVideo(video: Chosen Item) >> trimVideo
+musicDetail(detail: Duration, music: Trimmed Media) >> musicDetail
+math(input: Duration, operation: /, operand: "20") >> math
+if(Calculation Result false 0.1) {
+	number(value: 0.1)
+} >> IFResult
+makeGIF(content: Trimmed Media, frameTime: If Result) >> makeGIF
+quicklook(input: GIF)

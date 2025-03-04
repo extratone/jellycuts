@@ -1,0 +1,12 @@
+import Shortcuts
+#Color: blue, #Icon: iPhoneApps
+
+askForInput(prompt: "Description?") >> askForInput
+getName() >> getName
+//Unable to get shortcuts action is.workflow.actions.tumblr.post
+splitText(text: Tumblr Post URL, separator: Custom, customSeparator: "https://iphonehistory.tumblr.com/post/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var id = Item from List
+dictionary({"content":"${ShortcutInput}","title":"${Name}","description":"${Provided Input}","url":"${Tumblr Post URL}"})
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+//Unable to get shortcuts action is.workflow.actions.getvariable

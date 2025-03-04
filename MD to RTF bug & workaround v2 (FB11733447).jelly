@@ -1,0 +1,48 @@
+import Shortcuts
+#Color: navy, #Icon: documentFilled
+
+/*
+In iOS 16.1 Markdown text converted to Rich Text loses its UTF-8 encoding, resulting in  mojibake. This issue was found by @tewmgd in Twitter*. The issue reappeared two weeks later in Discord**. I looked into it and I found this workaround — @atnbueno (2022-10-29)
+
+v2 (2023-06-08): Simplified workaround (just add <meta> element to Markdown)
+
+(*) https://twitter.com/tewmgd/status/1581661432654880769
+(**) https://discord.com/channels/551914015131959308/552220825059721225/1035941771848470550
+*/
+var 5ACD3E31-7042-400C-8E94-52BC4452952D = """# Café ☕️
+
+## Façade 🏢
+
+* **Mañana**
+* *Voilà*
+* ~~Château~~
+* `Fraülein`"""
+text("${5ACD3E31-7042-400C-8E94-52BC4452952D}")
+askForInput(prompt: "Markdown sample?", default: "${Default Markdown sample}") >> askForInput
+richTextFromMarkdown(markdown: Entrada proporcionada) >> richTextFromMarkdown
+/*
+The action below shows:
+
+CafÃ© â˜•ï¸
+FaÃ§ade ðŸ¢
+· MaÃ±ana
+· VoilÃ 
+· ChÃ¢teau
+· FraÃ¼lein
+*/
+showWebPage(url: "${De Markdown a RTF}") >> showWebPage
+var 7CCFB4C6-8587-4A20-B5DF-E9204C33FB36 = """<meta charset="utf-8">
+￼"""
+text("${7CCFB4C6-8587-4A20-B5DF-E9204C33FB36}")
+richTextFromMarkdown(markdown: Texto) >> richTextFromMarkdown 1
+/*
+The action below shows:
+
+Café ☕️
+Façade 🏢
+· Mañana
+· Voilà
+· Château
+· Fraülein
+*/
+showWebPage(url: "${De Markdown a RTF}") >> showWebPage 1

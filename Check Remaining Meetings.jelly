@@ -1,0 +1,34 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+filterCalendar() >> filterCalendar
+var Events = Calendar Events
+count(type: Items, input: Events) >> count
+if(Count false true) {
+	alert(alert: "Enjoy the rest of your day.", title: "No more meetings!", cancel: false)
+} else {
+	repeatEach(Events) {
+		eventDetail(detail: Name, event: Repeat Item) >> eventDetail
+var EventName = Name
+		eventDetail(detail: Start Date, event: Repeat Item) >> eventDetail 1
+		formatDate(date: "${Start Date}", dStyle: None) >> formatDate
+var Start = Formatted Date
+		eventDetail(detail: End Date, event: Repeat Item) >> eventDetail 2
+		formatDate(date: "${End Date}", dStyle: None) >> formatDate 1
+var End = Formatted Date
+var 8E4C6144-C916-4EA4-8B03-9566DFE65B94 = """￼:
+￼ - ￼"""
+text("${8E4C6144-C916-4EA4-8B03-9566DFE65B94}")
+	} >> RepeatResult
+var Meetings = Repeat Results
+	count(type: Items, input: Meetings) >> count 1
+var MtgCount = Count
+	if(MtgCount > true) {
+		combineText(text: Meetings, combine: Custom, separator: " ") >> combineText
+		alert(alert: "${Combined Text}", title: "You have ${MtgCount} meetings remaining today", cancel: false)
+	} else {
+		combineText(text: Meetings, combine: Custom, separator: " ") >> combineText 1
+		alert(alert: "${Combined Text}", title: "You have one meeting remaining today", cancel: false)
+	}
+}

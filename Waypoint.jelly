@@ -1,0 +1,37 @@
+import Shortcuts
+#Color: green, #Icon: locationPin
+
+getLocation() >> getLocation
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetW3WIntent
+locationDetail(detail: Latitude, location: Current Location) >> locationDetail
+locationDetail(detail: Longitude, location: Current Location) >> locationDetail 1
+locationDetail(detail: Altitude, location: Current Location) >> locationDetail 2
+//Unable to get shortcuts action is.workflow.actions.getmapslink
+//Unable to get shortcuts action com.sindresorhus.Actions.GeoURIIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.GetCompassHeading
+text(text: "${Longitude}, ${ActionOutput}") >> text
+var latlong = Text
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetDetailsOfLocationIntent
+dictionary({"lat":"${Latitude}","long":"${Longitude}","latlong":"${latlong}","altitude":"${Altitude}","heading":"${Compass Heading (iOS-only)}","url":"${Maps URL}","geo":"${Convert Location to Geo URI}","neighborhood":"${Location Details.get(subTfare)}","w3w":["${what3words Result.get(words)}","${what3words Result.get(mapURL)}","${what3words Result.get(nearestPlace)}"]})
+//Unable to get shortcuts action com.sindresorhus.Actions.GetDeviceMotionData
+dictionary({"x":"${Device Motion Data.get(userAccelerationX)}","y":"${Device Motion Data.get(userAccelerationY)}","z":"${Device Motion Data.get(userAccelerationZ)}"})
+replaceText(input: "${what3words Result.get(words)}", find: ".", replace: "-") >> replaceText
+setValue(key: "accel", value: "${Dictionary}", dictionary: Dictionary) >> setValue
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+//Unable to get shortcuts action ke.bou.GizmoPack.SnapshotMapIntent
+//Unable to get shortcuts action com.sindresorhus.Actions.SetImageLocation
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+//Unable to get shortcuts action com.devon-technologies.thinktogo3.DTTGCreateItemIntent
+var C479289E-992F-4C9C-A08D-8A04FD040F80 = """# ￼
+
+- [Maps](￼)
+- [w3w](￼)
+- [geo](￼)
+
+'''json
+￼
+'''"""
+text("${C479289E-992F-4C9C-A08D-8A04FD040F80}")
+//Unable to get shortcuts action com.bloombuilt.dayone-ios.CreateEntryIntent
+openURL(url: what3words Result) >> openURL
+//Unable to get shortcuts action com.LennartBusch.Milage.NewPlaceIntent

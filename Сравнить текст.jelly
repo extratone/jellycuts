@@ -1,0 +1,63 @@
+import Shortcuts
+#Color: grape, #Icon: rectangleStack
+
+/*
+[diff Library 1.0]
+Takes a Shortcut Input of 1 dictionary containing 2 variables. They can be dictionaries, text, or lists, whatever. Returns text containing all differences. NOTE: Using dictionaries must have identical structures.
+*/
+// As built, it returns what changed (as in you have a field or dictionary that then has been updated at some point). If you want to have it say “DIFFERENT” or something else, you can change the text to correspond to what you wish.
+/*
+For “changes” between the two items, treat the first one as the “old” item, and the second as the “new” item.
+If nothing changed then nothing is returned.
+*/
+getType(input: ShortcutInput) >> getType
+if(Type != "Dictionary") {
+	text(text: "Error, the provided input was not a dictionary. Make sure to wrap the two pieces of data in a dictionary.") >> text
+	exit(var: Text)
+} else {
+	valuesFrom(dictionary: ShortcutInput) >> valuesFrom
+	valuesFrom(dictionary: ShortcutInput) >> Keys
+	getItemFromList(list: Keys) >> First Key
+	getItemFromList(list: Keys, type: Last Item) >> Second Key
+	getItemFromList(list: Dictionary Value) >> First Item from List
+	getItemFromList(list: Dictionary Value, type: Last Item) >> Last Item from List
+	getType(input: First Item from List) >> getType 1
+// If data passed into the library is just two values (text, number, boolean, etc), we’ll just handle that quickly here.
+	if(Type != "Dictionary") {
+var A776D679-9D2A-4F81-9246-394FE5E6BC03 = """———[CHANGED]———
+￼: ￼
+￼: ￼
+"""
+text("${A776D679-9D2A-4F81-9246-394FE5E6BC03}")
+		if(First Item from List == ""${Last Item from List}"") {
+			exit()
+		} else {
+			exit(var: Changed Item Text)
+		} >> IFResult
+	} >> IFResult 1
+// Otherwise: we had a dictionary of values passed in. Now we dig out all the keys and values and will cycle through once we have them.
+	valuesFrom(dictionary: ShortcutInput) >> DictKeys
+	getItemFromList(list: DictKeys) >> DictFirstKey
+	valuesFrom(dictionary: ShortcutInput) >> First Dict
+	valuesFrom(dictionary: First Dict) >> First Values
+	getItemFromList(list: DictKeys, type: Last Item) >> DictSecondKey
+	valuesFrom(dictionary: ShortcutInput) >> SecondDict
+	valuesFrom(dictionary: SecondDict) >> Second Values
+	valuesFrom(dictionary: First Dict) >> valuesFrom 1
+// Finally, time to cycle through the data and compare what’s what.
+	repeatEach(Dictionary Value) {
+		valuesFrom(dictionary: First Dict) >> Old Value
+		valuesFrom(dictionary: SecondDict) >> New Value
+// Here’s where the magic is.
+		if(Old Value == ""${New Value}"") {
+			nothing()
+		} else {
+var DDC0EE81-78B8-45D0-9413-DDA23C3D66A4 = """———[CHANGED:￼]———
+was: ￼
+now: ￼
+"""
+text("${DDC0EE81-78B8-45D0-9413-DDA23C3D66A4}")
+		} >> IFResult 2
+	} >> RepeatResult
+	exit(var: Repeat Results)
+} >> IFResult 3

@@ -1,0 +1,87 @@
+import Shortcuts
+#Color: blue, #Icon: documentOutline
+
+//Unable to get shortcuts action is.workflow.actions.folder
+var Folder = Folder
+if(ShortcutInput != nil) {
+var SourceURL = ShortcutInput
+	if(ShortcutInput != nil) {
+		markdownFromRich(text: ShortcutInput) >> markdownFromRich
+		splitText(text: Markdown from Rich Text) >> splitText
+		repeatEach(Split Text) {
+			text(text: "> ${Repeat Item}") >> text
+		} >> RepeatResult
+		combineText(text: Repeat Results) >> combineText
+		text(text: "${Combined Text}") >> text 1
+var PageSelection = Text
+	} else {
+		nothing()
+//Unable to get shortcuts action is.workflow.actions.setvariable
+	} >> IFResult
+} else {
+// No input passed. Assume URL is in the clipboard. This is the most likely scenario when running inside Siri or the Mac.
+	getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+var SourceURL = URLs
+// Attempt to mitigate lack of URL in the clipboard on the Mac
+	if(DeviceDetails == "Mac") {
+		getURL() >> getURL 1
+var SourceURL = URL
+		runAppleScript(script: "on run {input, parameters}	tell application "Safari" to return name of front document	return inputend run") >> runAppleScript
+var TitleofURL = AppleScript Result
+/*
+Attempt to mitigate lack of support for webpage selections on Mac
+
+
+Credit to https://macscripter.net/viewtopic.php?pid=204631#p204631 for the script
+*/
+// Note: you must enable Allow JavaScript from Apple Events in Safari’s Develop Menu for this to work
+		runAppleScript(script: "on run {input, parameters}	tell application "Safari"		set theText to (do JavaScript "getSelection().toString()" in document 1)	end tell	return theTextend run") >> runAppleScript 1
+		splitText(text: AppleScript Result) >> splitText 1
+		repeatEach(Split Text) {
+			text(text: "> ${Repeat Item}") >> text 2
+		} >> RepeatResult 1
+		combineText(text: Repeat Results) >> combineText 1
+		text(text: "${Combined Text}") >> text 3
+var PageSelection = Text
+	} else {
+	}
+} >> IFResult 1
+// Choose to add a comment
+menu(Add a Comment?, [) {
+case("💭"):
+	askForInput(prompt: "Add a Comment") >> askForInput
+	text(text: "**Comment:** ${Provided Input}") >> text 4
+var Comment = Text
+case("❌"):
+	nothing()
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} >> MenuResult
+if(Title of URL == nil) {
+	articleDetail(detail: Title, article: Source URL) >> articleDetail
+var TitleofURL = Title
+} else {
+} >> IFResult 2
+// Create sanitized title for page
+text(text: "${Title of URL}") >> text 5
+replaceText(input: "${Text}", find: ":", replace: " -") >> Sanitized Title
+// Get host from URL
+urlComponent(url: "${Source URL}", component: Host) >> urlComponent
+var C7CD872A-B7E9-442A-9552-098374C1D29D = """---
+title: "￼"
+saved: ￼
+source: "￼"
+publisher: "￼"
+---
+
+[￼](￼)
+
+￼
+
+￼"""
+text("${C7CD872A-B7E9-442A-9552-098374C1D29D}")
+setName(input: Text, name: "${Updated Text}.md") >> setName
+saveFile(input: Renamed Item, ask: false) >> saveFile
+text(text: "[[${Sanitized Title}.md]]") >> Internal Link
+var InternalLink = Internal Link
+setClipboard(variable: Internal Link) >> setClipboard
+runShortcut(name: "Append to Dashboard", input: Internal Link) >> runShortcut

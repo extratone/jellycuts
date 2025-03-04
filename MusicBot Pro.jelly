@@ -1,0 +1,1497 @@
+import Shortcuts
+#Color: yellow, #Icon: headphones
+
+/*
+MusicBot Pro is the all-in-one Apple Music assistant, powered by Shortcuts.
+
+Entirely customizable and designed for Apple Music, MusicBot Pro speeds up access to your favorite music and comes with dozens of features to help you play albums, browse songs, check out new releases, and even listen to the radio of ambient sounds by Apple Music. Additionally, MusicBot Pro lets you create your own collection of favorite albums and new music releases, comes with AirPlay 2 support and various audio controls, and provides you with Smart Mixes – intelligent playlists to discover songs you love from your Music library with one tap.
+*/
+continueInShortcuts()
+/*
+Below, you'll find a series of Text variables for you to fill out.
+
+If you see the ↘️ emoji, it means there's something below that you need to fill out.
+
+Information that you enter in MusicBot about your playlists or WiFi network is private and never leaves your device.
+*/
+/*
+Shuffle Playlist #1
+
+↘️ Enter name of your #1 favorite playlist below
+*/
+text() >> text
+var Playlist#1 = Text
+/*
+Shuffle Playlist #2
+
+↘️ Enter name of your #2 favorite playlist below
+*/
+text() >> text 1
+var Playlist#2 = Text
+/*
+Shuffle Playlist #3
+
+↘️ Enter name of your #3 favorite playlist below
+*/
+text() >> text 2
+var Playlist#3 = Text
+/*
+Name of the system calendar where you save upcoming music releases (preferably using the MusicHarbor app)
+
+https://apps.apple.com/us/app/musicharbor-track-new-music/id1440405750
+
+↘️ Enter name of your Music Releases calendar below
+*/
+text() >> text 3
+var ReleaseCalendarName = Text
+/*
+Set time filter for recently added or recently played (in months)
+
+↘️ Enter the number of months that are considered "recent"
+*/
+number(value: 3) >> number
+var RecentFilter = Number
+/*
+What's your Favorites Mix playlist called? In the US, it's Favorites Mix, but in the UK, it's Favourites Mix.
+
+↘️ Enter the name of your Favorites Mix playlist. You may need to change the names of other Apple Mixes later in the shortcut.
+*/
+text() >> text 4
+var FavoritesMixName = Text
+// ---END OF VARIABLES---
+/*
+
+
+- - - MUSICBOT CODE STARTS RUNNING HERE - - - 
+*/
+// Check if MusicBot is running inside the extension or not.
+if(ShortcutInput != nil "music.apple.com") {
+	getType(input: ShortcutInput) >> getType
+	if(Type == "URL") {
+		getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+		expandURL(url: "${URLs}") >> expandURL
+// Check harcoded domain music.apple.com for Apple Music products (albums, singles, and playlists)
+		if(Expanded URL .contains "music.apple.com") {
+// ---EXTENSION ACTIONS--
+			dictionary({"⭐️ Save Favorite":"FavoriteAlbums.json","🔥 Save New Music Release":"NewReleases.json","🔗 Share Streaming Links":"SongLink","📆 Release Date":"Dates","↩️ Go Back":"↩️ Go Back"}) >> MusicBot Actions Dictionary
+			valuesFrom(dictionary: MusicBot Actions Dictionary) >> valuesFrom
+			choose(list: Dictionary Value, prompt: "MusicBot Pro Actions") >> choose
+			valuesFrom(dictionary: MusicBot Actions Dictionary) >> valuesFrom 1
+			text(text: "${Dictionary Value}") >> Dict Value
+			if(Dict Value .contains ".json") {
+// Create a database of readable names associated with their database files (for presentation purposes later)
+				dictionary({"FavoriteAlbums.json":"favorites","NewReleases.json":"new music releases"})
+var ReadableName = Dictionary
+// Either save a favorite album or new music release. Use the dictionary value as filename input variable.
+// Check if dictionary file exists first
+				getFile(picker: false, path: "${Dict Value}", error: false) >> getFile
+				if(File == nil) {
+					alert(alert: "The database file required for this shortcut is missing from iCloud Drive.
+
+Tap 'OK' to create the file and continue.
+
+You will only be asked to create this file once.", title: "❌ Missing Database ❌")
+					text(text: "{ "releases": []}") >> text 5
+					setName(input: Text, name: "${Dict Value}") >> setName
+					saveFile(input: Renamed Item, ask: false, path: "", overwrite: true) >> saveFile
+				} else {
+					nothing()
+				} >> IFResult
+// Get database file again
+				getFile(picker: false, path: "${Dict Value}") >> getFile 1
+				getDictionaryFrom(input: File) >> getDictionaryFrom
+var DatabaseFile = Dictionary
+// Get URL for iTunes product
+var ReleaseURL = Expanded URL
+// Check if we're dealing with a curated playlist (catalog item) or a standard release (single/album)
+				text(text: "${Release URL.as(URL)}") >> text 6
+				getURLSFromInput(text: "${Text}") >> getURLSFromInput 1
+// Workaround for a 13.3 bug
+				continueInShortcuts()
+				if(Text .contains "/playlist/") {
+// Construct regex that can either match single or album IDs
+					matchText(text: "${URLs}", regex: "https\:\/\/music\.apple\.com\/.+\d+\?i=(\d+)", caseSensitive: false) >> Matched URL
+					getMatchGroup(matches: Matched URL) >> Single ID
+var ReleaseID = Single ID
+					text(text: "Single") >> text 7
+var ReleaseType = Text
+					if(Single ID == nil) {
+// It's an album
+						matchText(text: "${URLs}", regex: "https\:\/\/music\.apple\.com\/.+\/(\d+)") >> Matched URL
+						getMatchGroup(matches: Matched URL) >> Matched Album ID
+var ReleaseID = Text
+						text(text: "Album") >> text 8
+var ReleaseType = Text
+					} else {
+					} >> IFResult 1
+// Look up release on iTunes
+					searchItunes(query: "${Release ID}", by: Product ID) >> searchItunes
+var Artist = iTunes Products
+var Name = iTunes Products
+var ArtworkURL = iTunes Products
+					downloadURL(url: "${Artwork URL}") >> downloadURL
+					resizeImage(image: Contents of URL, width: 123) >> resizeImage
+					decode(input: Resized Image) >> decode
+var ArtworkEncoded = Base64 Encoded
+				} else {
+// Matching a playlist
+					text(text: "Playlist") >> text 9
+var ReleaseType = Text
+					matchText(text: "${URLs}", regex: "https\:\/\/music\.apple\.com\/.+pl\.(.+)") >> matchText
+					getMatchGroup(matches: Matches) >> getMatchGroup
+					text(text: "pl.${Text}") >> Playlist ID
+// Match a playlist on the Apple Music catalog and extract details 
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+					if(Playlist Results == nil) {
+						alert(alert: "A playlist matching this ID couldn't be found on the Apple Music online catalog.", title: "❌ Error ❌", cancel: false)
+						exit()
+					} else {
+var Artist = Playlist Results
+var Name = Playlist Results
+var ArtworkURL = Playlist Results
+						downloadURL(url: "${Playlist Results.get(Artwork (Medium) URL)}") >> downloadURL 1
+						resizeImage(image: Contents of URL, width: 123) >> resizeImage 1
+						decode(input: Resized Image) >> decode 1
+var ArtworkEncoded = Base64 Encoded
+					} >> IFResult 2
+// End Toolbox Pro playlist creation 
+				} >> IFResult 3
+				valuesFrom(dictionary: Database File) >> valuesFrom 2
+// Start checking if we're dealing with a new item or an existing item.
+				repeatEach(Dictionary Value) {
+					valuesFrom(dictionary: Repeat Item) >> valuesFrom 3
+// Workaround for checking conditions on a dictionary value
+					getTextFrom(input: Dictionary Value) >> getTextFrom
+					if(Text .contains ""${Release URL}"") {
+						text(text: "Yes") >> text 10
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					} else {
+var 141D26E5-D260-4F51-A736-E81F17151995 = """￼
+￼,"""
+text("${141D26E5-D260-4F51-A736-E81F17151995}")
+var NewDicts = Text
+					}
+				} >> RepeatResult
+				if(Check == "Yes") {
+// Item has already been saved.
+					valuesFrom(dictionary: Readable Name) >> valuesFrom 4
+					showResult(text: "${Name} by ${Variable} was already saved in your ${Artist} before.")
+					exit()
+				} else {
+				}
+// Create a complete new entry because the release doesn't exist in the database.
+				text(text: "${Name}{"name":"${Variable}","url":"${Release URL}","artist":"${Variable}","artwork":"${CurrentDate}","artworkEncoded":"${Artist}","saved":"${Variable}","type":"${NewDicts}"},") >> text 11
+// Recreate the whole database and save it with the same file name.
+				text(text: "{"releases":[${Text}]}") >> text 12
+				replaceText(input: "${Text}", find: ",\]\}$", replace: "]}", isRegex: true, caseSensitive: true) >> replaceText
+				setName(input: Updated Text, name: "${Dict Value}") >> setName 1
+				saveFile(input: Renamed Item, ask: false, path: "", overwrite: true) >> saveFile 1
+// Upload music releases if you're mirroring to a server 
+				if(Dict Value .contains "NewReleases") {
+/*
+--ACTION TO RUN IF YOU WANT TO MIRROR NEW MUSIC RELEASES TO ANOTHER SERVER--
+
+Leave empty for now.
+*/
+				} else {
+				} >> IFResult 4
+				valuesFrom(dictionary: Readable Name) >> Database
+				text(text: "${Name} by ${Variable} saved to your ${Database}.") >> text 13
+				showResult(text: "${Text}")
+				exit()
+			} else {
+// Action is release date. If not, it's SongLink
+				if(Dict Value .contains "Dates") {
+// Check that it's not a playlist URL first 
+					if(Expanded URL .contains "/playlist") {
+// It's a playlist. Throw an error 
+						alert(alert: "You passed a playlist to MusicBot Pro. Release dates for playlists are not supported.", title: "❌ Error ❌", cancel: false)
+						exit()
+					} else {
+// Match single. If not, match album 
+						matchText(text: "${Expanded URL}", regex: "https\:\/\/music\.apple\.com\/.+\d+\?i=(\d+)") >> matchText 1
+						getMatchGroup(matches: Matches) >> getMatchGroup 1
+						if(Text != nil) {
+var DatesIDMatch = Text
+							text(text: "single") >> text 14
+var DateReleaseType = Text
+						} else {
+// Match album instead 
+							matchText(text: "${Expanded URL}", regex: "https\:\/\/music\.apple\.com\/.+\/(\d+)") >> matchText 2
+							getMatchGroup(matches: Matches) >> getMatchGroup 2
+var DatesIDMatch = Text
+							text(text: "album") >> text 15
+var DateReleaseType = Text
+						} >> IFResult 5
+// Here be matches. Continue extracting the release date below 
+						if(Date Release Type == "single") {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+							date(date: "${Song Results.get(Release Date)}") >> date
+							if(Date != nil) {
+var ItemReleaseDate = Date
+								text(text: "${Song Results.get(Name)} by ${ActionOutput.get(Name)}") >> text 16
+var ReleaseDateSummary = Text
+							} else {
+								alert(alert: "No release date was found for ${Song Results.get(Artist)} by ${ActionOutput.get(Artist)}.", title: "❌ Error ❌", cancel: false)
+								exit()
+							} >> IFResult 6
+						} else {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+							date(date: "${Albums Results.get(Release Date)}") >> date 1
+							if(Date != nil) {
+var ItemReleaseDate = Date
+								text(text: "${Albums Results.get(Name)} by ${ActionOutput.get(Name)}") >> text 17
+var ReleaseDateSummary = Text
+							} else {
+								alert(alert: "No release date was found for ${Albums Results.get(Artist)} by ${ActionOutput.get(Artist)}.", title: "❌ Error ❌", cancel: false)
+								exit()
+							}
+						}
+					} >> IFResult 7
+// Adjust verb based on release date
+					if(Item Release Date false) {
+						text(text: "came out")
+					} else {
+						text(text: "is coming out")
+					} >> IFResult 8
+					text(text: "${Release Date Summary} ${Variable} on ${If Result}.") >> text 18
+					alert(alert: "${Text}", title: "📆 Release Date 📆", cancel: false)
+					if(Item Release Date >) {
+						menu(, [Yes, Create Event, No, Exit]) {
+						case("Yes, Create Event"):
+//Unable to get shortcuts action is.workflow.actions.addnewevent
+							showResult(text: "'${New Event.get(Title)}' event created successfully.")
+							exit()
+						case("No, Exit"):
+							exit()
+						}
+					} else {
+						nothing()
+					}
+					exit()
+				} else {
+// SongLink API
+					if(Dict Value .contains "SongLink") {
+						url(url: "https://api.song.link/v1-alpha.1/links?url=${Expanded URL}") >> url
+						downloadURL(url: "${URL}") >> downloadURL 2
+						getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom 1
+var SongLinkResponse = Dictionary
+// If response is not empty 
+						if(Dictionary != nil) {
+							valuesFrom(dictionary: SongLink Response) >> Entries by ID
+							valuesFrom(dictionary: Entries by ID) >> valuesFrom 5
+							repeatEach(Dictionary Value) {
+// Check if the key is iTunes
+								text(text: "${Repeat Item}") >> text 19
+								if(Text .contains "ITUNES") {
+									valuesFrom(dictionary: Entries by ID) >> valuesFrom 6
+var E286AB69-B852-498C-9FD9-EB63B22CA00B = """￼ by ￼
+
+Music: ￼
+"""
+text("${E286AB69-B852-498C-9FD9-EB63B22CA00B}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+								} else {
+// Other keys 
+								}
+							} >> RepeatResult 1
+// Start assembling other service links 
+							dictionary({"Spotify":"spotify","YouTube":"youtube","YouTube Music":"youtubeMusic","Amazon Music":"amazonMusic","Tidal":"tidal","Deezer":"deezer","Pandora":"pandora"})
+							valuesFrom(dictionary: Dictionary) >> valuesFrom 7
+							choose(list: Dictionary Value, prompt: "Pick Additional Streaming Services", multiple: true) >> choose 1
+// Assemble multiple service URLs
+							repeatEach(Chosen Item) {
+								valuesFrom(dictionary: Dictionary) >> valuesFrom 8
+								valuesFrom(dictionary: SongLink Response) >> Service URL
+var C5331E64-DB9A-424C-A35D-5B751128C251 = """￼: ￼
+"""
+text("${C5331E64-DB9A-424C-A35D-5B751128C251}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+							} >> RepeatResult 2
+// Put everything together 
+							combineText(text: Song Share Info) >> combineText
+							share(file: Combined Text)
+						} else {
+// Response is empty 
+							alert(alert: "MusicBot couldn't fetch other streaming links for this item.", title: "❌ Error ❌", cancel: false)
+							exit()
+						}
+					} else {
+// Exit menu
+						if(Dict Value .contains "↩️ Go Back") {
+							runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+						} else {
+						}
+					}
+				}
+			}
+		} else {
+		} >> IFResult 9
+	} else {
+// ---SONGS WERE PASSED TO MUSICBOT---
+// Input is iTunes media, not iTunes product 
+		menu(Playback Options, [▶️ Play Now, 🔀 Shuffle, ➡️ Play Next, ↘️ Play Later, ↕️ Play with Reverse Order]) {
+		case("▶️ Play Now"):
+			playMusic(music: ShortcutInput, shuffle: Off)
+			text(text: "${ShortcutInput.as(iMedia).get(Title)}") >> text 20
+var QueueStatus = Text
+			text(text: "Now playing") >> text 21
+var NotificationTitle = Text
+		case("🔀 Shuffle"):
+			playMusic(music: ShortcutInput, shuffle: Songs, repeat: None)
+			text(text: "") >> text 22
+var QueueStatus = Text
+			text(text: "Now playing on shuffle") >> text 23
+var NotificationTitle = Text
+		case("➡️ Play Next"):
+			addUpNext(music: ShortcutInput, place: Next)
+			text(text: "${ShortcutInput.as(iMedia).get(Title)}") >> text 24
+var QueueStatus = Text
+			text(text: "Playing next") >> text 25
+var NotificationTitle = Text
+		case("↘️ Play Later"):
+			addUpNext(music: ShortcutInput, place: Later)
+			text(text: "${ShortcutInput.as(iMedia).get(Title)}") >> text 26
+var QueueStatus = Text
+			text(text: "Playing later") >> text 27
+var NotificationTitle = Text
+		case("↕️ Play with Reverse Order"):
+			count(input: ShortcutInput) >> count
+			getItemFromList(list: ShortcutInput, type: Last Item) >> getItemFromList
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			repeatEach(ShortcutInput) {
+				math(input: Count, operation: -, operand: Repeat Index) >> math
+				if(Calculation Result != 0) {
+					getItemFromList(list: ShortcutInput, type: Item At Index, index: Calculation Result) >> getItemFromList 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} else {
+				} >> IFResult 10
+			} >> RepeatResult 3
+			playMusic(music: Backward Play, shuffle: Off, repeat: None)
+			text(text: "") >> text 28
+var QueueStatus = Text
+			text(text: "Now playing in reverse, starting with: ${Item from List.as(iMedia).get(Title)}") >> text 29
+var NotificationTitle = Text
+		} >> MenuResult
+		sendNotification(body: "${Queue Status}", title: "${Notification Title}", sound: false)
+		runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut
+	} >> IFResult 11
+} else {
+// ---MAIN MUSICBOT ACTIONS---
+var CD349D4E-3610-484C-8A91-341329C238D5 = """🤖
+MusicBot Pro, Your Apple Music Assistant"""
+text("${CD349D4E-3610-484C-8A91-341329C238D5}")
+	menu(, [) {
+	case("⚙️ Utilities & Queue"):
+		deviceDetails(detail: Current Volume) >> deviceDetails
+		math(input: Current Volume, operation: *, operand: "100") >> math 1
+		round(number: Calculation Result) >> round
+		menu(MusicBot Pro Utilities, [) {
+		case("🧹 Clear Up Next"):
+			alert(alert: "Are you sure? This will clear your Up Next queue.", title: "❌ Clear Up Next ❌")
+			clearUpNext()
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 1
+		case("🔉 Set Volume (Current: Rounded Number%)"):
+			menu(, [🔉 Set Volume, ↩️ Go Back]) {
+			case("🔉 Set Volume"):
+				setVolume(level: Ask)
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 2
+			case("↩️ Go Back"):
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 3
+			} >> MenuResult 1
+		case("🎧 Set Playback Device"):
+			setMediaDestination(device: Ask)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 4
+		case("➡️ Hand Off to Speaker"):
+			handoffPlayback(source: $0, route: Ask)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 5
+		case("↗️ Open Current Song in Music"):
+			getCurrentSong() >> getCurrentSong
+			if(Current Song == nil) {
+				alert(alert: "No song is currently playing. Running MusicBot Pro again...
+", title: "❌ Error ❌", cancel: false)
+				exit()
+			} else {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+				if(Song Results != nil) {
+					openURL(url: Song Results)
+				} else {
+					alert(alert: "Couldn't get a link to ${Current Song.get(Title)} by ${ActionOutput.get(Title)}. Running MusicBot Pro again...", title: "❌ Error ❌", cancel: false)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} >> IFResult 12
+			} >> IFResult 13
+		case("⬇️ Add Current Song to Library"):
+			getCurrentSong() >> getCurrentSong 1
+			if(Current Song == nil) {
+				alert(alert: "No song is currently playing. Running MusicBot Pro again...", title: "❌ Exit ❌", cancel: false)
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+				if(Song Results != nil) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+					sendNotification(body: "${Current Song.get(Artist)} by ${ActionOutput.get(Artist)} added to your library.", title: "✅ Song Added ✅", sound: false, attachment: Song Results)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+					alert(alert: "Couldn't get a link to ${Current Song.get(Title)} by ${ActionOutput.get(Title)}. Running MusicBot Pro again...", title: "❌ Error ❌", cancel: false)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				}
+			}
+		case("📋 Save Link from Clipboard"):
+			expandURL(url: "${Clipboard}") >> expandURL 1
+			if(Expanded URL .contains "music.apple.com") {
+				runShortcut(name: "🤖 MusicBot Pro", input: Expanded URL, show: false)
+			} else {
+				alert(alert: "You don't have an Apple Music link in the clipboard. MusicBot Pro only supports music.apple.com links.", title: "❌ No Link Found ❌", cancel: false)
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			}
+		case("🔶 Manage Releases and Favorites"):
+			dictionary({"⭐️ Favorites":"FavoriteAlbums.json","🔥 New Releases":"NewReleases.json","↩️ Go Back":"Back"})
+			valuesFrom(dictionary: Dictionary) >> valuesFrom 9
+			choose(list: Dictionary Value, prompt: "Manage Releases For...") >> choose 2
+			text(text: "${Chosen Item}") >> text 30
+			if(Text .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				nothing()
+			} >> IFResult 14
+			valuesFrom(dictionary: Dictionary) >> valuesFrom 10
+			text(text: "${Dictionary Value}") >> Database File
+			getFile(picker: false, path: "${Database File}", error: false) >> getFile 2
+			getDictionaryFrom(input: File) >> Main Dictionary
+			if(Main Dictionary == nil) {
+// If empty, tell user that a dictionary file has to be recreated.
+				alert(alert: "The database file required for this feature is missing from iCloud Drive.
+
+Tap 'OK' to create the file and continue.
+
+You will only be asked to create this file once.", title: "❌ Missing Database File ❌")
+				text(text: "{ "releases": []}") >> text 31
+				setName(input: Text, name: "${Database File}") >> setName 2
+				saveFile(input: Renamed Item, ask: false, overwrite: true)
+				alert(alert: "The database file has been created. You can add new music releases or favorite albums by sharing from Apple Music to MusicBot via the share sheet.", title: "Database Created")
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				nothing()
+			} >> IFResult 15
+			valuesFrom(dictionary: Main Dictionary) >> valuesFrom 11
+// Start checking if we're dealing with a new or existing item.
+			repeatEach(Dictionary Value) {
+				text(text: "BEGIN:VCARDVERSION:3.0N;CHARSET=utf-8:${Repeat Item.as(Dictionary).key(artist)};;;;ORG:${Variable.as(Dictionary).key(artist)};URL:${Repeat Item.as(Dictionary).key(artworkEncoded)}PHOTO;ENCODING=b:${Variable.as(Dictionary).key(artworkEncoded)}END:VCARD") >> text 32
+			} >> RepeatResult 4
+			combineText(text: Repeat Results) >> combineText 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			text(text: "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") >> text 33
+			text(text: "BEGIN:VCARDVERSION:3.0N;CHARSET=utf-8:↩️ Go Back;;;;ORG:Run MusicBot Manager Again;PHOTO;ENCODING=b:${Text}END:VCARD") >> text 34
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			combineText(text: ManagerVCards) >> combineText 2
+			setName(input: Combined Text, name: "Manager.vcf") >> setName 3
+			getContactsFrom(input: Renamed Item) >> getContactsFrom
+			choose(list: Contacts, prompt: "❌ Remove Item ❌") >> choose 3
+			getURLSFromInput(text: "${Chosen Item}") >> getURLSFromInput 2
+			if(Chosen Item .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				repeatEach(Dictionary Value) {
+					valuesFrom(dictionary: Repeat Item) >> valuesFrom 12
+					getTextFrom(input: Dictionary Value) >> getTextFrom 1
+					if(Text == ""${URLs}"") {
+// If URL is the same, mark item for removal
+						text(text: "Yes") >> text 35
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						text(text: "${Repeat Item.as(Dictionary).key(name)} by ${Variable.as(Dictionary).key(name)} has been removed.") >> text 36
+var ManagerRemovedItem = Text
+					} else {
+var 6ABEB545-0C5A-457B-A6F5-FC69AFD8F431 = """￼
+￼,"""
+text("${6ABEB545-0C5A-457B-A6F5-FC69AFD8F431}")
+var ManagerNewDicts = Text
+					}
+				}
+				text(text: "{ "releases": [${Manager New Dicts}]}") >> text 37
+				replaceText(input: "${Text}", find: ",\]\}$", replace: "]}", isRegex: true) >> replaceText 1
+				setName(input: Updated Text, name: "${Database File}") >> setName 4
+				saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile 2
+// Check if you need to upload music releases with a separate shortcut 
+				if(Saved File .contains "NewReleases") {
+// Action to run if mirroring new releases somewhere else 
+				}
+			} >> IFResult 16
+			if(Manager Removed Item != nil) {
+				alert(alert: "${Manager Removed Item}", title: "Item Removed", cancel: false)
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+			}
+		case("↩️ Go Back"):
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 6
+		} >> MenuResult 2
+	case("⏸ Pause"):
+		play(behavior: Pause)
+	case("⏸ Pause Speakers"):
+		play(behavior: Pause, source: $1)
+		play(behavior: Pause, source: $1)
+		play(behavior: Pause, source: $1)
+	case("❤️ Rate Song"):
+		getCurrentSong() >> getCurrentSong 2
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+		if(Song Results != nil) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Rate, prompt: "Rate '${Current Song.get(Title)}'") >> choose 4
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+			if(Menu Item Detail .contains "Love") {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.RateSongsIntent
+				sendNotification(body: "${Song Results.get(Name)} by ${ActionOutput.get(Name)}", title: "❤️ Song Loved ❤️", sound: false, attachment: $3)
+			} else {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.RateSongsIntent
+				sendNotification(body: "${Song Results.get(Name)} by ${ActionOutput.get(Name)}", title: "💔 Song Disliked 💔", sound: false, attachment: $3)
+			} >> IFResult 17
+		} else {
+		} >> IFResult 18
+	case("⚡️ Smart Mixes"):
+		menu(Pick a Smart Mix, [⚛️ Genius Mix (Shuffled), 🎸 Songs: Recently Played, 🗂 Albums: Recently Played, 🕒 Recently Added, 📈 Top of the Year, 📻 Songs by Decade (Shuffled), 🕵️ Rediscover Lost Songs (Shuffled), ↩️ Go Back]) {
+		case("⚛️ Genius Mix (Shuffled)"):
+// Use a random number to add variety to play counts 
+			randomNumber(min: 2, max: 7) >> randomNumber
+			filterMusic() >> filterMusic
+			runShortcut(name: "🤖 MusicBot Pro", input: Music, show: false) >> runShortcut 7
+		case("🎸 Songs: Recently Played"):
+			text(text: "↩️ Go Back") >> text 38
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			filterMusic() >> filterMusic 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Recent Songs, prompt: "Recently Played Songs", multiple: true) >> choose 5
+			getTextFrom(input: Chosen Item) >> getTextFrom 2
+			if(Text .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 8
+			} else {
+				runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false) >> runShortcut 9
+			} >> IFResult 19
+		case("🗂 Albums: Recently Played"):
+			text(text: "↩️ Go Back") >> text 39
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			filterMusic() >> filterMusic 2
+			filterMusic() >> filterMusic 3
+// Compare songs group by album and only pick one song from the same album.
+			repeatEach(Music) {
+				math(input: Repeat Index, operation: -, operand: "1") >> math 2
+				if(Calculation Result > 0) {
+					getItemFromList(list: Music, type: Item At Index, index: Calculation Result) >> getItemFromList 2
+					if(Repeat Item == ""${Item from List.as(iMedia).get(Album)}"") {
+					} else {
+						if(Repeat Item != ""${Item from List.as(iMedia).get(Artist)}"") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						} else {
+						} >> IFResult 20
+					}
+				} else {
+				} >> IFResult 21
+			} >> RepeatResult 5
+			choose(list: Recent Albums, prompt: "Recent Albums (Pick one to play whole album)", multiple: true) >> choose 6
+			if(Chosen Item .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 10
+			} else {
+				filterMusic() >> filterMusic 4
+				playMusic(music: Music)
+				getItemFromList(list: Music) >> getItemFromList 3
+				sendNotification(body: "Let's start with '${Item from List}'...", title: "Now Playing: ${Music.get(Album)}", sound: false)
+			} >> IFResult 22
+		case("🕒 Recently Added"):
+			filterMusic() >> filterMusic 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			text(text: "↩️ Go Back") >> text 40
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Recently Added Songs, prompt: "Recently Added Songs", multiple: true) >> choose 7
+			text(text: "${Chosen Item}") >> text 41
+			if(Text .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false)
+			}
+		case("📈 Top of the Year"):
+// Do the math to get the beginning and end of the year 
+			adjustDate(operation: Get Start of Year, date: "${CurrentDate}") >> adjustDate
+var YearStartDate = Adjusted Date
+			adjustDate(duration: , date: "${Year Start Date}") >> adjustDate 1
+var YearEndDate = Adjusted Date
+			filterMusic() >> filterMusic 6
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			text(text: "↩️ Go Back") >> text 42
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Top of the Year, prompt: "Your Top Songs of ${Year Start Date} ", multiple: true) >> choose 8
+			text(text: "${Chosen Item}") >> text 43
+			if(Text .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false)
+			}
+		case("📻 Songs by Decade (Shuffled)"):
+// Dictionary of decades 
+			dictionary({"60s":"1960","70s":"1970","80s":"1980","90s":"1990","00s":"2000","10s":"2010","20s":"2020"})
+			valuesFrom(dictionary: Dictionary) >> valuesFrom 13
+			choose(list: Dictionary Value, prompt: "Pick a Decade") >> choose 9
+			valuesFrom(dictionary: Dictionary) >> Year
+// Do the math to calculate beginning and end of a decade
+			text(text: "January 1 ${Year} 12 AM") >> text 44
+			getDateFrom(input: Text) >> getDateFrom
+			math(input: Year, operand: "9") >> math 3
+			text(text: "December 31 ${Calculation Result} 11:59 PM") >> text 45
+			getDateFrom(input: Text) >> getDateFrom 1
+			filterMusic() >> filterMusic 7
+			filterMusic() >> filterMusic 8
+			runShortcut(name: "🤖 MusicBot Pro", input: Music, show: false) >> runShortcut 11
+		case("🕵️ Rediscover Lost Songs (Shuffled)"):
+// Use "recent months" filter as a year filter and find songs that were last played X years ago and which also have a play count smaller than X
+			adjustDate(operation: Subtract, duration: , date: "${CurrentDate}") >> adjustDate 2
+			filterMusic() >> filterMusic 9
+			runShortcut(name: "🤖 MusicBot Pro", input: Music, show: false)
+		case("↩️ Go Back"):
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} >> MenuResult 3
+	case("🔥 New Releases"):
+		getFile(picker: false, path: "NewReleases.json", error: false) >> getFile 3
+		getDictionaryFrom(input: File) >> getDictionaryFrom 2
+		if(Dictionary == nil) {
+			alert(alert: "Looks like you haven't saved any new releases to MusicBot yet.
+
+To save a new music release, just share it from Apple Music to MusicBot.", title: "❌ No New Releases ❌", cancel: false)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			nothing()
+		} >> IFResult 23
+		valuesFrom(dictionary: Dictionary) >> valuesFrom 14
+		repeatEach(Dictionary Value) {
+var 99A1CB71-642A-4F18-B3F1-60D024B6C53E = """BEGIN:VCARDVERSION:3.0N;CHARSET=utf-8:￼;;;;ORG:￼;URL:￼
+NOTE:￼PHOTO;ENCODING=b:￼END:VCARD"""
+text("${99A1CB71-642A-4F18-B3F1-60D024B6C53E}")
+		} >> RepeatResult 6
+		combineText(text: Repeat Results) >> combineText 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		text(text: "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") >> text 46
+		text(text: "BEGIN:VCARDVERSION:3.0N;CHARSET=utf-8:↩️ Go Back;;;;ORG:Run MusicBot Again;PHOTO;ENCODING=b:${Text}END:VCARD") >> text 47
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		combineText(text: NewReleasesVCards) >> combineText 4
+		setName(input: Combined Text, name: "New Releases.vcf") >> setName 5
+		getContactsFrom(input: Renamed Item) >> getContactsFrom 1
+		choose(list: Contacts, prompt: "🔥 New Releases 🔥", mul: $3) >> choose 10
+		text(text: "${Chosen Item}") >> text 48
+		if(Text .contains "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 12
+		} else {
+			getURLSFromInput(text: "${Chosen Item}") >> getURLSFromInput 3
+			replaceText(input: "${URLs}", find: "^https", replace: "music", isRegex: true, caseSensitive: false) >> replaceText 2
+			openURL(url: Updated Text)
+		}
+	case("⭐️ Favorites"):
+		getFile(picker: false, path: "FavoriteAlbums.json", error: false) >> getFile 4
+		getDictionaryFrom(input: File) >> getDictionaryFrom 3
+		if(Dictionary == nil) {
+			alert(alert: "Looks like you haven't saved any favorite albums to MusicBot yet.
+
+To save a new favorite album, just share it from Apple Music to MusicBot.", title: "❌ No Favorite Albums ❌", cancel: false)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			nothing()
+		} >> IFResult 24
+		valuesFrom(dictionary: Dictionary) >> valuesFrom 15
+		repeatEach(Dictionary Value) {
+var C7CAF996-D283-4E94-93B0-6226B79CB54A = """BEGIN:VCARDVERSION:3.0N;CHARSET=utf-8:￼;;;;ORG:￼;URL:￼
+NOTE:￼PHOTO;ENCODING=b:￼END:VCARD"""
+text("${C7CAF996-D283-4E94-93B0-6226B79CB54A}")
+		} >> RepeatResult 7
+		combineText(text: Repeat Results) >> combineText 5
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		text(text: "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") >> text 49
+		text(text: "BEGIN:VCARDVERSION:3.0N;CHARSET=utf-8:↩️ Go Back;;;;ORG:Run MusicBot Again;PHOTO;ENCODING=b:${Text}END:VCARD") >> text 50
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		combineText(text: FavoriteAlbumsVCards) >> combineText 6
+		setName(input: Combined Text, name: "Albums.vcf") >> setName 6
+		getContactsFrom(input: Renamed Item) >> getContactsFrom 2
+		choose(list: Contacts, prompt: "⭐️ Favorites ⭐️", mul: $3) >> choose 11
+		text(text: "${Chosen Item}") >> text 51
+		if(Text .contains "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 13
+		} else {
+// The favorite is a playlist. The shortcut knows by looking at the Notes field of a "contact", as parsed from the database
+			if(Chosen Item == "Playlist") {
+				matchText(text: "${Chosen Item.get(URL)}", regex: "https\:\/\/music\.apple\.com\/.+(pl\..+)") >> matchText 3
+				getMatchGroup(matches: Matches) >> getMatchGroup 3
+var FavoritePlaylistID = Text
+// We can't pass the playlist items to the Run Shortcut action like we do for albums. Thus, we should have a custom menu here that asks users whether they want to play, shuffle, or open in Music
+				menu(, [▶️ Play, 🔀 Shuffle, ↗️ Open in Music, ↩️ Go Back]) {
+				case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+					downloadURL(url: "${Playlist Results.get(Artwork (Medium) URL)}") >> downloadURL 3
+					getImagesFrom(input: Contents of URL) >> getImagesFrom
+					sendNotification(body: "${Playlist Results.get(Name)} by ${ActionOutput.get(Name)}", title: "▶️ Now Playing ▶️", sotachment: Images)
+				case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+					downloadURL(url: "${Playlist Results.get(Artwork (Medium) URL)}") >> downloadURL 4
+					getImagesFrom(input: Contents of URL) >> getImagesFrom 1
+					sendNotification(body: "${Playlist Results.get(Name)} by ${ActionOutput.get(Name)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: Images)
+				case("↗️ Open in Music"):
+					url(url: "${Chosen Item.get(URL)}") >> url 1
+					replaceText(input: "${URL}", find: "https", replace: "music") >> replaceText 3
+					openURL(url: Updated Text)
+				case("↩️ Go Back"):
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} >> MenuResult 4
+				exit()
+			} else {
+				text() >> text 52
+var SongsfromAlbum = Text
+				filterMusic() >> filterMusic 10
+				repeatEach(Music) {
+					if(Songs from Album .contains ""${Repeat Item.as(Text)}"") {
+					} else {
+						text(text: "${Repeat Item}") >> text 53
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					} >> IFResult 25
+				} >> RepeatResult 8
+				runShortcut(name: "🤖 MusicBot Pro", input: Songs to Play, show: false) >> runShortcut 14
+			} >> IFResult 26
+		} >> IFResult 27
+	case("📚 Genres"):
+// Filter music library by genre by getting 100 songs that were added in the last X months 
+		filterMusic() >> filterMusic 11
+		repeatEach(Music) {
+			musicDetail(detail: Genre, music: Repeat Item) >> musicDetail
+			if(Genres .contains ""${Genre}"") {
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> IFResult 28
+		} >> RepeatResult 9
+		text(text: "↩️ Go Back") >> text 54
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		choose(list: Genres, prompt: "Most Played Genres in the Last ${Recent Filter} Months  ") >> Chosen Genre
+		if(Chosen Genre .contains "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			filterMusic() >> filterMusic 12
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			menu(Choose Songs or Play Entire Genre?, [) {
+			case("Pick 'Chosen Genre' Songs"):
+				text(text: "↩️ Go Back") >> text 55
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				choose(list: Top Genre Songs, prompt: "Most Played ${Recent Filter} Tracks in the Last ${Variable} Months ", multiple: true) >> choose 12
+				text(text: "${Chosen Item}") >> text 56
+				if(Text .contains "↩️") {
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+					runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false)
+				} >> IFResult 29
+			case("Play Genre"):
+				runShortcut(name: "🤖 MusicBot Pro", input: Top Genre Songs, show: false)
+			case("↩️ Go Back"):
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} >> MenuResult 5
+		} >> IFResult 30
+	case("🧑‍🎤 Current Artist or Song"):
+		getCurrentSong() >> getCurrentSong 3
+		if(Current Song != nil) {
+			menu(, [) {
+			case("🔝 Most Played by Current Song (Artist)"):
+				filterMusic() >> filterMusic 13
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				text(text: "↩️ Go Back") >> text 57
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				choose(list: Top Songs by Artist, prompt: "Top Songs by ${Current Song.get(Artist)}", multiple: true) >> choose 13
+				text(text: "${Chosen Item}") >> text 58
+				if(Text .contains "↩️") {
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+// Pass songs as input to MusicBot
+					runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false)
+				}
+			case("🕒 Recently Played Songs by Current Song (Artist)"):
+				filterMusic() >> filterMusic 14
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				text(text: "↩️ Go Back") >> text 59
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				choose(list: Current Artist, prompt: "Other Songs by ${Recent Filter}  (played in the last ${Variable} months)", multiple: true) >> choose 14
+				text(text: "${Chosen Item}") >> text 60
+				if(Text .contains "↩️") {
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 15
+				} else {
+					runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false) >> runShortcut 16
+				} >> IFResult 31
+			case("🔀 Shuffle Songs by Current Song (Artist)"):
+				filterMusic() >> filterMusic 15
+				if(Music != nil) {
+					playMusic(music: Music, shuffle: Songs)
+					playMusic(music: Music, shuffle: Songs)
+					sendNotification(body: "Now shuffling songs by ${Current Song.get(Artist)}", title: "", sound: false)
+				} else {
+					alert(alert: "You don't have any other songs by ${Current Song.get(Artist)} in your Music library.", title: "❌ Error ❌", cancel: false)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				}
+			case("🌍 Album for 'Current Song'"):
+				sendNotification(body: "Fetching ${Current Song.get(Album)} by ${ActionOutput.get(Album)} from Apple Music...", title: "⚙️ Fetching Album ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+				if(Albums Results == nil) {
+					alert(alert: "No results found on the Apple Music catalog for ${Current Song.get(Album)}  by ${ActionOutput.get(Album)}. Running MusicBot Pro again...", title: "❌ Error ❌", cancel: false)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+					nothing()
+// Continue 
+				} >> IFResult 32
+				repeatEach(Albums Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				}
+				text(text: "↩️") >> text 61
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				choose(list: Album for Current Song, prompt: "${Current Song.get(Album)}", multiple: false) >> choose 15
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+				if(Menu Item Detail .contains "↩️") {
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+					menu(Playback Options, [▶️ Play Album, 🔀 Shuffle Album, 👇 Pick Songs from Album, ➕ Add to Library, ↗️ Open in Music, ↩️ Go Back]) {
+					case("▶️ Play Album"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+					case("🔀 Shuffle Album"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+					case("👇 Pick Songs from Album"):
+						sendNotification(body: "Fetching songs from ${Menu Item Detail.get(Title)} by ${ActionOutput.get(Title)}", title: "⚙️ Fetching Songs ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+						repeatEach(Albums Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						}
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						choose(list: Pick Songs from Album, prompt: "${Menu Item Detail.get(Title)}", multiple: true) >> choose 16
+						repeatEach(Chosen Item) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+							if(Menu Item Detail .contains "↩️") {
+								runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+							} else {
+// Add IDs to a variable so MusicBot Pro can play multiple songs later 
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+							} >> IFResult 33
+						} >> RepeatResult 10
+						menu(Playback Options, [▶️ Play, 🔀 Shuffle, ↩️ Go Back]) {
+						case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+							sendNotification(body: "Started playback for these songs from ${Titles of Songs to Play.as(Text)}:
+
+${Variable.as(Text)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+						case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+							sendNotification(body: "Now shuffling these songs from ${Menu Item Detail.get(Title)}:
+
+${ActionOutput.get(Title)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+						case("↩️ Go Back"):
+							runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+						} >> MenuResult 6
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					case("➕ Add to Library"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+						sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: " ✅ Added to Library ✅", sound: false)
+						runShortcut(name: "🤖 MusicBot Pro", input: Menu Item Detail, show: false)
+					case("↗️ Open in Music"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+						openURL(url: Albums Results)
+					case("↩️ Go Back"):
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					} >> MenuResult 7
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				}
+			case("🌎 Popular Songs by Current Song (Artist)"):
+				sendNotification(body: "Searching Apple Music for songs by ${Current Song.get(Artist)}...", title: "⚙️ Fetching Songs ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+				if(Song Results == nil) {
+					alert(alert: "Couldn't find any songs from ${Current Song.get(Artist)} on Apple Music. Running MusicBot Pro again...", title: "❌ Error ❌", cancel: false)
+					exit()
+				} else {
+// Repeat for each song and create rich menu
+					repeatEach(Song Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					}
+// Create back button 
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+// Pick songs and repeat with each to save the ID to a variable 
+					choose(list: Popular Song Results, prompt: "Popular Songs by ${Current Song.get(Artist)} ", multiple: true) >> choose 17
+					repeatEach(Chosen Item) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+						if(Menu Item Detail .contains "↩️") {
+							runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+						} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						}
+					} >> RepeatResult 11
+					menu(Playback Options, [▶️ Play, 🔀 Shuffle, ➕ Add to Library, ↩️ Go Back]) {
+					case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "Started playback for these songs by ${Current Song.get(Artist)}:
+
+${ActionOutput.get(Artist)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+					case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "Started shuffling these songs by ${Current Song.get(Artist)}:
+
+${ActionOutput.get(Artist)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+					case("➕ Add to Library"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+						sendNotification(body: "Added these songs by ${Popular Song Titles} to your library:
+
+${Variable}", title: "✅ Added to Library ✅", sound: false)
+					case("↩️ Go Back"):
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					} >> MenuResult 8
+				}
+			case("↩️ Go Back"):
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			}
+		} else {
+			showResult(text: "No song is currently playing. Running MusicBot Pro again...")
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} >> IFResult 34
+	case("🍎 Apple Mixes"):
+// Calculate current year -1 for those who want to catch up on last year's Replay mix. Use these actions to avoid Shortcuts bug
+		adjustDate(operation: Get Start of Year, date: "${CurrentDate}") >> adjustDate 3
+		formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "yyyy") >> formatDate
+		math(input: Formatted Date, operation: -, operand: "1") >> Last Year
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{3, 1}" =                     {
+                        Type = Variable;
+                        VariableName = "Favorites Mix Name";
+                    };
+                };
+                string = "\U2b50\Ufe0f \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "\Ud83d\Udfe3 New Music Mix",
+    "\Ud83d\Udc86 Chill Mix",
+    "\Ud83d\Udc6f\U200d\U2640\Ufe0f Friends Mix",
+    "\Ud83d\Udcaa Get Up! Mix",
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{9, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                Type = WFDateFormatVariableAggrandizement;
+                                WFDateFormat = yyyy;
+                                WFDateFormatStyle = Custom;
+                                WFISO8601IncludeTime = 0;
+                            }
+                        );
+                        Type = CurrentDate;
+                    };
+                };
+                string = "\U23f3 Replay \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{10, 1}" =                     {
+                        OutputName = "Calculation Result";
+                        OutputUUID = "C51EB277-6BC6-41A3-8F96-5DBE6EAB68DA";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ud83d\Udcc6 Replay \Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+    "\U21a9\Ufe0f Go Back"
+)) >> list
+		choose(list: List, prompt: "Apple Mixes") >> choose 18
+		if(Chosen Item .contains "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 17
+		} else {
+			matchText(text: "${Chosen Item}", regex: "^.+?\s(.+)$") >> matchText 4
+			getMatchGroup(matches: Matches) >> getMatchGroup 4
+var AppleMix = Text
+// Add additional check for Replay playlists
+			if(Apple Mix .contains "Replay") {
+				getPlaylist(name: Apple Mix) >> getPlaylist
+				if(Playlist == nil) {
+					alert(alert: "Perhaps you haven't generated your Apple Music Replay mix yet.
+
+Continue to log into your Apple Music account and grab your Replay mixes for ${CurrentDate} or any previous year.", title: "❌ Replay Mix Not Found ❌", cancel: false)
+					openURL(url: "https://replay.music.apple.com/")
+					exit()
+				} else {
+					nothing()
+				}
+			} else {
+				nothing()
+			} >> IFResult 35
+			getPlaylist(name: Apple Mix) >> getPlaylist 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			if(Apple Mix Songs == nil) {
+				alert(alert: "No songs were found for the ${Apple Mix} playlist.
+
+Two possible reasons:
+
+1. You haven't added ${Variable} to your library. MusicBot can only fetch playlists from your library.
+
+2. Your device's language is not set to English and the playlist uses a different name.
+
+Double-check the playlist's status and run MusicBot again.", title: "❌ No Songs Found ❌", cancel: false)
+				exit()
+			} else {
+// The Apple Mix playlist does have value and we can continue
+				menu(Playlist Options, [) {
+				case("🔎 Pick Songs"):
+					text(text: "↩️ Go Back") >> text 62
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					choose(list: Apple Mix Songs, prompt: "Songs From ${Apple Mix}", multiple: true) >> choose 19
+					text(text: "${Chosen Item}") >> text 63
+					if(Text .contains "↩️") {
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					} else {
+						runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false) >> runShortcut 18
+					} >> IFResult 36
+				case("▶️ Play Entire Playlist"):
+					getPlaylist(name: Apple Mix) >> getPlaylist 2
+					playMusic(music: Playlist, shuffle: Off, repeat: None)
+					sendNotification(body: "Now playing: ${Apple Mix}", title: "MusicBot Playlists", sound: false)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 19
+				case("🔀 Play Apple Mix on Shuffle"):
+					getPlaylist(name: Apple Mix) >> getPlaylist 3
+					playMusic(music: Playlist, shuffle: Songs)
+					sendNotification(body: "Now playing: ${Apple Mix} on shuffle", title: "MusicBot Playlists", sound: false)
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				case("↩️ Go Back"):
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} >> MenuResult 9
+			}
+// End If: Apple Mix Songs does not have any value
+		} >> IFResult 37
+// The shuffle playlist actions need to have a double Play Music action to work around a Shortcuts bug that fails to shuffle a playlist the first time 🤷‍♂️ 
+	case("🔀 Shuffle Playlist #1"):
+		getPlaylist(name: Playlist #1) >> Playlist #1
+		clearUpNext()
+		playMusic(music: Playlist #1, shuffle: Songs, repeat: None)
+		playMusic(music: Playlist #1, shuffle: Songs)
+		sendNotification(body: "Enjoy.", title: "Now Shuffing: ${Playlist #1}", sound: false)
+	case("🔀 Shuffle Playlist #2"):
+		getPlaylist(name: Playlist #2) >> Playlist #2
+		clearUpNext()
+		playMusic(music: Playlist #2, shuffle: Songs, repeat: None)
+		playMusic(music: Playlist #2, shuffle: Songs)
+		sendNotification(body: "Enjoy.", title: "Now Shuffling: ${Playlist #2}", sound: false)
+	case("🔀 Shuffle Playlist #3"):
+		getPlaylist(name: Playlist #3) >> Playlist #3
+		clearUpNext()
+		playMusic(music: Playlist, shuffle: Songs, repeat: None)
+		playMusic(music: Playlist, shuffle: Songs)
+		sendNotification(body: "Enjoy.", title: "Now Shuffling: ${Playlist #3}", sound: false)
+	case("🔎 Search and Play Song"):
+// Search and play a song from the Apple Music catalog 
+		askForInput(prompt: "What's the song name?") >> askForInput
+		sendNotification(body: "Getting results from Apple Music...", title: "⚙️ Fetching Songs ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+		if(Song Results != nil) {
+			repeatEach(Song Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> RepeatResult 12
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Search Play Songs, prompt: "Songs") >> choose 20
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+			if(Menu Item Detail == "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				nothing()
+			} >> IFResult 38
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+			sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			alert(alert: "No results were found for '${Provided Input}'. Now running MusicBot Pro again...", title: "❌ Error ❌", cancel: false)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		}
+	case("⭕️ Pick a Playlist"):
+		getPlaylist(name: Ask) >> getPlaylist 4
+		runShortcut(name: "🤖 MusicBot Pro", input: Playlist, show: false)
+	case("🔍 Search Apple Music"):
+		askForInput(prompt: "Search Apple Music's Catalog", default: ) >> askForInput 1
+var AppleMusicSearchCatalogQuery = Provided Input
+		dictionary({"Songs":{"icon":"music.note","color":"#7C72FF","value":"songs"},"Albums":{"icon":"square.stack","color":"#4DA0FA","value":"albums"},"Artists":{"icon":"music.mic","color":"#F85B6D","value":"artists"},"Playlists":{"icon":"music.note.list","color":"#E0618C","value":"playlists"}})
+		repeatEach(Dictionary) {
+			valuesFrom(dictionary: Dictionary) >> valuesFrom 16
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult 13
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		choose(list: Catalog Search Types, prompt: "Search the Apple Music catalog for...") >> choose 21
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+		if(Menu Item Detail == "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			nothing()
+		} >> IFResult 39
+// If songs 
+		if(Menu Item Detail == "Songs") {
+			sendNotification(body: "Getting songs from the Apple Music catalog...", title: "⚙️ Fetching Songs ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+			repeatEach(Song Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> RepeatResult 14
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+// Add back button to list of songs
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Catalog Results, prompt: "Song Results for '${Provided Input}'", multiple: true) >> choose 22
+			repeatEach(Chosen Item) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+			} >> RepeatResult 15
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+			menu(, [▶️ Play, ➕ Add to Library, ↗️ Open in Music, ↩️ Go Back]) {
+			case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+				sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+			case("➕ Add to Library"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+				sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "✅ Song Added ✅", sound: false)
+			case("↗️ Open in Music"):
+				openURL(url: Menu Item Detail)
+			case("↩️ Go Back"):
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} >> MenuResult 10
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+// If albums
+			if(Menu Item Detail == "Albums") {
+				sendNotification(body: "Getting albums from the Apple Music catalog...", title: "⚙️ Fetching Album ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+				repeatEach(Albums Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} >> RepeatResult 16
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				choose(list: Catalog Results, prompt: "Album Results for '${Provided Input}'") >> choose 23
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+				if(Smart Artwork URL == "↩️") {
+// Run again
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+					menu(, [▶️ Play Album, 🔀 Shuffle Album, 👇 Pick Songs from Album, ➕ Add to Library, ↗️ Open in Music, ↩️ Go Back]) {
+					case("▶️ Play Album"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "${Smart Artwork URL.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+					case("🔀 Shuffle Album"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "${Smart Artwork URL.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+					case("👇 Pick Songs from Album"):
+						sendNotification(body: "Getting songs from the Apple Music catalog...", title: "⚙️ Fetching Album ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+						repeatEach(Albums Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						}
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						choose(list: Album Result Songs to Pick, prompt: "${Smart Artwork URL.get(Title)}", multiple: true) >> choose 24
+// Repeat for each chosen song and add IDs and titles to two separate variables 
+						repeatEach(Chosen Item) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+							if(Menu Item Detail == "↩️") {
+								runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+							} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+							} >> IFResult 40
+						} >> RepeatResult 17
+// Bring up playback options 
+						menu(Playback Options, [▶️ Play, 🔀 Shuffle, ↩️ Go Back]) {
+						case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+							sendNotification(body: "Started playback for these songs from ${Smart Artwork URL.get(Title)}:
+
+${ActionOutput.get(Title)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+						case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+							sendNotification(body: "Now shuffling these songs from ${Smart Artwork URL.get(Title)}:
+
+${ActionOutput.get(Title)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+						case("↩️ Go Back"):
+							runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+						} >> MenuResult 11
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					case("➕ Add to Library"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+						sendNotification(body: "${Smart Artwork URL.get(Title)} by ${ActionOutput.get(Title)}", title: "✅ Album Added ✅", sound: false)
+					case("↗️ Open in Music"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindAlbumsIntent
+						openURL(url: Albums Results)
+					case("↩️ Go Back"):
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					} >> MenuResult 12
+				}
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				if(Menu Item Detail == "Playlists") {
+					sendNotification(body: "Getting playlists from the Apple Music catalog...", title: "⚙️ Fetching Playlists ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+					repeatEach(Playlist Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+					} >> RepeatResult 18
+					choose(list: Catalog Results, prompt: "Playlist Results for '${Provided Input}") >> choose 25
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+					menu(, [▶️ Play, 🔀 Shuffle, 👇 Pick Songs from Playlist, ➕ Add to Library, ↗️ Open in Music, ↩️ Go Back]) {
+					case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "${Menu Item Detail.get(Title)} by ${ActionOutput.get(Title)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+					case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+						sendNotification(body: "${Menu Item Detail.get(Title)} by ${ActionOutput.get(Title)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+					case("👇 Pick Songs from Playlist"):
+						sendNotification(body: "Getting songs from the Apple Music catalog...", title: "⚙️ Fetching Songs ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+						repeatEach(Playlist Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						}
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						choose(list: Songs from Playlist to Play, prompt: "${Menu Item Detail.get(Title)}", multiple: true) >> choose 26
+						repeatEach(Chosen Item) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+							if(Menu Item Detail == "↩️") {
+								runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+							} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+							} >> IFResult 41
+						} >> RepeatResult 19
+						menu(Playback Options, [▶️ Play, 🔀 Shuffle, ↩️ Go Back]) {
+						case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+							sendNotification(body: "Started playback for these songs from ${Menu Item Detail.get(Title)}:
+
+${ActionOutput.get(Title)}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+						case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+							sendNotification(body: "Now shuffling these songs from ${Menu Item Detail.get(Title)}:
+
+${ActionOutput.get(Title)}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+						case("↩️ Go Back"):
+							runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+						}
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					case("➕ Add to Library"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+						sendNotification(body: "${Menu Item Detail.get(Subtitle)} by ${ActionOutput.get(Subtitle)}", title: "✅ Playlist Added ✅", sound: false)
+					case("↗️ Open in Music"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindPlaylistsIntent
+						openURL(url: Playlist Results)
+					case("↩️ Go Back"):
+						runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+					} >> MenuResult 13
+					runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+				} else {
+					if(Menu Item Detail == "Artists") {
+						sendNotification(body: "Getting artists from the Apple Music catalog...", title: "⚙️ Fetching Artists ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindArtistsIntent
+						repeatEach(Artist Results) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						} >> RepeatResult 20
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+						choose(list: Catalog Results, prompt: "Artist Results for '${Provided Input}'") >> choose 27
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+						if(Menu Item Detail == "↩️") {
+							runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+						} else {
+							menu(, [) {
+							case("🔝 Top Songs by Menu Item Detail (Title)"):
+								sendNotification(body: "Now fetching songs by ${Menu Item Detail.get(Title)} from Apple Music...", title: "⚙️ Fetching Songs ⚙️", sound: false, attachment: $3)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.FindSongsIntent
+								repeatEach(Song Results) {
+// Check if the top song is from the selected artist
+									if(Repeat Item == ""${Menu Item Detail.get(Title)}"") {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+									} else {
+										nothing()
+									} >> IFResult 42
+								}
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateTextImageIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.CreateMenuIntent
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+								choose(list: Catalog Top Song Results, prompt: "Top Songs by ${Menu Item Detail.get(Title)}", multiple: true) >> choose 28
+								repeatEach(Chosen Item) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetMenuItemIntent
+									if(Menu Item Detail == "↩️") {
+										runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+									} else {
+// Add top song IDs to variable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+									} >> IFResult 43
+								}
+								menu(Playback Options, [▶️ Play, 🔀 Shuffle, ➕ Add to Library, ↩️ Go Back]) {
+								case("▶️ Play"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+									sendNotification(body: "Now playing these songs by ${Titles of Top Songs by Artist}:
+
+${Variable}", title: "▶️ Now Playing ▶️", sound: false, attachment: $3)
+									runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+								case("🔀 Shuffle"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.PlayMusicIntent
+									sendNotification(body: "Now shuffling these songs by ${Titles of Top Songs by Artist}:
+
+${Variable}", title: "🔀 Now Shuffling 🔀", sound: false, attachment: $3)
+									runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+								case("➕ Add to Library"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.AddMusicToLibraryIntent
+									sendNotification(body: "Added these songs by ${Menu Item Detail.get(Title)} to your library:
+
+${ActionOutput.get(Title)}", title: "✅ Songs Added ✅", sound: false)
+									runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+								case("↩️ Go Back"):
+									runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+								}
+							case("↗️ Open in Music"):
+								openURL(url: Menu Item Detail)
+							case("↩️ Go Back"):
+								runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+							}
+						}
+					} else {
+// No more search types
+					}
+				}
+			}
+		} >> IFResult 44
+// End main conditional block to check search category
+	case("🎶 Search Library"):
+		askForInput(prompt: "Search Music Library") >> Search Query
+		menu(Search By..., [🎸 Song, 🧑‍🎤 Artist, ↩️ Go Back]) {
+		case("🎸 Song"):
+			filterMusic() >> filterMusic 16
+		case("🧑‍🎤 Artist"):
+			filterMusic() >> filterMusic 17
+		case("↩️ Go Back"):
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false) >> runShortcut 20
+		} >> MenuResult 14
+		if(Menu Result == nil) {
+			alert(alert: "No matches were found for '${Provided Input}' in your library.", title: "❌ No Results Found ❌", cancel: false)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			text(text: "↩️ Go Back") >> text 64
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			choose(list: Search Results, prompt: "Results for '${Provided Input}'", multiple: true) >> choose 29
+			text(text: "${Chosen Item}") >> text 65
+			if(Text .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+				runShortcut(name: "🤖 MusicBot Pro", input: Chosen Item, show: false) >> runShortcut 21
+			} >> IFResult 45
+		} >> IFResult 46
+	case("➕ Add to Playlist"):
+		getCurrentSong() >> getCurrentSong 4
+		if(Current Song == nil) {
+			alert(alert: "No song is currently playing.", title: "❌ Error ❌", cancel: false)
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			addToPlaylist(music: Current Song, playlist: Ask) >> addToPlaylist
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} >> IFResult 47
+	case("📆 Upcoming Releases"):
+		if(Release Calendar Name == nil) {
+			alert(alert: "It looks like you didn't associate a calendar name with the 'Release Calendar Name' variable.
+
+You can find this variable toward the beginning of the shortcut. 
+
+Enter the name of the calendar where you save upcoming music releases in the Text action before it.", title: "❌ No Calendar Found ❌", cancel: false)
+			exit()
+		} else {
+			filterCalendar() >> filterCalendar
+			if(Calendar Events == nil) {
+				alert(alert: "Looks like the ${Release Calendar Name} calendar is empty.", title: "❌ No Events Found ❌", cancel: false)
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				text(text: "↩️ Go Back") >> text 66
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				choose(list: Upcoming Events, prompt: "${Release Calendar Name}") >> choose 30
+				text(text: "${Chosen Item}") >> text 67
+			} >> IFResult 48
+// End if: calendar events are found
+			if(Text .contains "↩️") {
+				runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+			} else {
+// Check if the calendar event has a compatible music.apple.com URL in it 
+				if(Chosen Item .contains "music.apple.com") {
+					replaceText(input: "${Chosen Item.as().get(URL)}", find: "https", replace: "music") >> replaceText 4
+					url(url: "${Updated Text}") >> url 2
+					openURL(url: URL)
+				} else {
+// Show the event in calendar 
+					showInCalendar(event: Chosen Item)
+				} >> IFResult 49
+			} >> IFResult 50
+		} >> IFResult 51
+	case("📻 Beats 1"):
+		dictionary({"Beats 1 Live":"https://music.apple.com/us/station/beats-1/ra.978194965","Zane Lowe":"https://music.apple.com/us/curator/zane-lowe/990050553","Zane Lowe ⇾ NMD":"https://music.apple.com/us/curator/new-music-daily-with-zane-lowe/1458161472","Ebro Darden":"https://music.apple.com/us/curator/ebro-darden/990473683","Julie Adenuga":"https://music.apple.com/us/curator/julie-adenuga/993270508","Matt Wilkinson":"https://music.apple.com/us/curator/matt-wilkinson/1184566442","↩️ Go Back":"↩️ Go Back"})
+		valuesFrom(dictionary: Dictionary) >> valuesFrom 17
+		choose(list: Dictionary Value, prompt: "Pick a Radio Station") >> choose 31
+		if(Chosen Item .contains "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			valuesFrom(dictionary: Dictionary) >> valuesFrom 18
+			replaceText(input: "${Dictionary Value}", find: "^https", replace: "music", isRegex: true) >> replaceText 5
+			openURL(url: Updated Text)
+		} >> IFResult 52
+	case("🏝 Ambient Sounds"):
+		dictionary({"🌳 Nature":"https://music.apple.com/us/playlist/nature-sounds/pl.040f99fdd83542a79b28fc4c13f773bd","⛈ Rain":"https://music.apple.com/us/playlist/rain-sounds/pl.e79d63bcaead407fb44a0c19380822e6","🌊 Ocean":"https://music.apple.com/us/playlist/ocean-sounds/pl.1321db8d70d64d389e9ffb9e875933fe","⚪️ White Noise":"https://music.apple.com/us/playlist/white-noise/pl.4a9b82ff3b2b4c97935434eb257b7cc3","↩️ Go Back":"↩️ Go Back"})
+		valuesFrom(dictionary: Dictionary) >> valuesFrom 19
+		choose(list: Dictionary Value, prompt: "Ambient Sounds") >> choose 32
+		text(text: "${Chosen Item}") >> text 68
+		if(Text .contains "↩️") {
+			runShortcut(name: "🤖 MusicBot Pro", ihow: false)
+		} else {
+			valuesFrom(dictionary: Dictionary) >> valuesFrom 20
+			replaceText(input: "${Dictionary Value}", find: "https", replace: "music") >> replaceText 6
+			openURL(url: Updated Text)
+		}
+	}
+} >> IFResult 53

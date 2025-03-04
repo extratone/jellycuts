@@ -1,0 +1,139 @@
+import Shortcuts
+#Color: navy, #Icon: checklist
+
+// An intelligent shortcut for adding different kinds of content to the inbox of Things.
+if(ShortcutInput == nil) {
+// First check if platform is a Mac or Watch.
+	deviceDetails(detail: Device Model) >> deviceDetails
+	if(Device Model .contains "Mac") { >> IFResult
+// Get the frontmost window
+/*
+Credit for the following code: https://stackoverflow.com/a/5293758
+
+Assistive access is required for this to work.
+*/
+		runAppleScript(input: Device Model, script: "global frontApp, frontAppName, windowTitleset windowTitle to ""tell application "System Events"	set frontApp to first application process whose frontmost is true	set frontAppName to name of frontApp	tell process frontAppName		tell (1st window whose value of attribute "AXMain" is true)			set windowTitle to value of attribute "AXTitle"		end tell	end tellend tellreturn {frontAppName}") >> runAppleScript
+		text(text: "${AppleScript Result}") >> text
+		if(Text == "Safari") {
+// App is Safari
+			getURL() >> getURL
+			getURLSFromInput(text: "${Web Page}") >> getURLSFromInput
+//Unable to get shortcuts action com.sindresorhus.Actions.GetTitleOfURLIntent
+var TaskTitle = Web Page
+var TaskNote = Web Page
+		} else {
+// Frontmost app is different from Safari. Could add more specific conditions here.
+		}
+	} else { >>  1
+		if(Device Model .contains "Watch") {
+			dictateText() >> dictateText
+var TaskTitle = Dictated Text
+		} else {
+		}
+	} >> IFResult 1
+// There is no input for the shortcut.
+/*
+But let’s also check that Task Title and Task Note don’t have value.
+
+This is necessary for previously captured data on Mac and Watch.
+*/
+	if(Task Title == nil) { >> IFResult 2
+// 🔴 MAIN ACTION FOR MANUAL TEXT INPUT 🔴
+		askForInput(prompt: "Add Item to Inbox") >> askForInput
+var TaskTitle = Provided Input
+// Check if there is a URL in the clipboard using RegEx.
+		matchText(text: "${Clipboard}", regex: "(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)/)(?:[^\s()<>{}\[\]]+|\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\))+(?:\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])|(?:(?<!@)[a-z0-9]+(?:[.\-][a-z0-9]+)*[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)\b/?(?!@)))") >> matchText
+		if(Matches != nil) { >> IFResult 3
+// A URL was found in the clipboard
+			getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput 1
+//Unable to get shortcuts action com.sindresorhus.Actions.GetTitleOfURLIntent
+			text(text: "[${Title of URL}](${ActionOutput})") >> text 1
+var TaskNote = Text
+		} else {
+// No URL
+		} >> IFResult 4
+	} else {
+// No input passed to the shortcut, but we have already created a task title.
+	} >> IFResult 5
+} else { >>  6
+	getType(input: ShortcutInput) >> getType
+	if(Type .contains "Safari") {
+// We need to use the same workaround here for App Store apps since the Mac returns multiple input types for Safari webpages. For some reason, the correct input type – Safari web page – is always last in this list of variables.
+		getItemFromList(list: ShortcutInput, type: Last Item) >> getItemFromList
+		getURLSFromInput(text: "${Item from List}") >> getURLSFromInput 2
+//Unable to get shortcuts action com.sindresorhus.Actions.GetTitleOfURLIntent
+		text(text: "${Title of URL}") >> text 2
+var TaskTitle = Text
+		pageDetail(detail: Page Selection, webpage: Item from List) >> pageDetail
+		if(Page Selection != nil) {
+			markdownFromRich(text: Page Selection) >> markdownFromRich
+			splitText(text: Markdown from Rich Text) >> splitText
+			repeatEach(Split Text) {
+				text(text: "> ${Repeat Item}") >> text 3
+			} >> RepeatResult
+			combineText(text: Repeat Results) >> combineText
+var AD78A064-AC05-484B-B697-E1B5E538AA34 = """￼
+
+￼"""
+text("${AD78A064-AC05-484B-B697-E1B5E538AA34}")
+var TaskNote = Text
+		} else {
+			text(text: "${URLs}") >> text 4
+var TaskNote = Text
+		} >> IFResult 6
+	} else {
+// Other input type.
+		if(Type .contains "Image") {
+			askForInput(prompt: "What's the image?") >> askForInput 1
+var TaskTitle = Provided Input
+			getImagesFrom(input: ShortcutInput) >> getImagesFrom
+			repeatEach(Images) {
+/*
+Put a shortcut here to upload images and return a URL.
+
+You'll have to provide your own shortcut for image uploads.
+*/
+				runShortcut(name: "Upload Images", input: Repeat Item) >> runShortcut
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} >> RepeatResult 1
+			combineText(text: Task Note) >> combineText 1
+var TaskNote = Combined Text
+		} else {
+			if(Type .contains "Photo") {
+				askForInput(prompt: "What's the image?") >> askForInput 2
+var TaskTitle = Provided Input
+				getImagesFrom(input: ShortcutInput) >> getImagesFrom 1
+				repeatEach(Images) {
+/*
+Put a shortcut here to upload images and return a URL.
+
+You'll have to provide your own shortcut for image uploads.
+*/
+					runShortcut(name: "Upload Images", input: Repeat Item) >> runShortcut 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+				} >> RepeatResult 2
+				combineText(text: Task Note) >> combineText 2
+var TaskNote = Combined Text
+			} else {
+				if(Type .contains "URL") {
+// Workaround for App Store apps
+					getItemFromList(list: ShortcutInput, type: Last Item) >> getItemFromList 1
+					getURLSFromInput(text: "${Item from List}") >> getURLSFromInput 3
+//Unable to get shortcuts action com.sindresorhus.Actions.GetTitleOfURLIntent
+var TaskTitle = Title of URL
+var TaskNote = URLs
+				} else {
+					if(Type == "Text") {
+						splitText(text: ShortcutInput) >> splitText 1
+						getItemFromList(list: Split Text) >> getItemFromList 2
+var TaskTitle = Item from List
+						replaceText(input: "${ShortcutInput}", find: "${Item from List}") >> replaceText
+var TaskNote = Updated Text
+					} else {
+					}
+				}
+			}
+		}
+	}
+} >> IFResult 7
+//Unable to get shortcuts action com.culturedcode.ThingsMac.TAIAddTodo2

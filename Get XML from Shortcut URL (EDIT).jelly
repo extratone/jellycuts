@@ -1,0 +1,19 @@
+import Shortcuts
+#Color: Red, #Icon: gear
+
+getTextFrom(input: ShortcutInput) >> getTextFrom
+var in = Text
+// Get the XML representation of a shortcut from its iCloud.com link, without having to install the shortcut locally.
+matchText(text: "${in}", regex: "https:\/\/www\.icloud\.com\/shortcuts\/(.+)") >> matchText
+getMatchGroup(matches: Matches, index: "1") >> getMatchGroup
+url(url: "https://www.icloud.com/shortcuts/api/records/${Text}") >> url
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+var MainDict = Dictionary
+//Unable to get shortcuts action com.sindresorhus.Actions.PrettyPrintDictionariesIntent
+quicklook(input: Pretty Print Dictionaries)
+keysFrom(dictionary: MainDict) >> keysFrom
+downloadURL(url: "${Dictionary Value}") >> downloadURL 1
+setName(input: Contents of URL, name: "shortcut.plist") >> setName
+getTextFrom(input: Renamed Item) >> getTextFrom 1
+saveFile(input: Text, ask: false, path: "${Renamed Item}.XML", overwrite: true) >> saveFile

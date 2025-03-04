@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: navy, #Icon: calendar
+
+// Uses Timery to display total time tracked in Toggl during the day.
+// Use this with Siri to check in on your total hours for the day if you start at non-traditional work hours.
+//Unable to get shortcuts action com.joehribar.toggl.CheckTimeLoggedIntent

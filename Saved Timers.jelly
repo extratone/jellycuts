@@ -1,0 +1,21 @@
+import Shortcuts
+#Color: red, #Icon: speedometer
+
+list(items: (
+    "\Ud83d\Udcda iOS Review",
+    "\Ud83d\Udd0e Research",
+    "\Ud83d\Udcd5 MacStories",
+    "\U2b50\Ufe0f Club MacStories"
+)) >> list
+choose(list: List, prompt: "What are you working on?") >> choose
+// Remove one emoji from the selected item by trimming exactly one character at the beginning of the text string.
+matchText(text: "${Chosen Item}", regex: "(.){1}\s(.+)") >> matchText
+getMatchGroup(matches: Matches, index: "2") >> Project Name
+//Unable to get shortcuts action com.joehribar.toggl.GetSavedTimersIntent
+choose(list: Saved Timer Details, prompt: "Pick a timer") >> choose 1
+//Unable to get shortcuts action com.joehribar.toggl.StartTimeEntryIntent
+var 9C1805F0-D79D-4515-9E5F-446EA209B3F7 = """Timer started:
+
+￼"""
+text("${9C1805F0-D79D-4515-9E5F-446EA209B3F7}")
+showResult(text: "${Text}")

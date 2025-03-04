@@ -1,0 +1,27 @@
+import Shortcuts
+#Color: green, #Icon: 2x2Rectangles
+
+// I used the output from - and named this Shortcut for - a now-defunct Filip Němeček app called AppWish, but any line-break-separated list of App IDs should work.
+var FA420B28-8F66-4F33-82EE-20BD75BC8850 = """1. https://apps.apple.com/us/app/blink-shell-code/id1594898306
+2. https://apps.apple.com/us/app/pcalc/id284666222
+3. https://apps.apple.com/us/app/strata-for-micro-blog/id6474192080
+4. https://apps.apple.com/us/app/roadstr-car-app/id1382535778
+5. https://apps.apple.com/us/app/guru-maps-navigate-offline/id321745474
+6. https://apps.apple.com/us/app/gladys/id1257526927
+7. https://apps.apple.com/app/id289429962
+8. https://apps.apple.com/us/app/essayist-apa-mla-more/id1537845384
+9. https://apps.apple.com/us/app/tricky-machines/id1536951057"""
+text("${FA420B28-8F66-4F33-82EE-20BD75BC8850}")
+splitText(text: Text) >> splitText
+repeatEach(Split Text) {
+	splitText(text: Repeat Item, separator: Custom, customSeparator: "/id") >> splitText 1
+	getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+	url(url: "https://tools.applemediaservices.com/api/artwork/US/app/${Item from List}.png") >> url
+	downloadURL(url: "${URL}") >> downloadURL
+	setName(input: Contents of URL, name: "${Item from List}.png") >> setName
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	saveFile(input: Renamed Item, ask: false) >> saveFile
+} >> RepeatResult
+combineImage(images: index, mode: In a Grid, spacing: 0) >> combineImage
+saveToCameraRoll(image: Combined Image) >> saveToCameraRoll
+share(file: Saved Photo Media) >> share

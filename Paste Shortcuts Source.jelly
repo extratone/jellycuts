@@ -1,0 +1,29 @@
+import Shortcuts
+#Color: orange, #Icon: chainlink
+
+/*
+Transfer a set number of items from Paste to Data Jar.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+number(value: 0) >> number
+var index = Number
+askForInput(prompt: "Number of items to transfer.", type: Number, allowDecimal: false, allowNegative: false) >> askForInput
+repeat(Provided Input) {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	math(input: index, operand: "1") >> math
+var index = Calculation Result
+//Unable to get shortcuts action com.wiheads.paste.GetItemAtIndexIntent
+	getURLSFromInput(text: "${Content}") >> getURLSFromInput
+	runShortcut(name: "Quick JSON Source", input: URLs) >> runShortcut
+} >> RepeatResult

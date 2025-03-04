@@ -1,0 +1,109 @@
+import Shortcuts
+#Color: orange, #Icon: repostArrows
+
+dictionary({"Author":"net00","VersionID":"1E8","RID":"9663"}) >> metadata
+dictionary({"vars":{"updateEndpoint":"https://net00-1.github.io/other-ios-shortcuts/api/updates/9663/latest.json","invalidURLTitle":"Invalid URL","invalidURL":"Please use a Reddit URL from the Share Sheet or from the clipboard.","noResponseTitle":"Content Not Available","noResponse":"This content is not available in the PushShift API. It might be too recent or was not cached before its deletion.","invalidPostTitle":"No Data to Recover","invalidPost":"The PushShift API returned a result for this request but there is no data to recover. This might happen for content that has been manually taken down.","defaultHeader":"Comment","commentEndpoint":"https://api.pushshift.io/reddit/comment/search?fields=body,author&ids=","postEndpoint":"https://api.pushshift.io/reddit/submission/search?fields=title,selftext,author,url&ids=","waybackEndpoint":"https://archive.org/wayback/available?timestamp=20000101&url="}}) >> mainDic
+var mainDic = mainDic
+downloadURL(url: "${mainDic.key(vars.updateEndpoint)}") >> response
+if(response != nil) {
+	getTextFrom(input: response) >> latestVersion
+	if(latestVersion != ""${metadata.key(VersionID)}"") {
+		menu(, [Update Directly, Skip This Time]) {
+		case("Update Directly"):
+			replaceText(input: "${response.as(Dictionary).key(url)}", find: "^.+?(?=\/shortcut)", replace: "shortcuts:/", isRegex: true) >> replaceText
+			openURL(url: Updated Text)
+			exit()
+		case("Skip This Time"):
+		} >> MenuResult
+	}
+} >> IFResult
+if(ShortcutInput == nil) {
+var redditURL = Clipboard
+} else {
+var redditURL = ShortcutInput
+} >> IFResult 1
+matchText(text: "${redditURL}", regex: "reddit\.com|(?<=\/comments\/).{6}(?=\/$|\/\?|$|\/)|(?<=\/).{7}(?=\/$|\/\?|$|\/)") >> urlItems
+count(input: urlItems) >> itemCount
+if(itemCount false 2) {
+	alert(alert: "${mainDic.key(vars.invalidURL)}", title: "${mainDic.key(vars.invalidURLTitle)}", cancel: false)
+	exit()
+} >> IFResult 2
+getItemFromList(list: urlItems, type: Last Item) >> getItemFromList
+var itemID = Item from List
+if(itemCount false 3) {
+	downloadURL(url: "${itemID}${Variable}") >> downloadURL
+} else {
+	downloadURL(url: "${itemID}${Variable}") >> downloadURL 1
+} >> psResponse
+keysFrom(dictionary: psResponse) >> keysFrom
+var psData = Dictionary Value
+if(psData == nil) {
+	alert(alert: "${mainDic.key(vars.noResponse)}", title: "${mainDic.key(vars.noResponseTitle)}", cancel: false)
+	exit()
+} >> IFResult 3
+text(text: "${psData.as(Dictionary).key(selftext)}${Variable.as(Dictionary).key(selftext)}") >> itemText
+if(itemText == nil) {
+	if(psData == nil) {
+		alert(alert: "${mainDic.key(vars.invalidPost)}", title: "${mainDic.key(vars.invalidPostTitle)}", cancel: false)
+		exit()
+	} else {
+		downloadURL(url: "${mainDic.key(vars.waybackEndpoint)}${Variable.key(vars.waybackEndpoint)}") >> downloadURL 2
+		keysFrom(dictionary: Contents of URL) >> keysFrom 1
+		keysFrom(dictionary: Dictionary Value) >> archiveURL
+		if(archiveURL != nil) {
+var 5AAD8A3C-92B5-492C-A7E9-A3D1D23642C4 = """<p><a href="￼">Linked Content</a></p>
+<p><a href="￼">Archive.org Snapshot</a></p>
+"""
+text("${5AAD8A3C-92B5-492C-A7E9-A3D1D23642C4}")
+		} else {
+			text(text: "<p><a href="${psData.as(Dictionary).key(url)}">Linked Content</a></p>") >> text
+		} >> IFResult 4
+var formattedText = If Result
+	} >> IFResult 5
+} else {
+	replaceText(input: "${itemText}", find: "\\|\\n", replace: "\n", isRegex: true, caseSensitive: false) >> replaceText 1
+	replaceText(input: "${Updated Text}", find: "(#{2,})", replace: "#### ", isRegex: true, caseSensitive: false) >> replaceText 2
+	replaceText(input: "${Updated Text}", find: "(?<=\n)#(?!#)", replace: "### ", isRegex: true, caseSensitive: false) >> replaceText 3
+	replaceText(input: "${Updated Text}", find: "&gt;", replace: "> ", caseSensitive: false) >> replaceText 4
+	richTextFromMarkdown(markdown: Updated Text) >> richTextFromMarkdown
+	htmlFromRichText(text: Rich Text from Markdown) >> htmlFromRichText
+var formattedText = HTML from Rich Text
+} >> IFResult 6
+text(text: "${mainDic.key(vars.defaultHeader)}${Variable.key(vars.defaultHeader)}") >> text 1
+replaceText(input: "${Text}", find: "Comment(?!$)", isRegex: true, caseSensitive: false) >> Header
+var E1C32D85-EA92-4038-8189-76AEF40E54F6 = """<html>
+    <head>
+        <title>Recovered Data</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
+        <style>
+            body {
+                font-size: 16px;
+                font-family: helvetica, arial, sans-serif;
+                word-wrap: break-word;
+            }
+            @media(prefers-color-scheme: dark) {
+                body {
+                    color: #E6E6E6;
+                    background-color: #121212;
+                }
+            }
+            @media(prefers-color-scheme: light) {
+                body {
+                    color: #000000;
+                    background-color: #FDFDFD;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h3>￼</h3>
+        <hr />
+        ￼
+        <hr />
+        <p>Author: <a href="https://www.reddit.com/user/￼">u/￼</a></p>
+        <p><a href="￼">Reddit Link</a></p>
+    </body>
+</html>"""
+text("${E1C32D85-EA92-4038-8189-76AEF40E54F6}")
+richTextFromHTML() >> richTextFromHTML
+quicklook(input: Rich Text from HTML)

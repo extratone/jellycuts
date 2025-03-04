@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: grape, #Icon: Shortcuts
+
+text(text: "GIF") >> text
+speakText(text: "${Text}", wait: true)

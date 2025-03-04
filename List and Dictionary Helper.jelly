@@ -1,0 +1,71 @@
+import Shortcuts
+#Color: green, #Icon: list
+
+/*
+This shortcut supports UpdateHub: https://routinehub.co/shortcut/2066
+That is, you can check for updates of all UpdateHub-supported shortcuts by manually running the UpdateHub shortcut.
+
+RoutineHubUpdate
+
+Current Version: "2.0"
+RoutineHub ID: "5176"
+
+RoutineHubUpdate
+*/
+/*
+Run 𝗟𝗶𝘀𝘁 𝗮𝗻𝗱 𝗗𝗶𝗰𝘁𝗶𝗼𝗻𝗮𝗿𝘆 𝗛𝗲𝗹𝗽𝗲𝗿 from your shortcut to add, replace or remove an item in a list or dictionary. Please read instructions on the RoutineHub webpage below.
+2020-08-26 	ⓥ2.0 	@gluebyte 	u/gluebyte
+https://routinehub.co/shortcut/5176
+*/
+randomNumber(min: 1, max: 10) >> randomNumber
+if(Random Number == 1) {
+	getFile(picker: false, path: "List and Dictionary Helper Update Check.txt", error: false) >> getFile
+	if(File >) {
+	} else {
+		getIP() >> getIP
+		if(Current IP Address != nil) {
+			downloadURL(url: "https://routinehub.co/api/v1/shortcuts/5176/versions/latest") >> downloadURL
+			keysFrom(dictionary: Contents of URL) >> keysFrom
+			if(Dictionary Value != nil) {
+				if(Dictionary Value != "2.0") {
+					sendNotification(body: "New version of Dictionary and List Helper available on RoutineHub", sound: false, attachment: Dictionary Value)
+				} >> IFResult
+			} >> IFResult 1
+			adjustDate(duration: , date: "${CurrentDate}") >> adjustDate
+			saveFile(input: Adjusted Date, ask: false, path: "List and Dictionary Helper Update Check.txt", overwrite: true) >> saveFile
+		}
+	} >> IFResult 2
+} >> IFResult 3
+if(ShortcutInput != nil) {
+var CA84C312-3115-4F70-BAED-36186A3B0D8C = """<script>
+let input = ￼;
+val = input.value;
+subo = obj = input.dictionary ?? input.list;
+//if (typeof obj === "string" && obj[0]+obj[obj.length-1] === "{}") { obj = JSON.parse(obj) }
+keys = [...(input.key ?? input.index).matchAll(/(?:^"|\.")([^"\\]*(?:\\.[^"\\]*)*)(?:")|(?:^|\.)([^"][^\.]*)/g)].map(arr => isNaN(k = arr[2] ?? arr[1]) ? k : parseInt(k));
+last = keys.pop();
+prevo = prevk = null;
+keys.forEach(k => {prevo = subo; prevk = isNaN(k) ? k : k + (k < 1 ? subo.length : -1); subo = subo[prevk]});
+if (isNaN(last)) {
+	if (val != null) { subo[last] = val } else { delete subo[last] }
+} else {
+	if (!subo || subo.constructor !== Array) {
+		subo = prevk != null ? (prevo[prevk] = [subo]) : (obj = [subo]);
+	}
+	last += last < 1 ? subo.length : -1;
+	if (val != null) { subo.splice(last,0,val) } else { subo.splice(last,1) }
+}
+document.write(encodeURIComponent(JSON.stringify({"output":obj})));
+</script>"""
+text("${CA84C312-3115-4F70-BAED-36186A3B0D8C}")
+	encode(input: Text) >> encode
+	url(url: "data:text/html;charset=utf-8;base64,${Base64 Encoded}") >> url
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL
+	if(URL Encoded Text != nil) {
+		keysFrom(dictionary: URL Encoded Text) >> keysFrom 1
+	} else {
+		alert(alert: "${ShortcutInput.as(Dictionary)}", title: "Error in 𝙇𝙞𝙨𝙩 𝙖𝙣𝙙 𝘿𝙞𝙘𝙩𝙞𝙤𝙣𝙖𝙧𝙮 𝙃𝙚𝙡𝙥𝙚𝙧", cancel: $2)
+	} >> IFResult 4
+} else {
+	alert(alert: "No input provided to 𝙇𝙞𝙨𝙩 𝙖𝙣𝙙 𝘿𝙞𝙘𝙩𝙞𝙤𝙣𝙖𝙧𝙮 𝙃𝙚𝙡𝙥𝙚𝙧.", title: $1, cancel: $2)
+}

@@ -1,0 +1,10 @@
+import Shortcuts
+#Color: tangerine, #Icon: openBook
+
+askForInput(prompt: "How many minutes do you want to read for?", type: Number) >> askForInput
+adjustDate(duration: , date: "${CurrentDate}") >> adjustDate
+setDND(state: true)
+toggleAppearance()
+getPlaylist() >> getPlaylist
+playMusic(music: Playlist, shuffle: Songs)
+openApp()

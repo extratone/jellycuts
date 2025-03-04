@@ -1,0 +1,838 @@
+import Shortcuts
+#Color: green, #Icon: desktopSpeaker
+
+var B71BD71D-FAF2-4023-9CC0-5CFF76913B6B = """                           
+"""
+text("${B71BD71D-FAF2-4023-9CC0-5CFF76913B6B}")
+saveFile(input: Testo, ask: false, path: "/encode_to_mp3/files.txt", overwrite: true) >> saveFile
+/*
+*ENCODE TO MP3* is a shortcut to convert multiple audio files from any format into MP3 or M4A files with the LAME or AAC Encoder.  
+  
+  
+How to use it
+===========
+ - Just select the audio files you want to convert to MP3 (or M4A) from the Files app (using multiple selection, mixing multiple formats is fine), and then use the share menu to send them to the shortcut.  
+ - The shortcut will open the a-Shell mini app and will do the conversion using ffmpeg.  
+ - You can convert to **MP3** using the **Lame MP3 encoder** at the best quality (320k constant bit rate) or at a quality optimized for file size (variable bit rate 190-250k).  
+ - Or you can convert to **M4A** (the audio only version of MP4) using the **AAC MP4 encoder** at the best quality (270k constant bit rate) or at a quality optimized for file size (192k constant bit rate).  
+ - You can choose to just **copy the audio streams** in the new container format, without re-encoding. This is called '**remuxing**'. But since not all codecs are supported by all formats, this remuxing may not be possible, and ffmpeg will choose to re-encode to the most similar codec and quality available in the container. Be sure to check if the source file audio codec is supported by the output container format before trying to remux.  
+ - You will also be asked if you want to **normalize** the volume of the files.  
+ - Wait the shortcut to end all the processing, without touching anything, and after a while you will be asked where to save the resulting MP3 / M4A audio files.  
+ - To avoid confusion, a suffix '(was xxx)', where xxx is the previous file extension, will be added to the file names.  
+ - If you select **video files** they will be converted **to audio only** MP3/M4A files.  
+ 
+ 
+Calling it from other Shortcuts  
+=========================
+ - From version 1.0.2 you can use ENCODE TO MP3 as an helper function in your shortcuts.  
+ - For the details and the parameters, just read the comment inside the shortcut source.  
+  
+
+Supported audio formats:
+=====================
+AAC, AC3, AIFF, ASF, AVI, CAF, DFF, DSF, DTS, F4V, FLAC, FLV, HEVC, M4A, M4B, M4R, MAUD, MKA, MKV, MOV, MP2, MP4, MPEG, MPG, OGA, OGG, OPUS, TS, TTA, VOB, VOC, W64, WAV, WEBM, WMA, WMV, 3GP.  
+  
+Some Background On Audio Quality
+==============================
+Bitrate is not the only thing to consider when it comes to codecs.  
+  
+Frequency response range is also very important.  
+  
+|**Codec**|**Format**|**Transparency**|**File Size** (at Transp.)|**Frequency Response** (at 192 kbit/s)|
+|:-|:-|:-|:-|:-|
+|MP3|.mp3|250 kbit/s|1.87 MB/minute|0-16 kHz|
+|AAC|.mp4|220 kbit/s|1.65 MB/minute|0-18 kHz|
+|Opus|.ogg, .webm|190 kbit/s|1.42 MB/minute|0-20 kHz|
+|WAV|.wav|lossless|10.58 MB/minute|0-22 kHz|
+  
+ **Glossary**:  
+  
+  - ***Transparency*** : *"A transparency threshold is a given bitrate value at which audio transparency is reached. Transparency is the result of lossy data compression accurate enough that the compressed result is perceptually indistinguishable from the uncompressed input for the **average** listener."*  
+  - ***Frequency Response*** : *"The analysis of the frequency spectrum of each song shows how well each code compression algorithm works in comparison to WAV and each other. Its shows when frequency cross-section of the codec leads to the loss of high-frequency part of the sound. Then codec with the biggest frequency range is the codec that provides the nearest reproduction value of the full frequency spectrum in comparison to non- compressed WAV with the range of approximately 22 kHz."*  
+  
+  
+Source:  
+  
+ - Zhurakovskyi, Bohdan, Nataliia Tsopa, Yevhenii Batrak, Roman Odarchenko and Tetiana Smirnova. *“Comparative Analysis of Modern Formats of Lossy Audio Compression.”* CybHyg (2019).  
+  
+  
+
+REQUIREMENTS
+=============
+ - You need the [**a-Shell Mini**](https://apps.apple.com/ao/app/a-shell-mini/id1543537943) app installed. The version must be **1.9.4 or greater**.  The 'Mini' version of a-Shell only sizes at 340Mb.  
+  
+
+ACKNOWLEDGEMENTS
+===================
+ - I wish to thank his excellency [**Nicolas Holzschuch**](https://github.com/holzschu) (*the genius developer of a-Shell*) for the port of the Lame mp3 encoder in a-Shell and the early access to the beta.  
+  
+INFO
+====
+ - First Release: 2022-07-13 	v1.0.0   
+ - Latest: 2023-02-12 v1.2.3  
+ - Author: [u/fremenmuaddib](https://www.reddit.com/user/fremenmuaddib/)   
+ - This shortcut is canonically available on RoutineHub at https://routinehub.co/shortcut/12550/  
+  
+*/
+/*
+CALLING PARAMETERS FOR 'ENCODE TO MP3'   
+====================================
+ - You can use this shortcut as an helper function from your shortcuts.  
+  
+INPUT:  
+=====
+ - You must pass a Dictionary (or a file .json) as the shortcut parameter.  
+ - The Dictionary entries should be the following ones:  
+ -  
+ - KEY = 'input_folder'  
+ - Type = Text
+ - VALUE = path to the folder containing the audio files to convert.  
+           Must be a folder under the 'Shortcuts' folder (on iCloud Drive).
+		   You must omit the Shortcuts part (i.e. 'iCloud Drive/Shortcuts/your_sc_folder/input/' must be written: '/your_sc_folder/input/').
+-  
+- KEY = 'output_folder'
+- Type = Text
+- VALUE = path to the folder where the converted audio files will be saved.  
+           Must be a folder under the 'Shortcuts' folder (on iCloud Drive).  
+		   You must omit the Shortcuts part (i.e. 'iCloud Drive/Shortcuts/your_sc_folder/output/' must be written: '/your_sc_folder/output/').  
+ -   
+ - KEY = 'arguments'  
+ - Type = Dictionary  
+ - VALUE = A Dictionary  
+ -  
+ - Content of the 'arguments' sub Dictionary:  
+ - KEY = 'output_format' ('arguments.output_format' in dot notation)  
+ - Type = Text
+ - VALUE = (one of the following:)  
+ -         'CBR320' : Convert to 320k constant bit rate  
+ -         'CBR320_NORM' : Convert to 320k constant bit rate and Normalize   
+ -         'CBR270' : Convert to 270k constant bit rate   
+ -         'CBR270_NORM' : Convert to 270k constant bit rate and Normalize   
+ -         'CBR192' : Convert to 270k constant bit rate  
+ -         'CBR192_NORM' : Convert to 192k constant bit rate and Normalize  
+ -         'VBR190' : Convert to 190-250 variable bit rate  
+ -         'VBR190_NORM' . Convert to 190-250 variable bit rate and Normalize
+ -         'TRY_REMUX' . Try stream copy to remux audio (no re-encoding)
+ -         'TRY_REMUX_NORM' . Try to remux audio (no re-encoding) and Normalize
+ -
+ -  
+ -  
+ - KEY = 'container' ('arguments.container' in dot notation)  
+ - Type = Text  
+ - VALUE = (one of the following:)   
+ -         'mp3' : Convert to mp3 (LAME mp3 codec)   
+ -         'm4a' : Convert to m4a (AAC mp4 codec)  
+ -  
+ -  
+ - KEY = 'skip_mp3' ('arguments.skip_mp3' in dot notation)  
+ - Type = Boolean  
+ - VALUE = (one of the following:)  
+ -         true : the mp3 files will not be reencoded.  
+ -         false : the mp3 file will be reencoded.  
+ -  
+ - KEY = 'skip_mp4' ('arguments.skip_mp4' in dot notation)  
+ - Type = Boolean  
+ - VALUE = (one of the following:)  
+ -         true : the mp4 files (.mp4,.m4a,.m4b,.m4r) will not be converted.  
+ -         false : the mp4 files (.mp4,.m4a,.m4b,.m4r) will be converted to mp3.  
+ -  
+ -  NOTE: The last 2 keys ('skip_mp3', 'skip_mp4') are not implemented yet. Do not use them.
+ - 
+ -  
+ OUTPUT:  
+ ======
+ - The shortcut returns the same 'output_folder' path as passed by the calling shortcut.  
+ - But when it returns, the 'output_folder' shall contain only the newly encoded MP3 files.  
+   
+
+
+
+  
+
+*/
+var input_shortcut = ShortcutInput
+if(input_shortcut == nil) { >> IFResult
+	alert(alert: "Please select audio files to convert", cancel: false)
+	selectFile(multiple: true) >> selectFile
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "DEFAULT_MODE") >> text
+var output_format = Testo
+} else {
+	if(input_shortcut == "json") { >> IFResult 1
+		getDictionaryFrom(input: input_shortcut) >> getDictionaryFrom
+var output_format = Dizionario
+var output_container = Dizionario
+var skip_mp3 = Dizionario
+var skip_mp4 = Dizionario
+var output_container = Variable
+var input_folder = Dizionario
+var output_format = Variable
+var output_folder = Dizionario
+		createFolder(path: "${output_folder}") >> createFolder
+var output_folder = Cartella creata
+		createFolder(path: "${input_folder.as(Text)}") >> createFolder 1
+		getFolderContents(folder: Cartella creata) >> getFolderContents
+		repeatEach(Contenuti della cartella) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} >> RepeatResult
+	} else {
+var mp3fileslist = Variable
+		text(text: "DEFAULT_MODE") >> text 1
+var output_format = Testo
+	} >> IFResult 2
+} >> IFResult 3
+var 0DA97643-44DF-4911-BE88-BADE637D3D59 = """hideKeyboard
+rm -f files.txt files_completed_log.txt files_failed_log.txt converted_filenames_log.txt
+open shortcuts://
+"""
+text("${0DA97643-44DF-4911-BE88-BADE637D3D59}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+waitToReturn()
+repeatEach(mp3fileslist) {
+	matchText(text: "${Repeat Item.get(File Extension)}", regex: "aac|ac3|aiff|asf|avi|caf|dff|dsf|dts|f4v|flac|flv|hevc|m4a|m4b|m4r|maud|mka|mkv|mov|mp3|mp2|mp4|mpeg|mpg|oga|ogg|opus|ts|tta|vob|voc|w64|wav|webm|wma|wmv|3gp", caseSensitive: false) >> matchText
+	if(Risultati == nil) {
+		if(output_format == "DEFAULT_MODE") {
+			alert(alert: "ERROR: File format [${Repeat Item.get(File Extension)}] not supported. Please select only audio files. (supported formats: AAC, AC3, AIFF, ASF, AVI, CAF, DFF, DSF, DTS, F4V, FLAC, FLV, HEVC, M4A, M4B, M4R, MAUD, MKA, MKV, MOV, MP2, MP4, MPEG, MPG, OGA, OGG, OPUS, TS, TTA, VOB, VOC, W64, WAV, WEBM, WMA, WMV, 3GP)", cancel: false)
+			exit()
+		} else {
+			nothing()
+		} >> IFResult 4
+	} else {
+var audio_file_to_move_in_ashell = Variable
+		setName(input: audio_file_to_move_in_ashell, name: "${Repeat Item.get(File Extension)}.${Variable.get(File Extension)}") >> setName
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+		text(text: "echo "${Repeat Item}.${Variable}">> files.txt") >> text 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> IFResult 5
+} >> RepeatResult 1
+combineText(text: list_of_filenames) >> combineText
+var filenames_shell_command = Testo combinato
+var 925C9EFB-5676-42C5-8DEA-86BDF86BC630 = """#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+'''
+ENCODE TO MP3 - AUDIO FORMAT CONVERTER
+    by Fmuaddib
+
+FILENAME: enc2mp3.py
+VERSION: 1.2.1
+AUTHOR: Fmuaddib
+LICENSE: MIT
+'''
+
+import sys
+import os
+import io
+from io import StringIO
+import argparse
+from pathlib import Path
+from pathlib import PurePath
+
+APP_NAME = "enc2mp3.py"
+APP_AUTHOR = "Fmuaddib"
+VERSION = "1.2.1"
+
+LOG_FILE_NAME = Path("converted_filenames_log.txt")
+LOG_COMPLETED_FILENAME = Path("files_completed_log.txt")
+LOG_FAILED_FILENAME = Path("files_failed_log.txt")
+config = {
+        "CONTAINER": 'mp3',
+        "BITRATE": 0,
+        "FREQUENCY": 0,
+        "NORMALIZE": False,
+        "DONT_KEEP_ORIGINALS": False,
+        "VBR": False,
+        "SUPPORTEDTYPES": ('.3gp', '.aac', '.ac3', '.aiff', '.asf', '.avi', '.caf', '.dff', '.dsf', '.dts', '.f4v', '.flac', '.flv', '.hevc', '.m4a', '.m4b', '.m4r', '.maud', '.mka', '.mkv', '.mov', '.mp2', '.mp4', '.mpeg', '.mpg', '.oga', '.ogg', '.opus', '.ts', '.tta', '.vob', '.voc', '.w64', '.wav', '.webm', '.wma', '.wmv'),
+        "SAMPLEFORMAT": 'original',
+        "FORCE_REENCODING": False,
+        "TRY_REMUXING": False,       #Using stream copy to remux (no re-encoding)
+        "OMIT_SUFFIX": False
+}
+
+
+class Parameters():
+        input_path = None
+        output_path = None
+        output_file = None
+        listfile_path = None
+        config_listfile = None
+        config_container = config['CONTAINER']
+        config_bitrate = config['BITRATE']
+        config_frequency = config['FREQUENCY']
+        config_normalize = config['NORMALIZE']
+        config_sampleformat = config['SAMPLEFORMAT']
+        config_dont_keep = config['DONT_KEEP_ORIGINALS']
+        config_vbr = config['VBR']
+        config_supported_types = config['SUPPORTEDTYPES']
+        config_force_reencoding = config['FORCE_REENCODING']
+        config_try_remuxing = config['TRY_REMUXING']
+        config_omit_suffix = config['OMIT_SUFFIX']
+
+files_completed = set()
+files_failed = set()
+final_files_list = set()
+
+
+def replace_extension(filename, ext, expected_real_ext=None):
+    filename = str(filename)
+    name, real_ext = os.path.splitext(filename)
+    return '{0}.{1}'.format(name if not expected_real_ext or real_ext[1:] == expected_real_ext else filename, ext)
+
+def main():
+        print("ENC2MP3 by Fmuaddib")
+        print("Version: {}".format(VERSION))
+        print("USAGE:")
+        print("       SINGLE:  enc2mp3.py <INPUT FILENAME> -c mp3")
+        print("       BATCH:   enc2mp3.py <INPUT FOLDER> -l files.txt -c mp3")
+        print(".......ALL SOUND FILES IN FOLDER:  enc2mp3.py <INPUT FOLDER> -c mp3")
+        print()
+        '''Parse arguments from command line'''
+        parser = argparse.ArgumentParser(
+                prog="enc2mp3.py",
+                description='A Python CLI program for converting audio files to MP3 or MP4 (.m4a, .m4b, .mp4, .mov) format')
+        parser.add_argument('input', type=str, help='Input file or directory')
+        parser.add_argument('-l', '--listfile', type=str, default=None, help='Path to .txt file with a List of filenames to convert (default: all files in input folder)')
+        parser.add_argument('-o', '--output', type=str, default=Path.cwd(), help='Output folder (default: current folder)')
+        parser.add_argument('-b', '--bitrate', default=config['BITRATE'], type=int, help='Preferred bitrate for audio files in kb/s (default: auto)')
+        parser.add_argument('-f', '--frequency', default=config['FREQUENCY'], type=int, help='Preferred frequency for audio files in Hz (default: original)')
+        parser.add_argument('-n', '--normalize', default=config['NORMALIZE'], help='Normalize Volume levels (option -af "loudnorm" in FFMpeg) (default: False)', action="store_true")
+        parser.add_argument('-dk', '--dont-keep', default=config['DONT_KEEP_ORIGINALS'], help='Don\'t Keep original files (default: False)', action="store_true")
+        parser.add_argument('-v', '--vbr', default=config['VBR'], help='Encode audio with variable bitrate (default: False)', action="store_true")
+        parser.add_argument('-s', '--sampleformat', default=config['SAMPLEFORMAT'], help='Audio sampling format (original, s16p, s32p, fltp) (default: original)', choices=["original", "s16p", "s32p", "fltp"], metavar="original/s16p/s32p/fltp")
+        parser.add_argument('-c', '--container', default=config['CONTAINER'], help='Container file format ( mp3, m4a, caf) (default: mp3)', choices=["mp3", "m4a", "caf"], metavar="mp3/m4a/caf")
+        parser.add_argument('-m', '--try_remuxing', default=config['TRY_REMUXING'], help='Try to use stream copy to remux audio leaving the original codec (avoiding re-encoding if possible) (default: False)', action="store_true")
+        parser.add_argument('-r', '--force_reencoding', default=config['FORCE_REENCODING'], help='Force reencoding when the input and output file extensions are the same (default: False)', action="store_true")
+        parser.add_argument('-x', '--omit_suffix', default=config['OMIT_SUFFIX'], help='Do not add the "(was XXX)" suffix to the converted file name (default: False)', action="store_true")
+        args = parser.parse_args()
+
+
+
+        ## DELETE OLD LOGS
+        ## If file exists, delete it ##
+        if Path.is_file(LOG_FILE_NAME):
+                Path.unlink(LOG_FILE_NAME)
+        ## If file exists, delete it ##
+        if Path.is_file(LOG_COMPLETED_FILENAME):
+                Path.unlink(LOG_COMPLETED_FILENAME)
+        ## If file exists, delete it ##
+        if Path.is_file(LOG_FAILED_FILENAME):
+                Path.unlink(LOG_FAILED_FILENAME)
+
+
+
+        # Setup the conversion parameters #
+        params = Parameters()
+
+        params.input_path = Path(args.input)
+        params.output_path = Path(args.output)
+        params.listfile_path = args.listfile
+        params.config_bitrate = args.bitrate
+        params.config_frequency = args.frequency
+        params.config_normalize = args.normalize
+        params.config_sampleformat = args.sampleformat
+        params.config_container = args.container
+        params.config_dont_keep = args.dont_keep
+        params.config_vbr = args.vbr
+        params.config_supported_types = config['SUPPORTEDTYPES']
+        params.config_force_reencoding = args.force_reencoding
+        params.config_try_remuxing = args.try_remuxing
+        params.config_omit_suffix = args.omit_suffix
+
+        all_is_valid = True
+
+        # Check Input File or Folder or File List #
+        if Path.is_dir(params.input_path) or Path.is_file(params.input_path) or params.listfile_path is not None:
+                all_is_valid = True
+        else:
+                all_is_valid = False
+                print("The input path/file is invalid! " + str(params.input_path))
+
+        # Check Output Folder #
+        if not Path.is_dir(params.output_path):
+                all_is_valid = False
+                print("The output path is invalid! "+str(params.output_path))
+        else:
+                params.output_path =Path(PurePath.joinpath(Path.cwd(), Path(params.output_path)))
+
+        # Check Filenames List from Txt File
+        if params.listfile_path is not None:
+                params.listfile_path=Path(params.listfile_path)
+                if Path.is_file(params.listfile_path):
+                        params.config_listfile = load_list_file(params.listfile_path)
+                else:
+                        all_is_valid = False
+                        print("The files list path is invalid! "+ str(params.listfile_path))
+
+        # If All Is Valid, Start The Conversion #
+        if all_is_valid:
+                if params.listfile_path is not None and params.config_listfile is not None:
+                        params.input_path = Path(PurePath.joinpath(Path.cwd(), Path(params.input_path)))
+                        convert_folder(params)
+                else:
+                        if Path.is_dir(params.input_path):
+                                params.input_path = Path(PurePath.joinpath(Path.cwd(), Path(params.input_path)))
+                                convert_folder(params)
+                        elif Path.is_file(params.input_path):
+                                params.input_path = Path(PurePath.joinpath(Path.cwd(), Path(params.input_path)))
+                                convert_file(params)
+                        else:
+                            sys.exit()
+        else:
+                sys.exit()
+
+        saveTextFile("\n".join(files_completed), LOG_COMPLETED_FILENAME)
+        saveTextFile("\n".join(files_failed), LOG_FAILED_FILENAME)
+        
+        for filename_record in final_files_list:
+                write_filename_to_txt_final_output_log(filename_record, True)
+        
+
+
+## Logger
+def write_filename_to_txt_final_output_log(filePath, full_path=False):
+        outputFile = Path(filePath)
+        if full_path is False:
+                filename = str(outputFile.name)
+        else:
+                filename = str(outputFile.absolute())
+        append_lines_to_log_file(LOG_FILE_NAME, filename)
+
+## EXTERNAL HELPER FUNCTION
+def convert_to_format(filename, container_format='mp4', vbr_mode=False, bitrate=0, try_remuxing=False, delete_originals=True):
+        # Setup the conversion parameters #
+        params = Parameters()
+
+        params.input_path = Path(filename)
+        params.output_path = Path(filename).parent
+        params.listfile_path = None
+        params.config_container = container_format
+        params.config_omit_suffix = True
+        params.config_dont_keep = delete_originals
+        params.config_bitrate = bitrate
+        params.config_vbr = vbr_mode
+        params.config_try_remuxing = try_remuxing
+        
+        
+        all_is_valid = True
+
+        # Check Input File or Folder or File List #
+        if Path.is_dir(params.input_path) or Path.is_file(params.input_path) or params.listfile_path is not None:
+                all_is_valid = True
+        else:
+                all_is_valid = False
+                print("The input path/file is invalid! " + str(params.input_path))
+
+        # Check Output Folder #
+        if not Path.is_dir(params.output_path):
+                all_is_valid = False
+                print("The output path is invalid! "+str(params.output_path))
+        else:
+                params.output_path =Path(PurePath.joinpath(Path.cwd(), Path(params.output_path)))
+
+        # Check Filenames List from Txt File
+        if params.listfile_path is not None:
+                params.listfile_path=Path(params.listfile_path)
+                if Path.is_file(params.listfile_path):
+                        params.config_listfile = load_list_file(params.listfile_path)
+                else:
+                        all_is_valid = False
+                        print("The files list path is invalid! "+ str(params.listfile_path))
+
+        # If All Is Valid, Start The Conversion #
+        if all_is_valid:
+                if params.listfile_path is not None and params.config_listfile is not None:
+                        params.input_path = Path(PurePath.joinpath(Path.cwd(), Path(params.input_path)))
+                        convert_folder(params)
+                else:
+                        if Path.is_dir(params.input_path):
+                                params.input_path = Path(PurePath.joinpath(Path.cwd(), Path(params.input_path)))
+                                convert_folder(params)
+                        elif Path.is_file(params.input_path):
+                                params.input_path = Path(PurePath.joinpath(Path.cwd(), Path(params.input_path)))
+                                convert_file(params)
+                        else:
+                            sys.exit()
+        else:
+                sys.exit()
+        
+        print("File " + str(params.output_file) + "successfully converted.")
+        return str(params.output_file)
+        
+
+
+def load_list_file(list_file_name):
+        clean_lines = set()
+        if Path.is_file(list_file_name):
+                with open(list_file_name, encoding='utf8') as f:
+                        lines = f.readlines()
+                        clean_lines = set([line.rstrip().strip() for line in lines])
+                        print(str(len(clean_lines)+1) + " files received as input.")
+                return clean_lines
+        else:
+                print("Error : " + str(list_file_name) + " is not a valid file!")
+                return None
+
+
+
+
+def load_text_file(txt_file_name):
+        contents = None
+        txt_file_name = Path.joinpath(Path.cwd(), Path(txt_file_name))
+        if Path.is_file(txt_file_name):
+                with open(txt_file_name, encoding='utf8') as f:
+                        contents = f.read()
+                        print(contents)
+                return contents
+        else:
+                print("Error : "+str(txt_file_name)+" is not a valid file!")
+                return None
+
+def saveTextFile(text, filename):
+        file_path = Path(PurePath.joinpath(Path.cwd(), Path(filename)))
+        with open(file_path, "a+", encoding="utf-8") as f:
+                f.write(text.strip())
+        print("Saved text file in: "+str(file_path))
+        print()
+        return
+
+
+def append_lines_to_log_file(log_file_name, lines_to_append):
+        log_file_name = Path(PurePath.joinpath(Path.cwd(),Path(log_file_name)))
+        # Open the file in append & read mode ('a+')
+        with open(log_file_name, "a+", encoding="utf-8") as file_object:
+                appendEOL = False
+                # Move read cursor to the start of file.
+                file_object.seek(0)
+                # Check if file is not empty
+                data = file_object.read(100)
+                if len(data) > 0:
+                        appendEOL = True
+                if isinstance(lines_to_append,str):
+                        # If file is not empty then append '\n' before first line for
+                        # other lines always append '\n' before appending line
+                        if appendEOL == True:
+                                file_object.write("\n")
+                        else:
+                                appendEOL = True
+                        # Append element at the end of file
+                        file_object.write(lines_to_append)
+                elif isinstance(lines_to_append,list):
+                        # Iterate over each string in the list
+                        for line in lines_to_append:
+                                # If file is not empty then append '\n' before first line for
+                                # other lines always append '\n' before appending line
+                                if appendEOL == True:
+                                        file_object.write("\n")
+                                else:
+                                        appendEOL = True
+                                # Append element at the end of file
+                                file_object.write(line)
+                else:
+                        print('Error writing log: please provide a string or a list.')
+
+
+
+
+## CONVERT ALL AUDIO FILES IN A FOLDER
+def convert_folder(params):
+        print("Processing Folder: " + str( params.input_path))
+        for file_name in sorted(Path.iterdir(params.input_path)):
+                if params.config_listfile is not None:
+                        if Path(file_name).name in params.config_listfile:
+                                launch_task(file_name, params)
+                else:
+                        launch_task(file_name, params)
+
+
+
+
+def launch_task(file_name, params):
+        if Path(file_name).suffix in tuple(params.config_supported_types):
+                file_name = Path(file_name)
+                file_name_ext = Path(file_name).suffix.replace('.','')
+                without_ext = Path(file_name).stem
+                if params.config_omit_suffix is False:
+                        without_ext += " (was " + file_name_ext + ")"
+                input_file = Path( PurePath.joinpath(params.input_path, file_name))
+                output_file_name = "".join([without_ext, "." + params.config_container])
+                output_file = Path( PurePath.joinpath(params.output_path, Path( output_file_name)))
+                params.output_file = str(output_file)
+                ExecuteFFMpeg(input_file, output_file, params)
+                print("Finished Converting File: "+str(input_file) + " to " + params.config_container)
+
+                return
+        else:
+                return
+
+## CONVERT A SINGLE FILE
+def convert_file(params):
+        print("Processing single audio file:" + str( params.input_path))
+        input_file = params.input_path.name
+        input_file_ext = params.input_path.suffix.replace('.','')
+        without_ext = params.input_path.stem
+        if params.config_omit_suffix is False:
+                without_ext += " (was "+ input_file_ext + ")"
+        output_file_name = "".join([without_ext, '.' + params.config_container])
+        output_file =Path(PurePath.joinpath(params.output_path, output_file_name))
+        params.output_file = str(output_file)
+        ExecuteFFMpeg(input_file, output_file, params)
+        print("Finished Converting File: "+str(input_file) + " to " + params.config_container)
+
+
+## FUNCTION THAT CALLS FFMPEG ##
+def ExecuteFFMpeg(input_file, output_file, params):
+        print("Calling FFMPEG..")
+
+        ## NORMALIZE COMMAND
+        if params.config_normalize is True:
+                norm_cmd = '-af "loudnorm"'
+        else:
+                norm_cmd = None
+
+        ## AUDIO CODEC COMMAND AND OUTPUT CONTAINER SPECIFIC SETTINGS
+        if params.config_container == 'mp3':
+                codecaudio_cmd = '-c:a libmp3lame'
+                maxbitrate = 320
+                minbitrate = 192
+                faststart_cmd = None
+                container_cmd = '-f mp3'
+        elif params.config_container == 'm4a' or params.config_container == 'mp4' or params.config_container == 'm4b' or params.config_container == 'mov':
+                codecaudio_cmd = '-c:a aac'
+                maxbitrate = 270
+                minbitrate = 160
+                faststart_cmd = "-movflags +faststart"
+                # .m4a is not a recommended ISO extension
+                # but is typically used by Apple. It has
+                # a limited list of acceptable codecs as
+                # compared to .mp4.
+                # FFmpeg format flag for m4a is '-f ipod'.
+                # But it is best to use '-f mp4' anyway.
+                container_cmd = '-f mp4'
+        elif params.config_container == 'caf':
+                codecaudio_cmd = '-c:a aac'
+                maxbitrate = 270
+                minbitrate = 160
+                faststart_cmd = None
+                container_cmd = '-f caf'
+
+
+        ## BITRATE COMMAND
+        if params.config_vbr is True:
+                bitrate_cmd = '-q:a 1'
+        else:
+                if params.config_bitrate == 0:
+                        bitrate_cmd = '-b:a '+ str(maxbitrate)+'k'
+                else:
+                        if params.config_bitrate > maxbitrate:
+                                params.config_bitrate = maxbitrate
+                        if params.config_bitrate < minbitrate:
+                                params.config_bitrate = minbitrate
+                        bitrate_cmd = '-b:a '+ str(params.config_bitrate)+'k'
+
+        ## FREQUENCY RESAMPLING COMMAND
+        if params.config_frequency == 0:
+                freq_cmd = None
+        else:
+                freq_cmd = '-ar ' + str(params.config_frequency)
+
+        ## SAMPLING FORMAT COMMAND
+        if params.config_sampleformat == 'original':
+                samplefmt_cmd = None
+        else:
+                samplefmt_cmd = '-sample_fmt '+ str(params.config_sampleformat)
+
+        ## INPUT / OUTPUT COMMANDS
+        input_file_cmd = '-i "' + str(input_file) +'"'
+        output_file_cmd = '"' + str(output_file) + '"'
+
+        # EXTENSIONS
+        input_extension = Path(input_file).suffix.replace('.','').lower()
+        output_extension = Path(output_file).suffix.replace('.','').lower()
+
+        ## Do not force reencoding if the files are the same container format
+        if input_extension == output_extension or params.config_try_remuxing:
+                if params.config_container == 'mp3':
+                        if params.config_force_reencoding is False:
+                                #codecaudio_cmd = '-c:a copy'
+                                codecaudio_cmd = None
+                                bitrate_cmd = None
+                                faststart_cmd = None
+                elif params.config_container == 'm4a' or params.config_container == 'mp4' or params.config_container == 'm4b' or params.config_container == 'mov':
+                        if params.config_force_reencoding is False:
+                                #codecaudio_cmd = '-c:a copy'
+                                codecaudio_cmd = None
+                                bitrate_cmd = None
+                                faststart_cmd = "-movflags +faststart"
+                elif params.config_container == 'caf':
+                        if params.config_force_reencoding is False:
+                                #codecaudio_cmd = '-c:a copy'
+                                codecaudio_cmd = None
+                                bitrate_cmd = None
+                                faststart_cmd = None
+
+
+
+
+        print("OUTPUT FILE:  " + str(output_file))
+
+        # EXECUTE FFMPEG
+        # encodings examples:
+        # MP3 320k cbr = '-c:a libmp3lame -b:a 320k'
+        # MP3 190-250 vbr = '-c:a libmp3lame -q:a 1'
+        # MP3 auto = '-c:a libmp3lame -b:a 320k'
+        # MP4 270k cbr = '-c:a aac -b:a 270k -movflags +faststart'
+        # MP4 192k cbr = '-c:a aac -b:a 192k -movflags +faststart'
+        # MP4 auto = '-c:a aac -b:a 270k -movflags +faststart'
+        # EXAMPLE:
+        # WEBM TO MP4 = ffmpeg -v verbose -i "Sia.Unstoppable.webm" -vn -c:a aac -b:a 192k -movflags +faststart -y "Sia.Unstoppable (was webm).m4a"
+        command_parts = [input_file_cmd, '-vn', codecaudio_cmd, bitrate_cmd, faststart_cmd, samplefmt_cmd, norm_cmd, freq_cmd, "-y", container_cmd, output_file_cmd]
+        command_part_one = "ffmpeg"
+        command_full = command_part_one + " "
+
+        for part in command_parts:
+                if part:
+                        command_full += part + " "
+
+        print("EXECUTING : " + command_full)
+        os.system(command_full)
+
+        if Path.is_file(output_file):
+                print("Done!")
+                if params.config_dont_keep is True:
+                        input_f = Path(input_file)
+                        input_stem = input_f.stem
+                        new_input_name = f"{input_stem}_old{input_f.suffix}"
+                        renamed_input = input_f.rename(new_input_name)
+                        output_f = Path(output_file)
+                        new_output_name = f"{input_stem}{output_f.suffix}"
+                        renamed_output = output_f.rename(new_output_name)
+                        print("DELETING INPUT FILE " + str(renamed_input))
+                        renamed_input.unlink()
+                        output_file = renamed_output
+                        params.output_name = str(output_file)
+                        print("OUTPUT FILE RENAMED TO " + str(renamed_output))
+                files_completed.add(str(input_file))
+                final_files_list.add(str(output_file))
+        else:
+                print("Failed Converting "+str(input_file))
+                files_failed.add(str(input_file))
+
+
+
+if __name__ == '__main__':
+        main()
+"""
+text("${925C9EFB-5676-42C5-8DEA-86BDF86BC630}")
+getFileOfType(input: Testo, type: "public.python-script") >> getFileOfType
+setName(input: File di tipo, name: "enc2mp3.py") >> setName 1
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.PutFileIntent
+//Unable to get shortcuts action is.workflow.actions.setvariable
+if(output_format == "CBR320") {
+	text(text: "enc2mp3.py . -l files.txt -b 320 -c ${output_container.as(Text)} -o enc2mp3Output") >> text 3
+var command = Testo
+} >> IFResult 6
+if(output_format == "CBR320_NORM") {
+	text(text: "enc2mp3.py . -n -l files.txt -b 320 -c ${output_container.as(Text)} -o enc2mp3Output") >> text 4
+var command = Testo
+} >> IFResult 7
+if(output_format == "CBR270") {
+	text(text: "enc2mp3.py . -l files.txt -b 270 -c ${output_container.as(Text)} -o enc2mp3Output") >> text 5
+var command = Testo
+} >> IFResult 8
+if(output_format == "CBR270_NORM") {
+	text(text: "enc2mp3.py . -n -l files.txt -b 270 -c ${output_container.as(Text)} -o enc2mp3Output") >> text 6
+var command = Testo
+} >> IFResult 9
+if(output_format == "CBR192") {
+	text(text: "enc2mp3.py . -l files.txt -b 192 -c ${output_container.as(Text)} -o enc2mp3Output") >> text 7
+var command = Testo
+} >> IFResult 10
+if(output_format == "CBR192_NORM") {
+	text(text: "enc2mp3.py . -n -l files.txt -b 192 -c ${output_container.as(Text)} -o enc2mp3Output") >> text 8
+var command = Testo
+}
+if(output_format == "VBR190") {
+	text(text: "enc2mp3.py . -l files.txt --vbr -c ${output_container.as(Text)} -o enc2mp3Output") >> text 9
+var command = Testo
+} >> IFResult 11
+if(output_format == "VBR190_NORM") {
+	text(text: "enc2mp3.py . -n -l files.txt --vbr -c ${output_container.as(Text)} -o enc2mp3Output") >> text 10
+var command = Testo
+} >> IFResult 12
+if(output_format == "TRY_REMUX") {
+	text(text: "enc2mp3.py . -m -l files.txt -c ${output_container.as(Text)} -o enc2mp3Output") >> text 11
+var command = Testo
+} >> IFResult 13
+if(output_format == "TRY_REMUX_NORM") {
+	text(text: "enc2mp3.py . -m -n -l files.txt -c ${output_container.as(Text)} -o enc2mp3Output") >> text 12
+var command = Testo
+} >> IFResult 14
+if(output_format == "DEFAULT_MODE") {
+	menu(Choose the audio quality and the format of encoding:, [🎵🔴 MP3 Optimized for Quality (constant bitrate 320k), 🎵🟠 MP3 Optimized for File Size (variable 190k to 250k), 🔀🔶 Try Stream Copy to Remux in MP3 (no re-encoding), 🎵🔵 M4A Optimized for Quality (constant bitrate 270k), 🎵🟣 M4A Optimized for File Size (constant bitrate 192k), 🔀🔷 Try Stream Copy to Remux in M4A (no re-encoding)]) {
+	case("🎵🔴 MP3 Optimized for Quality (constant bitrate 320k)"):
+		text(text: "-b 320 -c mp3") >> text 13
+var bitratetype = Testo
+	case("🎵🟠 MP3 Optimized for File Size (variable 190k to 250k)"):
+		text(text: "--vbr -c mp3") >> text 14
+var bitratetype = Testo
+	case("🔀🔶 Try Stream Copy to Remux in MP3 (no re-encoding)"):
+		text(text: "-m -c mp3") >> text 15
+var bitratetype = Testo
+	case("🎵🔵 M4A Optimized for Quality (constant bitrate 270k)"):
+		text(text: "-b 270 -c m4a") >> text 16
+var bitratetype = Testo
+	case("🎵🟣 M4A Optimized for File Size (constant bitrate 192k)"):
+		text(text: "-b 192 -c m4a") >> text 17
+var bitratetype = Testo
+	case("🔀🔷 Try Stream Copy to Remux in M4A (no re-encoding)"):
+		text(text: "-m -c m4a") >> text 18
+var bitratetype = Testo
+	} >> MenuResult
+	menu(Do you want to normalize the volume of the audio files? , [🎶 🔇Yes (it will take a bit longer), 🎶 📢 No]) {
+	case("🎶 🔇Yes (it will take a bit longer)"):
+		text(text: "enc2mp3.py . -n -l files.txt ${bitratetype} -o enc2mp3Output") >> text 19
+var command = Testo
+	case("🎶 📢 No"):
+		text(text: "enc2mp3.py . -l files.txt ${bitratetype} -o enc2mp3Output") >> text 20
+var command = Testo
+	} >> MenuResult 1
+} >> IFResult 15
+var 58760CA0-34D2-4DF6-B850-9C8A6578082F = """hideKeyboard
+rm -f files.txt
+rm -f -r -v ./enc2mp3Output/
+￼
+mkdir -v enc2mp3Output
+￼
+open shortcuts://
+"""
+text("${58760CA0-34D2-4DF6-B850-9C8A6578082F}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+waitToReturn()
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+getTextFrom(input: File) >> getTextFrom
+splitText(text: Testo) >> splitText
+repeatEach(Suddividi testo) {
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
+	matchText(text: "${Repeat Item}", regex: "^(?:.*[\/\\])?(?<FileNameWithoutExtension>.*)\.(.*)$") >> matchText 1
+	getMatchGroup(type: Group At Index, matches: Risultati) >> getMatchGroup
+var FileNameWithoutExtension = Testo
+	getMatchGroup(type: Group At Index, matches: Risultati, index: "2") >> getMatchGroup 1
+var FileExtension = Testo
+	setName(input: File, name: "${FileExtension}.${Variable}") >> setName 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult 2
+if(output_format == "DEFAULT_MODE") {
+	saveFile(input: files_converted) >> saveFile 1
+var E6D688FC-1A66-452A-92BA-760375646CB0 = """rm -f *.mp3 *.*.AAC *.AC3 *.AIFF *.ASF *.AVI *.CAF *.DFF *.DSF *.DTS *.F4V *.FLAC *.FLV *.HEVC *.M4A *.M4B *.M4R *.MAUD *.MKA *.MKV *.MOV *.MP2 *.MP4 *.MPEG *.MPG *.OGA *.OGG *.OPUS *.TS *.TTA *.VOB *.VOC *.W64 *.WAV *.WEBM *.WMA *.WMV *.3GP *.8SVX
+rm -f *.aac *.ac3 *.aiff *.asf *.avi *.caf *.dff *.dsf *.dts *.f4v *.flac *.flv *.hevc *.m4a *.m4b *.m4r *.maud *.mka *.mkv *.mov *.mp2 *.mp4 *.mpeg *.mpg *.oga *.ogg *.opus *.ts *.tta *.vob *.voc *.w64 *.wav *.webm *.wma *.wmv *.3gp
+rm -f -r -v ./enc2mp3Output/
+"""
+text("${E6D688FC-1A66-452A-92BA-760375646CB0}")
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	sendNotification(body: "MP3 Files saved in ${File salvato.get(File Path)}") >> sendNotification
+} else {
+	wait(seconds: 2)
+	saveFile(input: files_converted, ask: false, path: "", overwrite: true) >> saveFile 2
+	wait(seconds: 2)
+	output(result: "${output_folder.get(File Path)}")
+} >> IFResult 16

@@ -1,0 +1,28 @@
+import Shortcuts
+#Color: green, #Icon: note
+
+/*
+The speediest means of saving optimal quality app icons from the Share Sheet.
+
+My contact information:
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone/i
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+splitText(text: ShortcutInput, separator: Custom, customSeparator: "id") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var id = Item from List
+url(url: "https://tools.applemediaservices.com/api/artwork/US/app/${id}.png") >> url
+downloadURL(url: "${URL}") >> downloadURL
+saveFile(input: Contents of URL, ask: false) >> saveFile
+saveToCameraRoll(image: Contents of URL, album: Branding) >> saveToCameraRoll
+url(url: "https://raw.githubusercontent.com/extratone/iOSSystemSounds/main/m4a/key_press_click.m4a") >> url 1
+downloadURL(url: "${URL}") >> downloadURL 1
+playSound(file: Contents of URL)

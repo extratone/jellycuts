@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: purple, #Icon: circledUpArrow
+
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.GetFilesIntent
+playSound(file: Files)

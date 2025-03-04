@@ -1,0 +1,244 @@
+import Shortcuts 1092.9.13.2
+#Color: pink,#Icon: camera
+
+getDictionaryFrom(input: Shortcut Input) >> getDictionaryFrom
+count(type: Characters, input: input) >> count
+if( > false) {
+	nothing()
+	count(type: Items, input: input) >> count
+	if( > false) {
+		getDictionaryFrom(input: input) >> getDictionaryFrom
+		valuesFrom(dictionary: params_dict) >> valuesFrom
+		repeatEach(Dictionary Value) {
+			valuesFrom(dictionary: params_dict) >> valuesFrom
+			text(text: "&${Repeat Item}=${Variable}") >> text
+		} >> Repeat Result
+	} >> If Result
+	count(type: Characters, input: input) >> count
+	if( > false) {
+		url(url: "https://api.flickr.com/services/rest/?api_key=${input.key(api_key)}&format=json&nojsoncallback=1&method=${Variable.key(api_key)}${params}") >> url
+	} >> If Result
+	downloadURL(url: "${If Result}") >> downloadURL
+	valuesFrom(dictionary: method_call_response) >> valuesFrom
+	if( == "fail") {
+		getDictionaryFrom(input: method_call_response) >> getDictionaryFrom
+		alert(alert: "The following error was returned:
+
+${Dictionary.key(message)}
+
+Do you want to continue?", title: "API call failure")
+	} else {
+		count(type: Characters, input: input) >> count
+		if( > false) {
+{			dictionary("function":"jsonpath_query","json_result":"${method_call_response}","jsonpath":"${input.key(jsonpath)}")}
+			runShortcut(name: "FlickrKit", input: Dictionary, show: false)
+		} else {
+		}
+	} >> If Result
+	exit(var: If Result)
+} >> If Result
+count(type: Characters, input: input) >> count
+if( > false) {
+	if( == "jsonpath_query") {
+text(|"""/* JSONPath 0.8.0 - XPath for JSON
+ *
+ * Copyright (c) 2007 Stefan Goessner (goessner.net)
+ * Licensed under the MIT (MIT-LICENSE.txt) licence.
+ */
+function jsonPath(obj, expr, arg) {
+   var P = {
+      resultType: arg && arg.resultType || "VALUE",
+      result: [],
+      normalize: function(expr) {
+         var subx = [];
+         return expr.replace(/[\['](\??\(.*?\))[\]']/g, function($0,$1){return "[#"+(subx.push($1)-1)+"]";})
+                    .replace(/'?\.'?|\['?/g, ";")
+                    .replace(/;;;|;;/g, ";..;")
+                    .replace(/;$|'?\]|'$/g, "")
+                    .replace(/#([0-9]+)/g, function($0,$1){return subx[$1];});
+      },
+      asPath: function(path) {
+         var x = path.split(";"), p = "$";
+         for (var i=1,n=x.length; i<n; i++)
+            p += /^[0-9*]+$/.test(x[i]) ? ("["+x[i]+"]") : ("['"+x[i]+"']");
+         return p;
+      },
+      store: function(p, v) {
+         if (p) P.result[P.result.length] = P.resultType == "PATH" ? P.asPath(p) : v;
+         return !!p;
+      },
+      trace: function(expr, val, path) {
+         if (expr) {
+            var x = expr.split(";"), loc = x.shift();
+            x = x.join(";");
+            if (val && val.hasOwnProperty(loc))
+               P.trace(x, val[loc], path + ";" + loc);
+            else if (loc === "*")
+               P.walk(loc, x, val, path, function(m,l,x,v,p) { P.trace(m+";"+x,v,p); });
+            else if (loc === "..") {
+               P.trace(x, val, path);
+               P.walk(loc, x, val, path, function(m,l,x,v,p) { typeof v[m] === "object" && P.trace("..;"+x,v[m],p+";"+m); });
+            }
+            else if (/,/.test(loc)) { // [name1,name2,...]
+               for (var s=loc.split(/'?,'?/),i=0,n=s.length; i<n; i++)
+                  P.trace(s[i]+";"+x, val, path);
+            }
+            else if (/^\(.*?\)$/.test(loc)) // [(expr)]
+               P.trace(P.eval(loc, val, path.substr(path.lastIndexOf(";")+1))+";"+x, val, path);
+            else if (/^\?\(.*?\)$/.test(loc)) // [?(expr)]
+               P.walk(loc, x, val, path, function(m,l,x,v,p) { if (P.eval(l.replace(/^\?\((.*?)\)$/,"$1"),v[m],m)) P.trace(m+";"+x,v,p); });
+            else if (/^(-?[0-9]*):(-?[0-9]*):?([0-9]*)$/.test(loc)) // [start:end:step]  phyton slice syntax
+               P.slice(loc, x, val, path);
+         }
+         else
+            P.store(path, val);
+      },
+      walk: function(loc, expr, val, path, f) {
+         if (val instanceof Array) {
+            for (var i=0,n=val.length; i<n; i++)
+               if (i in val)
+                  f(i,loc,expr,val,path);
+         }
+         else if (typeof val === "object") {
+            for (var m in val)
+               if (val.hasOwnProperty(m))
+                  f(m,loc,expr,val,path);
+         }
+      },
+      slice: function(loc, expr, val, path) {
+         if (val instanceof Array) {
+            var len=val.length, start=0, end=len, step=1;
+            loc.replace(/^(-?[0-9]*):(-?[0-9]*):?(-?[0-9]*)$/g, function($0,$1,$2,$3){start=parseInt($1||start);end=parseInt($2||end);step=parseInt($3||step);});
+            start = (start < 0) ? Math.max(0,start+len) : Math.min(len,start);
+            end   = (end < 0)   ? Math.max(0,end+len)   : Math.min(len,end);
+            for (var i=start; i<end; i+=step)
+               P.trace(i+";"+expr, val, path);
+         }
+      },
+      eval: function(x, _v, _vname) {
+         try { return $ && _v && eval(x.replace(/@/g, "_v")); }
+         catch(e) { throw new SyntaxError("jsonPath: " + e.message + ": " + x.replace(/@/g, "_v").replace(/\^/g, "_a")); }
+      }
+   };
+
+   var $ = obj;
+   if (expr && obj && (P.resultType == "VALUE" || P.resultType == "PATH")) {
+      P.trace(P.normalize(expr).replace(/^\$;/,""), obj, "$");
+      return P.result.length ? P.result : false;
+   }
+} """|)
+		text(text: "<html>
+<head>
+<script type="text/javascript">${jsonpath_script}</script>
+</head>
+<body>
+<script type="text/javascript">
+var json = ${Variable};
+var query = "${input.key(json_result)}";
+var result = jsonPath(json, query)
+document.write(JSON.stringify(result));
+</script>
+</body>
+</html>") >> text
+		decode(input: Text) >> decode
+		url(url: "data:text/html;base64,${Base64 Encoded}") >> url
+		urlContents(url: "${URL}") >> urlContents
+		getTextFrom(input: Contents of Web Page) >> getTextFrom
+		exit(var: Text)
+	} >> If Result
+	if( == "_image_links") {
+		valuesFrom(dictionary: input) >> valuesFrom
+		matchText(text: "${image_size}", regex: "^[sqtmn\-zcbhko]$", caseSensitive: false) >> matchText
+		count(type: Items, input: Matches) >> count
+		if( == false) {
+			text(text: "q") >> text
+		}
+		nothing()
+		getDictionaryFrom(input: input) >> getDictionaryFrom
+		if( > false) {
+			getDictionaryFrom(input: images_list) >> getDictionaryFrom
+			getItemFromList(list: Dictionary, type: Items in Range, endIndex: input) >> getItemFromList
+		} >> If Result
+		repeatEach(images_list) {
+			getDictionaryFrom(input: Repeat Item) >> getDictionaryFrom
+			text(text: "https://farm${image_size}.staticflickr.com/${Variable}/${item.key(id)}_${Variable.key(id)}_${item.key(secret)}.jpg") >> text
+{			dictionary("link":"${Text}","title":"${item.key(title)}")}
+		} >> Repeat Result
+		exit(var: image_links)
+	} >> If Result
+	if( == "download_images") {
+{		dictionary("function":"image_links","method_call":"${input.key(method_call)}","image_size":"${input.key(image_size)}","limit":"${input.key(limit)}","has_title":"true")}
+		runShortcut(name: "FlickrKit", input: Dictionary, show: false) >> runShortcut
+		repeatEach(api_response) {
+			getDictionaryFrom(input: Repeat Item) >> getDictionaryFrom
+			url(url: "${Dictionary.key(link)}") >> url
+			downloadURL(url: "${URL}") >> downloadURL
+			setName(input: Contents of URL, name: "${Dictionary.key(title)}") >> setName
+			getImagesFrom(input: Renamed Item) >> getImagesFrom
+		} >> Repeat Result
+		getImagesFrom(input: Repeat Results) >> getImagesFrom
+		exit(var: Images)
+	} >> If Result
+	if( == "image_links") {
+		getDictionaryFrom(input: input) >> getDictionaryFrom
+		runShortcut(name: "FlickrKit", input: Dictionary, show: false) >> runShortcut
+{		dictionary("function":"jsonpath_query","json_result":"${api_response}","jsonpath":"$..photo[1:]")}
+		runShortcut(name: "FlickrKit", input: Dictionary, show: false) >> runShortcut
+{		dictionary("function":"_image_links","images":"${image_links}","image_size":"${input.key(image_size)}","limit":"${input.key(limit)}")}
+		runShortcut(name: "FlickrKit", input: Dictionary, show: false) >> runShortcut
+		valuesFrom(dictionary: input) >> valuesFrom
+		if( .contains "has_title") {
+		} else {
+			list(items: (
+)) >> list
+			repeatEach(links_response) {
+				valuesFrom(dictionary: Repeat Item) >> valuesFrom
+			}
+		} >> If Result
+		exit(var: If Result)
+	} >> If Result
+	if( == "render_images") {
+		count(type: Items, input: spacing) >> count
+		if( == "0") {
+			number(value: false) >> number
+		}
+{		dictionary("function":"download_images","method_call":"${input.key(method_call)}","image_size":"${input.key(image_size)}","limit":"${input.key(limit)}")}
+		runShortcut(name: "FlickrKit", input: Dictionary, show: false) >> runShortcut
+		getImagesFrom(input: Shortcut Result) >> getImagesFrom
+		if( == "horizontal") {
+			combineImage(images: images, spacing: spacing) >> combineImage
+			exit(var: Combined Image)
+		} >> If Result
+		if( == "vertical") {
+			combineImage(images: images, spacing: spacing) >> combineImage
+			exit(var: Combined Image)
+		} >> If Result
+		combineImage(images: images, mode: In a Grid, spacing: spacing) >> combineImage
+		exit(var: Combined Image)
+	} >> If Result
+	exit(var: If Result)
+} >> If Result
+url(url: "http://www.mikebeas.com/updatekit") >> url
+getShortcuts() >> getShortcuts
+if( .contains "UpdateKit") {
+{	dictionary("Shortcut Name":"FlickrKit","Current Version":"1.0.1","RoutineHub ID":"1022","Check Version":"true")}
+	runShortcut(name: "UpdateKit", input: Dictionary, show: false) >> runShortcut
+	valuesFrom(dictionary: Shortcut Result) >> valuesFrom
+	if( false 3) {
+		alert(alert: "This shortcut requires UpdateKit 3.0 or higher. You currently have version ${Dictionary Value}.
+
+Please install the latest version of UpdateKit to ensure that this shortcut can be kept up-to-date with the latest version.", title: "Update required")
+		openURL(url: updatekit_url)
+		exit(var: updatekit_url)
+	} >> If Result
+} else {
+	alert(alert: "This shortcut requires the UpdateKit shortcut be installed in order to be kept up to date with the latest version.
+
+You'll now be taken to the UpdateKit website where you can install the shortcut.", title: "UpdateKit required")
+	openURL(url: updatekit_url)
+} >> If Result
+alert(alert: "This shortcut allows you to easily download images from Flickr from within your own shortcuts.
+
+Find out more?", title: "FlickrKit", cancel: true)
+url(url: "https://github.com/keveridge/FlickrKit") >> url
+openURL(url: URL)

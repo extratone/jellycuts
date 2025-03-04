@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: orange, #Icon: database
+
+/*
+This shortcut adds a list of text/URLs to a specified list in Data Jar. 
+
+See this shortcut’s corresponding GitHub Issue: https://github.com/extratone/i/issues/118
+
+Email: davidblue@extratone.com
+Contact card: bit.ly/whoisdavidblue
+Telegram: t.me/extratone
+Twitter: twitter.com/NeoYokel
+Reddit: reddit.com/u/asphaltapostle
+Mastodon: mastodon.social/@DavidBlue
+EVERYWHERE: bit.ly/dbrolodex
+*/
+splitText(text: ShortcutInput) >> Split Text
+askForInput(prompt: "Jar/“Key”", default: macwish) >> askForInput
+var key = Provided Input
+repeatEach(Split Text) {
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+} >> RepeatResult

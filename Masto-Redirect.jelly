@@ -1,0 +1,98 @@
+import Shortcuts
+#Color: grape, #Icon: doubleQuoteOutline
+
+// Redirect user profiles and individual posts from their original Mastodon instance back to your own instance.
+/*
+Enter your Mastodon app access token. You can create a Mastodon app in Settings > Applications at your local Mastodon instance.
+
+Make sure to add read:search permissions to the app.
+
+This token will be used to communicate securely with the Mastodon API.
+*/
+text(text: "") >> Token
+/*
+Enter the base URL of your Mastodon instance *without* a trailing slash at the end.
+
+e.g. https://mastodon.social
+*/
+url() >> Mastodon Instance
+var YourMastodonInstance = Mastodon Instance
+// This is the URL of the profile or toot we want redirect.
+getURLSFromInput(text: "${ShortcutInput}") >> getURLSFromInput
+var InputURL = URLs
+// If the input is empty, add different ways to try and get a URL.
+if(Input URL == nil) {
+	if(DeviceDetails == "Mac") {
+// This step assumes that the user is looking at a Mastodon page in Safari for Mac. To do this, we need to check first if Safari is the frontmost app. Enabling scripting actions in Shortcuts is necessary for this step.
+		runAppleScript(script: "on run {input, parameters}	global frontApp, frontAppNameset windowTitle to ""tell application "System Events"	set frontApp to first application process whose frontmost is true	set frontAppName to name of frontAppend tellreturn {frontAppName}end run") >> runAppleScript
+		if(AppleScript Result .contains "Safari") {
+			getURL() >> getURL 1
+var InputURL = Web Page
+		} else {
+// Shortcut is running on Mac, but the frontmost app is NOT Safari
+		}
+	} >> IFResult
+	if(Input URL == nil) {
+// Use Gruber's improved RegEx to match web URLs. Credit to: https://daringfireball.net/2010/07/improved_regex_for_matching_urls
+		matchText(text: "${Clipboard}", regex: "(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)/)(?:[^\s()<>{}\[\]]+|\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\))+(?:\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])|(?:(?<!@)[a-z0-9]+(?:[.\-][a-z0-9]+)*[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)\b/?(?!@)))") >> matchText
+		if(Matches != nil) {
+			getTextFrom(input: Matches) >> getTextFrom
+var InputURL = Text
+		}
+	} >> IFResult 1
+// The share sheet, Mac, and clipboard methods have failed. It's time to ask the user to input a URL manually
+	if(Input URL == nil) {
+		askForInput(prompt: "Enter Link to Mastodon Profile or Post", type: URL) >> askForInput
+var InputURL = Provided Input
+	} >> IFResult 2
+} else {
+// Input URL has value now
+} >> IFResult 3
+// Check if we're dealing with a profile or a post
+matchText(text: "${Input URL}", regex: "http.*\/(@[^\/]*)$") >> matchText 1
+getMatchGroup(matches: Matches) >> getMatchGroup
+var Username = Text
+if(Username != nil) {
+// It's a profile URL. Need to check if it's native to this instance or external
+	matchText(text: "${Username}", regex: "(@.*)(@.*\..*)") >> matchText 2
+	if(Matches != nil) {
+// It is a profile URL from another instance
+		getMatchGroup(matches: Matches) >> getMatchGroup 1
+var Username = Text
+		getMatchGroup(matches: Matches, index: "2") >> getMatchGroup 2
+var OtherInstance = Text
+	} else {
+// This is a profile but it's hosted on this instance we're looking at 
+		urlComponent(url: "${Input URL}", component: Host) >> urlComponent
+		text(text: "@${Component of URL}") >> text
+var OtherInstance = Text
+	} >> IFResult 4
+	url(url: "${Your Mastodon Instance}/${Variable}${Username}") >> url 1
+	openURL(url: URL) >> openURL
+	exit()
+} else {
+// It's a post. Same as above, we need to check if the post is being viewed on its original instance first.
+	matchText(text: "${Input URL}", regex: ".*(@.*)(@.*\..*)") >> matchText 3
+	if(Matches != nil) {
+// The post is not from this instance.
+		alert(alert: "You're viewing a post from another Mastodon instance.
+
+To redirect this post to your own instance, please open its original page first.", title: "❌ Error ❌", cancel: false)
+		exit()
+	} >> IFResult 5
+// The post is from this instance.
+	url(url: "${Your Mastodon Instance}/api/v2/search?q=${Variable}&type=statuses&resolve=true") >> Search API URL
+	downloadURL(url: "${Search API URL}", method: GET, headers: , requestJSON: ) >> downloadURL
+	getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+	valueFor(key: "statuses", dictionary: Dictionary) >> Status
+	if(Status == nil) {
+		alert(alert: "The shortcut couldn't look up the post's link.
+
+Please make sure to pass a valid post URL to this shortcut and try again.", title: "❌ Error ❌", cancel: false)
+		exit()
+	}
+	valueFor(key: "account.acct", dictionary: Status) >> Username
+	valueFor(key: "id", dictionary: Status) >> ID
+	text(text: "${Your Mastodon Instance}/@${Variable}/${ID}") >> Final Post URL
+	openURL(url: Final Post URL) >> openURL 1
+} >> IFResult 6

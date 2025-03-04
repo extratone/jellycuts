@@ -1,0 +1,684 @@
+import Shortcuts
+#Color: navy, #Icon: hardDrive
+
+/*
+Made by lunginspector. Do not replicate without permission.
+
+Dev Team: https://discord.gg/nocturna-team-1144047674614616135
+Twitter: https://x.com/lunginspector/
+GitHub: https://github.com/lunginspector
+*/
+if(ShortcutInput != nil) { >> IFResult
+	url(url: ShortcutInput) >> url
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	getFolderContents(folder: Directory) >> getFolderContents
+	filterFiles() >> filterFiles
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	repeatEach(Files) { >> RepeatResult
+		getItemFromList(list: Files, type: Item At Index, index: Repeat Index) >> getItemFromList
+		fileDetail(input: Item from List, property: File Path) >> fileDetail
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 1
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = List;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+	choose(list: List, prompt: " ${Directory}") >> choose
+	url(url: "${Directory}/${Variable}/") >> url 1
+	if(URL != nil) { >> IFResult 1
+		url(url: URL) >> url 2
+		menu(, [Subdirectory, Save File, Share File, Open File, Plist Viewer, Text Viewer, Cancel]) {
+		case("Subdirectory"):
+			runShortcut(name: "Read /var test", input: URL) >> runShortcut
+		case("Save File"):
+			saveFile(input: URL) >> saveFile
+		case("Share File"):
+			share(file: URL) >> share
+		case("Open File"):
+			openIn(input: URL)
+		case("Plist Viewer"):
+			getTextFrom(input: URL) >> getTextFrom
+			replaceText(input: "${Text}", find: "<key>", replace: "") >> replaceText
+			replaceText(input: "${Updated Text}", find: "</key>", replace: "") >> replaceText 1
+			replaceText(input: "${Updated Text}", find: "<string>", replace: "") >> replaceText 2
+			replaceText(input: "${Updated Text}", find: "</string>", replace: "") >> replaceText 3
+			splitText(text: Updated Text) >> splitText
+			choose(list: Split Text, prompt: "${URL}") >> choose 1
+			runShortcut(name: "Accessible 0.1.0 1", input: If Result)
+		case("Text Viewer"):
+			getTextFrom(input: URL) >> getTextFrom 1
+			quicklook(input: Text)
+			runShortcut(name: "Accessible 0.1.0 1", input: If Result)
+		case("Cancel"):
+			runShortcut(name: "Accessible 0.1.0 1", input: If Result) >> runShortcut 1
+		} >> MenuResult
+	} else {
+	}
+} >> IFResult 2
+getFile(path: "/Applist/", error: false) >> getFile
+if(File == nil) { >> IFResult 3
+	url(url: "file:////Applications/") >> url 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	getFolderContents(folder: Directory) >> getFolderContents 1
+	filterFiles() >> filterFiles 1
+	repeatEach(Files) { >> RepeatResult 2
+		getItemFromList(list: Files, type: Item At Index, index: Repeat Index) >> getItemFromList 1
+		fileDetail(input: Item from List, property: File Path) >> fileDetail 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 3
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Type = Variable;
+                        VariableName = List;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+	getTextFrom(input: List) >> getTextFrom 2
+var UnformattedList = Text
+	replaceText(input: "${Unformatted List}", find: ".app", replace: "") >> replaceText 4
+var FormattedList = Updated Text
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Updated Text";
+                        OutputUUID = "E4780D0D-17D9-478B-9ACE-E7289603CB31";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 2
+	createFolder(path: "Applist") >> createFolder
+	alert(alert: "Please go to On My iPhone > Shortcuts > Applist and save the file there. Otherwise, this tool might not work.", title: "Accessible 0.2.0")
+	saveFile(input: Unformatted List, ask: true, path: "") >> saveFile 1
+	alert(alert: "Setup completed. Please re-run this shortcut. ")
+	exit()
+} >> IFResult 4
+menu(Accessible 1.0.0 (Public), [Open & Extract System Apps, Search Filesystem, Import File, Utilities]) {
+case("Open & Extract System Apps"): >> MenuResult 1
+	menu(Functional Applications are apps that do something more than load a black screen., [Functional Applications, All Applications, ← Back]) {
+	case("Functional Applications"): >> MenuResult 2
+var 7AECB364-9606-4829-BBEE-8730031270CC = """Diagnostics.app
+Spotlight.app
+Setup.app
+ClarityCamera.app
+ClarityPhotos.app
+DemoApp.app
+PosterBoard.app
+FieldTest.app
+PreBoard.app
+FTMInternal-4.app
+Siri.app
+Web.app
+BarcodeScanner.app
+SoftwareUpdateUlService.app
+SOSBuddy.app
+MobileSafari.app
+MobilePhone.app
+CTCarrierSpaceAuth
+MobileSlideShow.app
+ClockAngel.app
+PreviewShell.app
+PrintCenter.app
+BarcodeScanner.app
+Climate.app
+ContinuityCaptureShieldUI.app
+ProductKitViewer.app"""
+text("${7AECB364-9606-4829-BBEE-8730031270CC}")
+		splitText(text: Text) >> splitText 1
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Split Text";
+                        OutputUUID = "20791986-9350-4B38-B87C-D1E9FCA45FEF";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 3
+var UnforrmatedList = List
+		replaceText(input: "${Unforrmated List}", find: ".app", replace: "") >> replaceText 5
+var FormattedList = Updated Text
+		count(type: Lines, input: Formatted List) >> count
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Updated Text";
+                        OutputUUID = "6ADC4A51-7FD1-4B76-BC0B-582117C97E35";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 4
+		choose(list: List, prompt: "${Count} Apps Found") >> choose 2
+		text(text: "file:///Applications/${Chosen Item}.app") >> text
+var ApplicationPath = Text
+	case("All Applications"): >> MenuResult 3
+		getFolderContents(folder: $0) >> getFolderContents 2
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Contents of Folder";
+                        OutputUUID = "C0FD2FAF-5B9D-45DE-B22D-5E12BB093A01";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 5
+var UnformattedList = List
+		replaceText(input: "${Unformatted List}", find: ".app", replace: "") >> replaceText 6
+		replaceText(input: "${Unformatted List}", find: " ", replace: "") >> replaceText 7
+var FormattedList = Updated Text
+		count(input: Formatted List) >> count 1
+		list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = "Updated Text";
+                        OutputUUID = "D1909837-3D99-441C-9DFB-8E09C47576F5";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 6
+		choose(list: Updated Text, prompt: "${Count} Apps Found") >> choose 3
+		text(text: "file:///Applications/${Chosen Item}.app") >> text 1
+var ApplicationPath = Text
+	case("← Back"):
+		runShortcut(name: "Accessible 0.2.0 2") >> runShortcut 2
+	} >> MenuResult 4
+	url(url: Application Path) >> url 4
+	menu(, [Open App, Save .app (decrypted), ← Back]) {
+	case("Open App"): >> MenuResult 5
+		openIn(input: URL, ask: false)
+	case("Save .app (decrypted)"): >> MenuResult 6
+		saveFile(input: URL, ask: false) >> saveFile 2
+	case("← Back"):
+		runShortcut(name: "Read /var test") >> runShortcut 3
+	} >> MenuResult 7
+case("Search Filesystem"): >> MenuResult 8
+	url(url: "file:///") >> url 5
+	runShortcut(name: "Read /var test", input: URL) >> runShortcut 4
+case("Import File"): >> MenuResult 9
+	menu(Where would you like to get the file from?, [File Browser, Path, Clipboard, ← Back]) {
+	case("File Browser"):
+		selectFile() >> selectFile
+var ChosenFile = File
+	case("Path"):
+		askForInput(prompt: "What is the filepath?") >> askForInput
+		url(url: "file:///${Provided Input}") >> url 6
+var ChosenFile = URL
+	case("Clipboard"):
+		getClipboard() >> getClipboard
+var ChosenFile = Variable
+	case("← Back"):
+		runShortcut(name: "Accessible 0.2.0 (RC)") >> runShortcut 5
+	} >> MenuResult 10
+	menu(, [Save File, Share File, Open File, Plist Viewer, Text Viewer, ← Back]) {
+	case("Save File"):
+		saveFile(input: Chosen File) >> saveFile 3
+	case("Share File"):
+		share(file: Chosen File) >> share 1
+	case("Open File"):
+		openIn(input: Chosen File)
+	case("Plist Viewer"):
+		getTextFrom(input: Chosen File) >> getTextFrom 3
+		replaceText(input: "${Text}", find: "<key>", replace: "") >> replaceText 8
+		replaceText(input: "${Updated Text}", find: "</key>", replace: "") >> replaceText 9
+		replaceText(input: "${Updated Text}", find: "<string>", replace: "") >> replaceText 10
+		replaceText(input: "${Updated Text}", find: "</string>", replace: "") >> replaceText 11
+		splitText(text: Updated Text) >> splitText 2
+		choose(list: Split Text, prompt: "${URL}") >> choose 4
+		runShortcut(name: "Accessible 0.1.0 1", input: If Result) >> runShortcut 6
+	case("Text Viewer"):
+		getTextFrom(input: Chosen File) >> getTextFrom 4
+		quicklook(input: Text)
+		runShortcut(name: "Accessible 0.1.0 1", input: If Result)
+	case("← Back"):
+		runShortcut(name: "Accessible 0.1.0 1", input: If Result) >> runShortcut 7
+	} >> MenuResult 11
+	exit()
+case("Utilities"):
+	alert(alert: "To use any of these tools, please supervise your device first.")
+	text(text: "true") >> text 2
+var true = Text
+	text(text: "false") >> text 3
+var false = Text
+	list(items: (
+    "Disable Apps",
+    "\U2022 Disable Camera",
+    "\U2022 Disable Bridge",
+    "\U2022 Disable iMessage",
+    "Disable Features",
+    "\U2022 Disable Siri",
+    "\U2022 Disable Screenshots",
+    "\U2022 Disable Spotlight Results",
+    "\U2022 Disable Wallpaper Modification",
+    "\U2022 Disable Proximity Setup",
+    "\U2022 Disable Predictive Keyboard",
+    "\U2022 Disable Dictation",
+    "Disable Rescrictions",
+    "\U2022 Disable Screen Time",
+    "Other Tools",
+    "\U2022 Keep Device from Locking",
+    "\U2022 DelayOTA to a specific date",
+    "\U2022 Enable WiFi when Powered On",
+    Experimental,
+    "\U2022 Disable Photo Stream"
+)) >> list 7
+	choose(list: List, prompt: "What would you like to configure?", multiple: true) >> choose 5
+	if(Chosen Item .contains "Disable Siri Permanetly") {
+var DisableSiri = Variable
+	} else {
+var DisableSiri = Variable
+	} >> IFResult 5
+	if(Chosen Item .contains "Disable Camera") {
+var DisableCamera = Variable
+	} else {
+var DisableCamera = Variable
+	} >> IFResult 6
+	if(Chosen Item .contains "Disable iMessage") {
+var DisableiMessage = Variable
+	} else {
+var DisableiMessage = Variable
+	} >> IFResult 7
+	if(Chosen Item .contains "Disable Screen Time") {
+		alert(alert: "I am not responsible if you get in trouble for using a screen time bypass. The only way to disable it is to delete the profile. Use at your own risk.", title: "Warning", cancel: true)
+var DisableScreenTime = Variable
+	} else {
+var DisableScreenTime = Variable
+	}
+	if(Chosen Item .contains "Disable Bridge") {
+var DisableBridge = Variable
+	} else {
+var DisableBridge = Variable
+	} >> IFResult 8
+	if(Chosen Item .contains "Disable Safari") {
+var DisableSafari = Variable
+	} else {
+var DisableSafari = Variable
+	} >> IFResult 9
+	if(Chosen Item .contains "Disable Screenshots") {
+var DisableScreenshots = Variable
+	} else {
+var DisableScreenshots = Variable
+	} >> IFResult 10
+	if(Chosen Item .contains "Disable Spotlight Results") {
+var DisableSpotlight = Variable
+	} else {
+var DisableSpotlight = Variable
+	} >> IFResult 11
+	if(Chosen Item .contains "Disable Wallpaper Modification") {
+var DisableWallpaper = Variable
+	} else {
+var DisableWallpaper = Variable
+	} >> IFResult 12
+	if(Chosen Item .contains "Disable Proximity Setup") {
+var DisableProximity = Variable
+	} else {
+var DisableProximity = Variable
+	} >> IFResult 13
+	if(Chosen Item .contains "Disable Predictive Keyboard") {
+var DisablePredictive = Variable
+	} else {
+var DisablePredictive = Variable
+	} >> IFResult 14
+	if(Chosen Item .contains "Disable Dictation") {
+var DisableDictation = Variable
+	} else {
+var DisableDictation = Variable
+	} >> IFResult 15
+	if(Chosen Item .contains "Keep Device from Locking") {
+var DeviceLock = Variable
+	} else {
+var DeviceLock = Variable
+	} >> IFResult 16
+	if(Chosen Item .contains "DelayOTA") {
+		askForInput(prompt: "When was your target iOS version released?", type: Date) >> askForInput 1
+		date() >> date
+		getTimeBetween(first: "${Date}", second: "${Provided Input}", interval: Days) >> getTimeBetween
+var DelayUpdatesby = Time Between Dates
+var EnforceDelayedUpdates = Variable
+	} else {
+var EnforceDelayedUpdates = Variable
+		number(value: 0) >> number
+var DelayUpdatesby = Number
+	} >> IFResult 17
+	if(Chosen Item .contains "Enable WiFi when Powered On") {
+var EnableWiFi = Variable
+	} else {
+var EnableWiFi = Variable
+	} >> IFResult 18
+	if(Chosen Item .contains "Disable Photo Stream") {
+var AllowPhotoStream = Variable
+	} else {
+var AllowPhotoStream = Variable
+	} >> IFResult 19
+var 336E2182-B76A-4156-BA43-DE39FABAC869 = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDescription</key>
+			<string>Configures restrictions</string>
+			<key>PayloadDisplayName</key>
+			<string>Restrictions</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.applicationaccess.97FBFDD2-940D-442F-AC30-BADAD730C369</string>
+			<key>PayloadType</key>
+			<string>com.apple.applicationaccess</string>
+			<key>PayloadUUID</key>
+			<string>97FBFDD2-940D-442F-AC30-BADAD730C369</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>allowActivityContinuation</key>
+			<true/>
+			<key>allowAddingGameCenterFriends</key>
+			<true/>
+			<key>allowAirPlayIncomingRequests</key>
+			<true/>
+			<key>allowAirPrint</key>
+			<true/>
+			<key>allowAirPrintCredentialsStorage</key>
+			<true/>
+			<key>allowAirPrintiBeaconDiscovery</key>
+			<true/>
+			<key>allowAppCellularDataModification</key>
+			<true/>
+			<key>allowAppClips</key>
+			<true/>
+			<key>allowAppInstallation</key>
+			<true/>
+			<key>allowAppRemoval</key>
+			<true/>
+			<key>allowApplePersonalizedAdvertising</key>
+			<true/>
+			<key>allowAssistant</key>
+			<￼/>
+			<key>allowAssistantWhileLocked</key>
+			<true/>
+			<key>allowAutoCorrection</key>
+			<true/>
+			<key>allowAutomaticAppDownloads</key>
+			<true/>
+			<key>allowBluetoothModification</key>
+			<true/>
+			<key>allowBookstore</key>
+			<true/>
+			<key>allowBookstoreErotica</key>
+			<true/>
+			<key>allowCamera</key>
+			<￼/>
+			<key>allowCellularPlanModification</key>
+			<true/>
+			<key>allowChat</key>
+			<￼/>
+			<key>allowCloudBackup</key>
+			<true/>
+			<key>allowCloudDocumentSync</key>
+			<true/>
+			<key>allowCloudPhotoLibrary</key>
+			<true/>
+			<key>allowContinuousPathKeyboard</key>
+			<true/>
+			<key>allowDefinitionLookup</key>
+			<true/>
+			<key>allowDeviceNameModification</key>
+			<true/>
+			<key>allowDeviceSleep</key>
+			<￼/>
+			<key>allowDictation</key>
+			<￼/>
+			<key>allowESIMModification</key>
+			<true/>
+			<key>allowEnablingRestrictions</key>
+			<￼/>
+			<key>allowEnterpriseAppTrust</key>
+			<true/>
+			<key>allowEnterpriseBookBackup</key>
+			<true/>
+			<key>allowEnterpriseBookMetadataSync</key>
+			<true/>
+			<key>allowEraseContentAndSettings</key>
+			<true/>
+			<key>allowExplicitContent</key>
+			<true/>
+			<key>allowFilesNetworkDriveAccess</key>
+			<true/>
+			<key>allowFilesUSBDriveAccess</key>
+			<true/>
+			<key>allowFindMyDevice</key>
+			<true/>
+			<key>allowFindMyFriends</key>
+			<true/>
+			<key>allowFingerprintForUnlock</key>
+			<true/>
+			<key>allowFingerprintModification</key>
+			<true/>
+			<key>allowGameCenter</key>
+			<true/>
+			<key>allowGlobalBackgroundFetchWhenRoaming</key>
+			<true/>
+			<key>allowInAppPurchases</key>
+			<true/>
+			<key>allowKeyboardShortcuts</key>
+			<true/>
+			<key>allowManagedAppsCloudSync</key>
+			<true/>
+			<key>allowMultiplayerGaming</key>
+			<true/>
+			<key>allowMusicService</key>
+			<true/>
+			<key>allowNews</key>
+			<true/>
+			<key>allowNotificationsModification</key>
+			<true/>
+			<key>allowOpenFromManagedToUnmanaged</key>
+			<true/>
+			<key>allowOpenFromUnmanagedToManaged</key>
+			<true/>
+			<key>allowPairedWatch</key>
+			<￼/>
+			<key>allowPassbookWhileLocked</key>
+			<true/>
+			<key>allowPasscodeModification</key>
+			<true/>
+			<key>allowPasswordAutoFill</key>
+			<true/>
+			<key>allowPasswordProximityRequests</key>
+			<true/>
+			<key>allowPasswordSharing</key>
+			<true/>
+			<key>allowPersonalHotspotModification</key>
+			<true/>
+			<key>allowPhotoStream</key>
+			<￼/>
+			<key>allowPredictiveKeyboard</key>
+			<￼/>
+			<key>allowProximitySetupToNewDevice</key>
+			<￼/>
+			<key>allowRadioService</key>
+			<true/>
+			<key>allowRemoteAppPairing</key>
+			<true/>
+			<key>allowRemoteScreenObservation</key>
+			<true/>
+			<key>allowSafari</key>
+			<￼/>
+			<key>allowScreenShot</key>
+			<￼/>
+			<key>allowSharedStream</key>
+			<true/>
+			<key>allowSpellCheck</key>
+			<true/>
+			<key>allowSpotlightInternetResults</key>
+			<￼/>
+			<key>allowSystemAppRemoval</key>
+			<true/>
+			<key>allowUIAppInstallation</key>
+			<true/>
+			<key>allowUIConfigurationProfileInstallation</key>
+			<true/>
+			<key>allowUSBRestrictedMode</key>
+			<true/>
+			<key>allowUntrustedTLSPrompt</key>
+			<true/>
+			<key>allowVPNCreation</key>
+			<true/>
+			<key>allowVideoConferencing</key>
+			<true/>
+			<key>allowVoiceDialing</key>
+			<true/>
+			<key>allowWallpaperModification</key>
+			<￼/>
+			<key>allowiTunes</key>
+			<true/>
+			<key>enforcedSoftwareUpdateDelay</key>
+			<integer>￼</integer>
+			<key>forceAirDropUnmanaged</key>
+			<false/>
+			<key>forceAirPrintTrustedTLSRequirement</key>
+			<false/>
+			<key>forceAssistantProfanityFilter</key>
+			<false/>
+			<key>forceAuthenticationBeforeAutoFill</key>
+			<false/>
+			<key>forceAutomaticDateAndTime</key>
+			<false/>
+			<key>forceClassroomAutomaticallyJoinClasses</key>
+			<false/>
+			<key>forceClassroomRequestPermissionToLeaveClasses</key>
+			<false/>
+			<key>forceClassroomUnpromptedAppAndDeviceLock</key>
+			<false/>
+			<key>forceClassroomUnpromptedScreenObservation</key>
+			<false/>
+			<key>forceDelayedSoftwareUpdates</key>
+			<￼/>
+			<key>forceEncryptedBackup</key>
+			<false/>
+			<key>forceITunesStorePasswordEntry</key>
+			<false/>
+			<key>forceLimitAdTracking</key>
+			<false/>
+			<key>forceWatchWristDetection</key>
+			<false/>
+			<key>forceWiFiPowerOn</key>
+			<￼/>
+			<key>forceWiFiWhitelisting</key>
+			<false/>
+			<key>ratingApps</key>
+			<integer>1000</integer>
+			<key>ratingMovies</key>
+			<integer>1000</integer>
+			<key>ratingRegion</key>
+			<string>us</string>
+			<key>ratingTVShows</key>
+			<integer>1000</integer>
+			<key>safariAcceptCookies</key>
+			<integer>2</integer>
+			<key>safariAllowAutoFill</key>
+			<true/>
+			<key>safariAllowJavaScript</key>
+			<true/>
+			<key>safariAllowPopups</key>
+			<true/>
+			<key>safariForceFraudWarning</key>
+			<false/>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Accessible Configurations</string>
+	<key>PayloadIdentifier</key>
+	<string>Accessible</string>
+      <key>IsSupervised</key>
+      <true/>
+      <key>AllowPairing</key>
+      <true/>
+      <key>ConfigurationSource</key>
+      <integer>0</integer>
+      <key>CloudConfigurationUIComplete</key>
+      <true/>
+      <key>PostSetupProfileWasInstalled</key>
+      <true/>
+      <key>ConfigurationWasApplied</key>
+      <true/>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>3779A9D6-04E8-4F08-8A82-914FEA41007F</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>"""
+text("${336E2182-B76A-4156-BA43-DE39FABAC869}")
+	setName(input: Text, name: "Configuration.mobileconfig") >> setName
+	encode(input: Renamed Item) >> encode
+	url(url: "data:application/x-apple-aspen-config;base64,${Base64 Encoded}") >> url 7
+	openURL(url: URL) >> openURL
+}

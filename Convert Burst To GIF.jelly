@@ -1,0 +1,13 @@
+import Shortcuts
+#Color: pink, #Icon: Target
+
+filterPhotos() >> filterPhotos
+choose(list: Photos, prompt: "Which burst do you want to convert to a GIF?") >> choose
+makeGIF(content: Chosen Item, frameTime: "0.1") >> makeGIF
+quicklook(input: GIF)
+menu(What do you want to do with your new GIF?, [Share, Save to Photos]) {
+case("Share"):
+	share(file: GIF)
+case("Save to Photos"):
+	saveToCameraRoll(image: GIF)
+}

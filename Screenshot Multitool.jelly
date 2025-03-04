@@ -1,0 +1,56 @@
+import Shortcuts
+#Color: pink, #Icon: iPad
+
+// Presents a menu for opening the /Shortcuts/Screenshots/ folder in iCloud Drive, plus a method for moving screenshots from Photos to the same folder (along with other functions, like saving Home Screens, deleting screenshots, adding device frames, and combining screenshots using StitchPics or PicSew).
+// Use this to manage everything to do with screenshots on iOS – plus a way to sync them into a folder where you can also send macOS screenshots using a tool like Hazel.
+menu(What do you want to do?, [Quick combine, Open /Screenshots/, Move screenshots to iCloud, Delete screenshots, Clear Apple Watch screenshots, Make full-page screenshot, Create StitchPics scrollshot, Open PicSew, Add device frames]) {
+case("Quick combine"):
+	if(ShortcutInput != nil true) {
+		getImagesFrom(input: ShortcutInput) >> getImagesFrom
+	} else {
+		selectPhoto(multiple: true) >> selectPhoto
+	} >> IFResult
+	getItemFromList(list: If Result) >> getItemFromList
+	imageDetail(detail: Height, image: Item from List) >> imageDetail
+	repeatEach(If Result) {
+		resizeImage(image: Repeat Item, height: Height, width: ) >> resizeImage
+	} >> RepeatResult
+	combineImage(images: Repeat Results, spacing: 0) >> combineImage
+	quicklook(input: Combined Image)
+case("Open /Screenshots/"):
+	openURL(url: "shareddocuments:///private/var/mobile/Library/Mobile%20Documents/iCloud~is~workflow~my~workflows/Documents/Screenshots")
+case("Move screenshots to iCloud"):
+	number(value: 100) >> number
+	filterPhotos() >> filterPhotos
+	repeatEach(Photos) {
+		text(text: "Screen Shot ${Repeat Item.get(Time Taken)} at ${Variable.get(Time Taken)} - iOS") >> text
+		setName(input: Repeat Item, name: "${Text}") >> setName
+		saveFile(input: Renamed Item, ask: false, path: "Screenshots/", overwrite: true) >> saveFile
+	} >> RepeatResult 1
+	deletePhotos(photos: Photos)
+case("Delete screenshots"):
+	getLastScreenshot(count: 50) >> getLastScreenshot
+	choose(list: Latest Screenshots, prompt: "Which screenshots do you want to delete?", multiple: true, all: false) >> choose
+	deletePhotos(photos: Chosen Item)
+case("Clear Apple Watch screenshots"):
+	filterPhotos() >> filterPhotos 1
+	choose(list: Photos, multiple: true) >> choose 1
+	deletePhotos(photos: Chosen Item)
+case("Make full-page screenshot"):
+	if(ShortcutInput == nil) {
+		getClipboard()
+	} else {
+		getURLSFromInput()
+	} >> IFResult 1
+	createPDF(input: If Result) >> createPDF
+	convertImage(image: PDF) >> convertImage
+	combineImage(images: Converted Image, mode: Vertically) >> combineImage 1
+	quicklook(input: Combined Image)
+case("Create StitchPics scrollshot"):
+	url(url: "stitchpics://x-callback-url/stitch?in=recent&issave=1&isv=1") >> url
+	openURL(url: URL)
+case("Open PicSew"):
+	openApp(id: "com.sugarmo.ScrollClip")
+case("Add device frames"):
+	runShortcut(name: "Add device frames") >> runShortcut
+} >> MenuResult

@@ -1,0 +1,77 @@
+import Shortcuts
+import DataJar
+#Color: grape, #Icon: 3DSquareStack
+
+/*
+Maintain local indices of your bookmarked Mastodon posts in various formats.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+text(text: "mastodon.social") >> text
+var instance = Text
+number(value: 999) >> number
+var limit = Number
+text(text: "000000000000") >> text 1
+var token = Text
+url(url: "https://${limit}/api/v1/bookmarks?limit=${Variable}") >> url
+downloadURL(url: "${URL}", method: GET, headers: , requestType: JSON, requestJSON: ) >> downloadURL
+repeatEach(Contents of URL) {
+	keysFrom(dictionary: Repeat Item) >> keysFrom
+var posturl = Dictionary Value
+	keysFrom(dictionary: Repeat Item) >> keysFrom 1
+	getDateFrom(input: Dictionary Value) >> getDateFrom
+var created = Dates
+	keysFrom(dictionary: Repeat Item) >> keysFrom 2
+var htmlcontent = Dictionary Value
+	richTextFromHTML() >> richTextFromHTML
+var richcontent = Rich Text from HTML
+	markdownFromRich(text: richcontent) >> markdownFromRich
+var contentmd = Markdown from Rich Text
+	keysFrom(dictionary: Repeat Item) >> keysFrom 3
+var favorites = Dictionary Value
+	keysFrom(dictionary: Repeat Item) >> keysFrom 4
+var reblogs = Dictionary Value
+	keysFrom(dictionary: Repeat Item) >> keysFrom 5
+var userurl = Dictionary Value
+	keysFrom(dictionary: Repeat Item) >> keysFrom 6
+var at = Dictionary Value
+	keysFrom(dictionary: Repeat Item) >> keysFrom 7
+var id = Dictionary Value
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+	text() >> text 2
+var attachmentsIndex = Text
+	keysFrom(dictionary: Repeat Item) >> keysFrom 8
+	repeatEach(Dictionary Value) {
+		keysFrom(dictionary: Repeat Item 2) >> keysFrom 9
+		text(text: "[![${posturl}](${Variable})](${Repeat Index})") >> text 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+	combineText(text: attachmentsIndex) >> combineText
+var attachmentsIndex = Combined Text
+	dictionary({"url":"${posturl}","date":"${created}","md":"${contentmd}","html":"${htmlcontent}","@":"${at}","user":"${userurl}","attachments":"${attachmentsIndex}","favorites":"${favorites}","reblogs":"${reblogs}"})
+var json = Dictionary
+//Unable to get shortcuts action dk.simonbs.DataJar.SetValueIntent
+var 9C0E7F01-79AE-425D-950A-7E3A99DA5776 = """===
+
+￼
+
+- [**￼**](￼)
+- [@￼](￼), '￼'
+￼"""
+text("${9C0E7F01-79AE-425D-950A-7E3A99DA5776}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult 1
+combineText(text: mdindex) >> combineText 1
+setClipboard(variable: Combined Text) >> setClipboard

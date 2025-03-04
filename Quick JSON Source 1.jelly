@@ -1,0 +1,11 @@
+import Shortcuts
+#Color: Red, #Icon: tools
+
+url(url: "https://www.icloud.com/shortcuts/4d0937b4f2a84ecd8d5fe77396b9c38e") >> url
+matchText(text: "${URL}", regex: "https:\/\/www\.icloud\.com\/shortcuts\/(.+)") >> matchText
+//Unable to get shortcuts action is.workflow.actions.setvariable
+getMatchGroup(matches: Matches, index: "1") >> getMatchGroup
+url(url: "https://www.icloud.com/shortcuts/api/records/${Text}") >> url 1
+downloadURL(url: "${URL}") >> downloadURL
+getDictionaryFrom(input: Contents of URL) >> getDictionaryFrom
+keysFrom(dictionary: Dictionary)

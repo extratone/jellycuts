@@ -1,0 +1,134 @@
+import Shortcuts
+#Color: blue, #Icon: repostArrows
+
+/*
+Start by finding the link to the Mastodon post to be quoted.
+
+We’ll first look for a link in the input provided to the shortcut. If it does not contain a link, then we will look for a link in the clipboard.
+*/
+if(ShortcutInput != nil) {
+	getItemFromList(list: ShortcutInput) >> getItemFromList
+} else {
+	getClipboard() >> getClipboard
+	getURLSFromInput(text: "${Clipboard}") >> getURLSFromInput
+	count(input: URLs) >> URL Count
+	if(URL Count > 0) {
+		getItemFromList(list: URLs) >> getItemFromList 1
+	} else {
+		alert(alert: "Please run the shortcut with a link to a Mastodon post in the clipboard or run it from the Share Sheet after sharing a link to a Mastodon post.", title: "Link Not Found", cancel: false)
+		exit()
+	} >> IFResult
+} >> URL
+// Minimal sanity check to ensure that the link seems valid.
+matchText(text: "${URL}", regex: "^https?://(.*)/[0-9]+", caseSensitive: false) >> matchText
+count(input: Matches) >> count
+if(Count <= 0) {
+	alert(alert: "The link does not seem to be a Mastodon post: ${URL}", title: "Unsupported Link", cancel: false)
+	exit()
+} else {
+} >> IFResult 1
+// The Create Quote action takes a link to Mastodon post as input and returns a Quote value. This value as several parameters, including the image of the post, an alt text for the image, and details about the both author and the post.
+//Unable to get shortcuts action dk.simonbs.Retoot.CreateQuoteIntent
+menu(What would you like to do with the quote?, [📋 Copy Image, 📋 Copy Alt Text, ⬆️ Share Image with Credits, ⬆️ Copy Alt Text and Share Image with Credits]) {
+case("📋 Copy Image"):
+	setClipboard(variable: Quote) >> setClipboard
+case("📋 Copy Alt Text"):
+	setClipboard(variable: Quote) >> setClipboard 1
+case("⬆️ Share Image with Credits"):
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = credits;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Quote;
+                        OutputUUID = "0991ABFD-426A-4159-9D8B-3E35FF13622D";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = image;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Quote;
+                        OutputUUID = "0991ABFD-426A-4159-9D8B-3E35FF13622D";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+	share(file: List) >> share
+case("⬆️ Copy Alt Text and Share Image with Credits"):
+	setClipboard(variable: Quote) >> setClipboard 2
+	list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = credits;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Quote;
+                        OutputUUID = "0991ABFD-426A-4159-9D8B-3E35FF13622D";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        Aggrandizements =                         (
+                                                        {
+                                PropertyName = image;
+                                Type = WFPropertyVariableAggrandizement;
+                            }
+                        );
+                        OutputName = Quote;
+                        OutputUUID = "0991ABFD-426A-4159-9D8B-3E35FF13622D";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list 1
+	share(file: List) >> share 1
+} >> MenuResult

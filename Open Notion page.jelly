@@ -1,0 +1,43 @@
+import Shortcuts
+#Color: navy, #Icon: bookmark
+
+// Using a given database ID, pulls posts from the database where a field “Link” is not empty, then open into that post page.
+/*
+Looks for entries in my Content tracker database that *do* have links associated with them, then opens the entry page so I can view the material.
+
+Here I am ignoring entries without the Link field because it’s implied that the entry is not complete (i.e. the content being tracked isn’t live on the web yet).
+*/
+text(text: "") >> text
+var Workspaceslug = Text
+text(text: "secret_94sfZd4oi4oDnGgvq3vrgxe2p2vncce9bcck3GM46Cf") >> text 1
+var APIKey = Text
+dictionary({"Content tracker":"47fc10e2-95b5-4a86-9539-73c63c938f84"})
+var Databases = Dictionary
+choose(list: Databases, prompt: "Which database?") >> choose
+var DatabaseID = Chosen Item
+dictionary({"property":"Link","url":{"is_not_empty":"true"}})
+dictionary({"property":"Publish date","direction":"descending"})
+getDictionaryFrom(input: Dictionary) >> getDictionaryFrom
+dictionary({"filter":{}})
+setValue(key: "filter", value: "${Dictionary}", dictionary: Dictionary) >> setValue
+var Data = Dictionary
+url(url: "https://api.notion.com/v1/databases/${Database ID}/query") >> url
+downloadURL(url: "${URL}", method: POST, headers: , requestType: File, requestJSON: , requestVar: Data) >> downloadURL
+keysFrom(dictionary: Contents of URL) >> keysFrom
+getItemFromList(list: Dictionary Value, type: Items in Range, endIndex: "10") >> getItemFromList
+repeatEach(Item from List) {
+	getDictionaryFrom(input: Repeat Item) >> getDictionaryFrom 1
+	keysFrom(dictionary: Dictionary) >> keysFrom 1
+var PageID = Dictionary Value
+	keysFrom(dictionary: Dictionary) >> keysFrom 2
+	keysFrom(dictionary: Dictionary Value) >> keysFrom 3
+	keysFrom(dictionary: Dictionary Value) >> keysFrom 4
+	keysFrom(dictionary: Dictionary Value) >> keysFrom 5
+var PageName = Dictionary Value
+	setName(input: Page ID, name: "${Page Name}") >> setName
+} >> RepeatResult
+choose(list: Repeat Results, prompt: "Which page do you want to open?") >> choose 1
+replaceText(input: "${Chosen Item}", find: "-") >> replaceText
+var ShortenedID = Updated Text
+url(url: "notion://www.notion.so/${Shortened ID}/${Variable}") >> url 1
+openURL(url: URL)

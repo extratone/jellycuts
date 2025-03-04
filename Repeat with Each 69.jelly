@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+splitText(text: "${ShortcutInput}") >> splitText
+repeatEach(Split Text) {
+	runShortcut(name: "Get XML from Shortcut URL (EDIT)", input: Repeat Item) >> runShortcut
+}

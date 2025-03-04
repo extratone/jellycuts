@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: pink, #Icon: circledQuestionMark
+
+// Shows your Inbox tasks in a rich preview.
+//Unable to get shortcuts action com.leomehlig.today.ShowInboxIntent

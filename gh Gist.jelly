@@ -1,0 +1,15 @@
+import Shortcuts
+#Color: tangerine, #Icon: circledCheckmark
+
+text(text: "${CurrentDate}.txt") >> text
+var filename = Text
+setName(input: ShortcutInput, name: "${filename}") >> setName
+//Unable to get shortcuts action com.appliedphasor.secure-shellfish.UploadFile3Intent
+text(text: "gh gist create -d "${filename}" -f ${Variable} ${filename}") >> text 1
+runSSH(host: "ssh.phx.nearlyfreespeech.net", user: "extratone_bio", password: "jiE4eintierk", input: Text, script: "cd /home/private/gists && ${Text}") >> runSSH
+var url = Shell Script Result
+splitText(text: url, separator: Custom, customSeparator: "https://gist.github.com/") >> splitText
+getItemFromList(list: Split Text, type: Last Item) >> getItemFromList
+var id = Item from List
+//Unable to get shortcuts action com.alexhay.Console.LogMessageIntent
+//Unable to get shortcuts action com.google.chrome.ios.OpenInChromeIntent

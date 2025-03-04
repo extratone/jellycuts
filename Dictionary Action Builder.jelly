@@ -1,0 +1,421 @@
+import Shortcuts
+#Color: Red, #Icon: hammer
+
+/*
+JSON ←→ dictionary action conversion tool
+2024-07-13 	v3.1
+https://routinehub.co/user/gluebyte
+https://mastodon.social/@gluebyte
+*/
+deviceDetails(detail: System Version) >> deviceDetails
+replaceText(input: "${System Version}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> replaceText
+if(DeviceDetails ==) { >> IFResult
+	if(Updated Text false 130) {
+		nothing() >> nothing
+	} >> IFResult 1
+} else { >>  2
+	if(Updated Text false 161) {
+		nothing() >> nothing 1
+	}
+} >> IFResult 2
+if(If Result == nil) { >> IFResult 3
+	alert(alert: "
+
+⛔️ This version requires iOS 16.1, macOS 13 or higher ⛔️
+
+A compatible version will be installed.
+
+", tincel: $2)
+	openURL(url: "https://www.icloud.com/shortcuts/9f334293a7a848bba281bc026ec40495") >> openURL
+	wait(seconds: 0.5)
+	openURL(url: "https://www.icloud.com/shortcuts/9f334293a7a848bba281bc026ec40495") >> openURL 1
+	exit()
+} >> IFResult 4
+randomNumber(min: 1, max: 2) >> randomNumber
+if(Random Number == 1) {
+	getIP() >> getIP
+	if(Current IP Address != nil) {
+		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=5CC37B10") >> downloadURL
+		if(Contents of URL .contains "2024-07-13") { >> IFResult 5
+			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
+			case("🌏  Go to RoutineHub"):
+				openURL(url: "https://routinehub.co/shortcut/4626/") >> openURL 2
+				exit()
+			case("👾  Download Update"):
+				downloadURL(url: "https://routinehub.co/api/v1/shortcuts/4626/versions/latest") >> downloadURL 1
+				matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText
+				expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
+				replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText 1
+				openURL(url: Updated Text) >> openURL 3
+				exit()
+			case("⮐  Not Now"):
+			} >> MenuResult
+		} >> IFResult 6
+	} >> IFResult 7
+} >> IFResult 8
+/*
+Please install the Actions app
+
+https://apps.apple.com/app/id1586435171
+*/
+//Unable to get shortcuts action com.sindresorhus.Actions.RemoveEmojiIntent
+replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d).*", replace: "$1", isRegex: true) >> OS
+getType(input: OS) >> text
+dictionary({"is.workflow.actions.dictionary":"4","is.workflow.actions.list":"2"})
+getType(input: Dictionary) >> dictionary
+list(items: (
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = text;
+                        OutputUUID = "C2787065-17A6-4515-8B27-B3A94AA7E517";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    },
+        {
+        WFItemType = 0;
+        WFValue =         {
+            Value =             {
+                attachmentsByRange =                 {
+                    "{0, 1}" =                     {
+                        OutputName = dictionary;
+                        OutputUUID = "E7A42C24-F34D-45DC-B811-929DFFF4FAD7";
+                        Type = ActionOutput;
+                    };
+                };
+                string = "\Ufffc";
+            };
+            WFSerializationType = WFTextTokenString;
+        };
+    }
+)) >> list
+getType(input: ShortcutInput) >> getType
+nothing() >> nothing 2
+if(List .contains ""${Type}"") { >> IFResult 9
+	if(ShortcutInput .beginsWith "{") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	} >> IFResult 10
+	if(ShortcutInput .beginsWith "[") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+	} >> IFResult 11
+} >> input
+if(input == nil) {
+	menu(
+	Dictionary Action Builder
+, [🥢  Get JSON from Copied Action, 🖇️  Merge Copied Dictionary Actions, 📝  Build Actions from File, 📋  Build Actions from Clipboard, ⌨️  Build Actions from Text Input]) {
+	case("🥢  Get JSON from Copied Action"):
+		text(text: "a") >> text 1
+		nothing() >> nothing 3
+	case("🖇️  Merge Copied Dictionary Actions"):
+		nothing()
+	case("📝  Build Actions from File"): >> MenuResult 1
+		if(OS .between 171...173) {
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+			openApp(id: "com.apple.shortcuts") >> openApp
+		}
+		selectFile() >> selectFile
+		setName(input: File, name: "${File.get(Name)}.txt") >> setName
+	case("📋  Build Actions from Clipboard"):
+		getClipboard() >> getClipboard
+	case("⌨️  Build Actions from Text Input"):
+		text(text: "${Ask}") >> text 2
+	} >> MenuResult 2
+	if(Menu Result == nil) {
+		getClipboard() >> getClipboard 1
+		if(Clipboard != nil) { >> IFResult 12
+//Unable to get shortcuts action com.sindresorhus.Actions.GetUniformTypeIdentifierIntent
+			nothing() >> nothing 4
+			if(Uniform Type Identifier .contains "com.apple.shortcuts.action") {
+				getItemFromList(list: Clipboard) >> getItemFromList
+				setName(input: Item from List, name: "a.plist") >> setName 1
+				valuesFrom(dictionary: Dictionary) >> indent
+			}
+		} >> IFResult 13
+		if(If Result == nil) {
+			alert(alert: "
+
+❌  Please copy dictionary or list action(s) to clipboard
+
+", cancel: false)
+			exit()
+		} >> IFResult 14
+		if(Text == "a") { >> IFResult 15
+			repeatEach(Clipboard) {
+				setName(input: Repeat Item, name: "a.plist") >> setName 2
+				getFileOfType(input: Renamed Item, type: "public.json") >> getFileOfType
+				replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> file of type
+				valuesFrom(dictionary: file of type) >> valuesFrom
+				nothing() >> nothing 5
+				if(Dictionary Value == "is.workflow.actions.dictionary") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+				} >> IFResult 16
+				if(Dictionary Value == "is.workflow.actions.list") {
+//Unable to get shortcuts action is.workflow.actions.getvariable
+				} >> IFResult 17
+			} >> RepeatResult
+			if(Repeat Results != nil) { >> IFResult 18
+				setValue(key: "actions", value: "${Repeat Results}") >> setValue
+				menu(
+Indentation Style:
+, [Standard (Tabs), Compact (2 Spaces)]) {
+				case("Standard (Tabs)"):
+					text(text: "'\t'") >> text 3
+				case("Compact (2 Spaces)"):
+					text(text: ".replace(/(  +|^)\{\n +/g,'$1{ ').replace(/( *)(\{.*)\n\1\}/g,'$1$2 }')") >> compact
+					text(text: "'  '") >> text 4
+				} >> MenuResult 3
+var 5BCD8666-BA7F-4E9C-B56D-A0B129CFC699 = """const out = [];
+if (typeof actions === 'string') { actions = [actions] }
+for (let a of actions) {
+	a = JSON.parse(a);
+	if (a.WFWorkflowActionIdentifier === 'is.workflow.actions.dictionary' && (items = a.WFWorkflowActionParameters.WFItems)) {
+		out.push(getdict(items.Value));
+	} else if (a.WFWorkflowActionIdentifier === 'is.workflow.actions.list' && (items = a.WFWorkflowActionParameters.WFItems) && JSON.stringify(a).includes('WFDictionaryFieldValueItems')) {
+		out.push(items.map(getvalue));
+	}
+}
+document.body.textContent = out.length ? encodeURIComponent(out.map(d=>stringify(d)￼).join('\n\n').replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\ufffc]/g, c => '\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0'))) : '.';
+
+function getdict(dict) {
+	const out = new Map();
+	for (let d of dict.WFDictionaryFieldValueItems) {
+		out.set(d.WFKey.Value.string, getvalue(d))
+	}
+	return out;
+}
+
+function getvalue(d) {
+	if (typeof d !== 'object') { return d; }
+	let v = d.WFValue.Value;
+	switch (d.WFItemType) {
+		case 0: return getstr(v);
+		case 1: return getdict(v.Value);
+		case 2: return v.map(getvalue);
+		case 3: return ((a=>{for(let b in a)return true})(v.attachmentsByRange)) ? `NUMBER(${getstr(v)})` : Number(v.string.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, d => d.charCodeAt(0) & 0xf).replace(/[,٫]/g, '.'));
+		case 4: return v.Value ? `BOOLEAN(❰${varname(v.Value)}❱)` : v;
+	}
+}
+
+function getstr(v) {
+	let str = v.string;
+	Object.entries(v.attachmentsByRange ?? {})
+		.sort((a,b) => parseInt(a[0].match(/\d+/)[0])-parseInt(b[0].match(/\d+/)[0]))
+		.forEach(a => { str = str.replace('\ufffc', `❰${varname(a[1])}❱`); });
+	return str;
+}
+
+function varname(v) {
+	return v.OutputName ?? v.VariableName ?? v.Type ?? v;
+}
+
+function stringify(o) {
+	let px = ￼;
+	if (typeof o === 'object') {
+		if (Array.isArray(o)) return o.length ? '[\n'+ px + o.map(a=>stringify(a)).join(',\n').replaceAll('\n','\n'+px) + '\n]' : '[]';
+		return (oo=Array.from(o.entries())).length ? '{\n' + px + oo.map(a=>stringify(a[0])+': '+stringify(a[1])).join(',\n').replaceAll('\n','\n'+px) + '\n' + '}' : '{}';
+	}
+	return JSON.stringify({a:o}).slice(5,-1);
+}"""
+text("${5BCD8666-BA7F-4E9C-B56D-A0B129CFC699}")
+				url(url: "data:text/html;charset=utf-8,<body/><script>let actions = ${Dictionary}.actions;${ActionOutput}</script>") >> url
+				encodeURL(url: "${URL.as(RichText)}") >> encodeURL
+				if(URL Encoded Text != ".") {
+					randomNumber(min: 0, max: 9999) >> randomNumber 1
+					setName(input: URL Encoded Text, name: "dictionary${Random Number}.txt") >> setName 3
+					if(DeviceDetails ==) {
+						openIn(input: Renamed Item, ask: false) >> openIn
+						wait()
+					} else {
+						if(Renamed Item false) {
+							if(OS .between 171...173) {
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+							}
+							quicklook(input: Renamed Item)
+						} >> IFResult 19
+						list(items: (
+    "\Ud83d\Udcbb  Share",
+    "\Ud83d\Udcdd  Save",
+    "\Ud83d\Udccb  Copy to Clipboard"
+)) >> list 1
+						choose(list: List, prompt: "
+${Renamed Item.as(File).get(File Size)}.${ActionOutput.as(File).get(File Size)} (${Renamed Item.get(Name)})
+") >> choose
+						if(Chosen Item == "📋  Copy to Clipboard") {
+							setClipboard(variable: Renamed Item) >> setClipboard
+							getClipboard() >> getClipboard 2
+						} else {
+							if(OS .between 171...173) {
+//Unable to get shortcuts action is.workflow.actions.returntohomescreen
+								openApp(id: "com.apple.shortcuts") >> openApp 1
+							} >> IFResult 20
+							if(Chosen Item == "💻  Share") {
+								share(file: Renamed Item)
+							} else {
+								saveFile(input: Renamed Item) >> saveFile
+							}
+						} >> IFResult 21
+					} >> IFResult 22
+					exit()
+				} >> IFResult 23
+			} >> IFResult 24
+		} else {
+			count(input: Clipboard) >> count
+			if(Count == 1) {
+				alert(alert: "
+
+❌  Please use  ‘Shortcut Source Tool’ to copy 2 or more actions to clipboard
+
+", cancel: false)
+				exit()
+			} >> IFResult 25
+			repeatEach(Clipboard) {
+				setName(input: Repeat Item, name: "a.plist") >> setName 4
+			} >> RepeatResult 1
+			replaceText(input: "${Repeat Results} ", find: "(?s)\n\t{${indent}}</array>.+?\n\t{${ActionOutput}}<array>", isRegex: true) >> replaceText 2
+			if(Updated Text .contains "/plist>
+
+<?xml") {
+				alert(alert: "
+
+❌  Wrong actions found in clipboard
+
+", cancel: false)
+				exit()
+			} >> IFResult 26
+//Unable to get shortcuts action com.sindresorhus.Actions.SetUniformTypeIdentifier
+			setClipboard(variable: File with Updated Uniform Type Identifier) >> setClipboard 1
+			alert(alert: "
+
+📋  Successfully merged into clipboard  📋
+
+", tincel: false)
+		} >> IFResult 27
+		exit()
+	}
+} >> IFResult 28
+replaceText(input: "${If Result}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 3
+setValue(key: "data", value: "${Updated Text}") >> setValue 1
+var 29D95BF7-083A-45AC-BB7C-2AAAC479B242 = """let mode = 0;
+let stack = [];
+let output = '{"output":[';
+let action = '';
+let actioncount = 0;
+while (buffer !== '') {
+	if (mode == 0) {
+		buffer = buffer.slice(buffer.search(/[\[\{]/));
+		let ch1 = buffer.charAt(0);
+		switch (ch1) {
+			case '{':
+				mode = 1;
+				action = '{"WFWorkflowActionIdentifier":"is.workflow.actions.dictionary","WFWorkflowActionParameters":{"WFItems":{"WFSerializationType":"WFDictionaryFieldValue","Value":{"WFDictionaryFieldValueItems":[';
+				break;
+			case '[':
+				mode = 2;
+				action = '{"WFWorkflowActionIdentifier":"is.workflow.actions.list","WFWorkflowActionParameters":{"WFItems":[';
+				break;
+			default:
+				buffer = '';
+		}
+	}
+	let ch1 = buffer.charAt(0);
+	buffer = buffer.slice(1);
+	buffer = buffer.slice(buffer.search(/\S|$/));
+	if (ch1 === ']' || ch1 === '}') {
+		if (mode == 1 && ch1 === '}' || mode == 2 && ch1 === ']') {
+			if (stack.length == 0) {
+				output += action + (mode==1 ? ']}}}},' : ']}},');
+				mode = 0;
+				action = '';
+				actioncount++;
+			} else {
+				action += mode==1 ? ']}}}},' : ']}},';
+				mode = stack.pop();
+			}
+		} else {
+			buffer = '';
+		}
+	} else {
+		let ch2 = buffer[0];
+		let key = '{';
+		if (!']},'.includes(ch2)) {
+			let match;
+			if (mode == 1) {
+				match = buffer.match(/^"([^"\\]*(?:\\.[^"\\]*)*)"\s*:\s*/);
+				buffer = buffer.slice(match[0].length);
+				key = '{"WFKey":{"WFSerializationType":"WFTextTokenString","Value":{"string":"' + match[1] + '"}},';
+				ch2 = buffer[0];
+			}
+			switch (ch2) {
+				case '[':
+				case '{':
+					stack.push(mode);
+					mode = ch2==='{' ? 1 : 2;
+						action += key + (mode==1 ?
+							'"WFItemType":1,"WFValue":{"WFSerializationType":"WFDictionaryFieldValue","Value":{"WFSerializationType":"WFDictionaryFieldValue","Value":{"WFDictionaryFieldValueItems":[' :
+							'"WFItemType":2,"WFValue":{"WFSerializationType":"WFArrayParameterState","Value":[');
+					break;
+				case '"':
+					match = buffer.match(/^"([^"\\]*(?:\\.[^"\\]*)*)"\s*/);
+					buffer = buffer.slice(match[0].length);
+					value = match[1];
+					action += (mode == 1) ? key + '"WFItemType":0,"WFValue":{"WFSerializationType":"WFTextTokenString","Value":{"string":"' + value + '"}}},' : '"' + value + '",';
+					break;
+				default:
+					match = buffer.match(/^(.+?)\s*[,\]\}]/);
+					buffer = buffer.slice(match[0].length-1);
+					value = match[1];
+					if (value === 'true') {
+						action += key + '"WFItemType":4,"WFValue":{"WFSerializationType":"WFNumberSubstitutableState","Value":true}},';
+					} else if (value === 'false') {
+						action += key + '"WFItemType":4,"WFValue":{"WFSerializationType":"WFNumberSubstitutableState","Value":false}},';
+					} else if (value === 'null') {
+						action += (mode == 1) ? key + '"WFItemType":2,"WFValue":{"WFSerializationType":"WFArrayParameterState","Value":[]}},' : '';
+					} else {
+						let numStr = value.replace(/[\u0660-\u0669\u06f0-\u06f9]/g, d => d.charCodeAt(0) & 0xf);
+						match = numStr.match(/(-?\d+)[.,٫](\d+)/);
+						value = match ? parseInt(match[1] + match[2]) + 'E-' + match[2].length : numStr;
+						action += key + '"WFItemType":3,"WFValue":{"WFSerializationType":"WFTextTokenString","Value":{"string":"' + value + '"}}},';
+					}
+			}
+		}
+	}
+}
+document.body.textContent = actioncount ? encodeURIComponent(output.replace(/\n/g, '\\n') + ']}') : '';"""
+text("${29D95BF7-083A-45AC-BB7C-2AAAC479B242}")
+url(url: "data:text/html;charset=utf-8,<body/><script>let buffer=${Text}.data;${ActionOutput}</script>") >> url 1
+encodeURL(url: "${URL.as(RichText)}") >> encodeURL 1
+if(URL Encoded Text == "") { >> IFResult 29
+	alert(alert: "
+❌  Invalid dictionary { } or array [ ] text
+", cancel: false)
+	exit()
+} >> IFResult 30
+repeatEach(URL Encoded Text) { >> RepeatResult 2
+	getFileOfType(input: Repeat Item, type: "com.apple.plist") >> getFileOfType 1
+//Unable to get shortcuts action com.sindresorhus.Actions.SetUniformTypeIdentifier
+} >> RepeatResult 3
+setClipboard(variable: Repeat Results) >> setClipboard 2
+if(input == nil) { >> IFResult 31
+	count(input: URL Encoded Text) >> count 1
+	if(Count == 1) {
+		alert(alert: "
+
+📋  Action copied to clipboard  📋
+
+", tincel: false)
+	} else {
+		alert(alert: "
+
+📋  ${Count} actions copied to clipboard  📋
+
+", tincel: false)
+	}
+}

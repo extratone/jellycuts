@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: navy, #Icon: shortcuts
+
+//Unable to get shortcuts action com.appliedphasor.working-copy.CommitRepositoryIntent
+//Unable to get shortcuts action com.appliedphasor.working-copy.PushRepositoryIntent

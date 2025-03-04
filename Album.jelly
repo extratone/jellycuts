@@ -1,0 +1,22 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+var List = ShortcutInput
+getClipboard() >> getClipboard
+markdownFromRich(text: Clipboard) >> markdownFromRich
+getURLSFromInput(text: "${Markdown from Rich Text}") >> getURLSFromInput
+repeatEach(URLs) {
+	expandURL(url: "${Repeat Item}") >> expandURL
+	text(text: "${Expanded URL}&at=10l6nh&ct=ms_weekly") >> text
+var fullURL = Text
+	getArticle(url: "${fullURL}") >> getArticle
+	articleDetail(detail: Title, article: Article) >> articleDetail
+var 02D1D7B8-15F4-4192-85A4-EAD0864B41FB = """￼
+## [￼](￼)
+
+**Federico**:
+"""
+text("${02D1D7B8-15F4-4192-85A4-EAD0864B41FB}")
+var List = Text
+} >> RepeatResult
+//Unable to get shortcuts action com.soulmen.ulysses.pad.insert

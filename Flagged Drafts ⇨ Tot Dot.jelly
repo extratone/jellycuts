@@ -1,0 +1,35 @@
+import Shortcuts
+import Drafts
+#Color: navy, #Icon: flag
+
+/*
+Index flagged drafts as a hyperlink list in a selected Tot Dot.
+
+𝗠𝘆 𝗰𝗼𝗻𝘁𝗮𝗰𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻:
+Email: davidblue@extratone.com
+Contact card: https://davidblue.wtf/db.vcf
+RoutineHub Profile: https://routinehub.co/user/blue
+GitHub: https://github.com/extratone
+iOS-specific Repository: https://github.com/extratone/i
+Telegram: https://t.me/DavidBlue
+Telegram Channel: https://t.me/extratone
+Discord: https://davidblue.wtf/discord
+Twitter: https://twitter.com/NeoYokel
+Reddit: https://reddit.com/u/asphaltapostle
+Mastodon: https://mastodon.social/@DavidBlue
+EVERYWHERE: https://davidblue.wtf/socialdrop
+*/
+//Unable to get shortcuts action com.agiletortoise.Drafts5.QueryDraftsIntent
+repeatEach(Drafts) {
+	text(text: "- [${Repeat Item.get(link)}](${Variable.get(link)})") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+combineText(text: flagged) >> combineText
+var D5E00A23-B834-4D67-93D6-BC6953D3A66C = """**Flagged Drafts**
+Updated ￼
+
+---
+
+￼"""
+text("${D5E00A23-B834-4D67-93D6-BC6953D3A66C}")
+//Unable to get shortcuts action com.iconfactory.TotMobile.SetDotIntent

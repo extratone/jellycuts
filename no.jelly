@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: red, #Icon: alarmClock
+
+getallalarms(show: false) >> getallalarms
+//Unable to get shortcuts action com.apple.mobiletimer-framework.MobileTimerIntents.MTToggleAlarmIntent

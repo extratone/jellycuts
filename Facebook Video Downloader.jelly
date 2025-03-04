@@ -1,0 +1,106 @@
+import Shortcuts
+#Color: navy, #Icon: circledDownArrow
+
+dictionary({"Name":"Facebook Video Downloader","Version":"2.0","RH ID":"5560","Icons":{"Update":"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","Not Now":"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"}}) >> Settings
+var SName = Settings
+/*
+2.0
+- add handling for long video names
+1.9
+- change to usage of aShell Mini (yt-dlp)
+- removed safari type check and download section
+- switch to UpdateKit API for update check location
+*/
+var InURL = ShortcutInput
+var BF44320E-75C6-4FC2-A11D-5CAA669F1D11 = """{
+"version":"￼",
+"id":"￼",
+"module":"routinehub",
+"getOriginalDownloadUrl":true
+}"""
+text("${BF44320E-75C6-4FC2-A11D-5CAA669F1D11}")
+downloadURL(url: "https://updatekit.mikebeas.com/V1", method: POST, requestJSON: ) >> Server
+if(Server .contains "update") { >> IFResult
+	valuesFrom(dictionary: Server) >> valuesFrom
+	if(Dictionary Value == "Updated") { >> IFResult 1
+var 81BD0268-EF74-4430-A34A-95FFE61AC45C = """⬆️ 𝗨𝗽𝗱𝗮𝘁𝗲 ⬆️
+
+An update is available for ￼, here are some information about it:
+
+𝗡𝗮𝗺𝗲: ￼
+𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗲𝗱 𝗩𝗲𝗿𝘀𝗶𝗼𝗻: ￼
+𝗥𝗲𝗰𝗲𝗻𝘁 𝗩𝗲𝗿𝘀𝗶𝗼𝗻: ￼
+𝗥𝗲𝗹𝗲𝗮𝘀𝗲 𝗗𝗮𝘁𝗲: ￼
+𝗖𝗵𝗮𝗻𝗴𝗲𝘀:
+￼"""
+text("${81BD0268-EF74-4430-A34A-95FFE61AC45C}")
+		showResult(text: "${Text}")
+var FDD600F5-A91C-4EB2-8A6F-090EFDB47191 = """BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Update;;;;
+PHOTO;ENCODING=b:￼
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=utf-8:Not Now;;;;
+PHOTO;ENCODING=b:￼
+END:VCARD"""
+text("${FDD600F5-A91C-4EB2-8A6F-090EFDB47191}")
+		setName(input: Text, name: "updateprompt.vcf") >> setName
+		choose(list: Renamed Item, prompt: "") >> choose
+		if(Chosen Item == "Update") {
+			expandURL(url: "${Server.as(Dictionary).key(payload.download)}") >> expandURL
+			replaceText(input: "${Expanded URL}", find: ".*com", replace: "shortcuts:/", isRegex: true) >> replaceText
+			openURL(url: Updated Text) >> openURL
+			exit()
+		}
+	} >> IFResult 2
+} >> IFResult 3
+getType(input: ShortcutInput) >> getType
+if(Type .contains "Safari") { >> IFResult 4
+	htmlFromRichText(text: ShortcutInput) >> htmlFromRichText
+	matchText(text: "${HTML from Rich Text}", regex: "https.{0,300}\.mp4.{0,2000}?(?=\"|&quot;)") >> matchText
+	getItemFromList(list: Matches) >> getItemFromList
+	replaceText(input: "${Item from List}", find: "(\\|amp\;)", isRegex: true) >> replaceText 1
+	replaceText(input: "${Updated Text}", find: "u0025", replace: "%", isRegex: false) >> replaceText 2
+	replaceText(input: "${Updated Text}", find: "&quot;", replace: """, isRegex: false) >> replaceText 3
+	if(Updated Text == nil) {
+		sendNotification(body: "It appears a problem occurred. Please send feedback to mvan231 on discord", attachment: Updated Text) >> sendNotification
+	} else {
+		sendNotification(body: "Starting downloads!", attachment: Updated Text) >> sendNotification 1
+		repeatEach(Updated Text) {
+			url(url: Repeat Item) >> url
+			downloadURL(url: "${URL}", headers: ) >> downloadURL
+			saveToCameraRoll(image: Contents of URL) >> saveToCameraRoll
+			sendNotification(body: "Media Downloaded", attachment: Saved Photo Media) >> sendNotification 2
+		} >> RepeatResult
+	} >> IFResult 5
+} else { >>  6
+/*
+aShell Actions Here ⬇️
+Big thanks to atnbueno
+*/
+/*
+“Text” action below:
+Quality of download (best mp4+m4a, and if that doesn’t exists, best mp4)
+*/
+	text(text: "bestvideo[vcodec=avc1]+bestaudio/best[ext=mp4]") >> Format
+/*
+It may take a while, so the app is opened. 
+
+The “open shortcuts://“ command and the “Wait to return action” ensure the shortcut continues after the download.
+*/
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	waitToReturn()
+// The “ls” command below gets the name of the most recent .mp4 file
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+	if(output .contains "No such file or directory") {
+//Unable to get shortcuts action AsheKube.app.a-Shell.GetFileIntent
+		saveToCameraRoll(image: File) >> saveToCameraRoll 1
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+		alert(alert: "Video saved to Photos app.")
+	} else {
+		alert(alert: "Something went wrong and no video was downloaded. Check a-Shell mini for more information.", title: "ERROR", cancel: false)
+	}
+}
