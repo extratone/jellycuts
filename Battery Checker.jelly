@@ -12,14 +12,14 @@ import Shortcuts
 【使い方】
 ①設定アプリの「プライバシーとセキュリティ」→「解析と改善」→「解析データ」→「Analytics-20xx～」をタップ
 ②「共有」からこのレシピを選択
-⚠️結果が「Null」の場合、そのデータが解析データに存在しないことを意味します。
+⚠️結果が「Null」の場合、そのデータが解析データに存在しないことを意味します4.4
 */
 /*
 You can change the specification or functionality by changing the boolean value of the following dictionary action (description is behind).
 
 以下の辞書アクションの真偽値を変更することで仕様や機能を変更できます(説明は後ろ).
 */
-dictionary({"Name":"Battery Checker","Version":"4.2.2","RH ID":"7696","Author":"thetheorier","English":"true","RichText":"true","ManualSelect":"false","UpdateCheck":"false","Additional Details":"false"})
+dictionary({"Name":"Battery Checker","Version":"5.4.2","RH ID":"7696","Author":"thetheorier","English":"true","RichText":"true","ManualSelect":"false","UpdateCheck":"false"})
 /*
 [English]
 English	:Truth → English(default)
@@ -52,16 +52,10 @@ If true, it will access Routinehub on every run to briefly check if the recipe i
 
 真の場合、実行のたびにRourinehubにアクセスし、レシピが最新かどうかを簡単にチェックします(デフォルトは真)
 */
-/*
-[Additional Details]
-If true, a separate page with a brief description and discussion of the key values presented in this recipe is displayed (default is false).
-
-真にすると、このレシピで紹介している主要な値に関する簡単な説明や考察などのページを別ページで表示します(デフォルトは偽)
-*/
 var ManualSelect = 辞書
-valuesFrom(dictionary: 辞書) >> valuesFrom
+keysFrom(dictionary: 辞書) >> keysFrom
 if(辞書の値 ==) {
-var AC06B15B-498A-4E87-A01B-84A61B9912D9 = """{
+var 644709C7-21F8-42B2-8A42-9DA192D854FC = """{
 	"go_to_setting1":	"This recipe can be run from the 'Analytics Data' page in the Setting app.",
 	"go_to_setting2":	"Go to the 'Analytics Data' page, open the file that starts with 'Analytics-20xx' and click the Share button to run this recipe.",
 	"go_to_setting3":	"If you cannot find such a file, or if 'Share iPhone Analytics' is disabled, you will need to enable it and wait at least one day.",
@@ -79,9 +73,9 @@ var AC06B15B-498A-4E87-A01B-84A61B9912D9 = """{
 	"msize_iphone":	"30",
 	"msize_other":	"25",
 	"th1_iphone":	"64",
-	"th1_other":	"45",
+	"th1_other":	"55",
 	"th2_iphone":	"18",
-	"th2_other":	"25",
+	"th2_other":	"22",
 	"device":	"Device",
 	"system":	"System",
 	"day":	"Day",
@@ -91,55 +85,24 @@ var AC06B15B-498A-4E87-A01B-84A61B9912D9 = """{
 	"raw":	"Raw Max Capacity",
 	"soc":	"SOC",
 	"fcc":	"MaximumFCC",
-	"qmax":	"MaximumQmax",
+	"minqmax":	"MinimumQmax",
+	"vmax":	"Maximum",
+	"vmin":	"Minimum",
 	"deflator":	"Deflator",
 	"design":	"Design Capacity",
 	"max":	"Max Capacity",
+	"maxqmax"	:"MaximumQmax",
 
-	"about1":"This recipe uses a shortcut application to take what it needs from the analysis data recorded on the device.",
-"about2":"The day's record will be recorded in the 'Analysis Data' page of the Settings application at midnight (UTC) of the next day.",
-"about3":"In rare cases, some data or the analysis data itself may not be recorded.",
-"about4":"Recorded data is not always reliable.",
-"cyclecount_title":"Cycle Count",
-"cyclecount1":"It is difficult to say with certainty that a device will degrade by 'yy% after xx hours of use', since the way in which a device is used varies from person to person.",
-"cyclecount2":"An alternative measure to time of use is the 'number of cycles'.",
-"cyclecount3":"One set of charge/discharge counts as one cycle.",
-"cyclecount4":"Apple says that the iPhone, for example, is 'designed to maintain 80% of its maximum capacity at 500 cycles (1000 for the iphone15 series)', but this is a public statement and not necessarily true in practice.",
-"avgtemp_title":"Average Temperature",
-"avgtemp1":"The temperature of the device.",
-"avgtemp2":"It is not expected to change significantly unless it is used in an extreme manner or environment.",
-"nominal_title":"Nominal Charge Capacity",
-"nominal1":"It is one of the reference values for battery capacity.",
-"nominal2":"It is often used as the design center capacity, but it is not a constant value in the record and has a fairly strong correlation with the maximum capacity.",
-"nominal3":"Therefore, I interpret it as the current full charge capacity.",
-"nominal4":"The value of 'health' is a percentage of the MaximumFCC (see below), and together with Max Capacity is an indicator of battery degradation.",
-"raw_title":"Raw Max Capacity",
-"raw1":"The actual capacity of the storage capacity may vary depending on loss, weather conditions, deterioration, etc.",
-"raw2":"It seems that the Raw Max Capacity reflects these external factors for the Nominal Charge Capacity.",
-"raw3":"The value of 'health' is a percentage of the MaximumFCC (see below), and together with Max Capacity is an indicator of battery degradation.",
-"fcc_title":"MaximumFCC",
-"fcc1":"FCC stands for 'Full Charge Capacity', which is the full charge capacity that can actually be used and is also referred to as the actual value.",
-"fcc2":"Until ver3.x, the value corresponding to DesignCapacity was used, but since ver4.0, this value has been used.",
-"qmax_title":"MaximumQmax",
-"qmax1":"The original capacity of the battery.",
-"qmax2":"In fact, the actual capacity is the MaximumFCC above, dropping by the internal resistance.",
-"deflator_title":"Deflator",
-"def1":"Ratio of Raw Max Capacity to Nominal Charge Capacity.",
-"def2":"Originally, this indicator is used in economics, etc. Following this, the real value is obtained by excluding the factor of simple deterioration of the battery.",
-"def3":"As you can see in the image, the value increases during cold weather, indicating that the battery is temporarily degraded due to the cold.",
-"maxcapacity_title":"Max Capacity",
-"max1":"The value is the same as the one on the 'Battery' page of the Settings app.",
-"data1":" Data includes those shown on the main page.",
-"max2":"The maximum capacity does not correlate perfectly with the number of cycles and the time of use, and may suddenly drop by several percent or remain unchanged for months.",
-"notadopt_title":"Data not adopted",
-"notadopt1":"The analysys data has an intriguing value, TotalOperatingTime.",
-"notadopt2":"We can assume that if we calculate this backward from the timestamp, we can get something like the start time of the operation.",
-"notadopt3":"However, when we looked into it, as you can see in the image, the results varied from one month to more than a year, depending on the record (the image shows the outliers removed).",
-"notadopt4":"It may be better not to overconfidently trust the analysis data."
+	"CWeightedRa":	"Resistance(Weighted)",
+	"RWeightedRa":	"Resistance(Measured)",
+
+	"resistancedifference":	"Resistance Difference Ratio",
+	"degradationconvergence":	"Degradation Convergence Rate"
+
 }"""
-text("${AC06B15B-498A-4E87-A01B-84A61B9912D9}")
+text("${644709C7-21F8-42B2-8A42-9DA192D854FC}")
 } else {
-var 7EBE3DB7-565A-421A-BFBC-7AC085FB6DDB = """{
+var 015B4029-AA01-4A11-A7B1-EADCF3F59C00 = """{
 	"go_to_setting1":	"このレシピは設定アプリ「解析データ」にあるファイルを使って実行します。",
 	"go_to_setting2":	"設定アプリの「解析データ」のページへ進み、'Analytics-20xx-xx'から始まるファイルを開いたら共有ボタンをタップしてこのレシピを実行します。",
 	"go_to_setting3":	"もしそのようなファイルが見つからない場合、もしくは「iPhone解析を共有」がオフになっている場合、それをオンにして最低一日待つ必要があります。",
@@ -157,9 +120,9 @@ var 7EBE3DB7-565A-421A-BFBC-7AC085FB6DDB = """{
 	"msize_iphone":	"30",
 	"msize_other":	"25",
 	"th1_iphone":	"60",
-	"th1_other":	"45",
+	"th1_other":	"50",
 	"th2_iphone":	"20",
-	"th2_other":	"25",
+	"th2_other":	"20",
 	"menubottom_iphone":"60",
 	"menubottom_other":"0",
 	"device":	"機種",
@@ -171,71 +134,39 @@ var 7EBE3DB7-565A-421A-BFBC-7AC085FB6DDB = """{
 	"raw":	"実測容量",
 	"soc":	"充電状態",
 	"fcc":	"満充電容量",
-	"qmax":	"低レート放電容量",
+	"qmax":	"最大蓄電容量",
+	"minqmax":	"最小蓄電容量",
 	"deflator":	"デフレーター",
 	"design":	"設計容量",
 	"max":	"最大容量",
 
+	"maxqmax"	:"MaximumQmax",
 
-"about1":"このレシピはショートカットアプリを使って、デバイスに記録されている解析データから必要なものを取り出しています.",
-"about2":"その日の記録は翌日0時(世界標準時)に設定アプリの「解析データ」のページに記録されます.",
-"about3":"ごく稀に一部データまたは解析データそのものが記録されないことがあります.",
-"about4":"記録されたデータが必ずしも信用あるものとは限りません.",
-"cyclecount_title":"サイクル数",
-"cyclecount1":"デバイスをどう使うかは人それぞれなので確実に「xx時間使ったからyy%劣化する」と判断するのは難しいです.",
-"cyclecount2":"そこで使用時間に代わる指標として「サイクル数」があります.",
-"cyclecount3":"充放電1セットでサイクル数1とカウントします.",
-"cyclecount4":"Appleは例えばiPhoneについて「サイクル数500(iphone15シリーズは1000)で最大容量80%を維持するよう設計」していると言いますが、これは公表上のもので、実際にそうなるとは限りません.",
-"avgtemp_title":"平均温度",
-"avgtemp1":"デバイスの温度です.",
-"avgtemp2":"極端な使い方、または環境でない限り大きく変化することはないと思われます.",
-"nominal_title":"名目容量",
-"nominal1":"バッテリーの容量の基準値のひとつです.",
-"nominal2":"設計上の中心容量として使うことが多いようですが記録では一定の値ではなく、最大容量とかなり強い相関があります.",
-"nominal3":"このことから現在の満充電容量と僕は解釈しています.",
-"nominal4":"'health'の値は後述するMaximumFCCに対する割合で、Max Capacityと合わせてバッテリーの劣化を示すひとつの指標となります.",
-"raw_title":"実質容量",
-"raw1":"実際に溜められる容量はロスや気象環境、劣化などによって前後します.",
-"raw2":"Nominal Charge Capacityに対してこれらの外的要因が反映されたのがRaw Max Capacityのようです.",
-"raw3":"'health'の値は後述するMaximumFCCに対する割合でMax Capacityと合わせてバッテリーの劣化を示すひとつの指標となります.",
-"fcc_title":"満充電容量",
-"fcc1":"'FCC'は'Full Charge Capacity'の略であり、実際に使用できる満充電容量で実績値とも言うようです.",
-"fcc2":"ver3.xまではDesignCapacityに相当する値を使用していましたがver4.0からはこの値を使用しています.",
-"qmax_title":"低レート放電容量",
-"qmax1":"電池本来の容量です.",
-"qmax2":"実際には内部抵抗の分だけドロップし、実際に溜められる容量が上記のMaximumFCCになります.",
-"deflator_title":"デフレーター",
-"def1":"Nominal Charge Capacityに対するRaw Max Capacityの割合です.",
-"def2":"本来は経済学などで使う指標ですが、それに倣ってバッテリーの単純劣化の要因を除いて実質値が得られます.",
-"def3":"画像のように寒い時期になると値が大きくなり、バッテリーが寒さなどによって一時的に劣化するのがわかります.",
-"maxcapacity_title":"最大容量",
-"max1":"設定アプリの「バッテリー」のページにあるものと同じ値です.",
-"data1":"メインページで表示したものを含むデータです.",
-"max2":"最大容量はサイクル数と使用時間に完全には送相関せず、突然数%落ちることもあれば何ヶ月も変化しない場合があります.",
-"notadopt_title":"採用見送ったデータ",
-"notadopt1":"解析データにはTotalOperatingTimeという興味をそそられる値があります.",
-"notadopt2":"これをタイムスタンプから逆算すれば稼働開始時間のようなものが得られると推測できます.",
-"notadopt3":"しかしいざ調べてみると画像のようにバラバラで記録次第では一ヶ月、一年以上も異なる結果を得ました(画像はそういった外れ値を取り除いたものです)",
-"notadopt4":"解析データの過信は禁物かもしれません."
+	"CWeightedRa":	"内部抵抗(劣化込み)",
+	"RWeightedRa":	"内部抵抗(実測)",
+
+	"resistancedifference":	"抵抗差率",
+	"degradationconvergence":	"劣化収束率"
+
 
 
 }"""
-text("${7EBE3DB7-565A-421A-BFBC-7AC085FB6DDB}")
+text("${015B4029-AA01-4A11-A7B1-EADCF3F59C00}")
 } >> IFResult
 getDictionaryFrom(input: “if文”の結果) >> getDictionaryFrom
 var com = 辞書
-// Version Check
-valuesFrom(dictionary: 辞書) >> valuesFrom 1
+// Version Check 
+keysFrom(dictionary: 辞書) >> keysFrom 1
 if(辞書の値 ==) {
-	valuesFrom(dictionary: 辞書) >> Crrent Version
-	valuesFrom(dictionary: 辞書) >> RH ID
+	keysFrom(dictionary: 辞書) >> Crrent Version
+	keysFrom(dictionary: 辞書) >> RH ID
 	url(url: "https://routinehub.co/api/v1/shortcuts/${RH ID}/versions/latest") >> url
 	downloadURL(url: "${URL}", headers: ) >> downloadURL
-	valuesFrom(dictionary: URLの内容) >> New Version
+	keysFrom(dictionary: URLの内容) >> New Version
 	if(New Version != ""${辞書.key(Version)}"") {
-		valuesFrom(dictionary: URLの内容) >> Rlease
-		valuesFrom(dictionary: URLの内容) >> Notes
-var 7A2787E5-BD4B-4AC3-A0B6-978683B1EBE8 = """⚠️New version
+		keysFrom(dictionary: URLの内容) >> Rlease
+		keysFrom(dictionary: URLの内容) >> Notes
+var B0BE42FB-F708-4C03-BF78-C2BAE8C07A4B = """⚠️New version
 Current	:￼
 new		:￼
 Release	:￼
@@ -243,59 +174,140 @@ Release	:￼
 [Notes]
 ￼
 """
-text("${7A2787E5-BD4B-4AC3-A0B6-978683B1EBE8}")
+text("${B0BE42FB-F708-4C03-BF78-C2BAE8C07A4B}")
 		replaceText(input: "${com.key(update_recipe)}", find: "_ver", replace: "${New Version}") >> replaceText
-		menu(, [) {
-		case("⏹️com (stop_check)"):
+var 60C5983A-0BA5-49AF-A818-9572B78275F7 = """BEGIN:VCARD
+VERSION:3.0
+N:￼
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:￼
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:￼
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD"""
+text("${60C5983A-0BA5-49AF-A818-9572B78275F7}")
+		setName(input: テキスト, name: "a.vcf") >> setName
+		getContactsFrom(input: 名称変更された項目) >> getContactsFrom
+		choose(list: 連絡先, prompt: "${テキスト}") >> choose
+		matchText(text: "${選択した項目.get(Name)}", regex: ".*(Stop|更新).*") >> matchText
+		if(一致 != nil) {
 //Unable to get shortcuts action com.apple.shortcuts.OpenWorkflowAction
-		case("🆙アップデートされたテキスト"):
+		} >> IFResult 1
+		matchText(text: "${選択した項目.get(Name)}", regex: ".*(Update|アップデート).*") >> matchText 1
+		if(一致 != nil) {
 			expandURL(url: "${URLの内容.as(Dictionary).key(URL)}") >> expandURL
 			replaceText(input: "${展開されたURL}", find: "https://www.icloud.com/", replace: "shortcuts://", caseSensitive: false) >> replaceText 1
 			openURL(url: アップデートされたテキスト) >> openURL
 			exit()
-		case("⏭️com (update_skip)"):
-		} >> MenuResult
+		} >> IFResult 2
+		matchText(text: "${選択した項目.get(Name)}", regex: ".*(Skip|スキップ).*") >> matchText 2
+		if(一致 != nil) {
+		}
 	}
-} >> IFResult 1
+} >> IFResult 3
 // Main
 if(ShortcutInput == nil) {
-	menu(, [) {
-	case("⚙️com (menu_go_setting)"):
+var 4E2325C2-0556-48A8-8728-3AD995271363 = """BEGIN:VCARD
+VERSION:3.0
+N:￼
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:￼
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD"""
+text("${4E2325C2-0556-48A8-8728-3AD995271363}")
+	setName(input: テキスト, name: "b.vcf") >> setName 1
+	getContactsFrom(input: 名称変更された項目) >> getContactsFrom 1
+var 1AD63A77-BA6D-478E-BDBF-DDB9B0FBB38C = """
+￼
+
+￼
+
+￼
+"""
+text("${1AD63A77-BA6D-478E-BDBF-DDB9B0FBB38C}")
+	choose(list: 連絡先, prompt: "${テキスト}") >> choose 1
+	matchText(text: "${選択した項目.get(Name)}", regex: ".*(Setting|設定).*") >> matchText 3
+	if(一致 != nil) {
 		openURL(url: "prefs:root=Privacy&path=PROBLEM_REPORTING/DIAGNOSTIC_USAGE_DATA") >> openURL 1
-	case("❎com (menu_dismiss)"):
+	} >> IFResult 4
+	matchText(text: "${選択した項目.get(Name)}", regex: ".*(Stop|終了).*") >> matchText 4
+	if(一致 != nil) {
 		exit()
-	} >> MenuResult 1
+	}
 } else {
-	setName(input: ShortcutInput, name: "a.txt") >> setName
+	setName(input: ShortcutInput, name: "a.txt") >> setName 2
 var base = 名称変更された項目
-	splitText(text: base) >> splitText
-	filterFiles() >> filterFiles
-	getItemFromList(list: ファイル, type: Items in Range, startIndex: "2", endIndex: "100") >> getItemFromList
-	matchText(text: "${リストからの項目}", regex: ".*NominalChargeCapacity":\S\d.*", caseSensitive: true) >> matchText
-	getItemFromList(list: 一致, type: Last Item, startIndex: “if文”の結果, endIndex: 数) >> getItemFromList 1
-	if(リストからの項目 != nil) {
-		getTextFrom(input: リストからの項目)
-	} else {
-		count(input: テキストを分割) >> count
-		calculate(input: "min(1000, ${数})") >> calculate
-		getItemFromList(list: ファイル, type: Items in Range, startIndex: "101", endIndex: 計算結果) >> getItemFromList 2
-		matchText(text: "${リストからの項目}", regex: ".*NominalChargeCapacity":\S\d.*", caseSensitive: true) >> matchText 1
-		getItemFromList(list: 一致, type: Last Item, startIndex: “if文”の結果, endIndex: 数) >> getItemFromList 3
-	} >> IFResult 2
-	getDictionaryFrom(input: “if文”の結果) >> getDictionaryFrom 1
-	valuesFrom(dictionary: 辞書) >> valuesFrom 2
-	getDictionaryFrom(input: 辞書の値) >> getDictionaryFrom 2
-var log-data = 辞書
-var CycleCount = Variable
-var AverageTemperature = Variable
-var Nominal = Variable
-var Raw = Variable
-var FCC = Variable
-var Qmax = Variable
-	getItemFromList(list: テキストを分割, type: First Item, index: "2", startIndex: "2", endIndex: "100") >> getItemFromList 4
-	getDictionaryFrom(input: リストからの項目) >> getDictionaryFrom 3
-var log-timestamp = 辞書
-	if(log-data == nil) {
+	matchText(text: "${base}", regex: "(?<=NominalChargeCapacity":)\d{3,5}") >> matchText 5
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList
+var Nominal = リストからの項目
+	matchText(text: "${base}", regex: "(?<=AppleRawMaxCapacity":)\d{3,5}") >> matchText 6
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 1
+var Raw = リストからの項目
+	matchText(text: "${base}", regex: "(?<=AverageTemperature":)\d{2}") >> matchText 7
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 2
+var AverageTemperature = リストからの項目
+	matchText(text: "${base}", regex: "(?<=last_value_CycleCount":)\d{1,5}") >> matchText 8
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 3
+var CycleCount = リストからの項目
+	matchText(text: "${base}", regex: "(?<=last_value_MaximumCapacityPercent":)\d{1,3}") >> matchText 9
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 4
+var MaxCapacity = リストからの項目
+	matchText(text: "${base}", regex: "(?<=last_value_MaximumQmax":)\d{3,5}") >> matchText 10
+	getItemFromList(list: 一致) >> getItemFromList 5
+var Qmax = リストからの項目
+	matchText(text: "${base}", regex: "(?<=last_value_MinimumQmax":)\d{1,5}") >> matchText 11
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 6
+var minQmax = リストからの項目
+	if(Qmax != nil) {
+		calculate(input: "(${minQmax}*100)/${Variable}") >> calculate
+		round(number: 計算結果, roundTo: Hundredths) >> round
+var DegradationConvergenceRate = 端数処理済みの数値
+	}
+	matchText(text: "${base}", regex: "(?<=last_value_ChemicalWeightedRa":)\d{2,4}") >> matchText 12
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 7
+var ChemWeightedRa = リストからの項目
+	matchText(text: "${base}", regex: "(?<=last_value_WeightedRa":)\d{2,4}") >> matchText 13
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 8
+var WeightedRa = リストからの項目
+	if(ChemWeightedRa != nil) {
+		calculate(input: "(${ChemWeightedRa}*100)/${Variable}") >> calculate 1
+		round(number: 計算結果, roundTo: Hundredths) >> round 1
+var ResistanceDifferenceRatio = 端数処理済みの数値
+	}
+	matchText(text: "${base}", regex: "(?<=last_value_MaximumFCC":)\d{3,5}") >> matchText 14
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 9
+var FCC = リストからの項目
+	matchText(text: "${base}", regex: "(?<=last_value_MinimumFCC":)\d{1,5}") >> matchText 15
+	getItemFromList(list: 一致, type: Last Item) >> getItemFromList 10
+var minFCC = リストからの項目
+//Unable to get shortcuts action is.workflow.actions.comment
+	matchText(text: "${base}", regex: "(?<=startTimestamp":")\d{4}-\d{2}-\d{2}") >> matchText 16
+var daNull = 一致
+	matchText(text: "${base}", regex: "^\{[^{}]*\}") >> matchText 17
+var log-timestamp = 一致
+	if(Nominal == nil) {
 		alert(alert: "
 ${ShortcutInput.get(Name)}
 
@@ -303,443 +315,370 @@ ${ShortcutInput.get(Name)}
 ${com.key(no_analysis_data)}
 ")
 	} else {
-		valuesFrom(dictionary: log-timestamp) >> valuesFrom 3
-var daNull = 辞書の値
+		keysFrom(dictionary: log-timestamp) >> keysFrom 2
+		matchText(text: "${base}", regex: "(?<=startTimestamp":")\d{4}-\d{2}-\d{2}") >> matchText 18
+var daNull = 一致
 var syNull = Variable
 		if(DeviceDetails == "iPhone") {
 			replaceText(input: "${syNull}", find: "iPhone ", replace: "i") >> replaceText 2
 var syNull = アップデートされたテキスト
-		} >> IFResult 3
+		} >> IFResult 5
 		if(DeviceDetails == "iPad") {
 			replaceText(input: "${syNull}", find: "iPhone", replace: "iPad") >> replaceText 3
 var syNull = アップデートされたテキスト
-		} >> IFResult 4
+		} >> IFResult 6
 		if(syNull .contains "Watch") {
 			dictionary({"ManualSelect":"true"})
 var ManualSelect = 辞書
-		} >> IFResult 5
-		url(url: "file://private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist") >> url 1
-		valuesFrom(dictionary: URL) >> valuesFrom 4
-var 4C7E6AEF-F651-442D-A963-30A75C1F1558 = """{
-	"iPhone10,1":{
-		"name": "iPhone 8",
-		"capacity": 1821
-	},
-	"iPhone10,4":{
-		"name": "iPhone 8",
-		"capacity": 1821
-	},
-	"iPhone10,2":{
-		"name": "iPhone 8 Plus",
-		"capacity": 2691
-	},
-	"iPhone10,5":{
-		"name": "iPhone 8 Plus",
-		"capacity": 2691
-	},
-	"iPhone10,5":{
-		"name": "iPhone 8 Plus",
-		"capacity": 2691
-	},
-	"iPhone10,3":{
-		"name": "iPhone X",
-		"capacity": 2716
-	},
-	"iPhone10,6":{
-		"name": "iPhone X",
-		"capacity": 2716
-	},
-	"iPhone11,2":{
-		"name": "iPhone Xs",
-		"capacity": 2658
-	},
-	"iPhone11,4":{
-		"name": "iPhone Xs Max",
-		"capacity": 3174
-	},
-	"iPhone11,6":{
-		"name": "iPhone Xs Max",
-		"capacity": 3174
-	},
-	"iPhone11,8":{
-		"name": "iPhone XR",
-		"capacity": 2942
-	},
-	"iPhone12,1":{
-		"name": "iPhone 11",
-		"capacity": 3110
-	},
-	"iPhone12,3":{
-		"name": "iPhone 11 Pro",
-		"capacity": 3046
-	},
-	"iPhone12,5":{
-		"name": "iPhone 11 Pro Max",
-		"capacity": 3969
-	},
-	"iPhone12,8":{
-		"name": "iPhone SE 2",
-		"capacity": 1821
-	},
-	"iPhone13,1":{
-		"name": "iPhone 12 mini",
-		"capacity": 2227
-	},
-	"iPhone13,2":{
-		"name": "iPhone 12",
-		"capacity": 2815
-	},
-	"iPhone13,3":{
-		"name": "iPhone 12 Pro",
-		"capacity": 2815
-	},
-	"iPhone13,4":{
-		"name": "iPhone 12 Pro Max",
-		"capacity": 3687
-	},
-	"iPhone14,4":{
-		"name": "iPhone 13 mini",
-		"capacity": 2406
-	},
-	"iPhone14,5":{
-		"name": "iPhone 13",
-		"capacity": 3227
-	},
-	"iPhone14,2":{
-		"name": "iPhone 13 Pro",
-		"capacity": 3095
-	},
-	"iPhone14,3":{
-		"name": "iPhone 13 Pro Max",
-		"capacity": 4352
-	},
-	"iPhone14,6":{
-		"name": "iPhone SE 3",
-		"capacity": 2018
-	},
-	"iPhone14,7":{
-		"name": "iPhone 14",
-		"capacity": 3279
-	},
-	"iPhone14,8":{
-		"name": "iPhone 14 Plus",
-		"capacity": 4325
-	},
-	"iPhone15,2":{
-		"name": "iPhone 14 Pro",
-		"capacity": 3200
-	},
-	"iPhone15,3":{
-		"name": "iPhone 14 Pro Max",
-		"capacity": 4323
-	},
-	"iPhone15,4":{
-		"name": "iPhone 15",
-		"capacity": 3349
-	},
-	"iPhone15,5":{
-		"name": "iPhone 15 Plus",
-		"capacity": 4383
-	},
-	"iPhone16,1":{
-		"name": "iPhone 15 Pro",
-		"capacity": 3274
-	},
-	"iPhone16,2":{
-		"name": "iPhone 15 Pro Max",
-		"capacity": 4422
-	},
-	"iPhone17,1":{
-		"name": "iPhone 16 Pro",
-		"capacity": 3582
-	},
-	"iPhone17,2":{
-		"name": "iPhone 16 Pro Max",
-		"capacity": 4685
-	},
-	"iPhone17,3":{
-		"name": "iPhone 16",
-		"capacity": 3561
-	},
-	"iPhone17,4":{
-		"name": "iPhone 16 Plus",
-		"capacity": 4674
-	},
-	"iPad6,11":{
-		"name": "iPad 5",
-		"capacity": 8827
-	},
-	"iPad6,12":{
-		"name": "iPad 5",
-		"capacity": 8827
-	},
-	"iPad7,5":{
-		"name": "iPad 6",
-		"capacity": 8827
-	},
-	"iPad7,6":{
-		"name": "iPad 6",
-		"capacity": 8827
-	},
-	"iPad7,11":{
-		"name": "iPad 7",
-		"capacity": 8827
-	},
-	"iPad7,12":{
-		"name": "iPad 7",
-		"capacity": 8827
-	},
-	"iPad11,6":{
-		"name": "iPad 8",
-		"capacity": 8886
-	},
-	"iPad11,7":{
-		"name": "iPad 8",
-		"capacity": 8886
-	},
-	"iPad12,1":{
-		"name": "iPad 9",
-		"capacity": 8557
-	},
-	"iPad12,2":{
-		"name": "iPad 9",
-		"capacity": 8557
-	},
-	"iPad13,18":{
-		"name": "iPad 10",
-		"capacity": 7606
-	},
-	"iPad13,19":{
-		"name": "iPad 10",
-		"capacity": 7606
-	},
-	"iPad11,3":{
-		"name": "iPad Air 3",
-		"capacity": 8134
-	},
-	"iPad11,4":{
-		"name": "iPad Air 3",
-		"capacity": 8134
-	},
-	"iPad13,1":{
-		"name": "iPad Air 4",
-		"capacity": 7606
-	},
-	"iPad13,2":{
-		"name": "iPad Air 4",
-		"capacity": 7606
-	},
-	"iPad13,16":{
-		"name": "iPad Air 5",
-		"capacity": 7606
-	},
-	"iPad14,8":{
-		"name": "iPad Air 6",
-		"capacity": 5000
-	},
-	"iPad14,9":{
-		"name": "iPad Air 6",
-		"capacity": 5000
-	},
-	"iPad13,17":{
-		"name": "iPad Air 5",
-		"capacity": 7606
-	},
-	"iPad11,1":{
-		"name": "iPad mini 5",
-		"capacity": 5124
-	},
-	"iPad11,2":{
-		"name": "iPad mini 5",
-		"capacity": 5124
-	},
-	"iPad14,1":{
-		"name": "iPad mini 6",
-		"capacity": 5078
-	},
-	"iPad14,2":{
-		"name": "iPad mini 6",
-		"capacity": 5078
-	},
-	"iPad6,3":{
-		"name": "iPad Pro 9.7'' 1st",
-		"capacity": 7306
-	},
-	"iPad6,4":{
-		"name": "iPad Pro 9.7'' 1st",
-		"capacity": 7306
-	},
-	"iPad7,3":{
-		"name": "iPad Pro 10.5'' 1st",
-		"capacity": 8134
-	},
-	"iPad7,4":{
-		"name": "iPad Pro 10.5'' 1st",
-		"capacity": 8134
-	},
-	"iPad8,1":{
-		"name": "iPad Pro 11'' 1st",
-		"capacity": 7812
-	},
-	"iPad8,2":{
-		"name": "iPad Pro 11'' 1st",
-		"capacity": 7812
-	},
-	"iPad8,3":{
-		"name": "iPad Pro 11'' 1st",
-		"capacity": 7812
-	},
-	"iPad8,4":{
-		"name": "iPad Pro 11'' 1st",
-		"capacity": 7812
-	},
-	"iPad8,9":{
-		"name": "iPad Pro 11'' 2nd",
-		"capacity": 7812
-	},
-	"iPad8,10":{
-		"name": "iPad Pro 11'' 2nd",
-		"capacity": 7812
-	},
-	"iPad13,4":{
-		"name": "iPad Pro 11'' 3rd",
-		"capacity": 7540
-	},
-	"iPad13,5":{
-		"name": "iPad Pro 11'' 3rd",
-		"capacity": 7540
-	},
-	"iPad13,6":{
-		"name": "iPad Pro 11'' 3rd",
-		"capacity": 7540
-	},
-	"iPad13,7":{
-		"name": "iPad Pro 11'' 3rd",
-		"capacity": 7540
-	},
-	"iPad14,3":{
-		"name": "iPad Pro 11'' 4th",
-		"capacity": 7538
-	},
-	"iPad14,4":{
-		"name": "iPad Pro 11'' 4th",
-		"capacity": 7538
-	},
-	"iPad6,7":{
-		"name": "iPad Pro 12.9'' 1st",
-		"capacity": 10307
-	},
-	"iPad6,8":{
-		"name": "iPad Pro 12.9'' 1st",
-		"capacity": 10307
-	},
-	"iPad7,1":{
-		"name": "iPad Pro 12.9'' 2nd",
-		"capacity": 10307
-	},
-	"iPad7,2":{
-		"name": "iPad Pro 12.9'' 2nd",
-		"capacity": 10307
-	},
-	"iPad8,5":{
-		"name": "iPad Pro 12.9'' 3rd",
-		"capacity": 9720
-	},
-	"iPad8,6":{
-		"name": "iPad Pro 12.9'' 3rd",
-		"capacity": 9720
-	},
-	"iPad8,7":{
-		"name": "iPad Pro 12.9'' 3rd",
-		"capacity": 9720
-	},
-	"iPad8,8":{
-		"name": "iPad Pro 12.9'' 3rd",
-		"capacity": 9720
-	},
-	"iPad8,11":{
-		"name": "iPad Pro 12.9'' 4th",
-		"capacity": 9720
-	},
-	"iPad8,12":{
-		"name": "iPad Pro 12.9'' 4th",
-		"capacity": 9720
-	},
-	"iPad13,8":{
-		"name": "iPad Pro 12.9'' 5th",
-		"capacity": 10506
-	},
-	"iPad13,9":{
-		"name": "iPad Pro 12.9'' 5th",
-		"capacity": 10506
-	},
-	"iPad13,10":{
-		"name": "iPad Pro 12.9'' 5th",
-		"capacity": 10506
-	},
-	"iPad13,11":{
-		"name": "iPad Pro 12.9'' 5th",
-		"capacity": 10506
-	},
-	"iPad14,5":{
-		"name": "iPad Pro 12.9'' 6th",
-		"capacity": 10758
-	},
-	"iPad14,6":{
-		"name": "iPad Pro 12.9'' 6th",
-		"capacity": 10758
-	},
-
-	
-	
-	"iPad16,3":{
-		"name": "iPad Pro 11'' 5th",
-		"capacity": 8160
-	},
-	"iPad16,4":{
-		"name": "iPad Pro 11'' 5th",
-		"capacity": 8160
-	},
-	"iPad16,5":{
-		"name": "iPad Pro 13'' 1st (2024)",
-		"capacity": 10290
-	},
-	"iPad16,6":{
-		"name": "iPad Pro 13'' 1st (2024)",
-		"capacity": 10290
-	},
-
-	"iPad16,2":{
-		"name": "iPad mini 7 (2024)",
-		"capacity": 5078
-	},
-	"iPad14,8":{
-		"name": "iPad Air 11'' 1st (2024)",
-		"capacity": 7606
-	},
-	"iPad14,9":{
-		"name": "iPad Air 11'' 1st (2024)",
-		"capacity": 7606
-	},
-	"iPad14,10":{
-		"name": "iPad Air 13'' 1st",
-		"capacity": 9705
-	},
-	"iPad14,11":{
-		"name": "iPad Air 13'' 1st",
-		"capacity": 9705
-	}
-
+		} >> IFResult 7
+		url(url: "file://private/var/preferences/SystemConfiguration/preferences.plist") >> url 1
+		if(URL != nil) {
+			getDictionaryFrom(input: URL) >> getDictionaryFrom 1
+			keysFrom(dictionary: 辞書) >> keysFrom 3
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		}
+		url(url: "file://private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist") >> url 2
+		if(URL != nil) {
+			getDictionaryFrom(input: URL) >> getDictionaryFrom 2
+			list(items: (
+    "CacheExtra.0+nc/Udy4WNG8S+Q7a/s1A",
+    "CacheExtra.h9jDsbgj7xIVeIQ8S3/X3Q"
+)) >> list
+			repeatEach(リスト) {
+				keysFrom(dictionary: 辞書) >> keysFrom 4
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			}
+		} >> IFResult 8
+		getItemFromList(list: identifier_list) >> getItemFromList 11
+var identifier = リストからの項目
+		if(identifier != nil) {
+var 7A87B58E-650C-455F-8483-872CE8812A76 = """{
+"D20AP,D201AP,iPhone10,1,iPhone10,4": {
+"name": "iPhone 8",
+"capacity": 1821
+},
+"D21AP,D211AP,iPhone10,2,iPhone10,5": {
+"name": "iPhone 8 Plus",
+"capacity": 2691
+},
+"D22AP,D221AP,iPhone10,3,iPhone10,6": {
+"name": "iPhone X",
+"capacity": 2716
+},
+"D321AP,iPhone11,2": {
+"name": "iPhone Xs",
+"capacity": 2658
+},
+"D331AP,D331pAP,iPhone11,4,iPhone11,6": {
+"name": "iPhone Xs Max",
+"capacity": 3174
+},
+"N841AP,iPhone11,8": {
+"name": "iPhone XR",
+"capacity": 2942
+},
+"N104AP,iPhone12,1": {
+"name": "iPhone 11",
+"capacity": 3110
+},
+"D421AP,iPhone12,3": {
+"name": "iPhone 11 Pro",
+"capacity": 3046
+},
+"D431AP,iPhone12,5": {
+"name": "iPhone 11 Pro Max",
+"capacity": 3969
+},
+"D79AP,iPhone12,8": {
+"name": "iPhone SE 2",
+"capacity": 1821
+},
+"D52gAP,iPhone13,1": {
+"name": "iPhone 12 mini",
+"capacity": 2227
+},
+"D53gAP,iPhone13,2": {
+"name": "iPhone 12",
+"capacity": 2815
+},
+"D53pAP,iPhone13,3": {
+"name": "iPhone 12 Pro",
+"capacity": 2815
+},
+"D54pAP,iPhone13,4": {
+"name": "iPhone 12 Pro Max",
+"capacity": 3687
+},
+"D16AP,iPhone14,4": {
+"name": "iPhone 13 mini",
+"capacity": 2406
+},
+"D17AP,iPhone14,5": {
+"name": "iPhone 13",
+"capacity": 3227
+},
+"D63AP,iPhone14,2": {
+"name": "iPhone 13 Pro",
+"capacity": 3095
+},
+"D64AP,iPhone14,3": {
+"name": "iPhone 13 Pro Max",
+"capacity": 4352
+},
+"D49AP,iPhone14,6": {
+"name": "iPhone SE 3",
+"capacity": 2018
+},
+"D27AP,iPhone14,7": {
+"name": "iPhone 14",
+"capacity": 3279
+},
+"D28AP,iPhone14,8": {
+"name": "iPhone 14 Plus",
+"capacity": 4325
+},
+"D73AP,iPhone15,2": {
+"name": "iPhone 14 Pro",
+"capacity": 3200
+},
+"D74AP,iPhone15,3": {
+"name": "iPhone 14 Pro Max",
+"capacity": 4323
+},
+"D37AP,iPhone15,4": {
+"name": "iPhone 15",
+"capacity": 3349
+},
+"D38AP,iPhone15,5": {
+"name": "iPhone 15 Plus",
+"capacity": 4383
+},
+"D83AP,iPhone16,1": {
+"name": "iPhone 15 Pro",
+"capacity": 3274
+},
+"D84AP,iPhone16,2": {
+"name": "iPhone 15 Pro Max",
+"capacity": 4422
+},
+"D93AP,iPhone17,1": {
+"name": "iPhone 16 Pro",
+"capacity": 3582
+},
+"D94AP,iPhone17,2": {
+"name": "iPhone 16 Pro Max",
+"capacity": 4685
+},
+"D47AP,iPhone17,3": {
+"name": "iPhone 16",
+"capacity": 3561
+},
+"D48AP,iPhone17,4": {
+"name": "iPhone 16 Plus",
+"capacity": 4674
+},
+"V59AP,iPhone17,5": {
+"name": "iPhone 16e",
+"capacity": 4005
+},
+"J71sAP,J71tAP,J72sAP,J72tAP,iPad6,11,iPad6,12": {
+"name": "iPad 5",
+"capacity": 8827
+},
+"J71bAP,J72bAP,iPad7,5,iPad7,6": {
+"name": "iPad 6",
+"capacity": 8827
+},
+"J171AP,J172AP,iPad7,11,iPad7,12": {
+"name": "iPad 7",
+"capacity": 8827
+},
+"J171aAP,J172aAP,iPad11,6,iPad11,7": {
+"name": "iPad 8",
+"capacity": 8886
+},
+"J181AP,J182AP,iPad12,1,iPad12,2": {
+"name": "iPad 9",
+"capacity": 8557
+},
+"J271AP,J272AP,iPad13,18,iPad13,19": {
+"name": "iPad 10",
+"capacity": 7606
+},
+"J481AP,J482AP,iPad15,7,iPad15,8": {
+"name": "iPad (A16)",
+"capacity": 7698
+},
+"J217AP,J218AP,iPad11,3,iPad11,4": {
+"name": "iPad Air 3",
+"capacity": 8134
+},
+"J307AP,J308APiPad13,1,iPad13,2": {
+"name": "iPad Air 4",
+"capacity": 7606
+},
+"J407AP,J408AP,iPad13,16,iPad13,17": {
+"name": "iPad Air 5",
+"capacity": 7606
+},
+"J507AP,J508AP,iPad14,8,iPad14,9": {
+"name": "iPad Air 11'' (M2)",
+"capacity": 7606
+},
+"J537AP,J538AP,iPad14,10,iPad14,11": {
+"name": "iPad Air 13'' (M2)",
+"capacity": 9705
+},
+"J607AP,J608AP,iPad15,3iPad15,4": {
+"name": "iPad Air 11'' (M3)",
+"capacity": 7606
+},
+"J637AP,J638AP,iPad15,5,iPad15,6": {
+"name": "iPad Air 13'' (M3)",
+"capacity": 9705
+},
+"J210APJ211AP,iPad11,1,iPad11,2": {
+"name": "iPad mini 5",
+"capacity": 5124
+},
+"J310AP,J311AP,iPad14,1,iPad14,2": {
+"name": "iPad mini 6",
+"capacity": 5078
+},
+"J410AP,J411AP,iPad16,1,iPad16,2": {
+"name": "iPad mini (A17 Pro)",
+"capacity": 5078
+},
+"J127AP,J128AP,iPad6,3,iPad6,4": {
+"name": "iPad Pro 9.7'' 1st",
+"capacity": 7306
+},
+"J207AP,J208AP,iPad7,3,iPad7,4": {
+"name": "iPad Pro 10.5'' 1st",
+"capacity": 8134
+},
+"J317AP,J317xAP,J318AP,J318xAP,iPad8,1iPad8,2,iPad8,3,iPad8,4": {
+"name": "iPad Pro 11'' 1st",
+"capacity": 7812
+},
+"J417AP,J418AP,iPad8,9,iPad8,10": {
+"name": "iPad Pro 11'' 2nd",
+"capacity": 7812
+},
+"J517AP,J517xAP,J518AP,J518xAP,iPad13,4,iPad13,5,iPad13,6,iPad13,7": {
+"name": "iPad Pro 11'' 3rd",
+"capacity": 7540
+},
+"J617AP,J618AP,iPad14,3,iPad14,4": {
+"name": "iPad Pro 11'' 4th",
+"capacity": 7538
+},
+"J717AP,J718AP,iPad16,3,iPad16,4": {
+"name": "iPad Pro 11'' (M4)",
+"capacity": 8160
+},
+"J98aAP,J99aAP,iPad6,7,iPad6,8": {
+"name": "iPad Pro 12.9'' 1st",
+"capacity": 10307
+},
+"J120AP,J121AP,iPad7,1,iPad7,2": {
+"name": "iPad Pro 12.9'' 2nd",
+"capacity": 10307
+},
+"J320AP,J320xAP,J321AP,J321xAP,iPad8,5,iPad8,6,iPad8,7,iPad8,8": {
+"name": "iPad Pro 12.9'' 3rd",
+"capacity": 9720
+},
+"J420APJ421AP,iPad8,11,iPad8,12": {
+"name": "iPad Pro 12.9'' 4th",
+"capacity": 9720
+},
+"J522AP,J522xAP,J523AP,J523xAP,iPad13,8,iPad13,9,iPad13,10,iPad13,11": {
+"name": "iPad Pro 12.9'' 5th",
+"capacity": 10506
+},
+"J620AP,J621AP,iPad14,5,iPad14,6": {
+"name": "iPad Pro 12.9'' 6th",
+"capacity": 10758
+},
+"J720AP,J721AP,iPad16,5,iPad16,6": {
+"name": "iPad Pro 13'' (M4)",
+"capacity": 10290
+}
 }"""
-text("${4C7E6AEF-F651-442D-A963-30A75C1F1558}")
-		getDictionaryFrom(input: テキスト) >> getDictionaryFrom 4
-		valuesFrom(dictionary: 辞書) >> valuesFrom 5
-		if(辞書の値 == nil "Watch") {
+text("${7A87B58E-650C-455F-8483-872CE8812A76}")
+			getDictionaryFrom(input: テキスト) >> getDictionaryFrom 3
+			filterFiles() >> filterFiles
+			keysFrom(dictionary: 辞書) >> keysFrom 5
+			getDictionaryFrom(input: 辞書の値)
+		} else {
+			dictionary({"name":"Unknown ${DeviceDetails.get(Device Type)}","capacity":"0"})
+		} >> IFResult 9
+		if(identifier == nil "Watch") {
 			dictionary({"ManualSelect":"true"})
 var ManualSelect = 辞書
-		} >> IFResult 6
+		} >> IFResult 10
 		if(ManualSelect == "Watch") {
-var 37A48079-A1F2-4CC6-9FC8-582096D50CD6 = """{
+// 5.4β2↓
+var 3D63A853-AA10-45B4-A9D8-FFEFBDAD415D = """BEGIN:VCARD
+VERSION:3.0
+N:iPhone
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:iPad
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:iPad Pro
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:iPad mini
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:iPad Air
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:Apple Watch
+ORG:
+NOTE:
+PHOTO;BASE64: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
+END:VCARD"""
+text("${3D63A853-AA10-45B4-A9D8-FFEFBDAD415D}")
+			setName(input: テキスト, name: "c.vcf") >> setName 3
+			getContactsFrom(input: 名称変更された項目) >> getContactsFrom 2
+var 90C390A2-E0F5-4821-A4BE-B4BA1F098DA4 = """￼
+
+
+￼
+"""
+text("${90C390A2-E0F5-4821-A4BE-B4BA1F098DA4}")
+			choose(list: 連絡先, prompt: "${テキスト}") >> choose 2
+// 5.4β2↑
+var 4BDE99F8-F3BC-41CF-A585-12FDFFD2C2C6 = """{
 	"Apple Watch":{
 		"Apple Watch 4 (40mm)"	:225,
 		"Apple Watch 4 (44mm)"	:291,
@@ -791,7 +730,8 @@ var 37A48079-A1F2-4CC6-9FC8-582096D50CD6 = """{
 		"iPhone 16"			:3561,
 		"iPhone 16 Plus"		:4674,
 		"iPhone 16 Pro"		:3582,
-		"iPhone 16 Pro Max"	:4685
+		"iPhone 16 Pro Max"	:4685,
+		"iPhone 16e"			:4005
 	},
 	"iPad":{
 		"iPad 5"	:8827,
@@ -799,19 +739,22 @@ var 37A48079-A1F2-4CC6-9FC8-582096D50CD6 = """{
 		"iPad 7"	:8827,
 		"iPad 8"	:8686,
 		"iPad 9"	:8526,
-		"iPad 10":7606
+		"iPad 10":7606,
+		"iPad (A16)"	:7698
 	},
 	"iPad Air":{
 		"iPad Air 3"	:8134,
 		"iPad Air 4"	:7606,
 		"iPad Air 5"	:7606,
-		"iPad Air 11'' 1st (2024)"	:7606,
-		"iPad Air 13'' 1st (2024)"	:9705
+		"iPad Air 11''(M2)"	:7606,
+		"iPad Air 13''(M2)"	:9705,
+		"iPad Air 11''(M3)"	:7606,
+		"iPad Air 13''(M3)"	:9705
 	},
 	"iPad mini":{
 		"iPad mini 5"	:5124,
 		"iPad mini 6"	:5078,
-		"iPad mini 7 (2024)"	:5078
+		"iPad mini (A17 Pro)"	:5078
 	},
 	"iPad Pro":{
 		"iPad Pro 12.9'' 1st"	:10307,
@@ -827,58 +770,45 @@ var 37A48079-A1F2-4CC6-9FC8-582096D50CD6 = """{
 		"iPad Pro 11'' 4th"	:7538,
 		"iPad Pro 12.9'' 6th"	:10758,
 		"iPad Pro 11'' 5th":	8340,
-		"iPad Pro 12.9'' 7th(tentative)":10340
+		"iPad Pro 13''(M4)":10340
 	}
 }"""
-text("${37A48079-A1F2-4CC6-9FC8-582096D50CD6}")
-			getDictionaryFrom(input: テキスト) >> getDictionaryFrom 5
+text("${4BDE99F8-F3BC-41CF-A585-12FDFFD2C2C6}")
+			getDictionaryFrom(input: テキスト) >> getDictionaryFrom 4
 var dict = 辞書
+// ↓
+			keysFrom(dictionary: dict) >> keysFrom 6
+			getDictionaryFrom(input: 辞書の値) >> getDictionaryFrom 5
 			filterFiles() >> filterFiles 1
-var D07FDFD1-CCA4-4903-9BC2-773C9D11ACA3 = """
-￼
-
-
-￼
-"""
-text("${D07FDFD1-CCA4-4903-9BC2-773C9D11ACA3}")
-			choose(list: ファイル, prompt: "${テキスト}") >> choose
-			valuesFrom(dictionary: dict) >> valuesFrom 6
-			filterFiles() >> filterFiles 2
-			choose(list: ファイル, prompt: "${com.key(select_device)}") >> choose 1
+			choose(list: ファイル, prompt: "${com.key(select_device)}") >> choose 3
+			keysFrom(dictionary: 辞書) >> keysFrom 7
+// ↑
 var selected = 選択した項目
-			valuesFrom(dictionary: 辞書の値) >> valuesFrom 7
 var design_capacity = 辞書の値
 		} else {
-var selected = 辞書の値
-var design_capacity = 辞書の値
-		} >> IFResult 7
-var MaximumFCC = Variable
-var MaximumQmax = Variable
-var CycleCount = Variable
-var AverageTemperature = Variable
-var NominalChargeCapacity = Variable
-		if(NominalChargeCapacity != nil) {
-			calculate(input: "(${MaximumFCC}*100)/${Variable}") >> calculate 1
-			round(number: 計算結果, roundTo: Hundredths) >> round
+var selected = “if文”の結果
+var design_capacity = “if文”の結果
+		} >> IFResult 11
+		if(Nominal != nil) {
+			calculate(input: "(${FCC}*100)/${Variable}") >> calculate 2
+			round(number: 計算結果, roundTo: Hundredths) >> round 2
 var npNull = 端数処理済みの数値
-		} >> IFResult 8
-var RawMaxCapacity = Variable
-		if(RawMaxCapacity != nil) {
-			calculate(input: "(${RawMaxCapacity}*100)/${Variable}") >> calculate 2
-			round(number: 計算結果, roundTo: Hundredths) >> round 1
+		} >> IFResult 12
+		if(Raw != nil) {
+			calculate(input: "(${Raw}*100)/${Variable}") >> calculate 3
+			round(number: 計算結果, roundTo: Hundredths) >> round 3
 var rpNull = 端数処理済みの数値
-		} >> IFResult 9
-		if(NominalChargeCapacity != nil) {
-			if(RawMaxCapacity != nil) {
-				calculate(input: "${RawMaxCapacity}*100/${Variable}") >> calculate 3
-				round(number: 計算結果, roundTo: Hundredths) >> round 2
+		} >> IFResult 13
+		if(Nominal != nil) {
+			if(Raw != nil) {
+				calculate(input: "${Raw}*100/${Variable}") >> calculate 4
+				round(number: 計算結果, roundTo: Hundredths) >> round 4
 var dfNull = 端数処理済みの数値
 			}
-		} >> IFResult 10
-var MaxCapacity = Variable
-		valuesFrom(dictionary: 辞書) >> valuesFrom 8
+		} >> IFResult 14
+		keysFrom(dictionary: 辞書) >> keysFrom 8
 		if(辞書の値 ==) {
-var FCBAB1DB-061F-42EA-83DC-7331C7F0735B = """	<table class="noline"; style="margin:msizepx 0px";>
+var 6A6DCD7D-31D9-4853-8359-2DD267CBD2DD = """	<table class="noline"; style="margin:msizepx 0px";>
 		<tr>
 			<th style="text-align:left";>【￼】</th>
 			<td>deNull</td>
@@ -895,7 +825,7 @@ var FCBAB1DB-061F-42EA-83DC-7331C7F0735B = """	<table class="noline"; style="mar
 
 
 
-	<table class="noline"; align="center" width="100%"; border="1";>
+	<table class="noline"; align="center" width="100%"; border="1"; style="margin-top:-0.5em;">
 		<tr style="text-align:center">
 				<th width="th1%";></th>
 				<th width="th2%">value</th>
@@ -907,28 +837,36 @@ var FCBAB1DB-061F-42EA-83DC-7331C7F0735B = """	<table class="noline"; style="mar
 			<td>-</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>￼(℃)</th>
-			<td>atNull</td>
-			<td>-</td>
-		</tr>
-		<tr style="text-align:center">
-			<th>￼(mAh)</th>
+			<th>￼</th>
 			<td>ncNull</td>
 			<td>npNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>￼(mAh)</th>
+			<th>￼</th>
 			<td>raNull</td>
 			<td>rpNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>￼(mAh)</th>
-			<td>mfNull</td>
+			<th>￼</th>
 			<td>-</td>
+			<td>maNull</td>
+		</tr>
+
+		<tr style="text-align:center">
+			<th>￼</th>
+			<td>iqNull</td>
+			<td>drNull</td>
+		</tr>
+
+
+		<tr style="text-align:center">
+			<th>￼</th>
+			<td>cwNull</td>
+			<td>rrNull</td>
 		</tr>
 		<tr style="text-align:center">
-			<th>￼(mAh)</th>
-			<td>mqNull</td>
+			<th>￼</th>
+			<td>rwNull</td>
 			<td>-</td>
 		</tr>
 		<tr style="text-align:center">
@@ -936,97 +874,56 @@ var FCBAB1DB-061F-42EA-83DC-7331C7F0735B = """	<table class="noline"; style="mar
 			<td>-</td>
 			<td>dfNull</td>
 		</tr>
-		<tr style="text-align:center">
-			<th>￼</th>
-			<td>-</td>
-			<td>maNull</td>
-		</tr>
 	</table>"""
-text("${FCBAB1DB-061F-42EA-83DC-7331C7F0735B}")
-			valuesFrom(dictionary: 辞書) >> valuesFrom 9
-			if(辞書の値 ==) {
-				if(log-data != nil) {
-					valuesFrom(dictionary: log-data) >> valuesFrom 10
-					filterFiles() >> filterFiles 3
-					repeatEach(ファイル) {
-						valuesFrom(dictionary: log-data) >> valuesFrom 11
-						text(text: "<tr><td>${辞書の値}</td><td>: ${ActionOutput}</td></tr>") >> text
-//Unable to get shortcuts action is.workflow.actions.appendvariable
-					}
-var BBD21A5C-08C1-4439-8C3C-B90DD92A2FEF = """<table border="0"; width=100%;>
-￼
-</table>"""
-text("${BBD21A5C-08C1-4439-8C3C-B90DD92A2FEF}")
-				} else {
-					text(text: "<p>No Data</p>") >> text 1
-				} >> IFResult 11
-var B4D3C1FF-F115-4571-9F6F-D39AE05850D8 = """<div>
-  <h2>About</h2>
-  <p>_about1</p>
-  <p>_about2</p>
-  <p>_about3</p>
-  <p>_about4</p>
-</div>
+text("${6A6DCD7D-31D9-4853-8359-2DD267CBD2DD}")
+var 92220776-70E0-47EA-8CC7-43DB433FA359 = """<h4>🪫Explanation</h4>
 
-  <h2>Contents</h2>
-  <h3>_cyclecount_title (this time:ccNull)</h3>
-  <p>_cyclecount1</p>
-  <p>_cyclecount2</p>
-  <p>_cyclecount3</p>
-  <p>_cyclecount4</p>
+<h5>▼_designcap_title(_current￼mAh)</h5>
+<p>_design1<br>_design2</p>
 
-  <h3>_avgtemp_title (this time:atNull)</h3>
-  <p>_avgtemp1</p>
-  <p>_avgtemp2</p>
+<h5>▼_nominal_title(_current￼mAh)</h5>
+<p>_nominal1<br>_nominal2</p>
 
-  <h3>_nominal_title (this time:ncNull)</h3>
-  <p>_nominal1</p>
-  <p>_nominal2</p>
-  <p>_nominal3</p>
-  <p>_nominal4</p>
+<h5>▼_Qmax_title</h5>
+<p>_current _vmax：￼mAh<br>_current _vmin：￼mAh</p>
+<p>_Qmax1<br>_Qmax2</p>
 
-  <h3>_raw_title (this time:raNull)</h3>
-  <p>_raw1</p>
-  <p>_raw2</p>
-  <p>_raw3</p>
+<h5>▼_raw_title(_current￼mAh)</h5>
+<p>_raw1<br>_raw2</p>
 
-  <h3>_fcc_title (this time:mfNull)</h3>
-  <p>_fcc1</p>
-  <p>_fcc2</p>
+<h5>▼_maxcapacity_title(_current￼%)</h5>
+<p>_max1<br>_max2</p>
 
-  <h3>_qmax_title (this time:mqNull)</h3>
-  <p>_qmax1</p>
-  <p>_qmax2</p>
+<h5>▼_fcc_title</h5>
+<p>_current_vmax：￼mAh<br>_current_vmin：￼mAh</p>
+<p>_fcc1<br>_fcc2</p>
 
-  <h3>_deflator_title (this time:dfNull)</h3>
-  <p>_def1</p>
-  <p>_def2</p>
-<div style="text-align:center;"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/t/thetheorier/20240205/20240205090628.png" ></div>
-  <p>_def3</p>
+<h5>▼_deflator_title(_current￼)</h5>
+<p>_def1<br>_def2</p>
 
-  <h3>_maxcapacity_title (this time:maNull)</h3>
-  <p>_max1</p>
- <div style="text-align:center;"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/t/thetheorier/20240205/20240205094552.png" ></div>
-  <p style="padding-bottom:20px;">_max2</p>
-  
+<h5>▼_cyclecount_title(_current￼)</h5>
+<p>_cyclecount3<br>_cyclecount4</p>
 
-<h3>_notadopt_title</h3>
-<p>_notadopt1</p>
-<p>_notadopt2</p>
- <div style="text-align:center;"><img src="https://cdn-ak.f.st-hatena.com/images/fotolife/t/thetheorier/20240322/20240322111901.png" ></div>
-<p>_notadopt3</p>
-<p style="padding-bottom:20px;">_notadopt4</p>
+<h5>▼_cweightedra_title</h5>
+<p>_current_vweighted：￼mΩ<br>_current_vmeasured：￼mΩ</p>
+<p>_cweighted1<br>_cweighted2<br>_resistance0</p>
 
-  
+<h5>▼_rdr_title(_current￼%)</h5>
+<p>_rdr1<br>_rdr2</p>
 
-  <h2>Data</h2>
-  <p style="padding-bottom:20px;">_data1</p>
-  
- ￼
+<h5>▼_dcr_title(_current￼%)</h5>
+<p>_dcr1<br>_dcr2</p>
 
-<p style="padding:2em 0em;">[X]<a href="https://twitter.com/the_theorier">@the_theorier</a></p>"""
-text("${B4D3C1FF-F115-4571-9F6F-D39AE05850D8}")
-var DA101D0A-B4DA-4893-8605-B449F56177F1 = """<!DOCTYPE html>
+<h5>▼_avgtemp_title(_current￼℃)</h5>
+<p>_avgtemp1<br>_avgtemp2</p>
+
+
+
+<br>
+<h4>🪫_note_title</h4>
+<p>_note1<br>_note2<br>_note3</p>"""
+text("${92220776-70E0-47EA-8CC7-43DB433FA359}")
+var A837B857-319F-4725-B347-E404E4A9EA9E = """<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -1038,35 +935,15 @@ var DA101D0A-B4DA-4893-8605-B449F56177F1 = """<!DOCTYPE html>
 		border-left: none !important;
 	}
 
-@font-face {
-font-family: 'Avenir';
-}
-*,
-*::before,
-*::after {
-box-sizing: border-box;
-}
 html {
 display: grid;
 }
 body {
---gap: 0.5em;
 font-family: Avenir;
-margin: 1em;  <!-- 0 -->
 display: grid;
 
-min-height: 100vh;
-display: flex; 
-justify-content: center;
-flex-wrap: wrap; 
-<!-- align-content: flex-start; -->
-font-family: Avenir;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-
-overflow-wrap: break-word;
-
 margin: 0;
+/* --- 0 --- */
 padding:0;
 <!-- min-width:100%; -->
 width:100%;
@@ -1075,277 +952,135 @@ width:100%;
   color:fontcolor;
   background-color:backgroundcolor;
  <-- margin:0px 50px; -->
+}
+</style>
+
+
+
+<style>
+/* --- iOS風デザイン --- */
+.toggle {
+  margin: 10px 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background-color: backgroundcolor;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ヘッダー部分（タップ可能エリア） */
+.toggle-header {
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: fontsize;
+/* 16px */
+  font-weight: bold;
+
+
+  background-color: 				backgroundcolor;
+
+}
+
+/* 開閉アイコン */
+.toggle-header .icon {
+  font-size: fontsize;
+/* 14px */
+  transition: transform 0.3s;
+}
+
+/* 開閉時にアイコンを回転 */
+.toggle.open .icon {
+  transform: rotate(450deg);
+/* 90 */
+}
+
+/* コンテンツ部分 */
+.toggle-content {
+  display: none;
+  padding: 12px 15px;
+  border-top: 1px solid #e5e5e5;
+	    background-color: backgroundcolor;
+  		font-size: fontsize;
+  line-height: 1.6;
+
 
 
 }
 
-
-.ui-page {
-background-repeat: no-repeat;
-background-size: cover;
-display: none;
-grid-area: 0;
-padding: 0ch;
-}
-.ui-page:target {
-display: block;
+/* 開いたときに表示 */
+.toggle.open .toggle-content {
+  display: block;
 }
 
+/* ホバー時のエフェクト */
+.toggle-header:hover {
+  background-color: #e7e7e7;
 
-
-
-
-
-
-#home:target ~ .ui-dock a[href="#home"]::after {
-background: #000;
-}
-#settings:target ~ .ui-dock a[href="#settings"]::after {
-background: #000;
-}
-.ui-dock {
-backdrop-filter: blur(10px);
-background-color: rgba(255, 255, 255, 0.45);
-border-radius: 1.7em;
-bottom: var(--gap);
-box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.3), 0 0 2px -7px rgba(0, 0, 0, 0.2);
-display: grid;
-gap: 5em;
-grid-auto-flow: column;
-left: 50%;
-padding: var(--gap);
-place-content: center;
-place-self: center;
-position: fixed;
-translate: -50% 0;
-margin-bottom: menubottompx;  <!-- 60px -->
-}
-.ui-dock a {
-border-radius: 1em;
-height: 1.8em; <!-- 2 -->
-padding: 0.2em;
-position: relative;
-width: 2.7em; <!-- 3 -->
-}
-.ui-dock a::after {
-border-radius: 50%;
-bottom: -0.4em;
-content: '';
-display: block;
-height: 0.7em;
-left: 50%;
-margin: auto;
-position: absolute;
-translate: -50% 0;
-width: 0.7em;
+		  background-color: backgroundcolor;
 }
 
-
-.ui-dock a svg {
-stroke-width: 1;
-stroke: #FFF;
-fill: none;
-stroke-linecap: round;
-stroke-linejoin: round;
-}
-[href="#home"] {
-background-color: #6CB5C6;
-}
-[href="#settings"] {
-background-color: #E87D44;
-}
-*{ margin: 0; padding: 0;}
-*, *::before, *::after {
-margin: 0;
-padding: 0;
-box-sizing: inherit;
+/* iOS風の丸みを帯びたデザイン */
+.toggle + .toggle {
+  margin-top: 10px;
 }
 
-body{
-
-}
-
-.ui-sec :is(h2){
-	margin: 2em 0px 10px 10px;
-}
-.ui-sec :is(h3){
-	margin: 2em 0px 10px 30px;
+.toggle {
+  color: fontcolor;
+  
 }
 
 </style>
 
+
+
+
+
+</head>
+<body>
+
+<article>
+
+￼
+
+</article>
+
+
+
+<div class="toggle" style="margin-top:1em;">
+  <div class="toggle-header" onclick="this.parentNode.classList.toggle('open')">
+    <span>🔋 Notes</span>
+    <span class="icon">▶</span>
+  </div>
+  <div class="toggle-content">
+
+￼
+
+  </div>
+</div>
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-document.querySelector('#button1').addEventListener('click', function() {
-document.querySelector(".content").style.display = "none";
-});
-});
+  // アイコンの表示を動的に変更
+  document.querySelectorAll('.toggle').forEach(toggle => {
+    toggle.addEventListener('click', function() {
+      const icon = this.querySelector('.icon');
+      icon.textContent = this.classList.contains('open') ? '▼' : '▶';
+    });
+  });
 </script>
 
 
-</head>
-<body>
 
-<article class="content" class="ui-page">
-	￼
-</article>
-
-<article id="home" class="ui-page" >
-	￼
-</article>
-
-
-
-
-<article id="settings" class="ui-page ui-sec">
-￼
-</article>
-
-
-
-<nav class="ui-dock button1" id="button1">
-<a href="#home">
-<svg viewBox="-3 2 30 50">
-<path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
-<path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
-<path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
-</svg>
-</a>
-<a href="#settings">
-<svg viewBox="-3 2 30 50">
-<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
-<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-</svg>
-</a>
-</nav>
-
-</article>
 
 
 </body>
 </html>
 """
-text("${DA101D0A-B4DA-4893-8605-B449F56177F1}")
-			} else {
-				if(log-data != nil) {
-var 3253BA15-B23D-45C6-A326-C26740CA329D = """<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-
-<title>Battery Checker ver￼</title>
-<style>
-	.noline th,.noline td{
-		border-right: none !important;
-		border-left: none !important;
-	}
-
-html {
-display: grid;
-}
-body {
---gap: 0.5em;
-font-family: Avenir;
-margin: 1em;  <!-- 0 -->
-display: grid;
-
-margin: 0;
-padding:0;
-<!-- min-width:100%; -->
-width:100%;
-  font-size:fsizepx;
-  font-family:"Avenir";
-  color:fontcolor;
-  background-color:backgroundcolor;
- <-- margin:0px 50px; -->
-
-
-}
-
-.ui-sec :is(h2){
-	margin: 2em 0px 10px 10px;
-}
-.ui-sec :is(h3){
-	margin: 2em 0px 10px 30px;
-}
-
-</style>
-
-</head>
-<body>
-
-<article>
-
-￼
-
-</article>
-
-
-</body>
-</html>
-"""
-text("${3253BA15-B23D-45C6-A326-C26740CA329D}")
-				} else {
-var EAFD51D6-3991-4E67-9CB6-CE95563D490B = """<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-
-<title>Battery Checker ver￼</title>
-<style>
-	.noline th,.noline td{
-		border-right: none !important;
-		border-left: none !important;
-	}
-
-html {
-display: grid;
-}
-body {
---gap: 0.5em;
-font-family: Avenir;
-margin: 1em;  <!-- 0 -->
-display: grid;
-
-margin: 0;
-padding:0;
-<!-- min-width:100%; -->
-width:100%;
-  font-size:fsizepx;
-  font-family:"Avenir";
-  color:fontcolor;
-  background-color:backgroundcolor;
- <-- margin:0px 50px; -->
-
-
-}
-
-.ui-sec :is(h2){
-	margin: 2em 0px 10px 10px;
-}
-.ui-sec :is(h3){
-	margin: 2em 0px 10px 30px;
-}
-
-</style>
-
-</head>
-<body>
-
-<article>
-
-<p>>No data...</p>
-
-</article>
-
-
-</body>
-</html>
-"""
-text("${EAFD51D6-3991-4E67-9CB6-CE95563D490B}")
-				}
-			} >> IFResult 12
-			replaceText(input: "${“if文”の結果}", find: "daNull", replace: "${daNull}") >> replaceText 4
+text("${A837B857-319F-4725-B347-E404E4A9EA9E}")
+			replaceText(input: "${テキスト}", find: "daNull", replace: "${daNull}") >> replaceText 4
 			replaceText(input: "${アップデートされたテキスト}", find: "syNull", replace: "${syNull}") >> replaceText 5
 var html = アップデートされたテキスト
 			replaceText(input: "${html}", find: "deNull", replace: "${selected}") >> replaceText 6
@@ -1353,132 +1088,281 @@ var html = アップデートされたテキスト
 			if(CycleCount != nil) {
 				replaceText(input: "${html}", find: "ccNull", replace: "${CycleCount}") >> replaceText 7
 var html = アップデートされたテキスト
-			} >> IFResult 13
+			} >> IFResult 15
 			if(AverageTemperature != nil) {
 				replaceText(input: "${html}", find: "atNull", replace: "${AverageTemperature}") >> replaceText 8
 var html = アップデートされたテキスト
-			} >> IFResult 14
-			if(NominalChargeCapacity != nil) {
-				replaceText(input: "${html}", find: "ncNull", replace: "${NominalChargeCapacity}") >> replaceText 9
+			} >> IFResult 16
+			if(Nominal != nil) {
+				replaceText(input: "${html}", find: "ncNull", replace: "${Nominal}") >> replaceText 9
 				replaceText(input: "${アップデートされたテキスト}", find: "npNull", replace: "${npNull}") >> replaceText 10
 var html = アップデートされたテキスト
-			} >> IFResult 15
-			if(RawMaxCapacity != nil) {
-				replaceText(input: "${html}", find: "raNull", replace: "${RawMaxCapacity}") >> replaceText 11
+			} >> IFResult 17
+			if(Raw != nil) {
+				replaceText(input: "${html}", find: "raNull", replace: "${Raw}") >> replaceText 11
 				replaceText(input: "${アップデートされたテキスト}", find: "rpNull", replace: "${rpNull}") >> replaceText 12
 var html = アップデートされたテキスト
-			} >> IFResult 16
-			if(MaximumFCC != nil) {
-				replaceText(input: "${html}", find: "mfNull", replace: "${MaximumFCC}") >> replaceText 13
-var html = アップデートされたテキスト
-			} >> IFResult 17
-			if(MaximumQmax != nil) {
-				replaceText(input: "${html}", find: "mqNull", replace: "${MaximumQmax}") >> replaceText 14
-var html = アップデートされたテキスト
 			} >> IFResult 18
+			if(FCC != nil) {
+				replaceText(input: "${html}", find: "mfNull", replace: "${FCC}") >> replaceText 13
+var html = アップデートされたテキスト
+			} >> IFResult 19
+			if(Qmax != nil) {
+				replaceText(input: "${html}", find: "mqNull", replace: "${Qmax}") >> replaceText 14
+var html = アップデートされたテキスト
+			} >> IFResult 20
 			replaceText(input: "${html}", find: "dcNull", replace: "${design_capacity}") >> replaceText 15
 var html = アップデートされたテキスト
-			if(NominalChargeCapacity != nil) {
-				if(RawMaxCapacity != nil) {
+			if(Nominal != nil) {
+				if(Raw != nil) {
 					replaceText(input: "${html}", find: "dfNull", replace: "${dfNull}") >> replaceText 16
 var html = アップデートされたテキスト
 				}
-			} >> IFResult 19
+			} >> IFResult 21
 			if(MaxCapacity != nil) {
 				replaceText(input: "${html}", find: "maNull", replace: "${MaxCapacity}") >> replaceText 17
 var html = アップデートされたテキスト
-			} >> IFResult 20
+			} >> IFResult 22
+			if(ChemWeightedRa != nil) {
+				replaceText(input: "${html}", find: "cwNull", replace: "${ChemWeightedRa}") >> replaceText 18
+var html = アップデートされたテキスト
+			}
+			if(WeightedRa != nil) {
+				replaceText(input: "${html}", find: "rwNull", replace: "${WeightedRa}") >> replaceText 19
+var html = アップデートされたテキスト
+			}
+			if(Resistance Difference Ratio != nil) {
+				replaceText(input: "${html}", find: "rrNull", replace: "${Resistance Difference Ratio}") >> replaceText 20
+var html = アップデートされたテキスト
+			}
+			if(Degradation Convergence Rate != nil) {
+				replaceText(input: "${html}", find: "drNull", replace: "${Degradation Convergence Rate}") >> replaceText 21
+var html = アップデートされたテキスト
+			}
+			if(minQmax != nil) {
+				replaceText(input: "${html}", find: "iqNull", replace: "${minQmax}") >> replaceText 22
+var html = アップデートされたテキスト
+			}
+//Unable to get shortcuts action is.workflow.actions.comment
 			if(selected .contains "Watch") {
-				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 18
-				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 19
-				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 20
-				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 21
-				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_iphone)}") >> replaceText 22
-			} >> IFResult 21
-var html = “if文”の結果
-			if(selected .contains "iPhone") {
 				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 23
 				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 24
 				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 25
 				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 26
 				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_iphone)}") >> replaceText 27
-			} else {
-				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_other)}") >> replaceText 28
-				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_other)}") >> replaceText 29
-				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_other)}") >> replaceText 30
-				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_other)}") >> replaceText 31
-				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_other)}") >> replaceText 32
-			} >> IFResult 22
-var html = “if文”の結果
-			if(selected .contains "Watch") {
-				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 33
-				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 34
-				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 35
-				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 36
-				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_other)}") >> replaceText 37
 			} >> IFResult 23
 var html = “if文”の結果
+			if(selected .contains "iPhone") {
+				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 28
+				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 29
+				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 30
+				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 31
+				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_iphone)}") >> replaceText 32
+			} else {
+				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_other)}") >> replaceText 33
+				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_other)}") >> replaceText 34
+				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_other)}") >> replaceText 35
+				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_other)}") >> replaceText 36
+				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_other)}") >> replaceText 37
+			} >> IFResult 24
+var html = “if文”の結果
+			if(selected .contains "Watch") {
+				replaceText(input: "${html}", find: "fsize", replace: "${com.key(fsize_iphone)}") >> replaceText 38
+				replaceText(input: "${アップデートされたテキスト}", find: "msize", replace: "${com.key(msize_iphone)}") >> replaceText 39
+				replaceText(input: "${アップデートされたテキスト}", find: "th1", replace: "${com.key(th1_iphone)}") >> replaceText 40
+				replaceText(input: "${アップデートされたテキスト}", find: "th2", replace: "${com.key(th2_iphone)}") >> replaceText 41
+				replaceText(input: "${アップデートされたテキスト}", find: "menubottom", replace: "${com.key(menubottom_other)}") >> replaceText 42
+			} >> IFResult 25
+var html = “if文”の結果
 // back page
-			replaceText(input: "${html}", find: "_about1", replace: "${com.key(about1)}") >> replaceText 38
-			replaceText(input: "${アップデートされたテキスト}", find: "_about2", replace: "${com.key(about2)}") >> replaceText 39
-			replaceText(input: "${アップデートされたテキスト}", find: "_about3", replace: "${com.key(about3)}") >> replaceText 40
-			replaceText(input: "${アップデートされたテキスト}", find: "_about4", replace: "${com.key(about4)}") >> replaceText 41
-			replaceText(input: "${アップデートされたテキスト}", find: "_cyclecount_title", replace: "${com.key(cyclecount_title)}") >> replaceText 42
-			replaceText(input: "${アップデートされたテキスト}", find: "_cyclecount1", replace: "${com.key(cyclecount1)}") >> replaceText 43
-			replaceText(input: "${アップデートされたテキスト}", find: "_cyclecount2", replace: "${com.key(cyclecount2)}") >> replaceText 44
-			replaceText(input: "${アップデートされたテキスト}", find: "_cyclecount3", replace: "${com.key(cyclecount3)}") >> replaceText 45
-			replaceText(input: "${アップデートされたテキスト}", find: "_cyclecount4", replace: "${com.key(cyclecount4)}") >> replaceText 46
-			replaceText(input: "${アップデートされたテキスト}", find: "_avgtemp_title", replace: "${com.key(avgtemp_title)}") >> replaceText 47
-			replaceText(input: "${アップデートされたテキスト}", find: "_avgtemp1", replace: "${com.key(avgtemp1)}") >> replaceText 48
-			replaceText(input: "${アップデートされたテキスト}", find: "_avgtemp2", replace: "${com.key(avgtemp2)}") >> replaceText 49
-			replaceText(input: "${アップデートされたテキスト}", find: "_nominal_title", replace: "${com.key(nominal_title)}") >> replaceText 50
-			replaceText(input: "${アップデートされたテキスト}", find: "_nominal1", replace: "${com.key(nominal1)}") >> replaceText 51
-			replaceText(input: "${アップデートされたテキスト}", find: "_nominal2", replace: "${com.key(nominal2)}") >> replaceText 52
-			replaceText(input: "${アップデートされたテキスト}", find: "_nominal3", replace: "${com.key(nominal3)}") >> replaceText 53
-			replaceText(input: "${アップデートされたテキスト}", find: "_nominal3", replace: "${com.key(nominal3)}") >> replaceText 54
-			replaceText(input: "${アップデートされたテキスト}", find: "_nominal4", replace: "${com.key(nominal4)}") >> replaceText 55
-			replaceText(input: "${アップデートされたテキスト}", find: "_raw_title", replace: "${com.key(raw_title)}") >> replaceText 56
-			replaceText(input: "${アップデートされたテキスト}", find: "_raw1", replace: "${com.key(raw1)}") >> replaceText 57
-			replaceText(input: "${アップデートされたテキスト}", find: "_raw2", replace: "${com.key(raw2)}") >> replaceText 58
-			replaceText(input: "${アップデートされたテキスト}", find: "_raw3", replace: "${com.key(raw3)}") >> replaceText 59
-			replaceText(input: "${アップデートされたテキスト}", find: "_fcc_title", replace: "${com.key(fcc_title)}") >> replaceText 60
-			replaceText(input: "${アップデートされたテキスト}", find: "_fcc1", replace: "${com.key(fcc1)}") >> replaceText 61
-			replaceText(input: "${アップデートされたテキスト}", find: "_fcc2", replace: "${com.key(fcc2)}") >> replaceText 62
-			replaceText(input: "${アップデートされたテキスト}", find: "_qmax_title", replace: "${com.key(qmax_title)}") >> replaceText 63
-			replaceText(input: "${アップデートされたテキスト}", find: "_qmax1", replace: "${com.key(qmax1)}") >> replaceText 64
-			replaceText(input: "${アップデートされたテキスト}", find: "_qmax2", replace: "${com.key(qmax2)}") >> replaceText 65
-			replaceText(input: "${アップデートされたテキスト}", find: "_deflator_title", replace: "${com.key(deflator_title)}") >> replaceText 66
-			replaceText(input: "${アップデートされたテキスト}", find: "_def1", replace: "${com.key(def1)}") >> replaceText 67
-			replaceText(input: "${アップデートされたテキスト}", find: "_def2", replace: "${com.key(def2)}") >> replaceText 68
-			replaceText(input: "${アップデートされたテキスト}", find: "_def3", replace: "${com.key(def3)}") >> replaceText 69
-			replaceText(input: "${アップデートされたテキスト}", find: "_maxcapacity_title", replace: "${com.key(maxcapacity_title)}") >> replaceText 70
-			replaceText(input: "${アップデートされたテキスト}", find: "_max1", replace: "${com.key(max1)}") >> replaceText 71
-			replaceText(input: "${アップデートされたテキスト}", find: "_max2", replace: "${com.key(max2)}") >> replaceText 72
-			replaceText(input: "${アップデートされたテキスト}", find: "_max2", replace: "${com.key(max2)}") >> replaceText 73
-			replaceText(input: "${アップデートされたテキスト}", find: "_notadopt_title", replace: "${com.key(notadopt_title)}") >> replaceText 74
-			replaceText(input: "${アップデートされたテキスト}", find: "_notadopt1", replace: "${com.key(notadopt1)}") >> replaceText 75
-			replaceText(input: "${アップデートされたテキスト}", find: "_notadopt2", replace: "${com.key(notadopt2)}") >> replaceText 76
-			replaceText(input: "${アップデートされたテキスト}", find: "_notadopt3", replace: "${com.key(notadopt3)}") >> replaceText 77
-			replaceText(input: "${アップデートされたテキスト}", find: "_notadopt4", replace: "${com.key(notadopt4)}") >> replaceText 78
-			replaceText(input: "${アップデートされたテキスト}", find: "_data1", replace: "${com.key(data1)}") >> replaceText 79
+			if(辞書の値 ==) {
+var 6D4BBF61-63C0-4830-9469-910C082AFE55 = """{
+
+
+	"about1":"This recipe uses a shortcut application to take what it needs from the analysis data recorded on the device.",
+"about2":"The day's record will be recorded in the 'Analysis Data' page of the Settings application at midnight (UTC) of the next day.",
+"about3":"In rare cases, some data or the analysis data itself may not be recorded.",
+"about4":"Recorded data is not always reliable.",
+"cyclecount_title":"Cycle Count",
+"current":"Current：",
+"cyclecount1":"It is difficult to say with certainty that a device will degrade by 'yy% after xx hours of use', since the way in which a device is used varies from person to person.",
+"cyclecount2":"An alternative measure to time of use is the 'number of cycles'.",
+"cyclecount3":"One set of charge/discharge counts as one cycle.",
+"cyclecount4":"Apple says that the iPhone, for example, is 'designed to maintain 80% of its maximum capacity at 500 cycles (1000 for the iphone15 series or later)', but this is a public statement and not necessarily true in practice.",
+"avgtemp_title":"Average Temperature",
+"avgtemp1":"The temperature of the device.",
+"avgtemp2":"It seems to be a cumulative average so far, not a daily average, and the longer you use it, the harder it is to reflect the most recent effects",
+"nominal_title":"Nominal Charge Capacity",
+"nominal1":"One of the reference values for battery capacity, which is the capacity expected at the time of shipment.",
+"nominal2":"It is often used as the design center capacity, but it is not a constant value in the record and has a fairly strong correlation with the maximum capacity.",
+"nominal3":"Therefore, I interpret it as the current full charge capacity.",
+"nominal4":"The value of 'health' is a percentage of the MaximumFCC (see below), and together with Max Capacity is an indicator of battery degradation.",
+"raw_title":"Raw Max Capacity",
+"raw1":"It is similar to the actual measurement of 'how much can be stored now', and deteriorates back and forth somewhat under the influence of deterioration, temperature, and other factors.",
+"raw2":"Change control and sensor errors may cause slight blurring.",
+"raw3":"The value of 'health' is a percentage of the MaximumFCC (see below), and together with Max Capacity is an indicator of battery degradation.",
+"fcc_title":"FCC",
+"fcc1":"FCC stands for 'Full Charge Capacity', and is the maximum design capacity of the battery.",
+"fcc2":"The maximum capacity is fixed for each device, but there are a slight differences between individual. devices and lots, and the value may change when the battery is replaced.",
+"qmax_title":"MaximumQmax",
+"qmax1":"This is the battery's limit value as a material.",
+"qmax2":"Based on this value, the MaximumFCC is determined by estimating the safety margin.",
+"deflator_title":"Deflator",
+"def1":"Ratio of Raw Max Capacity to Nominal Charge Capacity.",
+"def2":"Originally, this indicator is used in economics, etc. Following this, the real value is obtained by excluding the factor of simple deterioration of the battery.",
+"def3":"As you can see in the image, the value increases during cold weather, indicating that the battery is temporarily degraded due to the cold.",
+"maxcapacity_title":"Max Capacity",
+"max1":"The value is the same as the one on the 'Battery' page of the Settings app.",
+"data1":" Data includes those shown on the main page.",
+"max2":"The maximum capacity does not correlate perfectly with the number of cycles and the time of use, and may suddenly drop by several percent or remain unchanged for months.",
+"notadopt_title":"Data not adopted",
+"notadopt1":"The analysys data has an intriguing value, TotalOperatingTime.",
+"notadopt2":"We can assume that if we calculate this backward from the timestamp, we can get something like the start time of the operation.",
+"notadopt3":"However, when we looked into it, as you can see in the image, the results varied from one month to more than a year, depending on the record (the image shows the outliers removed).",
+"notadopt4":"It may be better not to overconfidently trust the analysis data.",
+
+"cweightedra_title":"Resistance",
+"cweighted1":"The Internal resistance of the battery.",
+"cweighted2":"The former is a weighted value that takes into account chemical changes, while the latter is a weighted value based on time variations and usage conditions.",
+"rweightedra_title":"Resistance(Measured)",
+"rweighted1":"This value is the weighted average of the battery's internal resistance.",
+"rweighted2":"The resistance can vary within a certain range, and this value is calculated by averaging those fluctuations.",
+"resistance0":"200〜400 mΩ is the normal range (standard), and tends to become larger as it deteriorates.",
+
+
+"rdr_title":"Resistance Difference Ratio",
+"rdr1":"It indicates the balance between chemical and physical degradation in internal resistance.",
+"rdr2":"The normal range is about 95-105%, with chemical degradation suspected when over 110% and physical degradation when less than 90%.",
+"dcr_title":"Degradation Convergence Rate",
+"dcr1":"The ratio of the minimum storage capacity to the maximum storage capacity indicates whether the battery's health is stable.",
+"dcr2":"If the battery is healthy, it is above 90%, if it is between 80 and 90%, deterioration is in progress, and if it is below 80%, signs of rapid deterioration are suspected.",
+
+"Qmax_title":"Qmax",
+"Qmax1":"The maximum theoretical capacity that the battery can store.",
+"Qmax2":"The maximum or minimum capacity recorded at the factory or after a reset, especially MinimumQmax, which may be updated to a smaller value due to aging, high temperature, over-discharge, rapid charge/discharge, number of charges, etc.",
+
+
+"note_title":"About some data",
+"note1":"With a few exceptions, average temperatures and data marked with 'Maximum' and 'Minimum' are not the daily values, but rather the maximum or minimum values after being reset at the time of factory shipment, battery replacement, OS initialization, calibration, etc. Therefore, if an early increase or decrease occurs for some reason, the subsequent fluctuations cannot be determined from these values.",
+"note2":"Therefore, if an increase or decrease occurs early in the day due to some factor, subsequent fluctuations cannot be discerned from the value.",
+"note3":"As an exception, MaximumQmax corresponds to 'the maximum capacity when new'.",
+
+"vmax":"Maximum",
+"vmin":"Minimum",
+"vweighted":"Weighted",
+"vmeasured":"Measured",
+
+"designcap_title":"Design Capacity",
+"design1":"This is the theoretical capacity designed when the battery is new, and is the standard value when the product is shipped, i.e., the value as product information that says 'we are selling this battery with this capacity'.",
+"design2":"Since there are individual differences among batteries, it is appropriate to refer to Qmax and FCC as described below to determine the actual capacity of a battery."
+
+}"""
+text("${6D4BBF61-63C0-4830-9469-910C082AFE55}")
+			} else {
+var ADAB394E-8C44-4ED3-A869-60E053F96797 = """{
+
+"about1":"このレシピはショートカットアプリを使って、デバイスに記録されている解析データから必要なものを取り出しています.",
+"about2":"その日の記録は翌日0時(世界標準時)に設定アプリの「解析データ」のページに記録されます.",
+"about3":"ごく稀に一部データまたは解析データそのものが記録されないことがあります.",
+"about4":"記録されたデータが必ずしも信用あるものとは限りません.",
+"cyclecount_title":"サイクル数",
+"current":"今回の値：",
+"cyclecount1":"デバイスをどう使うかは人それぞれなので確実に「xx時間使ったからyy%劣化する」と判断するのは難しいです.",
+"cyclecount2":"そこで使用時間に代わる指標として「サイクル数」があります.",
+"cyclecount3":"充放電1セットでサイクル数1とカウントします.",
+"cyclecount4":"Appleは例えばiPhoneについて「サイクル数500(iphone15シリーズ以降は1000)で最大容量80%を維持するよう設計」していると言いますが、これは公表上のもので、実際にそうなるとは限りません.",
+"avgtemp_title":"平均温度",
+"avgtemp1":"バッテリーの平均温度です.",
+"avgtemp2":"一日の平均ではなくこれまでの累積平均のようで、長く使っていると直近の影響が反映されづらくなります.",
+"nominal_title":"名目容量",
+"nominal1":"バッテリーの容量の基準値のひとつで、出荷時点で想定される設計上の容量です.",
+"nominal2":"公称容量や設計容量とも呼ばれ、最大容量とかなり強い相関があります.",
+"nominal3":"このことから現在の満充電容量と僕は解釈しています.",
+"nominal4":"'health'の値は後述するMaximumFCCに対する割合で、Max Capacityと合わせてバッテリーの劣化を示すひとつの指標となります.",
+"raw_title":"実質容量",
+"raw1":"「今どれだけ蓄えられるか」の実測値に近いもので、劣化や温度などの影響を受けて多少前後しながら劣化していきます.",
+"raw2":"充電制御やセンサーの誤差で微妙にブレることがあります.",
+"raw3":"'health'の値は後述するMaximumFCCに対する割合でMax Capacityと合わせてバッテリーの劣化を示すひとつの指標となります.",
+"fcc_title":"満充電容量",
+"fcc1":"'FCC'は'Full Charge Capacity'の略であり、バッテリーの設計上の最大容量です.",
+"fcc2":"最大容量は端末ごとに決まっていますが、個体差やロットによって若干の違いがあり、バッテリー交換で値が変わる可能性があります.",
+"qmax_title":"低レート放電容量",
+"qmax1":"バッテリーの、素材としての限界値です.",
+"qmax2":"この値を元に、安全マージンを見込んで満充電容量が決まります.",
+"deflator_title":"デフレーター",
+"def1":"名目容量に対する実質容量の割合です.",
+"def2":"本来は経済学などで使う指標ですが、それに倣ってバッテリーの単純劣化の要因を除いて実質値が得られます.",
+"def3":"画像のように寒い時期になると値が大きくなり、バッテリーが寒さなどによって一時的に劣化するのがわかります.",
+"maxcapacity_title":"最大容量",
+"max1":"設定アプリの「バッテリー」のページにあるものと同じ値です.",
+"data1":"メインページで表示したものを含むデータです.",
+"max2":"最大容量はサイクル数と使用時間に完全には相関せず、突然数%落ちることもあれば何ヶ月も変化しない場合があります.",
+"notadopt_title":"採用見送ったデータ",
+"notadopt1":"解析データにはTotalOperatingTimeという興味をそそられる値があります.",
+"notadopt2":"これをタイムスタンプから逆算すれば稼働開始時間のようなものが得られると推測できます.",
+"notadopt3":"しかしいざ調べてみると画像のようにバラバラで記録次第では一ヶ月、一年以上も異なる結果を得ました(画像はそういった外れ値を取り除いたものです)",
+"notadopt4":"解析データの過信は禁物かもしれません.",
+
+"cweightedra_title":"内部抵抗",
+"cweighted1":"バッテリーの内部抵抗値です.",
+"cweighted2":"前者は化学的な変化を考慮して加重測定した値で、後者は時間的な変動や使用状況に基づいて加重測定した値です.",
+"rweightedra_title":"内部抵抗(実測)",
+"rweighted1":"バッテリーの内部抵抗の加重平均値です.",
+"rweighted2":"抵抗値は一定の範囲で変動することがあり、その変動を平均化した結果として得られる値です.",
+"resistance0":"200〜400mΩが正常範囲の目安とされ、劣化すると大きくなる傾向にあります.",
+
+"rdr_title":"抵抗差率",
+"rdr1":"内部抵抗における、化学的な劣化と物理的な劣化のバランスを示します.",
+"rdr2":"正常範囲は95〜105%程度で、110%を超えると化学的劣化、90%未満だと物理的劣化が疑われます.",
+"dcr_title":"劣化収束率",
+"dcr1":"最大蓄電容量における最小蓄電容量の割合で、バッテリーの健康状態が安定しているかどうかを示します.",
+"dcr2":"健康であれば90%以上、80〜90%なら劣化が進行中、80%未満であれば急激な劣化の兆候が疑われます.",
+
+"Qmax_title":"蓄電容量",
+"Qmax1":"バッテリーが理論上最大で蓄えられる容量です.",
+"Qmax2":"工場出荷時もしくはリセット後に記録された最大もしくは最小の容量で、特にMinimumQmaxは経年劣化や高温、過放電、急速充放電、充電回数などの影響を受けてより小さい値に更新されることがあります.",
+
+"note_title":"一部のデータについて",
+"note1":"一部例外を除き、平均温度やMaximum、Minimumと付いたデータなどは、その日一日のものではなく、工場出荷時やバッテリーの交換、OSの初期化、キャリブレーションなどのタイミングでリセットされてからの最大もしくは最小と考えられます.",
+"note2":"したがって、何らかの要因で早期に増加や減少が起こってしまった場合、以降の変動がその値から判別できない性質を持っています.",
+"note3":"例外としてMaximumQmaxについては「新品時の最大容量」に相当します.",
+
+"vmax":"最大",
+"vmin":"最小",
+"vweighted":"化学的加重値",
+"vmeasured":"動的加重値",
+
+"designcap_title":"設計容量",
+"design1":"バッテリーが新品の時に設計された理論上の容量で、製品出荷時の基準値、つまり「このつもりで売ってますよ」という製品情報としての値です.",
+"design2":"個々のバッテリーには個体差があるため、実際にどのくらいの容量を持っているかは後述する蓄電容量や満充電量を参照するのがふさわしいです."
+
+}"""
+text("${ADAB394E-8C44-4ED3-A869-60E053F96797}")
+			} >> IFResult 26
+			getDictionaryFrom(input: “if文”の結果) >> getDictionaryFrom 6
+var html_contents = 辞書
+			repeatEach(html_contents) {
+				keysFrom(dictionary: html_contents) >> keysFrom 9
+				replaceText(input: "${html}", find: "_${Repeat Item}", replace: "${辞書の値}") >> replaceText 43
 var html = アップデートされたテキスト
+			}
 // darkmode?
 			deviceDetails(detail: Current Appearance) >> deviceDetails
 			if(現在の外観モード ==) {
-				replaceText(input: "${html}", find: "fontcolor", replace: "white", isRegex: true) >> replaceText 80
-				replaceText(input: "${アップデートされたテキスト}", find: "backgroundcolor", replace: "black", isRegex: true) >> replaceText 81
+				replaceText(input: "${html}", find: "fontcolor", replace: "white", isRegex: true) >> replaceText 44
+				replaceText(input: "${アップデートされたテキスト}", find: "backgroundcolor", replace: "black", isRegex: true) >> replaceText 45
 var html = アップデートされたテキスト
 			} else {
-				replaceText(input: "${html}", find: "fontcolor", replace: "black", isRegex: true) >> replaceText 82
-				replaceText(input: "${アップデートされたテキスト}", find: "backgroundcolor", replace: "white", isRegex: true) >> replaceText 83
+				replaceText(input: "${html}", find: "fontcolor", replace: "black", isRegex: true) >> replaceText 46
+				replaceText(input: "${アップデートされたテキスト}", find: "backgroundcolor", replace: "white", isRegex: true) >> replaceText 47
 var html = アップデートされたテキスト
 			}
-			replaceText(input: "${html}", find: "..Null", replace: "Null", isRegex: true) >> replaceText 84
+			replaceText(input: "${html}", find: "..Null", replace: "Null", isRegex: true) >> replaceText 48
 			richTextFromHTML() >> richTextFromHTML
 			showWebPage(url: "${HTMLからのリッチテキスト}") >> showWebPage
 		} else {
 			if(辞書の値 ==) {
-var 277C80F3-4241-4837-860E-B4F29CE85369 = """Battery Checker ver￼
+var 7AF48D37-BECB-4176-AACA-F2BBCA918960 = """Battery Checker ver￼
 
 ￼	:  ￼
 ￼	:  ￼
@@ -1492,16 +1376,20 @@ var 277C80F3-4241-4837-860E-B4F29CE85369 = """Battery Checker ver￼
 ￼			:  mfNullmAh
 ￼			:  mqNullmAh
 ￼			:  dcNullmAh
+￼	:  cwNullmΩ
+￼	:  rwNullmΩ
 
 【Health】
 ￼	:  npNull%
 ￼		:  rpNull%
+￼		:  rrNull%
+￼	:  drNull%
 ￼					:  dfNull
 ￼			:  maNull%
 """
-text("${277C80F3-4241-4837-860E-B4F29CE85369}")
+text("${7AF48D37-BECB-4176-AACA-F2BBCA918960}")
 			} else {
-var 5C8B1DE1-4AA6-4DC0-8E72-69A0269F363B = """Battery Checker ver￼
+var 4FAD3E51-5A8B-476B-A3FE-6A4AA97C6B91 = """Battery Checker ver￼
 
 ￼	:  ￼
 ￼	:  ￼
@@ -1515,56 +1403,79 @@ var 5C8B1DE1-4AA6-4DC0-8E72-69A0269F363B = """Battery Checker ver￼
 ￼		:  mfNullmAh
 ￼	:  mqNullmAh
 ￼			:  dcNullmAh
+￼	:  cwNullmΩ
+￼	:  rwNullmΩ
+
+
 
 【Health】
 ￼			:  npNull%
 ￼			:  rpNull%
+￼		:  rrNull%
+￼	:  drNull%
 ￼		:  dfNull
 ￼			:  maNull%
 """
-text("${5C8B1DE1-4AA6-4DC0-8E72-69A0269F363B}")
-			} >> IFResult 24
+text("${4FAD3E51-5A8B-476B-A3FE-6A4AA97C6B91}")
+			} >> IFResult 27
 var txt = “if文”の結果
 			if(CycleCount != nil) {
-				replaceText(input: "${“if文”の結果}", find: "ccNull", replace: "${CycleCount}") >> replaceText 85
-var txt = アップデートされたテキスト
-			} >> IFResult 25
-			if(AverageTemperature != nil) {
-				replaceText(input: "${txt}", find: "atNull", replace: "${AverageTemperature}") >> replaceText 86
-var txt = アップデートされたテキスト
-			} >> IFResult 26
-			if(NominalChargeCapacity != nil) {
-				replaceText(input: "${txt}", find: "ncNull", replace: "${NominalChargeCapacity}") >> replaceText 87
-				replaceText(input: "${アップデートされたテキスト}", find: "npNull", replace: "${npNull}") >> replaceText 88
-var txt = アップデートされたテキスト
-			} >> IFResult 27
-			if(RawMaxCapacity != nil) {
-				replaceText(input: "${txt}", find: "raNull", replace: "${RawMaxCapacity}") >> replaceText 89
-				replaceText(input: "${アップデートされたテキスト}", find: "rpNull", replace: "${rpNull}") >> replaceText 90
+				replaceText(input: "${“if文”の結果}", find: "ccNull", replace: "${CycleCount}") >> replaceText 49
 var txt = アップデートされたテキスト
 			} >> IFResult 28
-			if(MaximumFCC != nil) {
-				replaceText(input: "${txt}", find: "mfNull", replace: "${MaximumFCC}") >> replaceText 91
+			if(AverageTemperature != nil) {
+				replaceText(input: "${txt}", find: "atNull", replace: "${AverageTemperature}") >> replaceText 50
 var txt = アップデートされたテキスト
 			} >> IFResult 29
-			if(MaximumQmax != nil) {
-				replaceText(input: "${txt}", find: "mqNull", replace: "${MaximumQmax}") >> replaceText 92
+			if(Nominal != nil) {
+				replaceText(input: "${txt}", find: "ncNull", replace: "${Nominal}") >> replaceText 51
+				replaceText(input: "${アップデートされたテキスト}", find: "npNull", replace: "${npNull}") >> replaceText 52
 var txt = アップデートされたテキスト
 			} >> IFResult 30
-			if(dfNull != nil) {
-				replaceText(input: "${txt}", find: "dfNull", replace: "${dfNull}") >> replaceText 93
+			if(Raw != nil) {
+				replaceText(input: "${txt}", find: "raNull", replace: "${Raw}") >> replaceText 53
+				replaceText(input: "${アップデートされたテキスト}", find: "rpNull", replace: "${rpNull}") >> replaceText 54
 var txt = アップデートされたテキスト
 			} >> IFResult 31
-			if(design_capacity != nil) {
-				replaceText(input: "${txt}", find: "dcNull", replace: "${design_capacity}") >> replaceText 94
+			if(FCC != nil) {
+				replaceText(input: "${txt}", find: "mfNull", replace: "${FCC}") >> replaceText 55
 var txt = アップデートされたテキスト
 			} >> IFResult 32
-			if(MaxCapacity != nil) {
-				replaceText(input: "${txt}", find: "maNull", replace: "${MaxCapacity}") >> replaceText 95
+			if(Qmax != nil) {
+				replaceText(input: "${txt}", find: "mqNull", replace: "${Qmax}") >> replaceText 56
 var txt = アップデートされたテキスト
 			} >> IFResult 33
+			if(dfNull != nil) {
+				replaceText(input: "${txt}", find: "dfNull", replace: "${dfNull}") >> replaceText 57
+var txt = アップデートされたテキスト
+			} >> IFResult 34
+			if(design_capacity != nil) {
+				replaceText(input: "${txt}", find: "dcNull", replace: "${design_capacity}") >> replaceText 58
+var txt = アップデートされたテキスト
+			} >> IFResult 35
+			if(MaxCapacity != nil) {
+				replaceText(input: "${txt}", find: "maNull", replace: "${MaxCapacity}") >> replaceText 59
+var txt = アップデートされたテキスト
+			} >> IFResult 36
+			if(ChemWeightedRa != nil) {
+				replaceText(input: "${txt}", find: "cwNull", replace: "${ChemWeightedRa}") >> replaceText 60
+var txt = アップデートされたテキスト
+			}
+			if(WeightedRa != nil) {
+				replaceText(input: "${txt}", find: "rwNull", replace: "${WeightedRa}") >> replaceText 61
+var txt = アップデートされたテキスト
+			}
+			if(Resistance Difference Ratio != nil) {
+				replaceText(input: "${txt}", find: "rrNull", replace: "${Resistance Difference Ratio}") >> replaceText 62
+var txt = アップデートされたテキスト
+			}
+			if(Degradation Convergence Rate != nil) {
+				replaceText(input: "${txt}", find: "drNull", replace: "${Degradation Convergence Rate}") >> replaceText 63
+var txt = アップデートされたテキスト
+			}
+//Unable to get shortcuts action is.workflow.actions.comment
 			replaceText(input: "${txt}", find: "(..Null)|(..Null.)|(..NullmAh)", replace: "Null", isRegex: true)
 			showResult(text: "${txt}")
 		}
-	} >> IFResult 34
-} >> IFResult 35
+	} >> IFResult 37
+} >> IFResult 38

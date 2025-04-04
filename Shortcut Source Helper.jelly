@@ -3,16 +3,16 @@ import Shortcuts
 
 /*
 Outputs or imports shortcut source.
-2024-09–20 	v1.4
+2025-03-31 	v1.4.3
 https://routinehub.co/user/gluebyte
-https://mastodon.social/@gluebyte
+https://bsky.app/profile/gluebyte.bsky.social
 */
 randomNumber(min: 1, max: 2) >> randomNumber
 if(Random Number == 1) {
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=07D4DD09") >> downloadURL
-		if(Contents of URL .contains "2024-09-20") { >> IFResult
+		if(Contents of URL .contains "2025-03-31") { >> IFResult
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"):
 				openURL(url: "https://routinehub.co/shortcut/10060/")
@@ -53,23 +53,23 @@ Find shortcuts with name containing:
 	if(Count == 1) {
 //Unable to get shortcuts action is.workflow.actions.getvariable
 	} else {
+		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> replaceText 1
+		if(DeviceDetails !=) {
+			math(input: Updated Text, operation: -, operand: "30") >> math
+		} >> IFResult 5
+		if(If Result >= 150) {
+			fileDetail(input: Files, property: File Path) >> fileDetail
+		}
 		choose(list: Files) >> choose
-	} >> IFResult 5
+	} >> IFResult 6
 	getFileOfType(input: If Result, type: "com.apple.property-list") >> getFileOfType
 	setName(input: File of Type, name: "${If Result.get(Name)}.plist") >> setName
 } else {
 // Import plist input as shortcut
 	if(DeviceDetails ==) {
-		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> replaceText 1
-		if(Updated Text .between 144...150) {
-		} else {
-			nothing() >> nothing 1
-		}
-	} >> IFResult 6
-	if(If Result == nil) {
 		runShellScript(input: ShortcutInput, script: "cd /tmp
 cat > a.wflow
-shortcuts sign -i a.wflow -o a.shortcut
+shortcuts sign -m anyone -i a.wflow -o a.shortcut
 cat a.shortcut") >> runShellScript
 	} else {
 		if(DeviceDetails == nil) {
@@ -80,8 +80,8 @@ cat a.shortcut") >> runShellScript
 		} else {
 			makeArchive(input: ShortcutInput, type: gz) >> makeArchive
 			menu(
-Please select ‘Remote Sign’. Or if you have a Mac, you can set it up for SSH:
-, [⚡️  Remote Sign (beta), 🌐  Show Me How to SSH, 🖥  SSH to Mac 1, 🖥  SSH to Mac 2]) {
+Please select ‘Remote Sign’. Or if you have a Mac running macOS, you can set up SSH:
+, [⚡️  Remote Sign (beta), 🌐  Show me how to SSH, 🖥  SSH to Mac 1, 🖥  SSH to Mac 2]) {
 			case("⚡️  Remote Sign (beta)"):
 				downloadURL(url: "http://shortcut.gluebyte.workers.dev/", method: POST, requestType: File, requestVar: Archive) >> downloadURL 2
 				if(Contents of URL != "gz") {
@@ -96,7 +96,7 @@ ${Contents of URL}
 					}
 					exit()
 				} >> IFResult 7
-			case("🌐  Show Me How to SSH"):
+			case("🌐  Show me how to SSH"):
 				alert(alert: "
 After reading the instructions, edit this shortcut and add login info to the ‘Run Script over SSH’ action near the bottom.
 ")
@@ -110,7 +110,7 @@ After reading the instructions, edit this shortcut and add login info to the ‘
 */
 				runSSH(auth: SSH Key, input: Archive, script: "cd /tmp
 gunzip > a.wflow
-shortcuts sign -i a.wflow -o a.shortcut
+shortcuts sign -m anyone -i a.wflow -o a.shortcut
 gzip -9c a.shortcut") >> runSSH
 /*
 
@@ -120,7 +120,7 @@ gzip -9c a.shortcut") >> runSSH
 			case("🖥  SSH to Mac 2"):
 				runSSH(auth: SSH Key, input: Archive, script: "cd /tmp
 gunzip > a.wflow
-shortcuts sign -i a.wflow -o a.shortcut
+shortcuts sign -m anyone -i a.wflow -o a.shortcut
 gzip -9c a.shortcut") >> runSSH 1
 			} >> MenuResult 1
 			extractArchive(input: Menu Result) >> extractArchive
@@ -129,7 +129,7 @@ gzip -9c a.shortcut") >> runSSH 1
 	dictionary({"a":"${ShortcutInput.get(Name)}"})
 	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 2
 	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(Array.from(${Updated Text}.a).map(c=>c===(n=c.normalize('NFD'))?c:(s=n.split('')).join(s[0].codePointAt(0)<0x1100?' ':'\u200D')).join(''))</script>") >> url
-	encodeURL(url: "${URL.as(RichText)}") >> encodeURL
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL
 	setName(input: If Result, name: "${URL Encoded Text}.shortcut") >> setName 2
 	openIn(input: Renamed Item, app: "com.apple.shortcuts", ask: false)
 	wait(seconds: true)

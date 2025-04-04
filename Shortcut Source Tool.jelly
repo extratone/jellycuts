@@ -3,16 +3,16 @@ import Shortcuts
 
 /*
 Copy and paste multiple actions, view/edit/save/import or web-review shortcuts
-2024-11-15 	v4.4.1
+2025-03-31 	v5.0.1
 https://routinehub.co/user/gluebyte
-https://mastodon.social/@gluebyte
+https://bsky.app/profile/gluebyte.bsky.social
 */
 randomNumber(min: 1, max: 2) >> randomNumber
 if(Random Number == 1) { >> IFResult
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=33C37587") >> downloadURL
-		if(Contents of URL .contains "2024-11-15") { >> IFResult 1
+		if(Contents of URL .contains "2025-03-31") { >> IFResult 1
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"):
 				openURL(url: "https://routinehub.co/shortcut/5256/")
@@ -33,7 +33,9 @@ if(ShortcutInput != nil) {
 var file = ShortcutInput
 } else { >>  4
 	menu(
+
 Get Shortcut Source from:
+
 , [📋  Clipboard (iCloud link / plist / json), 📝  File, 💫  Shortcut]) {
 	case("📋  Clipboard (iCloud link / plist / json)"): >> MenuResult 1
 var file = Clipboard
@@ -72,6 +74,7 @@ list(items: (
     "\U270f\Ufe0f  Edit/Restore Source",
     "\U2753  Replace \U2018++\U2019 with New Lines in Import Questions",
     "\U2702\Ufe0f  Copy Actions between Empty Comments",
+    "\Ud83d\Udd0d\Ud83d\Udd0d  Compare with Other Shortcut",
     "\Ud83d\Udd0d  Create Web Review (trim large text)",
     "\Ud83d\Udd0d  Create Web Review (expand all)",
     "\Ud83d\Udd0d  Create Web Review"
@@ -95,7 +98,7 @@ Copy all ${Count} actions?
 		replaceText(input: "${file}", find: "(?s)^.*?(?<=<key>WFWorkflowActions</key>\n\t<array>)(.*?)(?=\n\t</array>).*$", replace: "<dict><key>actions</key><array>$1</array></dict>", isRegex: true) >> replaceText 4
 	} >> IFResult 12
 	setName(input: If Result, name: "a.plist") >> setName 3
-	valueFor(key: "actions", dictionary: Renamed Item) >> valueFor
+	keysFrom(dictionary: Renamed Item) >> keysFrom
 	replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> replaceText 5
 	if(DeviceDetails !=) {
 		math(input: Updated Text, operation: -, operand: "29") >> math
@@ -116,45 +119,48 @@ https://apps.apple.com/app/id1586435171
 	count(input: Dictionary Value) >> count 1
 	alert(alert: "
 
+
 📋  ${Count} actions copied to clipboard  📋
 
-​", tincel: false)
+​
+", tincel: false)
 	exit()
 } >> IFResult 15
 if(command .beginsWith "🔍") { >> IFResult 16
-	replaceText(input: "${file.get(Name)}", find: "&", replace: "&amp;") >> replaceText 6
-	replaceText(input: "${Updated Text}", find: "<", replace: "&lt;") >> shortcutname
-	dictionary({})
-	setValue(key: "name", value: "${shortcutname}", dictionary: Dictionary) >> setValue 1
-	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 7
-	getFileOfType(input: file, type: "public.json") >> getFileOfType 1
+	repeat(2) { >> RepeatResult 1
+		replaceText(input: "${file.get(Name)}", find: "&", replace: "&amp;") >> replaceText 6
+		replaceText(input: "${Updated Text}", find: "<", replace: "&lt;") >> shortcutname
+		dictionary({})
+		setValue(key: "name", value: "${shortcutname}", dictionary: Dictionary) >> setValue 1
+		replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 7
+		getFileOfType(input: file, type: "public.json") >> getFileOfType 1
 var src = File of Type
-	if(src .contains "{"__type__":"data","__value__":"YnBsaXN0") { >> IFResult 17
-		matchText(text: "${src}", regex: "([^"]+)":\{"__type__":"data","__value__":"(YnBsaXN0[^"]+)") >> matchText 1
-		repeatEach(Matches) {
-			getMatchGroup(matches: Repeat Item) >> getMatchGroup
-			getMatchGroup(matches: Repeat Item, index: "2") >> b64
-			encode(input: b64) >> encode
-			setName(input: Base64 Encoded, name: "a.plist") >> setName 4
-			nothing()
-			if(Text == "UserActivityData") {
-				valueFor(key: "$objects.5", dictionary: Renamed Item) >> valueFor 1
-			} >> IFResult 18
-			if(Text == "IntentData") {
-				valueFor(key: "$objects.13", dictionary: Renamed Item) >> valueFor 2
-			} >> IFResult 19
-			dictionary({"k":"${If Result}${ActionOutput}"})
-			replaceText(input: "${Dictionary}", find: "^\{"k":|\}$", isRegex: true) >> replaceText 8
-			replaceText(input: "${src}", find: "{"__type__":"data","__value__":"${b64}"}", replace: "${Updated Text}") >> replaceText 9
+		if(src .contains "{"__type__":"data","__value__":"YnBsaXN0") { >> IFResult 17
+			matchText(text: "${src}", regex: "([^"]+)":\{"__type__":"data","__value__":"(YnBsaXN0[^"]+)") >> matchText 1
+			repeatEach(Matches) {
+				getMatchGroup(matches: Repeat Item 2) >> getMatchGroup
+				getMatchGroup(matches: Repeat Item 2, index: "2") >> b64
+				decode(input: b64) >> decode 1
+				setName(input: Base64 Encoded, name: "a.plist") >> setName 4
+				nothing()
+				if(Text == "UserActivityData") {
+					keysFrom(dictionary: Renamed Item) >> keysFrom 1
+				} >> IFResult 18
+				if(Text == "IntentData") {
+					keysFrom(dictionary: Renamed Item) >> keysFrom 2
+				} >> IFResult 19
+				dictionary({"k":"${If Result}${ActionOutput}"})
+				replaceText(input: "${Dictionary}", find: "^\{"k":|\}$", isRegex: true) >> replaceText 8
+				replaceText(input: "${src}", find: "{"__type__":"data","__value__":"${b64}"}", replace: "${Updated Text}") >> replaceText 9
 var src = Updated Text
-			nothing()
-		} >> RepeatResult 1
-	} >> IFResult 20
-	replaceText(input: "${src}", find: "\u0023", replace: "\\u0023", isRegex: true) >> src
-	getShortcuts() >> getShortcuts
-	setValue(key: "n", value: "${My Shortcuts}") >> setValue 2
-	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> sNames
-var 37E787E8-1598-44A0-9084-43C0F3F38044 = """const idDict = {
+				nothing()
+			} >> RepeatResult 2
+		} >> IFResult 20
+		replaceText(input: "${src}", find: "\u0023", replace: "\\u0023", isRegex: true) >> src
+		getShortcuts() >> getShortcuts
+		setValue(key: "n", value: "${My Shortcuts}") >> setValue 2
+		replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> sNames
+var 095B022C-F7D0-40FE-A73B-2BE3765FEBBF = """const idDict = {
 "is.workflow.actions.conditional":[{
 	"name":"If ",
 	"group":"gGray",
@@ -1157,6 +1163,10 @@ var 37E787E8-1598-44A0-9084-43C0F3F38044 = """const idDict = {
 	"param":{
 		"WFSendMessageContent":"$\ufffc0",
 }}],
+"com.apple.MobileSMS.OpenConversationIntent":[{ 	// 18.4
+	"name":"Open Messages Conversation",
+	"group":"gGreen",
+}],
 "is.workflow.actions.sendemail":[{
 	"name":"Send Email $\ufffc0 as $\ufffc1",
 	"param":{
@@ -3110,6 +3120,72 @@ var 37E787E8-1598-44A0-9084-43C0F3F38044 = """const idDict = {
 		"$\ufffc0":"Turn",
 		"state":"$\ufffc9",
 }}],
+"com.apple.mobilenotes.ChangeSettingLinkAction":[{ 	// 18.4
+	"name":"Set Notes Settings",
+}],
+"com.apple.VoiceMemos.ChangeRecordingPlaybackSetting":[{ 	// 18.4
+	"name":"Set Recording Playback Settings",
+}],
+"com.apple.iBooks.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Books Settings",
+}],
+"com.apple.mobilecal.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Calendar Settings",
+}],
+"com.apple.freeform.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Freeform Settings",
+}],
+"com.apple.Maps.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Maps Settings",
+}],
+"com.apple.news.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set News Settings",
+}],
+"com.apple.reminders.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Reminders Settings",
+}],
+"com.apple.mobilesafari.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Safari Settings",
+}],
+"com.apple.tv.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set TV Settings",
+}],
+"com.apple.VoiceMemos.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Voice Memos Settings",
+}],
+"com.apple.weather.WFAppSettingEntityUpdaterAction":[{ 	// 18.4
+	"name":"Set Weather Settings",
+}],
+"com.apple.iBooks.WFGetAppSettingAction":[{ 	// 18.4}
+	"name":"Get Books Settings",
+}],
+"com.apple.mobilecal.WFGetAppSettingAction":[{ 	// 18.4}
+	"name":"Get Calendar Settings",
+}],
+"com.apple.freeform.WFGetAppSettingAction":[{ 	// 18.4
+	"name":"Get Freeform Settings",
+}],
+"com.apple.Maps.WFGetAppSettingAction":[{ 	// 18.4
+	"name":"Get Maps Settings",
+}],
+"com.apple.news.WFGetAppSettingAction":[{ 	// 18.4
+	"name":"Get News Settings",
+}],
+"com.apple.reminders.WFGetAppSettingAction":[{ 	// 18.4}
+	"name":"Get Reminders Settings",
+}],
+"com.apple.mobilesafari.WFGetAppSettingAction":[{ 	// 18.4}
+	"name":"Get Safari Settings",
+}],
+"com.apple.tv.WFGetAppSettingAction":[{ 	// 18.4
+	"name":"Get TV Settings",
+}],
+"com.apple.VoiceMemos.WFGetAppSettingAction":[{ 	// 18.4
+	"name":"Get Voice Memos Settings",
+}],
+"com.apple.weather.WFGetAppSettingAction":[{ 	// 18.4
+	"name":"Get Weather Settings",
+}],
 "is.workflow.actions.openpasswords":[{ 	// 17
 	"name":"Show Passwords",
 }],
@@ -3662,8 +3738,6 @@ function gettext(i) {
 						return stringifyMap(getdict(i.Value)).replace(/<span class=\\"[^>]+>/g, m => m.replace(/\\"/g,'"')).replace(/(  +|^)\{\n +/g,'$1{  ').replace(/( *)(\{.*)\n\1\}/g,'$1$2 }');
 					case 'WFQuantityFieldValue':
 						return variablename(mapNullUndef(i.Value.Magnitude, '')) + ' ' + i.Value.Unit;
-					case 'WFContentPredicateTableTemplate':
-						return predicate(i.Value);
 					case 'WFINSpeakableStringSubstitutableState':
 						return i.Value ? escapeStr(i.Value.DisplayString) : '';
 					case 'WFNumberStringSubstitutableState':
@@ -3671,6 +3745,8 @@ function gettext(i) {
 						return gettext(i.Value);
 					case 'WFContactFieldValue':
 						return '[' + (mapNullUndef(i.Value.WFContactFieldValues, [])).map(a => JSON.stringify(a).replace(/\{"__type__":"data","__value__":"([^"]*)"/g, (m,p1) => '"'+(new TextDecoder().decode(base64DecToArr(p1))).replace(/\n/g,'\n   ')+'"')).join(',\n') + ']';
+					case 'WFContentPredicateTableTemplate':
+						if (i.Value.WFActionParameterFilterTemplates?.[0]?.Property) return predicate(i.Value);
 					default:
 						if (i.string) { return stringify(i); }
 						if (i['__type__'] === 'date') {
@@ -3877,10 +3953,11 @@ function escapeStr(s) {
 		.replace(/[\x09\x20]+$/gm, c=>c.replace(/\x09/g,'<b>\\u{tab}</b>')
 		.replace(/\x20/g,'<b>\\u{space}</b>'));
 }"""
-text("${37E787E8-1598-44A0-9084-43C0F3F38044}")
-	url(url: "data:text/html;charset=utf-8,<body/><script>const mobile='${file.get(File Size)}'.includes('trim'),expand='${Variable.get(File Size)}'.includes('expand'),shortcutname=${command}.name,d=${ActionOutput},fileSize='${Updated Text}',sNames=${ActionOutput}.n;${Text}</script>") >> url 1
-	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 1
-var 539CF39D-8C14-4A89-80D4-E71FE29A4931 = """<!DOCTYPE html><html><head><meta charset="utf-8">
+text("${095B022C-F7D0-40FE-A73B-2BE3765FEBBF}")
+		url(url: "data:text/html;charset=utf-8,<body/><script>const mobile='${command}'.includes('trim'),expand='${ActionOutput}'.includes('expand')||'${command}'.startsWith('🔍🔍'),shortcutname=${ActionOutput}.name,d=${sNames},fileSize='${ActionOutput}',sNames=${src}.n;${ActionOutput}</script>") >> url 1
+		decodeURL(url: "${URL.as(RichText)}") >> decodeURL 1
+		if(command .beginsWith "🔍  ") { >> IFResult 21
+var 63EAA902-633B-4439-B0AD-7774477D72DB = """<!DOCTYPE html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <meta name="format-detection" content="telephone=no,date=no">
 <title>￼</title>
@@ -4057,56 +4134,214 @@ function magictap(id) {
 	setTimeout(function(){ e.scrollIntoView({block:'nearest',behavior:'smooth'}); }, 10);
 }
 </script></body></html>"""
-text("${539CF39D-8C14-4A89-80D4-E71FE29A4931}")
-	setName(input: Text, name: "${file.get(Name)}.html") >> setName 5
-	menu(, [💻  Share, 📝  Save to Files, 📄  Quick Look as Text, 🧭  Open in Browser]) {
-	case("💻  Share"): >> MenuResult 5
-		share(file: Renamed Item) >> share
-		nothing()
-	case("📝  Save to Files"): >> MenuResult 6
-		saveFile(input: Renamed Item, ask: true, overwrite: false) >> saveFile
-		nothing() >> nothing
-	case("📄  Quick Look as Text"):
-		replaceText(input: "${URL Encoded Text}", find: "(?s)<div [^>]+"display:none">.*?</div>(?=\n<(?:hr>|button))", replace: "
- ⋯⋯", isRegex: true) >> replaceText 10
-		replaceText(input: "${Updated Text}", find: "
-​</", replace: "
-</") >> replaceText 11
-		replaceText(input: "${Updated Text}", find: "<button.*>\n(\d+)", replace: "
-〔$1〕", isRegex: true) >> replaceText 12
-		replaceText(input: "${Updated Text}", find: "<b>\[(.*?)\]</b>", replace: "〔$1〕", isRegex: true) >> replaceText 13
-		replaceText(input: "${Updated Text}", find: "<div class="row">", replace: "• ") >> replaceText 14
-		replaceText(input: "${Updated Text}", find: "<.*?>", isRegex: true) >> replaceText 15
-		replaceText(input: "${Updated Text}", find: "&lt;", replace: "<") >> replaceText 16
-		replaceText(input: "${Updated Text}", find: "&gt;", replace: ">") >> replaceText 17
-		replaceText(input: "${Updated Text}", find: "&nbsp;", replace: " ") >> replaceText 18
-		replaceText(input: "${Updated Text}", find: "&amp;", replace: "&") >> replaceText 19
-		setName(input: Updated Text, name: "${file.get(Name)}.txt") >> setName 6
-		quicklook(input: Renamed Item)
-	case("🧭  Open in Browser"): >> MenuResult 7
-		if(DeviceDetails == "Mac") {
-			randomNumber(min: 0, max: 9999) >> randomNumber 1
-			runShellScript(input: Text, script: "cat > /tmp/shortcut${Random Number}.html
+text("${63EAA902-633B-4439-B0AD-7774477D72DB}")
+			setName(input: Text, name: "${file.get(Name)}.html") >> setName 5
+			menu(, [💻  Share, 📝  Save to Files, 📄  Quick Look as Text, 🧭  Open in Browser]) {
+			case("💻  Share"): >> MenuResult 5
+				share(file: Renamed Item) >> share
+				exit()
+			case("📝  Save to Files"): >> MenuResult 6
+				saveFile(input: Renamed Item, ask: true, overwrite: false) >> saveFile
+				exit()
+			case("📄  Quick Look as Text"):
+			case("🧭  Open in Browser"): >> MenuResult 7
+				if(DeviceDetails == "Mac") {
+					randomNumber(min: 0, max: 9999) >> randomNumber 1
+					runShellScript(input: Text, script: "cat > /tmp/shortcut${Random Number}.html
 open /tmp/shortcut${ActionOutput}.html
 sleep 1;rm -f /tmp/shortcut${Random Number}.html") >> runShellScript
-		} else { >>  1
-			url(url: "data:text/html,${Text}") >> url 2
-			openURL(url: URL) >> openURL 1
-			nothing() >> nothing 1
-		} >> IFResult 21
-	} >> MenuResult 8
+				} else { >>  1
+					url(url: "data:text/html,${Text}") >> url 2
+					openURL(url: URL) >> openURL 1
+				} >> IFResult 22
+				exit()
+			} >> MenuResult 8
+		} >> IFResult 23
+		replaceText(input: "${URL Encoded Text}", find: "
+​</", replace: "
+</") >> replaceText 10
+		replaceText(input: "${Updated Text}", find: "<div class="row">", replace: "• ") >> replaceText 11
+		if(command .beginsWith "🔍  ") { >> IFResult 24
+			replaceText(input: "${Updated Text}", find: "(?s)<div [^>]+"display:none">.*?</div>(?=\n<(?:hr>|button))", replace: "
+ ⋯⋯", isRegex: true) >> replaceText 12
+			replaceText(input: "${Updated Text}", find: "<button.*>\n(\d+)", replace: "
+〔$1〕", isRegex: true) >> replaceText 13
+			replaceText(input: "${Updated Text}", find: "<b>\[(.*?)\]</b>", replace: "〔$1〕", isRegex: true) >> replaceText 14
+			replaceText(input: "${Updated Text}", find: "<.*?>", isRegex: true) >> replaceText 15
+			replaceText(input: "${Updated Text}", find: "&lt;", replace: "<") >> replaceText 16
+			replaceText(input: "${Updated Text}", find: "&gt;", replace: ">") >> replaceText 17
+			replaceText(input: "${Updated Text}", find: "&nbsp;", replace: " ") >> replaceText 18
+			replaceText(input: "${Updated Text}", find: "&amp;", replace: "&") >> replaceText 19
+			setName(input: Updated Text, name: "${file.get(Name)}.txt") >> setName 6
+			quicklook(input: Renamed Item)
+			exit()
+		}
+		replaceText(input: "${Updated Text}
+", find: "\u3000» ?(?:<i>\d+</i> ?)?(?:<span.*?</span> ?)*(?=</button>)", isRegex: true) >> replaceText 20
+		replaceText(input: "${Updated Text}", find: "\u3000▵<span.*?</span>(?=</button>)", isRegex: true) >> replaceText 21
+		replaceText(input: "${Updated Text}", find: "<button.*>\n(\d+)", replace: "⁢〔⁤$1〕", isRegex: true) >> replaceText 22
+		replaceText(input: "${Updated Text}", find: "<b>\[(\d+.*)\]</b>", replace: "⁢〔⁤$1〕", isRegex: true) >> replaceText 23
+		replaceText(input: "${Updated Text}", find: "<.*?>", isRegex: true) >> replaceText 24
+		replaceText(input: "${Updated Text}", find: "&lt;", replace: "<") >> replaceText 25
+		replaceText(input: "${Updated Text}", find: "&gt;", replace: ">") >> replaceText 26
+		replaceText(input: "${Updated Text}", find: "&nbsp;", replace: " ") >> replaceText 27
+		replaceText(input: "${Updated Text}", find: "&amp;", replace: "&") >> replaceText 28
+		setValue(key: "f${Repeat Index}", value: "${Updated Text}", dictionary: Dictionary) >> setValue 3
+		if(Repeat Index == 1) { >> IFResult 25
+			runShortcut(name: "Shortcut Source Helper") >> runShortcut 1
+var file = Shortcut Result
+			if(Shortcut Result == nil) {
+				exit()
+			} >> IFResult 26
+		} >> IFResult 27
+		replaceText(input: "${Updated Text}", find: "<button.*>\n\d+ ?|<b>\[\d+ ?", replace: "⁢〔⁤", isRegex: true) >> replaceText 29
+		replaceText(input: "${Updated Text}", find: "<.*?>", isRegex: true) >> replaceText 30
+		replaceText(input: "${Updated Text}", find: "&lt;", replace: "<") >> replaceText 31
+		replaceText(input: "${Updated Text}", find: "&gt;", replace: ">") >> replaceText 32
+		replaceText(input: "${Updated Text}", find: "&nbsp;", replace: " ") >> replaceText 33
+		replaceText(input: "${Updated Text}", find: "&amp;", replace: "&") >> replaceText 34
+		setName(input: Updated Text, name: "sst_${Repeat Index}.txt") >> setName 7
+	} >> RepeatResult 3
+	if(DeviceDetails ==) { >> IFResult 28
+		saveFile(input: Repeat Results, ask: false, overwrite: true) >> saveFile 1
+		runShellScript(script: "cd ~/Downloads
+diff -d sst_2.txt sst_1.txt &> sst_diff.txt
+rm -f sst_1.txt sst_2.txt") >> runShellScript 1
+		getFile(path: "sst_diff.txt") >> getFile 2
+	} else { >>  3
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+// 🛑  Please download a-Shell mini  🛑
+		if(output .contains "mini") {
+			file(file: $0)
+		} else {
+			file(file: $0) >> file
+		} >> IFResult 29
+		saveFile(input: Repeat Results, ask: false, overwrite: true) >> saveFile 2
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+		getFile(path: "sst_diff.txt") >> getFile 3
+	} >> IFResult 30
+	count(type: Lines, input: If Result) >> count 2
+	if(Count false 5) {
+		alert(alert: "Identical", cancel: false)
+	} else {
+		setValue(key: "diff", value: "${If Result}", dictionary: Dictionary) >> setValue 4
+		replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 35
+var B84DAB78-581B-4C55-86F5-14C02DBBB90E = """let lines = (s, i) => [...(a=s.split(/[acd]/)[i].split(',').map((a,j)=>(s.includes('a')&&i==0)?parseInt(a):(parseInt(a)-1))), a[0]].slice(0,2);
+let print = (a, i, f, a2, f2, rev) => {
+	let out='', n1, n2, i2;
+	if (i != a[i].start && !a[a[i].start].p) {
+		a[a[i].start].p = true;
+		if (a2) i2 = a[a[i].start].l;
+		if (i2) {
+			a2[i2].p = true;
+			n1 = f[a[i].start].match(/^\u2062〔\u2064(\d+)/)?.[1];
+			n2 = f2[i2].match(/^\u2062〔\u2064(\d+)/)?.[1];
+		}
+		out = '\u2062(\u2064 ' + (i2 ? (f[a[i].start].replace(/^(\u2062〔\u2064)(\d+)/, n1 === n2 ? '$&' : (rev ? ('$1' + n2 + '▶︎$2') : ('$1$2▶︎' + n2)))) : f[a[i].start]) + ' )\n';
+	}
+	a[i].p = true;
+	return out + f[i];
+}
+let dline = [...d.diff.match(/^\d.*/mg), '0c0'];
+let f1 = d.f2.split('\n');
+let f2 = d.f1.split('\n');
+let l1 = Array(f1.length).fill({});
+let l2 = Array(f2.length).fill({});
+let d1 = {start:0};
+let d2 = {start:0};
+let k1 = lines(dline[0], 0);
+let k2 = lines(dline[0], 1);
+let ks = dline[0].match(/[acd]/)[0];
+let ac = {};
+for (i=j=k=0; i<l1.length && j<l2.length; i++, j++) {
+	if (f1[i].match(/^\u2062〔\u2064(\d+)〕/)) { d1.start = i; }
+	if (f2[j].match(/^\u2062〔\u2064(\d+)〕/)) { d2.start = j; }
+	if (i == k1[0]) {
+		let ii = i + k1[1] - k1[0] + 1;
+		let jj = j + k2[1] - k2[0] + 1;
+		if (ks === 'a') { ii--; }
+		else if (ks === 'd') { jj --; }
+		for (;i<ii&&i<l1.length;i++) {
+			if (f1[i].match(/^\u2062〔\u2064(\d+)〕/)) { d1.start = i; }
+			l1[i] = {...d1};
+		}
+		for (;j<jj&&j<l2.length;j++) {
+			if (f2[j].match(/^\u2062〔\u2064(\d+)〕/)) { d2.start = j; }
+			l2[j] = {...d2};
+		}
+		k++;
+		k1 = lines(dline[k], 0);
+		k2 = lines(dline[k], 1);
+		ks = dline[k].match(/[acd]/)[0];
+	}
+	let s1 = i < l1.length && f1[i].match(/^\u2062〔\u2064(\d+)〕/)?.[1];
+	let s2 = j < l2.length && f2[j].match(/^\u2062〔\u2064(\d+)〕/)?.[1];
+	if (s1) { d1.start = i; }
+	if (s2) { d2.start = j; }
+	if (s1 && s2) { ac[s1] = s2; }
+	if (i < l1.length) { l1[i] = {i:i, ...d1, l:j}; }
+	if (j < l2.length) { l2[j] = {i:j, ...d2, l:i}; }
+}
+let out = [];
+k1 = lines(dline[0], 0);
+k2 = lines(dline[0], 1);
+ks = dline[0].match(/[acd]/)[0];
+for (i=j=k=0; i<l1.length && j<l2.length; i++, j++) {
+	if (i == k1[0]) {
+		let o = [];
+		let ii = i + k1[1] - k1[0] + 1;
+		let jj = j + k2[1] - k2[0] + 1;
+		switch (ks) {
+		case 'a':
+			o.push('\u2064▶︎ added');
+			for (;j<jj;j++) { o.push(print(l2, j, f2, l1, f1, true)) }
+			break;
+		case 'd':
+			o.push('\u2064◀︎ deleted');
+			for (;i<ii;i++) { o.push(print(l1, i, f1, l2, f2)) }
+			break;
+		case 'c':
+			o.push('\u2064◀︎◀︎ changed');
+			for (;i<ii;i++) { o.push(print(l1, i, f1, l2, f2)) }
+			o.push('\u2064▶︎▶︎');
+			for (;j<jj;j++) { o.push(print(l2, j, f2)) }
+		}
+		out.push(o.join('\n'));
+		k++;
+		k1 = lines(dline[k], 0);
+		k2 = lines(dline[k], 1);
+		ks = dline[k].match(/[acd]/)[0];
+	}
+	let a1 = (f1[i].match(/\u2062〔\u2064\d+/g) ?? []).map(a => ac[a.replace('\u2062〔\u2064', '')]).join('-');
+	let a2 = (f2[j].match(/\u2062〔\u2064\d+/g) ?? []).map(a => a.replace('\u2062〔\u2064','')).join('-');
+	if (a1 !== a2) { out.push('\u2064◀︎◀︎ changed\n' + print(l1, i, f1, l2, f2) + '\n\u2064▶︎▶︎\n' + print(l2, j, f2)); }
+}
+out[0] = out[0].replace('\u2064◀︎◀︎ changed\n', '◀︎◀︎ ').replace('\u2064▶︎▶︎\n', '▶︎▶︎ ');
+document.body.textContent = encodeURIComponent((out.join('\n\n') + '\n')
+.replace(/(\u2064◀︎◀︎ changed\n|\u2064▶︎▶︎\n)\u2062\(\u2064 (.+?) \)\n/g, '$1$2\n')
+.replace(/(\u2064◀︎◀︎ changed\n(?:[^\u2064\n].*\n|\n)*?)(\u2064▶︎▶︎\n(?:[^\u2064\n].*\n|\n)+?)\n\u2064◀︎◀︎ changed\n((?:[^\u2062\u2064\n].*\n|\n)*?)\u2064▶︎▶︎\n((?:[^\u2062\u2064\n].*\n|\n)*?\n)(?=\u2064|$)/g, '$1…\n$3$2…\n$4')
+.replace(/(\u2064◀︎◀︎ changed\n(?:[^\u2064\n].*\n|\n)*?)(\u2064▶︎▶︎\n(?:[^\u2064\n].*\n|\n)+?)\n\u2064◀︎◀︎ changed\n((?:[^\u2062\u2064\n].*\n|\n)*?)\u2064▶︎▶︎\n((?:[^\u2062\u2064\n].*\n|\n)*?\n)(?=\u2064|$)/g, '$1…\n$3$2…\n$4')
+.replace(/((\u2064(?:◀︎ deleted|▶︎ added)\n)(?:[^\u2064\n].*\n|\n)*?)\n\2((?:[^\u2062\u2064\n].*\n|\n)*?)(?=\u2064|$)/g, '$1…\n$3')
+.replace(/((\u2064(?:◀︎ deleted|▶︎ added)\n)(?:[^\u2064\n].*\n|\n)*?)\n\2((?:[^\u2062\u2064\n].*\n|\n)*?)(?=\u2064|$)/g, '$1…\n$3')
+.replace(/\u2062([〔(])\u2064/g, '$1').replace(/\n\u2064([◀︎▶︎])/g, '\n$1').replace(/\n$/, ''));"""
+text("${B84DAB78-581B-4C55-86F5-14C02DBBB90E}")
+		url(url: "data:text/html;charset=utf-8,<body/><script>let d=${Updated Text};${ActionOutput}</script>") >> url 3
+		decodeURL(url: "${URL.as(RichText)}") >> decodeURL 2
+		setName(input: URL Encoded Text, name: "${file.as(File).get(Name)} ▶︎ ${Variable.as(File).get(Name)}.txt", dontIncludeExtension: $2) >> setName 8
+		quicklook(input: Renamed Item)
+	} >> IFResult 31
 	exit()
-} >> IFResult 22
-if(command .beginsWith "❓") { >> IFResult 23
+} >> IFResult 32
+if(command .beginsWith "❓") { >> IFResult 33
 	getFileOfType(input: file, type: "public.json") >> getFileOfType 2
-	replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 20
-var 4917A6AC-0B55-4F9D-94A5-E81EDD798A0C = """count = 0;
+	replaceText(input: "${File of Type}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 36
+var B2B6714E-10A7-4881-9921-8FC6BF9BA7D8 = """count = 0;
 d.WFWorkflowImportQuestions.forEach(q => { q.Text = q.Text.replace(/\+\+/g, s => { count++; return '\n' }) });
 if (count) { d.count = count }
 document.body.textContent = encodeURIComponent(JSON.stringify(d,null,2));"""
-text("${4917A6AC-0B55-4F9D-94A5-E81EDD798A0C}")
-	url(url: "data:text/html;charset=utf-8,<body/><script>const d=${Updated Text};${ActionOutput}</script>") >> url 3
-	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 2
+text("${B2B6714E-10A7-4881-9921-8FC6BF9BA7D8}")
+	url(url: "data:text/html;charset=utf-8,<body/><script>const d=${Text};${ActionOutput}</script>") >> url 4
+	decodeURL(url: "${URL.as(RichText)}") >> decodeURL 3
 	if(URL Encoded Text == nil) {
 		alert(alert: "‘++’ not found in Import Questions", cancel: false)
 	} else {
@@ -4114,49 +4349,49 @@ text("${4917A6AC-0B55-4F9D-94A5-E81EDD798A0C}")
 Replaced ${URL Encoded Text.as(Dictionary).key(count)} new lines.
 Please remove the first ’Stop and Output‘ action and close the editor when using Remote Sign.
 ")
-		setName(input: URL Encoded Text, name: "${file.get(Name)}.json") >> setName 7
+		setName(input: URL Encoded Text, name: "${file.get(Name)}.json") >> setName 9
 		getFileOfType(input: Renamed Item, type: "com.apple.property-list") >> getFileOfType 3
-		runShortcut(name: "Shortcut Source Helper", input: File of Type) >> runShortcut 1
+		runShortcut(name: "Shortcut Source Helper", input: File of Type) >> runShortcut 2
 	}
 	exit()
-} >> IFResult 24
-if(file .beginsWith "{") { >> IFResult 25
+} >> IFResult 34
+if(file .beginsWith "{") { >> IFResult 35
 	dictionary({"Convert to Property List":"com.apple.plist","Skip":"Skip"})
-} else { >>  26
+} else { >>  36
 	dictionary({"Convert to JSON":"public.json","Skip":"Skip"})
-} >> IFResult 26
+} >> IFResult 36
 choose(list: If Result) >> choose
 //Unable to get shortcuts action is.workflow.actions.getvariable
-if(Chosen Item != "Skip") { >> IFResult 27
+if(Chosen Item != "Skip") { >> IFResult 37
 	getFileOfType(input: file, type: "${Chosen Item.as(Text)}") >> getFileOfType 4
-} >> IFResult 28
+} >> IFResult 38
 replaceText(input: "${If Result}", find: "\u0023", replace: "\\u0023", isRegex: true) >> if result
-if(If Result .beginsWith "{") { >> IFResult 29
-	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(JSON.stringify(${if result},null,3).replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\uFFFC]/g, c => '\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0')))</script>") >> url 4
-} else { >>  5
-	setValue(key: "x", value: "${if result}") >> setValue 3
-	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(${Dictionary}.x.replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\uFFFC]/g, c => '&\u0023x'+c.charCodeAt(0).toString(16).toUpperCase()+';'))</script>") >> url 5
-} >> IFResult 30
-decodeURL(url: "${If Result.as(RichText)}") >> decodeURL 3
-setName(input: URL Encoded Text, name: "${file.get(Name)}.txt") >> setName 8
+if(If Result .beginsWith "{") { >> IFResult 39
+	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(JSON.stringify(${if result},null,3).replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\uFFFC]/g, c => '\\u'+c.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0')))</script>") >> url 5
+} else { >>  6
+	setValue(key: "x", value: "${if result}") >> setValue 5
+	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(${Dictionary}.x.replace(/[\0-\x08\x0B-\x1F\x7F-\xA0\xAD\u2000-\u200B\u2028\u2029\u202F\u205F-\u2064\u2800\u3000\uFFFC]/g, c => '&\u0023x'+c.charCodeAt(0).toString(16).toUpperCase()+';'))</script>") >> url 6
+} >> IFResult 40
+decodeURL(url: "${If Result.as(RichText)}") >> decodeURL 4
+setName(input: URL Encoded Text, name: "${file.get(Name)}.txt") >> setName 10
 var file = Renamed Item
-if(command .beginsWith "✏️") { >> IFResult 31
+if(command .beginsWith "✏️") { >> IFResult 41
 	text(text: "${file}${Variable}") >> text
 	if(Text .beginsWith "{") {
-		setName(input: Text, name: "a.json") >> setName 9
+		setName(input: Text, name: "a.json") >> setName 11
 		getFileOfType(input: Renamed Item, type: "com.apple.property-list") >> getFileOfType 5
-	} >> IFResult 32
+	} >> IFResult 42
 	askForInput(prompt: "New Shortcut Name:", default: "${file.get(Name)}") >> askForInput
-	setName(input: If Result, name: "${Provided Input}.plist") >> setName 10
-	runShortcut(name: "Shortcut Source Helper", input: Renamed Item) >> runShortcut 2
-} else { >>  3
+	setName(input: If Result, name: "${Provided Input}.plist") >> setName 12
+	runShortcut(name: "Shortcut Source Helper", input: Renamed Item) >> runShortcut 3
+} else { >>  4
 	if(command .beginsWith "🧐") {
 		quicklook(input: file)
 	}
 	if(command .beginsWith "📝") {
-		saveFile(input: file) >> saveFile 1
+		saveFile(input: file) >> saveFile 3
 	}
 	if(command .beginsWith "💻") {
 		share(file: file) >> share 1
 	}
-} >> IFResult 33
+} >> IFResult 43
