@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Outputs or imports shortcut source.
-2025-03-31 	v1.4.3
+2025-06-01 	v2.0
 https://routinehub.co/user/gluebyte
 https://bsky.app/profile/gluebyte.bsky.social
 */
@@ -12,7 +12,7 @@ if(Random Number == 1) {
 	getIP() >> getIP
 	if(Current IP Address != nil) {
 		downloadURL(url: "https://updatecheck.gluebyte.workers.dev/?id=07D4DD09") >> downloadURL
-		if(Contents of URL .contains "2025-03-31") { >> IFResult
+		if(Contents of URL .contains "2025-06-01") { >> IFResult
 			menu(, [🌏  Go to RoutineHub, 👾  Download Update, ⮐  Not Now]) {
 			case("🌏  Go to RoutineHub"):
 				openURL(url: "https://routinehub.co/shortcut/10060/")
@@ -81,9 +81,9 @@ cat a.shortcut") >> runShellScript
 			makeArchive(input: ShortcutInput, type: gz) >> makeArchive
 			menu(
 Please select ‘Remote Sign’. Or if you have a Mac running macOS, you can set up SSH:
-, [⚡️  Remote Sign (beta), 🌐  Show me how to SSH, 🖥  SSH to Mac 1, 🖥  SSH to Mac 2]) {
-			case("⚡️  Remote Sign (beta)"):
-				downloadURL(url: "http://shortcut.gluebyte.workers.dev/", method: POST, requestType: File, requestVar: Archive) >> downloadURL 2
+, [⚡️  Remote Sign, 🌐  Show me how to SSH, 🖥  SSH to Mac 1, 🖥  SSH to Mac 2]) {
+			case("⚡️  Remote Sign"):
+				downloadURL(url: "http://shortcuts.gluebyte.workers.dev/", method: POST, requestType: File, requestVar: Archive) >> downloadURL 2
 				if(Contents of URL != "gz") {
 					if(Contents of URL == "") {
 						alert(alert: "
@@ -129,7 +129,7 @@ gzip -9c a.shortcut") >> runSSH 1
 	dictionary({"a":"${ShortcutInput.get(Name)}"})
 	replaceText(input: "${Dictionary}", find: "\u0023", replace: "\\u0023", isRegex: true) >> replaceText 2
 	url(url: "data:text/html;charset=utf-8,<body/><script>document.body.textContent=encodeURIComponent(Array.from(${Updated Text}.a).map(c=>c===(n=c.normalize('NFD'))?c:(s=n.split('')).join(s[0].codePointAt(0)<0x1100?' ':'\u200D')).join(''))</script>") >> url
-	decodeURL(url: "${URL.as(RichText)}") >> decodeURL
+	encodeURL(url: "${URL.as(RichText)}") >> encodeURL
 	setName(input: If Result, name: "${URL Encoded Text}.shortcut") >> setName 2
 	openIn(input: Renamed Item, app: "com.apple.shortcuts", ask: false)
 	wait(seconds: true)

@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Downloads public or private photos and videos from posts, stories, highlights, reels, etc at highest quality
-2025-03-06 	v5.5.5
+2025-06-02 	v5.5.8
 https://routinehub.co/user/gluebyte
 https://threads.net/@gluebyte
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2025-03-06";
+                                    string = "2025-06-02";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -776,7 +776,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udeb7  Why Safari? Turn off Safe Mode";
+                                    string = "\Ud83d\Udeb7  Why Safari? Turn off Safe Mode\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -791,7 +791,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\U2705  OK, do not show anymore";
+                                    string = "\U2705  OK, do not show anymore\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -821,7 +821,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\U270b  Privacy Browsing?";
+                                    string = "\U270b  Privacy Browsing?\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -896,7 +896,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\U261d\Ufe0f  Download current story only";
+                                    string = "\U261d\Ufe0f  Download current story only\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -911,7 +911,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udd22  Show list for all items";
+                                    string = "\Ud83d\Udd22  Show list for all items\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -926,7 +926,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udd22  Show list for all items";
+                                    string = "\Ud83d\Udd22  Show list for all items\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -941,7 +941,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udd22  Download all items";
+                                    string = "\Ud83d\Udd22  Download all items\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -956,7 +956,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udd22  Download all items";
+                                    string = "\Ud83d\Udd22  Download all items\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -971,7 +971,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udc64  Profile picture / Stories";
+                                    string = "\Ud83d\Udc64  Profile picture / Stories\t\t";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1061,7 +1061,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udeb8  Turn on Safe Mode for posts/reels";
+                                    string = "\Ud83d\Udeb8  Turn on Safe Mode for posts/reels\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1091,7 +1091,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83e\Uddf5  Contact gluebyte on Threads";
+                                    string = "\Ud83e\Uddf5  Contact gluebyte on Threads\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1106,7 +1106,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udc27  Contact gluebyte on RoutineHub";
+                                    string = "\Ud83d\Udc27  Contact gluebyte on RoutineHub\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1136,7 +1136,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udc64  Manage accounts in Scriptable";
+                                    string = "\Ud83d\Udc64  Manage accounts in Scriptable\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1151,7 +1151,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udde3\Ufe0f  Check account in Scriptable";
+                                    string = "\Ud83d\Udde3\Ufe0f  Check account in Scriptable\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1166,7 +1166,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udc64  Manage accounts in Safari";
+                                    string = "\Ud83d\Udc64  Manage accounts in Safari\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1181,7 +1181,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83d\Udccb  Download media from copied link";
+                                    string = "\Ud83d\Udccb  Download media from copied link\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1211,7 +1211,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "\Ud83c\Udf10  Open Scriptable to sign in";
+                                    string = "\Ud83c\Udf10  Open Scriptable to sign in\t\t\b";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1287,21 +1287,6 @@ list(items: (
                             WFValue =                             {
                                 Value =                                 {
                                     string = "https://routinehub.co/user/gluebyte";
-                                };
-                                WFSerializationType = WFTextTokenString;
-                            };
-                        },
-                                                {
-                            WFItemType = 0;
-                            WFKey =                             {
-                                Value =                                 {
-                                    string = gestalt;
-                                };
-                                WFSerializationType = WFTextTokenString;
-                            };
-                            WFValue =                             {
-                                Value =                                 {
-                                    string = "file:///private/var/containers/Shared/SystemGroup/systemgroup.com.apple.mobilegestaltcache/Library/Caches/com.apple.MobileGestalt.plist";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1995,7 +1980,7 @@ var mainDict = Dictionary
 getFile(path: "/Shortcuts/${mainDict.key(filename)}", error: false) >> getFile
 if(File .contains ""safemode"") {
 } else {
-	valuesFrom(dictionary: mainDict) >> valuesFrom
+	valueFor(key: "localpref", dictionary: mainDict) >> valueFor
 } >> IFResult
 getDictionaryFrom(input: If Result) >> getDictionaryFrom 1
 var localpref = Dictionary
@@ -2004,6 +1989,7 @@ getNumbersFrom(text: localpref) >> safe mode
 matchText(text: "${output}", regex: "^/private/.+/File Provider Storage$") >> matchText
 if(Matches == nil) { >> IFResult 1
 var switched = Variable
+	openApp(id: "AsheKube.app.a-Shell-mini")
 	deviceDetails(detail: Device Model) >> deviceDetails
 	replaceText(input: "${mainDict.key(msg.bookmark)}", find: "•", replace: "${Device Model}") >> replaceText
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
@@ -2021,134 +2007,13 @@ var switched = Variable
 dictionary({})
 if(ShortcutInput != nil) { >> IFResult 3
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
-	valuesFrom(dictionary: File) >> cpu
+	valueFor(key: "CacheExtra.5pYKlGnYYBzGvAlIU8RjEQ", dictionary: File) >> cpu
 	getType(input: ShortcutInput) >> getType
 	if(Type .contains "Safari") { >> IFResult 4
 var switched = Variable
-		runJavascriptOnWebpage(url: ShortcutInput, javascript: "let cpu = eval('${cpu}'.replace(/t80*(.+)/,'($1<110)?-1:$1*1.1-100').replace(/t60*(.+)/,'$1+40').replace(/\D.+/,'-1'));
-let h = document.documentElement.innerHTML;
-if (h.includes('"PolarisViewer",[],{"data":null')) exit({error:1, login:1});
-
-let input = window.location.href.replace(/\?.*/, '');
-let murl = ((input.includes('/stories/') || input.includes('/s/')) ? document.querySelector('meta[property="og:url"]') : document.querySelector('meta[property="al:android:url"]'))?.content?.replace(/\?.*/, '').replace(/(instagram\.com\/).+?\/(?=(?:p|tv|reel)\/)/, '$1') || '!';
-if (murl.includes('com/stories/') && input.endsWith('.com/')) input = murl;
-if (murl != input && !(murl.includes('com/stories/') && input.includes('com/stories/'))) exit({error:1});
-
-let mm = h.match(/.*xdt_api__v1__(?:media__shortcode__web_info|feed__reels_media).*/)?.[0]?.replace(/^<.+?>/,'').replace(/<.+?>$/,'');
-if (!mm) exit({error:2, mobile:navigator.userAgent.includes('Mobile')?1:null, stories:input.includes('com/stories/')?1:null});
-
-	let localDate = d => new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().replace(/\....Z|:/g,'');
-	let touchDate = s => s.slice(0,4) + s.slice(5,7) + s.slice(8,10) + s.slice(11,15) + '.' + s.slice(15);
-	let bestImage = (j, reels=false) => {
-		let ratio = j.original_width ? j.original_width / j.original_height : 0;
-		let can = j.image_versions2.candidates;
-		return (img = can.reduce((b,c) => (c.width >= b[1] && c.height > b[2] && ((reels && (c.width/c.height != 1)) || !ratio || ((r = c.width/c.height - ratio) <= 0.01 && r >= -0.01))) ? [c.url,c.width,c.height] : b, ['',0,0])[0]) === '' ? can.reduce((b,c) => (c.width >= b[1] && c.height > b[2]) ? [c.url,c.width,c.height] : b, ['',0,0])[0] : img;
-	};
-	let bestVideo = (v) => (v.candidates ?? v).reduce((b,c) => (c.width ? (c.width >= b[1] && c.height >= b[2]) : (c.type < b[3])) ? [c.url,c.width,c.height,c.type] : b, ['',0,0,9999])[0];
-	let baseURLs = m => {
-		let url = m.split('</Representation>').reduce((b,c) => (!c.includes('AudioChannelConfiguration') && b[1] < (bw = parseInt(c.match(/bandwidth=\u0022(\d+)/)?.[1] ?? 0))) ? [c.match(/<BaseURL[^>]*>([^<]+)/)?.[1], bw] : b, ['',0]);
-		let fftime = Number.parseFloat(m.match(/ duration=\u0022PT([\d.]+)/)?.[1]) * url[1] / 40000 / cpu;
-		url = url[0].replace(/&amp;/g,'&');
-		if (audio = m.match(/<AudioChannelConfiguration[^>]*>\s*<BaseURL[^>]*>([^<]+)/)) {
-			url = [url, audio[1].replace(/&amp;/g,'&')];
-		}
-		return [url, fftime];
-	};
-
-	let j = JSON.parse(mm).require[0][3][0].__bbox.require[0][3][1].__bbox.result.data;
-	j = j.xdt_api__v1__media__shortcode__web_info ?? j.xdt_api__v1__feed__reels_media__connection?.edges?.[0]?.node ?? 	j.xdt_api__v1__feed__reels_media?.reels_media?.[0];
-
-	let out = {count:0};
-	let m = input.match(/\/(p|tv|reel)\/([\w-]+)/) || input.match(/instagram\.com\/([^\/]+)(?:\/([\w-]+))?/);
-	if (['p','tv','reel'].includes(m[1])) { // post
-		out.ispost = 1
-		out = {...out, urls:[], urls2:[], dates:[], tdates:[], vcount:0};
-		p = j.items[0];
-		out.user = p.user.username;
-		out.urls = (p.carousel_media ?? [p]).map(a => {
-			let u, u2, fftime;
-			if (v=a.video_versions) {
-				out.vcount++;
-				u2 = bestVideo(v);
-				if (m = a.video_dash_manifest) {
-					[u, fftime] = baseURLs(m);
-					if (m.includes('codecs="vp09')) {
-						if (cpu == -1) { u = undefined }
-//						else if (fftime > 10) { out.switch = true }
-						else { out.switch = true }
-					}
-				}
-			} else {
-				u2 = bestImage(a);
-			}
-			out.urls2.push(u2);
-			return u ?? u2;
-		})
-		if (input.includes('/reel/') || input.includes('/tv/')) {
-			let cover = bestImage(p, true);
-			out.urls.unshift(cover);
-			out.urls2.unshift(cover);
-			out.reels = 1;
-		}
-		out.count = out.urls.length;
-		out.dates = Array.from(Array(out.count), (_, i) => localDate(new Date(1000 * (p.taken_at+i+1))));
-		out.tdates = out.dates.map(a => touchDate(a));
-		if (p.caption) {
-			out.caption = input + '\n' + out.dates[0].replace(/T(..)(..)(..)/, ' $1:$2:$3  @') + out.user + '\n' + p.caption.text;
-		}
-	} else if (['stories','s'].includes(m[1])) { // stories
-		out = {...out, urls:[], urls2:[], dates:[], tdates:[], vcount:0};
-		out.user = j.user.username;
-		out.count = j.items.length;
-		let sid = input.match(/\d{5,25}(?=\/?$)/)?.[0] + "_" + j.user.pk;
-		j.items.sort((a,b) => a.taken_at - b.taken_at).forEach(a => {
-			let d = localDate(new Date(1000*a.taken_at));
-			let td = touchDate(d);
-			let u, u2, u3, fftime;
-			if (a.media_type == 1) {
-				u2 = bestImage(a);
-			} else {
-				if (a.story_music_stickers) {
-					out.count++;
-					u3 = bestImage(a);
-					out.urls.push(u3);
-					out.urls2.push(u3);
-					out.dates.push(d);
-					out.tdates.push(td);
-				}
-				let v = a.video_versions;
-				u2 = bestVideo(v);
-				if (m = a.video_dash_manifest) {
-					[u, fftime] = baseURLs(m);
-					if (m.includes('codecs="vp09')) {
-						if (cpu == -1) { u = undefined }
-//						else if (fftime > 10) { out.switch = true }
-						else { out.switch = true }
-					}
-				}
-				out.vcount++;
-			}
-			out.urls.push(u ?? u2);
-			out.urls2.push(u2);
-			out.dates.push(d);
-			out.tdates.push(td);
-			if (out.count > 1 && a.id === sid) {
-				if (u3) {
-					out.one = {user:out.user, count:2, dates:[d,d], urls:[u3, u ?? u2], urls2:[u3, u2], tdates:[td,td]};
-				} else {
-					out.one = {user:out.user, count:1, dates:[d], urls:[u ?? u2], urls2:[u2], tdates:[td]};
-				}
-//				if ((cpu != -1) && a.video_dash_manifest?.includes('codecs=\u0022vp09') && fftime > 10) { out.one.switch = true }
-				if ((cpu != -1) && a.video_dash_manifest?.includes('codecs=\u0022vp09')) { out.one.switch = true }
-			}
-		});
-	}
-	exit(out);
-
-function exit(output) {
-	window.close();
-	completion(output);
-}") >> runJavascriptOnWebpage
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "output = (new Function(decodeURIComponent("let%20cpu%20%3D%20eval('${cpu}'.replace(/t80*(.+)/,'($1%3C110)%3F-1:$1*1.1-100').replace(/t60*(.+)/,'$1+40').replace(/%5Bst%5D.+/,'-1'));%0Alet%20h%20%3D%20document.documentElement.innerHTML;%0Aif%20(h.includes('%22PolarisViewer%22,%5B%5D,%7B%22data%22:null'))%20return%20%7Berror:1,%20login:1%7D;%0A%0Alet%20input%20%3D%20window.location.href.replace(/%5C%3F.*/,%20'');%0Alet%20murl%20%3D%20((input.includes('/stories/')%20%7C%7C%20input.includes('/s/'))%20%3F%20document.querySelector('meta%5Bproperty%3D%22og:url%22%5D')%20:%20document.querySelector('meta%5Bproperty%3D%22al:android:url%22%5D'))%3F.content%3F.replace(/%5C%3F.*/,%20'').replace(/(instagram%5C.com%5C/).+%3F%5C/(%3F%3D(%3F:p%7Ctv%7Creel)%5C/)/,%20'$1')%20%7C%7C%20'!';%0Aif%20(murl.includes('com/stories/')%20%26%26%20input.endsWith('.com/'))%20input%20%3D%20murl;%0Aif%20(murl%20!%3D%20input%20%26%26%20!(murl.includes('com/stories/')%20%26%26%20input.includes('com/stories/')))%20return%20%7Berror:1%7D;%0A%0Alet%20mm%20%3D%20h.match(/.*xdt_api__v1__(%3F:media__shortcode__web_info%7Cfeed__reels_media).*/)%3F.%5B0%5D%3F.replace(/%5E%3C.+%3F%3E/,'').replace(/%3C.+%3F%3E$/,'');%0Aif%20(!mm)%20return%20%7Berror:2,%20mobile:navigator.userAgent.includes('Mobile')%3F1:null,%20stories:input.includes('com/stories/')%3F1:null%7D;%0A%0A%09let%20localDate%20%3D%20d%20%3D%3E%20new%20Date(d.getTime()%20-%20(d.getTimezoneOffset()%20*%2060000)).toISOString().replace(/%5C....Z%7C:/g,'');%0A%09let%20touchDate%20%3D%20s%20%3D%3E%20s.slice(0,4)%20+%20s.slice(5,7)%20+%20s.slice(8,10)%20+%20s.slice(11,15)%20+%20'.'%20+%20s.slice(15);%0A%09let%20bestImage%20%3D%20(j,%20reels%3Dfalse)%20%3D%3E%20%7B%0A%09%09let%20ratio%20%3D%20j.original_width%20%3F%20j.original_width%20/%20j.original_height%20:%200;%0A%09%09let%20can%20%3D%20j.image_versions2.candidates;%0A%09%09return%20(img%20%3D%20can.reduce((b,c)%20%3D%3E%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%20b%5B2%5D%20%26%26%20((reels%20%26%26%20(c.width/c.height%20!%3D%201))%20%7C%7C%20!ratio%20%7C%7C%20((r%20%3D%20c.width/c.height%20-%20ratio)%20%3C%3D%200.01%20%26%26%20r%20%3E%3D%20-0.01)))%20%3F%20%5Bc.url,c.width,c.height%5D%20:%20b,%20%5B'',0,0%5D)%5B0%5D)%20%3D%3D%3D%20''%20%3F%20can.reduce((b,c)%20%3D%3E%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%20b%5B2%5D)%20%3F%20%5Bc.url,c.width,c.height%5D%20:%20b,%20%5B'',0,0%5D)%5B0%5D%20:%20img;%0A%09%7D;%0A%09let%20bestVideo%20%3D%20(v)%20%3D%3E%20(v.candidates%20%3F%3F%20v).reduce((b,c)%20%3D%3E%20(c.width%20%3F%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%3D%20b%5B2%5D)%20:%20(c.type%20%3C%20b%5B3%5D))%20%3F%20%5Bc.url,c.width,c.height,c.type%5D%20:%20b,%20%5B'',0,0,9999%5D)%5B0%5D;%0A%09let%20baseURLs%20%3D%20m%20%3D%3E%20%7B%0A%09%09let%20url%20%3D%20m.split('%3C/Representation%3E').reduce((b,c)%20%3D%3E%20(!c.includes('AudioChannelConfiguration')%20%26%26%20b%5B1%5D%20%3C%20(bw%20%3D%20parseInt(c.match(/bandwidth%3D%5Cu0022(%5Cd+)/)%3F.%5B1%5D%20%3F%3F%200)))%20%3F%20%5Bc.match(/%3CBaseURL%5B%5E%3E%5D*%3E(%5B%5E%3C%5D+)/)%3F.%5B1%5D,%20bw%5D%20:%20b,%20%5B'',0%5D);%0A%09%09let%20fftime%20%3D%20Number.parseFloat(m.match(/%20duration%3D%5Cu0022PT(%5B%5Cd.%5D+)/)%3F.%5B1%5D)%20*%20url%5B1%5D%20/%2040000%20/%20cpu;%0A%09%09url%20%3D%20url%5B0%5D.replace(/%26amp;/g,'%26');%0A%09%09if%20(audio%20%3D%20m.match(/%3CAudioChannelConfiguration%5B%5E%3E%5D*%3E%5Cs*%3CBaseURL%5B%5E%3E%5D*%3E(%5B%5E%3C%5D+)/))%20%7B%0A%09%09%09url%20%3D%20%5Burl,%20audio%5B1%5D.replace(/%26amp;/g,'%26')%5D;%0A%09%09%7D%0A%09%09return%20%5Burl,%20fftime%5D;%0A%09%7D;%0A%0A%09let%20j%20%3D%20JSON.parse(mm).require%5B0%5D%5B3%5D%5B0%5D.__bbox.require%5B0%5D%5B3%5D%5B1%5D.__bbox.result.data;%0A%09j%20%3D%20j.xdt_api__v1__media__shortcode__web_info%20%3F%3F%20j.xdt_api__v1__feed__reels_media__connection%3F.edges%3F.%5B0%5D%3F.node%20%3F%3F%20%09j.xdt_api__v1__feed__reels_media%3F.reels_media%3F.%5B0%5D;%0A%0A%09let%20out%20%3D%20%7Bcount:0%7D;%0A%09let%20m%20%3D%20input.match(/%5C/(p%7Ctv%7Creel)%5C/(%5B%5Cw-%5D+)/)%20%7C%7C%20input.match(/instagram%5C.com%5C/(%5B%5E%5C/%5D+)(%3F:%5C/(%5B%5Cw-%5D+))%3F/);%0A%09if%20(%5B'p','tv','reel'%5D.includes(m%5B1%5D))%20%7B%20//%20post%0A%09%09out.ispost%20%3D%201%0A%09%09out%20%3D%20%7B...out,%20urls:%5B%5D,%20urls2:%5B%5D,%20dates:%5B%5D,%20tdates:%5B%5D,%20vcount:0%7D;%0A%09%09p%20%3D%20j.items%5B0%5D;%0A%09%09out.user%20%3D%20p.user.username;%0A%09%09out.urls%20%3D%20(p.carousel_media%20%3F%3F%20%5Bp%5D).map(a%20%3D%3E%20%7B%0A%09%09%09let%20u,%20u2,%20fftime;%0A%09%09%09if%20(v%3Da.video_versions)%20%7B%0A%09%09%09%09out.vcount++;%0A%09%09%09%09u2%20%3D%20bestVideo(v);%0A%09%09%09%09if%20(m%20%3D%20a.video_dash_manifest)%20%7B%0A%09%09%09%09%09%5Bu,%20fftime%5D%20%3D%20baseURLs(m);%0A%09%09%09%09%09if%20(m.includes('codecs%3D%22vp09'))%20%7B%0A%09%09%09%09%09%09if%20(cpu%20%3D%3D%20-1)%20%7B%20u%20%3D%20undefined%20%7D%0A//%09%09%09%09%09%09else%20if%20(fftime%20%3E%2010)%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%09else%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%7D%20else%20%7B%0A%09%09%09%09u2%20%3D%20bestImage(a);%0A%09%09%09%7D%0A%09%09%09out.urls2.push(u2);%0A%09%09%09return%20u%20%3F%3F%20u2;%0A%09%09%7D)%0A%09%09if%20(input.includes('/reel/')%20%7C%7C%20input.includes('/tv/'))%20%7B%0A%09%09%09let%20cover%20%3D%20bestImage(p,%20true);%0A%09%09%09out.urls.unshift(cover);%0A%09%09%09out.urls2.unshift(cover);%0A%09%09%09out.reels%20%3D%201;%0A%09%09%7D%0A%09%09out.count%20%3D%20out.urls.length;%0A%09%09out.dates%20%3D%20Array.from(Array(out.count),%20(_,%20i)%20%3D%3E%20localDate(new%20Date(1000%20*%20(p.taken_at+i+1))));%0A%09%09out.tdates%20%3D%20out.dates.map(a%20%3D%3E%20touchDate(a));%0A%09%09out.caption%20%3D%20input%20+%20'%5Cn'%20+%20out.dates%5B0%5D.replace(/T(..)(..)(..)/,%20'%20$1:$2:$3%20%20@')%20+%20out.user%20+%20(p.caption%20%3F%20'%5Cn'%20+%20p.caption.text%20:%20'');%0A%09%7D%20else%20if%20(%5B'stories','s'%5D.includes(m%5B1%5D))%20%7B%20//%20stories%0A%09%09out%20%3D%20%7B...out,%20urls:%5B%5D,%20urls2:%5B%5D,%20dates:%5B%5D,%20tdates:%5B%5D,%20vcount:0%7D;%0A%09%09out.user%20%3D%20j.user.username;%0A%09%09out.count%20%3D%20j.items.length;%0A%09%09let%20sid%20%3D%20input.match(/%5Cd%7B5,25%7D(%3F%3D%5C/%3F$)/)%3F.%5B0%5D%20+%20%22_%22%20+%20j.user.pk;%0A%09%09j.items.sort((a,b)%20%3D%3E%20a.taken_at%20-%20b.taken_at).forEach(a%20%3D%3E%20%7B%0A%09%09%09let%20d%20%3D%20localDate(new%20Date(1000*a.taken_at));%0A%09%09%09let%20td%20%3D%20touchDate(d);%0A%09%09%09let%20u,%20u2,%20u3,%20fftime;%0A%09%09%09if%20(a.media_type%20%3D%3D%201)%20%7B%0A%09%09%09%09u2%20%3D%20bestImage(a);%0A%09%09%09%7D%20else%20%7B%0A%09%09%09%09if%20(a.story_music_stickers)%20%7B%0A%09%09%09%09%09out.count++;%0A%09%09%09%09%09u3%20%3D%20bestImage(a);%0A%09%09%09%09%09out.urls.push(u3);%0A%09%09%09%09%09out.urls2.push(u3);%0A%09%09%09%09%09out.dates.push(d);%0A%09%09%09%09%09out.tdates.push(td);%0A%09%09%09%09%7D%0A%09%09%09%09let%20v%20%3D%20a.video_versions;%0A%09%09%09%09u2%20%3D%20bestVideo(v);%0A%09%09%09%09if%20(m%20%3D%20a.video_dash_manifest)%20%7B%0A%09%09%09%09%09%5Bu,%20fftime%5D%20%3D%20baseURLs(m);%0A%09%09%09%09%09if%20(m.includes('codecs%3D%22vp09'))%20%7B%0A%09%09%09%09%09%09if%20(cpu%20%3D%3D%20-1)%20%7B%20u%20%3D%20undefined%20%7D%0A//%09%09%09%09%09%09else%20if%20(fftime%20%3E%2010)%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%09else%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%09out.vcount++;%0A%09%09%09%7D%0A%09%09%09out.urls.push(u%20%3F%3F%20u2);%0A%09%09%09out.urls2.push(u2);%0A%09%09%09out.dates.push(d);%0A%09%09%09out.tdates.push(td);%0A%09%09%09if%20(out.count%20%3E%201%20%26%26%20a.id%20%3D%3D%3D%20sid)%20%7B%0A%09%09%09%09if%20(u3)%20%7B%0A%09%09%09%09%09out.one%20%3D%20%7Buser:out.user,%20count:2,%20dates:%5Bd,d%5D,%20urls:%5Bu3,%20u%20%3F%3F%20u2%5D,%20urls2:%5Bu3,%20u2%5D,%20tdates:%5Btd,td%5D%7D;%0A%09%09%09%09%7D%20else%20%7B%0A%09%09%09%09%09out.one%20%3D%20%7Buser:out.user,%20count:1,%20dates:%5Bd%5D,%20urls:%5Bu%20%3F%3F%20u2%5D,%20urls2:%5Bu2%5D,%20tdates:%5Btd%5D%7D;%0A%09%09%09%09%7D%0A//%09%09%09%09if%20((cpu%20!%3D%20-1)%20%26%26%20a.video_dash_manifest%3F.includes('codecs%3D%5Cu0022vp09')%20%26%26%20fftime%20%3E%2010)%20%7B%20out.one.switch%20%3D%20true%20%7D%0A%09%09%09%09if%20((cpu%20!%3D%20-1)%20%26%26%20a.video_dash_manifest%3F.includes('codecs%3D%5Cu0022vp09'))%20%7B%20out.one.switch%20%3D%20true%20%7D%0A%09%09%09%7D%0A%09%09%7D);%0A%09%7D%0A%09return%20out;")))();
+window.close();
+completion(output);") >> runJavascriptOnWebpage
 		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\..*", replace: "", isRegex: true) >> replaceText 2
 		if(Updated Text >= 16) { >> IFResult 5
 //Unable to get shortcuts action com.apple.mobilesafari.TabEntity
@@ -2175,7 +2040,7 @@ function exit(output) {
 				exit()
 			} >> IFResult 10
 			if(JavaScript Result != nil) {
-				valuesFrom(dictionary: mainDict) >> valuesFrom 1
+				valueFor(key: "usesafe2", dictionary: mainDict) >> valueFor 1
 			} >> IFResult 11
 			list(items: (
         {
@@ -2450,7 +2315,7 @@ if(ShortcutInput != nil) { >> IFResult 43
 		text(text: "1") >> text 1
 	} >> IFResult 44
 	if(Output != nil) { >> IFResult 45
-		valuesFrom(dictionary: mainDict) >> valuesFrom 2
+		valueFor(key: "allstory${pref.key(selection.1)}", dictionary: mainDict) >> valueFor 2
 		menu(, [) {
 		case("mainDict (onestory)"):
 			getDictionaryFrom(input: Output) >> getDictionaryFrom 4
@@ -2472,7 +2337,7 @@ var Output = Dictionary
 			exit()
 		}
 	}
-	valuesFrom(dictionary: Output) >> count
+	valueFor(key: "count", dictionary: Output) >> count
 	if(count > 0) {
 		repeatEach(Output) {
 			url(url: Repeat Item) >> url 4
@@ -2493,7 +2358,7 @@ var mainDict = Dictionary
 			} >> RepeatResult 3
 			downloadURL(url: "${Repeat Results}") >> downloadURL 2
 		} >> IFResult 50
-		valuesFrom(dictionary: pref) >> Media Date
+		valueFor(key: "selection.6", dictionary: pref) >> Media Date
 		if(Media Date > 2) { >> IFResult 51
 			choose(list: mainDict, prompt: "${mainDict.key(msg.dateprompt)}") >> choose 3
 			replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 9
@@ -2517,22 +2382,22 @@ var index = Variable
 			getItemFromList(list: Contents of URL, type: Item At Index, index: index) >> item 1
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 			if(MediaDate == 1) {
-				valuesFrom(dictionary: Output)
+				valueFor(key: "dates.${Repeat Index}", dictionary: Output)
 			} else {
 				adjustDate(duration: , date: "${Adjusted Date}") >> adjustDate 1
 				formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "yyyy-MM-dd'T'HHmmss")
 			} >> IFResult 53
-			valuesFrom(dictionary: Output) >> valuesFrom 3
+			valueFor(key: "${mainDict.key(urls)}.${Variable.key(urls)}", dictionary: Output) >> valueFor 3
 			count(input: Dictionary Value) >> count 2
 			if(Count == 1) {
 				setName(input: item 1, name: "ig_${item 1.get(File Extension)}.${ActionOutput.get(File Extension)}") >> setName 1
 				saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile 3
 				nothing()
 				if(item 1 == "mp4") {
-var 7EC9BF3D-F2B7-429A-850A-D1F4E9B0AEC1 = """ffmpeg -v error -i ig_￼.mp4 -metadata "creation_time=￼" -c copy -y ig_t.mp4
+var C2D6A997-B547-4ED4-A513-9DBB40F525FB = """ffmpeg -v error -i ig_￼.mp4 -metadata "creation_time=￼" -c copy -y ig_t.mp4
 mv -f ig_t.mp4 ig_￼.mp4
 """
-text("${7EC9BF3D-F2B7-429A-850A-D1F4E9B0AEC1}")
+text("${C2D6A997-B547-4ED4-A513-9DBB40F525FB}")
 				} >> IFResult 54
 			} else {
 				setName(input: item 1, name: "ig_${Repeat Index}v") >> setName 2
@@ -2575,21 +2440,21 @@ var index = Calculation Result
     }
 )) >> list 3
 				saveFile(input: List, ask: false, overwrite: true) >> saveFile 4
-var 6A4A7892-C3FB-4DB4-89C1-A38236EA993D = """ffmpeg -v error -i ig_￼v.mp4 -i ig_￼a.mp4 -c copy -map 0:v:0 -map 1:a:0 -metadata "creation_time=￼" -y ig_￼.mp4
+var C0FF9732-B017-4F8C-96D2-CA416BA32BF1 = """ffmpeg -v error -i ig_￼v.mp4 -i ig_￼a.mp4 -c copy -map 0:v:0 -map 1:a:0 -metadata "creation_time=￼" -y ig_￼.mp4
 """
-text("${6A4A7892-C3FB-4DB4-89C1-A38236EA993D}")
+text("${C0FF9732-B017-4F8C-96D2-CA416BA32BF1}")
 			} >> IFResult 55
 			math(input: index, operand: "1") >> math 4
 var index = Calculation Result
 			nothing()
 			if(MediaDate == 1) {
-				valuesFrom(dictionary: Output) >> valuesFrom 4
+				valueFor(key: "tdates.${Repeat Index}", dictionary: Output) >> valueFor 4
 			} else {
 				formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "yyyyMMddHHmm.ss")
 			} >> IFResult 56
-var E36ECBD8-DD1C-4A09-B39D-9A4084B0C951 = """dash -c "if [ $(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 ig_￼.￼) = vp9 ];then ffmpeg -v warning -stats -i ig_￼.￼ -c:v h264 -c:a copy -y ig_t.mp4;mv -f ig_t.mp4 ig_￼.￼;fi"
+var AF78C2F0-483A-4F18-B650-4D700FB934E4 = """dash -c "if [ $(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 ig_￼.￼) = vp9 ];then ffmpeg -v warning -stats -i ig_￼.￼ -c:v h264 -c:a copy -y ig_t.mp4;mv -f ig_t.mp4 ig_￼.￼;fi"
 touch -t ￼ ig_￼.￼"""
-text("${E36ECBD8-DD1C-4A09-B39D-9A4084B0C951}")
+text("${AF78C2F0-483A-4F18-B650-4D700FB934E4}")
 			list(items: (
         {
         WFItemType = 0;
@@ -2627,7 +2492,7 @@ text("${E36ECBD8-DD1C-4A09-B39D-9A4084B0C951}")
 		} >> RepeatResult 5
 		statistic(input: Contents of URL, operation: Maximum) >> statistic
 		if(Maximum false 150000000) { >> IFResult 57
-			valuesFrom(dictionary: Output)
+			valueFor(key: "switch", dictionary: Output)
 		} >> IFResult 58
 		if(If Result != nil) {
 var switched = Variable
@@ -2644,7 +2509,7 @@ var switched = Variable
 		math(input: digits, operation: …, scientific: 10^x) >> math 5
 		repeatEach(Output) { >> RepeatResult 7
 			getItemFromList(list: extensions, type: Item At Index, index: Repeat Index) >> getItemFromList 1
-			getFile(path: "ig_${Repeat Index}.${Variable}") >> getFile 1
+			getFile(path: "ig_${Item from List}.${ActionOutput}") >> getFile 1
 			nothing()
 			if(Output != nil) {
 				if(count > 1) {
@@ -2652,12 +2517,12 @@ var switched = Variable
 					replaceText(input: "${Calculation Result}", find: "^.", replace: "-", isRegex: true)
 				} >> IFResult 59
 			} >> IFResult 60
-			setName(input: File, name: "${Repeat Item} ${Variable}${If Result}") >> setName 4
+			setName(input: File, name: "${Output.key(user)} ${Variable.key(user)}${If Result}") >> setName 4
 		} >> RepeatResult 8
 var media = Repeat Results
 		count(input: media)
 		if(Output != nil) { >> IFResult 61
-			valuesFrom(dictionary: pref) >> Reels Cover
+			valueFor(key: "selection.7", dictionary: pref) >> Reels Cover
 			if(Reels Cover > 2) { >> IFResult 62
 				choose(list: mainDict, prompt: "${mainDict.key(msg.reelsprompt)}") >> choose 4
 				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 12
@@ -2682,11 +2547,11 @@ var media = Item from List
 		} >> IFResult 64
 		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> OS
 		if(new count > 1) { >> IFResult 65
-			valuesFrom(dictionary: pref) >> Show List
+			valueFor(key: "selection.1", dictionary: pref) >> Show List
 			if(Show List == 1) {
 				number(value: 2) >> number 1
 				if(Output != nil) { >> IFResult 66
-					valuesFrom(dictionary: pref) >> Show Grid
+					valueFor(key: "selection.2", dictionary: pref) >> Show Grid
 					if(Show Grid > 2) {
 						choose(list: mainDict, prompt: "${mainDict.key(msg.gridprompt)}") >> choose 5
 						replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 14
@@ -2728,14 +2593,14 @@ var savePref = Count
 					} else {
 var switched = Variable
 						openApp(id: "AsheKube.app.a-Shell-mini")
-var F5014B32-46BE-4FF8-A509-A3626E421C7C = """hideKeyboard
+var B60D1A51-8BD0-47F1-BDFD-097068AA8E02 = """hideKeyboard
 cd ~OnMyDevice
 clear
 touch ig_begin0
 rm -f ig_done
 ￼
 touch ig_done"""
-text("${F5014B32-46BE-4FF8-A509-A3626E421C7C}")
+text("${B60D1A51-8BD0-47F1-BDFD-097068AA8E02}")
 						repeat(5) { >> RepeatResult 10
 							if(File == nil) {
 								if(Repeat Index .between 2...4) {
@@ -2791,7 +2656,7 @@ var media = If Result
 		} >> IFResult 75
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 		if(media != nil) { >> IFResult 76
-			valuesFrom(dictionary: pref) >> Share
+			valueFor(key: "selection.3", dictionary: pref) >> Share
 			if(Share == 1) {
 				if(OS .between 171...173) {
 					math(input: "1", operation: -, operand: switched) >> math 11
@@ -2806,9 +2671,9 @@ var switched = Calculation Result
 				}
 				share(file: media) >> share
 			} >> IFResult 77
-			valuesFrom(dictionary: pref) >> Save to Files
+			valueFor(key: "selection.4", dictionary: pref) >> Save to Files
 			if(Save to Files == 1) {
-				valuesFrom(dictionary: pref) >> valuesFrom 5
+				valueFor(key: "folderlocation", dictionary: pref) >> valueFor 5
 				if(OS == 1) {
 					if(Dictionary Value == nil) {
 						menu(, [) {
@@ -2834,7 +2699,7 @@ var pref = Dictionary
 					}
 				} >> IFResult 80
 				if(pref == nil) {
-					valuesFrom(dictionary: mainDict) >> valuesFrom 6
+					valueFor(key: "msg.folderprompt${OS}", dictionary: mainDict) >> valueFor 6
 					askForInput(prompt: "${Dictionary Value}") >> askForInput
 					text(text: "${Provided Input}") >> text 3
 					setValue(key: "savefolder", value: "${Text}", dictionary: pref) >> setValue 10
@@ -2846,9 +2711,9 @@ var savePref = Variable
 				} >> IFResult 81
 				saveFile(input: media, ask: false, path: "${pref.key(savefolder)}") >> saveFile 5
 			} >> IFResult 82
-			valuesFrom(dictionary: pref) >> Save to Album
+			valueFor(key: "selection.5", dictionary: pref) >> Save to Album
 			if(Save to Album == 1) {
-				valuesFrom(dictionary: pref) >> album
+				valueFor(key: "album", dictionary: pref) >> album
 				if(album == nil) {
 					alert(alert: "${mainDict.key(msg.album)}", cancel: false)
 					saveToCameraRoll(image: media, album: Ask) >> saveToCameraRoll
@@ -2874,7 +2739,7 @@ var savePref = Variable
 			openApp(id: "com.burbn.instagram")
 		}
 		if(Output != nil) { >> IFResult 87
-			valuesFrom(dictionary: pref) >> Copy Caption
+			valueFor(key: "selection.8", dictionary: pref) >> Copy Caption
 			if(Copy Caption > 2) {
 				choose(list: mainDict, prompt: "${mainDict.key(msg.copyprompt)}") >> choose 8
 				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 17
@@ -2905,10 +2770,10 @@ var savePref = Calculation Result
 			getTextFrom(input: Output) >> getTextFrom
 			nothing() >> nothing 1
 			if(Text .contains "⚠️") {
-				valuesFrom(dictionary: mainDict) >> usesafe
+				valueFor(key: "usesafe", dictionary: mainDict) >> usesafe
 				if(DeviceDetails ==) {
 					if(safe mode == 1) {
-						valuesFrom(dictionary: mainDict) >> valuesFrom 7
+						valueFor(key: "usesafe2", dictionary: mainDict) >> valueFor 7
 					}
 				}
 			} >> IFResult 93
@@ -3014,7 +2879,7 @@ var menu = Variable
 			getNumbersFrom(text: localpref) >> safemode
 			nothing()
 			if(safemode != 1) {
-				valuesFrom(dictionary: mainDict) >> valuesFrom 8
+				valueFor(key: "loginsafari", dictionary: mainDict) >> valueFor 8
 			} >> IFResult 97
 			getItemFromList(list: mainDict, type: Item At Index, index: safemode) >> getItemFromList 4
 			list(items: (
@@ -3197,12 +3062,12 @@ var menu = Variable
 			if(Chosen Item == ""${mainDict.key(login)}"") {
 				alert(alert: "${mainDict.key(msg.login)}")
 				if(safemode == 1) {
-var 5B0F429C-9C9A-4DDB-8E26-793A75C7B01F = """let fm = FileManager.local();
+var 61863874-144F-481B-9F2C-D37A6206C268 = """let fm = FileManager.local();
 let path = fm.joinPath(fm.documentsDirectory(), '￼');
 pref = fm.fileExists(path) ? JSON.parse(fm.readString(path)) : {};
 pref.wait = Date.now() + 9000;
 fm.writeString(path, JSON.stringify(pref));"""
-text("${5B0F429C-9C9A-4DDB-8E26-793A75C7B01F}")
+text("${61863874-144F-481B-9F2C-D37A6206C268}")
 				} >> IFResult 99
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 			}
@@ -3230,7 +3095,7 @@ var menu = Variable
 					if(menu == 0) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 						getDictionaryFrom(input: Output) >> getDictionaryFrom 5
-						choose(list: Dictionary, prompt: "${Dictionary.key(folderpath)}${ActionOutput.key(folderpath)}${mainDict.key(msg.settingprompt)}") >> choose 11
+						choose(list: Dictionary, prompt: "${mainDict.key(msg.settingprompt)}${Variable.key(msg.settingprompt)}${Dictionary.key(albumname)}") >> choose 11
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 var menu = Variable
 						} else {

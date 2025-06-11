@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Download media from public/private/circle/community tweets at the highest quality, save to Photos or Files or share.
-2025-03-05 	v5.5.4
+2025-04-29 	v5.5.7
 https://routinehub.co/user/gluebyte
 https://bsky.app/profile/gluebyte.bsky.social
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2025-03-05";
+                                    string = "2025-04-29";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1623,8 +1623,8 @@ if(ShortcutInput != nil) { >> IFResult 3
 	if(If Result != nil) {
 		replaceText(input: "ㅁ${twurl}", find: "^.*/(\d{17,}).*$", replace: "$1", isRegex: true) >> ID
 		if(ID .beginsWith "ㅁ") {
-			alert(alert: "${mainDict.key(msg.notweeturl)}
-‘${Variable.key(msg.notweeturl)}’", cancel: false)
+			alert(alert: "${twurl}
+‘${ActionOutput}’", cancel: false)
 		} else {
 var command = Variable
 		} >> IFResult 6
@@ -1632,8 +1632,8 @@ var command = Variable
 		if(twurl .contains "twimg.com") {
 			alert(alert: "${mainDict.key(msg.vidurl)}", cancel: false)
 		} else {
-			alert(alert: "${mainDict.key(msg.notweeturl)}
-‘${Variable.key(msg.notweeturl)}’", cancel: false)
+			alert(alert: "${twurl}
+‘${ActionOutput}’", cancel: false)
 		}
 	}
 } >> IFResult 7
@@ -1760,14 +1760,14 @@ var version = Variable
 						if(error .contains ""code":179") {
 var command = Variable
 							if(tweetDict != nil) {
-								text(text: "${mainDict.key(msg.error1)}${Variable.key(msg.error1)}")
+								text(text: "${tweetDict.key(me)}${Variable.key(me)}")
 							} else {
 								valuesFrom(dictionary: mainDict)
 							}
 						} else {
 							valuesFrom(dictionary: mainDict)
 						} >> IFResult 24
-						alert(alert: "${twurl}
+						alert(alert: "${If Result}
 ➡️  ${ActionOutput}
 
 🛑  ￼", tincel: false)
@@ -1873,12 +1873,12 @@ var pref = Dictionary
 							setName(input: If Result, name: "tw_0.mp4") >> setName
 							saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile 5
 							randomNumber(min: 0, max: 99999) >> random
-var F2293C1F-0609-4917-A561-46A688BEC365 = """cd ~OnMyDevice
+var CB667783-5C2A-41F4-9133-E00BD7CC50C7 = """cd ~OnMyDevice
 rm -f tw_done*
 ffmpeg -v error -stats -i tw_0.mp4 ￼ -c:v copy -c:a copy -y tw_￼.mp4
 touch tw_done￼
 rm -f tw_0.mp4"""
-text("${F2293C1F-0609-4917-A561-46A688BEC365}")
+text("${CB667783-5C2A-41F4-9133-E00BD7CC50C7}")
 							if(Renamed Item false) {
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 							} else {
@@ -1905,7 +1905,7 @@ var loop = File
 var shell = Variable
 var switched = Variable
 						randomNumber(min: 0, max: 99999) >> random
-var 248313C6-AE24-4DCF-A371-98A6DA263D11 = """cd ~OnMyDevice
+var EBDAB634-104C-4EE5-BAF5-9305AFBEF01A = """cd ~OnMyDevice
 rm -f tw_* *.ts
 touch tw_begin￼
 hideKeyboard
@@ -1918,7 +1918,7 @@ ffmpeg -v error -stats -protocol_whitelist file,tls,tcp,https,crypto -i tw_1.m3u
 rm -f *.ts tw_1.m3u8
 touch ￼ tw_￼.mp4
 open shortcuts:"""
-text("${248313C6-AE24-4DCF-A371-98A6DA263D11}")
+text("${EBDAB634-104C-4EE5-BAF5-9305AFBEF01A}")
 						repeat(5) { >> RepeatResult 2
 							if(File == nil) {
 								if(Repeat Index 3 .between 2...4) {
@@ -1932,7 +1932,7 @@ text("${248313C6-AE24-4DCF-A371-98A6DA263D11}")
 						waitToReturn()
 						getFile(path: "tw_${Repeat Index 2}.mp4") >> getFile 3
 						if(tweetDict != nil) { >> IFResult 40
-							setName(input: File, name: "${tweetDict.key(user)} ${Variable.key(user)}.m4a") >> setName 1
+							setName(input: File, name: "${Adjusted Date} ${ActionOutput}.m4a") >> setName 1
 							share(file: Renamed Item) >> share
 						}
 					} >> IFResult 41
@@ -1989,7 +1989,7 @@ var Info = Item from List
 						valuesFrom(dictionary: Info) >> type
 						if(type == "photo") { >> IFResult 48
 //Unable to get shortcuts action is.workflow.actions.appendvariable
-							text(text: "${Repeat Item 2.get(File Extension)} ${Variable.get(File Extension)}x${Repeat Item 2.get(File Size)} (${Variable.get(File Size)})") >> text
+							text(text: "${Repeat Item 2.as(Image).get(Width)} ${Variable.as(Image).get(Width)}x${Repeat Item 2.get(File Extension)} (${Variable.get(File Extension)})") >> text
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 						} >> IFResult 49
 						number(value: 0) >> number 3
@@ -2005,13 +2005,13 @@ var Info = Item from List
 //Unable to get shortcuts action is.workflow.actions.getvariable
 							if(MediaDate == 2) { >> IFResult 54
 								if(shell == nil) {
-									encodeMedia(media: Repeat Item 2) >> encodeMedia
+									encodeAudio(media: Repeat Item 2) >> encodeAudio
 									getFileOfType(input: Encoded Media, type: "public.mpeg-4") >> getFileOfType
 									setName(input: File of Type, name: "tw_${index2}")
 								}
 							} >> IFResult 55
 //Unable to get shortcuts action is.workflow.actions.appendvariable
-							text(text: "${If Result.get(File Extension)} ${ActionOutput.get(File Extension)}x${If Result.get(File Size)} (${ActionOutput.get(File Size)})") >> text 1
+							text(text: "${Info.as(Dictionary).key(width)} ${Variable.as(Dictionary).key(width)}x${If Result.get(File Extension)} (${ActionOutput.get(File Extension)})") >> text 1
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 						}
 						if(type == "animated_gif") { >> IFResult 56
@@ -2027,7 +2027,7 @@ var Info = Item from List
 									} >> IFResult 59
 									setName(input: If Result, name: "tw_${index2}") >> setName 3
 //Unable to get shortcuts action is.workflow.actions.appendvariable
-									text(text: "${If Result.get(File Extension)}${ActionOutput.get(File Extension)}x${If Result.get(File Size)} (${ActionOutput.get(File Size)})") >> text 2
+									text(text: "${Info.as(Dictionary).key(height)}${Variable.as(Dictionary).key(height)}x${If Result.get(File Extension)} (${ActionOutput.get(File Extension)})") >> text 2
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 								} else {
 var switched = Variable
@@ -2039,7 +2039,7 @@ var switched = Variable
 										saveFile(input: Repeat Item 2, ask: false, overwrite: true) >> saveFile 6
 									}
 									randomNumber(min: 0, max: 99999) >> random
-var 3A9A5261-82C2-4433-929A-AE4C608F3851 = """cd ~OnMyDevice
+var 8220E4E6-825D-4AC6-A8FE-AA211E07AA00 = """cd ~OnMyDevice
 touch tw_begin￼
 rm -f tw_done*
 hideKeyboard
@@ -2051,7 +2051,7 @@ echo
 ffmpeg -v error -stats -i tw_￼.mp4 -filter_complex "[0:v]tpad=stop_mode=clone:stop_duration=0"`bc -e "scale=3;.8/￼"`",fps=￼,split[a][b];[a]palettegen=reserve_transparent=0:stats_mode=single[p];[b][p]paletteuse=dither=floyd_steinberg:new=1" -y tw_￼Best.gif
 touch ￼ tw_*.gif tw_done￼
 echo"""
-text("${3A9A5261-82C2-4433-929A-AE4C608F3851}")
+text("${8220E4E6-825D-4AC6-A8FE-AA211E07AA00}")
 									replaceText(input: "${Text}", find: "
 ", replace: ";") >> replaceText 11
 //Unable to get shortcuts action is.workflow.actions.setvariable
@@ -2083,8 +2083,8 @@ var loop = File
 var better = File
 									getFile(path: "tw_${index2}Best.gif") >> getFile 5
 var best = File
-									text(text: "${better.get(File Extension)} ${Variable.get(File Extension)}x${better.get(File Size)} (${Variable.get(File Size)})") >> text 3
-									text(text: "${best.get(File Extension)} ${Variable.get(File Extension)}x${best.get(File Size)} (${Variable.get(File Size)})") >> text 4
+									text(text: "${better.as(Image).get(Width)} ${Variable.as(Image).get(Width)}x${better.get(File Extension)} (${Variable.get(File Extension)})") >> text 3
+									text(text: "${best.as(Image).get(Width)} ${Variable.as(Image).get(Width)}x${best.get(File Extension)} (${Variable.get(File Extension)})") >> text 4
 									list(items: (
         {
         WFItemType = 0;
@@ -2159,23 +2159,23 @@ var switched = Calculation Result
 var media = Variable
 					if(MediaDate == 1) { >> IFResult 63
 						repeatEach(media) {
-							getFile(path: "${Repeat Item 2.get(Name)}.${Variable.get(Name)}", error: false) >> getFile 6
+							getFile(path: "${Repeat Item 2.get(File Extension)}.${Variable.get(File Extension)}", error: false) >> getFile 6
 							if(File == nil) {
 								saveFile(input: Repeat Item 2, ask: false, overwrite: true)
 							}
 							nothing() >> nothing 2
 							if(Repeat Item 2 == "mp4") {
 								replaceText(input: "${-t MediaDate}", find: "\D+", isRegex: true) >> replaceText 12
-var 783CD152-8F58-4EDC-ACBB-3510EE4104BE = """ffmpeg -v warning -i ￼.￼ -c copy -map 0 -metadata creation_time=￼ -y tw_0.mp4
+var C5613429-9DDD-40EA-8BA7-22C438B90670 = """ffmpeg -v warning -i ￼.￼ -c copy -map 0 -metadata creation_time=￼ -y tw_0.mp4
 mv -f tw_0.mp4 ￼.￼
 """
-text("${783CD152-8F58-4EDC-ACBB-3510EE4104BE}")
+text("${C5613429-9DDD-40EA-8BA7-22C438B90670}")
 							} >> IFResult 64
 							randomNumber(min: 0, max: 99999) >> random
-var 53FE3F32-F2AB-4FAA-870E-DEF2863F5443 = """cd ~OnMyDevice
+var A767F5C5-D280-4CF4-9121-66388A2FBA1C = """cd ~OnMyDevice
 rm -f tw_done*
 ￼touch ￼ ￼.￼ tw_done￼"""
-text("${53FE3F32-F2AB-4FAA-870E-DEF2863F5443}")
+text("${A767F5C5-D280-4CF4-9121-66388A2FBA1C}")
 							if(Repeat Item 2 false) {
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 							} else { >>  1
@@ -2192,7 +2192,7 @@ var loop = File
 									}
 								}
 							} >> IFResult 65
-							getFile(path: "${Repeat Item 2.get(Name)}.${Variable.get(Name)}")
+							getFile(path: "${Repeat Item 2.get(File Extension)}.${Variable.get(File Extension)}")
 						} >> RepeatResult 12
 var media = Repeat Results
 					} >> IFResult 66
@@ -2201,7 +2201,7 @@ var media = Repeat Results
 						if(Count > 1) {
 							replaceText(input: " ${Repeat Item 2.get(Name)}", find: "tw_|B.+", isRegex: true)
 						} >> IFResult 67
-						setName(input: Repeat Item 2, name: "${tweetDict.key(user)} ${Variable.key(user)}${If Result}")
+						setName(input: Repeat Item 2, name: "${If Result} ${ActionOutput}${Adjusted Date}")
 					} >> RepeatResult 13
 var media = Repeat Results
 				}
@@ -2351,18 +2351,18 @@ var menu = Variable
 									text(text: "iCloud Drive/Shortcuts")
 								}
 							} >> IFResult 85
-var 84946492-399D-4BD5-8B1D-238CAD143204 = """
+var 3096359F-ECBC-49F0-A37E-5732F95436CA = """
 ￼‘￼/￼’"""
-text("${84946492-399D-4BD5-8B1D-238CAD143204}")
+text("${3096359F-ECBC-49F0-A37E-5732F95436CA}")
 						} >> IFResult 86
 						valuesFrom(dictionary: pref) >> valuesFrom 5
 						if(Dictionary Value != nil) {
 							if(Dictionary Value == "") {
 								valuesFrom(dictionary: mainDict)
 							} >> IFResult 87
-var 89DD5024-A481-4E92-A35A-60D5746E748A = """
+var 82748C50-FF0D-40C2-A736-545EE25D12E4 = """
 ￼‘￼’"""
-text("${89DD5024-A481-4E92-A35A-60D5746E748A}")
+text("${82748C50-FF0D-40C2-A736-545EE25D12E4}")
 						} >> IFResult 88
 						repeatEach(mainDict) {
 							valuesFrom(dictionary: pref) >> valuesFrom 6
@@ -2371,7 +2371,7 @@ text("${89DD5024-A481-4E92-A35A-60D5746E748A}")
 								text(text: "${Dictionary Value}　➤　${ActionOutput}") >> text 8
 							} else {
 								valuesFrom(dictionary: mainDict) >> valuesFrom 8
-								text(text: "${Dictionary Value}  ${ActionOutput}")
+								text(text: "${Repeat Item 3.as(Dictionary).key(title)}  ${Variable.as(Dictionary).key(title)}")
 							} >> IFResult 89
 						} >> RepeatResult 14
 						list(items: (
@@ -2413,7 +2413,7 @@ text("${89DD5024-A481-4E92-A35A-60D5746E748A}")
         };
     }
 )) >> list 2
-						choose(list: List, prompt: "${folderpath}${ActionOutput}${mainDict.key(msg.settingprompt)}") >> choose 4
+						choose(list: List, prompt: "${albumname}${ActionOutput}${folderpath}") >> choose 4
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 							if(twurl != nil) {
 var command = Variable
@@ -2493,10 +2493,10 @@ var pref = Dictionary
 					exit()
 				}
 				if(Output != nil) {
-var F90DF19A-F6A2-4B96-8EE2-423AB32339C7 = """￼
+var 15D86626-0173-40DA-92DD-13E50A9D0838 = """￼
 ￼
 """
-text("${F90DF19A-F6A2-4B96-8EE2-423AB32339C7}")
+text("${15D86626-0173-40DA-92DD-13E50A9D0838}")
 				} else {
 					valuesFrom(dictionary: mainDict)
 				} >> IFResult 101
