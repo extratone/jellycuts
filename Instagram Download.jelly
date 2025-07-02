@@ -3,7 +3,7 @@ import Shortcuts
 
 /*
 Downloads public or private photos and videos from posts, stories, highlights, reels, etc at highest quality
-2025-06-02 	v5.5.8
+2025-06-18 	v5.6.1
 https://routinehub.co/user/gluebyte
 https://threads.net/@gluebyte
 */
@@ -24,7 +24,7 @@ list(items: (
                             };
                             WFValue =                             {
                                 Value =                                 {
-                                    string = "2025-06-02";
+                                    string = "2025-06-18";
                                 };
                                 WFSerializationType = WFTextTokenString;
                             };
@@ -1977,57 +1977,48 @@ list(items: (
 )) >> list
 getDictionaryFrom(input: List) >> getDictionaryFrom
 var mainDict = Dictionary
-getFile(path: "/Shortcuts/${mainDict.key(filename)}", error: false) >> getFile
+//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+/*
+Please install a-Shell mini
+If already installed, open it once
+*/
+if(output .contains "mini") {
+	file(file: $0)
+} else {
+	file(file: $0) >> file
+} >> IFResult
+getFile(path: "${mainDict.key(filename)}", error: false) >> getFile
 if(File .contains ""safemode"") {
 } else {
 	valueFor(key: "localpref", dictionary: mainDict) >> valueFor
-} >> IFResult
+} >> IFResult 1
 getDictionaryFrom(input: If Result) >> getDictionaryFrom 1
 var localpref = Dictionary
 getNumbersFrom(text: localpref) >> safe mode
-//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-matchText(text: "${output}", regex: "^/private/.+/File Provider Storage$") >> matchText
-if(Matches == nil) { >> IFResult 1
-var switched = Variable
-	openApp(id: "AsheKube.app.a-Shell-mini")
-	deviceDetails(detail: Device Model) >> deviceDetails
-	replaceText(input: "${mainDict.key(msg.bookmark)}", find: "•", replace: "${Device Model}") >> replaceText
-//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-	alert(alert: "${Updated Text}", cancel: false)
-	waitToReturn()
-//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-	matchText(text: "${output}", regex: "^/private/.+/File Provider Storage$") >> matchText 1
-	if(Matches == nil) {
-		replaceText(input: "${mainDict.key(msg.bookmarkerror)}", find: "•", replace: "${Device Model}") >> replaceText 1
-		alert(alert: "${Updated Text}")
-		runShortcut(name: "Instagram Download", input: ShortcutInput) >> runShortcut
-		exit()
-	}
-} >> IFResult 2
 dictionary({})
-if(ShortcutInput != nil) { >> IFResult 3
+if(ShortcutInput != nil) { >> IFResult 2
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.GetFileIntent
 	valueFor(key: "CacheExtra.5pYKlGnYYBzGvAlIU8RjEQ", dictionary: File) >> cpu
 	getType(input: ShortcutInput) >> getType
-	if(Type .contains "Safari") { >> IFResult 4
+	if(Type .contains "Safari") { >> IFResult 3
 var switched = Variable
-		runJavascriptOnWebpage(url: ShortcutInput, javascript: "output = (new Function(decodeURIComponent("let%20cpu%20%3D%20eval('${cpu}'.replace(/t80*(.+)/,'($1%3C110)%3F-1:$1*1.1-100').replace(/t60*(.+)/,'$1+40').replace(/%5Bst%5D.+/,'-1'));%0Alet%20h%20%3D%20document.documentElement.innerHTML;%0Aif%20(h.includes('%22PolarisViewer%22,%5B%5D,%7B%22data%22:null'))%20return%20%7Berror:1,%20login:1%7D;%0A%0Alet%20input%20%3D%20window.location.href.replace(/%5C%3F.*/,%20'');%0Alet%20murl%20%3D%20((input.includes('/stories/')%20%7C%7C%20input.includes('/s/'))%20%3F%20document.querySelector('meta%5Bproperty%3D%22og:url%22%5D')%20:%20document.querySelector('meta%5Bproperty%3D%22al:android:url%22%5D'))%3F.content%3F.replace(/%5C%3F.*/,%20'').replace(/(instagram%5C.com%5C/).+%3F%5C/(%3F%3D(%3F:p%7Ctv%7Creel)%5C/)/,%20'$1')%20%7C%7C%20'!';%0Aif%20(murl.includes('com/stories/')%20%26%26%20input.endsWith('.com/'))%20input%20%3D%20murl;%0Aif%20(murl%20!%3D%20input%20%26%26%20!(murl.includes('com/stories/')%20%26%26%20input.includes('com/stories/')))%20return%20%7Berror:1%7D;%0A%0Alet%20mm%20%3D%20h.match(/.*xdt_api__v1__(%3F:media__shortcode__web_info%7Cfeed__reels_media).*/)%3F.%5B0%5D%3F.replace(/%5E%3C.+%3F%3E/,'').replace(/%3C.+%3F%3E$/,'');%0Aif%20(!mm)%20return%20%7Berror:2,%20mobile:navigator.userAgent.includes('Mobile')%3F1:null,%20stories:input.includes('com/stories/')%3F1:null%7D;%0A%0A%09let%20localDate%20%3D%20d%20%3D%3E%20new%20Date(d.getTime()%20-%20(d.getTimezoneOffset()%20*%2060000)).toISOString().replace(/%5C....Z%7C:/g,'');%0A%09let%20touchDate%20%3D%20s%20%3D%3E%20s.slice(0,4)%20+%20s.slice(5,7)%20+%20s.slice(8,10)%20+%20s.slice(11,15)%20+%20'.'%20+%20s.slice(15);%0A%09let%20bestImage%20%3D%20(j,%20reels%3Dfalse)%20%3D%3E%20%7B%0A%09%09let%20ratio%20%3D%20j.original_width%20%3F%20j.original_width%20/%20j.original_height%20:%200;%0A%09%09let%20can%20%3D%20j.image_versions2.candidates;%0A%09%09return%20(img%20%3D%20can.reduce((b,c)%20%3D%3E%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%20b%5B2%5D%20%26%26%20((reels%20%26%26%20(c.width/c.height%20!%3D%201))%20%7C%7C%20!ratio%20%7C%7C%20((r%20%3D%20c.width/c.height%20-%20ratio)%20%3C%3D%200.01%20%26%26%20r%20%3E%3D%20-0.01)))%20%3F%20%5Bc.url,c.width,c.height%5D%20:%20b,%20%5B'',0,0%5D)%5B0%5D)%20%3D%3D%3D%20''%20%3F%20can.reduce((b,c)%20%3D%3E%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%20b%5B2%5D)%20%3F%20%5Bc.url,c.width,c.height%5D%20:%20b,%20%5B'',0,0%5D)%5B0%5D%20:%20img;%0A%09%7D;%0A%09let%20bestVideo%20%3D%20(v)%20%3D%3E%20(v.candidates%20%3F%3F%20v).reduce((b,c)%20%3D%3E%20(c.width%20%3F%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%3D%20b%5B2%5D)%20:%20(c.type%20%3C%20b%5B3%5D))%20%3F%20%5Bc.url,c.width,c.height,c.type%5D%20:%20b,%20%5B'',0,0,9999%5D)%5B0%5D;%0A%09let%20baseURLs%20%3D%20m%20%3D%3E%20%7B%0A%09%09let%20url%20%3D%20m.split('%3C/Representation%3E').reduce((b,c)%20%3D%3E%20(!c.includes('AudioChannelConfiguration')%20%26%26%20b%5B1%5D%20%3C%20(bw%20%3D%20parseInt(c.match(/bandwidth%3D%5Cu0022(%5Cd+)/)%3F.%5B1%5D%20%3F%3F%200)))%20%3F%20%5Bc.match(/%3CBaseURL%5B%5E%3E%5D*%3E(%5B%5E%3C%5D+)/)%3F.%5B1%5D,%20bw%5D%20:%20b,%20%5B'',0%5D);%0A%09%09let%20fftime%20%3D%20Number.parseFloat(m.match(/%20duration%3D%5Cu0022PT(%5B%5Cd.%5D+)/)%3F.%5B1%5D)%20*%20url%5B1%5D%20/%2040000%20/%20cpu;%0A%09%09url%20%3D%20url%5B0%5D.replace(/%26amp;/g,'%26');%0A%09%09if%20(audio%20%3D%20m.match(/%3CAudioChannelConfiguration%5B%5E%3E%5D*%3E%5Cs*%3CBaseURL%5B%5E%3E%5D*%3E(%5B%5E%3C%5D+)/))%20%7B%0A%09%09%09url%20%3D%20%5Burl,%20audio%5B1%5D.replace(/%26amp;/g,'%26')%5D;%0A%09%09%7D%0A%09%09return%20%5Burl,%20fftime%5D;%0A%09%7D;%0A%0A%09let%20j%20%3D%20JSON.parse(mm).require%5B0%5D%5B3%5D%5B0%5D.__bbox.require%5B0%5D%5B3%5D%5B1%5D.__bbox.result.data;%0A%09j%20%3D%20j.xdt_api__v1__media__shortcode__web_info%20%3F%3F%20j.xdt_api__v1__feed__reels_media__connection%3F.edges%3F.%5B0%5D%3F.node%20%3F%3F%20%09j.xdt_api__v1__feed__reels_media%3F.reels_media%3F.%5B0%5D;%0A%0A%09let%20out%20%3D%20%7Bcount:0%7D;%0A%09let%20m%20%3D%20input.match(/%5C/(p%7Ctv%7Creel)%5C/(%5B%5Cw-%5D+)/)%20%7C%7C%20input.match(/instagram%5C.com%5C/(%5B%5E%5C/%5D+)(%3F:%5C/(%5B%5Cw-%5D+))%3F/);%0A%09if%20(%5B'p','tv','reel'%5D.includes(m%5B1%5D))%20%7B%20//%20post%0A%09%09out.ispost%20%3D%201%0A%09%09out%20%3D%20%7B...out,%20urls:%5B%5D,%20urls2:%5B%5D,%20dates:%5B%5D,%20tdates:%5B%5D,%20vcount:0%7D;%0A%09%09p%20%3D%20j.items%5B0%5D;%0A%09%09out.user%20%3D%20p.user.username;%0A%09%09out.urls%20%3D%20(p.carousel_media%20%3F%3F%20%5Bp%5D).map(a%20%3D%3E%20%7B%0A%09%09%09let%20u,%20u2,%20fftime;%0A%09%09%09if%20(v%3Da.video_versions)%20%7B%0A%09%09%09%09out.vcount++;%0A%09%09%09%09u2%20%3D%20bestVideo(v);%0A%09%09%09%09if%20(m%20%3D%20a.video_dash_manifest)%20%7B%0A%09%09%09%09%09%5Bu,%20fftime%5D%20%3D%20baseURLs(m);%0A%09%09%09%09%09if%20(m.includes('codecs%3D%22vp09'))%20%7B%0A%09%09%09%09%09%09if%20(cpu%20%3D%3D%20-1)%20%7B%20u%20%3D%20undefined%20%7D%0A//%09%09%09%09%09%09else%20if%20(fftime%20%3E%2010)%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%09else%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%7D%20else%20%7B%0A%09%09%09%09u2%20%3D%20bestImage(a);%0A%09%09%09%7D%0A%09%09%09out.urls2.push(u2);%0A%09%09%09return%20u%20%3F%3F%20u2;%0A%09%09%7D)%0A%09%09if%20(input.includes('/reel/')%20%7C%7C%20input.includes('/tv/'))%20%7B%0A%09%09%09let%20cover%20%3D%20bestImage(p,%20true);%0A%09%09%09out.urls.unshift(cover);%0A%09%09%09out.urls2.unshift(cover);%0A%09%09%09out.reels%20%3D%201;%0A%09%09%7D%0A%09%09out.count%20%3D%20out.urls.length;%0A%09%09out.dates%20%3D%20Array.from(Array(out.count),%20(_,%20i)%20%3D%3E%20localDate(new%20Date(1000%20*%20(p.taken_at+i+1))));%0A%09%09out.tdates%20%3D%20out.dates.map(a%20%3D%3E%20touchDate(a));%0A%09%09out.caption%20%3D%20input%20+%20'%5Cn'%20+%20out.dates%5B0%5D.replace(/T(..)(..)(..)/,%20'%20$1:$2:$3%20%20@')%20+%20out.user%20+%20(p.caption%20%3F%20'%5Cn'%20+%20p.caption.text%20:%20'');%0A%09%7D%20else%20if%20(%5B'stories','s'%5D.includes(m%5B1%5D))%20%7B%20//%20stories%0A%09%09out%20%3D%20%7B...out,%20urls:%5B%5D,%20urls2:%5B%5D,%20dates:%5B%5D,%20tdates:%5B%5D,%20vcount:0%7D;%0A%09%09out.user%20%3D%20j.user.username;%0A%09%09out.count%20%3D%20j.items.length;%0A%09%09let%20sid%20%3D%20input.match(/%5Cd%7B5,25%7D(%3F%3D%5C/%3F$)/)%3F.%5B0%5D%20+%20%22_%22%20+%20j.user.pk;%0A%09%09j.items.sort((a,b)%20%3D%3E%20a.taken_at%20-%20b.taken_at).forEach(a%20%3D%3E%20%7B%0A%09%09%09let%20d%20%3D%20localDate(new%20Date(1000*a.taken_at));%0A%09%09%09let%20td%20%3D%20touchDate(d);%0A%09%09%09let%20u,%20u2,%20u3,%20fftime;%0A%09%09%09if%20(a.media_type%20%3D%3D%201)%20%7B%0A%09%09%09%09u2%20%3D%20bestImage(a);%0A%09%09%09%7D%20else%20%7B%0A%09%09%09%09if%20(a.story_music_stickers)%20%7B%0A%09%09%09%09%09out.count++;%0A%09%09%09%09%09u3%20%3D%20bestImage(a);%0A%09%09%09%09%09out.urls.push(u3);%0A%09%09%09%09%09out.urls2.push(u3);%0A%09%09%09%09%09out.dates.push(d);%0A%09%09%09%09%09out.tdates.push(td);%0A%09%09%09%09%7D%0A%09%09%09%09let%20v%20%3D%20a.video_versions;%0A%09%09%09%09u2%20%3D%20bestVideo(v);%0A%09%09%09%09if%20(m%20%3D%20a.video_dash_manifest)%20%7B%0A%09%09%09%09%09%5Bu,%20fftime%5D%20%3D%20baseURLs(m);%0A%09%09%09%09%09if%20(m.includes('codecs%3D%22vp09'))%20%7B%0A%09%09%09%09%09%09if%20(cpu%20%3D%3D%20-1)%20%7B%20u%20%3D%20undefined%20%7D%0A//%09%09%09%09%09%09else%20if%20(fftime%20%3E%2010)%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%09else%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%09out.vcount++;%0A%09%09%09%7D%0A%09%09%09out.urls.push(u%20%3F%3F%20u2);%0A%09%09%09out.urls2.push(u2);%0A%09%09%09out.dates.push(d);%0A%09%09%09out.tdates.push(td);%0A%09%09%09if%20(out.count%20%3E%201%20%26%26%20a.id%20%3D%3D%3D%20sid)%20%7B%0A%09%09%09%09if%20(u3)%20%7B%0A%09%09%09%09%09out.one%20%3D%20%7Buser:out.user,%20count:2,%20dates:%5Bd,d%5D,%20urls:%5Bu3,%20u%20%3F%3F%20u2%5D,%20urls2:%5Bu3,%20u2%5D,%20tdates:%5Btd,td%5D%7D;%0A%09%09%09%09%7D%20else%20%7B%0A%09%09%09%09%09out.one%20%3D%20%7Buser:out.user,%20count:1,%20dates:%5Bd%5D,%20urls:%5Bu%20%3F%3F%20u2%5D,%20urls2:%5Bu2%5D,%20tdates:%5Btd%5D%7D;%0A%09%09%09%09%7D%0A//%09%09%09%09if%20((cpu%20!%3D%20-1)%20%26%26%20a.video_dash_manifest%3F.includes('codecs%3D%5Cu0022vp09')%20%26%26%20fftime%20%3E%2010)%20%7B%20out.one.switch%20%3D%20true%20%7D%0A%09%09%09%09if%20((cpu%20!%3D%20-1)%20%26%26%20a.video_dash_manifest%3F.includes('codecs%3D%5Cu0022vp09'))%20%7B%20out.one.switch%20%3D%20true%20%7D%0A%09%09%09%7D%0A%09%09%7D);%0A%09%7D%0A%09return%20out;")))();
+		runJavascriptOnWebpage(url: ShortcutInput, javascript: "output = (new Function(decodeURIComponent("let%20cpu%20%3D%20eval('${cpu}'.replace(/t80*(.+)/,'($1%3C110)%3F-1:$1*1.1-100').replace(/t60*(.+)/,'$1+40').replace(/%5Bst%5D.+/,'-1'));%0Alet%20h%20%3D%20document.documentElement.innerHTML;%0Aif%20(h.includes('%22PolarisViewer%22,%5B%5D,%7B%22data%22:null'))%20return%20%7Berror:1,%20login:1%7D;%0A%0Alet%20input%20%3D%20window.location.href.replace(/%5C%3F.*/,%20'');%0Alet%20murl%20%3D%20((input.includes('/stories/')%20%7C%7C%20input.includes('/s/'))%20%3F%20document.querySelector('meta%5Bproperty%3D%22og:url%22%5D')%20:%20document.querySelector('meta%5Bproperty%3D%22al:android:url%22%5D'))%3F.content%3F.replace(/%5C%3F.*/,%20'').replace(/(instagram%5C.com%5C/).+%3F%5C/(%3F%3D(%3F:p%7Ctv%7Creel)%5C/)/,%20'$1')%20%7C%7C%20'!';%0Aif%20(murl.includes('com/stories/')%20%26%26%20input.endsWith('.com/'))%20input%20%3D%20murl;%0Aif%20(murl%20!%3D%20input%20%26%26%20!(murl.includes('com/stories/')%20%26%26%20input.includes('com/stories/')))%20return%20%7Berror:1%7D;%0A%0Alet%20mm%20%3D%20h.match(/.*xdt_api__v1__(%3F:media__shortcode__web_info%7Cfeed__reels_media).*/)%3F.%5B0%5D%3F.replace(/%5E%3C.+%3F%3E/,'').replace(/%3C.+%3F%3E$/,'');%0Aif%20(!mm)%20return%20%7Berror:2,%20mobile:navigator.userAgent.includes('Mobile')%3F1:null,%20stories:input.includes('com/stories/')%3F1:null%7D;%0A%0A%09let%20localDate%20%3D%20d%20%3D%3E%20new%20Date(d.getTime()%20-%20(d.getTimezoneOffset()%20*%2060000)).toISOString().replace(/%5C....Z%7C:/g,'');%0A%09let%20touchDate%20%3D%20s%20%3D%3E%20s.slice(0,4)%20+%20s.slice(5,7)%20+%20s.slice(8,10)%20+%20s.slice(11,15)%20+%20'.'%20+%20s.slice(15);%0A%09let%20bestImage%20%3D%20(j,%20reels%3Dfalse)%20%3D%3E%20%7B%0A%09%09let%20ratio%20%3D%20j.original_width%20%3F%20j.original_width%20/%20j.original_height%20:%200;%0A%09%09let%20can%20%3D%20j.image_versions2.candidates;%0A%09%09return%20(img%20%3D%20can.reduce((b,c)%20%3D%3E%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%20b%5B2%5D%20%26%26%20((reels%20%26%26%20(c.width/c.height%20!%3D%201))%20%7C%7C%20!ratio%20%7C%7C%20((r%20%3D%20c.width/c.height%20-%20ratio)%20%3C%3D%200.01%20%26%26%20r%20%3E%3D%20-0.01)))%20%3F%20%5Bc.url,c.width,c.height%5D%20:%20b,%20%5B'',0,0%5D)%5B0%5D)%20%3D%3D%3D%20''%20%3F%20can.reduce((b,c)%20%3D%3E%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%20b%5B2%5D)%20%3F%20%5Bc.url,c.width,c.height%5D%20:%20b,%20%5B'',0,0%5D)%5B0%5D%20:%20img;%0A%09%7D;%0A%09let%20bestVideo%20%3D%20(v)%20%3D%3E%20(v.candidates%20%3F%3F%20v).reduce((b,c)%20%3D%3E%20(c.width%20%3F%20(c.width%20%3E%3D%20b%5B1%5D%20%26%26%20c.height%20%3E%3D%20b%5B2%5D)%20:%20(c.type%20%3C%20b%5B3%5D))%20%3F%20%5Bc.url,c.width,c.height,c.type%5D%20:%20b,%20%5B'',0,0,9999%5D)%5B0%5D;%0A%09let%20baseURLs%20%3D%20m%20%3D%3E%20%7B%0A%09%09let%20url%20%3D%20m.split('%3C/Representation%3E').reduce((b,c)%20%3D%3E%20(!c.includes('AudioChannelConfiguration')%20%26%26%20b%5B1%5D%20%3C%20(bw%20%3D%20parseInt(c.match(/bandwidth%3D%5Cu0022(%5Cd+)/)%3F.%5B1%5D%20%3F%3F%200)))%20%3F%20%5Bc.match(/%3CBaseURL%5B%5E%3E%5D*%3E(%5B%5E%3C%5D+)/)%3F.%5B1%5D,%20bw%5D%20:%20b,%20%5B'',0%5D);%0A%09%09let%20fftime%20%3D%20Number.parseFloat(m.match(/%20duration%3D%5Cu0022PT(%5B%5Cd.%5D+)/)%3F.%5B1%5D)%20*%20url%5B1%5D%20/%2040000%20/%20cpu;%0A%09%09url%20%3D%20url%5B0%5D.replace(/%26amp;/g,'%26');%0A%09%09if%20(audio%20%3D%20m.match(/%3CAudioChannelConfiguration%5B%5E%3E%5D*%3E%5Cs*%3CBaseURL%5B%5E%3E%5D*%3E(%5B%5E%3C%5D+)/))%20%7B%0A%09%09%09url%20%3D%20%5Burl,%20audio%5B1%5D.replace(/%26amp;/g,'%26')%5D;%0A%09%09%7D%0A%09%09return%20%5Burl,%20fftime%5D;%0A%09%7D;%0A%0A%09let%20j%20%3D%20JSON.parse(mm).require%5B0%5D%5B3%5D%5B0%5D.__bbox.require%5B0%5D%5B3%5D%5B1%5D.__bbox.result.data;%0A%09j%20%3D%20j.xdt_api__v1__media__shortcode__web_info%20%3F%3F%20j.xdt_api__v1__feed__reels_media__connection%3F.edges%3F.%5B0%5D%3F.node%20%3F%3F%20%09j.xdt_api__v1__feed__reels_media%3F.reels_media%3F.%5B0%5D;%0A%0A%09let%20out%20%3D%20%7Bcount:0%7D;%0A%09let%20m%20%3D%20input.match(/%5C/(p%7Ctv%7Creel)%5C/(%5B%5Cw-%5D+)/)%20%7C%7C%20input.match(/instagram%5C.com%5C/(%5B%5E%5C/%5D+)(%3F:%5C/(%5B%5Cw-%5D+))%3F/);%0A%09if%20(%5B'p','tv','reel'%5D.includes(m%5B1%5D))%20%7B%20//%20post%0A%09%09out.ispost%20%3D%201%0A%09%09out%20%3D%20%7B...out,%20urls:%5B%5D,%20urls2:%5B%5D,%20dates:%5B%5D,%20tdates:%5B%5D,%20vcount:0%7D;%0A%09%09p%20%3D%20j.items%5B0%5D;%0A%09%09out.user%20%3D%20p.user.username;%0A%09%09out.urls%20%3D%20(p.carousel_media%20%3F%3F%20%5Bp%5D).map(a%20%3D%3E%20%7B%0A%09%09%09let%20u,%20u2,%20fftime;%0A%09%09%09if%20(v%3Da.video_versions)%20%7B%0A%09%09%09%09out.vcount++;%0A%09%09%09%09u2%20%3D%20bestVideo(v);%0A%09%09%09%09if%20(m%20%3D%20a.video_dash_manifest)%20%7B%0A%09%09%09%09%09%5Bu,%20fftime%5D%20%3D%20baseURLs(m);%0A%09%09%09%09%09if%20(m.includes('codecs%3D%22vp09'))%20%7B%0A%09%09%09%09%09%09if%20(cpu%20%3D%3D%20-1)%20%7B%20u%20%3D%20undefined%20%7D%0A//%09%09%09%09%09%09else%20if%20(fftime%20%3E%2010)%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%09else%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%7D%20else%20%7B%0A%09%09%09%09u2%20%3D%20bestImage(a);%0A%09%09%09%7D%0A%09%09%09out.urls2.push(u2);%0A%09%09%09return%20u%20%3F%3F%20u2;%0A%09%09%7D)%0A%09%09if%20(input.includes('/reel/')%20%7C%7C%20input.includes('/tv/'))%20%7B%0A%09%09%09let%20cover%20%3D%20bestImage(p,%20true);%0A%09%09%09out.urls.unshift(cover);%0A%09%09%09out.urls2.unshift(cover);%0A%09%09%09out.reels%20%3D%201;%0A%09%09%7D%0A%09%09out.count%20%3D%20out.urls.length;%0A%09%09out.dates%20%3D%20Array.from(Array(out.count),%20(_,%20i)%20%3D%3E%20localDate(new%20Date(1000%20*%20(p.taken_at+i+1))));%0A%09%09out.tdates%20%3D%20out.dates.map(a%20%3D%3E%20touchDate(a));%0A%09%09out.caption%20%3D%20input%20+%20'%5Cn'%20+%20out.dates%5B0%5D.replace(/T(..)(..)(..)/,%20'%20$1:$2:$3%20%20@')%20+%20out.user%20+%20(p.caption%20%3F%20'%5Cn'%20+%20p.caption.text%20:%20'');%0A%09%7D%20else%20if%20(%5B'stories','s'%5D.includes(m%5B1%5D))%20%7B%20//%20stories%0A%09%09out%20%3D%20%7B...out,%20urls:%5B%5D,%20urls2:%5B%5D,%20dates:%5B%5D,%20tdates:%5B%5D,%20vcount:0%7D;%0A%09%09out.user%20%3D%20j.user.username;%0A%09%09out.count%20%3D%20j.items.length;%0A%09%09let%20sid%20%3D%20input.match(/%5Cd%7B5,25%7D(%3F%3D%5C/%3F$)/)%3F.%5B0%5D%20+%20%22_%22%20+%20j.user.pk;%0A%09%09let%20captions%20%3D%20%5B%5D;%0A%09%09j.items.sort((a,b)%20%3D%3E%20a.taken_at%20-%20b.taken_at).forEach(a%20%3D%3E%20%7B%0A%09%09%09let%20d%20%3D%20localDate(new%20Date(1000*a.taken_at));%0A%09%09%09let%20td%20%3D%20touchDate(d);%0A%09%09%09let%20u,%20u2,%20u3,%20fftime;%0A%09%09%09if%20(a.media_type%20%3D%3D%201)%20%7B%0A%09%09%09%09u2%20%3D%20bestImage(a);%0A%09%09%09%7D%20else%20%7B%0A%09%09%09%09if%20(a.story_music_stickers)%20%7B%0A%09%09%09%09%09out.count++;%0A%09%09%09%09%09u3%20%3D%20bestImage(a);%0A%09%09%09%09%09out.urls.push(u3);%0A%09%09%09%09%09out.urls2.push(u3);%0A%09%09%09%09%09out.dates.push(d);%0A%09%09%09%09%09out.tdates.push(td);%0A%09%09%09%09%7D%0A%09%09%09%09let%20v%20%3D%20a.video_versions;%0A%09%09%09%09u2%20%3D%20bestVideo(v);%0A%09%09%09%09if%20(m%20%3D%20a.video_dash_manifest)%20%7B%0A%09%09%09%09%09%5Bu,%20fftime%5D%20%3D%20baseURLs(m);%0A%09%09%09%09%09if%20(m.includes('codecs%3D%22vp09'))%20%7B%0A%09%09%09%09%09%09if%20(cpu%20%3D%3D%20-1)%20%7B%20u%20%3D%20undefined%20%7D%0A//%09%09%09%09%09%09else%20if%20(fftime%20%3E%2010)%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%09else%20%7B%20out.switch%20%3D%20true%20%7D%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%09out.vcount++;%0A%09%09%09%7D%0A%09%09%09let%20cap%20%3D%20a.caption%20%7C%7C%20a.accessibility_caption;%0A%09%09%09let%20caption;%0A%09%09%09if%20(cap)%20%7B%0A%09%09%09%09caption%20%3D%20d.replace(/T(..)(..)(..)/,%20'%20$1:$2:$3%20%20@')%20+%20out.user%20+%20(cap%20%3F%20'%5Cn'%20+%20cap%20:%20'');%0A%09%09%09%09captions.push(caption);%0A%09%09%09%7D%0A%09%09%09out.urls.push(u%20%3F%3F%20u2);%0A%09%09%09out.urls2.push(u2);%0A%09%09%09out.dates.push(d);%0A%09%09%09out.tdates.push(td);%0A%09%09%09if%20(out.count%20%3E%201%20%26%26%20a.id%20%3D%3D%3D%20sid)%20%7B%0A%09%09%09%09if%20(u3)%20%7B%0A%09%09%09%09%09out.one%20%3D%20%7Buser:out.user,%20count:2,%20dates:%5Bd,d%5D,%20urls:%5Bu3,%20u%20%3F%3F%20u2%5D,%20urls2:%5Bu3,%20u2%5D,%20tdates:%5Btd,td%5D,%20caption:caption%7D;%0A%09%09%09%09%7D%20else%20%7B%0A%09%09%09%09%09out.one%20%3D%20%7Buser:out.user,%20count:1,%20dates:%5Bd%5D,%20urls:%5Bu%20%3F%3F%20u2%5D,%20urls2:%5Bu2%5D,%20tdates:%5Btd%5D,%20caption:caption%7D;%0A%09%09%09%09%7D%0A//%09%09%09%09if%20((cpu%20!%3D%20-1)%20%26%26%20a.video_dash_manifest%3F.includes('codecs%3D%5Cu0022vp09')%20%26%26%20fftime%20%3E%2010)%20%7B%20out.one.switch%20%3D%20true%20%7D%0A%09%09%09%09if%20((cpu%20!%3D%20-1)%20%26%26%20a.video_dash_manifest%3F.includes('codecs%3D%5Cu0022vp09'))%20%7B%20out.one.switch%20%3D%20true%20%7D%0A%09%09%09%7D%0A%09%09%7D);%0A%09%09out.caption%20%3D%20captions.join('%5Cn%5Cn');%0A%09%7D%0A%09return%20out;")))();
 window.close();
 completion(output);") >> runJavascriptOnWebpage
-		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\..*", replace: "", isRegex: true) >> replaceText 2
-		if(Updated Text >= 16) { >> IFResult 5
+		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\..*", replace: "", isRegex: true) >> replaceText
+		if(Updated Text >= 16) { >> IFResult 4
 //Unable to get shortcuts action com.apple.mobilesafari.TabEntity
 			if(Tabs .contains "instagram.com") {
 //Unable to get shortcuts action com.apple.mobilesafari.CloseTab
 			}
-		} >> IFResult 6
-		if(JavaScript Result != nil) { >> IFResult 7
+		} >> IFResult 5
+		if(JavaScript Result != nil) { >> IFResult 6
 			number(value: JavaScript Result) >> number
-			replaceText(input: "${ShortcutInput.as(URL)}", find: "(?<=instagram\.com/)[^/]+/(?=p/|tv/|reel/)|\?.*", isRegex: true) >> replaceText 3
-			if(Number == 1) { >> IFResult 8
+			replaceText(input: "${ShortcutInput.as(URL)}", find: "(?<=instagram\.com/)[^/]+/(?=p/|tv/|reel/)|\?.*", isRegex: true) >> replaceText 1
+			if(Number == 1) { >> IFResult 7
 				if(JavaScript Result != nil) {
 					url(url: "https://www.instagram.com/accounts/login/?next=${Updated Text}") >> url
-				} >> IFResult 9
+				} >> IFResult 8
 				url(url: "data:text/html,<meta name="color-scheme" content="light dark"/><meta http-equiv="Refresh" content="0; url=${If Result}"/>") >> url 1
 				openURL(url: URL) >> openURL
 				if(JavaScript Result != nil) {
@@ -2038,10 +2029,10 @@ completion(output);") >> runJavascriptOnWebpage
 					}
 				}
 				exit()
-			} >> IFResult 10
+			} >> IFResult 9
 			if(JavaScript Result != nil) {
 				valueFor(key: "usesafe2", dictionary: mainDict) >> valueFor 1
-			} >> IFResult 11
+			} >> IFResult 10
 			list(items: (
         {
         WFItemType = 0;
@@ -2109,33 +2100,33 @@ completion(output);") >> runJavascriptOnWebpage
 			} else {
 				openApp(id: "com.burbn.instagram") >> openApp
 				if(ActionOutput == ""${mainDict.key(safemodeoff)}"") {
-					replaceText(input: "${localpref}", find: ""hide[^"]+info":\s*\w+,?|"[^"]+count":\s*\w+,?", isRegex: true) >> replaceText 4
+					replaceText(input: "${localpref}", find: ""hide[^"]+info":\s*\w+,?|"[^"]+count":\s*\w+,?", isRegex: true) >> replaceText 2
 					setValue(key: "safemode", value: "${mainDict.key(1)}", dictionary: Updated Text) >> setValue
 				} else {
 					setValue(key: "safemode", value: "${mainDict.key(3)}", dictionary: localpref) >> setValue 1
-				} >> IFResult 12
-				saveFile(input: If Result, ask: false, path: "/Shortcuts/${mainDict.key(filename)}", overwrite: true) >> saveFile
+				} >> IFResult 11
+				saveFile(input: If Result, ask: false, path: "${mainDict.key(filename)}", overwrite: true) >> saveFile
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-				runShortcut(name: "Instagram Download", input: ShortcutInput) >> runShortcut 1
+				runShortcut(name: "Instagram Download", input: ShortcutInput) >> runShortcut
 			}
 			exit()
-		} >> IFResult 13
+		} >> IFResult 12
 //Unable to get shortcuts action is.workflow.actions.getvariable
-	} else { >>  14
-		if(ShortcutInput .beginsWith "{") { >> IFResult 14
+	} else { >>  13
+		if(ShortcutInput .beginsWith "{") { >> IFResult 13
 var switched = Variable
 //Unable to get shortcuts action is.workflow.actions.getvariable
-		} else { >>  15
-			if(safe mode == 1) { >> IFResult 15
+		} else { >>  14
+			if(safe mode == 1) { >> IFResult 14
 				nothing() >> nothing
 			} else { >>  1
-				matchText(text: "${ShortcutInput}", regex: "/(?:p|reels?|tv|s|stories|share)/") >> matchText 2
+				matchText(text: "${ShortcutInput}", regex: "/(?:p|reels?|tv|s|stories|share)/") >> matchText
 				if(safe mode == 3) {
-					matchText(text: "${ShortcutInput}", regex: "/(?:p|reels?|tv|share)/") >> matchText 3
-				} >> IFResult 16
-			} >> IFResult 17
-			if(If Result == nil) { >> IFResult 18
-				if(ShortcutInput .contains "/s/") { >> IFResult 19
+					matchText(text: "${ShortcutInput}", regex: "/(?:p|reels?|tv|share)/") >> matchText 1
+				} >> IFResult 15
+			} >> IFResult 16
+			if(If Result == nil) { >> IFResult 17
+				if(ShortcutInput .contains "/s/") { >> IFResult 18
 					alert(alert: "${mainDict.key(msg.hlprompt1)}")
 					getClipboard() >> old clipboard
 					setClipboard() >> setClipboard
@@ -2144,7 +2135,7 @@ var switched = Variable
 						if(Clipboard == nil) {
 							wait(seconds: 0.5)
 							getClipboard() >> getClipboard
-						} >> IFResult 20
+						} >> IFResult 19
 					} >> RepeatResult
 					setClipboard(variable: old clipboard) >> setClipboard 1
 					if(Clipboard .contains "instagram.com/") {
@@ -2156,26 +2147,26 @@ var switched = Variable
 							if(Clipboard == nil) {
 								wait(seconds: 0.5)
 								getClipboard() >> getClipboard 1
-							} >> IFResult 21
+							} >> IFResult 20
 						} >> RepeatResult 1
 						setClipboard(variable: old clipboard) >> setClipboard 3
 						if(Clipboard .contains "/highlights/") {
 							openApp(id: "com.burbn.instagram") >> openApp 1
-							runShortcut(name: "Instagram Download", input: Clipboard) >> runShortcut 2
+							runShortcut(name: "Instagram Download", input: Clipboard) >> runShortcut 1
 						}
 					}
 					exit()
-				} >> IFResult 22
+				} >> IFResult 21
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
-			} else { >>  23
-				replaceText(input: "${ShortcutInput}", find: "(?<=instagram\.com/)[^/]+/(?=p/|tv/|reel/)|\?.*", isRegex: true) >> replaceText 5
+			} else { >>  22
+				replaceText(input: "${ShortcutInput}", find: "(?<=instagram\.com/)[^/]+/(?=p/|tv/|reel/)|\?.*", isRegex: true) >> replaceText 3
 				url(url: "data:text/html,<meta name="color-scheme" content="light dark"/><meta http-equiv="Refresh" content="0; url=${Updated Text}"/>") >> url 3
 				openURL(url: URL) >> openURL 3
-				if(localpref == nil) { >> IFResult 23
+				if(localpref == nil) { >> IFResult 22
 					getNumbersFrom(text: localpref) >> getNumbersFrom
-					if(Numbers > 2) { >> IFResult 24
+					if(Numbers > 2) { >> IFResult 23
 						getTextFrom(input: mainDict) >> ackhide
-					} >> IFResult 25
+					} >> IFResult 24
 					list(items: (
         {
         WFItemType = 0;
@@ -2238,17 +2229,17 @@ var switched = Variable
 )) >> list 2
 					choose(list: List, prompt: "${mainDict.key(msg.safariprompt)}") >> choose 1
 					if(ActionOutput == ""${mainDict.key(safemodeoff)}"") {
-						replaceText(input: "${localpref}", find: ""safe info count":\d+,?", isRegex: true) >> replaceText 6
+						replaceText(input: "${localpref}", find: ""safe info count":\d+,?", isRegex: true) >> replaceText 4
 						setValue(key: "safemode", value: "${mainDict.key(1)}", dictionary: Updated Text) >> setValue 2
-						saveFile(input: Dictionary, ask: false, path: "/Shortcuts/${mainDict.key(filename)}", overwrite: true) >> saveFile 1
+						saveFile(input: Dictionary, ask: false, path: "${mainDict.key(filename)}", overwrite: true) >> saveFile 1
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-						replaceText(input: "${DeviceDetails.get(System Version)}", find: "\..*", replace: "", isRegex: true) >> replaceText 7
-						if(Updated Text >= 16) { >> IFResult 26
+						replaceText(input: "${DeviceDetails.get(System Version)}", find: "\..*", replace: "", isRegex: true) >> replaceText 5
+						if(Updated Text >= 16) { >> IFResult 25
 //Unable to get shortcuts action com.apple.mobilesafari.TabEntity
 							if(Tabs .contains "instagram.com") {
 //Unable to get shortcuts action com.apple.mobilesafari.CloseTab
 							}
-						} >> IFResult 27
+						} >> IFResult 26
 						openApp(id: "com.burbn.instagram") >> openApp 2
 						runShortcut(name: "Instagram Download", input: Updated Text)
 					} else {
@@ -2257,64 +2248,63 @@ var switched = Variable
 						} else {
 							math(input: "1", operand: localpref) >> math
 							setValue(key: "safe info count", value: "${Calculation Result}", dictionary: localpref) >> setValue 4
-						} >> IFResult 28
-						saveFile(input: If Result, ask: false, path: "/Shortcuts/${mainDict.key(filename)}", overwrite: true) >> saveFile 2
+						} >> IFResult 27
+						saveFile(input: If Result, ask: false, path: "${mainDict.key(filename)}", overwrite: true) >> saveFile 2
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-					} >> IFResult 29
-				} >> IFResult 30
+					} >> IFResult 28
+				} >> IFResult 29
 				exit()
-			} >> IFResult 31
+			} >> IFResult 30
 		}
 	}
-} >> IFResult 32
+} >> IFResult 31
 if(If Result == nil) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
-} >> IFResult 33
+} >> IFResult 32
 getDictionaryFrom(input: If Result) >> getDictionaryFrom 2
 var Output = Dictionary
-if(Output != nil) { >> IFResult 34
+if(Output != nil) { >> IFResult 33
 	openApp(id: "dk.simonbs.Scriptable") >> openApp 3
 	if(ShortcutInput != nil) {
 		openApp(id: "com.burbn.instagram") >> openApp 4
 	} else {
 		openApp(id: "com.apple.shortcuts") >> openApp 5
-	} >> IFResult 35
+	} >> IFResult 34
+	runShortcut(name: "Instagram Download", input: ShortcutInput) >> runShortcut 2
+	exit()
+} >> IFResult 35
+if(Output != nil) { >> IFResult 36
+	wait(seconds: Output)
 	runShortcut(name: "Instagram Download", input: ShortcutInput) >> runShortcut 3
 	exit()
-} >> IFResult 36
-if(Output != nil) { >> IFResult 37
-	wait(seconds: Output)
-	runShortcut(name: "Instagram Download", input: ShortcutInput) >> runShortcut 4
-	exit()
-} >> IFResult 38
-if(Output != nil) { >> IFResult 39
+} >> IFResult 37
+if(Output != nil) { >> IFResult 38
 	alert(alert: "${mainDict.key(msg.oldversion)}", cancel: false)
 	openURL(url: mainDict) >> openURL 4
 	exit()
-} >> IFResult 40
-if(Output != nil) { >> IFResult 41
+} >> IFResult 39
+if(Output != nil) { >> IFResult 40
+	replaceText(input: "${Output.key(version)}", find: "(?m)^id:.+", isRegex: true) >> replaceText 6
 	menu(, [) {
 	case("mainDict (gotoweb)"):
 		openURL(url: mainDict)
 		exit()
 	case("mainDict (downloadupdate)"):
-		downloadURL(url: "https://routinehub.co/api/v1/shortcuts/7823/versions/latest") >> downloadURL
-		matchText(text: "${Contents of URL}", regex: "(?<="id":\D?)\d+") >> matchText 4
+		matchText(text: "${Output.key(version)}", regex: "(?<=\nid:).+") >> matchText 2
 		expandURL(url: "https://routinehub.co/download/${Matches}/") >> expandURL
-		replaceText(input: "${Expanded URL}", find: "^.+icloud.com/", replace: "shortcuts://", isRegex: true) >> replaceText 8
-		openURL(url: Updated Text) >> openURL 5
+		openURL(url: Expanded URL) >> openURL 5
 		exit()
 	case("mainDict (notnow)"):
 	} >> MenuResult
-} >> IFResult 42
+} >> IFResult 41
 getDictionaryFrom(input: Output) >> getDictionaryFrom 3
 var pref = Dictionary
-if(ShortcutInput != nil) { >> IFResult 43
+if(ShortcutInput != nil) { >> IFResult 42
 	text(text: "0") >> text
 	if(DeviceDetails != nil) {
 		text(text: "1") >> text 1
-	} >> IFResult 44
-	if(Output != nil) { >> IFResult 45
+	} >> IFResult 43
+	if(Output != nil) { >> IFResult 44
 		valueFor(key: "allstory${pref.key(selection.1)}", dictionary: mainDict) >> valueFor 2
 		menu(, [) {
 		case("mainDict (onestory)"):
@@ -2322,8 +2312,8 @@ if(ShortcutInput != nil) { >> IFResult 43
 var Output = Dictionary
 		case("Dictionary Value"):
 		} >> MenuResult 1
-	} >> IFResult 46
-	if(Output != nil) { >> IFResult 47
+	} >> IFResult 45
+	if(Output != nil) { >> IFResult 46
 		menu(, [) {
 		case("mainDict (profilestory)"):
 		case("mainDict (highlight)"):
@@ -2332,7 +2322,7 @@ var Output = Dictionary
 				setName(input: Output, name: "a.vcf") >> setName
 				choose(list: Renamed Item, prompt: "${mainDict.key(msg.hlprompt)}") >> choose 2
 				contactDetail(detail: Notes, contact: Chosen Item) >> contactDetail
-			} >> IFResult 48
+			} >> IFResult 47
 			runShortcut(name: "Instagram Download", input: If Result)
 			exit()
 		}
@@ -2342,8 +2332,13 @@ var Output = Dictionary
 		repeatEach(Output) {
 			url(url: Repeat Item) >> url 4
 		} >> RepeatResult 2
-		downloadURL(url: "${Repeat Results}") >> downloadURL 1
-		if(Contents of URL .contains "txt") { >> IFResult 49
+		downloadURL(url: "${Repeat Results}") >> downloadURL
+		repeatEach(Contents of URL) {
+			if(Repeat Item ==) {
+				text()
+			}
+		} >> RepeatResult 3
+		if(Repeat Results .contains "txt") { >> IFResult 48
 			menu(, [) {
 			case("mainDict (geturls2)"):
 			case("mainDict (login)"):
@@ -2355,30 +2350,29 @@ var Output = Dictionary
 var mainDict = Dictionary
 			repeatEach(Output) {
 				url(url: Repeat Item) >> url 5
-			} >> RepeatResult 3
-			downloadURL(url: "${Repeat Results}") >> downloadURL 2
-		} >> IFResult 50
+			} >> RepeatResult 4
+			downloadURL(url: "${Repeat Results}") >> downloadURL 1
+		} >> IFResult 49
 		valueFor(key: "selection.6", dictionary: pref) >> Media Date
-		if(Media Date > 2) { >> IFResult 51
+		if(Media Date > 2) { >> IFResult 50
 			choose(list: mainDict, prompt: "${mainDict.key(msg.dateprompt)}") >> choose 3
-			replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 9
+			replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 7
 			count(type: Characters, input: Updated Text) >> count 1
 			math(input: "0", operand: Count) >> math 1
 			math(input: Calculation Result, operation: -, operand: "2") >> math 2
 			if(Calculation Result false 1) {
 				combineText(text: pref, combine: Custom) >> combineText
-				replaceText(input: "${Combined Text}", find: ".(..)$", replace: "${Calculation Result}$1", isRegex: true) >> replaceText 10
+				replaceText(input: "${Combined Text}", find: ".(..)$", replace: "${Calculation Result}$1", isRegex: true) >> replaceText 8
 				splitText(text: Updated Text, separator: Every Character) >> splitText
 				setValue(key: "selection", value: "${Split Text.as(Number)}", dictionary: pref) >> setValue 6
 var pref = Dictionary
 				alert(alert: "${mainDict.key(msg.optionsaved)}", cancel: false)
 var savePref = Calculation Result
 			}
-		} >> IFResult 52
-//Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
+		} >> IFResult 51
 		adjustDate(operation: Subtract, duration: , date: "${CurrentDate}") >> adjustDate
 var index = Variable
-		repeat(count) { >> RepeatResult 4
+		repeat(count) { >> RepeatResult 5
 			getItemFromList(list: Contents of URL, type: Item At Index, index: index) >> item 1
 //Unable to get shortcuts action is.workflow.actions.appendvariable
 			if(MediaDate == 1) {
@@ -2386,19 +2380,18 @@ var index = Variable
 			} else {
 				adjustDate(duration: , date: "${Adjusted Date}") >> adjustDate 1
 				formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "yyyy-MM-dd'T'HHmmss")
-			} >> IFResult 53
-			valueFor(key: "${mainDict.key(urls)}.${Variable.key(urls)}", dictionary: Output) >> valueFor 3
+			} >> IFResult 52
+			valueFor(key: "${Repeat Index}.${Variable}", dictionary: Output) >> valueFor 3
 			count(input: Dictionary Value) >> count 2
 			if(Count == 1) {
-				setName(input: item 1, name: "ig_${item 1.get(File Extension)}.${ActionOutput.get(File Extension)}") >> setName 1
+				setName(input: item 1, name: "ig_${Repeat Index}.${Variable}") >> setName 1
 				saveFile(input: Renamed Item, ask: false, overwrite: true) >> saveFile 3
 				nothing()
 				if(item 1 == "mp4") {
-var C2D6A997-B547-4ED4-A513-9DBB40F525FB = """ffmpeg -v error -i ig_￼.mp4 -metadata "creation_time=￼" -c copy -y ig_t.mp4
-mv -f ig_t.mp4 ig_￼.mp4
-"""
-text("${C2D6A997-B547-4ED4-A513-9DBB40F525FB}")
-				} >> IFResult 54
+var 453CA043-156E-4570-8EE4-A26893C9553E = """ffmpeg -v error -i ig_￼.mp4 -metadata "creation_time=￼" -c copy -y ig_t.mp4
+mv -f ig_t.mp4 ig_￼.mp4"""
+text("${453CA043-156E-4570-8EE4-A26893C9553E}")
+				} >> IFResult 53
 			} else {
 				setName(input: item 1, name: "ig_${Repeat Index}v") >> setName 2
 				math(input: index, operand: "1") >> math 3
@@ -2440,10 +2433,8 @@ var index = Calculation Result
     }
 )) >> list 3
 				saveFile(input: List, ask: false, overwrite: true) >> saveFile 4
-var C0FF9732-B017-4F8C-96D2-CA416BA32BF1 = """ffmpeg -v error -i ig_￼v.mp4 -i ig_￼a.mp4 -c copy -map 0:v:0 -map 1:a:0 -metadata "creation_time=￼" -y ig_￼.mp4
-"""
-text("${C0FF9732-B017-4F8C-96D2-CA416BA32BF1}")
-			} >> IFResult 55
+				text(text: "ffmpeg -v error -i ig_${Repeat Index}v.mp4 -i ig_${Variable}a.mp4 -c copy -map 0:v:0 -map 1:a:0 -metadata "creation_time=${Repeat Index}" -y ig_${Variable}.mp4")
+			} >> IFResult 54
 			math(input: index, operand: "1") >> math 4
 var index = Calculation Result
 			nothing()
@@ -2451,10 +2442,10 @@ var index = Calculation Result
 				valueFor(key: "tdates.${Repeat Index}", dictionary: Output) >> valueFor 4
 			} else {
 				formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "yyyyMMddHHmm.ss")
-			} >> IFResult 56
-var AF78C2F0-483A-4F18-B650-4D700FB934E4 = """dash -c "if [ $(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 ig_￼.￼) = vp9 ];then ffmpeg -v warning -stats -i ig_￼.￼ -c:v h264 -c:a copy -y ig_t.mp4;mv -f ig_t.mp4 ig_￼.￼;fi"
+			} >> IFResult 55
+var EBCD76B2-CD65-47BE-9EF7-6D34153CCC9B = """dash -c "if [ $(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 ig_￼.￼) = vp9 ];then ffmpeg -v error -stats -i ig_￼.￼ -c:v h264 -b:v $(bc -e $(ffprobe -v error -select_streams v:0 -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 ig_￼.￼)*2) -c:a copy -y ig_t.mp4;mv -f ig_t.mp4 ig_￼.￼;fi"
 touch -t ￼ ig_￼.￼"""
-text("${AF78C2F0-483A-4F18-B650-4D700FB934E4}")
+text("${EBCD76B2-CD65-47BE-9EF7-6D34153CCC9B}")
 			list(items: (
         {
         WFItemType = 0;
@@ -2489,119 +2480,119 @@ text("${AF78C2F0-483A-4F18-B650-4D700FB934E4}")
         };
     }
 ))
-		} >> RepeatResult 5
+		} >> RepeatResult 6
 		statistic(input: Contents of URL, operation: Maximum) >> statistic
-		if(Maximum false 150000000) { >> IFResult 57
+		if(Maximum false 150000000) { >> IFResult 56
 			valueFor(key: "switch", dictionary: Output)
-		} >> IFResult 58
+		} >> IFResult 57
 		if(If Result != nil) {
 var switched = Variable
 			openApp(id: "AsheKube.app.a-Shell-mini")
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 			waitToReturn()
 		} else {
-			replaceText(input: "${Repeat Results}", find: "ig_", replace: "~OnMyDevice/ig_") >> replaceText 11
+			replaceText(input: "${Repeat Results}", find: "ig_", replace: "~/Documents/ig_") >> replaceText 9
 			repeatEach(Updated Text) {
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-			} >> RepeatResult 6
+			} >> RepeatResult 7
 		}
 		count(type: Characters, input: count) >> digits
 		math(input: digits, operation: …, scientific: 10^x) >> math 5
-		repeatEach(Output) { >> RepeatResult 7
+		repeatEach(Output) { >> RepeatResult 8
 			getItemFromList(list: extensions, type: Item At Index, index: Repeat Index) >> getItemFromList 1
-			getFile(path: "ig_${Item from List}.${ActionOutput}") >> getFile 1
+			getFile(path: "ig_${Repeat Index}.${Variable}") >> getFile 1
 			nothing()
 			if(Output != nil) {
 				if(count > 1) {
 					math(input: Calculation Result, operand: Repeat Index) >> math 6
 					replaceText(input: "${Calculation Result}", find: "^.", replace: "-", isRegex: true)
-				} >> IFResult 59
-			} >> IFResult 60
+				} >> IFResult 58
+			} >> IFResult 59
 			setName(input: File, name: "${Output.key(user)} ${Variable.key(user)}${If Result}") >> setName 4
-		} >> RepeatResult 8
+		} >> RepeatResult 9
 var media = Repeat Results
 		count(input: media)
-		if(Output != nil) { >> IFResult 61
+		if(Output != nil) { >> IFResult 60
 			valueFor(key: "selection.7", dictionary: pref) >> Reels Cover
-			if(Reels Cover > 2) { >> IFResult 62
+			if(Reels Cover > 2) { >> IFResult 61
 				choose(list: mainDict, prompt: "${mainDict.key(msg.reelsprompt)}") >> choose 4
-				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 12
+				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 10
 				count(type: Characters, input: Updated Text) >> count 3
 				math(input: "0", operand: Count) >> math 7
 				math(input: Calculation Result, operation: -, operand: "2") >> math 8
 				if(Calculation Result false 1) {
 					combineText(text: pref, combine: Custom) >> combineText 1
-					replaceText(input: "${Combined Text}", find: ".(.)$", replace: "${Calculation Result}$1", isRegex: true) >> replaceText 13
+					replaceText(input: "${Combined Text}", find: ".(.)$", replace: "${Calculation Result}$1", isRegex: true) >> replaceText 11
 					splitText(text: Updated Text, separator: Every Character) >> splitText 1
 					setValue(key: "selection", value: "${Split Text.as(Number)}", dictionary: pref) >> setValue 7
 var pref = Dictionary
 					alert(alert: "${mainDict.key(msg.optionsaved)}", cancel: false)
 var savePref = Calculation Result
 				}
-			} >> IFResult 63
+			} >> IFResult 62
 			if(If Result == 2) {
 				getItemFromList(list: media, type: Last Item) >> getItemFromList 2
 var media = Item from List
 			}
 			number(value: 1)
-		} >> IFResult 64
+		} >> IFResult 63
 		replaceText(input: "${DeviceDetails.get(System Version)}", find: "\.(\d+).*", replace: "$1", isRegex: true) >> OS
-		if(new count > 1) { >> IFResult 65
+		if(new count > 1) { >> IFResult 64
 			valueFor(key: "selection.1", dictionary: pref) >> Show List
 			if(Show List == 1) {
 				number(value: 2) >> number 1
-				if(Output != nil) { >> IFResult 66
+				if(Output != nil) { >> IFResult 65
 					valueFor(key: "selection.2", dictionary: pref) >> Show Grid
 					if(Show Grid > 2) {
 						choose(list: mainDict, prompt: "${mainDict.key(msg.gridprompt)}") >> choose 5
-						replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 14
+						replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 12
 						count(input: Updated Text) >> count 4
 						math(input: Count, operation: -, operand: "2") >> math 9
 						if(Calculation Result false 1) {
 							combineText(text: pref, combine: Custom) >> combineText 2
-							replaceText(input: "${Combined Text}", find: "^(.).", replace: "$1${Count}", isRegex: true) >> replaceText 15
+							replaceText(input: "${Combined Text}", find: "^(.).", replace: "$1${Count}", isRegex: true) >> replaceText 13
 							splitText(text: Updated Text, separator: Every Character) >> splitText 2
 							setValue(key: "selection", value: "${Split Text.as(Number)}", dictionary: pref) >> setValue 8
 var pref = Dictionary
 							alert(alert: "${mainDict.key(msg.optionsaved)}", cancel: false)
 var savePref = Count
-						} >> IFResult 67
-					} >> IFResult 68
-				} >> IFResult 69
-				if(count > 4) { >> IFResult 70
+						} >> IFResult 66
+					} >> IFResult 67
+				} >> IFResult 68
+				if(count > 4) { >> IFResult 69
 					number(value: 1) >> number 2
 					menu(, [) {
 					case("mainDict (selectall)"):
 					case("mainDict (selectnone)"):
 						number(value: 0)
 					}
-				} >> IFResult 71
+				} >> IFResult 70
 				if(ShowGrid == 1) {
 					repeatEach(extensions) {
 						nothing()
 						if(Repeat Item == "mp4") {
 							text(text: "ffmpeg -v error -t 1.3 -i ig_${Repeat Index}.mp4 -vf "fps=1.2,scale=256:-1" -y ig_${Variable}.gif") >> text 2
 						}
-					} >> RepeatResult 9
+					} >> RepeatResult 10
 					statistic(input: media, operation: Maximum) >> statistic 1
 					if(Maximum false 100000000) {
 						splitText(text: Repeat Results) >> splitText 3
-						replaceText(input: "${Split Text}", find: "ig_", replace: "~OnMyDevice/ig_") >> replaceText 16
+						replaceText(input: "${Split Text}", find: "ig_", replace: "~/Documents/ig_") >> replaceText 14
 						repeatEach(Updated Text) {
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 						}
 					} else {
 var switched = Variable
 						openApp(id: "AsheKube.app.a-Shell-mini")
-var B60D1A51-8BD0-47F1-BDFD-097068AA8E02 = """hideKeyboard
-cd ~OnMyDevice
+var ABC65B90-A55F-4D65-9D6A-4078D4CD6CE2 = """hideKeyboard
+cd ~/Documents
 clear
 touch ig_begin0
 rm -f ig_done
 ￼
 touch ig_done"""
-text("${B60D1A51-8BD0-47F1-BDFD-097068AA8E02}")
-						repeat(5) { >> RepeatResult 10
+text("${ABC65B90-A55F-4D65-9D6A-4078D4CD6CE2}")
+						repeat(5) { >> RepeatResult 11
 							if(File == nil) {
 								if(Repeat Index .between 2...4) {
 								} else {
@@ -2610,10 +2601,10 @@ text("${B60D1A51-8BD0-47F1-BDFD-097068AA8E02}")
 								wait(seconds: 0.5)
 								getFile(path: "ig_begin0", error: false) >> getFile 2
 							}
-						} >> RepeatResult 11
-						repeat(20) { >> RepeatResult 12
+						} >> RepeatResult 12
+						repeat(20) { >> RepeatResult 13
 							if(File == nil) {
-								repeat(20) { >> RepeatResult 13
+								repeat(20) { >> RepeatResult 14
 									if(File == nil) {
 										wait(seconds: 0.5)
 										getFile(path: "ig_done", error: false) >> getFile 3
@@ -2621,20 +2612,20 @@ text("${B60D1A51-8BD0-47F1-BDFD-097068AA8E02}")
 									nothing()
 								}
 							}
-						} >> RepeatResult 14
+						} >> RepeatResult 15
 					}
-					repeatEach(media) { >> RepeatResult 15
+					repeatEach(media) { >> RepeatResult 16
 						if(Repeat Item == "mp4") {
 							getFile(path: "ig_${Repeat Index}.gif")
-						} >> IFResult 72
+						} >> IFResult 71
 						setName(input: If Result, name: "${Repeat Index}")
-					} >> RepeatResult 16
+					} >> RepeatResult 17
 					choose(list: Repeat Results, multiple: true, all: SelectAll) >> choose 6
 					getName() >> getName
 					repeatEach(Name) {
 						getItemFromList(list: media, type: Item At Index, index: Repeat Item)
-					} >> RepeatResult 17
-				} else { >>  18
+					} >> RepeatResult 18
+				} else { >>  19
 					if(OS .between 171...173) {
 						getNumbersFrom(text: Output) >> getNumbersFrom 1
 						if(Numbers == 0) {
@@ -2648,14 +2639,14 @@ var switched = Calculation Result
 						}
 					} else {
 						wait(seconds: 0.5)
-					} >> IFResult 73
+					} >> IFResult 72
 					choose(list: media, multiple: true, all: SelectAll) >> choose 7
-				} >> IFResult 74
+				} >> IFResult 73
 var media = If Result
 			}
-		} >> IFResult 75
+		} >> IFResult 74
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-		if(media != nil) { >> IFResult 76
+		if(media != nil) { >> IFResult 75
 			valueFor(key: "selection.3", dictionary: pref) >> Share
 			if(Share == 1) {
 				if(OS .between 171...173) {
@@ -2670,7 +2661,7 @@ var switched = Calculation Result
 					wait(seconds: 0.5)
 				}
 				share(file: media) >> share
-			} >> IFResult 77
+			} >> IFResult 76
 			valueFor(key: "selection.4", dictionary: pref) >> Save to Files
 			if(Save to Files == 1) {
 				valueFor(key: "folderlocation", dictionary: pref) >> valueFor 5
@@ -2687,17 +2678,17 @@ var switched = Calculation Result
 						setValue(key: "folderlocation", value: "${Menu Result.as(Number)}", dictionary: pref) >> setValue 9
 var pref = Dictionary
 //Unable to get shortcuts action is.workflow.actions.getvariable
-					} >> IFResult 78
-				} >> IFResult 79
+					} >> IFResult 77
+				} >> IFResult 78
 				if(If Result == 1) {
-					file(file: $0) >> file
+					file(file: $0) >> file 1
 				} else {
 					if(If Result == 2) {
-						file(file: $0) >> file 1
-					} else {
 						file(file: $0) >> file 2
+					} else {
+						file(file: $0) >> file 3
 					}
-				} >> IFResult 80
+				} >> IFResult 79
 				if(pref == nil) {
 					valueFor(key: "msg.folderprompt${OS}", dictionary: mainDict) >> valueFor 6
 					askForInput(prompt: "${Dictionary Value}") >> askForInput
@@ -2708,9 +2699,9 @@ var savePref = Variable
 					if(Provided Input != nil) {
 						createFolder(path: "${pref.key(savefolder)}") >> createFolder
 					}
-				} >> IFResult 81
+				} >> IFResult 80
 				saveFile(input: media, ask: false, path: "${pref.key(savefolder)}") >> saveFile 5
-			} >> IFResult 82
+			} >> IFResult 81
 			valueFor(key: "selection.5", dictionary: pref) >> Save to Album
 			if(Save to Album == 1) {
 				valueFor(key: "album", dictionary: pref) >> album
@@ -2731,41 +2722,41 @@ var savePref = Variable
 						} else {
 							saveToCameraRoll(image: media, album: album)
 						}
-					} >> IFResult 83
-				} >> IFResult 84
-			} >> IFResult 85
-		} >> IFResult 86
+					} >> IFResult 82
+				} >> IFResult 83
+			} >> IFResult 84
+		} >> IFResult 85
 		if(switched == 1) {
 			openApp(id: "com.burbn.instagram")
 		}
-		if(Output != nil) { >> IFResult 87
+		if(Output != nil) { >> IFResult 86
 			valueFor(key: "selection.8", dictionary: pref) >> Copy Caption
 			if(Copy Caption > 2) {
 				choose(list: mainDict, prompt: "${mainDict.key(msg.copyprompt)}") >> choose 8
-				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 17
+				replaceText(input: "${Chosen Item}", find: "[^\u200b]+", isRegex: true) >> replaceText 15
 				count(type: Characters, input: Updated Text) >> count 5
 				math(input: "0", operand: Count) >> math 12
 				math(input: Calculation Result, operation: -, operand: "2") >> math 13
 				if(Calculation Result false 1) {
 					combineText(text: pref, combine: Custom) >> combineText 3
-					replaceText(input: "${Combined Text}", find: ".$", replace: "${Calculation Result}", isRegex: true) >> replaceText 18
+					replaceText(input: "${Combined Text}", find: ".$", replace: "${Calculation Result}", isRegex: true) >> replaceText 16
 					splitText(text: Updated Text, separator: Every Character) >> splitText 4
 					setValue(key: "selection", value: "${Split Text.as(Number)}", dictionary: pref) >> setValue 12
 var pref = Dictionary
 					alert(alert: "${mainDict.key(msg.optionsaved)}", cancel: false)
 var savePref = Calculation Result
-				} >> IFResult 88
-			} >> IFResult 89
+				} >> IFResult 87
+			} >> IFResult 88
 			if(If Result == 1) {
 				setClipboard(variable: Output) >> setClipboard 4
 				getClipboard()
 			}
 		}
-	} >> IFResult 90
+	} >> IFResult 89
 	if(savePref != nil) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
-	} >> IFResult 91
-	if(count == 0) { >> IFResult 92
+	} >> IFResult 90
+	if(count == 0) { >> IFResult 91
 		if(Output != nil) {
 			getTextFrom(input: Output) >> getTextFrom
 			nothing() >> nothing 1
@@ -2776,7 +2767,7 @@ var savePref = Calculation Result
 						valueFor(key: "usesafe2", dictionary: mainDict) >> valueFor 7
 					}
 				}
-			} >> IFResult 93
+			} >> IFResult 92
 			list(items: (
         {
         WFItemType = 0;
@@ -2859,19 +2850,19 @@ var savePref = Calculation Result
 					setValue(key: "safemode", value: "${mainDict.key(2)}", dictionary: localpref) >> setValue 13
 				} else {
 					setValue(key: "safemode", value: "${mainDict.key(3)}", dictionary: localpref) >> setValue 14
-				} >> IFResult 94
-				saveFile(input: If Result, ask: false, path: "/Shortcuts/${mainDict.key(filename)}", overwrite: true) >> saveFile 6
+				} >> IFResult 93
+				saveFile(input: If Result, ask: false, path: "${mainDict.key(filename)}", overwrite: true) >> saveFile 6
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
-			} >> IFResult 95
+			} >> IFResult 94
 			if(Chosen Item == ""${mainDict.key(openscriptable)}"") {
 				alert(alert: "${mainDict.key(msg.login)}")
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 			}
 		} else {
 			alert(alert: "${mainDict.key(msg.nomedia)}", title: "${ShortcutInput}", cancel: false)
-		} >> IFResult 96
+		} >> IFResult 95
 	}
-} else { >>  97
+} else { >>  96
 var menu = Variable
 	repeat(20) {
 		if(menu == 1) {
@@ -2880,7 +2871,7 @@ var menu = Variable
 			nothing()
 			if(safemode != 1) {
 				valueFor(key: "loginsafari", dictionary: mainDict) >> valueFor 8
-			} >> IFResult 97
+			} >> IFResult 96
 			getItemFromList(list: mainDict, type: Item At Index, index: safemode) >> getItemFromList 4
 			list(items: (
         {
@@ -3058,17 +3049,17 @@ var menu = Variable
 			}
 			if(Chosen Item == ""${mainDict.key(contact2)}"") {
 				openURL(url: mainDict)
-			} >> IFResult 98
+			} >> IFResult 97
 			if(Chosen Item == ""${mainDict.key(login)}"") {
 				alert(alert: "${mainDict.key(msg.login)}")
 				if(safemode == 1) {
-var 61863874-144F-481B-9F2C-D37A6206C268 = """let fm = FileManager.local();
+var FE6C182D-B503-451F-83A2-FFDF4EB5071B = """let fm = FileManager.local();
 let path = fm.joinPath(fm.documentsDirectory(), '￼');
 pref = fm.fileExists(path) ? JSON.parse(fm.readString(path)) : {};
 pref.wait = Date.now() + 9000;
 fm.writeString(path, JSON.stringify(pref));"""
-text("${61863874-144F-481B-9F2C-D37A6206C268}")
-				} >> IFResult 99
+text("${FE6C182D-B503-451F-83A2-FFDF4EB5071B}")
+				} >> IFResult 98
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 			}
 			if(Chosen Item == ""${mainDict.key(checklogin)}"") {
@@ -3082,11 +3073,11 @@ text("${61863874-144F-481B-9F2C-D37A6206C268}")
 				math(input: Calculation Result, operand: "1") >> math 15
 				setValue(key: "safemode", value: "${Calculation Result}", dictionary: localpref) >> setValue 15
 				if(Calculation Result == 1) {
-					replaceText(input: "${Dictionary}", find: ""hide[^"]+info":\s*\w+,?|"[^"]+count":\s*\w+,?", isRegex: true) >> replaceText 19
+					replaceText(input: "${Dictionary}", find: ""hide[^"]+info":\s*\w+,?|"[^"]+count":\s*\w+,?", isRegex: true) >> replaceText 17
 					getDictionaryFrom(input: Updated Text)
-				} >> IFResult 100
+				} >> IFResult 99
 var localpref = If Result
-				saveFile(input: localpref, ask: false, path: "/Shortcuts/${mainDict.key(filename)}", overwrite: true) >> saveFile 7
+				saveFile(input: localpref, ask: false, path: "${mainDict.key(filename)}", overwrite: true) >> saveFile 7
 //Unable to get shortcuts action AsheKube.app.a-Shell-mini.ExecuteCommandIntent
 var menu = Variable
 			}
@@ -3095,26 +3086,26 @@ var menu = Variable
 					if(menu == 0) {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 						getDictionaryFrom(input: Output) >> getDictionaryFrom 5
-						choose(list: Dictionary, prompt: "${mainDict.key(msg.settingprompt)}${Variable.key(msg.settingprompt)}${Dictionary.key(albumname)}") >> choose 11
+						choose(list: Dictionary, prompt: "${Dictionary.key(folderpath)}${ActionOutput.key(folderpath)}${Dictionary.key(albumname)}") >> choose 11
 						if(Chosen Item == ""${mainDict.key(goback)}"") {
 var menu = Variable
 						} else {
 //Unable to get shortcuts action dk.simonbs.Scriptable.RunScriptInlineIntent
 							getDictionaryFrom(input: Output) >> getDictionaryFrom 6
 var pref = Dictionary
-						} >> IFResult 101
-					} >> IFResult 102
-				} >> RepeatResult 18
+						} >> IFResult 100
+					} >> IFResult 101
+				} >> RepeatResult 19
 			}
 			if(Chosen Item == ""${mainDict.key(getlink)}"") {
 				getClipboard() >> getClipboard 2
 				if(Clipboard .contains "instagram.com") {
-					runShortcut(name: "Instagram Download", input: Clipboard) >> runShortcut 5
+					runShortcut(name: "Instagram Download", input: Clipboard) >> runShortcut 4
 				} else {
 					alert(alert: "${Clipboard}", title: "${mainDict.key(msg.noclipboard)}", cancel: false)
-				} >> IFResult 103
+				} >> IFResult 102
 			}
 		}
-	} >> RepeatResult 19
-} >> IFResult 104
+	} >> RepeatResult 20
+} >> IFResult 103
 exit()

@@ -1,0 +1,76 @@
+import Shortcuts
+#Color: grayBrown, #Icon: circledI
+
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+getDictionaryFrom(input: Value) >> getDictionaryFrom
+valuesFrom(dictionary: Wörterbuch) >> valuesFrom
+choose(list: Wörterbuchwert) >> choose
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+getDictionaryFrom(input: Value) >> getDictionaryFrom 1
+valuesFrom(dictionary: Wörterbuch) >> valuesFrom 1
+choose(list: Wörterbuchwert) >> choose 1
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+getDictionaryFrom(input: Value) >> getDictionaryFrom 2
+valuesFrom(dictionary: Wörterbuch) >> valuesFrom 2
+var callbackCommand = Wörterbuchwert
+valuesFrom(dictionary: Wörterbuch) >> valuesFrom 3
+var requiredParameters = Wörterbuchwert
+valuesFrom(dictionary: Wörterbuch) >> valuesFrom 4
+var optionalParameters = Wörterbuchwert
+valuesFrom(dictionary: Wörterbuch) >> valuesFrom 5
+if(Wörterbuchwert != nil) {
+var 4E410274-FC20-452D-9C1E-485B2C09DF65 = """## Note:
+
+￼"""
+text("${4E410274-FC20-452D-9C1E-485B2C09DF65}")
+} else {
+	text()
+} >> IFResult
+repeatEach(requiredParameters) {
+	text(text: "${Repeat Item}") >> text
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult
+repeatEach(optionalParameters) {
+	text(text: "${Repeat Item}") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+} >> RepeatResult 1
+combineText(text: requiredParameters, combine: Custom, separator: "=[]&") >> combineText
+text(text: "${callbackCommand}${Variable}=[]") >> text 2
+if(optionalParameters != nil) {
+	combineText(text: optionalParameters, combine: Custom, separator: "=[]&") >> combineText 1
+	text(text: "&${Kombinierter Text}=[]") >> text 3
+} else {
+	text() >> text 4
+} >> IFResult 1
+var 760C44FD-D022-4DE8-88C1-9E98D87FF348 = """# URL Scheme for: ￼
+
+## Callback Command:
+
+￼
+
+## Required Parameters:
+
+￼
+
+## Optional Parameters:
+
+￼
+
+￼
+## Minimum Callback Link:
+
+￼
+
+## Maximum Callback Link:
+
+￼￼"""
+text("${760C44FD-D022-4DE8-88C1-9E98D87FF348}")
+menu(info destination?, [NEW DRAFT, Clipboard, Just Show]) {
+case("NEW DRAFT"):
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.OpenDraftIntent
+case("Clipboard"):
+	setClipboard(variable: Text)
+case("Just Show"):
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickLookExtendedIntent
+}

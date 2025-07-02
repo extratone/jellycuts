@@ -1,0 +1,85 @@
+import Shortcuts
+#Color: grayBrown, #Icon: bookshelf
+
+/*
+ATTENTION:
+If you store your variables in data jar differently, you MUST adapt the patches. There are no checks, if the values exist.
+*/
+/*
+set the output format:
+1: create a new draft in Drafts
+2: Preview the text in ToolBoxPro
+3: create a PDF and open print interface
+4: copy text to clipboard
+*/
+number(value: 1) >> number
+var outputFormat = Number
+/*
+set the heading for the output document
+
+*/
+text(text: "DEVONthink state tags overview") >> headerText
+// list the tags which should be included in the overview of DEVONthink items
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+getDictionaryFrom(input: Value) >> getDictionaryFrom
+valuesFrom(dictionary: Dictionary) >> valuesFrom
+choose(list: Dictionary Value, prompt: "select tag list:") >> choose
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+//Unable to get shortcuts action dk.simonbs.DataJar.GetValueIntent
+getDictionaryFrom(input: Value) >> getDictionaryFrom 1
+valuesFrom(dictionary: Dictionary) >> valuesFrom 1
+choose(list: Dictionary Value, prompt: "select search scope") >> selectedSearchScope
+valuesFrom(dictionary: Dictionary) >> selectedSearchScopeUUID
+repeatEach(selectedTagList) {
+var currentTag = Variable
+	text(text: "tags:${currentTag}") >> text
+	decodeURL(url: "${Text}") >> decodeURL
+var query = URL Encoded Text
+	url(url: "x-devonthink://x-callback-url/search?query=${Dictionary Value}&scope=${ActionOutput}") >> url
+	xCallbackURL(url: "${URL}") >> xCallbackURL
+	valuesFrom(dictionary: Ergebnis von X-Callback) >> valuesFrom 2
+	getDictionaryFrom(input: Wörterbuchwert) >> getDictionaryFrom 2
+	repeatEach(Wörterbuch) {
+		text(text: ""${Repeat Item 2.key(itemlink)}": "${Variable.key(itemlink)}"") >> text 1
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+	combineText(text: searchResults, combine: Custom, separator: ",") >> combineText
+	text(text: "{${Combined Text}}") >> text 2
+	getDictionaryFrom(input: Text) >> getDictionaryFrom 3
+	repeatEach(Dictionary) {
+		valuesFrom(dictionary: Dictionary) >> valuesFrom 3
+		text(text: "- [${Dictionary Value}](${ActionOutput})") >> text 3
+	} >> RepeatResult 1
+var A4EB11B5-DD4A-4C83-BD9C-EFA5CFBCB260 = """## ￼:
+
+￼
+"""
+text("${A4EB11B5-DD4A-4C83-BD9C-EFA5CFBCB260}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action is.workflow.actions.setvariable
+} >> RepeatResult 2
+date() >> date
+var 1D2C0FEE-CE4F-4256-901A-260FF802108C = """#  ￼ ￼
+
+￼"""
+text("${1D2C0FEE-CE4F-4256-901A-260FF802108C}")
+nothing()
+if(outputFormat == 1) {
+//Unable to get shortcuts action com.agiletortoise.Drafts5.CaptureIntent
+//Unable to get shortcuts action com.agiletortoise.Drafts5.OpenDraftIntent
+} >> IFResult
+if(outputFormat == 2) {
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickLookExtendedIntent
+} >> IFResult 1
+if(outputFormat == 3) {
+	richTextFromMarkdown(markdown: resultOverviewText) >> richTextFromMarkdown
+	createPDF(input: Rich Text from Markdown) >> createPDF
+	printDocument(input: PDF)
+} >> IFResult 2
+if(outputFormat == 4) {
+	setClipboard(variable: resultOverviewText)
+} >> IFResult 3
+/*
+add other outputs if needed :)
+
+*/

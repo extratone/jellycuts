@@ -1,0 +1,210 @@
+import Shortcuts
+#Color: red, #Icon: sashBook
+
+// Main journal entry shortcut - it asks the important questions - if it's "Morning" it asks for the morning questions (practicing thankfulness) and if it's "Evening", it asks the evening questions to sum up the day. Later optionally it asks to plan the day. More details: https://michael.team/journal20
+text(text: "Journal") >> text
+var JournalFolder = Text
+// Get an x-callback token from IA Writer (Settings > URL commands > Auth Token) - it’s the same token for all your IA Writer apps on all of your devices
+text(text: "PASTEYOURTOKENHERE") >> text 1
+var Token = Text
+// (Optional) Get goals for this quarter, this year and life to motivate you every day and see the big picture.
+var F5EDA06C-A3A6-4585-9AF0-7540012ACBF3 = """— This Quarter —
+* Write something great 📔
+
+— This Year —
+* Get to X number of…? 🏆
+
+— My Life —
+* WORKOUT daily 💪"""
+text("${F5EDA06C-A3A6-4585-9AF0-7540012ACBF3}")
+richTextFromMarkdown(markdown: Text) >> richTextFromMarkdown
+alert(alert: "${Rich Text from Markdown}", title: "")
+/*
+Get dates for today and tomorrow and format them correctly:
+- today - EEEE, d MMM yyyy (Wednesday, 9 December 2020)
+- tomorrow (Thursday, 10 December 2020)
+- year yyyy (2020)
+Set them all as variables
+*/
+askForInput(prompt: "Today is?", type: Date) >> askForInput
+adjustDate(duration: , date: "${Provided Input}") >> adjustDate
+formatDate(date: "${Provided Input}", dStyle: Custom, tStyle: Medium, custom: "EEEE, d MMM yyyy") >> formatDate
+var Today = Formatted Date
+formatDate(date: "${Provided Input}", dStyle: Custom, custom: "yyyy") >> formatDate 1
+var Year = Formatted Date
+formatDate(date: "${Adjusted Date}", dStyle: Custom, custom: "EEEE, d MMM yyyy") >> formatDate 2
+var Tomorrow = Formatted Date
+// Choose if it’s a Morning Journal or Evening Journal. Ask questions and write the journal to the journal file in iCloud’s IA Writer folder in : ”Journal” folder in YEAR.md file.
+menu(Which entry is it?, [Morning, Evening, Morning - just plan day, Evening - just plan day]) {
+case("Morning"):
+	text(text: "Morning") >> text 2
+var Which = Text
+// (Optional) getting weather conditions and location (it gives full location so we extract only postal code and city).,
+	getCurrentConditions() >> getCurrentConditions
+	splitText(text: Weather Conditions) >> splitText
+	getItemFromList(list: Split Text, type: Item At Index, index: "2") >> getItemFromList
+var BE63151F-1FC1-4419-A4AC-6166EBC3EC5B = """* WEATHER: ￼, Wind: ￼ Humid: ￼%
+* WHERE: ￼
+
+"""
+text("${BE63151F-1FC1-4419-A4AC-6166EBC3EC5B}")
+	askForInput(prompt: "Thankful for what happened YESTERDAY?", default: ) >> askForInput 1
+	askForInput(prompt: "Thankful for an OPPORTUNITY?") >> askForInput 2
+	askForInput(prompt: "Thankful for something SMALL?") >> askForInput 3
+	askForInput(prompt: "What’s the ONE thing I can do such that by doing it everything else will be easier or unnecessary?") >> askForInput 4
+	askForInput(prompt: "Anything else on your mind today?", default: ) >> askForInput 5
+var 7A67B00C-14EC-4C86-A011-5754757FCBEB = """---
+## ￼
+
+* THANK YESTERDAY: ￼
+* THANK OPPORTUNITY: ￼
+* THANK STH SMALL: ￼
+* GREAT TODAY: ￼
+* NOTES: ￼
+￼"""
+text("${7A67B00C-14EC-4C86-A011-5754757FCBEB}")
+case("Evening"):
+	text(text: "Evening") >> text 3
+var Which = Text
+	askForInput(prompt: "What was AWESOME today?") >> askForInput 6
+	askForInput(prompt: "Which SPORTS did I do?") >> askForInput 7
+	askForInput(prompt: "What could have made today BETTER?") >> askForInput 8
+	askForInput(prompt: "Any other observations?") >> askForInput 9
+var 841D83CF-A4A7-4AB3-A981-0543E22AA735 = """---
+## Evening of ￼
+
+* AWESOME: ￼
+* SPORTS: ￼
+* BETTER?: ￼
+* NOTES: ￼
+
+"""
+text("${841D83CF-A4A7-4AB3-A981-0543E22AA735}")
+case("Morning - just plan day"):
+	text(text: "Morning") >> text 4
+var Which = Text
+var OnlyPlan = Variable
+case("Evening - just plan day"):
+	text(text: "Evening") >> text 5
+var Which = Text
+var OnlyPlan = Variable
+} >> MenuResult
+// If we’re not journaling, but we chose the “only planning the day”.
+if(OnlyPlan == nil) {
+	encodeURL(url: "${Menu Result}") >> encodeURL
+	url(url: "ia-writer://write?auth-token=${URL Encoded Text}&path=/Locations/iCloud/${ActionOutput}/${Year}.md&text=${Variable}&mode=append&append-location=end&append-padding=true") >> url
+	openURL(url: URL)
+} >> IFResult
+/*
+Now that the Journal is done, ask if I want to continue with my routines...
+
+If you don’t want to plan your day with this Shortcut, you can remove everything beyond this point. The rest is completely optional.
+*/
+alert(alert: "Continue with your ${Which} routine?")
+if(Which == "Morning") {
+/*
+In the morning we’re adding a few checklists for the day:
+- personal checklist of a Miracle Morning
+- checklist for intermittent journaling throughout the day
+*/
+var D16D9C26-08D0-4D70-AEAE-1C3A6D0FA3DC = """---
+- [ ] 📔 Journal - Morning
+- [ ] ☕️ Coffee
+- [ ] 🎾 Sports
+- [ ] 📔 Journal - Evening"""
+text("${D16D9C26-08D0-4D70-AEAE-1C3A6D0FA3DC}")
+var 67997365-DDF3-4E83-9DE6-BA6FEB9FE902 = """---
+- 9-9:30   Deep - Meet - Work
+- 9:30-10  Deep - Meet - Work
+- 10-10:30 Deep - Meet - Work
+- 10:30-11 Deep - Meet - Work
+- 11-11:30 Deep - Meet - Work
+- 11:30-12 Deep - Meet - Work
+- 12-12:30 Deep - Meet - Work
+- 12:30-13 Deep - Meet - Work
+- 13-13:30 Deep - Meet - Work
+- 13:30-14 Deep - Meet - Work
+- 14-14:30 Deep - Meet - Work
+- 14:30-15 Deep - Meet - Work
+- 15-15:30 Deep - Meet - Work
+- 15:30-16 Deep - Meet - Work
+- 16-16:30 Deep - Meet - Work
+- 16:30-17 Deep - Meet - Work
+- 17-17:30 Deep - Meet - Work
+- 17:30-18 Deep - Meet - Work
+- Optional Deep - Meet - Work
+- Optional Deep - Meet - Work
+- Optional Deep - Meet - Work
+- Optional Deep - Meet - Work
+- Optional Deep - Meet - Work"""
+text("${67997365-DDF3-4E83-9DE6-BA6FEB9FE902}")
+	encodeURL(url: "${Today}") >> encodeURL 1
+var TodayEncoded = URL Encoded Text
+var 8DE001D2-DFA7-4626-AD71-8531275DFE75 = """￼
+￼
+
+#daily"""
+text("${8DE001D2-DFA7-4626-AD71-8531275DFE75}")
+	encodeURL(url: "${Text}") >> encodeURL 2
+	url(url: "ia-writer://write?auth-token=${URL Encoded Text}&path=/Locations/iCloud/${ActionOutput}/${TodayEncoded}.md&text=${Variable}&mode=append&append-location=end&append-padding=true") >> url 1
+	openURL(url: URL)
+// Now open the Today’s file to make sure all is there!
+	url(url: "ia-writer://open?path=/Locations/iCloud/${TodayEncoded}/${Variable}.md&edit=true") >> url 2
+	openURL(url: URL)
+} else {
+/*
+Evening Routine…
+Is all about planning the next day. We review our calendar for tomorrow, plan the 3 most important tasks and write it all in the journal and create a separate file for tomorrow’s planning.
+*/
+//Unable to get shortcuts action is.workflow.actions.getupcomingevents
+	askForInput(prompt: "What’s up tomorrow?", default: "${Upcoming Events}") >> askForInput 10
+	splitText(text: Provided Input) >> splitText 1
+	repeatEach(Split Text) {
+// For the journal, we add bullet points “*”, for the day planning file we add a checklist which in Markdown is written like “- [ ]”
+		text(text: "- [ ] ${Repeat Item}") >> text 6
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		text(text: "* ${Repeat Item}") >> text 7
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+// Now get the ROCKS / MIT - Most Important Tasks for tomorrow as a checklist for Daily planning. Maximum three!
+var EF11B83F-BD79-40DC-9CAD-F123F95704B0 = """- [ ] 
+- [ ] 
+- [ ] """
+text("${EF11B83F-BD79-40DC-9CAD-F123F95704B0}")
+	askForInput(prompt: "What to do tomorrow?", default: "${Text}") >> askForInput 11
+var Rocks = Provided Input
+	splitText(text: Rocks) >> splitText 2
+	repeatEach(Split Text) {
+		replaceText(input: "${Repeat Item}", find: "- [ ]", replace: "*") >> replaceText
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult 1
+	encodeURL(url: "${Tomorrow}") >> encodeURL 3
+var TomorrowEncoded = URL Encoded Text
+/*
+Create a file in /Journal/ folder in IA Writer iCloud with the “TOMORROW.md” name for tomorrow’s planning.
+
+The tomorrow name must be URL encoded so that the X-callback call works properly.
+*/
+var FD6DC5C0-9B9C-4052-AFAC-F9ADDD697AB6 = """#daily
+￼
+---
+￼"""
+text("${FD6DC5C0-9B9C-4052-AFAC-F9ADDD697AB6}")
+	encodeURL(url: "${Text}") >> encodeURL 4
+	url(url: "ia-writer://write?auth-token=${URL Encoded Text}&path=/Locations/iCloud/${ActionOutput}/${TomorrowEncoded}.md&text=${Variable}&mode=append&append-location=end&append-padding=true") >> url 3
+	openURL(url: URL)
+// Add Tomorrow’s plan to our main Journal entry
+var 77A26ED3-3811-4F7F-B450-1DBEBF7DFE5A = """---
+### TASKS for ￼
+￼
+
+### EVENTS on ￼
+￼"""
+text("${77A26ED3-3811-4F7F-B450-1DBEBF7DFE5A}")
+	encodeURL(url: "${Text}") >> encodeURL 5
+	url(url: "ia-writer://write?auth-token=${URL Encoded Text}&path=/Locations/iCloud/${ActionOutput}/${Year}.md&text=${Variable}&mode=append&append-location=end&append-padding=true") >> url 4
+	openURL(url: URL)
+// To finish it off, open the Tomorrow’s file in case I need to add something.
+	url(url: "ia-writer://open?path=/Locations/iCloud/${JournalFolder}/${Variable}.md&edit=true") >> url 5
+	openURL(url: URL)
+} >> IFResult 1

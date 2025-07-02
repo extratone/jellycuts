@@ -1,0 +1,82 @@
+import Shortcuts
+#Color: green, #Icon: brainHead
+
+/*
+When your flow gets interrupted, it’s easy to forget what you were doing, and what you were about to do next. It can affect productivity for everyone, and may be particularly problematic if you are neurodivergent.
+
+This shortcuts aims to support you by capturing information and context about what you are currently doing and what you were about to do, to help you recall it quickly and pick up where you left off.
+
+Run the shortcut and select Capture to capture a screenshot of what you’re doing, any calendar events in the next hour, current open webpage in Safari (Mac only), and Clipboard contents. You'll then be prompted to write short notes about what you are doing and what you are about to do. Run the shortcut again and select Recall to find the last created note with all the captured information. All notes will be saved with the title “Hold that thought” and the date and time saved.
+
+Run this shortcut using Siri, or add it to the Control Center, Action button or to the Home Screen for quick access.
+*/
+menu(Capture  or recall last stopping point?, [📸 Capture, 🔁 Recall]) {
+case("📸 Capture"):
+	alert(alert: "Move to the screen you want to capture with a screenshot. This will happen automatically in 5 seconds. ")
+	wait(seconds: 5)
+	takeScreenshot() >> takeScreenshot
+	convertImage(image: Screenshot, format: PNG) >> convertImage
+	askForInput(prompt: "What are you doing?") >> currentlyDoing
+	askForInput(prompt: "What were you about to do?") >> justAboutToDo
+var AAF4075C-0BAE-4925-A92D-2B29AF91069E = """What are you doing? ￼
+
+What were you about to do? ￼
+"""
+text("${AAF4075C-0BAE-4925-A92D-2B29AF91069E}")
+	deviceDetails(detail: Device Model) >> deviceDetails
+	if(Device Model .contains "Mac") {
+		getURL() >> getURL
+var EA4769E3-1C56-4889-9B44-FB59C09E82CA = """You were looking at this page:
+￼"""
+text("${EA4769E3-1C56-4889-9B44-FB59C09E82CA}")
+	} else {
+	} >> IFResult
+	filterCalendar() >> nextEvent
+	if(nextEvent != nil) {
+var 589FED4E-3E73-454B-9DFB-EF18BF4CC6FE = """You have a calendar event within the hour:
+￼"""
+text("${589FED4E-3E73-454B-9DFB-EF18BF4CC6FE}")
+	} >> IFResult 1
+	filterNotes() >> filterNotes
+	if(Note 1002) {
+var AF910520-744D-48A3-8FDE-9A8F21DF94A8 = """
+----------
+
+⏸️ Hold that thought - ￼
+
+￼
+
+￼
+
+￼
+
+Clipboard contents:
+￼
+
+
+"""
+text("${AF910520-744D-48A3-8FDE-9A8F21DF94A8}")
+		appendNote(text: "${Text}", note: Note) >> appendNote
+		appendNote(text: "${Converted Image}", note: Appended Note) >> appendNote 1
+	} else {
+var 366037A6-E167-479C-9621-2F98722398CD = """⏸️ Hold that thought - ￼
+
+￼
+
+￼
+
+￼
+
+Clipboard contents:
+￼
+
+
+"""
+text("${366037A6-E167-479C-9621-2F98722398CD}")
+		createNote(text: "${Text}") >> createNote
+		appendNote(text: "${Converted Image}", note: Create Note) >> appendNote 2
+	}
+case("🔁 Recall"):
+	filterNotes() >> filterNotes 1
+	showNote(note: Note) >> showNote
+} >> MenuResult
