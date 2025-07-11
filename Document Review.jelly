@@ -1,0 +1,14 @@
+import Shortcuts
+#Color: blue, #Icon: Shortcuts
+
+repeat(2) {
+	menu(Select a file, or input a URL to a document, [File, URL]) {
+	case("File"):
+		file(file: Ask) >> file
+	case("URL"):
+		url(url: Ask) >> url
+		downloadURL(url: "${URL}", method: GET, requestType: JSON) >> downloadURL
+	} >> MenuResult
+} >> RepeatResult
+//Unable to get shortcuts action is.workflow.actions.askllm
+showResult(text: "${Response}")

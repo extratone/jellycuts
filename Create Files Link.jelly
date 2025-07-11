@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: yellow, #Icon: chainlink
+
+askForInput(prompt: "What name would you like to give to the bookmarked file?") >> bookmarkName
+getFile() >> getFile
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.BookmarkFileIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.BookmarkFileIntent
+var filesURL = Result
+var A1E55D49-5CF2-4154-9D24-93EAAC30E77F = """Title: URL
+Icon: fa-link.light,blue,white
+
+Title: Markdown URL
+Icon: fa-brackets.light,blue,white"""
+text("${A1E55D49-5CF2-4154-9D24-93EAAC30E77F}")
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickMenu2Intent
+choose(list: Menu Items, prompt: "How would you like to output your link?") >> choose
+if(Chosen Item == "URL") {
+	text(text: "${filesURL}") >> text
+} else {
+	text(text: "[${filesURL}](${Variable})") >> text 1
+} >> IFResult
+setClipboard(variable: If Result)
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.ShowNotificationIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.HapticFeedbackIntent
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.EditPendingNotificationsIntent
+openURL(url: filesURL)

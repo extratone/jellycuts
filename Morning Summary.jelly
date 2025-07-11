@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: yellow, #Icon: sun
+
+getCurrentConditions() >> getCurrentConditions
+filterCalendar() >> filterCalendar
+filterReminders() >> filterReminders
+filterReminders() >> filterReminders 1
+//Unable to get shortcuts action is.workflow.actions.askllm

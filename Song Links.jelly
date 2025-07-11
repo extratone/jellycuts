@@ -1,0 +1,26 @@
+import Shortcuts
+#Color: red, #Icon: headphones
+
+if(ShortcutInput != nil) {
+var musicURL = ShortcutInput
+} else {
+	getType(input: Clipboard) >> getType
+	if(Type == "URL") {
+var musicURL = Clipboard
+	} else {
+		askForInput(prompt: "What is the song URL?", type: URL) >> askForInput
+var musicURL = Ask for Input
+	} >> IFResult
+} >> IFResult 1
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.GetLinksToSongIntent
+downloadURL(url: "${Links To Song Result.get(Artwork URL)}") >> downloadURL
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+var 74A114A3-0B45-416D-ABEC-3BC99CD34029 = """# ￼
+^ by ￼
+
+<button2>[Spotify](￼)
+<button2>[Apple](￼)
+<button2>[YouTube](￼)"""
+text("${74A114A3-0B45-416D-ABEC-3BC99CD34029}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickLookExtendedIntent

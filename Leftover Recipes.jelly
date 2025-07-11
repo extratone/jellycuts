@@ -1,0 +1,5 @@
+import Shortcuts
+#Color: Red, #Icon: takeout
+
+askForInput(prompt: "What do you have left in your fridge?", type: Text, allowDecimal: true, allowNegative: true) >> askForInput
+//Unable to get shortcuts action is.workflow.actions.askllm

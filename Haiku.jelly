@@ -1,0 +1,6 @@
+import Shortcuts
+#Color: navy, #Icon: Shortcuts
+
+askForInput(prompt: "What’s the topic?", type: Text, allowDecimal: true, allowNegative: true) >> askForInput
+//Unable to get shortcuts action is.workflow.actions.askllm
+showResult(text: "${Response}")

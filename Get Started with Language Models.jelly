@@ -1,0 +1,30 @@
+import Shortcuts
+#Color: grape, #Icon: Shortcuts
+
+/*
+You can perform complex tasks and get creative with language models in your shortcuts with the “Use Model” action.
+
+This shortcut walks through three examples to get you started!
+*/
+// This example gets the weather at your current location, passes it into the “Use Model” action along with a request, and then presents the final response using the “Show Content” action.
+getCurrentConditions() >> getCurrentConditions
+//Unable to get shortcuts action is.workflow.actions.askllm
+showResult(text: "${Response}")
+// This example demonstrates how you can sort and filter lists using a language model. This also works with lists of content that are passed in, like calendar events or reminders!
+list(items: (
+    Apple,
+    Blueberry,
+    Pizza,
+    Strawberry,
+    Watermelon
+)) >> Fruits
+//Unable to get shortcuts action is.workflow.actions.askllm
+showResult(text: "${Response}")
+/*
+Create a structured dictionary with “Use Model” by tapping the “⧁” button to expand the action and selecting “Dictionary” as the output.
+
+This example uses a model to create a list of planets and their corresponding diameters, then gets Earth’s diameter from the list using the “Get Dictionary Value” action.
+*/
+//Unable to get shortcuts action is.workflow.actions.askllm
+keysFrom(dictionary: Response) >> keysFrom
+showResult(text: "The diameter of Earth is ${Dictionary Value} km 🌎")

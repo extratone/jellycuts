@@ -1,0 +1,8 @@
+import Shortcuts
+#Color: Red, #Icon: shortcuts
+
+filterReminders() >> filterReminders
+//Unable to get shortcuts action is.workflow.actions.askllm
+date() >> date
+adjustDate(operation: Add, duration: , date: "${Date}") >> adjustDate
+//Unable to get shortcuts action is.workflow.actions.setters.reminders

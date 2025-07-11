@@ -1,0 +1,9 @@
+import Shortcuts
+#Color: Red, #Icon: Shortcuts
+
+askForInput(prompt: "What’s the meeting note name?", type: Text, allowDecimal: true, allowNegative: true) >> askForInput
+filterNotes() >> filterNotes
+//Unable to get shortcuts action is.workflow.actions.askllm
+repeatEach(Response) {
+//Unable to get shortcuts action is.workflow.actions.addnewreminder
+} >> RepeatResult

@@ -1,0 +1,67 @@
+import Shortcuts
+#Color: pink, #Icon: picture
+
+if(ShortcutInput != nil) {
+} else {
+	selectPhoto(multiple: true) >> selectPhoto
+} >> IFResult
+var chosenImages = If Result
+count(input: chosenImages) >> count
+if(Count == 1) {
+var preview = If Result
+	if(chosenImages ==) {
+		text(text: "♥️ Favourited") >> text
+	} else {
+		nothing()
+	} >> isFave
+var F1B26F2D-5EC3-4B12-9FE5-111EC9B8FDA9 = """### ￼ (￼)
+
+^^ 📆 ￼
+^^ 📷 ￼ ￼
+^^ 📐 ￼ x ￼
+^^ ￼"""
+text("${F1B26F2D-5EC3-4B12-9FE5-111EC9B8FDA9}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	text(text: "${chosenImages.get(Metadata Dictionary).key({GPS})}") >> text 1
+	if(Text .contains "Latitude") {
+		locationDetail(detail: Latitude, location: chosenImages) >> locationDetail
+		locationDetail(detail: Longitude, location: chosenImages) >> locationDetail 1
+		locationDetail(detail: City, location: chosenImages) >> locationDetail 2
+		text(text: "<map>[${Longitude},${ActionOutput}](${Town/City})") >> text 2
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} else {
+	} >> IFResult 1
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickLookExtendedIntent
+} else {
+	repeatEach(chosenImages) {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		if(Repeat Item ==) {
+			text(text: "♥️ Favourited")
+		} else {
+			nothing()
+		} >> IFResult 2
+var EE091F22-DC6E-4FB1-B485-FE8D880A7B12 = """### ￼ (￼)
+
+^^ 📆 ￼
+^^ 📷 ￼ ￼
+^^ 📐 ￼ x ￼
+^^ ￼"""
+text("${EE091F22-DC6E-4FB1-B485-FE8D880A7B12}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		text(text: "${Repeat Item.as(Image).get(Metadata Dictionary).key({GPS})}") >> text 3
+		if(Text .contains "Longitude") {
+			locationDetail(detail: Latitude, location: Repeat Item) >> locationDetail 3
+			locationDetail(detail: Longitude, location: Repeat Item) >> locationDetail 4
+			locationDetail(detail: City, location: Repeat Item) >> locationDetail 5
+			text(text: "<map>[${Latitude},${ActionOutput}](${Longitude})") >> text 4
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		} else {
+		} >> IFResult 3
+var 44FC8223-DB18-46E8-BD9C-0A06EE559D1F = """---
+
+"""
+text("${44FC8223-DB18-46E8-BD9C-0A06EE559D1F}")
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+	} >> RepeatResult
+//Unable to get shortcuts action com.alexhay.ToolboxProForShortcuts.QuickLookExtendedIntent
+} >> IFResult 4

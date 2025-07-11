@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: red, #Icon: bell
+
+//Unable to get shortcuts action is.workflow.actions.askllm
+if(Response != nil) {
+	sendNotification(body: "Severance Season 3 Trailer 1 is out!", sound: true, attachment: Response) >> sendNotification
+} >> IFResult

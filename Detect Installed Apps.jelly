@@ -1,0 +1,122 @@
+import Shortcuts
+#Color: grayBlue, #Icon: magnifyingGlass
+
+// Detect Installed Apps. v1.5
+// This shortcut will detect whether apps are installed. Intenet connection is required.
+// Enter a list of apps to open. One app per line. Store ID may be used.
+var 0FB5DE5F-5122-432F-A3DA-4BA3DB39B4C5 = """a-Shell mini
+Actions by Sindre Sorhus
+Scriptable
+Toolbox Pro
+Facebook
+Twitter
+Instagram
+TikTok
+Pushcut
+Jellycuts
+Reddit
+Discord
+Jayson"""
+text("${0FB5DE5F-5122-432F-A3DA-4BA3DB39B4C5}")
+replaceText(input: "${Text}", find: "(\n)\n+", replace: "$1", isRegex: true, caseSensitive: false) >> replaceText
+splitText(text: Updated Text) >> splitText
+var Apps = Split Text
+dictionary({"Name":"Detect Installed Apps","Version":"1.4","RoutineHub ID":"13446"})
+count(type: Characters, input: ShortcutInput) >> count
+if(Count > 0) {
+// Load shortcut input if it is a dictionary
+	if(ShortcutInput .beginsWith "{") {
+var AppNumber = ShortcutInput
+var Missing = ShortcutInput
+var Found = ShortcutInput
+		splitText(text: ShortcutInput) >> splitText 1
+var Apps = Split Text
+		getItemFromList(list: Apps, type: Item At Index, index: AppNumber) >> Current App
+		valueFor(key: "Function", dictionary: ShortcutInput) >> Function
+// Open App Function
+		if(Function == "Open App") {
+			number(value: 0.3) >> number
+			wait(seconds: Number)
+//Unable to get shortcuts action is.workflow.actions.searchappstore
+			replaceText(input: "${App Store Apps.get(Store ID)}", find: "id") >> replaceText 1
+			url(url: "https://itunes.apple.com/lookup?id=${Updated Text}") >> url
+			downloadURL(url: "${URL}") >> iTunes  API Results
+			valueFor(key: "results.1.bundleId", dictionary: iTunes  API Results) >> Bundle ID
+			openApp() >> openApp
+			if(App != ""${Bundle ID}"") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			} else {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+			}
+			openApp(id: "com.apple.shortcuts")
+		} >> IFResult
+// Catch function (for failed apps)
+		if(Function == "Catch") {
+//Unable to get shortcuts action is.workflow.actions.appendvariable
+		}
+	} else {
+// Stop shortcut if non-dictionary input if found.
+		exit()
+	} >> IFResult 1
+} >> IFResult 2
+// Initialize AppNumber if it’s the first run
+if(AppNumber == nil) {
+	number(value: 0) >> number 1
+var AppNumber = Number
+var 3ECA5200-E1C6-4E77-9B6A-EC0F734069BA = """Searching for...
+
+￼"""
+text("${3ECA5200-E1C6-4E77-9B6A-EC0F734069BA}")
+	menu(, [Edit list, Begin app search]) {
+	case("Edit list"):
+var 94BEFFB4-B63B-4197-BE81-33AC1269F08E = """
+Enter a list of apps to check for. One app per line.
+
+Tap Done to begin searching.
+"""
+text("${94BEFFB4-B63B-4197-BE81-33AC1269F08E}")
+		askForInput(prompt: "${Text}", default: "${Apps}") >> askForInput
+		replaceText(input: "${Provided Input}", find: "(\n)\n+", replace: "$1", isRegex: true, caseSensitive: false) >> replaceText 2
+		splitText(text: Updated Text) >> splitText 2
+var Apps = Split Text
+	case("Begin app search"):
+	} >> MenuResult
+} >> IFResult 3
+// Show the results if all apps have been tested.
+count(input: Apps) >> count 1
+if(Count <= AppNumber) {
+	replaceText(input: "${Found}", find: "^\n", isRegex: true, caseSensitive: false) >> replaceText 3
+	count(type: Lines, input: Updated Text) >> Found Count
+	replaceText(input: "${Missing}", find: "^\n", isRegex: true, caseSensitive: false) >> replaceText 4
+	count(type: Lines, input: Updated Text) >> Missing Count
+var CE3068DF-CFF2-4BC1-B4F4-774393D93334 = """
+￼ found.
+￼
+
+￼ missing.
+￼
+"""
+text("${CE3068DF-CFF2-4BC1-B4F4-774393D93334}")
+	showResult(text: "${Text}")
+	exit()
+} >> IFResult 4
+// Prepare callback’s catch URL
+math(input: AppNumber, operand: "1") >> math
+dictionary({"Function":"Catch","AppNumber":"${Calculation Result}","Missing":"${Missing}","Found":"${Found}","Apps":"${Apps}"})
+encodeURL(url: "${Dictionary}") >> Encoded Catch Dictionary
+encodeURL(url: "${Dictionary.key(Name)}") >> Encoded Shortcut Name
+url(url: "shortcuts://run-shortcut?name=${Encoded Shortcut Name}&input=${ActionOutput}") >> url 1
+encodeURL(url: "${URL}") >> Encoded Catch URL
+// Build callback URL using catch URL above
+dictionary({"Function":"Open App","AppNumber":"${Calculation Result}","Missing":"${Missing}","Found":"${Found}","Apps":"${Apps}"})
+encodeURL(url: "${Dictionary}") >> Encoded Open App Dictionary
+url(url: "shortcuts://x-callback-url/run-shortcut?name=${Encoded Catch URL}&input=${ActionOutput}&x-cancel=&x-error=${Encoded Open App Dictionary}&x-success=") >> url 2
+encodeURL(url: "${URL}") >> encodeURL
+replaceText(input: "${URL Encoded Text}", find: ":", replace: "%3A") >> replaceText 5
+replaceText(input: "${Updated Text}", find: "/", replace: "%2F") >> replaceText 6
+replaceText(input: "${Updated Text}", find: "?", replace: "%3F") >> replaceText 7
+// An external callback server is necessary because Shortcuts cannot reliably issue x-callbacks to itself. 
+url(url: "http://clbk.io?u=${Updated Text}") >> url 3
+openURL(url: URL) >> openURL
+output(result: "${Open URLs}") >> output
+output(result: "${Stop and Output}")

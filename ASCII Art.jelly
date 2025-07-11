@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: grayGreen, #Icon: Shortcuts
+
+askForInput(prompt: "What would you like to make?", type: Text, allowDecimal: true, allowNegative: true) >> askForInput
+//Unable to get shortcuts action is.workflow.actions.askllm
+showResult(text: "${Response}")
+//Unable to get shortcuts action com.wiheads.paste.CreateItemIntent

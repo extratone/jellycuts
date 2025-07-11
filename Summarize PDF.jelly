@@ -1,0 +1,7 @@
+import Shortcuts
+#Color: grape, #Icon: documentFilled
+
+getTextFromPDF(textType: Text, pdf: ShortcutInput) >> getTextFromPDF
+//Unable to get shortcuts action com.apple.WritingTools.WritingToolsAppIntentsExtension.SummarizeTextIntent
+showResult(text: "${Summarize Text}")
+share(file: Summarize Text)
